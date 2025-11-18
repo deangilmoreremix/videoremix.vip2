@@ -1,0 +1,215 @@
+===========================================
+VIDEOREMIX.VIP EMAIL TEMPLATES - PLAIN TEXT VERSIONS
+===========================================
+
+This file contains plain text versions of all email templates for VideoRemix.VIP.
+Use these for email clients that don't support HTML.
+
+===========================================
+1. CONFIRM SIGNUP EMAIL - PLAIN TEXT
+===========================================
+
+Subject: Welcome to VideoRemix.VIP - Confirm Your Email
+
+---
+
+VIDEOREMIX.VIP
+Marketing Personalization Platform
+
+Welcome to VideoRemix.VIP!
+
+Thank you for signing up! We're thrilled to have you join our community of innovative marketers and content creators.
+
+To get started with personalized marketing campaigns that convert, please confirm your email address by visiting:
+
+{{ .ConfirmationURL }}
+
+WHAT YOU'LL GET ACCESS TO:
+
+✓ 37+ marketing personalization tools
+✓ Unlimited audience segmentation
+✓ AI-powered campaign personalization
+✓ Multi-channel marketing automation
+✓ Advanced analytics and reporting
+
+SECURITY NOTE: This confirmation link will expire in 24 hours. If you didn't create an account with VideoRemix.VIP, please ignore this email or contact our support team.
+
+Need help? Contact us at support@videoremix.vip
+
+© 2024 VideoRemix.VIP. All rights reserved.
+
+===========================================
+2. INVITE USER EMAIL - PLAIN TEXT
+===========================================
+
+Subject: You've Been Invited to VideoRemix.VIP
+
+---
+
+VIDEOREMIX.VIP
+Marketing Personalization Platform
+
+You've Been Invited!
+
+Great news! You've been invited to join VideoRemix.VIP, the leading marketing personalization platform trusted by thousands of marketers and content creators worldwide.
+
+Click the link below to accept your invitation and start creating personalized campaigns that drive real results:
+
+{{ .ConfirmationURL }}
+
+WHY JOIN VIDEOREMIX.VIP?
+
+✓ Create personalized videos and content at scale
+✓ Access 37+ powerful personalization tools
+✓ Leverage AI to automate your marketing workflows
+✓ Boost engagement and conversion rates
+✓ Join a community of successful marketers
+
+SECURITY NOTE: This invitation link will expire in 7 days. If you didn't expect this invitation or have concerns, please contact our support team at support@videoremix.vip.
+
+Need help? Contact us at support@videoremix.vip
+
+© 2024 VideoRemix.VIP. All rights reserved.
+
+===========================================
+3. MAGIC LINK EMAIL - PLAIN TEXT
+===========================================
+
+Subject: Your Sign-In Link - VideoRemix.VIP
+
+---
+
+VIDEOREMIX.VIP
+Marketing Personalization Platform
+
+Sign In to Your Account
+
+We received a request to sign in to your VideoRemix.VIP account. Click the link below to sign in securely without entering your password.
+
+This is your magic link - one click and you're in!
+
+{{ .ConfirmationURL }}
+
+HOW MAGIC LINKS WORK:
+
+• Click the link above to sign in automatically
+• No password required - it's that simple
+• The link works only once for security
+• Link expires in 1 hour
+
+SECURITY NOTE: This magic link will expire in 1 hour and can only be used once. If you didn't request this sign-in link, please ignore this email. Your account remains secure.
+
+⚠ DIDN'T REQUEST THIS? If you didn't request a sign-in link, someone may have entered your email address by mistake. You can safely ignore this email.
+
+Need help? Contact us at support@videoremix.vip
+
+© 2024 VideoRemix.VIP. All rights reserved.
+
+===========================================
+4. CHANGE EMAIL ADDRESS - PLAIN TEXT
+===========================================
+
+Subject: Confirm Your New Email Address - VideoRemix.VIP
+
+---
+
+VIDEOREMIX.VIP
+Marketing Personalization Platform
+
+Confirm Your New Email Address
+
+You recently requested to change the email address associated with your VideoRemix.VIP account.
+
+To complete this change and start using your new email address for sign-in, please visit:
+
+{{ .ConfirmationURL }}
+
+WHAT HAPPENS AFTER CONFIRMATION:
+
+✓ Your new email will be your primary login
+✓ All future notifications will be sent here
+✓ Your account data remains unchanged
+✓ Your old email will no longer work for sign-in
+
+SECURITY NOTE: This confirmation link will expire in 24 hours. After confirmation, you'll use this new email address to sign in to your VideoRemix.VIP account.
+
+⚠ DIDN'T REQUEST THIS? If you didn't request an email change, please contact our support team immediately at support@videoremix.vip to secure your account. This is important for your account security.
+
+Need help? Contact us at support@videoremix.vip
+
+© 2024 VideoRemix.VIP. All rights reserved.
+
+===========================================
+5. RESET PASSWORD EMAIL - PLAIN TEXT
+===========================================
+
+Subject: Reset Your Password - VideoRemix.VIP
+
+---
+
+VIDEOREMIX.VIP
+Marketing Personalization Platform
+
+Reset Your Password
+
+We received a request to reset the password for your VideoRemix.VIP account.
+
+Click the link below to create a new secure password and regain access to your account:
+
+{{ .ConfirmationURL }}
+
+PASSWORD SECURITY TIPS:
+
+• Use at least 8 characters for better security
+• Mix uppercase, lowercase, numbers, and symbols
+• Avoid common words or personal information
+• Use a unique password for each account
+• Consider using a password manager
+
+SECURITY NOTE: This password reset link will expire in 1 hour for your security. You can request a new link if this one expires.
+
+⚠ DIDN'T REQUEST THIS? If you didn't request a password reset, please ignore this email and your password will remain unchanged. Your account is still secure. If you have concerns, contact our support team at support@videoremix.vip.
+
+Need help? Contact us at support@videoremix.vip
+
+© 2024 VideoRemix.VIP. All rights reserved.
+
+===========================================
+6. REAUTHENTICATION EMAIL - PLAIN TEXT
+===========================================
+
+Subject: Confirm Your Identity - VideoRemix.VIP
+
+---
+
+VIDEOREMIX.VIP
+Security Verification Required
+
+Confirm Your Identity
+
+You're attempting to perform a sensitive action on your VideoRemix.VIP account.
+
+For your security, we need to verify your identity before proceeding. Please visit the link below to confirm it's really you:
+
+{{ .ConfirmationURL }}
+
+SENSITIVE ACTIONS THAT REQUIRE VERIFICATION:
+
+• Changing account email or password
+• Updating payment information
+• Modifying security settings
+• Accessing sensitive account data
+
+⏱ TIME SENSITIVE: This verification link will expire in 15 minutes for maximum security. Please verify your identity promptly to complete your action.
+
+⚠ DIDN'T ATTEMPT THIS ACTION? If you didn't try to perform a sensitive action, please contact our support team immediately at support@videoremix.vip. Someone may be trying to access your account.
+
+WHY WE DO THIS: We require reauthentication for sensitive actions to protect your account from unauthorized access, even if someone gains temporary access to your logged-in session.
+
+Need help? Contact us at support@videoremix.vip
+
+© 2024 VideoRemix.VIP. All rights reserved.
+
+===========================================
+END OF PLAIN TEXT VERSIONS
+===========================================

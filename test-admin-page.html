@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .test-section {
+            background: #2a2a2a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 1px solid #3a3a3a;
+        }
+        .success { color: #4ade80; }
+        .error { color: #ef4444; }
+        .info { color: #60a5fa; }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        pre {
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #3a3a3a;
+            border-radius: 5px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Admin Dashboard Diagnostic Tool</h1>
+    <p class="info">This tool helps diagnose why the admin page might be blank.</p>
+
+    <div class="test-section">
+        <h2>Step 1: Test Environment Variables</h2>
+        <p>Open browser console (F12) and check if these environment variables are loaded:</p>
+        <button onclick="testEnvVars()">Test Environment Variables</button>
+        <pre id="env-result"></pre>
+    </div>
+
+    <div class="test-section">
+        <h2>Step 2: Test Supabase Connection</h2>
+        <button onclick="testSupabaseConnection()">Test Database Connection</button>
+        <pre id="supabase-result"></pre>
+    </div>
+
+    <div class="test-section">
+        <h2>Step 3: Test Admin Login</h2>
+        <input type="email" id="admin-email" placeholder="Email (e.g., dean@videoremix.vip)" value="dean@videoremix.vip">
+        <input type="password" id="admin-password" placeholder="Password" value="Admin123!VideoRemix">
+        <button onclick="testAdminLogin()">Test Login</button>
+        <pre id="login-result"></pre>
+    </div>
+
+    <div class="test-section">
+        <h2>Step 4: Check User Role</h2>
+        <button onclick="checkUserRole()">Check My Role</button>
+        <pre id="role-result"></pre>
+    </div>
+
+    <div class="test-section">
+        <h2>Step 5: Test Admin Dashboard Stats</h2>
+        <button onclick="testDashboardStats()">Load Dashboard Stats</button>
+        <pre id="stats-result"></pre>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        let supabase;
+
+        function log(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            const className = type === 'success' ? 'success' : type === 'error' ? 'error' : 'info';
+            element.innerHTML = `<span class="${className}">${message}</span>`;
+        }
+
+        function testEnvVars() {
+            // Since we're testing from a static HTML file, we need to manually input these
+            const supabaseUrl = prompt('Enter VITE_SUPABASE_URL:');
+            const supabaseKey = prompt('Enter VITE_SUPABASE_ANON_KEY:');
+
+            if (supabaseUrl && supabaseKey) {
+                localStorage.setItem('test_supabase_url', supabaseUrl);
+                localStorage.setItem('test_supabase_key', supabaseKey);
+
+                supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+                log('env-result', `✅ Environment variables set!\nURL: ${supabaseUrl}\nKey: ${supabaseKey.substring(0, 20)}...`, 'success');
+            } else {
+                log('env-result', '❌ Please provide both URL and API key', 'error');
+            }
+        }
+
+        async function testSupabaseConnection() {
+            if (!supabase) {
+                const url = localStorage.getItem('test_supabase_url');
+                const key = localStorage.getItem('test_supabase_key');
+                if (url && key) {
+                    supabase = window.supabase.createClient(url, key);
+                } else {
+                    log('supabase-result', '❌ Please run Step 1 first', 'error');
+                    return;
+                }
+            }
+
+            try {
+                log('supabase-result', '⏳ Testing connection...', 'info');
+
+                const { data, error } = await supabase
+                    .from('apps')
+                    .select('id, name')
+                    .limit(1);
+
+                if (error) {
+                    log('supabase-result', `❌ Database Error:\n${JSON.stringify(error, null, 2)}`, 'error');
+                } else {
+                    log('supabase-result', `✅ Database connected!\nFound ${data.length} app(s):\n${JSON.stringify(data, null, 2)}`, 'success');
+                }
+            } catch (err) {
+                log('supabase-result', `❌ Connection Error:\n${err.message}`, 'error');
+            }
+        }
+
+        async function testAdminLogin() {
+            if (!supabase) {
+                log('login-result', '❌ Please run Step 1 first', 'error');
+                return;
+            }
+
+            const email = document.getElementById('admin-email').value;
+            const password = document.getElementById('admin-password').value;
+
+            try {
+                log('login-result', '⏳ Attempting login...', 'info');
+
+                const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+                    email,
+                    password,
+                });
+
+                if (authError) {
+                    log('login-result', `❌ Login Failed:\n${authError.message}`, 'error');
+                    return;
+                }
+
+                if (!authData.user) {
+                    log('login-result', '❌ No user data returned', 'error');
+                    return;
+                }
+
+                log('login-result', `✅ Login successful!\nUser ID: ${authData.user.id}\nEmail: ${authData.user.email}`, 'success');
+            } catch (err) {
+                log('login-result', `❌ Error:\n${err.message}`, 'error');
+            }
+        }
+
+        async function checkUserRole() {
+            if (!supabase) {
+                log('role-result', '❌ Please run Step 1 first', 'error');
+                return;
+            }
+
+            try {
+                log('role-result', '⏳ Checking user role...', 'info');
+
+                const { data: { user } } = await supabase.auth.getUser();
+
+                if (!user) {
+                    log('role-result', '❌ Not logged in. Please complete Step 3 first.', 'error');
+                    return;
+                }
+
+                const { data: roleData, error: roleError } = await supabase
+                    .from('user_roles')
+                    .select('role')
+                    .eq('user_id', user.id)
+                    .maybeSingle();
+
+                if (roleError) {
+                    log('role-result', `❌ Error checking role:\n${JSON.stringify(roleError, null, 2)}`, 'error');
+                    return;
+                }
+
+                if (!roleData) {
+                    log('role-result', '❌ No role found for this user', 'error');
+                    return;
+                }
+
+                const isAdmin = roleData.role === 'super_admin' || roleData.role === 'admin';
+                const status = isAdmin ? '✅' : '❌';
+                const type = isAdmin ? 'success' : 'error';
+
+                log('role-result', `${status} User Role: ${roleData.role}\nAdmin Access: ${isAdmin ? 'YES' : 'NO'}`, type);
+            } catch (err) {
+                log('role-result', `❌ Error:\n${err.message}`, 'error');
+            }
+        }
+
+        async function testDashboardStats() {
+            if (!supabase) {
+                log('stats-result', '❌ Please run Step 1 first', 'error');
+                return;
+            }
+
+            try {
+                log('stats-result', '⏳ Loading dashboard stats...', 'info');
+
+                const { data: { user } } = await supabase.auth.getUser();
+
+                if (!user) {
+                    log('stats-result', '❌ Not logged in. Please complete Step 3 first.', 'error');
+                    return;
+                }
+
+                // Test getting apps count
+                const { data: apps, error: appsError } = await supabase
+                    .from('apps')
+                    .select('id', { count: 'exact' });
+
+                if (appsError) {
+                    log('stats-result', `❌ Error loading stats:\n${JSON.stringify(appsError, null, 2)}`, 'error');
+                    return;
+                }
+
+                const { data: users, error: usersError } = await supabase
+                    .from('user_roles')
+                    .select('id', { count: 'exact' });
+
+                log('stats-result', `✅ Dashboard Stats:\nTotal Apps: ${apps.length}\nTotal Users: ${users ? users.length : 0}\n\nThis means the admin dashboard should work!`, 'success');
+            } catch (err) {
+                log('stats-result', `❌ Error:\n${err.message}`, 'error');
+            }
+        }
+    </script>
+</body>
+</html>

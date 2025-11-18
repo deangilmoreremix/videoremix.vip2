@@ -1,0 +1,28 @@
+The Netlify CLI requires browser authentication which doesn't work in this environment.
+
+Here are your best options:
+
+OPTION 1: Deploy from your local machine
+----------------------------------------
+1. Download this entire project to your local computer
+2. Open terminal in the project directory
+3. Run: npx netlify-cli login
+4. Run: npx netlify-cli link
+5. Run: npx netlify-cli deploy --prod --dir=dist
+
+OPTION 2: Use Netlify's manual deploy (EASIEST)
+------------------------------------------------
+1. Create a zip of the dist folder (I'll do this for you)
+2. Go to https://app.netlify.com
+3. Click your VideoRemix site
+4. Click "Deploys" tab
+5. Scroll down and click "Upload deploy" or drag dist folder
+
+OPTION 3: Use a Personal Access Token
+--------------------------------------
+1. Go to https://app.netlify.com/user/applications
+2. Click "New access token"
+3. Copy the token
+4. Provide it to me and I'll deploy using the token
+
+Which option works best for you?
