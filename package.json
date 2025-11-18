@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "validate-env": "node validate-env.mjs",
+    "predev": "npm run validate-env",
+    "prebuild": "npm run validate-env",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
