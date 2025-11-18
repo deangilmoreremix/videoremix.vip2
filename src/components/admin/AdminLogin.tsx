@@ -132,12 +132,8 @@ const AdminLogin: React.FC = () => {
       case 'password':
         if (!value.trim()) {
           errors.password = 'Password is required';
-        } else {
-          const passwordValidation = validatePassword(value);
-          if (!passwordValidation.isValid) {
-            errors.password = 'Password does not meet requirements';
-          }
         }
+        // Don't validate password strength on login - only check if it exists
         break;
     }
 
