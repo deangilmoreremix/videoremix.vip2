@@ -2,7 +2,7 @@ import React, { useState, useEffect, memo, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Navigate } from 'react-router-dom';
-import { Shield, Settings, Users, BarChart3, ToggleLeft, ToggleRight, AlertTriangle, Clock, ShoppingCart, Upload, Calendar, Video, FileUp, Link2, History } from 'lucide-react';
+import { Shield, Settings, Users, BarChart3, ToggleLeft, ToggleRight, AlertTriangle, Clock, ShoppingCart, Upload, Calendar, Video, FileUp, Link2, History, TrendingUp } from 'lucide-react';
 import { useAdmin } from '../context/AdminContext';
 import AdminAppsManagement from '../components/admin/AdminAppsManagement';
 import AdminFeaturesManagement from '../components/admin/AdminFeaturesManagement';
@@ -14,6 +14,7 @@ import AdminVideosManagement from '../components/admin/AdminVideosManagement';
 import AdminCSVImport from '../components/admin/AdminCSVImport';
 import AdminProductMapping from '../components/admin/AdminProductMapping';
 import AdminImportHistory from '../components/admin/AdminImportHistory';
+import AdminAnalyticsDashboard from '../components/admin/AdminAnalyticsDashboard';
 
 // Types and Interfaces
 interface DashboardStats {
@@ -23,7 +24,7 @@ interface DashboardStats {
 }
 
 interface TabConfig {
-  id: 'apps' | 'features' | 'users' | 'purchases' | 'import' | 'subscriptions' | 'videos' | 'csv-import' | 'product-mapping' | 'import-history';
+  id: 'analytics' | 'apps' | 'features' | 'users' | 'purchases' | 'import' | 'subscriptions' | 'videos' | 'csv-import' | 'product-mapping' | 'import-history';
   label: string;
   icon: React.ComponentType<{ className?: string }>;
   component: React.ComponentType;
@@ -45,6 +46,7 @@ const ANIMATION_DELAYS = {
 // Dashboard configuration - all data comes from API, no mock data
 
 const TAB_CONFIG: TabConfig[] = [
+  { id: 'analytics', label: 'Analytics', icon: TrendingUp, component: AdminAnalyticsDashboard },
   { id: 'apps', label: 'Apps Management', icon: Settings, component: AdminAppsManagement },
   { id: 'features', label: 'Features Management', icon: ToggleLeft, component: AdminFeaturesManagement },
   { id: 'users', label: 'Users Management', icon: Users, component: AdminUsersManagement },
@@ -237,7 +239,7 @@ StatsCards.displayName = 'StatsCards';
 
 const AdminDashboard: React.FC = () => {
   const { user, isAuthenticated, isLoading, logout } = useAdmin();
-  const [activeTab, setActiveTab] = useState<TabConfig['id']>('apps');
+  const [activeTab, setActiveTab] = useState<TabConfig['id']>('analytics');
   const [showTimeoutWarning, setShowTimeoutWarning] = useState(false);
   const [announcements, setAnnouncements] = useState<string>('');
 
