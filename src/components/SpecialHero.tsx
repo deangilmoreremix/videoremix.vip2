@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Shield, Star, ArrowRight, Sparkles, Award, Video, CheckCircle, Clock, Play } from 'lucide-react';
+import { ChevronDown, Shield, Star, ArrowRight, Sparkles, Award, CheckCircle, Clock } from 'lucide-react';
 import { TypeAnimation } from 'react-type-animation';
 import CountUp from 'react-countup';
 import { Link } from 'react-router-dom';
@@ -19,8 +19,6 @@ import CreateFirstVideoCTA from './SpecialHero/CreateFirstVideoCTA';
 
 const SpecialHero: React.FC = () => {
   const { hero } = useLandingPageContent();
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [showCreateFirstVideo, setShowCreateFirstVideo] = useState(true);
 
@@ -39,19 +37,6 @@ const SpecialHero: React.FC = () => {
     }
   ];
 
-  const playVideo = () => {
-    if (videoRef.current) {
-      if (!isVideoPlaying) {
-        videoRef.current.play().catch(() => {
-          // Handle autoplay restrictions
-          console.log('Video play was prevented by the browser');
-        });
-      } else {
-        videoRef.current.pause();
-      }
-      setIsVideoPlaying(!isVideoPlaying);
-    }
-  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -168,52 +153,38 @@ const SpecialHero: React.FC = () => {
                   className="w-full h-full object-cover"
                 />
                 
-                <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                  <motion.button
-                    onClick={playVideo}
-                    className="relative group"
+                <Link to="/signup" className="absolute inset-0 bg-black/50 flex items-center justify-center group">
+                  <motion.div
+                    className="relative"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                   >
                     {/* Pulsing animation */}
                     <motion.div
                       className="absolute -inset-4 rounded-full bg-primary-500/20 blur-md"
-                      animate={{ 
-                        scale: [1, 1.5, 1], 
-                        opacity: [0.5, 0, 0.5] 
+                      animate={{
+                        scale: [1, 1.5, 1],
+                        opacity: [0.5, 0, 0.5]
                       }}
-                      transition={{ 
-                        duration: 2, 
+                      transition={{
+                        duration: 2,
                         repeat: Infinity,
                         repeatType: "loop"
                       }}
                     />
 
                     <MagicSparkles minSparkles={3} maxSparkles={6} speed="fast">
-                      <div className="bg-primary-600 hover:bg-primary-500 rounded-full p-5 relative">
-                        <Play className="h-8 w-8 text-white" />
+                      <div className="bg-primary-600 group-hover:bg-primary-500 transition-colors rounded-full p-5 relative flex items-center justify-center">
+                        <Sparkles className="h-8 w-8 text-white" />
                       </div>
                     </MagicSparkles>
-                  </motion.button>
-                </div>
+                  </motion.div>
+                </Link>
 
-                <div className="absolute top-3 left-3 bg-primary-600/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm text-white font-medium">
-                  Personalized Marketing Demo
+                <div className="absolute top-3 left-3 bg-primary-600/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm text-white font-medium flex items-center gap-2">
+                  <Sparkles className="h-4 w-4" />
+                  <span>AI-Powered Personalization</span>
                 </div>
-
-                <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-sm rounded-full px-3 py-1 text-white text-xs">
-                  2:35
-                </div>
-
-                {/* Hidden actual video that will play */}
-                <video
-                  ref={videoRef}
-                  className="absolute inset-0 w-full h-full object-cover opacity-0"
-                  controls
-                >
-                  <source src="https://example.com/placeholder.mp4" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
               </div>
             </motion.div>
 
