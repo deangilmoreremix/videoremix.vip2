@@ -10,6 +10,7 @@ import AudioPlayer from './components/AudioPlayer';
 import ErrorBoundary from './components/ErrorBoundary';
 import AIAssistant from './components/AIAssistant';
 import ProtectedRoute from './components/ProtectedRoute';
+import MobileBottomNav from './components/MobileBottomNav';
 import { AdminProvider } from './context/AdminContext';
 import { AuthProvider } from './context/AuthContext';
 import { Toaster } from './components/ui/toast';
@@ -464,6 +465,7 @@ function App() {
         } />
       </Routes>
       <Toaster />
+      <MobileBottomNav />
       </div>
     </AdminProvider>
   </AuthProvider>
