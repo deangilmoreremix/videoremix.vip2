@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { User, Settings, Bell, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useUserStats } from '../hooks/useUserStats';
 import DashboardToolsSection from '../components/dashboard/DashboardToolsSection';
 import DashboardPersonalizerSection from '../components/dashboard/DashboardPersonalizerSection';
 import DashboardContactSection from '../components/dashboard/DashboardContactSection';
@@ -12,6 +13,11 @@ import MagicSparkles from '../components/MagicSparkles';
 const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const { signOut } = useAuth();
+  const { stats, loading: statsLoading, error: statsError } = useUserStats();
+
+  const timeSavedPercentage = stats.activeDays > 0
+    ? Math.min(95, Math.floor((stats.activeDays / 30) * 100))
+    : 0;
   return (
     <>
       <Helmet>
@@ -56,18 +62,42 @@ const DashboardPage: React.FC = () => {
                 className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
               >
                 <div className="bg-gray-800/70 backdrop-blur-sm rounded-xl p-4 border border-gray-700">
-                  <div className="text-2xl font-bold text-primary-400">12</div>
-                  <div className="text-sm text-gray-300">Tools Used</div>
+                  {statsLoading ? (
+                    <div className="h-8 w-16 bg-gray-700 animate-pulse rounded mx-auto"></div>
+                  ) : statsError ? (
+                    <div className="text-2xl font-bold text-red-400">--</div>
+                  ) : (
+                    <div className="text-2xl font-bold text-primary-400">{stats.purchasedAppsCount}</div>
+                  )}
+                  <div className="text-sm text-gray-300">Tools Available</div>
                 </div>
                 <div className="bg-gray-800/70 backdrop-blur-sm rounded-xl p-4 border border-gray-700">
-                  <div className="text-2xl font-bold text-primary-400">47</div>
+                  {statsLoading ? (
+                    <div className="h-8 w-16 bg-gray-700 animate-pulse rounded mx-auto"></div>
+                  ) : statsError ? (
+                    <div className="text-2xl font-bold text-red-400">--</div>
+                  ) : (
+                    <div className="text-2xl font-bold text-primary-400">{stats.videosCreated}</div>
+                  )}
                   <div className="text-sm text-gray-300">Videos Created</div>
                 </div>
                 <div className="bg-gray-800/70 backdrop-blur-sm rounded-xl p-4 border border-gray-700">
-                  <div className="text-2xl font-bold text-primary-400">89%</div>
-                  <div className="text-sm text-gray-300">Time Saved</div>
+                  {statsLoading ? (
+                    <div className="h-8 w-16 bg-gray-700 animate-pulse rounded mx-auto"></div>
+                  ) : statsError ? (
+                    <div className="text-2xl font-bold text-red-400">--</div>
+                  ) : (
+                    <div className="text-2xl font-bold text-primary-400">{timeSavedPercentage}%</div>
+                  )}
+                  <div className="text-sm text-gray-300">Productivity Boost</div>
                 </div>
               </motion.div>
+
+              {statsError && (
+                <div className="mb-4 p-3 bg-red-900/30 border border-red-700 rounded-lg text-sm text-red-300">
+                  Unable to load statistics. Please refresh the page.
+                </div>
+              )}
 
               {/* Account Actions */}
               <motion.div
