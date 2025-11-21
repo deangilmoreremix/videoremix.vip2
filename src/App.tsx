@@ -9,6 +9,7 @@ import LiveActivityIndicator from './components/LiveActivityIndicator';
 import AudioPlayer from './components/AudioPlayer';
 import ErrorBoundary from './components/ErrorBoundary';
 import AIAssistant from './components/AIAssistant';
+import ProtectedRoute from './components/ProtectedRoute';
 import { AdminProvider } from './context/AdminContext';
 import { AuthProvider } from './context/AuthContext';
 import { Toaster } from './components/ui/toast';
@@ -349,23 +350,27 @@ function App() {
 
         {/* Dashboard Route */}
         <Route path="/dashboard" element={
-          <ErrorBoundary onError={handleError}>
-            <SparkleBackground>
-              <Suspense fallback={<SectionLoader />}>
-                <DashboardPage />
-                <SpecialFooter />
-              </Suspense>
-            </SparkleBackground>
-          </ErrorBoundary>
+          <ProtectedRoute>
+            <ErrorBoundary onError={handleError}>
+              <SparkleBackground>
+                <Suspense fallback={<SectionLoader />}>
+                  <DashboardPage />
+                  <SpecialFooter />
+                </Suspense>
+              </SparkleBackground>
+            </ErrorBoundary>
+          </ProtectedRoute>
         } />
 
         {/* Profile Route */}
         <Route path="/profile" element={
-          <ErrorBoundary onError={handleError}>
-            <Suspense fallback={<SectionLoader />}>
-              <ProfilePage />
-            </Suspense>
-          </ErrorBoundary>
+          <ProtectedRoute>
+            <ErrorBoundary onError={handleError}>
+              <Suspense fallback={<SectionLoader />}>
+                <ProfilePage />
+              </Suspense>
+            </ErrorBoundary>
+          </ProtectedRoute>
         } />
 
         {/* Auth Routes */}
