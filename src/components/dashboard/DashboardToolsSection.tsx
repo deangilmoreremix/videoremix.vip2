@@ -5,7 +5,7 @@ import { Video, Users, Image as ImageIcon, Sparkles, Palette, CircleUser as User
 import MagicSparkles from '../MagicSparkles';
 import { useInView } from 'react-intersection-observer';
 import { useAuth } from '../../context/AuthContext';
-import usePurchases from '../../hooks/usePurchases';
+import { useUserAccess } from '../../hooks/useUserAccess';
 import { useApps } from '../../hooks/useApps';
 import LockedAppOverlay from '../LockedAppOverlay';
 import PurchaseModal from '../PurchaseModal';
@@ -78,8 +78,11 @@ const getAppUrl = (appId: string, apps: any[] = []) => {
 
 const DashboardToolsSection: React.FC = () => {
   const { user } = useAuth();
-  const { purchasedApps, loading: purchasesLoading, hasAnyPurchases } = usePurchases();
+  const { hasAccessToApp, accessData, isLoading: accessLoading } = useUserAccess();
   const { apps: appsData, loading: appsLoading } = useApps();
+
+  const purchasedApps = accessData?.apps.map(app => app.appSlug) || [];
+  const hasAnyPurchases = purchasedApps.length > 0;
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredApps, setFilteredApps] = useState<any[]>([]);
@@ -97,7 +100,7 @@ const DashboardToolsSection: React.FC = () => {
   // Image loading error handling state
   const [imageErrors, setImageErrors] = useState<Record<string, number>>({});
 
-  // Update filtered tools when category, search query, or purchased apps change
+  // Update filtered tools when category, search query, or access data change
   useEffect(() => {
     if (!appsData || appsData.length === 0) {
       setFilteredApps([]);
@@ -144,7 +147,7 @@ const DashboardToolsSection: React.FC = () => {
     }
     
     setFilteredApps(result);
-  }, [selectedCategory, searchQuery, sortOrder, user, purchasedApps, appsData]);
+  }, [selectedCategory, searchQuery, sortOrder, user, accessData, appsData]);
   
   // Handle image load errors
   const handleImageError = (appId: string) => {
@@ -320,7 +323,7 @@ const DashboardToolsSection: React.FC = () => {
         </div>
 
         {/* Empty state when user has no purchases */}
-        {user && !purchasesLoading && purchasedApps.length === 0 && (
+        {user && !accessLoading && purchasedApps.length === 0 && (
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
@@ -362,7 +365,7 @@ const DashboardToolsSection: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {getFeaturedApps().map((app, index) => {
-                const isPurchased = user && purchasedApps.includes(app.id);
+                const isPurchased = user && hasAccessToApp(app.slug || app.id);
                 const handleAppClick = (e: React.MouseEvent) => {
                   if (!isPurchased) {
                     e.preventDefault();
@@ -583,7 +586,7 @@ const DashboardToolsSection: React.FC = () => {
             <div className="flex space-x-4 px-1" style={{ width: 'max-content' }}>
               {filteredApps.map(app => {
                 const appUrl = getAppUrl(app.id, appsData);
-                const isPurchased = user && purchasedApps.includes(app.id);
+                const isPurchased = user && hasAccessToApp(app.slug || app.id);
                 const handleClick = (e: React.MouseEvent) => {
                   if (!isPurchased) {
                     e.preventDefault();
@@ -679,7 +682,7 @@ const DashboardToolsSection: React.FC = () => {
             >
               {filteredApps.map((app) => {
                 const appUrl = getAppUrl(app.id, appsData);
-                const isPurchased = user && purchasedApps.includes(app.id);
+                const isPurchased = user && hasAccessToApp(app.slug || app.id);
                 const handleClick = (e: React.MouseEvent) => {
                   if (!isPurchased) {
                     e.preventDefault();
