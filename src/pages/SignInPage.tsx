@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Eye, EyeOff, AlertCircle, Sparkles, Video, ArrowLeft, CheckCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import MagicSparkles from '../components/MagicSparkles';
@@ -10,6 +10,8 @@ import SparkleEffect from '../components/SparkleEffect';
 const SignInPage: React.FC = () => {
   const { signIn, user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = (location.state as any)?.from || '/dashboard';
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -20,9 +22,9 @@ const SignInPage: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-      navigate('/dashboard');
+      navigate(from, { replace: true });
     }
-  }, [user, navigate]);
+  }, [user, navigate, from]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +36,7 @@ const SignInPage: React.FC = () => {
       if (error) {
         setError(error.message);
       } else {
-        navigate('/dashboard');
+        navigate(from, { replace: true });
       }
     } catch (err) {
       setError('An unexpected error occurred');
