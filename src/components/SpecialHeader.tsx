@@ -3,6 +3,7 @@ import { Video, ChevronDown, ArrowRight, Sparkles, User, LogOut } from 'lucide-r
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import GlobalSearch from './GlobalSearch';
 
 interface SpecialHeaderProps {
   topOffset?: number;
@@ -81,8 +82,9 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="hidden md:flex items-center space-x-1.5"
+          className="hidden md:flex items-center space-x-3"
         >
+          <GlobalSearch />
           <Link to="/features" className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium">
             Features
           </Link>
