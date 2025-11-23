@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Plus, Edit, Trash2, ToggleLeft, ToggleRight, Upload, Download, ChevronDown, X, Key } from 'lucide-react';
+import { Users, Plus, Edit, Trash2, ToggleLeft, ToggleRight, Upload, Download, ChevronDown, X, Key, Settings } from 'lucide-react';
 import { supabase } from '../../utils/supabaseClient';
 
 interface User {
@@ -51,6 +51,14 @@ const AdminUsersManagement: React.FC = () => {
   const [userAppAccess, setUserAppAccess] = useState<string[]>([]);
   const [loadingApps, setLoadingApps] = useState(false);
   const [savingAppAccess, setSavingAppAccess] = useState(false);
+
+  // Feature access management states
+  const [showFeatureAccessModal, setShowFeatureAccessModal] = useState(false);
+  const [selectedUserForFeatures, setSelectedUserForFeatures] = useState<User | null>(null);
+  const [availableFeatures, setAvailableFeatures] = useState<Array<{ id: string; name: string; slug: string; app_name?: string; app_slug?: string }>>([]);
+  const [userFeatureAccess, setUserFeatureAccess] = useState<string[]>([]);
+  const [loadingFeatures, setLoadingFeatures] = useState(false);
+  const [savingFeatureAccess, setSavingFeatureAccess] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -442,6 +450,128 @@ const AdminUsersManagement: React.FC = () => {
     }
   };
 
+  const openFeatureAccessModal = async (user: User) => {
+    setSelectedUserForFeatures(user);
+    setShowFeatureAccessModal(true);
+    setLoadingFeatures(true);
+    clearMessages();
+
+    try {
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError || !session) {
+        setError('Authentication required. Please log in again.');
+        return;
+      }
+      const token = session.access_token;
+
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-user-features/${user.id}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        setAvailableFeatures(data.data || []);
+        setUserFeatureAccess(data.data.filter((f: any) => f.has_access).map((f: any) => f.slug) || []);
+      } else {
+        setError(data.error || 'Failed to load feature access data');
+      }
+    } catch (error) {
+      console.error('Error fetching feature access:', error);
+      setError('Failed to load feature access data. Please try again.');
+    } finally {
+      setLoadingFeatures(false);
+    }
+  };
+
+  const toggleFeatureAccess = (featureSlug: string) => {
+    setUserFeatureAccess(prev => {
+      if (prev.includes(featureSlug)) {
+        return prev.filter(slug => slug !== featureSlug);
+      } else {
+        return [...prev, featureSlug];
+      }
+    });
+  };
+
+  const saveFeatureAccess = async () => {
+    if (!selectedUserForFeatures) return;
+
+    setSavingFeatureAccess(true);
+    clearMessages();
+
+    try {
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError || !session) {
+        setError('Authentication required. Please log in again.');
+        return;
+      }
+      const token = session.access_token;
+
+      // Get current feature access
+      const currentAccess = availableFeatures.filter(f => f.has_access).map(f => f.slug);
+      const toGrant = userFeatureAccess.filter(slug => !currentAccess.includes(slug));
+      const toRevoke = currentAccess.filter(slug => !userFeatureAccess.includes(slug));
+
+      // Grant access to selected features
+      if (toGrant.length > 0) {
+        const grantResponse = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-user-features/${selectedUserForFeatures.id}/grant`,
+          {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ feature_slug: toGrant[0] }), // For now, handle one at a time
+          }
+        );
+
+        if (!grantResponse.ok) {
+          throw new Error(`HTTP error! status: ${grantResponse.status}`);
+        }
+      }
+
+      // Revoke access to unselected features
+      if (toRevoke.length > 0) {
+        const revokeResponse = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-user-features/${selectedUserForFeatures.id}/revoke`,
+          {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ feature_slug: toRevoke[0] }), // For now, handle one at a time
+          }
+        );
+
+        if (!revokeResponse.ok) {
+          throw new Error(`HTTP error! status: ${revokeResponse.status}`);
+        }
+      }
+
+      setSuccess('Feature access updated successfully');
+      setShowFeatureAccessModal(false);
+
+      // Refresh users list
+      await fetchUsers();
+    } catch (error) {
+      console.error('Error saving feature access:', error);
+      setError('Failed to update feature access. Please try again.');
+    } finally {
+      setSavingFeatureAccess(false);
+    }
+  };
+
   const filteredUsers = useMemo(() => {
     return selectedRole === 'all'
       ? (users || [])
@@ -620,6 +750,14 @@ const AdminUsersManagement: React.FC = () => {
                 >
                   <Key className="h-3 w-3 mr-1" />
                   Manage Apps
+                </button>
+                <button
+                  onClick={() => openFeatureAccessModal(user)}
+                  className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg flex items-center transition-colors"
+                  title="Manage feature access"
+                >
+                  <Settings className="h-3 w-3 mr-1" />
+                  Manage Features
                 </button>
                 <button
                   onClick={() => {
@@ -928,6 +1066,114 @@ user3@example.com,Bob,Johnson,user`}
                     className="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
                   >
                     {savingAppAccess ? 'Saving...' : 'Save Changes'}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Feature Access Modal */}
+      {showFeatureAccessModal && selectedUserForFeatures && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-xl p-6 w-full max-w-4xl mx-4 max-h-[80vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="text-xl font-bold text-white">Manage Feature Access</h3>
+                <p className="text-sm text-gray-400 mt-1">
+                  {selectedUserForFeatures.first_name && selectedUserForFeatures.last_name
+                    ? `${selectedUserForFeatures.first_name} ${selectedUserForFeatures.last_name}`
+                    : selectedUserForFeatures.email}
+                </p>
+              </div>
+              <button
+                onClick={() => setShowFeatureAccessModal(false)}
+                className="text-gray-400 hover:text-white"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {loadingFeatures ? (
+              <div className="flex justify-center items-center py-20">
+                <div className="w-8 h-8 border-t-2 border-blue-500 border-solid rounded-full animate-spin"></div>
+              </div>
+            ) : (
+              <>
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-gray-300">
+                      Select features to grant access ({userFeatureAccess.length} selected)
+                    </p>
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => setUserFeatureAccess(availableFeatures.map(feature => feature.slug))}
+                        className="text-xs px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
+                      >
+                        Select All
+                      </button>
+                      <button
+                        onClick={() => setUserFeatureAccess([])}
+                        className="text-xs px-3 py-1 bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"
+                      >
+                        Deselect All
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Group features by app */}
+                {Object.entries(
+                  availableFeatures.reduce((acc, feature) => {
+                    const appKey = feature.app_name || 'Standalone Features';
+                    if (!acc[appKey]) acc[appKey] = [];
+                    acc[appKey].push(feature);
+                    return acc;
+                  }, {} as Record<string, typeof availableFeatures>)
+                ).map(([appName, features]) => (
+                  <div key={appName} className="mb-4">
+                    <h4 className="text-sm font-semibold text-gray-300 mb-2">
+                      {appName}
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {features.map((feature) => (
+                        <button
+                          key={feature.slug}
+                          onClick={() => toggleFeatureAccess(feature.slug)}
+                          className={`p-3 rounded-lg text-left transition-all ${
+                            userFeatureAccess.includes(feature.slug)
+                              ? 'bg-blue-600/20 border-2 border-blue-500 text-white'
+                              : 'bg-gray-700 border-2 border-transparent text-gray-300 hover:bg-gray-600'
+                          }`}
+                        >
+                          <div className="text-sm font-medium">{feature.name}</div>
+                          <div className="text-xs text-gray-400 mt-1">{feature.description}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+
+                {availableFeatures.length === 0 && (
+                  <div className="text-center py-10 text-gray-400">
+                    No features available. User must have app access first.
+                  </div>
+                )}
+
+                <div className="flex space-x-3 mt-6 pt-4 border-t border-gray-700">
+                  <button
+                    onClick={() => setShowFeatureAccessModal(false)}
+                    className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={saveFeatureAccess}
+                    disabled={savingFeatureAccess}
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
+                  >
+                    {savingFeatureAccess ? 'Saving...' : 'Save Changes'}
                   </button>
                 </div>
               </>

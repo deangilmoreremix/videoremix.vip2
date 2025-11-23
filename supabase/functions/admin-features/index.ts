@@ -69,9 +69,28 @@ Deno.serve(async (req: Request) => {
     const action = pathParts[pathParts.length - 1];
 
     if (req.method === "GET") {
-      const { data: apps, error } = await supabase
+      // Get all features (apps with item_type = 'feature') with their parent app info
+      const { data: features, error } = await supabase
         .from("apps")
-        .select("*")
+        .select(`
+          id,
+          name,
+          slug,
+          description,
+          is_active,
+          parent_app_id,
+          item_type,
+          sort_order,
+          created_at,
+          updated_at,
+          parent_app:apps!parent_app_id (
+            id,
+            name,
+            slug,
+            description
+          )
+        `)
+        .eq("item_type", "feature")
         .order("name", { ascending: true });
 
       if (error) {
@@ -84,20 +103,23 @@ Deno.serve(async (req: Request) => {
         );
       }
 
-      const features = apps?.map((app) => ({
-        id: app.id,
-        name: app.name,
-        slug: app.slug,
-        description: app.description,
-        is_enabled: app.is_active,
-        app_slug: app.slug,
+      // Transform the data to match the expected format
+      const transformedFeatures = features?.map((feature) => ({
+        id: feature.id,
+        name: feature.name,
+        slug: feature.slug,
+        description: feature.description,
+        is_enabled: feature.is_active,
+        app_slug: feature.parent_app?.slug || null,
+        app_name: feature.parent_app?.name || null,
+        parent_app_id: feature.parent_app_id,
         config: {},
-        created_at: app.created_at,
-        updated_at: app.updated_at,
+        created_at: feature.created_at,
+        updated_at: feature.updated_at,
       })) || [];
 
       return new Response(
-        JSON.stringify({ success: true, data: features }),
+        JSON.stringify({ success: true, data: transformedFeatures }),
         {
           status: 200,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -106,13 +128,14 @@ Deno.serve(async (req: Request) => {
     }
 
     if (req.method === "POST" && action === "toggle") {
-      const { data: app, error: fetchError } = await supabase
+      const { data: feature, error: fetchError } = await supabase
         .from("apps")
-        .select("is_active")
+        .select("is_active, item_type")
         .eq("id", featureId)
+        .eq("item_type", "feature")
         .maybeSingle();
 
-      if (fetchError || !app) {
+      if (fetchError || !feature) {
         return new Response(
           JSON.stringify({ success: false, error: "Feature not found" }),
           {
@@ -124,8 +147,9 @@ Deno.serve(async (req: Request) => {
 
       const { error: updateError } = await supabase
         .from("apps")
-        .update({ is_active: !app.is_active })
-        .eq("id", featureId);
+        .update({ is_active: !feature.is_active })
+        .eq("id", featureId)
+        .eq("item_type", "feature");
 
       if (updateError) {
         return new Response(
@@ -138,7 +162,7 @@ Deno.serve(async (req: Request) => {
       }
 
       return new Response(
-        JSON.stringify({ success: true, data: { is_enabled: !app.is_active } }),
+        JSON.stringify({ success: true, data: { is_enabled: !feature.is_active } }),
         {
           status: 200,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -149,15 +173,55 @@ Deno.serve(async (req: Request) => {
     if (req.method === "POST") {
       const body = await req.json();
 
-      const { data: newApp, error: createError } = await supabase
+      // Validate that parent_app_id exists and is an app
+      if (body.parent_app_id) {
+        const { data: parentApp, error: parentError } = await supabase
+          .from("apps")
+          .select("id, item_type")
+          .eq("id", body.parent_app_id)
+          .eq("item_type", "app")
+          .maybeSingle();
+
+        if (parentError || !parentApp) {
+          return new Response(
+            JSON.stringify({ success: false, error: "Invalid parent app" }),
+            {
+              status: 400,
+              headers: { ...corsHeaders, "Content-Type": "application/json" },
+            }
+          );
+        }
+      }
+
+      const { data: newFeature, error: createError } = await supabase
         .from("apps")
         .insert({
           name: body.name,
           slug: body.slug,
           description: body.description,
           is_active: body.is_enabled !== undefined ? body.is_enabled : true,
+          item_type: "feature",
+          parent_app_id: body.parent_app_id || null,
+          sort_order: body.sort_order || 0,
         })
-        .select()
+        .select(`
+          id,
+          name,
+          slug,
+          description,
+          is_active,
+          parent_app_id,
+          item_type,
+          sort_order,
+          created_at,
+          updated_at,
+          parent_app:apps!parent_app_id (
+            id,
+            name,
+            slug,
+            description
+          )
+        `)
         .single();
 
       if (createError) {
@@ -174,15 +238,17 @@ Deno.serve(async (req: Request) => {
         JSON.stringify({
           success: true,
           data: {
-            id: newApp.id,
-            name: newApp.name,
-            slug: newApp.slug,
-            description: newApp.description,
-            is_enabled: newApp.is_active,
-            app_slug: newApp.slug,
+            id: newFeature.id,
+            name: newFeature.name,
+            slug: newFeature.slug,
+            description: newFeature.description,
+            is_enabled: newFeature.is_active,
+            app_slug: newFeature.parent_app?.slug || null,
+            app_name: newFeature.parent_app?.name || null,
+            parent_app_id: newFeature.parent_app_id,
             config: {},
-            created_at: newApp.created_at,
-            updated_at: newApp.updated_at,
+            created_at: newFeature.created_at,
+            updated_at: newFeature.updated_at,
           }
         }),
         {
@@ -195,17 +261,57 @@ Deno.serve(async (req: Request) => {
     if (req.method === "PUT") {
       const body = await req.json();
 
+      // Validate parent_app_id if provided
+      if (body.parent_app_id) {
+        const { data: parentApp, error: parentError } = await supabase
+          .from("apps")
+          .select("id, item_type")
+          .eq("id", body.parent_app_id)
+          .eq("item_type", "app")
+          .maybeSingle();
+
+        if (parentError || !parentApp) {
+          return new Response(
+            JSON.stringify({ success: false, error: "Invalid parent app" }),
+            {
+              status: 400,
+              headers: { ...corsHeaders, "Content-Type": "application/json" },
+            }
+          );
+        }
+      }
+
       const updateData: any = {};
       if (body.name !== undefined) updateData.name = body.name;
       if (body.slug !== undefined) updateData.slug = body.slug;
       if (body.description !== undefined) updateData.description = body.description;
       if (body.is_enabled !== undefined) updateData.is_active = body.is_enabled;
+      if (body.parent_app_id !== undefined) updateData.parent_app_id = body.parent_app_id;
+      if (body.sort_order !== undefined) updateData.sort_order = body.sort_order;
 
-      const { data: updatedApp, error: updateError } = await supabase
+      const { data: updatedFeature, error: updateError } = await supabase
         .from("apps")
         .update(updateData)
         .eq("id", body.id)
-        .select()
+        .eq("item_type", "feature")
+        .select(`
+          id,
+          name,
+          slug,
+          description,
+          is_active,
+          parent_app_id,
+          item_type,
+          sort_order,
+          created_at,
+          updated_at,
+          parent_app:apps!parent_app_id (
+            id,
+            name,
+            slug,
+            description
+          )
+        `)
         .single();
 
       if (updateError) {
@@ -222,15 +328,17 @@ Deno.serve(async (req: Request) => {
         JSON.stringify({
           success: true,
           data: {
-            id: updatedApp.id,
-            name: updatedApp.name,
-            slug: updatedApp.slug,
-            description: updatedApp.description,
-            is_enabled: updatedApp.is_active,
-            app_slug: updatedApp.slug,
+            id: updatedFeature.id,
+            name: updatedFeature.name,
+            slug: updatedFeature.slug,
+            description: updatedFeature.description,
+            is_enabled: updatedFeature.is_active,
+            app_slug: updatedFeature.parent_app?.slug || null,
+            app_name: updatedFeature.parent_app?.name || null,
+            parent_app_id: updatedFeature.parent_app_id,
             config: {},
-            created_at: updatedApp.created_at,
-            updated_at: updatedApp.updated_at,
+            created_at: updatedFeature.created_at,
+            updated_at: updatedFeature.updated_at,
           }
         }),
         {
@@ -246,7 +354,8 @@ Deno.serve(async (req: Request) => {
       const { error: deleteError } = await supabase
         .from("apps")
         .delete()
-        .eq("id", body.id);
+        .eq("id", body.id)
+        .eq("item_type", "feature");
 
       if (deleteError) {
         return new Response(

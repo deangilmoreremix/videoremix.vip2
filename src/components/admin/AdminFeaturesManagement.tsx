@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
-import { ToggleLeft, ToggleRight, Plus, Edit, Trash2, Settings, ChevronDown, AlertTriangle, X, CheckCircle } from 'lucide-react';
+import { ToggleLeft, ToggleRight, Plus, Edit, Trash2, Settings, ChevronDown, AlertTriangle, X, CheckCircle, Shield } from 'lucide-react';
 import { supabase } from '../../utils/supabaseClient';
+import { useAdmin } from '../../context/AdminContext';
 
 interface Feature {
   id: string;
@@ -10,12 +11,15 @@ interface Feature {
   description: string;
   is_enabled: boolean;
   app_slug?: string;
+  app_name?: string;
+  parent_app_id?: string;
   config: Record<string, any>;
   created_at: string;
   updated_at: string;
 }
 
 const AdminFeaturesManagement: React.FC = () => {
+  const { user } = useAdmin();
   const [features, setFeatures] = useState<Feature[]>([]);
   const [allFeatures, setAllFeatures] = useState<Feature[]>([]);
   const [apps, setApps] = useState<any[]>([]);
@@ -46,7 +50,7 @@ const AdminFeaturesManagement: React.FC = () => {
     name: '',
     slug: '',
     description: '',
-    app_slug: '',
+    parent_app_id: '',
     is_enabled: true,
     config: '{}'
   });
@@ -69,10 +73,15 @@ const AdminFeaturesManagement: React.FC = () => {
 
   // Memoized filtering for better performance
   const filteredFeatures = useMemo(() => {
-    return selectedApp === 'all'
-      ? allFeatures
-      : allFeatures.filter(feature => feature.app_slug === selectedApp || !feature.app_slug);
-  }, [allFeatures, selectedApp]);
+    if (selectedApp === 'all') {
+      return allFeatures;
+    }
+    // Find the app ID for the selected app slug
+    const selectedAppData = apps.find(app => app.slug === selectedApp);
+    return selectedAppData
+      ? allFeatures.filter(feature => feature.parent_app_id === selectedAppData.id)
+      : allFeatures;
+  }, [allFeatures, selectedApp, apps]);
 
   useEffect(() => {
     fetchFeatures();
@@ -148,7 +157,7 @@ const AdminFeaturesManagement: React.FC = () => {
       name: '',
       slug: '',
       description: '',
-      app_slug: '',
+      parent_app_id: '',
       is_enabled: true,
       config: '{}'
     });
@@ -160,7 +169,7 @@ const AdminFeaturesManagement: React.FC = () => {
       name: feature.name,
       slug: feature.slug,
       description: feature.description,
-      app_slug: feature.app_slug || '',
+      parent_app_id: feature.parent_app_id || '',
       is_enabled: feature.is_enabled,
       config: JSON.stringify(feature.config, null, 2)
     });
@@ -197,7 +206,7 @@ const AdminFeaturesManagement: React.FC = () => {
           name: formData.name,
           slug: formData.slug,
           description: formData.description,
-          app_slug: formData.app_slug || null,
+          parent_app_id: formData.parent_app_id || null,
           is_enabled: formData.is_enabled,
           config: parsedConfig
         }),
@@ -255,7 +264,7 @@ const AdminFeaturesManagement: React.FC = () => {
           name: formData.name,
           slug: formData.slug,
           description: formData.description,
-          app_slug: formData.app_slug || null,
+          parent_app_id: formData.parent_app_id || null,
           is_enabled: formData.is_enabled,
           config: parsedConfig
         }),
@@ -296,16 +305,11 @@ const AdminFeaturesManagement: React.FC = () => {
       }
       const token = session.access_token;
 
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-features`, {
-        method: 'PUT',
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-features/${featureId}/toggle`, {
+        method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          id: featureId,
-          is_enabled: !currentStatus
-        }),
       });
 
       if (!response.ok) {
@@ -315,7 +319,7 @@ const AdminFeaturesManagement: React.FC = () => {
       const data = await response.json();
       if (data.success) {
         setAllFeatures(prevFeatures => prevFeatures.map(feature =>
-          feature.id === featureId ? { ...feature, is_enabled: !currentStatus } : feature
+          feature.id === featureId ? { ...feature, is_enabled: data.data.is_enabled } : feature
         ));
         addNotification('success', `Feature ${currentStatus ? 'disabled' : 'enabled'} successfully`);
       } else {
@@ -379,6 +383,67 @@ const AdminFeaturesManagement: React.FC = () => {
     return (
       <div className="flex justify-center items-center py-20">
         <div className="w-8 h-8 border-t-2 border-primary-500 border-solid rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  // Check if user is super admin for feature toggling
+  if (user?.role !== 'super_admin') {
+    return (
+      <div className="space-y-6">
+        <div className="bg-yellow-500/20 border border-yellow-500/50 text-yellow-400 p-6 rounded-lg">
+          <div className="flex items-center mb-4">
+            <Shield className="h-6 w-6 mr-3" />
+            <h3 className="text-lg font-semibold">Super Admin Access Required</h3>
+          </div>
+          <p className="text-sm">
+            Feature toggling is restricted to super administrators only. You can view features but cannot modify their enabled/disabled status.
+          </p>
+        </div>
+
+        {/* Show features in read-only mode */}
+        <div className="bg-gray-800/70 backdrop-blur-sm rounded-xl p-8 border border-gray-700">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-white flex items-center">
+              <Settings className="h-6 w-6 mr-3 text-blue-500" />
+              Features Management
+            </h2>
+          </div>
+
+          {features.length === 0 ? (
+            <div className="text-center py-12">
+              <Settings className="h-16 w-16 mx-auto mb-4 text-gray-600" />
+              <p className="text-gray-400 text-lg">No features found</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {features.map((feature) => (
+                <div key={feature.id} className="bg-gray-700/50 rounded-lg p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center">
+                        <span className="text-white font-medium">{feature.name}</span>
+                        <span className={`ml-3 px-2 py-1 text-xs rounded ${
+                          feature.is_enabled
+                            ? 'bg-green-500/20 text-green-400'
+                            : 'bg-red-500/20 text-red-400'
+                        }`}>
+                          {feature.is_enabled ? 'Enabled' : 'Disabled'}
+                        </span>
+                      </div>
+                      {feature.description && (
+                        <p className="text-gray-400 text-sm mt-1">{feature.description}</p>
+                      )}
+                      {feature.app_name && (
+                        <p className="text-blue-400 text-xs mt-1">App: {feature.app_name}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     );
   }
@@ -685,19 +750,20 @@ const AdminFeaturesManagement: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">App Slug (Optional)</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Parent App *</label>
                 <select
-                  value={formData.app_slug}
-                  onChange={(e) => setFormData({ ...formData, app_slug: e.target.value })}
+                  value={formData.parent_app_id}
+                  onChange={(e) => setFormData({ ...formData, parent_app_id: e.target.value })}
                   className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white"
                 >
-                  <option value="">None (Global Feature)</option>
-                  {apps.map((app) => (
-                    <option key={app.id} value={app.slug}>
-                      {app.name}
+                  <option value="">Select Parent App</option>
+                  {apps.filter(app => app.item_type === 'app').map((app) => (
+                    <option key={app.id} value={app.id}>
+                      {app.name} ({app.slug})
                     </option>
                   ))}
                 </select>
+                <p className="text-xs text-gray-400 mt-1">Features must belong to a parent application</p>
               </div>
 
               <div>
@@ -733,7 +799,7 @@ const AdminFeaturesManagement: React.FC = () => {
               </button>
               <button
                 onClick={createFeature}
-                disabled={operationLoading.create || !formData.name || !formData.slug}
+                disabled={operationLoading.create || !formData.name || !formData.slug || !formData.parent_app_id}
                 className="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
               >
                 {operationLoading.create ? 'Creating...' : 'Create Feature'}
@@ -792,19 +858,20 @@ const AdminFeaturesManagement: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">App Slug (Optional)</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Parent App *</label>
                 <select
-                  value={formData.app_slug}
-                  onChange={(e) => setFormData({ ...formData, app_slug: e.target.value })}
+                  value={formData.parent_app_id}
+                  onChange={(e) => setFormData({ ...formData, parent_app_id: e.target.value })}
                   className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white"
                 >
-                  <option value="">None (Global Feature)</option>
-                  {apps.map((app) => (
-                    <option key={app.id} value={app.slug}>
-                      {app.name}
+                  <option value="">Select Parent App</option>
+                  {apps.filter(app => app.item_type === 'app').map((app) => (
+                    <option key={app.id} value={app.id}>
+                      {app.name} ({app.slug})
                     </option>
                   ))}
                 </select>
+                <p className="text-xs text-gray-400 mt-1">Features must belong to a parent application</p>
               </div>
 
               <div>
@@ -839,7 +906,7 @@ const AdminFeaturesManagement: React.FC = () => {
               </button>
               <button
                 onClick={updateFeature}
-                disabled={operationLoading[showEditModal.feature.id] || !formData.name || !formData.slug}
+                disabled={operationLoading[showEditModal.feature.id] || !formData.name || !formData.slug || !formData.parent_app_id}
                 className="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
               >
                 {operationLoading[showEditModal.feature.id] ? 'Updating...' : 'Update Feature'}
