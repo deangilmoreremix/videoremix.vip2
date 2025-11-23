@@ -66,9 +66,23 @@ Deno.serve(async (req: Request) => {
     const action = pathParts[pathParts.length - 1];
 
     if (req.method === "GET") {
+      // Get all apps with their features
       const { data: apps, error } = await supabase
         .from("apps")
-        .select("*")
+        .select(`
+          *,
+          features:apps!parent_app_id (
+            id,
+            name,
+            slug,
+            description,
+            is_active,
+            sort_order,
+            created_at,
+            updated_at
+          )
+        `)
+        .eq("item_type", "app")
         .order("sort_order", { ascending: true });
 
       if (error) {
@@ -81,8 +95,15 @@ Deno.serve(async (req: Request) => {
         );
       }
 
+      // Transform the data to include features in a more accessible format
+      const appsWithFeatures = apps?.map(app => ({
+        ...app,
+        features: app.features || [],
+        feature_count: app.features?.length || 0,
+      })) || [];
+
       return new Response(
-        JSON.stringify({ success: true, data: apps || [] }),
+        JSON.stringify({ success: true, data: appsWithFeatures }),
         {
           status: 200,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
