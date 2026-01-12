@@ -373,13 +373,13 @@ const AppGallerySection: React.FC = () => {
                   <div className="flex space-x-2">
                     {user && (
                       <>
-                        {hasPurchased(app.id) ? (
+                        {hasPurchased(app.id) && app.isActive ? (
                           <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
                             <Check className="h-3 w-3" /> OWNED
                           </span>
                         ) : (
                           <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
-                            <Lock className="h-3 w-3" /> LOCKED
+                            <Lock className="h-3 w-3" /> {app.isActive ? 'LOCKED' : 'INACTIVE'}
                           </span>
                         )}
                       </>
@@ -602,13 +602,13 @@ const AppGallerySection: React.FC = () => {
                       <div className="absolute top-3 right-3 flex flex-col space-y-1 items-end">
                         {user && (
                           <>
-                            {hasPurchased(app.id) ? (
+                            {hasPurchased(app.id) && app.isActive ? (
                               <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
                                 <Check className="h-3 w-3" /> OWNED
                               </span>
                             ) : (
                               <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
-                                <Lock className="h-3 w-3" /> LOCKED
+                                <Lock className="h-3 w-3" /> {app.isActive ? 'LOCKED' : 'INACTIVE'}
                               </span>
                             )}
                           </>
@@ -703,13 +703,13 @@ const AppGallerySection: React.FC = () => {
                       <div className="absolute top-2 right-2">
                         {user && (
                           <>
-                            {hasPurchased(app.id) ? (
+                            {hasPurchased(app.id) && app.isActive ? (
                               <div className="bg-green-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
                                 <Check className="h-3 w-3" /> OWNED
                               </div>
                             ) : (
                               <div className="bg-gray-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
-                                <Lock className="h-3 w-3" /> LOCKED
+                                <Lock className="h-3 w-3" /> {app.isActive ? 'LOCKED' : 'INACTIVE'}
                               </div>
                             )}
                           </>
@@ -738,9 +738,7 @@ const AppGallerySection: React.FC = () => {
                     {/* Link to app details */}
                     <div className="flex justify-between items-center">
                       <div className="flex items-center text-xs text-gray-400">
-                        {React.isValidElement(app.icon) ? 
-                          React.cloneElement(app.icon as React.ReactElement, { className: "h-4 w-4 text-primary-400 mr-1" }) 
-                          : <Sparkles className="h-4 w-4 text-primary-400 mr-1" />}
+                        <LazyIcon name={app.iconName} className="h-4 w-4 text-primary-400 mr-1" />
                         <span>{toolCategories.find(c => c.id === app.category)?.label}</span>
                       </div>
                       

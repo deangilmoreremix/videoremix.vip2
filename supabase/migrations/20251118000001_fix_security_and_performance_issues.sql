@@ -296,15 +296,14 @@ CREATE POLICY "Anyone can view features" ON app_features
 DROP POLICY IF EXISTS "Admins manage apps" ON apps;
 DROP POLICY IF EXISTS "Users can view apps" ON apps;
 
-CREATE POLICY "View active apps" ON apps
+CREATE POLICY "View apps" ON apps
   FOR SELECT TO authenticated
   USING (
-    is_active = true OR
     EXISTS (
       SELECT 1 FROM user_roles
       WHERE user_id = (SELECT auth.uid())
       AND role IN ('super_admin', 'admin')
-    )
+    ) OR true
   );
 
 CREATE POLICY "Admins manage apps" ON apps
