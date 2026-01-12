@@ -1,6 +1,41 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
+// Simple in-memory rate limiter for admin endpoints
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+
+function checkAdminRateLimit(userId: string, action: string = 'default'): { allowed: boolean; error?: string } {
+  const now = Date.now();
+  const key = `admin:${userId}:${action}`;
+
+  // Different limits for different actions
+  const limits = {
+    'read': { windowMs: 5 * 60 * 1000, maxRequests: 200 },
+    'write': { windowMs: 15 * 60 * 1000, maxRequests: 50 },
+    'delete': { windowMs: 60 * 60 * 1000, maxRequests: 10 },
+    'default': { windowMs: 15 * 60 * 1000, maxRequests: 100 }
+  };
+
+  const limit = limits[action as keyof typeof limits] || limits.default;
+  const entry = rateLimitStore.get(key);
+
+  if (!entry || now > entry.resetTime) {
+    rateLimitStore.set(key, { count: 1, resetTime: now + limit.windowMs });
+    return { allowed: true };
+  }
+
+  if (entry.count >= limit.maxRequests) {
+    const resetInMinutes = Math.ceil((entry.resetTime - now) / (60 * 1000));
+    return {
+      allowed: false,
+      error: `Rate limit exceeded. Try again in ${resetInMinutes} minutes.`
+    };
+  }
+
+  entry.count++;
+  return { allowed: true };
+}
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
@@ -60,16 +95,52 @@ Deno.serve(async (req: Request) => {
       );
     }
 
+    // Rate limiting check
+    const rateLimitAction = req.method === 'GET' ? 'read' :
+                            req.method === 'DELETE' ? 'delete' : 'write';
+    const rateLimitCheck = checkAdminRateLimit(user.id, rateLimitAction);
+    if (!rateLimitCheck.allowed) {
+      return new Response(
+        JSON.stringify({ success: false, error: rateLimitCheck.error }),
+        {
+          status: 429,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
     const url = new URL(req.url);
     const pathParts = url.pathname.split("/").filter(Boolean);
     const appId = pathParts[pathParts.length - 2];
     const action = pathParts[pathParts.length - 1];
 
     if (req.method === "GET") {
+      const url = new URL(req.url);
+      const page = parseInt(url.searchParams.get('page') || '1');
+      const limit = parseInt(url.searchParams.get('limit') || '20');
+      const offset = (page - 1) * limit;
+
+      // Get total count for pagination
+      const { count, error: countError } = await supabase
+        .from("apps")
+        .select("*", { count: "exact", head: true });
+
+      if (countError) {
+        return new Response(
+          JSON.stringify({ success: false, error: countError.message }),
+          {
+            status: 500,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
+
+      // Get paginated data
       const { data: apps, error } = await supabase
         .from("apps")
         .select("*")
-        .order("sort_order", { ascending: true });
+        .order("sort_order", { ascending: true })
+        .range(offset, offset + limit - 1);
 
       if (error) {
         return new Response(
@@ -82,7 +153,16 @@ Deno.serve(async (req: Request) => {
       }
 
       return new Response(
-        JSON.stringify({ success: true, data: apps || [] }),
+        JSON.stringify({
+          success: true,
+          data: apps || [],
+          pagination: {
+            page,
+            limit,
+            total: count || 0,
+            totalPages: Math.ceil((count || 0) / limit)
+          }
+        }),
         {
           status: 200,
           headers: { ...corsHeaders, "Content-Type": "application/json" },

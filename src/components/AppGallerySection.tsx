@@ -16,11 +16,17 @@ import {
   Zap,
   Wand2,
   Globe,
-  Brain
+  Brain,
+  Check,
+  Lock
 } from 'lucide-react';
 import MagicSparkles from './MagicSparkles';
 import { useInView } from 'react-intersection-observer';
 import { useApps } from '../hooks/useApps';
+import { useAuth } from '../context/AuthContext';
+import usePurchases from '../hooks/usePurchases';
+import AppDetailModal from './AppDetailModal';
+import LazyIcon from './LazyIcon';
 
 // Define TrendingUp component before it's used
 const TrendingUp: React.FC<{ className?: string }> = (props) => (
@@ -83,6 +89,8 @@ const personalizationBenefits = [
 
 const AppGallerySection: React.FC = () => {
   const { apps: appsData, loading: appsLoading, error: appsError } = useApps();
+  const { user } = useAuth();
+  const { hasPurchased, loading: purchasesLoading } = usePurchases();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredApps, setFilteredApps] = useState(appsData);
@@ -96,6 +104,8 @@ const AppGallerySection: React.FC = () => {
 
   // Image loading error handling state
   const [imageErrors, setImageErrors] = useState<Record<string, number>>({});
+  const [selectedApp, setSelectedApp] = useState<any>(null);
+  const [showModal, setShowModal] = useState(false);
 
   // Update filtered tools when category or search query changes
   useEffect(() => {
@@ -140,7 +150,7 @@ const AppGallerySection: React.FC = () => {
   }, [selectedCategory, searchQuery, sortOrder, appsData]);
 
   // Show loading state
-  if (appsLoading) {
+  if (appsLoading || purchasesLoading) {
     return (
       <section id="tools" className="py-20 bg-black relative overflow-hidden">
         <div className="container mx-auto px-4">
@@ -359,8 +369,21 @@ const AppGallerySection: React.FC = () => {
                     <h4 className="text-white font-bold truncate">Personalized {app.name}</h4>
                     <p className="text-gray-300 text-sm truncate">Tailored {app.description.toLowerCase()}</p>
                   </div>
-                  
+
                   <div className="flex space-x-2">
+                    {user && (
+                      <>
+                        {hasPurchased(app.id) ? (
+                          <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                            <Check className="h-3 w-3" /> OWNED
+                          </span>
+                        ) : (
+                          <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                            <Lock className="h-3 w-3" /> LOCKED
+                          </span>
+                        )}
+                      </>
+                    )}
                     {app.popular && (
                       <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded-full font-bold mb-1">
                         POPULAR
@@ -376,10 +399,10 @@ const AppGallerySection: React.FC = () => {
                 
                 {/* App image */}
                 <div className="w-full aspect-video">
-                  <img 
-                    src={imageErrors[app.id] ? getFallbackImage(app.id, imageErrors[app.id]) : app.image} 
-                    alt={app.name} 
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out"
+                  <img
+                    src={imageErrors[app.id] ? getFallbackImage(app.id, imageErrors[app.id]) : app.image}
+                    alt={app.name}
+                    className={`w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out ${user && !hasPurchased(app.id) ? 'grayscale opacity-60' : ''}`}
                     onError={() => handleImageError(app.id)}
                   />
                   
@@ -387,8 +410,18 @@ const AppGallerySection: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
                 </div>
                 
+                {/* Lock overlay for unpurchased apps */}
+                {user && !hasPurchased(app.id) && (
+                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
+                    <div className="text-center">
+                      <Lock className="h-8 w-8 text-white mx-auto mb-2" />
+                      <p className="text-white text-sm font-medium">Purchase to unlock</p>
+                    </div>
+                  </div>
+                )}
+
                 {/* Hover overlay with action button */}
-                <div className="absolute inset-0 bg-primary-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <div className={`absolute inset-0 bg-primary-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center ${user && !hasPurchased(app.id) ? 'pointer-events-none' : ''}`}>
                   {app.url && shouldOpenInNewTab(app.url) ? (
                     <motion.a
                       href={app.url}
@@ -418,9 +451,7 @@ const AppGallerySection: React.FC = () => {
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent z-10">
                   <div className="flex items-center">
                     <div className="p-2 bg-gray-800/80 rounded-full mr-3">
-                      {React.isValidElement(app.icon) ? 
-                        React.cloneElement(app.icon as React.ReactElement, { className: "w-5 h-5 text-primary-400" }) 
-                        : React.createElement(Sparkles, { className: "w-5 h-5 text-primary-400" })}
+                      <LazyIcon name={app.iconName} className="w-5 h-5 text-primary-400" />
                     </div>
                     
                     <div className="flex items-center text-gray-300 text-sm overflow-hidden">
@@ -569,6 +600,19 @@ const AppGallerySection: React.FC = () => {
                       
                       {/* Status badges */}
                       <div className="absolute top-3 right-3 flex flex-col space-y-1 items-end">
+                        {user && (
+                          <>
+                            {hasPurchased(app.id) ? (
+                              <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                <Check className="h-3 w-3" /> OWNED
+                              </span>
+                            ) : (
+                              <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                <Lock className="h-3 w-3" /> LOCKED
+                              </span>
+                            )}
+                          </>
+                        )}
                         {app.popular && (
                           <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded font-bold">
                             POPULAR
@@ -588,9 +632,7 @@ const AppGallerySection: React.FC = () => {
                       
                       <div className="flex justify-between items-center">
                         <div className="flex items-center">
-                          {React.isValidElement(app.icon) ? 
-                            React.cloneElement(app.icon as React.ReactElement, { className: "h-4 w-4 text-primary-400 mr-1" })
-                            : <Sparkles className="h-4 w-4 text-primary-400 mr-1" />}
+                          <LazyIcon name={app.iconName} className="w-4 h-4 text-primary-400 mr-1" />
                           <span className="text-gray-500 text-xs">Personalization Tool</span>
                         </div>
                         
@@ -627,8 +669,6 @@ const AppGallerySection: React.FC = () => {
                 <motion.div
                   key={app.id}
                   variants={itemVariants}
-                  onHoverStart={() => setHoveredApp(app.id)}
-                  onHoverEnd={() => setHoveredApp(null)}
                   className={`relative ${
                     viewMode === 'grid'
                     ? "group bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-primary-500/50 transition-colors shadow-lg"
@@ -643,14 +683,14 @@ const AppGallerySection: React.FC = () => {
                     }
                   >
                     <div className="relative h-full">
-                      <img 
-                        src={imageErrors[app.id] ? getFallbackImage(app.id, imageErrors[app.id]) : app.image} 
-                        alt={app.name} 
+                      <img
+                        src={imageErrors[app.id] ? getFallbackImage(app.id, imageErrors[app.id]) : app.image}
+                        alt={app.name}
                         className={`object-cover ${
-                          viewMode === 'grid' 
-                          ? "w-full h-full" 
+                          viewMode === 'grid'
+                          ? "w-full h-full"
                           : "w-32 h-full"
-                        }`}
+                        } ${user && !hasPurchased(app.id) ? 'grayscale opacity-60' : ''}`}
                         onError={() => handleImageError(app.id)}
                       />
                       
@@ -661,6 +701,19 @@ const AppGallerySection: React.FC = () => {
                       
                       {/* Status badges */}
                       <div className="absolute top-2 right-2">
+                        {user && (
+                          <>
+                            {hasPurchased(app.id) ? (
+                              <div className="bg-green-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
+                                <Check className="h-3 w-3" /> OWNED
+                              </div>
+                            ) : (
+                              <div className="bg-gray-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
+                                <Lock className="h-3 w-3" /> LOCKED
+                              </div>
+                            )}
+                          </>
+                        )}
                         {app.popular && (
                           <div className="bg-yellow-500 text-xs text-black px-1.5 py-0.5 rounded font-bold mb-1">
                             POPULAR
@@ -701,9 +754,19 @@ const AppGallerySection: React.FC = () => {
                       </a>
                     </div>
                     
+                    {/* Lock overlay for unpurchased apps */}
+                    {user && !hasPurchased(app.id) && viewMode === 'grid' && (
+                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10 rounded-xl">
+                        <div className="text-center">
+                          <Lock className="h-8 w-8 text-white mx-auto mb-2" />
+                          <p className="text-white text-sm font-medium">Purchase to unlock</p>
+                        </div>
+                      </div>
+                    )}
+
                     {/* Hover effect for grid view */}
                     {viewMode === 'grid' && (
-                      <div className="absolute inset-0 bg-primary-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center">
+                      <div className={`absolute inset-0 bg-primary-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center ${user && !hasPurchased(app.id) ? 'pointer-events-none' : ''}`}>
                         <a
                           href={appUrl}
                           className="bg-white text-gray-900 font-bold py-2 px-6 rounded-lg flex items-center"
@@ -712,7 +775,7 @@ const AppGallerySection: React.FC = () => {
                           <Wand2 className="h-5 w-5 mr-2" />
                           Personalize Now
                         </a>
-                        
+
                         {/* User count for popular apps */}
                         {app.popular && (
                           <div className="mt-3 flex items-center text-white text-sm">
@@ -720,7 +783,7 @@ const AppGallerySection: React.FC = () => {
                             <span>Used by 1,200+ creators</span>
                           </div>
                         )}
-                        
+
                         {/* Star ratings */}
                         <div className="mt-2 flex items-center">
                           {[...Array(5)].map((_, i) => (

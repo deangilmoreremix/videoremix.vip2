@@ -9,6 +9,7 @@ import { useUserAccess } from '../../hooks/useUserAccess';
 import { useApps } from '../../hooks/useApps';
 import LockedAppOverlay from '../LockedAppOverlay';
 import PurchaseModal from '../PurchaseModal';
+import LazyIcon from '../LazyIcon';
 
 // Define TrendingUp component
 const TrendingUp: React.FC<{ className?: string }> = (props) => (
@@ -109,7 +110,10 @@ const DashboardToolsSection: React.FC = () => {
 
     let result = [...appsData];
 
-    // Show ALL apps regardless of purchase status
+    // For logged-in users, only show purchased apps
+    if (user) {
+      result = result.filter(app => hasAccessToApp(app.id));
+    }
     
     // Apply category filter
     if (selectedCategory !== 'all') {
@@ -365,7 +369,7 @@ const DashboardToolsSection: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {getFeaturedApps().map((app, index) => {
-                const isPurchased = user && hasAccessToApp(app.slug || app.id);
+                const isPurchased = user && hasAccessToApp(app.id);
                 const handleAppClick = (e: React.MouseEvent) => {
                   if (!isPurchased) {
                     e.preventDefault();
@@ -461,9 +465,7 @@ const DashboardToolsSection: React.FC = () => {
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent z-10">
                   <div className="flex items-center">
                     <div className="p-2 bg-gray-800/80 rounded-full mr-3">
-                      {React.isValidElement(app.icon) ? 
-                        React.cloneElement(app.icon as React.ReactElement, { className: "w-5 h-5 text-primary-400" }) 
-                        : React.createElement(Sparkles, { className: "w-5 h-5 text-primary-400" })}
+                      <LazyIcon name={app.iconName} className="w-5 h-5 text-primary-400" />
                     </div>
                     
                     <div className="flex items-center text-gray-300 text-sm overflow-hidden">
@@ -586,7 +588,7 @@ const DashboardToolsSection: React.FC = () => {
             <div className="flex space-x-4 px-1" style={{ width: 'max-content' }}>
               {filteredApps.map(app => {
                 const appUrl = getAppUrl(app.id, appsData);
-                const isPurchased = user && hasAccessToApp(app.slug || app.id);
+                const isPurchased = user && hasAccessToApp(app.id);
                 const handleClick = (e: React.MouseEvent) => {
                   if (!isPurchased) {
                     e.preventDefault();
@@ -648,9 +650,7 @@ const DashboardToolsSection: React.FC = () => {
 
                       <div className="flex justify-between items-center">
                         <div className="flex items-center">
-                          {React.isValidElement(app.icon) ?
-                            React.cloneElement(app.icon as React.ReactElement, { className: "h-4 w-4 text-primary-400 mr-1" })
-                            : <Sparkles className="h-4 w-4 text-primary-400 mr-1" />}
+                          <LazyIcon name={app.iconName} className="h-4 w-4 text-primary-400 mr-1" />
                           <span className="text-gray-500 text-xs">Personalization Tool</span>
                         </div>
 
@@ -765,9 +765,7 @@ const DashboardToolsSection: React.FC = () => {
                     {/* Link to app details */}
                     <div className="flex justify-between items-center">
                       <div className="flex items-center text-xs text-gray-400">
-                        {React.isValidElement(app.icon) ?
-                          React.cloneElement(app.icon as React.ReactElement, { className: "h-4 w-4 text-primary-400 mr-1" })
-                          : <Sparkles className="h-4 w-4 text-primary-400 mr-1" />}
+                        <LazyIcon name={app.iconName} className="h-4 w-4 text-primary-400 mr-1" />
                         <span>{toolCategories.find(c => c.id === app.category)?.label}</span>
                       </div>
 
@@ -883,7 +881,7 @@ const DashboardToolsSection: React.FC = () => {
         />
       )}
 
-      <style jsx>{`
+      <style>{`
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
         }
@@ -891,7 +889,7 @@ const DashboardToolsSection: React.FC = () => {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
-        
+
         .line-clamp-2 {
           display: -webkit-box;
           -webkit-line-clamp: 2;

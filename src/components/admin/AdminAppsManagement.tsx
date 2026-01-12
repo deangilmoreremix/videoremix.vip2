@@ -19,6 +19,13 @@ interface App {
   updated_at: string;
 }
 
+interface PaginationInfo {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
 const AdminAppsManagement: React.FC = () => {
   const [apps, setApps] = useState<App[]>([]);
   const [allApps, setAllApps] = useState<App[]>([]);
@@ -26,6 +33,11 @@ const AdminAppsManagement: React.FC = () => {
   const [toggling, setToggling] = useState<string | null>(null);
   const [selectedApp, setSelectedApp] = useState<string>('all');
   const [showAppDropdown, setShowAppDropdown] = useState(false);
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(12); // Show 12 apps per page (4x3 grid)
+  const [pagination, setPagination] = useState<PaginationInfo | null>(null);
 
   // Enhanced state for UX
   const [error, setError] = useState<string | null>(null);
@@ -73,7 +85,7 @@ const AdminAppsManagement: React.FC = () => {
     setApps(filteredApps);
   }, [filteredApps]);
 
-  const fetchApps = useCallback(async () => {
+  const fetchApps = useCallback(async (page = currentPage) => {
     try {
       clearMessages();
 
@@ -89,11 +101,14 @@ const AdminAppsManagement: React.FC = () => {
         return;
       }
 
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-apps`, {
-        headers: {
-          'Authorization': `Bearer ${session.access_token}`,
-        },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-apps?page=${page}&limit=${itemsPerPage}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${session.access_token}`,
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -102,6 +117,7 @@ const AdminAppsManagement: React.FC = () => {
       const data = await response.json();
       if (data.success) {
         setAllApps(data.data || []);
+        setPagination(data.pagination || null);
       } else {
         setError(data.error || 'Failed to load applications');
       }
@@ -111,7 +127,7 @@ const AdminAppsManagement: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [clearMessages]);
+  }, [clearMessages, currentPage, itemsPerPage]);
 
   const toggleApp = useCallback(async (appId: string, currentStatus: boolean) => {
     setToggling(appId);
@@ -466,11 +482,71 @@ const AdminAppsManagement: React.FC = () => {
         ))}
       </div>
 
-      {apps.length === 0 && (
+      {apps.length === 0 && !loading && (
         <div className="text-center py-20">
           <Settings className="h-16 w-16 text-gray-600 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-white mb-2">No applications found</h3>
           <p className="text-gray-400">Get started by adding your first application.</p>
+        </div>
+      )}
+
+      {/* Pagination */}
+      {pagination && pagination.totalPages > 1 && (
+        <div className="flex items-center justify-between mt-8">
+          <div className="text-sm text-gray-400">
+            Showing {((pagination.page - 1) * pagination.limit) + 1} to {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total} apps
+          </div>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => {
+                const newPage = currentPage - 1;
+                setCurrentPage(newPage);
+                fetchApps(newPage);
+              }}
+              disabled={currentPage === 1 || loading}
+              className="px-3 py-2 bg-gray-800 hover:bg-gray-700 disabled:bg-gray-900 disabled:cursor-not-allowed text-white rounded-lg transition-colors border border-gray-600"
+            >
+              Previous
+            </button>
+
+            {/* Page numbers */}
+            <div className="flex items-center space-x-1">
+              {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
+                const pageNum = Math.max(1, Math.min(pagination.totalPages - 4, currentPage - 2)) + i;
+                if (pageNum > pagination.totalPages) return null;
+
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => {
+                      setCurrentPage(pageNum);
+                      fetchApps(pageNum);
+                    }}
+                    disabled={loading}
+                    className={`px-3 py-2 rounded-lg transition-colors border ${
+                      currentPage === pageNum
+                        ? 'bg-primary-600 border-primary-500 text-white'
+                        : 'bg-gray-800 hover:bg-gray-700 border-gray-600 text-white disabled:cursor-not-allowed'
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={() => {
+                const newPage = currentPage + 1;
+                setCurrentPage(newPage);
+                fetchApps(newPage);
+              }}
+              disabled={currentPage === pagination.totalPages || loading}
+              className="px-3 py-2 bg-gray-800 hover:bg-gray-700 disabled:bg-gray-900 disabled:cursor-not-allowed text-white rounded-lg transition-colors border border-gray-600"
+            >
+              Next
+            </button>
+          </div>
         </div>
       )}
 

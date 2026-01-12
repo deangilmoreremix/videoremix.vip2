@@ -56,7 +56,7 @@ for func in "${FUNCTIONS[@]}"; do
   echo "Deploying: $func"
   echo "================================================"
 
-  if npx supabase functions deploy "$func" --project-ref gadedbrnqzpfqtsdfzcg; then
+  if npx supabase functions deploy "$func" --project-ref mohueeozazjxyzmikdbs; then
     echo "✅ $func deployed successfully"
     ((SUCCESS_COUNT++))
   else
