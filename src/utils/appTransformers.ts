@@ -28,6 +28,7 @@ export interface ComponentApp {
   category: string;
   iconName: string;
   image: string;
+  isActive: boolean;
   popular?: boolean;
   new?: boolean;
   comingSoon?: boolean;
@@ -65,6 +66,7 @@ export const transformApp = (dbApp: DatabaseApp): ComponentApp => {
     category: dbApp.category,
     iconName: getIconNameForApp(dbApp),
     image: dbApp.image || 'https://images.unsplash.com/photo-1616469829941-c7200edec809?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    isActive: dbApp.is_active,
     popular: dbApp.popular || dbApp.is_featured,
     new: dbApp.new || false,
     comingSoon: dbApp.coming_soon || false,

@@ -76,7 +76,6 @@ export const useApps = () => {
       const { data, error: supabaseError } = await supabase
         .from('apps')
         .select('*')
-        .eq('is_active', true)
         .order('sort_order', { ascending: true });
 
       if (supabaseError) {
