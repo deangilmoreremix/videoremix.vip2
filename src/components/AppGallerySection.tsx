@@ -24,7 +24,7 @@ import MagicSparkles from './MagicSparkles';
 import { useInView } from 'react-intersection-observer';
 import { useApps } from '../hooks/useApps';
 import { useAuth } from '../context/AuthContext';
-import usePurchases from '../hooks/usePurchases';
+import { useUserAccess } from '../hooks/useUserAccess';
 import AppDetailModal from './AppDetailModal';
 import LazyIcon from './LazyIcon';
 
@@ -90,7 +90,7 @@ const personalizationBenefits = [
 const AppGallerySection: React.FC = () => {
   const { apps: appsData, loading: appsLoading, error: appsError } = useApps();
   const { user } = useAuth();
-  const { hasPurchased, loading: purchasesLoading } = usePurchases();
+  const { hasAccessToApp, loading: accessLoading } = useUserAccess();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredApps, setFilteredApps] = useState(appsData);
@@ -150,7 +150,7 @@ const AppGallerySection: React.FC = () => {
   }, [selectedCategory, searchQuery, sortOrder, appsData]);
 
   // Show loading state
-  if (appsLoading || purchasesLoading) {
+  if (appsLoading || accessLoading) {
     return (
       <section id="tools" className="py-20 bg-black relative overflow-hidden">
         <div className="container mx-auto px-4">
@@ -373,7 +373,7 @@ const AppGallerySection: React.FC = () => {
                   <div className="flex space-x-2">
                     {user && (
                       <>
-                        {hasPurchased(app.id) && app.isActive ? (
+                        {hasAccessToApp(app.id) && app.isActive ? (
                           <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
                             <Check className="h-3 w-3" /> OWNED
                           </span>
@@ -402,7 +402,7 @@ const AppGallerySection: React.FC = () => {
                   <img
                     src={imageErrors[app.id] ? getFallbackImage(app.id, imageErrors[app.id]) : app.image}
                     alt={app.name}
-                    className={`w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out ${user && !hasPurchased(app.id) ? 'grayscale opacity-60' : ''}`}
+                    className={`w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out ${user && !hasAccessToApp(app.id) ? 'grayscale opacity-60' : ''}`}
                     onError={() => handleImageError(app.id)}
                   />
                   
@@ -411,7 +411,7 @@ const AppGallerySection: React.FC = () => {
                 </div>
                 
                 {/* Lock overlay for unpurchased apps */}
-                {user && !hasPurchased(app.id) && (
+                {user && !hasAccessToApp(app.id) && (
                   <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
                     <div className="text-center">
                       <Lock className="h-8 w-8 text-white mx-auto mb-2" />
@@ -421,7 +421,7 @@ const AppGallerySection: React.FC = () => {
                 )}
 
                 {/* Hover overlay with action button */}
-                <div className={`absolute inset-0 bg-primary-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center ${user && !hasPurchased(app.id) ? 'pointer-events-none' : ''}`}>
+                <div className={`absolute inset-0 bg-primary-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center ${user && !hasAccessToApp(app.id) ? 'pointer-events-none' : ''}`}>
                   {app.url && shouldOpenInNewTab(app.url) ? (
                     <motion.a
                       href={app.url}
@@ -602,7 +602,7 @@ const AppGallerySection: React.FC = () => {
                       <div className="absolute top-3 right-3 flex flex-col space-y-1 items-end">
                         {user && (
                           <>
-                            {hasPurchased(app.id) && app.isActive ? (
+                            {hasAccessToApp(app.id) && app.isActive ? (
                               <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
                                 <Check className="h-3 w-3" /> OWNED
                               </span>
@@ -690,7 +690,7 @@ const AppGallerySection: React.FC = () => {
                           viewMode === 'grid'
                           ? "w-full h-full"
                           : "w-32 h-full"
-                        } ${user && !hasPurchased(app.id) ? 'grayscale opacity-60' : ''}`}
+                        } ${user && !hasAccessToApp(app.id) ? 'grayscale opacity-60' : ''}`}
                         onError={() => handleImageError(app.id)}
                       />
                       
@@ -703,7 +703,7 @@ const AppGallerySection: React.FC = () => {
                       <div className="absolute top-2 right-2">
                         {user && (
                           <>
-                            {hasPurchased(app.id) && app.isActive ? (
+                            {hasAccessToApp(app.id) && app.isActive ? (
                               <div className="bg-green-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
                                 <Check className="h-3 w-3" /> OWNED
                               </div>
@@ -753,7 +753,7 @@ const AppGallerySection: React.FC = () => {
                     </div>
                     
                     {/* Lock overlay for unpurchased apps */}
-                    {user && !hasPurchased(app.id) && viewMode === 'grid' && (
+                    {user && !hasAccessToApp(app.id) && viewMode === 'grid' && (
                       <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10 rounded-xl">
                         <div className="text-center">
                           <Lock className="h-8 w-8 text-white mx-auto mb-2" />
@@ -764,7 +764,7 @@ const AppGallerySection: React.FC = () => {
 
                     {/* Hover effect for grid view */}
                     {viewMode === 'grid' && (
-                      <div className={`absolute inset-0 bg-primary-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center ${user && !hasPurchased(app.id) ? 'pointer-events-none' : ''}`}>
+                      <div className={`absolute inset-0 bg-primary-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center ${user && !hasAccessToApp(app.id) ? 'pointer-events-none' : ''}`}>
                         <a
                           href={appUrl}
                           className="bg-white text-gray-900 font-bold py-2 px-6 rounded-lg flex items-center"

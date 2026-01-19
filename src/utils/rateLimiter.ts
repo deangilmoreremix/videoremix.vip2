@@ -1,6 +1,8 @@
 // Simple in-memory rate limiter for Edge Functions
 // In production, consider using Redis or a more robust solution
 
+import { appConfig } from '../config/appConfig';
+
 interface RateLimitEntry {
   count: number;
   resetTime: number;
@@ -8,25 +10,38 @@ interface RateLimitEntry {
 
 class RateLimiter {
   private limits: Map<string, RateLimitEntry> = new Map();
-  private cleanupInterval: any;
+  private cleanupInterval: NodeJS.Timeout | null = null;
 
   constructor(
-    private windowMs: number = 15 * 60 * 1000, // 15 minutes
-    private maxRequests: number = 100 // requests per window
+    private windowMs: number = appConfig.RATE_LIMIT.WINDOW_MS,
+    private maxRequests: number = appConfig.RATE_LIMIT.MAX_REQUESTS
   ) {
-    // Clean up expired entries every 5 minutes
+    // Clean up expired entries
     this.cleanupInterval = setInterval(() => {
       this.cleanup();
-    }, 5 * 60 * 1000);
+    }, appConfig.RATE_LIMIT.CLEANUP_INTERVAL_MS);
   }
 
   private cleanup(): void {
     const now = Date.now();
+    let cleaned = 0;
     for (const [key, entry] of this.limits.entries()) {
       if (now > entry.resetTime) {
         this.limits.delete(key);
+        cleaned++;
       }
     }
+    if (cleaned > 0) {
+      console.debug(`RateLimiter: Cleaned up ${cleaned} expired entries`);
+    }
+  }
+
+  // Get current stats for monitoring
+  getStats(): { totalEntries: number; nextCleanup: number } {
+    return {
+      totalEntries: this.limits.size,
+      nextCleanup: Date.now() + appConfig.RATE_LIMIT.CLEANUP_INTERVAL_MS
+    };
   }
 
   private getKey(identifier: string, action: string = 'default'): string {
@@ -44,6 +59,7 @@ class RateLimiter {
         count: 1,
         resetTime: now + this.windowMs
       });
+      console.debug(`RateLimiter: New window for ${key}`);
       return {
         allowed: true,
         remaining: this.maxRequests - 1,
@@ -52,6 +68,7 @@ class RateLimiter {
     }
 
     if (entry.count >= this.maxRequests) {
+      console.warn(`RateLimiter: Rate limit exceeded for ${key}, remaining: ${Math.ceil((entry.resetTime - now) / 1000)}s`);
       return {
         allowed: false,
         remaining: 0,
@@ -67,17 +84,27 @@ class RateLimiter {
     };
   }
 
+  // Reset limits for a specific identifier (useful for testing/admin)
+  resetLimit(identifier: string, action: string = 'default'): void {
+    const key = this.getKey(identifier, action);
+    this.limits.delete(key);
+    console.debug(`RateLimiter: Reset limit for ${key}`);
+  }
+
+  // Cleanup method to prevent memory leaks
+  destroy(): void {
+    if (this.cleanupInterval) {
+      clearInterval(this.cleanupInterval);
+      this.cleanupInterval = null;
+    }
+  }
+
   // Special rate limits for different actions
   checkAdminLimit(userId: string, action: string = 'default'): { allowed: boolean; remaining: number; resetTime: number } {
     // Stricter limits for admin actions
-    const limits = {
-      'read': { windowMs: 5 * 60 * 1000, maxRequests: 200 }, // 200 reads per 5 minutes
-      'write': { windowMs: 15 * 60 * 1000, maxRequests: 50 }, // 50 writes per 15 minutes
-      'delete': { windowMs: 60 * 60 * 1000, maxRequests: 10 }, // 10 deletes per hour
-      'default': { windowMs: 15 * 60 * 1000, maxRequests: 100 }
-    };
+    const limits = appConfig.ADMIN_RATE_LIMIT;
 
-    const limit = limits[action as keyof typeof limits] || limits.default;
+    const limit = limits[action.toUpperCase() as keyof typeof limits] || limits.DEFAULT;
     const key = `admin:${userId}:${action}`;
 
     const now = Date.now();
@@ -86,16 +113,16 @@ class RateLimiter {
     if (!entry || now > entry.resetTime) {
       this.limits.set(key, {
         count: 1,
-        resetTime: now + limit.windowMs
+        resetTime: now + limit.WINDOW_MS
       });
       return {
         allowed: true,
-        remaining: limit.maxRequests - 1,
-        resetTime: now + limit.windowMs
+        remaining: limit.MAX_REQUESTS - 1,
+        resetTime: now + limit.WINDOW_MS
       };
     }
 
-    if (entry.count >= limit.maxRequests) {
+    if (entry.count >= limit.MAX_REQUESTS) {
       return {
         allowed: false,
         remaining: 0,
@@ -106,7 +133,7 @@ class RateLimiter {
     entry.count++;
     return {
       allowed: true,
-      remaining: limit.maxRequests - entry.count,
+      remaining: limit.MAX_REQUESTS - entry.count,
       resetTime: entry.resetTime
     };
   }

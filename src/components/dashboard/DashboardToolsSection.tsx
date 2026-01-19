@@ -110,10 +110,8 @@ const DashboardToolsSection: React.FC = () => {
 
     let result = [...appsData];
 
-    // For logged-in users, only show purchased apps
-    if (user) {
-      result = result.filter(app => hasAccessToApp(app.id));
-    }
+    // Always filter by access - non-logged-in users should see no apps
+    result = result.filter(app => hasAccessToApp(app.id));
     
     // Apply category filter
     if (selectedCategory !== 'all') {

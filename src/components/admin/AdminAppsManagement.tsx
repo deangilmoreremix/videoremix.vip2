@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { Settings, Plus, Edit, Trash2, ToggleLeft, ToggleRight, Eye, EyeOff, ChevronDown, AlertTriangle, X, CheckCircle, ExternalLink, Copy, Globe } from 'lucide-react';
 import { supabase } from '../../utils/supabaseClient';
+import { appConfig } from '../../config/appConfig';
 
 interface App {
   id: string;
@@ -36,7 +37,7 @@ const AdminAppsManagement: React.FC = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(12); // Show 12 apps per page (4x3 grid)
+  const itemsPerPage = appConfig.UI.ITEMS_PER_PAGE; // Show apps per page (4x3 grid)
   const [pagination, setPagination] = useState<PaginationInfo | null>(null);
 
   // Enhanced state for UX

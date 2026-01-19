@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Star, Users, Check, Lock, ExternalLink, Play, Award, TrendingUp, Target, Zap, ArrowRight, ShoppingCart } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import usePurchases from '../hooks/usePurchases';
+import { useUserAccess } from '../hooks/useUserAccess';
 import { getEnhancedAppData } from '../data/enhancedAppsData';
 import PurchaseModal from './PurchaseModal';
 
@@ -14,13 +14,13 @@ interface AppDetailModalProps {
 
 const AppDetailModal: React.FC<AppDetailModalProps> = ({ app, isOpen, onClose }) => {
   const { user } = useAuth();
-  const { hasPurchased } = usePurchases();
+  const { hasAccessToApp } = useUserAccess();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'features' | 'use-cases' | 'testimonials'>('overview');
 
   // Get enhanced app data
   const enhancedApp = getEnhancedAppData(app.id, app);
-  const isOwned = user && hasPurchased(app.id);
+  const isOwned = user && hasAccessToApp(app.id);
 
   // Handle escape key
   useEffect(() => {
