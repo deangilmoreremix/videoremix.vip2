@@ -79,7 +79,7 @@ const getAppUrl = (appId: string, apps: any[] = []) => {
 
 const DashboardToolsSection: React.FC = () => {
   const { user } = useAuth();
-  const { hasAccessToApp, accessData, isLoading: accessLoading } = useUserAccess();
+  const { hasAccessToApp, accessData, loading: accessLoading } = useUserAccess();
   const { apps: appsData, loading: appsLoading } = useApps();
 
   const purchasedApps = accessData?.apps.map(app => app.appSlug) || [];
@@ -110,8 +110,14 @@ const DashboardToolsSection: React.FC = () => {
 
     let result = [...appsData];
 
-    // Always filter by access - non-logged-in users should see no apps
-    result = result.filter(app => hasAccessToApp(app.id));
+    // Progressive disclosure: show public apps to everyone, private apps only to authorized users
+    result = result.filter(app => {
+      // Public apps are visible to everyone
+      if (app.isPublic) return true;
+
+      // Private apps only visible to logged-in users with access
+      return user && hasAccessToApp(app.id);
+    });
     
     // Apply category filter
     if (selectedCategory !== 'all') {

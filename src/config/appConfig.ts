@@ -1,6 +1,11 @@
 // Centralized application configuration
 // All hardcoded values should be moved here for better maintainability
 
+/**
+ * Centralized application configuration
+ * Contains all configurable values for the videoremix.vip2 application
+ * @constant
+ */
 export const appConfig = {
   // Rate limiting
   RATE_LIMIT: {

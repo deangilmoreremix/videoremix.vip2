@@ -15,6 +15,7 @@ interface App {
   custom_domain: string | null;
   is_active: boolean;
   is_featured: boolean;
+  is_public: boolean;
   sort_order: number;
   created_at: string;
   updated_at: string;
@@ -172,6 +173,46 @@ const AdminAppsManagement: React.FC = () => {
       setOperationLoading(prev => ({ ...prev, [appId]: false }));
     }
   }, [clearMessages, addNotification]);
+
+  const togglePublicVisibility = useCallback(async (appId: string, currentStatus: boolean) => {
+    setOperationLoading(prev => ({ ...prev, [appId]: true }));
+
+    try {
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+      if (sessionError || !session) {
+        setError('Authentication required. Please log in again.');
+        return;
+      }
+
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-apps/${appId}/toggle-public`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        setAllApps(prevApps => prevApps.map(app =>
+          app.id === appId ? { ...app, is_public: !currentStatus } : app
+        ));
+        addNotification('success', `App ${currentStatus ? 'made private' : 'made public'} successfully`);
+      } else {
+        setError(data.error || 'Failed to toggle public visibility');
+      }
+    } catch (error) {
+      console.error('Error toggling public visibility:', error);
+      setError('Failed to toggle public visibility. Please try again.');
+    } finally {
+      setOperationLoading(prev => ({ ...prev, [appId]: false }));
+    }
+  }, [addNotification]);
 
   const deleteApp = useCallback(async (appId: string) => {
     clearMessages();
@@ -435,6 +476,11 @@ const AdminAppsManagement: React.FC = () => {
                   Featured
                 </span>
               )}
+              {app.is_public && (
+                <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">
+                  Public
+                </span>
+              )}
               <span className="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">
                 Order: {app.sort_order}
               </span>
@@ -459,25 +505,48 @@ const AdminAppsManagement: React.FC = () => {
                 </button>
               </div>
 
-              {/* Toggle Switch */}
-              <button
-                onClick={() => toggleApp(app.id, app.is_active)}
-                disabled={toggling === app.id}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
-                  app.is_active ? 'bg-green-600' : 'bg-gray-600'
-                } ${toggling === app.id ? 'opacity-50 cursor-not-allowed' : ''}`}
-              >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    app.is_active ? 'translate-x-6' : 'translate-x-1'
-                  }`}
-                />
-                {toggling === app.id && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-3 h-3 border-t border-white border-solid rounded-full animate-spin"></div>
-                  </div>
-                )}
-              </button>
+              {/* Controls */}
+              <div className="flex items-center space-x-3">
+                {/* Public Visibility Toggle */}
+                <div className="flex items-center space-x-2">
+                  <Eye className="h-4 w-4 text-gray-400" />
+                  <button
+                    onClick={() => togglePublicVisibility(app.id, app.is_public)}
+                    disabled={operationLoading[app.id]}
+                    className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
+                      app.is_public ? 'bg-blue-600' : 'bg-gray-600'
+                    } ${operationLoading[app.id] ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    title={app.is_public ? 'Make private' : 'Make public'}
+                  >
+                    <span
+                      className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${
+                        app.is_public ? 'translate-x-5' : 'translate-x-1'
+                      }`}
+                    />
+                  </button>
+                </div>
+
+                {/* Active Status Toggle */}
+                <button
+                  onClick={() => toggleApp(app.id, app.is_active)}
+                  disabled={toggling === app.id}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
+                    app.is_active ? 'bg-green-600' : 'bg-gray-600'
+                  } ${toggling === app.id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  title={app.is_active ? 'Deactivate app' : 'Activate app'}
+                >
+                  <span
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                      app.is_active ? 'translate-x-6' : 'translate-x-1'
+                    }`}
+                  />
+                  {toggling === app.id && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-3 h-3 border-t border-white border-solid rounded-full animate-spin"></div>
+                    </div>
+                  )}
+                </button>
+              </div>
             </div>
           </motion.div>
         ))}

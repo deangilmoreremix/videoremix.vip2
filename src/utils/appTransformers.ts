@@ -12,6 +12,7 @@ export interface DatabaseApp {
   custom_domain?: string;
   is_active: boolean;
   is_featured: boolean;
+  is_public: boolean;
   popular?: boolean;
   new?: boolean;
   coming_soon?: boolean;
@@ -29,6 +30,7 @@ export interface ComponentApp {
   iconName: string;
   image: string;
   isActive: boolean;
+  isPublic: boolean;
   popular?: boolean;
   new?: boolean;
   comingSoon?: boolean;
@@ -67,6 +69,7 @@ export const transformApp = (dbApp: DatabaseApp): ComponentApp => {
     iconName: getIconNameForApp(dbApp),
     image: dbApp.image || 'https://images.unsplash.com/photo-1616469829941-c7200edec809?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     isActive: dbApp.is_active,
+    isPublic: dbApp.is_public,
     popular: dbApp.popular || dbApp.is_featured,
     new: dbApp.new || false,
     comingSoon: dbApp.coming_soon || false,
