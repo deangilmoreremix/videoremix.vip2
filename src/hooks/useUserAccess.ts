@@ -3,7 +3,16 @@ import { supabase } from '../utils/supabaseClient';
 import { purchaseService, UserAppAccess, Purchase } from '../services/purchaseService';
 import { appConfig } from '../config/appConfig';
 
-// Utility function for retry logic with exponential backoff
+/**
+ * Utility function for retry logic with exponential backoff
+ * Automatically retries failed operations with increasing delays
+ * @template T - The return type of the function to retry
+ * @param fn - The function to retry
+ * @param maxRetries - Maximum number of retry attempts (default: 3)
+ * @param baseDelay - Base delay in milliseconds for exponential backoff (default: 1000)
+ * @returns Promise that resolves with the function result or rejects after all retries
+ * @throws The last error encountered if all retries fail
+ */
 const retryWithBackoff = async <T>(
   fn: () => Promise<T>,
   maxRetries: number = appConfig.UI.MAX_RETRY_ATTEMPTS,
@@ -18,7 +27,7 @@ const retryWithBackoff = async <T>(
       lastError = error;
 
       if (attempt === maxRetries) {
-        throw error;
+        throw lastError;
       }
 
       // Exponential backoff: baseDelay * 2^attempt
