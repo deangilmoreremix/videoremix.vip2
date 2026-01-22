@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Navigate } from 'react-router-dom';
 import { Shield, Settings, Users, BarChart3, ToggleLeft, ToggleRight, AlertTriangle, Clock, ShoppingCart, Upload, Calendar, Video, FileUp, Link2, History, TrendingUp } from 'lucide-react';
 import { useAdmin } from '../context/AdminContext';
+import { redisCache, cacheKeys, CACHE_TTL } from '../utils/redisCache';
 import AdminAppsManagement from '../components/admin/AdminAppsManagement';
 import AdminFeaturesManagement from '../components/admin/AdminFeaturesManagement';
 import AdminUsersManagement from '../components/admin/AdminUsersManagement';
@@ -124,10 +125,23 @@ const useDashboardData = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchStats = useCallback(async () => {
+  const fetchStats = useCallback(async (forceRefresh: boolean = false) => {
     try {
       setLoading(true);
       setError(null);
+
+      const cacheKey = cacheKeys.dashboardStats();
+
+      // Try to get from cache first (unless force refresh)
+      if (!forceRefresh) {
+        const cachedStats = await redisCache.get<DashboardStats>(cacheKey);
+        if (cachedStats) {
+          console.log('Dashboard stats loaded from cache');
+          setStats(cachedStats);
+          setLoading(false);
+          return;
+        }
+      }
 
       const token = localStorage.getItem('admin_token');
       if (!token) {
@@ -149,6 +163,9 @@ const useDashboardData = () => {
       const data = await response.json();
       if (data.success) {
         setStats(data.data);
+        // Cache the successful response
+        await redisCache.set(cacheKey, data.data, CACHE_TTL.DASHBOARD_STATS);
+        console.log('Dashboard stats cached successfully');
       } else {
         throw new Error(data.error || 'Failed to load statistics');
       }
@@ -165,12 +182,18 @@ const useDashboardData = () => {
     fetchStats();
   }, [fetchStats]);
 
-  return { stats, loading, error, refetch: fetchStats };
+  return {
+    stats,
+    loading,
+    error,
+    refetch: fetchStats,
+    refresh: () => fetchStats(true)
+  };
 };
 
 // Memoized Stats Cards Component
 const StatsCards = memo(() => {
-  const { stats, loading, error } = useDashboardData();
+  const { stats, loading, error, refresh } = useDashboardData();
 
   if (loading) {
     return <StatsSkeleton />;
@@ -199,8 +222,25 @@ const StatsCards = memo(() => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: ANIMATION_DURATIONS.NORMAL, delay: ANIMATION_DELAYS.STAGGER_2 }}
-      className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+      className="mb-8"
     >
+      {/* Stats Header with Refresh Button */}
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold text-white">Dashboard Overview</h2>
+        <button
+          onClick={refresh}
+          disabled={loading}
+          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:opacity-50 text-white px-4 py-2 rounded-lg transition-colors"
+        >
+          <svg className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          {loading ? 'Refreshing...' : 'Refresh Stats'}
+        </button>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div className="bg-gray-800/70 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-gray-600 transition-colors">
         <div className="flex items-center mb-4">
           <Settings className="h-6 w-6 text-primary-400 mr-3" />
@@ -231,6 +271,7 @@ const StatsCards = memo(() => {
         <div className="text-3xl font-bold text-blue-400">{stats.users.count.toLocaleString()}</div>
         <div className="text-sm text-gray-400">{stats.users.growth}</div>
       </div>
+      </div>
     </motion.div>
   );
 });
@@ -238,26 +279,29 @@ const StatsCards = memo(() => {
 StatsCards.displayName = 'StatsCards';
 
 const AdminDashboard: React.FC = () => {
-  const { user, isAuthenticated, isLoading, logout } = useAdmin();
+  const { user, isAuthenticated, isLoading, logout, sessionExpiry } = useAdmin();
   const [activeTab, setActiveTab] = useState<TabConfig['id']>('analytics');
   const [showTimeoutWarning, setShowTimeoutWarning] = useState(false);
   const [announcements, setAnnouncements] = useState<string>('');
 
-  // Session timeout warning (placeholder - would need backend support)
-  // useEffect(() => {
-  //   if (user?.sessionExpiry) {
-  //     const timeUntilExpiry = user.sessionExpiry.getTime() - Date.now();
-  //     const warningTime = timeUntilExpiry - (5 * 60 * 1000); // 5 minutes before
-  //
-  //     if (warningTime > 0) {
-  //       const warningTimeout = setTimeout(() => {
-  //         setShowTimeoutWarning(true);
-  //       }, warningTime);
-  //
-  //       return () => clearTimeout(warningTimeout);
-  //     }
-  //   }
-  // }, [user?.sessionExpiry]);
+  // Session timeout warning
+  useEffect(() => {
+    if (sessionExpiry) {
+      const timeUntilExpiry = sessionExpiry.getTime() - Date.now();
+      const warningTime = timeUntilExpiry - (5 * 60 * 1000); // 5 minutes before
+
+      if (warningTime > 0) {
+        const warningTimeout = setTimeout(() => {
+          setShowTimeoutWarning(true);
+        }, warningTime);
+
+        return () => clearTimeout(warningTimeout);
+      } else if (timeUntilExpiry <= 0) {
+        // Session already expired
+        logout();
+      }
+    }
+  }, [sessionExpiry, logout]);
 
   // Keyboard navigation
   useEffect(() => {
