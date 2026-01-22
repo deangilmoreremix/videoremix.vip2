@@ -19,6 +19,7 @@ interface AdminContextType {
   signup: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
   verifyAuth: () => Promise<void>;
+  sessionExpiry?: Date;
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
@@ -38,9 +39,11 @@ interface AdminProviderProps {
 export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
   const [user, setUser] = useState<AdminUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [sessionExpiry, setSessionExpiry] = useState<Date | undefined>();
   const isVerifyingRef = React.useRef(false);
   const lastVerificationRef = React.useRef<number>(0);
   const VERIFICATION_COOLDOWN = 2000;
+  const SESSION_TIMEOUT_MS = 8 * 60 * 60 * 1000; // 8 hours
 
   const login = useCallback(async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
     try {
@@ -85,8 +88,13 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
         last_login: new Date().toISOString(),
       };
 
+      // Set session expiry
+      const expiry = new Date(Date.now() + SESSION_TIMEOUT_MS);
+      setSessionExpiry(expiry);
+
       console.log('AdminContext - Login successful, setting user:', adminUser);
       console.log('AdminContext - Session exists:', !!authData.session);
+      console.log('AdminContext - Session expires:', expiry.toISOString());
       setUser(adminUser);
 
       // Verify session was persisted
@@ -137,6 +145,7 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
       console.error('Logout error:', error);
     } finally {
       setUser(null);
+      setSessionExpiry(undefined);
     }
   }, []);
 
@@ -223,12 +232,33 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
     }
   }, []);
 
+  // Session timeout checker
+  useEffect(() => {
+    if (!sessionExpiry || !user) return;
+
+    const checkSessionTimeout = () => {
+      if (new Date() > sessionExpiry) {
+        console.log('AdminContext - Session expired, logging out');
+        logout();
+      }
+    };
+
+    // Check immediately
+    checkSessionTimeout();
+
+    // Set up interval to check every minute
+    const interval = setInterval(checkSessionTimeout, 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, [sessionExpiry, user, logout]);
+
   useEffect(() => {
     verifyAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') {
         setUser(null);
+        setSessionExpiry(undefined);
         setIsLoading(false);
       } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         verifyAuth();
@@ -248,7 +278,8 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
     signup,
     logout,
     verifyAuth,
-  }), [user, isLoading, login, signup, logout, verifyAuth]);
+    sessionExpiry,
+  }), [user, isLoading, login, signup, logout, verifyAuth, sessionExpiry]);
 
   return (
     <AdminContext.Provider value={value}>
