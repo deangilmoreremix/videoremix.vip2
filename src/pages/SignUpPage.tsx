@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, AlertCircle, Sparkles, Video, ArrowLeft, CheckCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { supabase } from '../utils/supabaseClient';
 import MagicSparkles from '../components/MagicSparkles';
 import SparkleEffect from '../components/SparkleEffect';
 
@@ -56,6 +57,25 @@ const SignUpPage: React.FC = () => {
       if (error) {
         setError(error.message);
       } else {
+        // Grant profile completion achievement for new users
+        if (user) {
+          try {
+            await supabase
+              .from('user_achievements')
+              .insert({
+                user_id: user.id,
+                achievement_type: 'profile_completed',
+                metadata: {
+                  completed_via: 'signup',
+                  first_name: formData.firstName,
+                  last_name: formData.lastName
+                }
+              });
+          } catch (achievementError) {
+            // Don't fail signup if achievement granting fails
+            console.warn('Failed to grant profile completion achievement:', achievementError);
+          }
+        }
         if (user && user.identities && user.identities.length === 0) {
           setEmailConfirmRequired(true);
           setSuccess('Account created! Please check your email to confirm your address.');
