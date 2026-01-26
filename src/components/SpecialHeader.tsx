@@ -3,6 +3,7 @@ import { Video, ChevronDown, ArrowRight, Sparkles, User, LogOut } from 'lucide-r
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { toast } from './ui/toast';
 import GlobalSearch from './GlobalSearch';
 
 interface SpecialHeaderProps {
@@ -14,6 +15,7 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [signingOut, setSigningOut] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -182,14 +184,33 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                       Profile Settings
                     </Link>
                     <button
-                      onClick={() => {
-                        signOut();
-                        closeDropdowns();
+                      onClick={async () => {
+                        if (signingOut) return; // Prevent multiple clicks
+                        setSigningOut(true);
+                        try {
+                          const { error } = await signOut();
+                          if (error) {
+                            toast({
+                              title: 'Sign Out Failed',
+                              description: error.message,
+                              variant: 'destructive'
+                            });
+                          } else {
+                            closeDropdowns();
+                          }
+                        } finally {
+                          setSigningOut(false);
+                        }
                       }}
-                      className="w-full text-left px-4 py-2 text-white hover:bg-gray-800 transition-colors flex items-center"
+                      disabled={signingOut}
+                      className="w-full text-left px-4 py-2 text-white hover:bg-gray-800 transition-colors flex items-center disabled:opacity-50"
                     >
-                      <LogOut className="h-4 w-4 mr-2" />
-                      Sign Out
+                      {signingOut ? (
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      ) : (
+                        <LogOut className="h-4 w-4 mr-2" />
+                      )}
+                      {signingOut ? 'Signing Out...' : 'Sign Out'}
                     </button>
                   </div>
                 </div>
@@ -309,14 +330,33 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                     Profile Settings
                   </Link>
                   <button
-                    onClick={() => {
-                      signOut();
-                      setMobileMenuOpen(false);
+                    onClick={async () => {
+                      if (signingOut) return; // Prevent multiple clicks
+                      setSigningOut(true);
+                      try {
+                        const { error } = await signOut();
+                        if (error) {
+                          toast({
+                            title: 'Sign Out Failed',
+                            description: error.message,
+                            variant: 'destructive'
+                          });
+                        } else {
+                          setMobileMenuOpen(false);
+                        }
+                      } finally {
+                        setSigningOut(false);
+                      }
                     }}
-                    className="w-full text-left text-white hover:bg-gray-800 px-3 py-2 rounded-md flex items-center"
+                    disabled={signingOut}
+                    className="w-full text-left text-white hover:bg-gray-800 px-3 py-2 rounded-md flex items-center disabled:opacity-50"
                   >
-                    <LogOut className="h-4 w-4 mr-2" />
-                    Sign Out
+                    {signingOut ? (
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    ) : (
+                      <LogOut className="h-4 w-4 mr-2" />
+                    )}
+                    {signingOut ? 'Signing Out...' : 'Sign Out'}
                   </button>
                 </div>
               ) : (
