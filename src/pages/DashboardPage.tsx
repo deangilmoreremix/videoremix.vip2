@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { User, Settings, Bell, LogOut, Zap, Video, Award, Sun, Moon, Menu, Home } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { toast } from '../components/ui/toast';
 import { useUserStats } from '../hooks/useUserStats';
 import { useDashboardPreferences } from '../hooks/useDashboardPreferences';
 import { useAchievements } from '../hooks/useAchievements';
@@ -22,6 +23,7 @@ const DashboardPage: React.FC = () => {
   const { achievements, getRecentAchievements } = useAchievements();
   const [greeting, setGreeting] = useState('');
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -114,11 +116,31 @@ const DashboardPage: React.FC = () => {
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      onClick={() => signOut()}
-                      className="hidden md:flex bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg items-center gap-2 transition-colors"
+                      onClick={async () => {
+                        if (signingOut) return; // Prevent multiple clicks
+                        setSigningOut(true);
+                        try {
+                          const { error } = await signOut();
+                          if (error) {
+                            toast({
+                              title: 'Sign Out Failed',
+                              description: error.message,
+                              variant: 'destructive'
+                            });
+                          }
+                        } finally {
+                          setSigningOut(false);
+                        }
+                      }}
+                      disabled={signingOut}
+                      className="hidden md:flex bg-red-600 hover:bg-red-700 disabled:bg-red-800 disabled:opacity-50 text-white px-4 py-2 rounded-lg items-center gap-2 transition-colors"
                     >
-                      <LogOut className="h-5 w-5" />
-                      <span>Sign Out</span>
+                      {signingOut ? (
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                      ) : (
+                        <LogOut className="h-5 w-5" />
+                      )}
+                      <span>{signingOut ? 'Signing Out...' : 'Sign Out'}</span>
                     </motion.button>
                   </div>
                 </div>
