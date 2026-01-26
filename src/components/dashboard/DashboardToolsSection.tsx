@@ -343,17 +343,22 @@ const DashboardToolsSection: React.FC = () => {
                 <Sparkles className="h-10 w-10 text-primary-400" />
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">
-                Welcome to Your Dashboard
+                Welcome to VideoRemix.vip! 🎉
               </h3>
-              <p className="text-gray-300 mb-8">
-                You don't have any apps yet. Browse our collection of 50+ personalization tools and unlock the power of personalized content.
+              <p className="text-gray-300 mb-6">
+                You've taken the first step toward creating highly personalized content that converts. Browse our collection of 50+ AI-powered personalization tools and see how they can transform your marketing.
               </p>
+              <div className="bg-primary-900/20 border border-primary-500/30 rounded-lg p-4 mb-8">
+                <p className="text-primary-200 text-sm">
+                  💡 <strong>Pro tip:</strong> Personalization can increase engagement by up to 47% and boost conversions by 3.5x
+                </p>
+              </div>
               <Link
                 to="/tools"
-                className="inline-flex items-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg shadow-primary-600/20"
+                className="inline-flex items-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg shadow-primary-600/20 transition-all duration-200 hover:shadow-xl hover:shadow-primary-600/30"
               >
                 <ShoppingCart className="mr-2 h-5 w-5" />
-                Browse All Tools
+                Explore Personalization Tools
               </Link>
             </div>
           </motion.div>
