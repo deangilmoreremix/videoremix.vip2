@@ -1,6 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Clock, CheckCircle, XCircle, AlertCircle, Eye, Download, RefreshCw } from 'lucide-react';
-import { supabase } from '../../utils/supabaseClient';
+import React, { useState, useEffect } from "react";
+import {
+  Clock,
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+  Eye,
+  Download,
+  RefreshCw,
+} from "lucide-react";
+import { supabase } from "../../utils/supabaseClient";
 
 interface CSVImport {
   id: string;
@@ -35,14 +43,14 @@ const AdminImportHistory: React.FC = () => {
     setIsLoading(true);
     try {
       const { data, error } = await supabase
-        .from('csv_imports')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .from("csv_imports")
+        .select("*")
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       if (data) setImports(data);
     } catch (error) {
-      console.error('Error loading imports:', error);
+      console.error("Error loading imports:", error);
     } finally {
       setIsLoading(false);
     }
@@ -50,11 +58,11 @@ const AdminImportHistory: React.FC = () => {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'completed':
+      case "completed":
         return <CheckCircle className="h-5 w-5 text-green-400" />;
-      case 'failed':
+      case "failed":
         return <XCircle className="h-5 w-5 text-red-400" />;
-      case 'processing':
+      case "processing":
         return <RefreshCw className="h-5 w-5 text-blue-400 animate-spin" />;
       default:
         return <Clock className="h-5 w-5 text-yellow-400" />;
@@ -63,11 +71,11 @@ const AdminImportHistory: React.FC = () => {
 
   const getStatusBadge = (status: string) => {
     const badges = {
-      completed: 'bg-green-500/20 text-green-400',
-      failed: 'bg-red-500/20 text-red-400',
-      processing: 'bg-blue-500/20 text-blue-400',
-      pending: 'bg-yellow-500/20 text-yellow-400',
-      cancelled: 'bg-gray-500/20 text-gray-400',
+      completed: "bg-green-500/20 text-green-400",
+      failed: "bg-red-500/20 text-red-400",
+      processing: "bg-blue-500/20 text-blue-400",
+      pending: "bg-yellow-500/20 text-yellow-400",
+      cancelled: "bg-gray-500/20 text-gray-400",
     };
 
     return badges[status as keyof typeof badges] || badges.pending;
@@ -78,7 +86,7 @@ const AdminImportHistory: React.FC = () => {
   };
 
   const calculateDuration = (startDate: string, endDate: string | null) => {
-    if (!endDate) return '-';
+    if (!endDate) return "-";
     const start = new Date(startDate).getTime();
     const end = new Date(endDate).getTime();
     const seconds = Math.floor((end - start) / 1000);
@@ -128,19 +136,19 @@ const AdminImportHistory: React.FC = () => {
         <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
           <p className="text-sm text-gray-400">Completed</p>
           <p className="text-2xl font-bold text-green-400 mt-1">
-            {imports.filter(i => i.status === 'completed').length}
+            {imports.filter((i) => i.status === "completed").length}
           </p>
         </div>
         <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
           <p className="text-sm text-gray-400">Failed</p>
           <p className="text-2xl font-bold text-red-400 mt-1">
-            {imports.filter(i => i.status === 'failed').length}
+            {imports.filter((i) => i.status === "failed").length}
           </p>
         </div>
         <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
           <p className="text-sm text-gray-400">Processing</p>
           <p className="text-2xl font-bold text-blue-400 mt-1">
-            {imports.filter(i => i.status === 'processing').length}
+            {imports.filter((i) => i.status === "processing").length}
           </p>
         </div>
       </div>
@@ -195,19 +203,21 @@ const AdminImportHistory: React.FC = () => {
                   <td className="px-6 py-4">
                     <span
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadge(
-                        importRecord.status
+                        importRecord.status,
                       )}`}
                     >
                       {getStatusIcon(importRecord.status)}
-                      <span className="ml-1.5 capitalize">{importRecord.status}</span>
+                      <span className="ml-1.5 capitalize">
+                        {importRecord.status}
+                      </span>
                     </span>
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm">
                       <p className="text-white">{importRecord.total_rows}</p>
-                      {importRecord.status === 'completed' && (
+                      {importRecord.status === "completed" && (
                         <p className="text-xs text-gray-400">
-                          {importRecord.successful_rows} success,{' '}
+                          {importRecord.successful_rows} success,{" "}
                           {importRecord.failed_rows} failed
                         </p>
                       )}
@@ -215,7 +225,9 @@ const AdminImportHistory: React.FC = () => {
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm">
-                      <p className="text-white">{importRecord.unique_products_found}</p>
+                      <p className="text-white">
+                        {importRecord.unique_products_found}
+                      </p>
                       <p className="text-xs text-green-400">
                         +{importRecord.new_products_added} new
                       </p>
@@ -223,7 +235,9 @@ const AdminImportHistory: React.FC = () => {
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm">
-                      <p className="text-green-400">+{importRecord.new_users_created} new</p>
+                      <p className="text-green-400">
+                        +{importRecord.new_users_created} new
+                      </p>
                       <p className="text-xs text-blue-400">
                         {importRecord.existing_users_updated} updated
                       </p>
@@ -232,7 +246,7 @@ const AdminImportHistory: React.FC = () => {
                   <td className="px-6 py-4 text-sm text-gray-400">
                     {calculateDuration(
                       importRecord.created_at,
-                      importRecord.completed_at
+                      importRecord.completed_at,
                     )}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-400">
@@ -344,30 +358,36 @@ const AdminImportHistory: React.FC = () => {
                 </div>
               </div>
 
-              {selectedImport.error_log && selectedImport.error_log.length > 0 && (
-                <div>
-                  <h4 className="text-sm font-medium text-gray-300 mb-3">
-                    Error Log ({selectedImport.error_log.length} errors)
-                  </h4>
-                  <div className="bg-gray-700/50 rounded-lg p-4 max-h-64 overflow-y-auto">
-                    <div className="space-y-2">
-                      {selectedImport.error_log.slice(0, 10).map((error: any, index: number) => (
-                        <div
-                          key={index}
-                          className="text-xs bg-red-500/10 border border-red-500/30 rounded p-2"
-                        >
-                          <p className="text-red-400">{error.message || JSON.stringify(error)}</p>
-                        </div>
-                      ))}
-                      {selectedImport.error_log.length > 10 && (
-                        <p className="text-xs text-gray-400 text-center pt-2">
-                          ... and {selectedImport.error_log.length - 10} more errors
-                        </p>
-                      )}
+              {selectedImport.error_log &&
+                selectedImport.error_log.length > 0 && (
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-300 mb-3">
+                      Error Log ({selectedImport.error_log.length} errors)
+                    </h4>
+                    <div className="bg-gray-700/50 rounded-lg p-4 max-h-64 overflow-y-auto">
+                      <div className="space-y-2">
+                        {selectedImport.error_log
+                          .slice(0, 10)
+                          .map((error: any, index: number) => (
+                            <div
+                              key={index}
+                              className="text-xs bg-red-500/10 border border-red-500/30 rounded p-2"
+                            >
+                              <p className="text-red-400">
+                                {error.message || JSON.stringify(error)}
+                              </p>
+                            </div>
+                          ))}
+                        {selectedImport.error_log.length > 10 && (
+                          <p className="text-xs text-gray-400 text-center pt-2">
+                            ... and {selectedImport.error_log.length - 10} more
+                            errors
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
             </div>
 
             <div className="flex justify-end mt-6">

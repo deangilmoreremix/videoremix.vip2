@@ -1,11 +1,11 @@
-import React from 'react';
-import { Lock, Shield, Star, Crown, Sparkles, CheckCircle } from 'lucide-react';
+import React from "react";
+import { Lock, Shield, Star, Crown, Sparkles, CheckCircle } from "lucide-react";
 
 interface AppAccessBadgeProps {
   hasAccess: boolean;
   tierName?: string;
   tierLevel?: number;
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   showIcon?: boolean;
 }
 
@@ -13,7 +13,7 @@ const AppAccessBadge: React.FC<AppAccessBadgeProps> = ({
   hasAccess,
   tierName,
   tierLevel,
-  size = 'md',
+  size = "md",
   showIcon = true,
 }) => {
   const getTierIcon = (level: number) => {
@@ -35,47 +35,47 @@ const AppAccessBadge: React.FC<AppAccessBadgeProps> = ({
     switch (level) {
       case 1:
         return {
-          bg: 'bg-gray-500/20',
-          text: 'text-gray-400',
-          border: 'border-gray-500/50',
+          bg: "bg-gray-500/20",
+          text: "text-gray-400",
+          border: "border-gray-500/50",
         };
       case 2:
         return {
-          bg: 'bg-blue-500/20',
-          text: 'text-blue-400',
-          border: 'border-blue-500/50',
+          bg: "bg-blue-500/20",
+          text: "text-blue-400",
+          border: "border-blue-500/50",
         };
       case 3:
         return {
-          bg: 'bg-purple-500/20',
-          text: 'text-purple-400',
-          border: 'border-purple-500/50',
+          bg: "bg-purple-500/20",
+          text: "text-purple-400",
+          border: "border-purple-500/50",
         };
       case 4:
         return {
-          bg: 'bg-yellow-500/20',
-          text: 'text-yellow-400',
-          border: 'border-yellow-500/50',
+          bg: "bg-yellow-500/20",
+          text: "text-yellow-400",
+          border: "border-yellow-500/50",
         };
       default:
         return {
-          bg: 'bg-gray-500/20',
-          text: 'text-gray-400',
-          border: 'border-gray-500/50',
+          bg: "bg-gray-500/20",
+          text: "text-gray-400",
+          border: "border-gray-500/50",
         };
     }
   };
 
   const sizeClasses = {
-    sm: 'text-xs px-2 py-0.5',
-    md: 'text-sm px-2.5 py-1',
-    lg: 'text-base px-3 py-1.5',
+    sm: "text-xs px-2 py-0.5",
+    md: "text-sm px-2.5 py-1",
+    lg: "text-base px-3 py-1.5",
   };
 
   const iconSizes = {
-    sm: 'h-3 w-3',
-    md: 'h-4 w-4',
-    lg: 'h-5 w-5',
+    sm: "h-3 w-3",
+    md: "h-4 w-4",
+    lg: "h-5 w-5",
   };
 
   if (!hasAccess) {

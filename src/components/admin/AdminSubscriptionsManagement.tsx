@@ -1,6 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { supabase } from '../../utils/supabaseClient';
-import { Calendar, AlertTriangle, CheckCircle, XCircle, RefreshCw, User } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { supabase } from "../../utils/supabaseClient";
+import {
+  Calendar,
+  AlertTriangle,
+  CheckCircle,
+  XCircle,
+  RefreshCw,
+  User,
+} from "lucide-react";
 
 interface Subscription {
   id: string;
@@ -21,8 +28,8 @@ export const AdminSubscriptionsManagement: React.FC = () => {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [filterStatus, setFilterStatus] = useState<string>('all');
-  const [searchEmail, setSearchEmail] = useState('');
+  const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [searchEmail, setSearchEmail] = useState("");
   const [runningCheck, setRunningCheck] = useState(false);
   const [checkResult, setCheckResult] = useState<any>(null);
 
@@ -36,31 +43,34 @@ export const AdminSubscriptionsManagement: React.FC = () => {
       setError(null);
 
       let query = supabase
-        .from('subscription_status')
-        .select(`
+        .from("subscription_status")
+        .select(
+          `
           *,
           purchases!inner(user_id, email),
           user_app_access(app_slug)
-        `)
-        .order('current_period_end', { ascending: true });
+        `,
+        )
+        .order("current_period_end", { ascending: true });
 
-      if (filterStatus !== 'all') {
-        query = query.eq('status', filterStatus);
+      if (filterStatus !== "all") {
+        query = query.eq("status", filterStatus);
       }
 
       const { data, error: fetchError } = await query;
 
       if (fetchError) throw fetchError;
 
-      const enrichedData = data?.map((sub: any) => ({
-        ...sub,
-        user_email: sub.purchases?.email,
-        app_access_count: sub.user_app_access?.length || 0,
-      })) || [];
+      const enrichedData =
+        data?.map((sub: any) => ({
+          ...sub,
+          user_email: sub.purchases?.email,
+          app_access_count: sub.user_app_access?.length || 0,
+        })) || [];
 
       setSubscriptions(enrichedData);
     } catch (err: any) {
-      console.error('Error fetching subscriptions:', err);
+      console.error("Error fetching subscriptions:", err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -73,7 +83,7 @@ export const AdminSubscriptionsManagement: React.FC = () => {
       setCheckResult(null);
 
       const { data, error: checkError } = await supabase.rpc(
-        'check_and_revoke_expired_subscriptions'
+        "check_and_revoke_expired_subscriptions",
       );
 
       if (checkError) throw checkError;
@@ -81,7 +91,7 @@ export const AdminSubscriptionsManagement: React.FC = () => {
       setCheckResult(data?.[0] || null);
       await fetchSubscriptions();
     } catch (err: any) {
-      console.error('Error running expiration check:', err);
+      console.error("Error running expiration check:", err);
       setError(err.message);
     } finally {
       setRunningCheck(false);
@@ -90,87 +100,102 @@ export const AdminSubscriptionsManagement: React.FC = () => {
 
   const restoreAccess = async (userId: string, appSlug: string) => {
     try {
-      const { error: restoreError } = await supabase.rpc('restore_subscription_access', {
-        p_user_id: userId,
-        p_app_slug: appSlug,
-      });
+      const { error: restoreError } = await supabase.rpc(
+        "restore_subscription_access",
+        {
+          p_user_id: userId,
+          p_app_slug: appSlug,
+        },
+      );
 
       if (restoreError) throw restoreError;
 
-      alert('Access restored successfully');
+      alert("Access restored successfully");
       await fetchSubscriptions();
     } catch (err: any) {
-      console.error('Error restoring access:', err);
+      console.error("Error restoring access:", err);
       alert(`Failed to restore access: ${err.message}`);
     }
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active':
-        return 'bg-green-100 text-green-800';
-      case 'cancelled':
-        return 'bg-gray-100 text-gray-800';
-      case 'expired':
-        return 'bg-red-100 text-red-800';
-      case 'payment_failed':
-        return 'bg-yellow-100 text-yellow-800';
+      case "active":
+        return "bg-green-100 text-green-800";
+      case "cancelled":
+        return "bg-gray-100 text-gray-800";
+      case "expired":
+        return "bg-red-100 text-red-800";
+      case "payment_failed":
+        return "bg-yellow-100 text-yellow-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'active':
+      case "active":
         return <CheckCircle className="w-4 h-4" />;
-      case 'cancelled':
-      case 'expired':
+      case "cancelled":
+      case "expired":
         return <XCircle className="w-4 h-4" />;
-      case 'payment_failed':
+      case "payment_failed":
         return <AlertTriangle className="w-4 h-4" />;
       default:
         return null;
     }
   };
 
-  const filteredSubscriptions = subscriptions.filter(sub =>
-    searchEmail ? sub.user_email?.toLowerCase().includes(searchEmail.toLowerCase()) : true
+  const filteredSubscriptions = subscriptions.filter((sub) =>
+    searchEmail
+      ? sub.user_email?.toLowerCase().includes(searchEmail.toLowerCase())
+      : true,
   );
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Subscription Management</h2>
+        <h2 className="text-2xl font-bold text-gray-900">
+          Subscription Management
+        </h2>
         <button
           onClick={runExpirationCheck}
           disabled={runningCheck}
           className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
         >
-          <RefreshCw className={`w-4 h-4 mr-2 ${runningCheck ? 'animate-spin' : ''}`} />
-          {runningCheck ? 'Checking...' : 'Run Expiration Check'}
+          <RefreshCw
+            className={`w-4 h-4 mr-2 ${runningCheck ? "animate-spin" : ""}`}
+          />
+          {runningCheck ? "Checking..." : "Run Expiration Check"}
         </button>
       </div>
 
       {checkResult && (
         <div className="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h3 className="text-sm font-medium text-blue-900 mb-2">Check Results</h3>
+          <h3 className="text-sm font-medium text-blue-900 mb-2">
+            Check Results
+          </h3>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
               <span className="text-blue-800">Revoked: </span>
-              <span className="font-semibold text-blue-900">{checkResult.revoked_count}</span>
+              <span className="font-semibold text-blue-900">
+                {checkResult.revoked_count}
+              </span>
             </div>
             <div>
               <span className="text-blue-800">In Grace Period: </span>
-              <span className="font-semibold text-blue-900">{checkResult.grace_period_count}</span>
+              <span className="font-semibold text-blue-900">
+                {checkResult.grace_period_count}
+              </span>
             </div>
           </div>
         </div>
@@ -239,7 +264,9 @@ export const AdminSubscriptionsManagement: React.FC = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredSubscriptions.map((sub) => {
-                const isExpiringSoon = new Date(sub.current_period_end) < new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+                const isExpiringSoon =
+                  new Date(sub.current_period_end) <
+                  new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
                 return (
                   <tr key={sub.id} className="hover:bg-gray-50">
@@ -257,12 +284,14 @@ export const AdminSubscriptionsManagement: React.FC = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm text-gray-900 capitalize">{sub.platform}</span>
+                      <span className="text-sm text-gray-900 capitalize">
+                        {sub.platform}
+                      </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
-                          sub.status
+                          sub.status,
                         )}`}
                       >
                         {getStatusIcon(sub.status)}
@@ -272,21 +301,27 @@ export const AdminSubscriptionsManagement: React.FC = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <Calendar className="w-4 h-4 text-gray-400 mr-2" />
-                        <span className={`text-sm ${isExpiringSoon ? 'text-red-600 font-medium' : 'text-gray-900'}`}>
+                        <span
+                          className={`text-sm ${isExpiringSoon ? "text-red-600 font-medium" : "text-gray-900"}`}
+                        >
                           {formatDate(sub.current_period_end)}
                         </span>
                       </div>
                       {sub.cancel_at_period_end && (
-                        <span className="text-xs text-gray-500">Will cancel</span>
+                        <span className="text-xs text-gray-500">
+                          Will cancel
+                        </span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm text-gray-900">{sub.app_access_count} apps</span>
+                      <span className="text-sm text-gray-900">
+                        {sub.app_access_count} apps
+                      </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      {sub.status === 'payment_failed' && (
+                      {sub.status === "payment_failed" && (
                         <button
-                          onClick={() => restoreAccess(sub.user_id, 'all')}
+                          onClick={() => restoreAccess(sub.user_id, "all")}
                           className="text-blue-600 hover:text-blue-900 font-medium"
                         >
                           Restore
@@ -308,10 +343,13 @@ export const AdminSubscriptionsManagement: React.FC = () => {
       )}
 
       <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-        <h3 className="text-sm font-medium text-yellow-900 mb-2">Grace Period Information</h3>
+        <h3 className="text-sm font-medium text-yellow-900 mb-2">
+          Grace Period Information
+        </h3>
         <p className="text-sm text-yellow-800">
-          Failed payments have a 3-day grace period before access is automatically revoked.
-          The automated check runs daily at 2 AM UTC, or you can run it manually using the button above.
+          Failed payments have a 3-day grace period before access is
+          automatically revoked. The automated check runs daily at 2 AM UTC, or
+          you can run it manually using the button above.
         </p>
       </div>
     </div>

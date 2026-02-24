@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Lock, ExternalLink, Loader } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import usePurchases from '../hooks/usePurchases';
+import React, { useState } from "react";
+import { Lock, ExternalLink, Loader } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import usePurchases from "../hooks/usePurchases";
 
 interface ProtectedAppLinkProps {
   appId: string;
@@ -18,7 +18,7 @@ const ProtectedAppLink: React.FC<ProtectedAppLinkProps> = ({
   appUrl,
   appName,
   children,
-  className = '',
+  className = "",
   showLockIcon = true,
   onPurchaseRequired,
 }) => {
@@ -46,14 +46,14 @@ const ProtectedAppLink: React.FC<ProtectedAppLinkProps> = ({
       const hasAccess = hasPurchased(appId);
 
       if (hasAccess) {
-        window.open(appUrl, '_blank', 'noopener,noreferrer');
+        window.open(appUrl, "_blank", "noopener,noreferrer");
       } else {
         if (onPurchaseRequired) {
           onPurchaseRequired();
         }
       }
     } catch (error) {
-      console.error('Error checking app access:', error);
+      console.error("Error checking app access:", error);
       if (onPurchaseRequired) {
         onPurchaseRequired();
       }

@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
-import { VideoService } from '../services/videoService';
-import type { Video } from '../utils/supabaseClient';
+import { useState, useEffect, useCallback } from "react";
+import { VideoService } from "../services/videoService";
+import type { Video } from "../utils/supabaseClient";
 
 interface UseHomepageVideosOptions {
   autoFetch?: boolean;
@@ -28,8 +28,8 @@ export const useHomepageVideos = (options: UseHomepageVideosOptions = {}) => {
 
       setVideos(data);
     } catch (err) {
-      console.error('Error fetching homepage videos:', err);
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      console.error("Error fetching homepage videos:", err);
+      setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setLoading(false);
     }
@@ -55,7 +55,7 @@ export const useHomepageVideos = (options: UseHomepageVideosOptions = {}) => {
     error,
     refetch: fetchVideos,
     getVideoUrl,
-    getThumbnailUrl
+    getThumbnailUrl,
   };
 };
 
@@ -71,8 +71,8 @@ export const usePublicVideos = () => {
       const data = await VideoService.getPublicVideos();
       setVideos(data);
     } catch (err) {
-      console.error('Error fetching public videos:', err);
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      console.error("Error fetching public videos:", err);
+      setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setLoading(false);
     }
@@ -96,6 +96,6 @@ export const usePublicVideos = () => {
     error,
     refetch: fetchVideos,
     getVideoUrl,
-    getThumbnailUrl
+    getThumbnailUrl,
   };
 };

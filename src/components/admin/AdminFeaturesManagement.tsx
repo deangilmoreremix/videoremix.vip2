@@ -1,8 +1,20 @@
-import React, { useState, useEffect, useCallback, useMemo, memo } from 'react';
-import { motion } from 'framer-motion';
-import { ToggleLeft, ToggleRight, Plus, Edit, Trash2, Settings, ChevronDown, AlertTriangle, X, CheckCircle, Shield } from 'lucide-react';
-import { supabase } from '../../utils/supabaseClient';
-import { useAdmin } from '../../context/AdminContext';
+import React, { useState, useEffect, useCallback, useMemo, memo } from "react";
+import { motion } from "framer-motion";
+import {
+  ToggleLeft,
+  ToggleRight,
+  Plus,
+  Edit,
+  Trash2,
+  Settings,
+  ChevronDown,
+  AlertTriangle,
+  X,
+  CheckCircle,
+  Shield,
+} from "lucide-react";
+import { supabase } from "../../utils/supabaseClient";
+import { useAdmin } from "../../context/AdminContext";
 
 interface Feature {
   id: string;
@@ -25,46 +37,53 @@ const AdminFeaturesManagement: React.FC = () => {
   const [apps, setApps] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [toggling, setToggling] = useState<string | null>(null);
-  const [selectedApp, setSelectedApp] = useState<string>('all');
+  const [selectedApp, setSelectedApp] = useState<string>("all");
   const [showAppDropdown, setShowAppDropdown] = useState(false);
 
   // Enhanced state for UX
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [notifications, setNotifications] = useState<Array<{
-    id: string;
-    type: 'success' | 'error';
-    message: string;
-  }>>([]);
+  const [notifications, setNotifications] = useState<
+    Array<{
+      id: string;
+      type: "success" | "error";
+      message: string;
+    }>
+  >([]);
   const [showDeleteModal, setShowDeleteModal] = useState<{
     show: boolean;
     feature: Feature | null;
   }>({ show: false, feature: null });
-  const [operationLoading, setOperationLoading] = useState<{ [key: string]: boolean }>({});
+  const [operationLoading, setOperationLoading] = useState<{
+    [key: string]: boolean;
+  }>({});
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState<{
     show: boolean;
     feature: Feature | null;
   }>({ show: false, feature: null });
   const [formData, setFormData] = useState({
-    name: '',
-    slug: '',
-    description: '',
-    parent_app_id: '',
+    name: "",
+    slug: "",
+    description: "",
+    parent_app_id: "",
     is_enabled: true,
-    config: '{}'
+    config: "{}",
   });
 
   // Utility functions
-  const addNotification = useCallback((type: 'success' | 'error', message: string) => {
-    const id = Date.now().toString();
-    setNotifications(prev => [...prev, { id, type, message }]);
+  const addNotification = useCallback(
+    (type: "success" | "error", message: string) => {
+      const id = Date.now().toString();
+      setNotifications((prev) => [...prev, { id, type, message }]);
 
-    // Auto-remove after 5 seconds
-    setTimeout(() => {
-      setNotifications(prev => prev.filter(n => n.id !== id));
-    }, 5000);
-  }, []);
+      // Auto-remove after 5 seconds
+      setTimeout(() => {
+        setNotifications((prev) => prev.filter((n) => n.id !== id));
+      }, 5000);
+    },
+    [],
+  );
 
   const clearMessages = useCallback(() => {
     setError(null);
@@ -73,13 +92,15 @@ const AdminFeaturesManagement: React.FC = () => {
 
   // Memoized filtering for better performance
   const filteredFeatures = useMemo(() => {
-    if (selectedApp === 'all') {
+    if (selectedApp === "all") {
       return allFeatures;
     }
     // Find the app ID for the selected app slug
-    const selectedAppData = apps.find(app => app.slug === selectedApp);
+    const selectedAppData = apps.find((app) => app.slug === selectedApp);
     return selectedAppData
-      ? allFeatures.filter(feature => feature.parent_app_id === selectedAppData.id)
+      ? allFeatures.filter(
+          (feature) => feature.parent_app_id === selectedAppData.id,
+        )
       : allFeatures;
   }, [allFeatures, selectedApp, apps]);
 
@@ -96,18 +117,24 @@ const AdminFeaturesManagement: React.FC = () => {
   const fetchFeatures = useCallback(async () => {
     try {
       clearMessages();
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
 
       if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
+        setError("Authentication required. Please log in again.");
         return;
       }
 
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-features`, {
-        headers: {
-          'Authorization': `Bearer ${session.access_token}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-features`,
+        {
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -117,11 +144,13 @@ const AdminFeaturesManagement: React.FC = () => {
       if (data.success) {
         setAllFeatures(data.data || []);
       } else {
-        setError(data.error || 'Failed to load features');
+        setError(data.error || "Failed to load features");
       }
     } catch (error) {
-      console.error('Error fetching features:', error);
-      setError('Failed to load features. Please check your connection and try again.');
+      console.error("Error fetching features:", error);
+      setError(
+        "Failed to load features. Please check your connection and try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -129,15 +158,21 @@ const AdminFeaturesManagement: React.FC = () => {
 
   const fetchApps = useCallback(async () => {
     try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
 
       if (sessionError || !session) return;
 
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-apps`, {
-        headers: {
-          'Authorization': `Bearer ${session.access_token}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-apps`,
+        {
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -148,18 +183,18 @@ const AdminFeaturesManagement: React.FC = () => {
         setApps(data.data || []);
       }
     } catch (error) {
-      console.error('Error fetching apps:', error);
+      console.error("Error fetching apps:", error);
     }
   }, []);
 
   const openAddModal = useCallback(() => {
     setFormData({
-      name: '',
-      slug: '',
-      description: '',
-      parent_app_id: '',
+      name: "",
+      slug: "",
+      description: "",
+      parent_app_id: "",
       is_enabled: true,
-      config: '{}'
+      config: "{}",
     });
     setShowAddModal(true);
   }, []);
@@ -169,21 +204,24 @@ const AdminFeaturesManagement: React.FC = () => {
       name: feature.name,
       slug: feature.slug,
       description: feature.description,
-      parent_app_id: feature.parent_app_id || '',
+      parent_app_id: feature.parent_app_id || "",
       is_enabled: feature.is_enabled,
-      config: JSON.stringify(feature.config, null, 2)
+      config: JSON.stringify(feature.config, null, 2),
     });
     setShowEditModal({ show: true, feature });
   }, []);
 
   const createFeature = useCallback(async () => {
     clearMessages();
-    setOperationLoading(prev => ({ ...prev, create: true }));
+    setOperationLoading((prev) => ({ ...prev, create: true }));
 
     try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
       if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
+        setError("Authentication required. Please log in again.");
         return;
       }
       const token = session.access_token;
@@ -192,25 +230,28 @@ const AdminFeaturesManagement: React.FC = () => {
       try {
         parsedConfig = JSON.parse(formData.config);
       } catch (e) {
-        setError('Invalid JSON in config field');
+        setError("Invalid JSON in config field");
         return;
       }
 
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-features`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-features`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            slug: formData.slug,
+            description: formData.description,
+            parent_app_id: formData.parent_app_id || null,
+            is_enabled: formData.is_enabled,
+            config: parsedConfig,
+          }),
         },
-        body: JSON.stringify({
-          name: formData.name,
-          slug: formData.slug,
-          description: formData.description,
-          parent_app_id: formData.parent_app_id || null,
-          is_enabled: formData.is_enabled,
-          config: parsedConfig
-        }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -218,17 +259,17 @@ const AdminFeaturesManagement: React.FC = () => {
 
       const data = await response.json();
       if (data.success) {
-        setAllFeatures(prevFeatures => [data.data, ...prevFeatures]);
-        addNotification('success', 'Feature created successfully');
+        setAllFeatures((prevFeatures) => [data.data, ...prevFeatures]);
+        addNotification("success", "Feature created successfully");
         setShowAddModal(false);
       } else {
-        setError(data.error || 'Failed to create feature');
+        setError(data.error || "Failed to create feature");
       }
     } catch (error) {
-      console.error('Error creating feature:', error);
-      setError('Failed to create feature. Please try again.');
+      console.error("Error creating feature:", error);
+      setError("Failed to create feature. Please try again.");
     } finally {
-      setOperationLoading(prev => ({ ...prev, create: false }));
+      setOperationLoading((prev) => ({ ...prev, create: false }));
     }
   }, [formData, clearMessages, addNotification]);
 
@@ -236,12 +277,18 @@ const AdminFeaturesManagement: React.FC = () => {
     if (!showEditModal.feature) return;
 
     clearMessages();
-    setOperationLoading(prev => ({ ...prev, [showEditModal.feature!.id]: true }));
+    setOperationLoading((prev) => ({
+      ...prev,
+      [showEditModal.feature!.id]: true,
+    }));
 
     try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
       if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
+        setError("Authentication required. Please log in again.");
         return;
       }
       const token = session.access_token;
@@ -250,25 +297,28 @@ const AdminFeaturesManagement: React.FC = () => {
       try {
         parsedConfig = JSON.parse(formData.config);
       } catch (e) {
-        setError('Invalid JSON in config field');
+        setError("Invalid JSON in config field");
         return;
       }
 
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-features/${showEditModal.feature.id}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-features/${showEditModal.feature.id}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            slug: formData.slug,
+            description: formData.description,
+            parent_app_id: formData.parent_app_id || null,
+            is_enabled: formData.is_enabled,
+            config: parsedConfig,
+          }),
         },
-        body: JSON.stringify({
-          name: formData.name,
-          slug: formData.slug,
-          description: formData.description,
-          parent_app_id: formData.parent_app_id || null,
-          is_enabled: formData.is_enabled,
-          config: parsedConfig
-        }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -276,104 +326,136 @@ const AdminFeaturesManagement: React.FC = () => {
 
       const data = await response.json();
       if (data.success) {
-        setAllFeatures(prevFeatures => prevFeatures.map(f =>
-          f.id === showEditModal.feature!.id ? data.data : f
-        ));
-        addNotification('success', 'Feature updated successfully');
+        setAllFeatures((prevFeatures) =>
+          prevFeatures.map((f) =>
+            f.id === showEditModal.feature!.id ? data.data : f,
+          ),
+        );
+        addNotification("success", "Feature updated successfully");
         setShowEditModal({ show: false, feature: null });
       } else {
-        setError(data.error || 'Failed to update feature');
+        setError(data.error || "Failed to update feature");
       }
     } catch (error) {
-      console.error('Error updating feature:', error);
-      setError('Failed to update feature. Please try again.');
+      console.error("Error updating feature:", error);
+      setError("Failed to update feature. Please try again.");
     } finally {
-      setOperationLoading(prev => ({ ...prev, [showEditModal.feature!.id]: false }));
+      setOperationLoading((prev) => ({
+        ...prev,
+        [showEditModal.feature!.id]: false,
+      }));
     }
   }, [formData, showEditModal, clearMessages, addNotification]);
 
-  const toggleFeature = useCallback(async (featureId: string, currentStatus: boolean) => {
-    setToggling(featureId);
-    clearMessages();
-    setOperationLoading(prev => ({ ...prev, [featureId]: true }));
+  const toggleFeature = useCallback(
+    async (featureId: string, currentStatus: boolean) => {
+      setToggling(featureId);
+      clearMessages();
+      setOperationLoading((prev) => ({ ...prev, [featureId]: true }));
 
-    try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-      if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
-        return;
+      try {
+        const {
+          data: { session },
+          error: sessionError,
+        } = await supabase.auth.getSession();
+        if (sessionError || !session) {
+          setError("Authentication required. Please log in again.");
+          return;
+        }
+        const token = session.access_token;
+
+        const response = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-features/${featureId}/toggle`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        if (data.success) {
+          setAllFeatures((prevFeatures) =>
+            prevFeatures.map((feature) =>
+              feature.id === featureId
+                ? { ...feature, is_enabled: data.data.is_enabled }
+                : feature,
+            ),
+          );
+          addNotification(
+            "success",
+            `Feature ${currentStatus ? "disabled" : "enabled"} successfully`,
+          );
+        } else {
+          setError(data.error || "Failed to toggle feature status");
+        }
+      } catch (error) {
+        console.error("Error toggling feature:", error);
+        setError("Failed to toggle feature status. Please try again.");
+      } finally {
+        setToggling(null);
+        setOperationLoading((prev) => ({ ...prev, [featureId]: false }));
       }
-      const token = session.access_token;
+    },
+    [clearMessages, addNotification],
+  );
 
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-features/${featureId}/toggle`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+  const deleteFeature = useCallback(
+    async (featureId: string) => {
+      clearMessages();
+      setOperationLoading((prev) => ({ ...prev, [featureId]: true }));
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      try {
+        const {
+          data: { session },
+          error: sessionError,
+        } = await supabase.auth.getSession();
+        if (sessionError || !session) {
+          setError("Authentication required. Please log in again.");
+          return;
+        }
+        const token = session.access_token;
+
+        const response = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-features`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id: featureId }),
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        if (data.success) {
+          setAllFeatures((prevFeatures) =>
+            prevFeatures.filter((feature) => feature.id !== featureId),
+          );
+          addNotification("success", "Feature deleted successfully");
+          setShowDeleteModal({ show: false, feature: null });
+        } else {
+          setError(data.error || "Failed to delete feature");
+        }
+      } catch (error) {
+        console.error("Error deleting feature:", error);
+        setError("Failed to delete feature. Please try again.");
+      } finally {
+        setOperationLoading((prev) => ({ ...prev, [featureId]: false }));
       }
-
-      const data = await response.json();
-      if (data.success) {
-        setAllFeatures(prevFeatures => prevFeatures.map(feature =>
-          feature.id === featureId ? { ...feature, is_enabled: data.data.is_enabled } : feature
-        ));
-        addNotification('success', `Feature ${currentStatus ? 'disabled' : 'enabled'} successfully`);
-      } else {
-        setError(data.error || 'Failed to toggle feature status');
-      }
-    } catch (error) {
-      console.error('Error toggling feature:', error);
-      setError('Failed to toggle feature status. Please try again.');
-    } finally {
-      setToggling(null);
-      setOperationLoading(prev => ({ ...prev, [featureId]: false }));
-    }
-  }, [clearMessages, addNotification]);
-
-  const deleteFeature = useCallback(async (featureId: string) => {
-    clearMessages();
-    setOperationLoading(prev => ({ ...prev, [featureId]: true }));
-
-    try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-      if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
-        return;
-      }
-      const token = session.access_token;
-
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-features`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id: featureId }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      if (data.success) {
-        setAllFeatures(prevFeatures => prevFeatures.filter(feature => feature.id !== featureId));
-        addNotification('success', 'Feature deleted successfully');
-        setShowDeleteModal({ show: false, feature: null });
-      } else {
-        setError(data.error || 'Failed to delete feature');
-      }
-    } catch (error) {
-      console.error('Error deleting feature:', error);
-      setError('Failed to delete feature. Please try again.');
-    } finally {
-      setOperationLoading(prev => ({ ...prev, [featureId]: false }));
-    }
-  }, [clearMessages, addNotification]);
+    },
+    [clearMessages, addNotification],
+  );
 
   const openDeleteModal = useCallback((feature: Feature) => {
     setShowDeleteModal({ show: true, feature });
@@ -388,16 +470,19 @@ const AdminFeaturesManagement: React.FC = () => {
   }
 
   // Check if user is super admin for feature toggling
-  if (user?.role !== 'super_admin') {
+  if (user?.role !== "super_admin") {
     return (
       <div className="space-y-6">
         <div className="bg-yellow-500/20 border border-yellow-500/50 text-yellow-400 p-6 rounded-lg">
           <div className="flex items-center mb-4">
             <Shield className="h-6 w-6 mr-3" />
-            <h3 className="text-lg font-semibold">Super Admin Access Required</h3>
+            <h3 className="text-lg font-semibold">
+              Super Admin Access Required
+            </h3>
           </div>
           <p className="text-sm">
-            Feature toggling is restricted to super administrators only. You can view features but cannot modify their enabled/disabled status.
+            Feature toggling is restricted to super administrators only. You can
+            view features but cannot modify their enabled/disabled status.
           </p>
         </div>
 
@@ -422,20 +507,28 @@ const AdminFeaturesManagement: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <div className="flex items-center">
-                        <span className="text-white font-medium">{feature.name}</span>
-                        <span className={`ml-3 px-2 py-1 text-xs rounded ${
-                          feature.is_enabled
-                            ? 'bg-green-500/20 text-green-400'
-                            : 'bg-red-500/20 text-red-400'
-                        }`}>
-                          {feature.is_enabled ? 'Enabled' : 'Disabled'}
+                        <span className="text-white font-medium">
+                          {feature.name}
+                        </span>
+                        <span
+                          className={`ml-3 px-2 py-1 text-xs rounded ${
+                            feature.is_enabled
+                              ? "bg-green-500/20 text-green-400"
+                              : "bg-red-500/20 text-red-400"
+                          }`}
+                        >
+                          {feature.is_enabled ? "Enabled" : "Disabled"}
                         </span>
                       </div>
                       {feature.description && (
-                        <p className="text-gray-400 text-sm mt-1">{feature.description}</p>
+                        <p className="text-gray-400 text-sm mt-1">
+                          {feature.description}
+                        </p>
                       )}
                       {feature.app_name && (
-                        <p className="text-blue-400 text-xs mt-1">App: {feature.app_name}</p>
+                        <p className="text-blue-400 text-xs mt-1">
+                          App: {feature.app_name}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -458,13 +551,13 @@ const AdminFeaturesManagement: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           className={`p-4 rounded-lg flex items-center justify-between ${
-            notification.type === 'success'
-              ? 'bg-green-500/20 border border-green-500/50 text-green-400'
-              : 'bg-red-500/20 border border-red-500/50 text-red-400'
+            notification.type === "success"
+              ? "bg-green-500/20 border border-green-500/50 text-green-400"
+              : "bg-red-500/20 border border-red-500/50 text-red-400"
           }`}
         >
           <div className="flex items-center">
-            {notification.type === 'success' ? (
+            {notification.type === "success" ? (
               <CheckCircle className="h-5 w-5 mr-2" />
             ) : (
               <X className="h-5 w-5 mr-2" />
@@ -472,7 +565,11 @@ const AdminFeaturesManagement: React.FC = () => {
             <span>{notification.message}</span>
           </div>
           <button
-            onClick={() => setNotifications(prev => prev.filter(n => n.id !== notification.id))}
+            onClick={() =>
+              setNotifications((prev) =>
+                prev.filter((n) => n.id !== notification.id),
+              )
+            }
             className="text-gray-400 hover:text-white"
           >
             <X className="h-4 w-4" />
@@ -487,7 +584,10 @@ const AdminFeaturesManagement: React.FC = () => {
             <AlertTriangle className="h-5 w-5 mr-2" />
             <span>{error}</span>
           </div>
-          <button onClick={() => setError(null)} className="text-red-400 hover:text-red-300">
+          <button
+            onClick={() => setError(null)}
+            className="text-red-400 hover:text-red-300"
+          >
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -496,8 +596,12 @@ const AdminFeaturesManagement: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-2">Features Management</h2>
-          <p className="text-gray-400">Control which features are available for each app</p>
+          <h2 className="text-2xl font-bold text-white mb-2">
+            Features Management
+          </h2>
+          <p className="text-gray-400">
+            Control which features are available for each app
+          </p>
         </div>
         <div className="flex items-center space-x-4">
           {/* App Selector */}
@@ -507,7 +611,10 @@ const AdminFeaturesManagement: React.FC = () => {
               className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors border border-gray-600"
             >
               <span className="mr-2">
-                {selectedApp === 'all' ? 'All Features' : apps.find(app => app.slug === selectedApp)?.name || 'Select App'}
+                {selectedApp === "all"
+                  ? "All Features"
+                  : apps.find((app) => app.slug === selectedApp)?.name ||
+                    "Select App"}
               </span>
               <ChevronDown className="h-4 w-4" />
             </button>
@@ -517,7 +624,7 @@ const AdminFeaturesManagement: React.FC = () => {
                 <div className="py-1">
                   <button
                     onClick={() => {
-                      setSelectedApp('all');
+                      setSelectedApp("all");
                       setShowAppDropdown(false);
                     }}
                     className="w-full text-left px-4 py-2 text-white hover:bg-gray-700 transition-colors"
@@ -575,13 +682,17 @@ const AdminFeaturesManagement: React.FC = () => {
                     <ToggleLeft className="h-5 w-5 text-gray-400" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white">{feature.name}</h3>
+                    <h3 className="text-lg font-semibold text-white">
+                      {feature.name}
+                    </h3>
                     <p className="text-sm text-gray-400">{feature.slug}</p>
                   </div>
                 </div>
 
                 {feature.description && (
-                  <p className="text-gray-300 text-sm mb-3">{feature.description}</p>
+                  <p className="text-gray-300 text-sm mb-3">
+                    {feature.description}
+                  </p>
                 )}
 
                 {/* Config Preview */}
@@ -590,19 +701,21 @@ const AdminFeaturesManagement: React.FC = () => {
                     <p className="text-xs text-gray-500 mb-1">Configuration:</p>
                     <div className="bg-gray-900/50 rounded p-2 text-xs text-gray-400 font-mono">
                       {JSON.stringify(feature.config, null, 2).slice(0, 100)}
-                      {JSON.stringify(feature.config).length > 100 && '...'}
+                      {JSON.stringify(feature.config).length > 100 && "..."}
                     </div>
                   </div>
                 )}
 
                 {/* Status */}
                 <div className="flex items-center space-x-2">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    feature.is_enabled
-                      ? 'bg-green-500/20 text-green-400'
-                      : 'bg-red-500/20 text-red-400'
-                  }`}>
-                    {feature.is_enabled ? 'Enabled' : 'Disabled'}
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      feature.is_enabled
+                        ? "bg-green-500/20 text-green-400"
+                        : "bg-red-500/20 text-red-400"
+                    }`}
+                  >
+                    {feature.is_enabled ? "Enabled" : "Disabled"}
                   </span>
                   <span className="text-xs text-gray-500">
                     Updated: {new Date(feature.updated_at).toLocaleDateString()}
@@ -635,12 +748,12 @@ const AdminFeaturesManagement: React.FC = () => {
                   onClick={() => toggleFeature(feature.id, feature.is_enabled)}
                   disabled={toggling === feature.id}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
-                    feature.is_enabled ? 'bg-green-600' : 'bg-gray-600'
-                  } ${toggling === feature.id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    feature.is_enabled ? "bg-green-600" : "bg-gray-600"
+                  } ${toggling === feature.id ? "opacity-50 cursor-not-allowed" : ""}`}
                 >
                   <span
                     className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      feature.is_enabled ? 'translate-x-6' : 'translate-x-1'
+                      feature.is_enabled ? "translate-x-6" : "translate-x-1"
                     }`}
                   />
                   {toggling === feature.id && (
@@ -658,8 +771,12 @@ const AdminFeaturesManagement: React.FC = () => {
       {features.length === 0 && (
         <div className="text-center py-20">
           <ToggleLeft className="h-16 w-16 text-gray-600 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-white mb-2">No features found</h3>
-          <p className="text-gray-400">Get started by adding your first feature.</p>
+          <h3 className="text-xl font-semibold text-white mb-2">
+            No features found
+          </h3>
+          <p className="text-gray-400">
+            Get started by adding your first feature.
+          </p>
         </div>
       )}
 
@@ -673,25 +790,35 @@ const AdminFeaturesManagement: React.FC = () => {
           >
             <div className="flex items-center mb-4">
               <AlertTriangle className="h-6 w-6 text-red-400 mr-3" />
-              <h3 className="text-lg font-semibold text-white">Delete Feature</h3>
+              <h3 className="text-lg font-semibold text-white">
+                Delete Feature
+              </h3>
             </div>
             <p className="text-gray-300 mb-6">
-              Are you sure you want to delete <strong>{showDeleteModal.feature.name}</strong>?
-              This action cannot be undone and will affect all associated applications.
+              Are you sure you want to delete{" "}
+              <strong>{showDeleteModal.feature.name}</strong>? This action
+              cannot be undone and will affect all associated applications.
             </p>
             <div className="flex space-x-3">
               <button
-                onClick={() => setShowDeleteModal({ show: false, feature: null })}
+                onClick={() =>
+                  setShowDeleteModal({ show: false, feature: null })
+                }
                 className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg transition-colors"
               >
                 Cancel
               </button>
               <button
-                onClick={() => showDeleteModal.feature && deleteFeature(showDeleteModal.feature.id)}
+                onClick={() =>
+                  showDeleteModal.feature &&
+                  deleteFeature(showDeleteModal.feature.id)
+                }
                 disabled={operationLoading[showDeleteModal.feature.id]}
                 className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
               >
-                {operationLoading[showDeleteModal.feature.id] ? 'Deleting...' : 'Delete Feature'}
+                {operationLoading[showDeleteModal.feature.id]
+                  ? "Deleting..."
+                  : "Delete Feature"}
               </button>
             </div>
           </motion.div>
@@ -707,7 +834,9 @@ const AdminFeaturesManagement: React.FC = () => {
             className="bg-gray-800 rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto border border-gray-700"
           >
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-white">Add New Feature</h3>
+              <h3 className="text-lg font-semibold text-white">
+                Add New Feature
+              </h3>
               <button
                 onClick={() => setShowAddModal(false)}
                 className="text-gray-400 hover:text-white"
@@ -718,59 +847,83 @@ const AdminFeaturesManagement: React.FC = () => {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Name *</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Name *
+                </label>
                 <input
                   type="text"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white"
                   placeholder="AI Video Generator"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Slug *</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Slug *
+                </label>
                 <input
                   type="text"
                   value={formData.slug}
-                  onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, slug: e.target.value })
+                  }
                   className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white"
                   placeholder="ai-video-generator"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Description</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Description
+                </label>
                 <textarea
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                   className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white h-24"
                   placeholder="Feature description..."
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Parent App *</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Parent App *
+                </label>
                 <select
                   value={formData.parent_app_id}
-                  onChange={(e) => setFormData({ ...formData, parent_app_id: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, parent_app_id: e.target.value })
+                  }
                   className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white"
                 >
                   <option value="">Select Parent App</option>
-                  {apps.filter(app => app.item_type === 'app').map((app) => (
-                    <option key={app.id} value={app.id}>
-                      {app.name} ({app.slug})
-                    </option>
-                  ))}
+                  {apps
+                    .filter((app) => app.item_type === "app")
+                    .map((app) => (
+                      <option key={app.id} value={app.id}>
+                        {app.name} ({app.slug})
+                      </option>
+                    ))}
                 </select>
-                <p className="text-xs text-gray-400 mt-1">Features must belong to a parent application</p>
+                <p className="text-xs text-gray-400 mt-1">
+                  Features must belong to a parent application
+                </p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Configuration (JSON)</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Configuration (JSON)
+                </label>
                 <textarea
                   value={formData.config}
-                  onChange={(e) => setFormData({ ...formData, config: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, config: e.target.value })
+                  }
                   className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white font-mono text-sm h-32"
                   placeholder='{"key": "value"}'
                 />
@@ -781,7 +934,9 @@ const AdminFeaturesManagement: React.FC = () => {
                   type="checkbox"
                   id="enabled"
                   checked={formData.is_enabled}
-                  onChange={(e) => setFormData({ ...formData, is_enabled: e.target.checked })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, is_enabled: e.target.checked })
+                  }
                   className="w-4 h-4 text-primary-600 bg-gray-700 border-gray-600 rounded focus:ring-primary-500"
                 />
                 <label htmlFor="enabled" className="ml-2 text-sm text-gray-300">
@@ -799,10 +954,15 @@ const AdminFeaturesManagement: React.FC = () => {
               </button>
               <button
                 onClick={createFeature}
-                disabled={operationLoading.create || !formData.name || !formData.slug || !formData.parent_app_id}
+                disabled={
+                  operationLoading.create ||
+                  !formData.name ||
+                  !formData.slug ||
+                  !formData.parent_app_id
+                }
                 className="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
               >
-                {operationLoading.create ? 'Creating...' : 'Create Feature'}
+                {operationLoading.create ? "Creating..." : "Create Feature"}
               </button>
             </div>
           </motion.div>
@@ -829,56 +989,80 @@ const AdminFeaturesManagement: React.FC = () => {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Name *</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Name *
+                </label>
                 <input
                   type="text"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Slug *</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Slug *
+                </label>
                 <input
                   type="text"
                   value={formData.slug}
-                  onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, slug: e.target.value })
+                  }
                   className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Description</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Description
+                </label>
                 <textarea
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                   className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white h-24"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Parent App *</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Parent App *
+                </label>
                 <select
                   value={formData.parent_app_id}
-                  onChange={(e) => setFormData({ ...formData, parent_app_id: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, parent_app_id: e.target.value })
+                  }
                   className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white"
                 >
                   <option value="">Select Parent App</option>
-                  {apps.filter(app => app.item_type === 'app').map((app) => (
-                    <option key={app.id} value={app.id}>
-                      {app.name} ({app.slug})
-                    </option>
-                  ))}
+                  {apps
+                    .filter((app) => app.item_type === "app")
+                    .map((app) => (
+                      <option key={app.id} value={app.id}>
+                        {app.name} ({app.slug})
+                      </option>
+                    ))}
                 </select>
-                <p className="text-xs text-gray-400 mt-1">Features must belong to a parent application</p>
+                <p className="text-xs text-gray-400 mt-1">
+                  Features must belong to a parent application
+                </p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Configuration (JSON)</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Configuration (JSON)
+                </label>
                 <textarea
                   value={formData.config}
-                  onChange={(e) => setFormData({ ...formData, config: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, config: e.target.value })
+                  }
                   className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white font-mono text-sm h-32"
                 />
               </div>
@@ -888,10 +1072,15 @@ const AdminFeaturesManagement: React.FC = () => {
                   type="checkbox"
                   id="enabled-edit"
                   checked={formData.is_enabled}
-                  onChange={(e) => setFormData({ ...formData, is_enabled: e.target.checked })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, is_enabled: e.target.checked })
+                  }
                   className="w-4 h-4 text-primary-600 bg-gray-700 border-gray-600 rounded focus:ring-primary-500"
                 />
-                <label htmlFor="enabled-edit" className="ml-2 text-sm text-gray-300">
+                <label
+                  htmlFor="enabled-edit"
+                  className="ml-2 text-sm text-gray-300"
+                >
                   Enable this feature
                 </label>
               </div>
@@ -906,10 +1095,17 @@ const AdminFeaturesManagement: React.FC = () => {
               </button>
               <button
                 onClick={updateFeature}
-                disabled={operationLoading[showEditModal.feature.id] || !formData.name || !formData.slug || !formData.parent_app_id}
+                disabled={
+                  operationLoading[showEditModal.feature.id] ||
+                  !formData.name ||
+                  !formData.slug ||
+                  !formData.parent_app_id
+                }
                 className="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
               >
-                {operationLoading[showEditModal.feature.id] ? 'Updating...' : 'Update Feature'}
+                {operationLoading[showEditModal.feature.id]
+                  ? "Updating..."
+                  : "Update Feature"}
               </button>
             </div>
           </motion.div>

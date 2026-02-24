@@ -1,40 +1,51 @@
-import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, X, ArrowRight, Lock, Star, Sparkles } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { useApps } from '../hooks/useApps';
-import { useAuth } from '../context/AuthContext';
-import LazyIcon from './LazyIcon';
-import { AppGridSkeleton } from './LoadingSkeleton';
+import React, { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Search,
+  Filter,
+  X,
+  ArrowRight,
+  Lock,
+  Star,
+  Sparkles,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import { useApps } from "../hooks/useApps";
+import { useAuth } from "../context/AuthContext";
+import LazyIcon from "./LazyIcon";
+import { AppGridSkeleton } from "./LoadingSkeleton";
 
 // Available categories for filtering
 const categories = [
-  { id: 'all', name: 'All Categories', icon: 'layers' },
-  { id: 'video', name: 'Video', icon: 'video' },
-  { id: 'ai-image', name: 'AI Image', icon: 'image' },
-  { id: 'personalizer', name: 'Personalization', icon: 'user-circle' },
-  { id: 'marketing', name: 'Marketing', icon: 'users' },
-  { id: 'branding', name: 'Branding', icon: 'palette' },
-  { id: 'creative', name: 'Creative', icon: 'package' }
+  { id: "all", name: "All Categories", icon: "layers" },
+  { id: "video", name: "Video", icon: "video" },
+  { id: "ai-image", name: "AI Image", icon: "image" },
+  { id: "personalizer", name: "Personalization", icon: "user-circle" },
+  { id: "marketing", name: "Marketing", icon: "users" },
+  { id: "branding", name: "Branding", icon: "palette" },
+  { id: "creative", name: "Creative", icon: "package" },
 ];
 
 const PublicAppSearch: React.FC = () => {
   const { user } = useAuth();
   const { apps, loading } = useApps();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [showFilters, setShowFilters] = useState(false);
 
   // Input validation and sanitization
   const sanitizedSearchQuery = useMemo(() => {
-    if (!searchQuery.trim()) return '';
+    if (!searchQuery.trim()) return "";
     // Remove potentially harmful characters and limit length
-    return searchQuery.trim().replace(/[<>\"'&]/g, '').substring(0, 100);
+    return searchQuery
+      .trim()
+      .replace(/[<>\"'&]/g, "")
+      .substring(0, 100);
   }, [searchQuery]);
 
   // Filter apps based on visibility, search, and category
   const filteredApps = useMemo(() => {
-    let result = apps.filter(app => {
+    let result = apps.filter((app) => {
       // Public apps are visible to everyone
       if (app.isPublic) return true;
 
@@ -45,24 +56,28 @@ const PublicAppSearch: React.FC = () => {
     // Apply search filter with sanitized input
     if (sanitizedSearchQuery) {
       const query = sanitizedSearchQuery.toLowerCase();
-      result = result.filter(app =>
-        app.name.toLowerCase().includes(query) ||
-        app.description.toLowerCase().includes(query) ||
-        app.category.toLowerCase().includes(query)
+      result = result.filter(
+        (app) =>
+          app.name.toLowerCase().includes(query) ||
+          app.description.toLowerCase().includes(query) ||
+          app.category.toLowerCase().includes(query),
       );
     }
 
     // Apply category filter with validation
-    if (selectedCategory !== 'all' && categories.some(cat => cat.id === selectedCategory)) {
-      result = result.filter(app => app.category === selectedCategory);
+    if (
+      selectedCategory !== "all" &&
+      categories.some((cat) => cat.id === selectedCategory)
+    ) {
+      result = result.filter((app) => app.category === selectedCategory);
     }
 
     return result;
   }, [apps, user, sanitizedSearchQuery, selectedCategory]);
 
   const clearFilters = () => {
-    setSearchQuery('');
-    setSelectedCategory('all');
+    setSearchQuery("");
+    setSelectedCategory("all");
   };
 
   if (loading) {
@@ -103,7 +118,8 @@ const PublicAppSearch: React.FC = () => {
           >
             Discover Our
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-purple-400">
-              {" "}Complete Toolkit
+              {" "}
+              Complete Toolkit
             </span>
           </motion.h2>
           <motion.p
@@ -112,7 +128,8 @@ const PublicAppSearch: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-lg text-gray-400 max-w-2xl mx-auto"
           >
-            Search and explore our full range of AI-powered tools. Find the perfect solution for your creative needs.
+            Search and explore our full range of AI-powered tools. Find the
+            perfect solution for your creative needs.
           </motion.p>
         </div>
 
@@ -131,7 +148,7 @@ const PublicAppSearch: React.FC = () => {
               />
               {searchQuery && (
                 <button
-                  onClick={() => setSearchQuery('')}
+                  onClick={() => setSearchQuery("")}
                   className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
                 >
                   <X className="h-5 w-5" />
@@ -146,7 +163,7 @@ const PublicAppSearch: React.FC = () => {
             >
               <Filter className="h-5 w-5 mr-2" />
               Filters
-              {(searchQuery || selectedCategory !== 'all') && (
+              {(searchQuery || selectedCategory !== "all") && (
                 <span className="ml-2 px-2 py-1 bg-primary-500/20 text-primary-400 text-xs rounded-full">
                   Active
                 </span>
@@ -159,7 +176,7 @@ const PublicAppSearch: React.FC = () => {
             {showFilters && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
+                animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
                 className="mt-4 p-6 bg-gray-800/30 rounded-xl border border-gray-700/50"
@@ -171,8 +188,8 @@ const PublicAppSearch: React.FC = () => {
                       onClick={() => setSelectedCategory(category.id)}
                       className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                         selectedCategory === category.id
-                          ? 'bg-primary-500/20 text-primary-400 border border-primary-500/50'
-                          : 'bg-gray-700/50 text-gray-300 hover:bg-gray-700/70 border border-gray-600/50'
+                          ? "bg-primary-500/20 text-primary-400 border border-primary-500/50"
+                          : "bg-gray-700/50 text-gray-300 hover:bg-gray-700/70 border border-gray-600/50"
                       }`}
                     >
                       <LazyIcon name={category.icon} className="h-4 w-4 mr-2" />
@@ -181,15 +198,17 @@ const PublicAppSearch: React.FC = () => {
                   ))}
                 </div>
 
-                {(searchQuery || selectedCategory !== 'all') && (
+                {(searchQuery || selectedCategory !== "all") && (
                   <div className="flex items-center justify-between pt-4 border-t border-gray-700/50">
                     <div className="flex items-center space-x-4 text-sm text-gray-400">
-                      {searchQuery && (
-                        <span>Search: "{searchQuery}"</span>
-                      )}
-                      {selectedCategory !== 'all' && (
+                      {searchQuery && <span>Search: "{searchQuery}"</span>}
+                      {selectedCategory !== "all" && (
                         <span>
-                          Category: {categories.find(c => c.id === selectedCategory)?.name}
+                          Category:{" "}
+                          {
+                            categories.find((c) => c.id === selectedCategory)
+                              ?.name
+                          }
                         </span>
                       )}
                     </div>
@@ -213,17 +232,19 @@ const PublicAppSearch: React.FC = () => {
               <span>No tools found matching your criteria</span>
             ) : (
               <span>
-                Showing {filteredApps.length} tool{filteredApps.length !== 1 ? 's' : ''}
-                {(searchQuery || selectedCategory !== 'all') && (
+                Showing {filteredApps.length} tool
+                {filteredApps.length !== 1 ? "s" : ""}
+                {(searchQuery || selectedCategory !== "all") && (
                   <span className="text-primary-400 ml-2">
-                    (filtered from {apps.filter(app => app.isPublic || user).length} total)
+                    (filtered from{" "}
+                    {apps.filter((app) => app.isPublic || user).length} total)
                   </span>
                 )}
               </span>
             )}
           </div>
 
-          {!user && filteredApps.some(app => !app.isPublic) && (
+          {!user && filteredApps.some((app) => !app.isPublic) && (
             <div className="text-sm text-gray-500 flex items-center">
               <Lock className="h-4 w-4 mr-1" />
               Some tools require sign-in
@@ -246,32 +267,36 @@ const PublicAppSearch: React.FC = () => {
                   transition={{ duration: 0.6, delay: 0.05 * index }}
                   className={`group relative bg-gray-800/50 backdrop-blur-sm rounded-xl border transition-all duration-300 overflow-hidden ${
                     isPreview
-                      ? 'border-gray-700/50 opacity-75'
-                      : 'border-gray-700/50 hover:border-primary-500/50 hover:shadow-lg hover:shadow-primary-500/10'
+                      ? "border-gray-700/50 opacity-75"
+                      : "border-gray-700/50 hover:border-primary-500/50 hover:shadow-lg hover:shadow-primary-500/10"
                   }`}
                 >
                   <div className="p-5">
                     {/* Header */}
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center space-x-3">
-                        <div className={`p-2 rounded-lg ${
-                          isPreview
-                            ? 'bg-gray-700/50'
-                            : 'bg-primary-500/10 group-hover:bg-primary-500/20'
-                        } transition-colors`}>
+                        <div
+                          className={`p-2 rounded-lg ${
+                            isPreview
+                              ? "bg-gray-700/50"
+                              : "bg-primary-500/10 group-hover:bg-primary-500/20"
+                          } transition-colors`}
+                        >
                           <LazyIcon
                             name={app.iconName}
                             className={`h-5 w-5 ${
-                              isPreview ? 'text-gray-500' : 'text-primary-400'
+                              isPreview ? "text-gray-500" : "text-primary-400"
                             }`}
                           />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <h3 className={`text-base font-semibold truncate ${
-                            isPreview
-                              ? 'text-gray-400'
-                              : 'text-white group-hover:text-primary-400'
-                          } transition-colors`}>
+                          <h3
+                            className={`text-base font-semibold truncate ${
+                              isPreview
+                                ? "text-gray-400"
+                                : "text-white group-hover:text-primary-400"
+                            } transition-colors`}
+                          >
                             {app.name}
                           </h3>
                           <div className="flex items-center space-x-2 mt-1">
@@ -343,7 +368,8 @@ const PublicAppSearch: React.FC = () => {
                 No tools found
               </h3>
               <p className="text-gray-400 mb-6">
-                Try adjusting your search terms or filters to find what you're looking for.
+                Try adjusting your search terms or filters to find what you're
+                looking for.
               </p>
               <button
                 onClick={clearFilters}

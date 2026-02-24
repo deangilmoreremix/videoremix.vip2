@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, Circle, ChevronDown, ChevronUp, Trophy, Sparkles, X } from 'lucide-react';
-import { useAchievements, ACHIEVEMENT_DEFINITIONS } from '../../hooks/useAchievements';
-import { useUserAccess } from '../../hooks/useUserAccess';
-import { useAuth } from '../../context/AuthContext';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  CheckCircle2,
+  Circle,
+  ChevronDown,
+  ChevronUp,
+  Trophy,
+  Sparkles,
+  X,
+} from "lucide-react";
+import {
+  useAchievements,
+  ACHIEVEMENT_DEFINITIONS,
+} from "../../hooks/useAchievements";
+import { useUserAccess } from "../../hooks/useUserAccess";
+import { useAuth } from "../../context/AuthContext";
 
 interface ChecklistItem {
   id: string;
@@ -15,7 +26,8 @@ interface ChecklistItem {
 
 const OnboardingProgressTracker: React.FC = () => {
   const { user } = useAuth();
-  const { achievements, progressPercentage, getCompletionPercentage } = useAchievements();
+  const { achievements, progressPercentage, getCompletionPercentage } =
+    useAchievements();
   const { accessData } = useUserAccess();
   const [isExpanded, setIsExpanded] = useState(true);
   const [isDismissed, setIsDismissed] = useState(false);
@@ -26,42 +38,46 @@ const OnboardingProgressTracker: React.FC = () => {
 
   const checklistItems: ChecklistItem[] = [
     {
-      id: 'profile',
-      title: 'Complete Your Profile',
-      description: 'Add your details and preferences',
-      completed: achievements.some(a => a.achievement_type === 'profile_completed'),
-      achievementType: 'profile_completed',
+      id: "profile",
+      title: "Complete Your Profile",
+      description: "Add your details and preferences",
+      completed: achievements.some(
+        (a) => a.achievement_type === "profile_completed",
+      ),
+      achievementType: "profile_completed",
     },
     {
-      id: 'purchase',
-      title: 'Get Your First App',
-      description: 'Explore and purchase your first tool',
+      id: "purchase",
+      title: "Get Your First App",
+      description: "Explore and purchase your first tool",
       completed: hasAnyPurchases,
-      achievementType: 'first_purchase',
+      achievementType: "first_purchase",
     },
     {
-      id: 'video',
-      title: 'Create Your First Video',
-      description: 'Start creating personalized content',
-      completed: achievements.some(a => a.achievement_type === 'video_creator'),
-      achievementType: 'video_creator',
+      id: "video",
+      title: "Create Your First Video",
+      description: "Start creating personalized content",
+      completed: achievements.some(
+        (a) => a.achievement_type === "video_creator",
+      ),
+      achievementType: "video_creator",
     },
     {
-      id: 'explore',
-      title: 'Explore Multiple Apps',
-      description: 'Try out 5 different tools',
-      completed: achievements.some(a => a.achievement_type === 'power_user'),
-      achievementType: 'power_user',
+      id: "explore",
+      title: "Explore Multiple Apps",
+      description: "Try out 5 different tools",
+      completed: achievements.some((a) => a.achievement_type === "power_user"),
+      achievementType: "power_user",
     },
     {
-      id: 'preferences',
-      title: 'Customize Your Dashboard',
-      description: 'Set your theme and layout preferences',
+      id: "preferences",
+      title: "Customize Your Dashboard",
+      description: "Set your theme and layout preferences",
       completed: progressPercentage >= 80,
     },
   ];
 
-  const completedCount = checklistItems.filter(item => item.completed).length;
+  const completedCount = checklistItems.filter((item) => item.completed).length;
   const totalCount = checklistItems.length;
   const completionPercentage = Math.round((completedCount / totalCount) * 100);
   const isFullyComplete = completedCount === totalCount;
@@ -85,7 +101,7 @@ const OnboardingProgressTracker: React.FC = () => {
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1, rotate: 360 }}
-            transition={{ type: 'spring', duration: 0.8 }}
+            transition={{ type: "spring", duration: 0.8 }}
             className="bg-gradient-to-br from-yellow-400 to-yellow-600 p-4 rounded-full"
           >
             <Trophy className="h-8 w-8 text-white" />
@@ -107,7 +123,9 @@ const OnboardingProgressTracker: React.FC = () => {
         </div>
 
         <div className="mt-4 p-4 bg-white/5 rounded-lg">
-          <p className="text-sm text-gray-300 mb-2">You've earned {achievements.length} achievements!</p>
+          <p className="text-sm text-gray-300 mb-2">
+            You've earned {achievements.length} achievements!
+          </p>
           <div className="flex gap-2 flex-wrap">
             {achievements.slice(0, 5).map((achievement) => {
               const def = ACHIEVEMENT_DEFINITIONS[achievement.achievement_type];
@@ -172,7 +190,7 @@ const OnboardingProgressTracker: React.FC = () => {
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${completionPercentage}%` }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
               className="h-full bg-gradient-to-r from-primary-500 to-primary-400 rounded-full"
             />
           </div>
@@ -186,7 +204,7 @@ const OnboardingProgressTracker: React.FC = () => {
         {isExpanded && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="px-6 pb-6"
@@ -200,8 +218,8 @@ const OnboardingProgressTracker: React.FC = () => {
                   transition={{ delay: index * 0.1 }}
                   className={`flex items-start gap-3 p-3 rounded-lg transition-colors ${
                     item.completed
-                      ? 'bg-green-900/20 border border-green-500/30'
-                      : 'bg-gray-800/50 border border-gray-700 hover:border-gray-600'
+                      ? "bg-green-900/20 border border-green-500/30"
+                      : "bg-gray-800/50 border border-gray-700 hover:border-gray-600"
                   }`}
                 >
                   <div className="mt-0.5">
@@ -209,7 +227,7 @@ const OnboardingProgressTracker: React.FC = () => {
                       <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        transition={{ type: 'spring' }}
+                        transition={{ type: "spring" }}
                       >
                         <CheckCircle2 className="h-5 w-5 text-green-400" />
                       </motion.div>
@@ -218,7 +236,9 @@ const OnboardingProgressTracker: React.FC = () => {
                     )}
                   </div>
                   <div className="flex-1">
-                    <h4 className={`font-semibold ${item.completed ? 'text-gray-300 line-through' : 'text-white'}`}>
+                    <h4
+                      className={`font-semibold ${item.completed ? "text-gray-300 line-through" : "text-white"}`}
+                    >
                       {item.title}
                     </h4>
                     <p className="text-sm text-gray-400 mt-0.5">

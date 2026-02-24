@@ -1,15 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Video, FileText, Sparkles, ArrowRight, Wand2 } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
-import usePurchases from '../../hooks/usePurchases';
-import { useApps } from '../../hooks/useApps';
-import MagicSparkles from '../MagicSparkles';
+import React from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Video, FileText, Sparkles, ArrowRight, Wand2 } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
+import usePurchases from "../../hooks/usePurchases";
+import { useApps } from "../../hooks/useApps";
+import MagicSparkles from "../MagicSparkles";
 
 // Helper function to get app URL
 const getAppUrl = (appId: string, apps: any[]) => {
-  const app = apps.find(a => a.id === appId);
+  const app = apps.find((a) => a.id === appId);
   return app?.url || `/app/${appId}`;
 };
 
@@ -18,25 +18,26 @@ const DashboardPersonalizerSection: React.FC = () => {
   const { purchasedApps, hasAnyPurchases } = usePurchases();
   const { apps: appsData, loading: appsLoading } = useApps();
 
-  const personalizerApps = appsData.filter(app =>
-    app.category === 'personalizer' &&
-    (!user || purchasedApps.includes(app.id))
+  const personalizerApps = appsData.filter(
+    (app) =>
+      app.category === "personalizer" &&
+      (!user || purchasedApps.includes(app.id)),
   );
 
   const specificPersonalizerApps = [
-    'personalizer-text-ai-editor',
-    'personalizer-url-video-generation',
-    'personalizer-video-image-transformer',
-    'ai-signature',
-    'personalizer-advanced-text-video-editor',
-    'interactive-shopping',
-    'personalizer-recorder',
-    'thumbnail-generator',
-    'personalizer-writing-toolkit'
+    "personalizer-text-ai-editor",
+    "personalizer-url-video-generation",
+    "personalizer-video-image-transformer",
+    "ai-signature",
+    "personalizer-advanced-text-video-editor",
+    "interactive-shopping",
+    "personalizer-recorder",
+    "thumbnail-generator",
+    "personalizer-writing-toolkit",
   ];
 
-  const filteredPersonalizerApps = personalizerApps.filter(app =>
-    specificPersonalizerApps.includes(app.id)
+  const filteredPersonalizerApps = personalizerApps.filter((app) =>
+    specificPersonalizerApps.includes(app.id),
   );
 
   if (!user || !hasAnyPurchases || filteredPersonalizerApps.length === 0) {
@@ -123,14 +124,22 @@ const DashboardPersonalizerSection: React.FC = () => {
                     <h4 className="text-white font-bold text-lg mb-2 group-hover:text-primary-400 transition-colors">
                       {app.name}
                     </h4>
-                    <p className="text-gray-400 text-sm mb-4">{app.description}</p>
+                    <p className="text-gray-400 text-sm mb-4">
+                      {app.description}
+                    </p>
 
                     <div className="flex justify-between items-center">
                       <div className="flex items-center">
-                        {React.isValidElement(app.icon) ?
-                          React.cloneElement(app.icon as React.ReactElement, { className: "h-4 w-4 text-primary-400 mr-1" })
-                          : <Sparkles className="h-4 w-4 text-primary-400 mr-1" />}
-                        <span className="text-gray-500 text-xs">Personalizer Tool</span>
+                        {React.isValidElement(app.icon) ? (
+                          React.cloneElement(app.icon as React.ReactElement, {
+                            className: "h-4 w-4 text-primary-400 mr-1",
+                          })
+                        ) : (
+                          <Sparkles className="h-4 w-4 text-primary-400 mr-1" />
+                        )}
+                        <span className="text-gray-500 text-xs">
+                          Personalizer Tool
+                        </span>
                       </div>
 
                       <span className="text-primary-400 text-sm font-medium flex items-center">

@@ -1,6 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Check, ArrowRight, Clock, Gift, ChevronDown, Sparkles, Shield, Play } from 'lucide-react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Check,
+  ArrowRight,
+  Clock,
+  Gift,
+  ChevronDown,
+  Sparkles,
+  Shield,
+  Play,
+} from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 // Additional components for this file
 const Star: React.FC<{ className?: string }> = (props) => (
@@ -66,46 +75,52 @@ interface CountdownTimerProps {
   onComplete?: () => void;
 }
 
-const CountdownTimer: React.FC<CountdownTimerProps> = ({ hours, minutes, seconds, onComplete }) => {
+const CountdownTimer: React.FC<CountdownTimerProps> = ({
+  hours,
+  minutes,
+  seconds,
+  onComplete,
+}) => {
   const [timeLeft, setTimeLeft] = useState({
     hours,
     minutes,
-    seconds
+    seconds,
   });
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft(prev => {
+      setTimeLeft((prev) => {
         const newSeconds = prev.seconds - 1;
-        
+
         if (newSeconds >= 0) {
           return { ...prev, seconds: newSeconds };
         }
-        
+
         const newMinutes = prev.minutes - 1;
-        
+
         if (newMinutes >= 0) {
           return { ...prev, minutes: newMinutes, seconds: 59 };
         }
-        
+
         const newHours = prev.hours - 1;
-        
+
         if (newHours >= 0) {
           return { hours: newHours, minutes: 59, seconds: 59 };
         }
-        
+
         clearInterval(interval);
         if (onComplete) onComplete();
         return { hours: 0, minutes: 0, seconds: 0 };
       });
     }, 1000);
-    
+
     return () => clearInterval(interval);
   }, [onComplete]);
 
   // Derive time percentage for circular progress
   const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-  const currentSeconds = timeLeft.hours * 3600 + timeLeft.minutes * 60 + timeLeft.seconds;
+  const currentSeconds =
+    timeLeft.hours * 3600 + timeLeft.minutes * 60 + timeLeft.seconds;
   const percentage = (currentSeconds / totalSeconds) * 100;
 
   return (
@@ -132,8 +147,8 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ hours, minutes, seconds
             strokeLinecap="round"
             strokeDasharray={`${percentage * 2.83}, 283`} // 283 is approximately 2πr where r=45
             style={{ transformOrigin: "center", transform: "rotate(-90deg)" }}
-            animate={{ 
-              strokeDasharray: [`${percentage * 2.83}, 283`] 
+            animate={{
+              strokeDasharray: [`${percentage * 2.83}, 283`],
             }}
             transition={{ duration: 0.5 }}
           />
@@ -144,25 +159,25 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ hours, minutes, seconds
             </linearGradient>
           </defs>
         </svg>
-        
+
         {/* Time display in center */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-          <motion.div 
+          <motion.div
             className="text-3xl font-mono font-bold flex"
-            whileHover={{ 
-              scale: 1.1, 
-              textShadow: "0 0 8px rgba(255, 255, 255, 0.5)"
+            whileHover={{
+              scale: 1.1,
+              textShadow: "0 0 8px rgba(255, 255, 255, 0.5)",
             }}
           >
-            <span>{String(timeLeft.hours).padStart(2, '0')}</span>
+            <span>{String(timeLeft.hours).padStart(2, "0")}</span>
             <span className="mx-1">:</span>
-            <span>{String(timeLeft.minutes).padStart(2, '0')}</span>
+            <span>{String(timeLeft.minutes).padStart(2, "0")}</span>
             <span className="mx-1">:</span>
             <motion.span
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ repeat: Infinity, duration: 1 }}
             >
-              {String(timeLeft.seconds).padStart(2, '0')}
+              {String(timeLeft.seconds).padStart(2, "0")}
             </motion.span>
           </motion.div>
           <div className="text-xs opacity-70 mt-1">REMAINING</div>
@@ -179,48 +194,60 @@ const reasons = [
   "Cloud storage and collaboration tools",
   "Regular feature updates and enhancements",
   "24/7 customer support",
-  "14-day money-back guarantee"
+  "14-day money-back guarantee",
 ];
 
 const benefits = [
   {
     icon: <Clock />,
     title: "Save 15+ Hours Weekly",
-    description: "Reduce video editing time by 90% with our AI-powered tools"
+    description: "Reduce video editing time by 90% with our AI-powered tools",
   },
   {
     icon: <Star />,
     title: "Professional Results",
-    description: "Create studio-quality videos regardless of your experience level"
+    description:
+      "Create studio-quality videos regardless of your experience level",
   },
   {
     icon: <Users />,
     title: "Grow Your Audience",
-    description: "Consistently publish engaging content that attracts followers"
+    description:
+      "Consistently publish engaging content that attracts followers",
   },
   {
     icon: <Download />,
     title: "Export Anywhere",
-    description: "Share directly to all major platforms or download in any format"
+    description:
+      "Share directly to all major platforms or download in any format",
   },
   {
     icon: <Shield />,
     title: "Secure & Private",
-    description: "Enterprise-grade security keeps your content safe and private"
-  }
+    description:
+      "Enterprise-grade security keeps your content safe and private",
+  },
 ];
 
 const FinalCTA: React.FC = () => {
   const [urgency, setUrgency] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"]
+    offset: ["start end", "end start"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.5, 1, 1, 0.5]);
-  const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.95, 1, 1, 0.95]);
+  const opacity = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.8, 1],
+    [0.5, 1, 1, 0.5],
+  );
+  const scale = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.8, 1],
+    [0.95, 1, 1, 0.95],
+  );
   const y = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [50, 0, 0, 50]);
 
   useEffect(() => {
@@ -228,36 +255,41 @@ const FinalCTA: React.FC = () => {
     const urgencyMessages = [
       "Only 7 discount codes remaining!",
       "53 people viewing this offer now",
-      "15 people signed up in the last hour"
+      "15 people signed up in the last hour",
     ];
-    setUrgency(urgencyMessages[Math.floor(Math.random() * urgencyMessages.length)]);
+    setUrgency(
+      urgencyMessages[Math.floor(Math.random() * urgencyMessages.length)],
+    );
   }, []);
 
   return (
-    <section className="py-20 bg-gradient-to-b from-primary-600 to-primary-800 text-white overflow-hidden relative z-10" ref={containerRef}>
+    <section
+      className="py-20 bg-gradient-to-b from-primary-600 to-primary-800 text-white overflow-hidden relative z-10"
+      ref={containerRef}
+    >
       <div style={{ opacity, scale, y }} className="container-custom relative">
         {/* Background elements */}
         <div className="absolute top-0 right-0 -mr-24 -mt-24 w-80 h-80 bg-white opacity-5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-80 h-80 bg-secondary-500 opacity-10 rounded-full blur-3xl"></div>
-        
+
         <div className="text-center mb-8 max-w-3xl mx-auto">
           <div className="inline-flex items-center px-4 py-1 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm font-medium mb-4">
             <motion.div
               animate={{
                 rotate: [0, 360],
-                transition: { duration: 8, repeat: Infinity, ease: "linear" }
+                transition: { duration: 8, repeat: Infinity, ease: "linear" },
               }}
             >
               <Sparkles className="h-4 w-4 mr-2 text-yellow-300" />
             </motion.div>
             <span>JOIN VIDEOREMIX TODAY</span>
           </div>
-          
-          <motion.h2 
+
+          <motion.h2
             className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4"
-            whileHover={{ 
+            whileHover={{
               scale: 1.03,
-              textShadow: "0 0 8px rgba(255, 255, 255, 0.3)"
+              textShadow: "0 0 8px rgba(255, 255, 255, 0.3)",
             }}
           >
             <motion.span
@@ -265,20 +297,24 @@ const FinalCTA: React.FC = () => {
               animate={{
                 backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
               }}
-              transition={{ duration: 8, repeat: Infinity, repeatType: "reverse" }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                repeatType: "reverse",
+              }}
             >
               Ready to Start Personalizing Your Marketing?
             </motion.span>
           </motion.h2>
-          <motion.div 
+          <motion.div
             className="bg-white/10 backdrop-blur-sm rounded-lg p-4 mb-6 border border-white/20"
-            whileHover={{ 
+            whileHover={{
               borderColor: "rgba(255, 255, 255, 0.4)",
               y: -5,
-              boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)"
+              boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
             }}
           >
-            <motion.div 
+            <motion.div
               className="flex items-center justify-center"
               whileHover={{ scale: 1.05 }}
             >
@@ -287,47 +323,53 @@ const FinalCTA: React.FC = () => {
                 animate={{
                   rotate: [0, 10, -10, 0],
                   scale: [1, 1.1, 1],
-                  transition: { duration: 1.5, repeat: Infinity, repeatDelay: 5 }
+                  transition: {
+                    duration: 1.5,
+                    repeat: Infinity,
+                    repeatDelay: 5,
+                  },
                 }}
               >
                 <Sparkles className="h-5 w-5 text-yellow-300" />
               </motion.div>
               <p className="text-xl">
-                <span className="font-bold">Get Started:</span> Choose from Free, Pro, or Lifetime plans
+                <span className="font-bold">Get Started:</span> Choose from
+                Free, Pro, or Lifetime plans
               </p>
             </motion.div>
           </motion.div>
-          
+
           <p className="text-xl">
-            Join thousands of creators and businesses who are transforming their video content and seeing real results.
+            Join thousands of creators and businesses who are transforming their
+            video content and seeing real results.
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-16">
           {/* Main offer */}
-          <motion.div 
+          <motion.div
             className="lg:col-span-7 bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 relative overflow-hidden"
-            whileHover={{ 
+            whileHover={{
               y: -10,
               borderColor: "rgba(255, 255, 255, 0.3)",
-              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
             }}
           >
             {/* Decorative corner accent */}
-            <motion.div 
+            <motion.div
               className="absolute -top-8 -left-8 w-16 h-16 bg-secondary-500 opacity-20 rounded-full blur-xl transform rotate-45"
-              animate={{ 
+              animate={{
                 rotate: [45, 90, 45],
                 scale: [1, 1.2, 1],
-                opacity: [0.2, 0.3, 0.2]
+                opacity: [0.2, 0.3, 0.2],
               }}
-              transition={{ 
-                duration: 8, 
+              transition={{
+                duration: 8,
                 repeat: Infinity,
-                repeatType: "reverse" 
+                repeatType: "reverse",
               }}
             ></motion.div>
-            
+
             <div className="relative z-10">
               <motion.h3
                 className="text-2xl font-bold mb-6 relative z-10"
@@ -335,51 +377,57 @@ const FinalCTA: React.FC = () => {
               >
                 Why Choose VideoRemix for Personalized Marketing
               </motion.h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 {benefits.map((benefit, index) => (
-                  <motion.div 
+                  <motion.div
                     key={index}
                     className="bg-white/5 backdrop-blur-sm p-4 rounded-lg border border-white/10"
-                    whileHover={{ 
+                    whileHover={{
                       scale: 1.05,
                       backgroundColor: "rgba(255, 255, 255, 0.1)",
                       y: -5,
-                      boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)"
+                      boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
                     }}
                   >
-                    <motion.div 
+                    <motion.div
                       className="bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg p-2 inline-block mb-3"
-                      whileHover={{ 
+                      whileHover={{
                         rotate: [0, 10, -10, 0],
                         scale: 1.1,
-                        transition: { duration: 0.5 }
+                        transition: { duration: 0.5 },
                       }}
                     >
-                      {React.cloneElement(benefit.icon, { className: "h-5 w-5" })}
+                      {React.cloneElement(benefit.icon, {
+                        className: "h-5 w-5",
+                      })}
                     </motion.div>
-                    <h4 className="font-semibold text-lg mb-1">{benefit.title}</h4>
-                    <p className="text-sm text-white/80">{benefit.description}</p>
+                    <h4 className="font-semibold text-lg mb-1">
+                      {benefit.title}
+                    </h4>
+                    <p className="text-sm text-white/80">
+                      {benefit.description}
+                    </p>
                   </motion.div>
                 ))}
               </div>
-              
+
               <div className="space-y-4 mb-8">
                 {reasons.map((reason, index) => (
-                  <motion.div 
+                  <motion.div
                     key={index}
                     className="flex items-start"
-                    whileHover={{ 
+                    whileHover={{
                       x: 10,
-                      transition: { duration: 0.2 }
+                      transition: { duration: 0.2 },
                     }}
                   >
-                    <motion.div 
+                    <motion.div
                       className="bg-secondary-500 rounded-full p-1 mr-3 mt-0.5 flex-shrink-0"
-                      whileHover={{ 
+                      whileHover={{
                         rotate: [0, 10, -10, 0],
                         scale: 1.2,
-                        transition: { duration: 0.5 }
+                        transition: { duration: 0.5 },
                       }}
                     >
                       <Check className="h-4 w-4" />
@@ -388,48 +436,48 @@ const FinalCTA: React.FC = () => {
                   </motion.div>
                 ))}
               </div>
-              
+
               <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
-                <motion.a 
-                  href="#try-free" 
+                <motion.a
+                  href="#try-free"
                   className="btn bg-white text-primary-600 hover:bg-gray-100 font-semibold text-lg px-8 py-4 rounded-lg flex items-center justify-center"
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.05,
-                    boxShadow: "0 20px 25px -5px rgba(255, 255, 255, 0.2)"
+                    boxShadow: "0 20px 25px -5px rgba(255, 255, 255, 0.2)",
                   }}
                   whileTap={{ scale: 0.97 }}
                 >
                   Try Free For 14 Days
                   <motion.div
-                    animate={{ 
+                    animate={{
                       x: [0, 5, 0],
-                      transition: { repeat: Infinity, duration: 1.5 }
+                      transition: { repeat: Infinity, duration: 1.5 },
                     }}
                   >
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </motion.div>
                 </motion.a>
-                <motion.a 
-                  href="#watch-demo" 
+                <motion.a
+                  href="#watch-demo"
                   className="btn bg-transparent border border-white text-white hover:bg-white/10 text-lg px-8 py-4 rounded-lg flex items-center justify-center group"
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.05,
-                    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)"
+                    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
                   }}
                   whileTap={{ scale: 0.97 }}
                 >
-                  <motion.div 
+                  <motion.div
                     className="mr-2 relative"
-                    whileHover={{ 
+                    whileHover={{
                       rotate: [0, 10, -10, 0],
-                      transition: { duration: 0.5 }
+                      transition: { duration: 0.5 },
                     }}
                   >
-                    <motion.div 
+                    <motion.div
                       className="absolute inset-0 bg-white/30 rounded-full blur-md"
                       animate={{
                         scale: [1, 1.5, 1],
-                        opacity: [0.3, 0, 0.3]
+                        opacity: [0.3, 0, 0.3],
                       }}
                       transition={{ duration: 1.5, repeat: Infinity }}
                     ></motion.div>
@@ -440,14 +488,14 @@ const FinalCTA: React.FC = () => {
               </div>
             </div>
           </motion.div>
-          
+
           {/* Pricing offer */}
-          <motion.div 
+          <motion.div
             className="lg:col-span-5 bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 flex flex-col h-full"
-            whileHover={{ 
+            whileHover={{
               y: -10,
               borderColor: "rgba(255, 255, 255, 0.3)",
-              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
             }}
           >
             <motion.div
@@ -459,14 +507,14 @@ const FinalCTA: React.FC = () => {
                   className="text-white font-bold text-sm"
                   animate={{
                     scale: [1, 1.1, 1],
-                    transition: { repeat: Infinity, duration: 1.5 }
+                    transition: { repeat: Infinity, duration: 1.5 },
                   }}
                 >
                   PRO PLAN
                 </motion.span>
               </div>
             </motion.div>
-            
+
             <div className="text-center mb-6">
               <h3 className="text-2xl font-bold mb-2">VideoRemix Pro Plan</h3>
               <div className="flex items-center justify-center mb-2">
@@ -474,7 +522,7 @@ const FinalCTA: React.FC = () => {
                   className="text-5xl font-bold"
                   whileHover={{
                     scale: 1.1,
-                    textShadow: "0 0 8px rgba(255, 255, 255, 0.5)"
+                    textShadow: "0 0 8px rgba(255, 255, 255, 0.5)",
                   }}
                 >
                   $29
@@ -486,30 +534,30 @@ const FinalCTA: React.FC = () => {
                 className="text-white/80 mt-2"
                 animate={{
                   opacity: [0.8, 1, 0.8],
-                  transition: { duration: 3, repeat: Infinity }
+                  transition: { duration: 3, repeat: Infinity },
                 }}
               >
                 Full access to all personalized marketing tools
               </motion.div>
             </div>
-            
-            <motion.div 
+
+            <motion.div
               className="bg-secondary-500/20 rounded-lg p-3 mb-6"
-              whileHover={{ 
-                scale: 1.03, 
+              whileHover={{
+                scale: 1.03,
                 backgroundColor: "rgba(236, 72, 153, 0.3)",
-                boxShadow: "0 10px 15px -3px rgba(236, 72, 153, 0.2)"
+                boxShadow: "0 10px 15px -3px rgba(236, 72, 153, 0.2)",
               }}
             >
-              <motion.div 
+              <motion.div
                 className="flex items-center mb-3"
                 whileHover={{ x: 5 }}
               >
                 <motion.div
-                  whileHover={{ 
+                  whileHover={{
                     rotate: [0, 10, -10, 0],
                     scale: 1.2,
-                    transition: { duration: 0.5 }
+                    transition: { duration: 0.5 },
                   }}
                 >
                   <Gift className="h-4 w-4 text-secondary-300 mr-2" />
@@ -517,74 +565,76 @@ const FinalCTA: React.FC = () => {
                 <span className="font-medium">Full Feature Access</span>
               </motion.div>
               <p className="text-white/80 pl-7">
-                Get unlimited access to 50+ personalized marketing tools and AI-powered features
+                Get unlimited access to 50+ personalized marketing tools and
+                AI-powered features
               </p>
             </motion.div>
-            
-            <motion.a 
-              href="#claim-offer" 
+
+            <motion.a
+              href="#claim-offer"
               className="block w-full btn bg-white text-primary-600 hover:bg-gray-100 font-semibold text-lg px-8 py-4 rounded-lg text-center"
-              whileHover={{ 
+              whileHover={{
                 scale: 1.03,
-                boxShadow: "0 20px 25px -5px rgba(255, 255, 255, 0.2)"
+                boxShadow: "0 20px 25px -5px rgba(255, 255, 255, 0.2)",
               }}
               whileTap={{ scale: 0.97 }}
             >
               <motion.span
-                animate={{ 
+                animate={{
                   scale: [1, 1.03, 1],
-                  transition: { repeat: Infinity, duration: 2, repeatDelay: 1 }
+                  transition: { repeat: Infinity, duration: 2, repeatDelay: 1 },
                 }}
               >
                 Start with VideoRemix Pro
               </motion.span>
             </motion.a>
-            
-            <motion.p 
+
+            <motion.p
               className="text-center text-white/80 text-sm mt-4"
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
-                textShadow: "0 0 8px rgba(255, 255, 255, 0.5)"
+                textShadow: "0 0 8px rgba(255, 255, 255, 0.5)",
               }}
             >
               Start with a free trial. No credit card required.
             </motion.p>
           </motion.div>
         </div>
-        
+
         <div className="text-center max-w-3xl mx-auto">
-          <motion.h3 
+          <motion.h3
             className="text-2xl font-bold mb-4"
-            whileHover={{ 
+            whileHover={{
               scale: 1.05,
-              textShadow: "0 0 8px rgba(255, 255, 255, 0.5)"
+              textShadow: "0 0 8px rgba(255, 255, 255, 0.5)",
             }}
           >
             Join Our Community of 10,000+ Video Creators
           </motion.h3>
           <p className="text-lg mb-8">
-            Don't miss this opportunity to transform your video creation process and start producing
-            professional content that drives real results for your business or brand.
+            Don't miss this opportunity to transform your video creation process
+            and start producing professional content that drives real results
+            for your business or brand.
           </p>
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <motion.a 
-              href="#signup" 
+            <motion.a
+              href="#signup"
               className="btn bg-white text-primary-600 hover:bg-gray-100 font-semibold text-lg px-10 py-4 rounded-lg"
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
-                boxShadow: "0 20px 25px -5px rgba(255, 255, 255, 0.2)"
+                boxShadow: "0 20px 25px -5px rgba(255, 255, 255, 0.2)",
               }}
               whileTap={{ scale: 0.97 }}
             >
               Start Free Trial
             </motion.a>
-            <motion.a 
-              href="#questions" 
+            <motion.a
+              href="#questions"
               className="btn bg-transparent border border-white text-white hover:bg-white/10 text-lg px-10 py-4 rounded-lg"
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
                 boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
-                borderColor: "rgba(255, 255, 255, 0.5)"
+                borderColor: "rgba(255, 255, 255, 0.5)",
               }}
               whileTap={{ scale: 0.97 }}
             >
@@ -599,4 +649,4 @@ const FinalCTA: React.FC = () => {
 
 export default FinalCTA;
 
-export { FinalCTA }
+export { FinalCTA };

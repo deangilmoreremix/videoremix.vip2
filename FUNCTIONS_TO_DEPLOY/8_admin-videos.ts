@@ -176,30 +176,30 @@ async function createVideo(req: Request, supabaseClient: SupabaseClient) {
 
 // Unused function - kept for potential future use
 // async function getVideo(videoId: string, supabaseClient: SupabaseClient) {
-  const { data: video, error } = await supabaseClient
-    .from("videos")
-    .select("*")
-    .eq("id", videoId)
-    .maybeSingle();
-
-  if (error || !video) {
-    return new Response(
-      JSON.stringify({ success: false, error: "Video not found" }),
-      {
-        status: 404,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
-    );
-  }
-
-  return new Response(
-    JSON.stringify({ success: true, data: video }),
-    {
-      status: 200,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    }
-  );
-}
+//   const { data: video, error } = await supabaseClient
+//     .from("videos")
+//     .select("*")
+//     .eq("id", videoId)
+//     .maybeSingle();
+// 
+//   if (error || !video) {
+//     return new Response(
+//       JSON.stringify({ success: false, error: "Video not found" }),
+//       {
+//         status: 404,
+//         headers: { ...corsHeaders, "Content-Type": "application/json" },
+//       }
+//     );
+//   }
+// 
+//   return new Response(
+//     JSON.stringify({ success: true, data: video }),
+//     {
+//       status: 200,
+//       headers: { ...corsHeaders, "Content-Type": "application/json" },
+//     }
+//   );
+// }
 
 async function updateVideo(req: Request, videoId: string, supabaseClient: SupabaseClient) {
   const videoData = await req.json();

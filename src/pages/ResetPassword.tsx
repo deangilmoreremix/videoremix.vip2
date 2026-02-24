@@ -13,7 +13,9 @@ export default function ResetPassword() {
   useEffect(() => {
     // Check if user is authenticated, if not redirect to signin
     const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (!session) {
         navigate("/signin", { replace: true });
       }
@@ -56,53 +58,72 @@ export default function ResetPassword() {
 
   if (success) {
     return (
-      <div style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        background: "linear-gradient(135deg, #000000 0%, #1a1a2e 100%)",
-        fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif",
-        padding: "20px"
-      }}>
-        <div style={{
-          textAlign: "center",
-          maxWidth: "400px",
-          background: "rgba(255, 255, 255, 0.1)",
-          backdropFilter: "blur(10px)",
-          borderRadius: "16px",
-          padding: "40px",
-          border: "1px solid rgba(255, 255, 255, 0.2)"
-        }}>
-          <div style={{
-            width: "60px",
-            height: "60px",
-            background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
-            borderRadius: "50%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            margin: "0 auto 20px"
-          }}>
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3">
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
+          background: "linear-gradient(135deg, #000000 0%, #1a1a2e 100%)",
+          fontFamily:
+            "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif",
+          padding: "20px",
+        }}
+      >
+        <div
+          style={{
+            textAlign: "center",
+            maxWidth: "400px",
+            background: "rgba(255, 255, 255, 0.1)",
+            backdropFilter: "blur(10px)",
+            borderRadius: "16px",
+            padding: "40px",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+          }}
+        >
+          <div
+            style={{
+              width: "60px",
+              height: "60px",
+              background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 20px",
+            }}
+          >
+            <svg
+              width="30"
+              height="30"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              strokeWidth="3"
+            >
               <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
           </div>
-          <h2 style={{
-            fontSize: "24px",
-            fontWeight: "700",
-            color: "#ffffff",
-            marginBottom: "12px"
-          }}>
+          <h2
+            style={{
+              fontSize: "24px",
+              fontWeight: "700",
+              color: "#ffffff",
+              marginBottom: "12px",
+            }}
+          >
             Password Updated!
           </h2>
-          <p style={{
-            fontSize: "15px",
-            color: "rgba(255, 255, 255, 0.8)",
-            lineHeight: "1.6"
-          }}>
-            Your password has been successfully updated. Redirecting you to the dashboard...
+          <p
+            style={{
+              fontSize: "15px",
+              color: "rgba(255, 255, 255, 0.8)",
+              lineHeight: "1.6",
+            }}
+          >
+            Your password has been successfully updated. Redirecting you to the
+            dashboard...
           </p>
         </div>
       </div>
@@ -110,64 +131,80 @@ export default function ResetPassword() {
   }
 
   return (
-    <div style={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      minHeight: "100vh",
-      background: "linear-gradient(135deg, #000000 0%, #1a1a2e 100%)",
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif",
-      padding: "20px"
-    }}>
-      <div style={{
-        maxWidth: "420px",
-        width: "100%",
-        background: "rgba(255, 255, 255, 0.1)",
-        backdropFilter: "blur(10px)",
-        borderRadius: "16px",
-        padding: "40px",
-        border: "1px solid rgba(255, 255, 255, 0.2)"
-      }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #000000 0%, #1a1a2e 100%)",
+        fontFamily:
+          "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif",
+        padding: "20px",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "420px",
+          width: "100%",
+          background: "rgba(255, 255, 255, 0.1)",
+          backdropFilter: "blur(10px)",
+          borderRadius: "16px",
+          padding: "40px",
+          border: "1px solid rgba(255, 255, 255, 0.2)",
+        }}
+      >
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
-          <h2 style={{
-            fontSize: "28px",
-            fontWeight: "700",
-            color: "#ffffff",
-            marginBottom: "8px"
-          }}>
+          <h2
+            style={{
+              fontSize: "28px",
+              fontWeight: "700",
+              color: "#ffffff",
+              marginBottom: "8px",
+            }}
+          >
             Choose a New Password
           </h2>
-          <p style={{
-            fontSize: "14px",
-            color: "rgba(255, 255, 255, 0.7)"
-          }}>
+          <p
+            style={{
+              fontSize: "14px",
+              color: "rgba(255, 255, 255, 0.7)",
+            }}
+          >
             Enter your new password below
           </p>
         </div>
 
-        <form onSubmit={updatePassword} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        <form
+          onSubmit={updatePassword}
+          style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+        >
           {error && (
-            <div style={{
-              background: "rgba(239, 68, 68, 0.2)",
-              border: "1px solid rgba(239, 68, 68, 0.5)",
-              borderRadius: "8px",
-              padding: "12px 16px",
-              color: "#fca5a5",
-              fontSize: "14px"
-            }}>
+            <div
+              style={{
+                background: "rgba(239, 68, 68, 0.2)",
+                border: "1px solid rgba(239, 68, 68, 0.5)",
+                borderRadius: "8px",
+                padding: "12px 16px",
+                color: "#fca5a5",
+                fontSize: "14px",
+              }}
+            >
               {error}
             </div>
           )}
 
           <div>
-            <label style={{
-              display: "block",
-              fontSize: "14px",
-              fontWeight: "500",
-              color: "rgba(255, 255, 255, 0.9)",
-              marginBottom: "8px"
-            }}>
+            <label
+              style={{
+                display: "block",
+                fontSize: "14px",
+                fontWeight: "500",
+                color: "rgba(255, 255, 255, 0.9)",
+                marginBottom: "8px",
+              }}
+            >
               New Password
             </label>
             <input
@@ -184,20 +221,22 @@ export default function ResetPassword() {
                 color: "#ffffff",
                 fontSize: "14px",
                 outline: "none",
-                boxSizing: "border-box"
+                boxSizing: "border-box",
               }}
               placeholder="Enter new password"
             />
           </div>
 
           <div>
-            <label style={{
-              display: "block",
-              fontSize: "14px",
-              fontWeight: "500",
-              color: "rgba(255, 255, 255, 0.9)",
-              marginBottom: "8px"
-            }}>
+            <label
+              style={{
+                display: "block",
+                fontSize: "14px",
+                fontWeight: "500",
+                color: "rgba(255, 255, 255, 0.9)",
+                marginBottom: "8px",
+              }}
+            >
               Confirm Password
             </label>
             <input
@@ -214,7 +253,7 @@ export default function ResetPassword() {
                 color: "#ffffff",
                 fontSize: "14px",
                 outline: "none",
-                boxSizing: "border-box"
+                boxSizing: "border-box",
               }}
               placeholder="Confirm new password"
             />
@@ -235,21 +274,24 @@ export default function ResetPassword() {
               fontSize: "16px",
               fontWeight: "600",
               cursor: loading ? "not-allowed" : "pointer",
-              transition: "all 0.2s"
+              transition: "all 0.2s",
             }}
           >
             {loading ? "Updating..." : "Update Password"}
           </button>
         </form>
 
-        <p style={{
-          marginTop: "24px",
-          fontSize: "13px",
-          color: "rgba(255, 255, 255, 0.6)",
-          textAlign: "center",
-          lineHeight: "1.6"
-        }}>
-          Your password must be at least 8 characters and match the confirmation.
+        <p
+          style={{
+            marginTop: "24px",
+            fontSize: "13px",
+            color: "rgba(255, 255, 255, 0.6)",
+            textAlign: "center",
+            lineHeight: "1.6",
+          }}
+        >
+          Your password must be at least 8 characters and match the
+          confirmation.
         </p>
       </div>
     </div>

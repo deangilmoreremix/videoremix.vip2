@@ -1,8 +1,8 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Home, Search, User, Grid, LogOut } from 'lucide-react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import React from "react";
+import { motion } from "framer-motion";
+import { Home, Search, User, Grid, LogOut } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const MobileBottomNav: React.FC = () => {
   const navigate = useNavigate();
@@ -16,10 +16,10 @@ const MobileBottomNav: React.FC = () => {
   };
 
   const navItems = [
-    { icon: Home, label: 'Home', path: '/' },
-    { icon: Grid, label: 'Apps', path: '/dashboard' },
-    { icon: User, label: 'Profile', path: '/profile' },
-    { icon: LogOut, label: 'Logout', action: signOut },
+    { icon: Home, label: "Home", path: "/" },
+    { icon: Grid, label: "Apps", path: "/dashboard" },
+    { icon: User, label: "Profile", path: "/profile" },
+    { icon: LogOut, label: "Logout", action: signOut },
   ];
 
   return (
@@ -46,17 +46,17 @@ const MobileBottomNav: React.FC = () => {
               }}
               className={`flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-colors ${
                 active
-                  ? 'text-primary-400 bg-primary-500/10'
-                  : 'text-gray-400 hover:text-white'
+                  ? "text-primary-400 bg-primary-500/10"
+                  : "text-gray-400 hover:text-white"
               }`}
             >
-              <Icon className={`h-6 w-6 ${active ? 'text-primary-400' : ''}`} />
+              <Icon className={`h-6 w-6 ${active ? "text-primary-400" : ""}`} />
               <span className="text-xs font-medium">{item.label}</span>
               {active && (
                 <motion.div
                   layoutId="activeTab"
                   className="absolute bottom-0 left-0 right-0 h-1 bg-primary-500 rounded-t-full"
-                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
               )}
             </motion.button>

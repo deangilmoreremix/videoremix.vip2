@@ -1,10 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '../utils/supabaseClient';
-import { transformApp, ComponentApp } from '../utils/appTransformers';
-import { appConfig } from '../config/appConfig';
+import { useState, useEffect, useCallback } from "react";
+import { supabase } from "../utils/supabaseClient";
+import { transformApp, ComponentApp } from "../utils/appTransformers";
+import { appConfig } from "../config/appConfig";
 
 // Cache configuration
-const APPS_CACHE_KEY = 'videoremix_apps_cache';
+const APPS_CACHE_KEY = "videoremix_apps_cache";
 const APPS_CACHE_TTL = appConfig.CACHE.APPS_TTL;
 
 interface CacheData {
@@ -30,7 +30,7 @@ const getCachedApps = (): ComponentApp[] | null => {
 
     return cacheData.data;
   } catch (error) {
-    console.warn('Error reading apps cache:', error);
+    console.warn("Error reading apps cache:", error);
     return null;
   }
 };
@@ -40,11 +40,11 @@ const setCachedApps = (apps: ComponentApp[], lastModified: string): void => {
     const cacheData: CacheData = {
       data: apps,
       timestamp: Date.now(),
-      lastModified
+      lastModified,
     };
     localStorage.setItem(APPS_CACHE_KEY, JSON.stringify(cacheData));
   } catch (error) {
-    console.warn('Error caching apps data:', error);
+    console.warn("Error caching apps data:", error);
   }
 };
 
@@ -52,7 +52,7 @@ const clearAppsCache = (): void => {
   try {
     localStorage.removeItem(APPS_CACHE_KEY);
   } catch (error) {
-    console.warn('Error clearing apps cache:', error);
+    console.warn("Error clearing apps cache:", error);
   }
 };
 
@@ -72,36 +72,45 @@ export const useApps = () => {
         if (cachedApps) {
           // Validate cache with server
           try {
-            console.log('[useApps] Validating cache with server...');
-            const { data: serverLastModified, error: validationError } = await supabase
-              .from('apps')
-              .select('updated_at')
-              .order('updated_at', { ascending: false })
-              .limit(1);
+            console.log("[useApps] Validating cache with server...");
+            const { data: serverLastModified, error: validationError } =
+              await supabase
+                .from("apps")
+                .select("updated_at")
+                .order("updated_at", { ascending: false })
+                .limit(1);
 
-            console.log('[useApps] Cache validation response:', {
+            console.log("[useApps] Cache validation response:", {
               data: serverLastModified,
               error: validationError,
               errorCode: validationError?.code,
               errorMessage: validationError?.message,
-              errorDetails: validationError?.details
+              errorDetails: validationError?.details,
             });
 
             // Handle 406 error (RLS or empty result)
             if (validationError) {
-              console.warn('[useApps] Cache validation failed due to RLS or empty table:', validationError);
+              console.warn(
+                "[useApps] Cache validation failed due to RLS or empty table:",
+                validationError,
+              );
               // Continue to fetch fresh data - this is expected when RLS blocks access or table is empty
             } else if (serverLastModified && serverLastModified.length > 0) {
               const cached = localStorage.getItem(APPS_CACHE_KEY);
               if (cached) {
                 const cacheData: CacheData = JSON.parse(cached);
                 // If server data is newer, don't use cache
-                if (serverLastModified[0]?.updated_at && serverLastModified[0].updated_at > cacheData.lastModified) {
+                if (
+                  serverLastModified[0]?.updated_at &&
+                  serverLastModified[0].updated_at > cacheData.lastModified
+                ) {
                   // Cache is stale, continue to fetch fresh data
-                  console.log('[useApps] Cache is stale, fetching fresh data...');
+                  console.log(
+                    "[useApps] Cache is stale, fetching fresh data...",
+                  );
                 } else {
                   // Cache is valid
-                  console.log('[useApps] Cache is valid, using cached data');
+                  console.log("[useApps] Cache is valid, using cached data");
                   setApps(cachedApps);
                   setLoading(false);
                   return;
@@ -109,19 +118,22 @@ export const useApps = () => {
               }
             } else {
               // Empty result or no data
-              console.log('[useApps] Empty result or no data available');
+              console.log("[useApps] Empty result or no data available");
             }
           } catch (validationError) {
-            console.warn('Cache validation failed, fetching fresh data:', validationError);
+            console.warn(
+              "Cache validation failed, fetching fresh data:",
+              validationError,
+            );
             // Continue to fetch fresh data
           }
         }
       }
 
       const { data, error: supabaseError } = await supabase
-        .from('apps')
-        .select('*')
-        .order('sort_order', { ascending: true });
+        .from("apps")
+        .select("*")
+        .order("sort_order", { ascending: true });
 
       if (supabaseError) {
         throw supabaseError;
@@ -132,17 +144,17 @@ export const useApps = () => {
         setApps(transformedApps);
 
         // Get the latest modification timestamp for caching
-        const latestModified = data.reduce((latest, app) =>
-          app.updated_at > latest ? app.updated_at : latest,
-          data[0]?.updated_at || new Date().toISOString()
+        const latestModified = data.reduce(
+          (latest, app) => (app.updated_at > latest ? app.updated_at : latest),
+          data[0]?.updated_at || new Date().toISOString(),
         );
 
         // Cache the transformed data with modification timestamp
         setCachedApps(transformedApps, latestModified);
       }
     } catch (err) {
-      console.error('Error fetching apps:', err);
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      console.error("Error fetching apps:", err);
+      setError(err instanceof Error ? err.message : "Unknown error");
       setApps([]);
     } finally {
       setLoading(false);
@@ -162,6 +174,6 @@ export const useApps = () => {
     apps,
     loading,
     error,
-    refetch
+    refetch,
   };
 };

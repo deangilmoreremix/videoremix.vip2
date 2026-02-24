@@ -1,20 +1,20 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Star, Sparkles, ArrowRight, Lock } from 'lucide-react';
-import { useApps } from '../hooks/useApps';
-import { useAuth } from '../context/AuthContext';
-import LazyIcon from './LazyIcon';
-import ErrorBoundary from './ErrorBoundary';
+import React from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Star, Sparkles, ArrowRight, Lock } from "lucide-react";
+import { useApps } from "../hooks/useApps";
+import { useAuth } from "../context/AuthContext";
+import LazyIcon from "./LazyIcon";
+import ErrorBoundary from "./ErrorBoundary";
 
 const PublicAppGallery: React.FC = () => {
   const { user } = useAuth();
   const { apps, loading } = useApps();
 
   // Get featured public apps
-  const featuredPublicApps = apps.filter(app =>
-    app.isPublic && (app.popular || app.new)
-  ).slice(0, 6); // Show top 6
+  const featuredPublicApps = apps
+    .filter((app) => app.isPublic && (app.popular || app.new))
+    .slice(0, 6); // Show top 6
 
   if (loading) {
     return (
@@ -42,7 +42,9 @@ const PublicAppGallery: React.FC = () => {
             className="inline-flex items-center px-4 py-2 rounded-full bg-primary-500/10 border border-primary-500/20 mb-6"
           >
             <Sparkles className="h-4 w-4 text-primary-400 mr-2" />
-            <span className="text-primary-400 text-sm font-medium">Featured Tools</span>
+            <span className="text-primary-400 text-sm font-medium">
+              Featured Tools
+            </span>
           </motion.div>
 
           <motion.h2
@@ -53,7 +55,8 @@ const PublicAppGallery: React.FC = () => {
           >
             Powerful Tools for
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-purple-400">
-              {" "}Content Creation
+              {" "}
+              Content Creation
             </span>
           </motion.h2>
 
@@ -63,7 +66,8 @@ const PublicAppGallery: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-xl text-gray-400 max-w-3xl mx-auto"
           >
-            Discover our most popular tools. Create stunning content with AI-powered features designed for creators and businesses.
+            Discover our most popular tools. Create stunning content with
+            AI-powered features designed for creators and businesses.
           </motion.p>
         </div>
 
@@ -82,7 +86,10 @@ const PublicAppGallery: React.FC = () => {
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3">
                     <div className="p-2 bg-primary-500/10 rounded-lg">
-                      <LazyIcon name={app.iconName} className="h-6 w-6 text-primary-400" />
+                      <LazyIcon
+                        name={app.iconName}
+                        className="h-6 w-6 text-primary-400"
+                      />
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-white group-hover:text-primary-400 transition-colors">
@@ -153,7 +160,9 @@ const PublicAppGallery: React.FC = () => {
               Ready to Create Amazing Content?
             </h3>
             <p className="text-gray-400 mb-6 max-w-2xl mx-auto">
-              Join thousands of creators who trust our tools to bring their ideas to life. Sign up today and unlock the full potential of AI-powered content creation.
+              Join thousands of creators who trust our tools to bring their
+              ideas to life. Sign up today and unlock the full potential of
+              AI-powered content creation.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -183,7 +192,9 @@ const PublicAppGalleryWithErrorBoundary = (props: any) => (
     fallback={
       <div className="py-20 text-center">
         <div className="max-w-md mx-auto">
-          <h3 className="text-xl font-semibold text-white mb-2">Unable to load app gallery</h3>
+          <h3 className="text-xl font-semibold text-white mb-2">
+            Unable to load app gallery
+          </h3>
           <p className="text-gray-400">Please refresh the page to try again.</p>
         </div>
       </div>

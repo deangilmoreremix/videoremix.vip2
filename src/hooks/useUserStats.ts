@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { supabase } from '../utils/supabaseClient';
+import { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import { supabase } from "../utils/supabaseClient";
 
 interface UserStats {
   purchasedAppsCount: number;
@@ -13,7 +13,7 @@ export const useUserStats = () => {
   const [stats, setStats] = useState<UserStats>({
     purchasedAppsCount: 0,
     videosCreated: 0,
-    activeDays: 0
+    activeDays: 0,
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +24,7 @@ export const useUserStats = () => {
         setStats({
           purchasedAppsCount: 0,
           videosCreated: 0,
-          activeDays: 0
+          activeDays: 0,
         });
         setLoading(false);
         return;
@@ -36,36 +36,39 @@ export const useUserStats = () => {
 
         const [appsResult, videosResult] = await Promise.all([
           supabase
-            .from('user_app_access')
-            .select('app_slug', { count: 'exact', head: false })
-            .eq('user_id', user.id)
-            .eq('has_access', true),
+            .from("user_app_access")
+            .select("app_slug", { count: "exact", head: false })
+            .eq("user_id", user.id)
+            .eq("has_access", true),
           supabase
-            .from('videos')
-            .select('id', { count: 'exact', head: false })
-            .eq('user_id', user.id)
+            .from("videos")
+            .select("id", { count: "exact", head: false })
+            .eq("user_id", user.id),
         ]);
 
         const purchasedAppsCount = appsResult.data?.length || 0;
         const videosCreated = videosResult.data?.length || 0;
 
         const accountAge = user.created_at
-          ? Math.floor((Date.now() - new Date(user.created_at).getTime()) / (1000 * 60 * 60 * 24))
+          ? Math.floor(
+              (Date.now() - new Date(user.created_at).getTime()) /
+                (1000 * 60 * 60 * 24),
+            )
           : 0;
         const activeDays = Math.max(1, accountAge);
 
         setStats({
           purchasedAppsCount,
           videosCreated,
-          activeDays
+          activeDays,
         });
       } catch (err: any) {
-        console.error('Error fetching user stats:', err);
-        setError(err.message || 'Failed to load user statistics');
+        console.error("Error fetching user stats:", err);
+        setError(err.message || "Failed to load user statistics");
         setStats({
           purchasedAppsCount: 0,
           videosCreated: 0,
-          activeDays: 0
+          activeDays: 0,
         });
       } finally {
         setLoading(false);
@@ -78,6 +81,6 @@ export const useUserStats = () => {
   return {
     stats,
     loading,
-    error
+    error,
   };
 };

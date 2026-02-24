@@ -1,6 +1,6 @@
-import React from 'react';
-import { Lock, ShoppingCart, Star, Check } from 'lucide-react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { Lock, ShoppingCart, Star, Check } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface LockedAppOverlayProps {
   appName: string;
@@ -15,7 +15,7 @@ const LockedAppOverlay: React.FC<LockedAppOverlayProps> = ({
   appDescription,
   appPrice = 97,
   onPurchaseClick,
-  className = '',
+  className = "",
 }) => {
   return (
     <div
@@ -44,7 +44,9 @@ const LockedAppOverlay: React.FC<LockedAppOverlayProps> = ({
           </div>
           <div className="text-gray-400 text-xs mb-2">Unlock this app for:</div>
           <div className="text-3xl font-bold text-white mb-1">${appPrice}</div>
-          <div className="text-gray-400 text-xs">One-time payment, lifetime access</div>
+          <div className="text-gray-400 text-xs">
+            One-time payment, lifetime access
+          </div>
         </div>
 
         <div className="space-y-2 mb-6">

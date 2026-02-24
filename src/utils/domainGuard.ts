@@ -1,9 +1,9 @@
 /**
  * 🔐 DOMAIN GUARD - Request Validation
- * 
+ *
  * Protects API keys by validating requests come from allowed domains.
  * This compensates for exposed keys by restricting where they can be used.
- * 
+ *
  * IMPORTANT: This is client-side validation only. For complete protection,
  * also configure API key restrictions in:
  * - OpenAI: https://platform.openai.com/docs/api-reference/authentication
@@ -20,39 +20,39 @@ interface DomainConfig {
 interface ValidationResult {
   valid: boolean;
   reason?: string;
-  severity: 'low' | 'medium' | 'high' | 'critical';
+  severity: "low" | "medium" | "high" | "critical";
 }
 
 // Configuration - Update these with your production domains
 const config: DomainConfig = {
   // Allowed domains (include localhost for development)
   allowedDomains: [
-    'localhost:5173',
-    'localhost:3000',
-    'videoremix.vip2.netlify.app',
-    'videoremix.vip2.vercel.app',
-    'videoremix.vip',
-    'www.videoremix.vip',
+    "localhost:5173",
+    "localhost:3000",
+    "videoremix.vip2.netlify.app",
+    "videoremix.vip2.vercel.app",
+    "videoremix.vip",
+    "www.videoremix.vip",
   ],
-  
+
   // Block suspicious patterns
   blockedPatterns: [
-    /iframe\.zh/,           // Suspicious Chinese iframe
-    /evil\.js/,             // Known malicious pattern
-    /crypto-miner/,         // Crypto mining scripts
-    /\.xyz\/.*\.js/,        // Suspicious TLD patterns
-    /data:text\/html/,      // Data URI attack vector
+    /iframe\.zh/, // Suspicious Chinese iframe
+    /evil\.js/, // Known malicious pattern
+    /crypto-miner/, // Crypto mining scripts
+    /\.xyz\/.*\.js/, // Suspicious TLD patterns
+    /data:text\/html/, // Data URI attack vector
   ],
-  
+
   // Enable security logging (disable in production to avoid noise)
   enableLogging: import.meta.env.DEV,
 };
 
 // Known malicious domains (expand this list)
 const KNOWN_MALICIOUS_DOMAINS = new Set([
-  'iframe.zhiframe.com',
-  'cdn.jsdelivr.net',  // Sometimes used for supply chain attacks
-  'unpkg.com',         // Sometimes used for supply chain attacks
+  "iframe.zhiframe.com",
+  "cdn.jsdelivr.net", // Sometimes used for supply chain attacks
+  "unpkg.com", // Sometimes used for supply chain attacks
 ]);
 
 /**
@@ -61,49 +61,49 @@ const KNOWN_MALICIOUS_DOMAINS = new Set([
 export function validateOrigin(): ValidationResult {
   const origin = window.location.origin;
   const hostname = window.location.hostname;
-  
+
   // Check for localhost (development)
-  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+  if (hostname === "localhost" || hostname === "127.0.0.1") {
     if (config.enableLogging) {
-      console.log('🔒 DomainGuard: Local development detected');
+      console.log("🔒 DomainGuard: Local development detected");
     }
-    return { valid: true, severity: 'low' };
+    return { valid: true, severity: "low" };
   }
-  
+
   // Check if domain is in allowed list
-  const isAllowed = config.allowedDomains.some(domain => {
+  const isAllowed = config.allowedDomains.some((domain) => {
     // Exact match
     if (origin === domain || hostname === domain) {
       return true;
     }
     // Subdomain match (e.g., "app.videoremix.vip" matches "videoremix.vip")
-    if (domain.startsWith('*.') && hostname.endsWith(domain.slice(1))) {
+    if (domain.startsWith("*.") && hostname.endsWith(domain.slice(1))) {
       return true;
     }
     // Wildcard match
-    if (domain === '*') {
+    if (domain === "*") {
       return true;
     }
     return false;
   });
-  
+
   if (!isAllowed) {
     const reason = `Unauthorized domain: ${origin}`;
     if (config.enableLogging) {
-      console.warn('🔒 DomainGuard BLOCKED:', reason);
+      console.warn("🔒 DomainGuard BLOCKED:", reason);
     }
     return {
       valid: false,
       reason,
-      severity: 'high'
+      severity: "high",
     };
   }
-  
+
   if (config.enableLogging) {
-    console.log('🔒 DomainGuard: Valid origin:', origin);
+    console.log("🔒 DomainGuard: Valid origin:", origin);
   }
-  
-  return { valid: true, severity: 'low' };
+
+  return { valid: true, severity: "low" };
 }
 
 /**
@@ -111,47 +111,53 @@ export function validateOrigin(): ValidationResult {
  */
 export function detectSuspiciousPatterns(): ValidationResult {
   // Check for iframes with suspicious sources
-  const iframes = document.querySelectorAll('iframe[src]');
+  const iframes = document.querySelectorAll("iframe[src]");
   for (const iframe of iframes) {
-    const src = iframe.getAttribute('src') || '';
-    
+    const src = iframe.getAttribute("src") || "";
+
     for (const pattern of config.blockedPatterns) {
       if (pattern.test(src)) {
         const reason = `Suspicious iframe detected: ${src}`;
-        console.error('🔒 DomainGuard:', reason);
+        console.error("🔒 DomainGuard:", reason);
         return {
           valid: false,
           reason,
-          severity: 'critical'
+          severity: "critical",
         };
       }
     }
   }
-  
+
   // Check for known malicious domains
   const allSources = [
-    ...Array.from(document.querySelectorAll('script[src]')).map(s => s.getAttribute('src')),
-    ...Array.from(document.querySelectorAll('iframe[src]')).map(s => s.getAttribute('src')),
-    ...Array.from(document.querySelectorAll('link[rel="stylesheet"]')).map(s => s.getAttribute('href')),
+    ...Array.from(document.querySelectorAll("script[src]")).map((s) =>
+      s.getAttribute("src"),
+    ),
+    ...Array.from(document.querySelectorAll("iframe[src]")).map((s) =>
+      s.getAttribute("src"),
+    ),
+    ...Array.from(document.querySelectorAll('link[rel="stylesheet"]')).map(
+      (s) => s.getAttribute("href"),
+    ),
   ];
-  
+
   for (const source of allSources) {
     if (source) {
       for (const malicious of KNOWN_MALICIOUS_DOMAINS) {
         if (source.includes(malicious)) {
           const reason = `Known malicious domain detected: ${source}`;
-          console.error('🔒 DomainGuard:', reason);
+          console.error("🔒 DomainGuard:", reason);
           return {
             valid: false,
             reason,
-            severity: 'critical'
+            severity: "critical",
           };
         }
       }
     }
   }
-  
-  return { valid: true, severity: 'low' };
+
+  return { valid: true, severity: "low" };
 }
 
 /**
@@ -162,43 +168,43 @@ export function validateOutgoingRequest(url: string): ValidationResult {
   try {
     const urlObj = new URL(url);
     const hostname = urlObj.hostname;
-    
+
     // Allow same-origin requests
     if (hostname === window.location.hostname) {
-      return { valid: true, severity: 'low' };
+      return { valid: true, severity: "low" };
     }
-    
+
     // Check allowed API domains
     const allowedApiDomains = [
-      'mohueeozazjxyzmikdbs.supabase.co',
-      'api.openai.com',
-      'api.stripe.com',
-      'generativelanguage.googleapis.com',
-      'api.mixpanel.com',
-      'api.segment.io',
+      "mohueeozazjxyzmikdbs.supabase.co",
+      "api.openai.com",
+      "api.stripe.com",
+      "generativelanguage.googleapis.com",
+      "api.mixpanel.com",
+      "api.segment.io",
     ];
-    
-    const isAllowedApi = allowedApiDomains.some(domain => {
-      return hostname === domain || hostname.endsWith('.' + domain);
+
+    const isAllowedApi = allowedApiDomains.some((domain) => {
+      return hostname === domain || hostname.endsWith("." + domain);
     });
-    
+
     if (!isAllowedApi) {
       const reason = `Request to unauthorized domain: ${hostname}`;
       return {
         valid: false,
         reason,
-        severity: 'medium'
+        severity: "medium",
       };
     }
   } catch {
     return {
       valid: false,
-      reason: 'Invalid URL format',
-      severity: 'medium'
+      reason: "Invalid URL format",
+      severity: "medium",
     };
   }
-  
-  return { valid: true, severity: 'low' };
+
+  return { valid: true, severity: "low" };
 }
 
 /**
@@ -211,11 +217,11 @@ export function getSecurityReport(): {
 } {
   const originValid = validateOrigin();
   const patternsValid = detectSuspiciousPatterns();
-  
+
   return {
     originValid,
     patternsValid,
-    allValid: originValid.valid && patternsValid.valid
+    allValid: originValid.valid && patternsValid.valid,
   };
 }
 
@@ -238,7 +244,7 @@ export function blockDomain(pattern: RegExp): void {
 if (import.meta.env.PROD) {
   const report = getSecurityReport();
   if (!report.allValid) {
-    console.error('🔒 Security Alert: Invalid security configuration detected');
+    console.error("🔒 Security Alert: Invalid security configuration detected");
     // You could block the app here if desired:
     // throw new Error('Security check failed');
   }

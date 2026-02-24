@@ -1,8 +1,8 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles } from 'lucide-react';
-import MagicSparkles from './MagicSparkles';
+import React from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ArrowRight, Sparkles } from "lucide-react";
+import MagicSparkles from "./MagicSparkles";
 
 interface FeatureCTAProps {
   title?: string;
@@ -12,9 +12,9 @@ interface FeatureCTAProps {
   }[];
 }
 
-const FeatureCTA: React.FC<FeatureCTAProps> = ({ 
+const FeatureCTA: React.FC<FeatureCTAProps> = ({
   title = "Ready to Transform Your Video Creation Process?",
-  relatedFeatures = []
+  relatedFeatures = [],
 }) => {
   return (
     <section className="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden">
@@ -23,7 +23,7 @@ const FeatureCTA: React.FC<FeatureCTAProps> = ({
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/10 rounded-full blur-[100px]"></div>
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-primary-500/10 rounded-full blur-[100px]"></div>
       </div>
-      
+
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -31,42 +31,46 @@ const FeatureCTA: React.FC<FeatureCTAProps> = ({
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="max-w-4xl mx-auto text-center bg-gradient-to-r from-primary-900/40 to-primary-700/40 p-8 rounded-xl border border-primary-500/30"
-          whileHover={{ 
+          whileHover={{
             y: -10,
             boxShadow: "0 20px 25px -5px rgba(79, 70, 229, 0.2)",
             borderColor: "rgba(99, 102, 241, 0.5)",
           }}
         >
-          <MagicSparkles speed="fast" minSparkles={3} maxSparkles={6} colors={['#6366f1', '#818cf8', '#a5b4fc', '#c7d2fe']}>
-            <h3 className="text-2xl font-bold text-white mb-4">
-              {title}
-            </h3>
+          <MagicSparkles
+            speed="fast"
+            minSparkles={3}
+            maxSparkles={6}
+            colors={["#6366f1", "#818cf8", "#a5b4fc", "#c7d2fe"]}
+          >
+            <h3 className="text-2xl font-bold text-white mb-4">{title}</h3>
           </MagicSparkles>
-          
+
           <p className="text-gray-300 mb-8">
-            Join thousands of creators and businesses who have revolutionized their video production with VideoRemix.vip's powerful features.
+            Join thousands of creators and businesses who have revolutionized
+            their video production with VideoRemix.vip's powerful features.
           </p>
-          
+
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="mb-8"
           >
             <motion.div
-              whileHover={{ 
-                boxShadow: "0 0 25px 5px rgba(99, 102, 241, 0.4)"
+              whileHover={{
+                boxShadow: "0 0 25px 5px rgba(99, 102, 241, 0.4)",
               }}
               className="inline-block"
             >
-              <Link 
-                to="/get-started" 
+              <Link
+                to="/get-started"
                 className="inline-flex items-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg shadow-primary-600/20"
               >
                 <span>Try VideoRemix.vip Today</span>
-                <motion.div 
-                  animate={{ 
+                <motion.div
+                  animate={{
                     x: [0, 5, 0],
-                    transition: { repeat: Infinity, duration: 1.5 }
+                    transition: { repeat: Infinity, duration: 1.5 },
                   }}
                 >
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -74,11 +78,11 @@ const FeatureCTA: React.FC<FeatureCTAProps> = ({
               </Link>
             </motion.div>
           </motion.div>
-          
+
           <p className="text-gray-500 text-sm mb-6">
             No credit card required. 14-day free trial on all premium features.
           </p>
-          
+
           {/* Related features */}
           {relatedFeatures.length > 0 && (
             <div>
@@ -86,16 +90,16 @@ const FeatureCTA: React.FC<FeatureCTAProps> = ({
                 <Sparkles className="h-4 w-4 text-primary-400 mr-2" />
                 <span>Explore Related Features</span>
               </h4>
-              
+
               <div className="flex flex-wrap justify-center gap-3">
                 {relatedFeatures.map((feature, index) => (
                   <motion.div
                     key={index}
-                    whileHover={{ 
-                      scale: 1.05, 
+                    whileHover={{
+                      scale: 1.05,
                       y: -3,
                       backgroundColor: "rgba(255, 255, 255, 0.15)",
-                      boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)"
+                      boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
                     }}
                     whileTap={{ scale: 0.97 }}
                   >

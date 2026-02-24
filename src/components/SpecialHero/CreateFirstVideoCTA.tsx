@@ -1,7 +1,7 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Video, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { motion } from "framer-motion";
+import { Video, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const CreateFirstVideoCTA = () => {
   return (
@@ -16,9 +16,12 @@ const CreateFirstVideoCTA = () => {
           <Video className="h-5 w-5 text-white" />
         </div>
       </div>
-      <h3 className="text-center text-xl font-bold text-white mb-3">Create Your First Personalized Marketing Campaign</h3>
+      <h3 className="text-center text-xl font-bold text-white mb-3">
+        Create Your First Personalized Marketing Campaign
+      </h3>
       <p className="text-center text-gray-300 mb-4">
-        Launch your first personalized marketing campaign in minutes with our AI-powered personalization platform.
+        Launch your first personalized marketing campaign in minutes with our
+        AI-powered personalization platform.
       </p>
       <div className="flex justify-center">
         <Link

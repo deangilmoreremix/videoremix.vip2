@@ -1,7 +1,20 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { Users, Plus, Edit, Trash2, ToggleLeft, ToggleRight, Upload, Download, ChevronDown, X, Key, Settings } from 'lucide-react';
-import { supabase } from '../../utils/supabaseClient';
+import React, { useState, useEffect, useMemo } from "react";
+import { motion } from "framer-motion";
+import {
+  Users,
+  Plus,
+  Edit,
+  Trash2,
+  ToggleLeft,
+  ToggleRight,
+  Upload,
+  Download,
+  ChevronDown,
+  X,
+  Key,
+  Settings,
+} from "lucide-react";
+import { supabase } from "../../utils/supabaseClient";
 
 interface User {
   id: string;
@@ -23,8 +36,12 @@ const AdminUsersManagement: React.FC = () => {
   const [toggling, setToggling] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showBulkUploadModal, setShowBulkUploadModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState<{ show: boolean; userId: string | null; userName: string }>({ show: false, userId: null, userName: '' });
-  const [selectedRole, setSelectedRole] = useState<string>('all');
+  const [showDeleteModal, setShowDeleteModal] = useState<{
+    show: boolean;
+    userId: string | null;
+    userName: string;
+  }>({ show: false, userId: null, userName: "" });
+  const [selectedRole, setSelectedRole] = useState<string>("all");
   const [showRoleDropdown, setShowRoleDropdown] = useState(false);
 
   // Feedback states
@@ -35,27 +52,44 @@ const AdminUsersManagement: React.FC = () => {
 
   // Form states
   const [newUser, setNewUser] = useState({
-    email: '',
-    first_name: '',
-    last_name: '',
-    role: 'user'
+    email: "",
+    first_name: "",
+    last_name: "",
+    role: "user",
   });
-  const [formErrors, setFormErrors] = useState<{ email?: string; first_name?: string; last_name?: string }>({});
-  const [bulkUsers, setBulkUsers] = useState('');
+  const [formErrors, setFormErrors] = useState<{
+    email?: string;
+    first_name?: string;
+    last_name?: string;
+  }>({});
+  const [bulkUsers, setBulkUsers] = useState("");
   const [uploading, setUploading] = useState(false);
 
   // App access management states
   const [showAppAccessModal, setShowAppAccessModal] = useState(false);
-  const [selectedUserForApps, setSelectedUserForApps] = useState<User | null>(null);
-  const [availableApps, setAvailableApps] = useState<Array<{ slug: string; name: string; category: string }>>([]);
+  const [selectedUserForApps, setSelectedUserForApps] = useState<User | null>(
+    null,
+  );
+  const [availableApps, setAvailableApps] = useState<
+    Array<{ slug: string; name: string; category: string }>
+  >([]);
   const [userAppAccess, setUserAppAccess] = useState<string[]>([]);
   const [loadingApps, setLoadingApps] = useState(false);
   const [savingAppAccess, setSavingAppAccess] = useState(false);
 
   // Feature access management states
   const [showFeatureAccessModal, setShowFeatureAccessModal] = useState(false);
-  const [selectedUserForFeatures, setSelectedUserForFeatures] = useState<User | null>(null);
-  const [availableFeatures, setAvailableFeatures] = useState<Array<{ id: string; name: string; slug: string; app_name?: string; app_slug?: string }>>([]);
+  const [selectedUserForFeatures, setSelectedUserForFeatures] =
+    useState<User | null>(null);
+  const [availableFeatures, setAvailableFeatures] = useState<
+    Array<{
+      id: string;
+      name: string;
+      slug: string;
+      app_name?: string;
+      app_slug?: string;
+    }>
+  >([]);
   const [userFeatureAccess, setUserFeatureAccess] = useState<string[]>([]);
   const [loadingFeatures, setLoadingFeatures] = useState(false);
   const [savingFeatureAccess, setSavingFeatureAccess] = useState(false);
@@ -72,18 +106,24 @@ const AdminUsersManagement: React.FC = () => {
   const fetchUsers = async () => {
     try {
       clearMessages();
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
       if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
+        setError("Authentication required. Please log in again.");
         return;
       }
       const token = session.access_token;
 
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -93,11 +133,13 @@ const AdminUsersManagement: React.FC = () => {
       if (data.success) {
         setUsers(data.data || []);
       } else {
-        setError(data.error || 'Failed to load users');
+        setError(data.error || "Failed to load users");
       }
     } catch (error) {
-      console.error('Error fetching users:', error);
-      setError('Failed to load users. Please check your connection and try again.');
+      console.error("Error fetching users:", error);
+      setError(
+        "Failed to load users. Please check your connection and try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -107,24 +149,30 @@ const AdminUsersManagement: React.FC = () => {
     setToggling(userId);
     clearMessages();
     try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
       if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
+        setError("Authentication required. Please log in again.");
         return;
       }
       const token = session.access_token;
 
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: userId,
+            is_active: !currentStatus,
+          }),
         },
-        body: JSON.stringify({
-          id: userId,
-          is_active: !currentStatus
-        }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -132,16 +180,20 @@ const AdminUsersManagement: React.FC = () => {
 
       const data = await response.json();
       if (data.success) {
-        setUsers(users.map(user =>
-          user.id === userId ? { ...user, is_active: !currentStatus } : user
-        ));
-        setSuccess(`User ${currentStatus ? 'deactivated' : 'activated'} successfully`);
+        setUsers(
+          users.map((user) =>
+            user.id === userId ? { ...user, is_active: !currentStatus } : user,
+          ),
+        );
+        setSuccess(
+          `User ${currentStatus ? "deactivated" : "activated"} successfully`,
+        );
       } else {
-        setError(data.error || 'Failed to toggle user status');
+        setError(data.error || "Failed to toggle user status");
       }
     } catch (error) {
-      console.error('Error toggling user:', error);
-      setError('Failed to toggle user status. Please try again.');
+      console.error("Error toggling user:", error);
+      setError("Failed to toggle user status. Please try again.");
     } finally {
       setToggling(null);
     }
@@ -151,21 +203,27 @@ const AdminUsersManagement: React.FC = () => {
     setDeleting(userId);
     clearMessages();
     try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
       if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
+        setError("Authentication required. Please log in again.");
         return;
       }
       const token = session.access_token;
 
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: userId }),
         },
-        body: JSON.stringify({ id: userId }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -173,15 +231,15 @@ const AdminUsersManagement: React.FC = () => {
 
       const data = await response.json();
       if (data.success) {
-        setUsers(users.filter(user => user.id !== userId));
-        setSuccess('User deleted successfully');
-        setShowDeleteModal({ show: false, userId: null, userName: '' });
+        setUsers(users.filter((user) => user.id !== userId));
+        setSuccess("User deleted successfully");
+        setShowDeleteModal({ show: false, userId: null, userName: "" });
       } else {
-        setError(data.error || 'Failed to delete user');
+        setError(data.error || "Failed to delete user");
       }
     } catch (error) {
-      console.error('Error deleting user:', error);
-      setError('Failed to delete user. Please try again.');
+      console.error("Error deleting user:", error);
+      setError("Failed to delete user. Please try again.");
     } finally {
       setDeleting(null);
     }
@@ -192,20 +250,21 @@ const AdminUsersManagement: React.FC = () => {
   };
 
   const validateUserForm = () => {
-    const errors: { email?: string; first_name?: string; last_name?: string } = {};
+    const errors: { email?: string; first_name?: string; last_name?: string } =
+      {};
 
     if (!newUser.email.trim()) {
-      errors.email = 'Email is required';
+      errors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newUser.email)) {
-      errors.email = 'Please enter a valid email address';
+      errors.email = "Please enter a valid email address";
     }
 
     if (newUser.first_name && newUser.first_name.length > 50) {
-      errors.first_name = 'First name must be less than 50 characters';
+      errors.first_name = "First name must be less than 50 characters";
     }
 
     if (newUser.last_name && newUser.last_name.length > 50) {
-      errors.last_name = 'Last name must be less than 50 characters';
+      errors.last_name = "Last name must be less than 50 characters";
     }
 
     setFormErrors(errors);
@@ -218,21 +277,27 @@ const AdminUsersManagement: React.FC = () => {
     setCreating(true);
     clearMessages();
     try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
       if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
+        setError("Authentication required. Please log in again.");
         return;
       }
       const token = session.access_token;
 
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newUser),
         },
-        body: JSON.stringify(newUser),
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -241,16 +306,16 @@ const AdminUsersManagement: React.FC = () => {
       const data = await response.json();
       if (data.success) {
         setUsers([data.data, ...users]);
-        setNewUser({ email: '', first_name: '', last_name: '', role: 'user' });
+        setNewUser({ email: "", first_name: "", last_name: "", role: "user" });
         setFormErrors({});
         setShowAddModal(false);
-        setSuccess('User created successfully');
+        setSuccess("User created successfully");
       } else {
-        setError(data.error || 'Failed to create user');
+        setError(data.error || "Failed to create user");
       }
     } catch (error) {
-      console.error('Error creating user:', error);
-      setError('Failed to create user. Please try again.');
+      console.error("Error creating user:", error);
+      setError("Failed to create user. Please try again.");
     } finally {
       setCreating(false);
     }
@@ -258,7 +323,7 @@ const AdminUsersManagement: React.FC = () => {
 
   const bulkCreateUsers = async () => {
     if (!bulkUsers.trim()) {
-      setError('Please enter user data');
+      setError("Please enter user data");
       return;
     }
 
@@ -266,37 +331,51 @@ const AdminUsersManagement: React.FC = () => {
     clearMessages();
     try {
       // Parse CSV-like data (email,first_name,last_name,role format)
-      const lines = bulkUsers.trim().split('\n');
-      const usersToCreate = lines.map(line => {
-        const [email, first_name, last_name, role] = line.split(',').map(s => s.trim());
-        return {
-          email: email || '',
-          first_name: first_name || '',
-          last_name: last_name || '',
-          role: role || 'user'
-        };
-      }).filter(user => user.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email));
+      const lines = bulkUsers.trim().split("\n");
+      const usersToCreate = lines
+        .map((line) => {
+          const [email, first_name, last_name, role] = line
+            .split(",")
+            .map((s) => s.trim());
+          return {
+            email: email || "",
+            first_name: first_name || "",
+            last_name: last_name || "",
+            role: role || "user",
+          };
+        })
+        .filter(
+          (user) => user.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email),
+        );
 
       if (usersToCreate.length === 0) {
-        setError('No valid users found in the input. Please check the format: email,first_name,last_name,role');
+        setError(
+          "No valid users found in the input. Please check the format: email,first_name,last_name,role",
+        );
         return;
       }
 
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
       if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
+        setError("Authentication required. Please log in again.");
         return;
       }
       const token = session.access_token;
 
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ users: usersToCreate }),
         },
-        body: JSON.stringify({ users: usersToCreate }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -305,27 +384,28 @@ const AdminUsersManagement: React.FC = () => {
       const data = await response.json();
       if (data.success) {
         setUsers([...data.data, ...users]);
-        setBulkUsers('');
+        setBulkUsers("");
         setShowBulkUploadModal(false);
         setSuccess(`Successfully created ${data.data.length} users`);
       } else {
-        setError(data.error || 'Failed to create users');
+        setError(data.error || "Failed to create users");
       }
     } catch (error) {
-      console.error('Error bulk creating users:', error);
-      setError('Failed to create users. Please try again.');
+      console.error("Error bulk creating users:", error);
+      setError("Failed to create users. Please try again.");
     } finally {
       setUploading(false);
     }
   };
 
   const downloadTemplate = () => {
-    const csvContent = 'email,first_name,last_name,role\nuser1@example.com,John,Doe,user\nuser2@example.com,Jane,Smith,admin';
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const csvContent =
+      "email,first_name,last_name,role\nuser1@example.com,John,Doe,user\nuser2@example.com,Jane,Smith,admin";
+    const blob = new Blob([csvContent], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'users_template.csv';
+    a.download = "users_template.csv";
     a.click();
     window.URL.revokeObjectURL(url);
   };
@@ -337,9 +417,12 @@ const AdminUsersManagement: React.FC = () => {
     clearMessages();
 
     try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
       if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
+        setError("Authentication required. Please log in again.");
         return;
       }
       const token = session.access_token;
@@ -348,9 +431,9 @@ const AdminUsersManagement: React.FC = () => {
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${user.id}/app-access`,
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (!response.ok) {
@@ -360,22 +443,24 @@ const AdminUsersManagement: React.FC = () => {
       const data = await response.json();
       if (data.success) {
         setAvailableApps(data.data.available_apps || []);
-        setUserAppAccess(data.data.user_access.map((a: any) => a.app_slug) || []);
+        setUserAppAccess(
+          data.data.user_access.map((a: any) => a.app_slug) || [],
+        );
       } else {
-        setError(data.error || 'Failed to load app access data');
+        setError(data.error || "Failed to load app access data");
       }
     } catch (error) {
-      console.error('Error fetching app access:', error);
-      setError('Failed to load app access data. Please try again.');
+      console.error("Error fetching app access:", error);
+      setError("Failed to load app access data. Please try again.");
     } finally {
       setLoadingApps(false);
     }
   };
 
   const toggleAppAccess = (appSlug: string) => {
-    setUserAppAccess(prev => {
+    setUserAppAccess((prev) => {
       if (prev.includes(appSlug)) {
-        return prev.filter(slug => slug !== appSlug);
+        return prev.filter((slug) => slug !== appSlug);
       } else {
         return [...prev, appSlug];
       }
@@ -389,9 +474,12 @@ const AdminUsersManagement: React.FC = () => {
     clearMessages();
 
     try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
       if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
+        setError("Authentication required. Please log in again.");
         return;
       }
       const token = session.access_token;
@@ -401,13 +489,13 @@ const AdminUsersManagement: React.FC = () => {
         const grantResponse = await fetch(
           `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${selectedUserForApps.id}/app-access`,
           {
-            method: 'POST',
+            method: "POST",
             headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({ app_slugs: userAppAccess }),
-          }
+          },
         );
 
         if (!grantResponse.ok) {
@@ -417,19 +505,21 @@ const AdminUsersManagement: React.FC = () => {
 
       // Revoke access to unselected apps
       const currentAccess = selectedUserForApps.app_access || [];
-      const toRevoke = currentAccess.filter(slug => !userAppAccess.includes(slug));
+      const toRevoke = currentAccess.filter(
+        (slug) => !userAppAccess.includes(slug),
+      );
 
       if (toRevoke.length > 0) {
         const revokeResponse = await fetch(
           `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${selectedUserForApps.id}/app-access`,
           {
-            method: 'DELETE',
+            method: "DELETE",
             headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({ app_slugs: toRevoke }),
-          }
+          },
         );
 
         if (!revokeResponse.ok) {
@@ -437,14 +527,14 @@ const AdminUsersManagement: React.FC = () => {
         }
       }
 
-      setSuccess('App access updated successfully');
+      setSuccess("App access updated successfully");
       setShowAppAccessModal(false);
 
       // Refresh users list
       await fetchUsers();
     } catch (error) {
-      console.error('Error saving app access:', error);
-      setError('Failed to update app access. Please try again.');
+      console.error("Error saving app access:", error);
+      setError("Failed to update app access. Please try again.");
     } finally {
       setSavingAppAccess(false);
     }
@@ -457,9 +547,12 @@ const AdminUsersManagement: React.FC = () => {
     clearMessages();
 
     try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
       if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
+        setError("Authentication required. Please log in again.");
         return;
       }
       const token = session.access_token;
@@ -468,9 +561,9 @@ const AdminUsersManagement: React.FC = () => {
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-user-features/${user.id}`,
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (!response.ok) {
@@ -480,22 +573,25 @@ const AdminUsersManagement: React.FC = () => {
       const data = await response.json();
       if (data.success) {
         setAvailableFeatures(data.data || []);
-        setUserFeatureAccess(data.data.filter((f: any) => f.has_access).map((f: any) => f.slug) || []);
+        setUserFeatureAccess(
+          data.data.filter((f: any) => f.has_access).map((f: any) => f.slug) ||
+            [],
+        );
       } else {
-        setError(data.error || 'Failed to load feature access data');
+        setError(data.error || "Failed to load feature access data");
       }
     } catch (error) {
-      console.error('Error fetching feature access:', error);
-      setError('Failed to load feature access data. Please try again.');
+      console.error("Error fetching feature access:", error);
+      setError("Failed to load feature access data. Please try again.");
     } finally {
       setLoadingFeatures(false);
     }
   };
 
   const toggleFeatureAccess = (featureSlug: string) => {
-    setUserFeatureAccess(prev => {
+    setUserFeatureAccess((prev) => {
       if (prev.includes(featureSlug)) {
-        return prev.filter(slug => slug !== featureSlug);
+        return prev.filter((slug) => slug !== featureSlug);
       } else {
         return [...prev, featureSlug];
       }
@@ -509,30 +605,39 @@ const AdminUsersManagement: React.FC = () => {
     clearMessages();
 
     try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
       if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
+        setError("Authentication required. Please log in again.");
         return;
       }
       const token = session.access_token;
 
       // Get current feature access
-      const currentAccess = availableFeatures.filter(f => f.has_access).map(f => f.slug);
-      const toGrant = userFeatureAccess.filter(slug => !currentAccess.includes(slug));
-      const toRevoke = currentAccess.filter(slug => !userFeatureAccess.includes(slug));
+      const currentAccess = availableFeatures
+        .filter((f) => f.has_access)
+        .map((f) => f.slug);
+      const toGrant = userFeatureAccess.filter(
+        (slug) => !currentAccess.includes(slug),
+      );
+      const toRevoke = currentAccess.filter(
+        (slug) => !userFeatureAccess.includes(slug),
+      );
 
       // Grant access to selected features
       if (toGrant.length > 0) {
         const grantResponse = await fetch(
           `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-user-features/${selectedUserForFeatures.id}/grant`,
           {
-            method: 'POST',
+            method: "POST",
             headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({ feature_slug: toGrant[0] }), // For now, handle one at a time
-          }
+          },
         );
 
         if (!grantResponse.ok) {
@@ -545,13 +650,13 @@ const AdminUsersManagement: React.FC = () => {
         const revokeResponse = await fetch(
           `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-user-features/${selectedUserForFeatures.id}/revoke`,
           {
-            method: 'POST',
+            method: "POST",
             headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({ feature_slug: toRevoke[0] }), // For now, handle one at a time
-          }
+          },
         );
 
         if (!revokeResponse.ok) {
@@ -559,23 +664,23 @@ const AdminUsersManagement: React.FC = () => {
         }
       }
 
-      setSuccess('Feature access updated successfully');
+      setSuccess("Feature access updated successfully");
       setShowFeatureAccessModal(false);
 
       // Refresh users list
       await fetchUsers();
     } catch (error) {
-      console.error('Error saving feature access:', error);
-      setError('Failed to update feature access. Please try again.');
+      console.error("Error saving feature access:", error);
+      setError("Failed to update feature access. Please try again.");
     } finally {
       setSavingFeatureAccess(false);
     }
   };
 
   const filteredUsers = useMemo(() => {
-    return selectedRole === 'all'
-      ? (users || [])
-      : (users || []).filter(user => user.role === selectedRole);
+    return selectedRole === "all"
+      ? users || []
+      : (users || []).filter((user) => user.role === selectedRole);
   }, [users, selectedRole]);
 
   if (loading) {
@@ -592,7 +697,10 @@ const AdminUsersManagement: React.FC = () => {
       {error && (
         <div className="bg-red-500/20 border border-red-500/50 text-red-400 p-4 rounded-lg flex items-center justify-between">
           <span>{error}</span>
-          <button onClick={() => setError(null)} className="text-red-400 hover:text-red-300">
+          <button
+            onClick={() => setError(null)}
+            className="text-red-400 hover:text-red-300"
+          >
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -600,7 +708,10 @@ const AdminUsersManagement: React.FC = () => {
       {success && (
         <div className="bg-green-500/20 border border-green-500/50 text-green-400 p-4 rounded-lg flex items-center justify-between">
           <span>{success}</span>
-          <button onClick={() => setSuccess(null)} className="text-green-400 hover:text-green-300">
+          <button
+            onClick={() => setSuccess(null)}
+            className="text-green-400 hover:text-green-300"
+          >
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -609,8 +720,12 @@ const AdminUsersManagement: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-2">Users Management</h2>
-          <p className="text-gray-400">Manage application users and their access</p>
+          <h2 className="text-2xl font-bold text-white mb-2">
+            Users Management
+          </h2>
+          <p className="text-gray-400">
+            Manage application users and their access
+          </p>
         </div>
         <div className="flex items-center space-x-4">
           {/* Role Filter */}
@@ -620,7 +735,10 @@ const AdminUsersManagement: React.FC = () => {
               className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors border border-gray-600"
             >
               <span className="mr-2">
-                {selectedRole === 'all' ? 'All Roles' : selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)}
+                {selectedRole === "all"
+                  ? "All Roles"
+                  : selectedRole.charAt(0).toUpperCase() +
+                    selectedRole.slice(1)}
               </span>
               <ChevronDown className="h-4 w-4" />
             </button>
@@ -630,7 +748,7 @@ const AdminUsersManagement: React.FC = () => {
                 <div className="py-1">
                   <button
                     onClick={() => {
-                      setSelectedRole('all');
+                      setSelectedRole("all");
                       setShowRoleDropdown(false);
                     }}
                     className="w-full text-left px-4 py-2 text-white hover:bg-gray-700 transition-colors"
@@ -639,7 +757,7 @@ const AdminUsersManagement: React.FC = () => {
                   </button>
                   <button
                     onClick={() => {
-                      setSelectedRole('user');
+                      setSelectedRole("user");
                       setShowRoleDropdown(false);
                     }}
                     className="w-full text-left px-4 py-2 text-white hover:bg-gray-700 transition-colors"
@@ -648,7 +766,7 @@ const AdminUsersManagement: React.FC = () => {
                   </button>
                   <button
                     onClick={() => {
-                      setSelectedRole('admin');
+                      setSelectedRole("admin");
                       setShowRoleDropdown(false);
                     }}
                     className="w-full text-left px-4 py-2 text-white hover:bg-gray-700 transition-colors"
@@ -706,26 +824,30 @@ const AdminUsersManagement: React.FC = () => {
                     <h3 className="text-lg font-semibold text-white">
                       {user.first_name && user.last_name
                         ? `${user.first_name} ${user.last_name}`
-                        : user.name || 'Unnamed User'}
+                        : user.name || "Unnamed User"}
                     </h3>
                     <p className="text-sm text-gray-400">{user.email}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    user.role === 'admin'
-                      ? 'bg-red-500/20 text-red-400'
-                      : 'bg-blue-500/20 text-blue-400'
-                  }`}>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      user.role === "admin"
+                        ? "bg-red-500/20 text-red-400"
+                        : "bg-blue-500/20 text-blue-400"
+                    }`}
+                  >
                     {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
                   </span>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    user.is_active
-                      ? 'bg-green-500/20 text-green-400'
-                      : 'bg-red-500/20 text-red-400'
-                  }`}>
-                    {user.is_active ? 'Active' : 'Inactive'}
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      user.is_active
+                        ? "bg-green-500/20 text-green-400"
+                        : "bg-red-500/20 text-red-400"
+                    }`}
+                  >
+                    {user.is_active ? "Active" : "Inactive"}
                   </span>
                   <span className="px-2 py-1 rounded-full text-xs font-medium bg-purple-500/20 text-purple-400">
                     {user.app_count || 0} Apps
@@ -735,7 +857,8 @@ const AdminUsersManagement: React.FC = () => {
                   </span>
                   {user.last_login && (
                     <span className="text-xs text-gray-500">
-                      Last Login: {new Date(user.last_login).toLocaleDateString()}
+                      Last Login:{" "}
+                      {new Date(user.last_login).toLocaleDateString()}
                     </span>
                   )}
                 </div>
@@ -763,9 +886,9 @@ const AdminUsersManagement: React.FC = () => {
                   onClick={() => {
                     setNewUser({
                       email: user.email,
-                      first_name: user.first_name || '',
-                      last_name: user.last_name || '',
-                      role: user.role
+                      first_name: user.first_name || "",
+                      last_name: user.last_name || "",
+                      role: user.role,
                     });
                     setShowAddModal(true);
                   }}
@@ -774,7 +897,14 @@ const AdminUsersManagement: React.FC = () => {
                   <Edit className="h-4 w-4" />
                 </button>
                 <button
-                  onClick={() => openDeleteModal(user.id, user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : user.email)}
+                  onClick={() =>
+                    openDeleteModal(
+                      user.id,
+                      user.first_name && user.last_name
+                        ? `${user.first_name} ${user.last_name}`
+                        : user.email,
+                    )
+                  }
                   disabled={deleting === user.id}
                   className="p-2 text-gray-400 hover:text-red-400 hover:bg-gray-700 rounded-lg transition-colors disabled:opacity-50"
                 >
@@ -790,12 +920,12 @@ const AdminUsersManagement: React.FC = () => {
                   onClick={() => toggleUser(user.id, user.is_active)}
                   disabled={toggling === user.id}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
-                    user.is_active ? 'bg-green-600' : 'bg-gray-600'
-                  } ${toggling === user.id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    user.is_active ? "bg-green-600" : "bg-gray-600"
+                  } ${toggling === user.id ? "opacity-50 cursor-not-allowed" : ""}`}
                 >
                   <span
                     className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      user.is_active ? 'translate-x-6' : 'translate-x-1'
+                      user.is_active ? "translate-x-6" : "translate-x-1"
                     }`}
                   />
                   {toggling === user.id && (
@@ -813,8 +943,12 @@ const AdminUsersManagement: React.FC = () => {
       {filteredUsers.length === 0 && (
         <div className="text-center py-20">
           <Users className="h-16 w-16 text-gray-600 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-white mb-2">No users found</h3>
-          <p className="text-gray-400">Get started by adding your first user.</p>
+          <h3 className="text-xl font-semibold text-white mb-2">
+            No users found
+          </h3>
+          <p className="text-gray-400">
+            Get started by adding your first user.
+          </p>
         </div>
       )}
 
@@ -824,22 +958,35 @@ const AdminUsersManagement: React.FC = () => {
           <div className="bg-gray-800 rounded-xl p-6 w-full max-w-md mx-4">
             <h3 className="text-xl font-bold text-white mb-4">Delete User</h3>
             <p className="text-gray-300 mb-6">
-              Are you sure you want to delete <span className="font-semibold text-white">{showDeleteModal.userName}</span>?
-              This action cannot be undone.
+              Are you sure you want to delete{" "}
+              <span className="font-semibold text-white">
+                {showDeleteModal.userName}
+              </span>
+              ? This action cannot be undone.
             </p>
             <div className="flex space-x-3">
               <button
-                onClick={() => setShowDeleteModal({ show: false, userId: null, userName: '' })}
+                onClick={() =>
+                  setShowDeleteModal({
+                    show: false,
+                    userId: null,
+                    userName: "",
+                  })
+                }
                 className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg transition-colors"
               >
                 Cancel
               </button>
               <button
-                onClick={() => showDeleteModal.userId && deleteUser(showDeleteModal.userId)}
+                onClick={() =>
+                  showDeleteModal.userId && deleteUser(showDeleteModal.userId)
+                }
                 disabled={deleting === showDeleteModal.userId}
                 className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
               >
-                {deleting === showDeleteModal.userId ? 'Deleting...' : 'Delete User'}
+                {deleting === showDeleteModal.userId
+                  ? "Deleting..."
+                  : "Delete User"}
               </button>
             </div>
           </div>
@@ -853,57 +1000,83 @@ const AdminUsersManagement: React.FC = () => {
             <h3 className="text-xl font-bold text-white mb-4">Add New User</h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Email *</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Email *
+                </label>
                 <input
                   type="email"
                   value={newUser.email}
-                  onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                  onChange={(e) =>
+                    setNewUser({ ...newUser, email: e.target.value })
+                  }
                   className={`w-full bg-gray-700 border rounded-lg px-3 py-2 text-white ${
-                    formErrors.email ? 'border-red-500' : 'border-gray-600'
+                    formErrors.email ? "border-red-500" : "border-gray-600"
                   }`}
                   placeholder="user@example.com"
                 />
                 {formErrors.email && (
-                  <p className="text-red-400 text-sm mt-1">{formErrors.email}</p>
+                  <p className="text-red-400 text-sm mt-1">
+                    {formErrors.email}
+                  </p>
                 )}
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">First Name</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                    First Name
+                  </label>
                   <input
                     type="text"
                     value={newUser.first_name}
-                    onChange={(e) => setNewUser({ ...newUser, first_name: e.target.value })}
+                    onChange={(e) =>
+                      setNewUser({ ...newUser, first_name: e.target.value })
+                    }
                     className={`w-full bg-gray-700 border rounded-lg px-3 py-2 text-white ${
-                      formErrors.first_name ? 'border-red-500' : 'border-gray-600'
+                      formErrors.first_name
+                        ? "border-red-500"
+                        : "border-gray-600"
                     }`}
                     placeholder="John"
                   />
                   {formErrors.first_name && (
-                    <p className="text-red-400 text-sm mt-1">{formErrors.first_name}</p>
+                    <p className="text-red-400 text-sm mt-1">
+                      {formErrors.first_name}
+                    </p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">Last Name</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                    Last Name
+                  </label>
                   <input
                     type="text"
                     value={newUser.last_name}
-                    onChange={(e) => setNewUser({ ...newUser, last_name: e.target.value })}
+                    onChange={(e) =>
+                      setNewUser({ ...newUser, last_name: e.target.value })
+                    }
                     className={`w-full bg-gray-700 border rounded-lg px-3 py-2 text-white ${
-                      formErrors.last_name ? 'border-red-500' : 'border-gray-600'
+                      formErrors.last_name
+                        ? "border-red-500"
+                        : "border-gray-600"
                     }`}
                     placeholder="Doe"
                   />
                   {formErrors.last_name && (
-                    <p className="text-red-400 text-sm mt-1">{formErrors.last_name}</p>
+                    <p className="text-red-400 text-sm mt-1">
+                      {formErrors.last_name}
+                    </p>
                   )}
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Role</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Role
+                </label>
                 <select
                   value={newUser.role}
-                  onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
+                  onChange={(e) =>
+                    setNewUser({ ...newUser, role: e.target.value })
+                  }
                   className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white"
                 >
                   <option value="user">User</option>
@@ -926,7 +1099,7 @@ const AdminUsersManagement: React.FC = () => {
                 disabled={creating}
                 className="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
               >
-                {creating ? 'Creating...' : 'Add User'}
+                {creating ? "Creating..." : "Add User"}
               </button>
             </div>
           </div>
@@ -937,9 +1110,12 @@ const AdminUsersManagement: React.FC = () => {
       {showBulkUploadModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-gray-800 rounded-xl p-6 w-full max-w-lg mx-4">
-            <h3 className="text-xl font-bold text-white mb-4">Bulk Upload Users</h3>
+            <h3 className="text-xl font-bold text-white mb-4">
+              Bulk Upload Users
+            </h3>
             <p className="text-gray-400 text-sm mb-4">
-              Enter user data in CSV format: email,first_name,last_name,role (one user per line)
+              Enter user data in CSV format: email,first_name,last_name,role
+              (one user per line)
             </p>
             <textarea
               value={bulkUsers}
@@ -961,7 +1137,7 @@ user3@example.com,Bob,Johnson,user`}
                 disabled={uploading}
                 className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
               >
-                {uploading ? 'Uploading...' : 'Upload Users'}
+                {uploading ? "Uploading..." : "Upload Users"}
               </button>
             </div>
           </div>
@@ -974,9 +1150,12 @@ user3@example.com,Bob,Johnson,user`}
           <div className="bg-gray-800 rounded-xl p-6 w-full max-w-4xl mx-4 max-h-[80vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-xl font-bold text-white">Manage App Access</h3>
+                <h3 className="text-xl font-bold text-white">
+                  Manage App Access
+                </h3>
                 <p className="text-sm text-gray-400 mt-1">
-                  {selectedUserForApps.first_name && selectedUserForApps.last_name
+                  {selectedUserForApps.first_name &&
+                  selectedUserForApps.last_name
                     ? `${selectedUserForApps.first_name} ${selectedUserForApps.last_name}`
                     : selectedUserForApps.email}
                 </p>
@@ -998,11 +1177,14 @@ user3@example.com,Bob,Johnson,user`}
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
                     <p className="text-sm text-gray-300">
-                      Select apps to grant access ({userAppAccess.length} selected)
+                      Select apps to grant access ({userAppAccess.length}{" "}
+                      selected)
                     </p>
                     <div className="flex space-x-2">
                       <button
-                        onClick={() => setUserAppAccess(availableApps.map(app => app.slug))}
+                        onClick={() =>
+                          setUserAppAccess(availableApps.map((app) => app.slug))
+                        }
                         className="text-xs px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded transition-colors"
                       >
                         Select All
@@ -1019,15 +1201,18 @@ user3@example.com,Bob,Johnson,user`}
 
                 {/* Group apps by category */}
                 {Object.entries(
-                  availableApps.reduce((acc, app) => {
-                    if (!acc[app.category]) acc[app.category] = [];
-                    acc[app.category].push(app);
-                    return acc;
-                  }, {} as Record<string, typeof availableApps>)
+                  availableApps.reduce(
+                    (acc, app) => {
+                      if (!acc[app.category]) acc[app.category] = [];
+                      acc[app.category].push(app);
+                      return acc;
+                    },
+                    {} as Record<string, typeof availableApps>,
+                  ),
                 ).map(([category, apps]) => (
                   <div key={category} className="mb-4">
                     <h4 className="text-sm font-semibold text-gray-300 mb-2 capitalize">
-                      {category.replace(/-/g, ' ')}
+                      {category.replace(/-/g, " ")}
                     </h4>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                       {apps.map((app) => (
@@ -1036,8 +1221,8 @@ user3@example.com,Bob,Johnson,user`}
                           onClick={() => toggleAppAccess(app.slug)}
                           className={`p-3 rounded-lg text-left transition-all ${
                             userAppAccess.includes(app.slug)
-                              ? 'bg-purple-600/20 border-2 border-purple-500 text-white'
-                              : 'bg-gray-700 border-2 border-transparent text-gray-300 hover:bg-gray-600'
+                              ? "bg-purple-600/20 border-2 border-purple-500 text-white"
+                              : "bg-gray-700 border-2 border-transparent text-gray-300 hover:bg-gray-600"
                           }`}
                         >
                           <div className="text-sm font-medium">{app.name}</div>
@@ -1065,7 +1250,7 @@ user3@example.com,Bob,Johnson,user`}
                     disabled={savingAppAccess}
                     className="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
                   >
-                    {savingAppAccess ? 'Saving...' : 'Save Changes'}
+                    {savingAppAccess ? "Saving..." : "Save Changes"}
                   </button>
                 </div>
               </>
@@ -1080,9 +1265,12 @@ user3@example.com,Bob,Johnson,user`}
           <div className="bg-gray-800 rounded-xl p-6 w-full max-w-4xl mx-4 max-h-[80vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-xl font-bold text-white">Manage Feature Access</h3>
+                <h3 className="text-xl font-bold text-white">
+                  Manage Feature Access
+                </h3>
                 <p className="text-sm text-gray-400 mt-1">
-                  {selectedUserForFeatures.first_name && selectedUserForFeatures.last_name
+                  {selectedUserForFeatures.first_name &&
+                  selectedUserForFeatures.last_name
                     ? `${selectedUserForFeatures.first_name} ${selectedUserForFeatures.last_name}`
                     : selectedUserForFeatures.email}
                 </p>
@@ -1104,11 +1292,16 @@ user3@example.com,Bob,Johnson,user`}
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
                     <p className="text-sm text-gray-300">
-                      Select features to grant access ({userFeatureAccess.length} selected)
+                      Select features to grant access (
+                      {userFeatureAccess.length} selected)
                     </p>
                     <div className="flex space-x-2">
                       <button
-                        onClick={() => setUserFeatureAccess(availableFeatures.map(feature => feature.slug))}
+                        onClick={() =>
+                          setUserFeatureAccess(
+                            availableFeatures.map((feature) => feature.slug),
+                          )
+                        }
                         className="text-xs px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
                       >
                         Select All
@@ -1125,12 +1318,15 @@ user3@example.com,Bob,Johnson,user`}
 
                 {/* Group features by app */}
                 {Object.entries(
-                  availableFeatures.reduce((acc, feature) => {
-                    const appKey = feature.app_name || 'Standalone Features';
-                    if (!acc[appKey]) acc[appKey] = [];
-                    acc[appKey].push(feature);
-                    return acc;
-                  }, {} as Record<string, typeof availableFeatures>)
+                  availableFeatures.reduce(
+                    (acc, feature) => {
+                      const appKey = feature.app_name || "Standalone Features";
+                      if (!acc[appKey]) acc[appKey] = [];
+                      acc[appKey].push(feature);
+                      return acc;
+                    },
+                    {} as Record<string, typeof availableFeatures>,
+                  ),
                 ).map(([appName, features]) => (
                   <div key={appName} className="mb-4">
                     <h4 className="text-sm font-semibold text-gray-300 mb-2">
@@ -1143,12 +1339,16 @@ user3@example.com,Bob,Johnson,user`}
                           onClick={() => toggleFeatureAccess(feature.slug)}
                           className={`p-3 rounded-lg text-left transition-all ${
                             userFeatureAccess.includes(feature.slug)
-                              ? 'bg-blue-600/20 border-2 border-blue-500 text-white'
-                              : 'bg-gray-700 border-2 border-transparent text-gray-300 hover:bg-gray-600'
+                              ? "bg-blue-600/20 border-2 border-blue-500 text-white"
+                              : "bg-gray-700 border-2 border-transparent text-gray-300 hover:bg-gray-600"
                           }`}
                         >
-                          <div className="text-sm font-medium">{feature.name}</div>
-                          <div className="text-xs text-gray-400 mt-1">{feature.description}</div>
+                          <div className="text-sm font-medium">
+                            {feature.name}
+                          </div>
+                          <div className="text-xs text-gray-400 mt-1">
+                            {feature.description}
+                          </div>
                         </button>
                       ))}
                     </div>
@@ -1173,7 +1373,7 @@ user3@example.com,Bob,Johnson,user`}
                     disabled={savingFeatureAccess}
                     className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
                   >
-                    {savingFeatureAccess ? 'Saving...' : 'Save Changes'}
+                    {savingFeatureAccess ? "Saving..." : "Save Changes"}
                   </button>
                 </div>
               </>

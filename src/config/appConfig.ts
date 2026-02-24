@@ -37,10 +37,10 @@ export const appConfig = {
 
   // Error messages
   ERRORS: {
-    GENERIC_LOAD_ERROR: 'Unable to load information. Please try again later.',
-    NETWORK_ERROR: 'Network error. Please check your connection and try again.',
-    AUTHENTICATION_ERROR: 'Authentication required. Please log in again.',
-    AUTHORIZATION_ERROR: 'You do not have permission to perform this action.',
+    GENERIC_LOAD_ERROR: "Unable to load information. Please try again later.",
+    NETWORK_ERROR: "Network error. Please check your connection and try again.",
+    AUTHENTICATION_ERROR: "Authentication required. Please log in again.",
+    AUTHORIZATION_ERROR: "You do not have permission to perform this action.",
   },
 } as const;
 

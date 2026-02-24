@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Play,
   Heart,
@@ -12,17 +12,17 @@ import {
   Sparkles,
   Users,
   Clock,
-  Award
-} from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { type FeatureWithDetails } from '../hooks/useFeatures';
+  Award,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import { type FeatureWithDetails } from "../hooks/useFeatures";
 
 interface EnhancedFeatureCardProps {
   feature: FeatureWithDetails;
   onDemoClick?: () => void;
   onFavoriteClick?: () => void;
   isFavorite?: boolean;
-  viewMode?: 'compact' | 'detailed' | 'minimal';
+  viewMode?: "compact" | "detailed" | "minimal";
   showStats?: boolean;
   showPreview?: boolean;
 }
@@ -32,7 +32,7 @@ const EnhancedFeatureCard: React.FC<EnhancedFeatureCardProps> = ({
   onDemoClick,
   onFavoriteClick,
   isFavorite = false,
-  viewMode = 'detailed',
+  viewMode = "detailed",
   showStats = true,
   showPreview = true,
 }) => {
@@ -46,17 +46,17 @@ const EnhancedFeatureCard: React.FC<EnhancedFeatureCardProps> = ({
       {
         icon: <Eye className="h-3 w-3" />,
         value: feature.analytics.view_count,
-        label: 'Views',
+        label: "Views",
       },
       {
         icon: <Play className="h-3 w-3" />,
         value: feature.analytics.demo_play_count,
-        label: 'Demos',
+        label: "Demos",
       },
       {
         icon: <Star className="h-3 w-3" />,
-        value: feature.averageRating?.toFixed(1) || '0.0',
-        label: 'Rating',
+        value: feature.averageRating?.toFixed(1) || "0.0",
+        label: "Rating",
       },
     ];
 
@@ -74,7 +74,8 @@ const EnhancedFeatureCard: React.FC<EnhancedFeatureCardProps> = ({
   };
 
   const renderBenefitsPreview = () => {
-    if (!showPreview || !feature.benefits || feature.benefits.length === 0) return null;
+    if (!showPreview || !feature.benefits || feature.benefits.length === 0)
+      return null;
 
     return (
       <AnimatePresence>
@@ -130,14 +131,16 @@ const EnhancedFeatureCard: React.FC<EnhancedFeatureCardProps> = ({
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              onClick={e => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
               className="bg-gray-900 border border-gray-700 rounded-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto"
             >
               {/* Header */}
               <div className="p-6 border-b border-gray-700">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h2 className="text-2xl font-bold text-white mb-2">{feature.title}</h2>
+                    <h2 className="text-2xl font-bold text-white mb-2">
+                      {feature.title}
+                    </h2>
                     <p className="text-gray-300">{feature.description}</p>
                   </div>
                   <button
@@ -160,8 +163,11 @@ const EnhancedFeatureCard: React.FC<EnhancedFeatureCardProps> = ({
                       Benefits
                     </h3>
                     <div className="space-y-2">
-                      {feature.benefits.map(benefit => (
-                        <div key={benefit.id} className="flex items-start gap-2 text-gray-300">
+                      {feature.benefits.map((benefit) => (
+                        <div
+                          key={benefit.id}
+                          className="flex items-start gap-2 text-gray-300"
+                        >
                           <Check className="h-4 w-4 text-primary-400 flex-shrink-0 mt-1" />
                           <span>{benefit.benefit_text}</span>
                         </div>
@@ -184,8 +190,12 @@ const EnhancedFeatureCard: React.FC<EnhancedFeatureCardProps> = ({
                             {index + 1}
                           </div>
                           <div>
-                            <h4 className="text-white font-medium mb-1">{step.title}</h4>
-                            <p className="text-gray-400 text-sm">{step.description}</p>
+                            <h4 className="text-white font-medium mb-1">
+                              {step.title}
+                            </h4>
+                            <p className="text-gray-400 text-sm">
+                              {step.description}
+                            </p>
                           </div>
                         </div>
                       ))}
@@ -201,14 +211,24 @@ const EnhancedFeatureCard: React.FC<EnhancedFeatureCardProps> = ({
                       Use Cases
                     </h3>
                     <div className="space-y-3">
-                      {feature.useCases.map(useCase => (
-                        <div key={useCase.id} className="bg-gray-800 rounded-lg p-4">
-                          <h4 className="text-white font-medium mb-2">{useCase.title}</h4>
-                          <p className="text-gray-400 text-sm mb-2">{useCase.description}</p>
+                      {feature.useCases.map((useCase) => (
+                        <div
+                          key={useCase.id}
+                          className="bg-gray-800 rounded-lg p-4"
+                        >
+                          <h4 className="text-white font-medium mb-2">
+                            {useCase.title}
+                          </h4>
+                          <p className="text-gray-400 text-sm mb-2">
+                            {useCase.description}
+                          </p>
                           {useCase.points && useCase.points.length > 0 && (
                             <ul className="space-y-1">
                               {useCase.points.map((point, index) => (
-                                <li key={index} className="text-gray-400 text-sm flex items-start gap-2">
+                                <li
+                                  key={index}
+                                  className="text-gray-400 text-sm flex items-start gap-2"
+                                >
                                   <span className="text-primary-400">•</span>
                                   {point}
                                 </li>
@@ -248,7 +268,7 @@ const EnhancedFeatureCard: React.FC<EnhancedFeatureCardProps> = ({
     );
   };
 
-  if (viewMode === 'minimal') {
+  if (viewMode === "minimal") {
     return (
       <motion.div
         whileHover={{ scale: 1.02 }}
@@ -260,7 +280,9 @@ const EnhancedFeatureCard: React.FC<EnhancedFeatureCardProps> = ({
             <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
           )}
         </div>
-        <p className="text-gray-400 text-sm line-clamp-1">{feature.description}</p>
+        <p className="text-gray-400 text-sm line-clamp-1">
+          {feature.description}
+        </p>
       </motion.div>
     );
   }
@@ -312,7 +334,7 @@ const EnhancedFeatureCard: React.FC<EnhancedFeatureCardProps> = ({
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 setShowQuickView(true);
               }}
@@ -324,7 +346,7 @@ const EnhancedFeatureCard: React.FC<EnhancedFeatureCardProps> = ({
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                onClick={e => {
+                onClick={(e) => {
                   e.stopPropagation();
                   onFavoriteClick();
                 }}
@@ -332,7 +354,7 @@ const EnhancedFeatureCard: React.FC<EnhancedFeatureCardProps> = ({
               >
                 <Heart
                   className={`h-4 w-4 ${
-                    isFavorite ? 'text-red-500 fill-red-500' : 'text-white'
+                    isFavorite ? "text-red-500 fill-red-500" : "text-white"
                   }`}
                 />
               </motion.button>
@@ -344,7 +366,7 @@ const EnhancedFeatureCard: React.FC<EnhancedFeatureCardProps> = ({
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 onDemoClick();
               }}
@@ -371,7 +393,7 @@ const EnhancedFeatureCard: React.FC<EnhancedFeatureCardProps> = ({
           {/* Tags */}
           {feature.tags && feature.tags.length > 0 && (
             <div className="flex flex-wrap gap-1 mb-4">
-              {feature.tags.slice(0, 3).map(tag => (
+              {feature.tags.slice(0, 3).map((tag) => (
                 <span
                   key={tag}
                   className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded-full"
@@ -399,14 +421,15 @@ const EnhancedFeatureCard: React.FC<EnhancedFeatureCardProps> = ({
                     key={i}
                     className={`h-3 w-3 ${
                       i < Math.round(feature.averageRating || 0)
-                        ? 'text-yellow-500 fill-yellow-500'
-                        : 'text-gray-600'
+                        ? "text-yellow-500 fill-yellow-500"
+                        : "text-gray-600"
                     }`}
                   />
                 ))}
               </div>
               <span className="text-xs text-gray-400">
-                {feature.averageRating.toFixed(1)} ({feature.ratingCount} reviews)
+                {feature.averageRating.toFixed(1)} ({feature.ratingCount}{" "}
+                reviews)
               </span>
             </div>
           )}

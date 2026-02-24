@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import React, { useEffect, useState } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
 
 interface ScrollProgressBarProps {
   topOffset?: number;
 }
 
-const ScrollProgressBar: React.FC<ScrollProgressBarProps> = ({ topOffset = 0 }) => {
+const ScrollProgressBar: React.FC<ScrollProgressBarProps> = ({
+  topOffset = 0,
+}) => {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
-    restDelta: 0.001
+    restDelta: 0.001,
   });
-  
+
   const [isVisible, setIsVisible] = useState(false);
-  
+
   useEffect(() => {
     const handleScroll = () => {
       // Show progress bar after scrolling a bit
@@ -24,9 +26,9 @@ const ScrollProgressBar: React.FC<ScrollProgressBarProps> = ({ topOffset = 0 }) 
         setIsVisible(false);
       }
     };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   if (!isVisible) return null;

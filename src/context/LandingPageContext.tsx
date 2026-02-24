@@ -1,12 +1,18 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { 
-  getAllLandingPageContent, 
-  HeroContent, 
-  BenefitFeature, 
-  Testimonial, 
-  FAQ, 
-  PricingPlan 
-} from '../utils/supabaseClient';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import {
+  getAllLandingPageContent,
+  HeroContent,
+  BenefitFeature,
+  Testimonial,
+  FAQ,
+  PricingPlan,
+} from "../utils/supabaseClient";
 
 interface LandingPageContextType {
   hero: HeroContent | null;
@@ -27,10 +33,11 @@ const defaultContext: LandingPageContextType = {
   pricingPlans: [],
   isLoading: true,
   error: null,
-  refetchContent: async () => {}
+  refetchContent: async () => {},
 };
 
-const LandingPageContext = createContext<LandingPageContextType>(defaultContext);
+const LandingPageContext =
+  createContext<LandingPageContextType>(defaultContext);
 
 export const useLandingPageContent = () => useContext(LandingPageContext);
 
@@ -38,13 +45,17 @@ interface LandingPageProviderProps {
   children: ReactNode;
 }
 
-const LandingPageProvider: React.FC<LandingPageProviderProps> = ({ children }) => {
-  const [content, setContent] = useState<Omit<LandingPageContextType, 'isLoading' | 'error' | 'refetchContent'>>({
+const LandingPageProvider: React.FC<LandingPageProviderProps> = ({
+  children,
+}) => {
+  const [content, setContent] = useState<
+    Omit<LandingPageContextType, "isLoading" | "error" | "refetchContent">
+  >({
     hero: null,
     benefitsFeatures: [],
     testimonials: [],
     faqs: [],
-    pricingPlans: []
+    pricingPlans: [],
   });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -53,19 +64,19 @@ const LandingPageProvider: React.FC<LandingPageProviderProps> = ({ children }) =
     try {
       setIsLoading(true);
       setError(null);
-      
+
       const data = await getAllLandingPageContent();
-      
+
       setContent({
         hero: data.hero,
         benefitsFeatures: data.benefits || [],
         testimonials: data.testimonials || [],
         faqs: data.faqs || [],
-        pricingPlans: data.pricing || []
+        pricingPlans: data.pricing || [],
       });
     } catch (err) {
-      console.error('Error fetching landing page content:', err);
-      setError('Failed to load content. Please try again later.');
+      console.error("Error fetching landing page content:", err);
+      setError("Failed to load content. Please try again later.");
     } finally {
       setIsLoading(false);
     }
@@ -79,7 +90,7 @@ const LandingPageProvider: React.FC<LandingPageProviderProps> = ({ children }) =
     ...content,
     isLoading,
     error,
-    refetchContent: fetchContent
+    refetchContent: fetchContent,
   };
 
   return (

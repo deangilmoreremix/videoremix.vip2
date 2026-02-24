@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
 interface LoadingSkeletonProps {
   className?: string;
-  variant?: 'card' | 'text' | 'circle' | 'rectangle';
+  variant?: "card" | "text" | "circle" | "rectangle";
   lines?: number;
   width?: string | number;
   height?: string | number;
@@ -13,51 +13,55 @@ interface LoadingSkeletonProps {
  * Provides visual feedback while content is loading
  */
 const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({
-  className = '',
-  variant = 'rectangle',
+  className = "",
+  variant = "rectangle",
   lines = 1,
   width,
-  height
+  height,
 }) => {
-  const baseClasses = 'animate-pulse bg-gray-200 dark:bg-gray-700 rounded';
+  const baseClasses = "animate-pulse bg-gray-200 dark:bg-gray-700 rounded";
 
   const getVariantClasses = () => {
     switch (variant) {
-      case 'card':
-        return 'p-4 space-y-3';
-      case 'text':
-        return 'h-4';
-      case 'circle':
-        return 'rounded-full';
+      case "card":
+        return "p-4 space-y-3";
+      case "text":
+        return "h-4";
+      case "circle":
+        return "rounded-full";
       default:
-        return '';
+        return "";
     }
   };
 
   const getSizeClasses = () => {
     if (width || height) {
-      return '';
+      return "";
     }
 
     switch (variant) {
-      case 'card':
-        return 'w-full h-32';
-      case 'text':
-        return 'w-full';
-      case 'circle':
-        return 'w-10 h-10';
+      case "card":
+        return "w-full h-32";
+      case "text":
+        return "w-full";
+      case "circle":
+        return "w-10 h-10";
       default:
-        return 'w-full h-4';
+        return "w-full h-4";
     }
   };
 
   const style: React.CSSProperties = {};
-  if (width) style.width = typeof width === 'number' ? `${width}px` : width;
-  if (height) style.height = typeof height === 'number' ? `${height}px` : height;
+  if (width) style.width = typeof width === "number" ? `${width}px` : width;
+  if (height)
+    style.height = typeof height === "number" ? `${height}px` : height;
 
-  if (variant === 'card') {
+  if (variant === "card") {
     return (
-      <div className={`${baseClasses} ${getVariantClasses()} ${className}`} style={style}>
+      <div
+        className={`${baseClasses} ${getVariantClasses()} ${className}`}
+        style={style}
+      >
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-gray-300 dark:bg-gray-600 rounded-full animate-pulse"></div>
           <div className="flex-1 space-y-2">
@@ -82,7 +86,7 @@ const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({
             className={`${baseClasses} ${getVariantClasses()} ${getSizeClasses()}`}
             style={{
               ...style,
-              width: index === lines - 1 ? '60%' : undefined // Last line shorter
+              width: index === lines - 1 ? "60%" : undefined, // Last line shorter
             }}
           />
         ))}
@@ -127,7 +131,9 @@ export const AppCardSkeleton: React.FC = () => (
 /**
  * Grid of app card skeletons
  */
-export const AppGridSkeleton: React.FC<{ count?: number }> = ({ count = 6 }) => (
+export const AppGridSkeleton: React.FC<{ count?: number }> = ({
+  count = 6,
+}) => (
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     {Array.from({ length: count }).map((_, index) => (
       <AppCardSkeleton key={index} />

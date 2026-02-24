@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { TrendingUp, TrendingDown, Minus, LucideIcon } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
+import { TrendingUp, TrendingDown, Minus, LucideIcon } from "lucide-react";
 
 interface SparklineDataPoint {
   value: number;
@@ -20,25 +20,26 @@ interface EnhancedStatCardProps {
   prefix?: string;
 }
 
-const Sparkline: React.FC<{ data: SparklineDataPoint[]; color: string }> = ({ data, color }) => {
+const Sparkline: React.FC<{ data: SparklineDataPoint[]; color: string }> = ({
+  data,
+  color,
+}) => {
   if (!data || data.length === 0) return null;
 
-  const max = Math.max(...data.map(d => d.value));
-  const min = Math.min(...data.map(d => d.value));
+  const max = Math.max(...data.map((d) => d.value));
+  const min = Math.min(...data.map((d) => d.value));
   const range = max - min || 1;
 
-  const points = data.map((d, i) => {
-    const x = (i / (data.length - 1)) * 100;
-    const y = 100 - ((d.value - min) / range) * 100;
-    return `${x},${y}`;
-  }).join(' ');
+  const points = data
+    .map((d, i) => {
+      const x = (i / (data.length - 1)) * 100;
+      const y = 100 - ((d.value - min) / range) * 100;
+      return `${x},${y}`;
+    })
+    .join(" ");
 
   return (
-    <svg
-      viewBox="0 0 100 30"
-      className="w-full h-8"
-      preserveAspectRatio="none"
-    >
+    <svg viewBox="0 0 100 30" className="w-full h-8" preserveAspectRatio="none">
       <polyline
         points={points}
         fill="none"
@@ -55,14 +56,14 @@ const EnhancedStatCard: React.FC<EnhancedStatCardProps> = ({
   title,
   value,
   change,
-  changeLabel = 'vs last period',
+  changeLabel = "vs last period",
   icon: Icon,
   sparklineData,
   loading = false,
   error = false,
-  color = '#6366f1',
-  suffix = '',
-  prefix = '',
+  color = "#6366f1",
+  suffix = "",
+  prefix = "",
 }) => {
   const getTrendIcon = () => {
     if (change === undefined || change === 0) return Minus;
@@ -70,8 +71,8 @@ const EnhancedStatCard: React.FC<EnhancedStatCardProps> = ({
   };
 
   const getTrendColor = () => {
-    if (change === undefined || change === 0) return 'text-gray-400';
-    return change > 0 ? 'text-green-400' : 'text-red-400';
+    if (change === undefined || change === 0) return "text-gray-400";
+    return change > 0 ? "text-green-400" : "text-red-400";
   };
 
   const TrendIcon = getTrendIcon();
@@ -80,7 +81,10 @@ const EnhancedStatCard: React.FC<EnhancedStatCardProps> = ({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -4, boxShadow: '0 10px 30px -10px rgba(99, 102, 241, 0.3)' }}
+      whileHover={{
+        y: -4,
+        boxShadow: "0 10px 30px -10px rgba(99, 102, 241, 0.3)",
+      }}
       transition={{ duration: 0.3 }}
       className="bg-gradient-to-br from-gray-800/70 to-gray-900/70 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-gray-600 transition-colors group"
     >
@@ -98,12 +102,14 @@ const EnhancedStatCard: React.FC<EnhancedStatCardProps> = ({
             <motion.div
               initial={{ scale: 0.5, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, type: 'spring' }}
+              transition={{ duration: 0.5, type: "spring" }}
               className="text-3xl font-bold text-white flex items-baseline"
             >
               {prefix && <span className="text-lg mr-1">{prefix}</span>}
               <span>{value}</span>
-              {suffix && <span className="text-lg ml-1 text-gray-400">{suffix}</span>}
+              {suffix && (
+                <span className="text-lg ml-1 text-gray-400">{suffix}</span>
+              )}
             </motion.div>
           )}
         </div>
@@ -132,13 +138,9 @@ const EnhancedStatCard: React.FC<EnhancedStatCardProps> = ({
             className={`flex items-center gap-1 ${getTrendColor()}`}
           >
             <TrendIcon className="h-4 w-4" />
-            <span className="text-sm font-semibold">
-              {Math.abs(change)}%
-            </span>
+            <span className="text-sm font-semibold">{Math.abs(change)}%</span>
           </motion.div>
-          <span className="text-xs text-gray-500">
-            {changeLabel}
-          </span>
+          <span className="text-xs text-gray-500">{changeLabel}</span>
         </div>
       )}
     </motion.div>

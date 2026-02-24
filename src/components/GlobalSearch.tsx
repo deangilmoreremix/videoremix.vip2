@@ -1,14 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Command, ArrowRight, Clock, Hash, ExternalLink } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { useApps } from '../hooks/useApps';
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Search,
+  Command,
+  ArrowRight,
+  Clock,
+  Hash,
+  ExternalLink,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useApps } from "../hooks/useApps";
 
 interface SearchResult {
   id: string;
   title: string;
   description: string;
-  category: 'app' | 'page' | 'feature';
+  category: "app" | "page" | "feature";
   path: string;
   icon?: string;
   isExternal?: boolean;
@@ -16,7 +23,7 @@ interface SearchResult {
 
 const GlobalSearch: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
@@ -25,27 +32,63 @@ const GlobalSearch: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const pages: SearchResult[] = [
-    { id: 'dashboard', title: 'Dashboard', description: 'Your personal dashboard', category: 'page', path: '/dashboard' },
-    { id: 'profile', title: 'Profile', description: 'Manage your account', category: 'page', path: '/profile' },
-    { id: 'pricing', title: 'Pricing', description: 'View pricing plans', category: 'page', path: '/pricing' },
-    { id: 'help', title: 'Help Center', description: 'Get help and support', category: 'page', path: '/help' },
-    { id: 'blog', title: 'Blog', description: 'Read our latest articles', category: 'page', path: '/blog' },
-    { id: 'contact', title: 'Contact', description: 'Get in touch with us', category: 'page', path: '/contact' },
+    {
+      id: "dashboard",
+      title: "Dashboard",
+      description: "Your personal dashboard",
+      category: "page",
+      path: "/dashboard",
+    },
+    {
+      id: "profile",
+      title: "Profile",
+      description: "Manage your account",
+      category: "page",
+      path: "/profile",
+    },
+    {
+      id: "pricing",
+      title: "Pricing",
+      description: "View pricing plans",
+      category: "page",
+      path: "/pricing",
+    },
+    {
+      id: "help",
+      title: "Help Center",
+      description: "Get help and support",
+      category: "page",
+      path: "/help",
+    },
+    {
+      id: "blog",
+      title: "Blog",
+      description: "Read our latest articles",
+      category: "page",
+      path: "/blog",
+    },
+    {
+      id: "contact",
+      title: "Contact",
+      description: "Get in touch with us",
+      category: "page",
+      path: "/contact",
+    },
   ];
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         setIsOpen(true);
       }
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setIsOpen(false);
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   useEffect(() => {
@@ -55,7 +98,7 @@ const GlobalSearch: React.FC = () => {
   }, [isOpen]);
 
   useEffect(() => {
-    const stored = localStorage.getItem('recentSearches');
+    const stored = localStorage.getItem("recentSearches");
     if (stored) {
       setRecentSearches(JSON.parse(stored));
     }
@@ -70,26 +113,28 @@ const GlobalSearch: React.FC = () => {
 
     const searchQuery = query.toLowerCase();
     const appResults: SearchResult[] = apps
-      .filter(app =>
-        app.name.toLowerCase().includes(searchQuery) ||
-        app.description?.toLowerCase().includes(searchQuery) ||
-        app.category?.toLowerCase().includes(searchQuery)
+      .filter(
+        (app) =>
+          app.name.toLowerCase().includes(searchQuery) ||
+          app.description?.toLowerCase().includes(searchQuery) ||
+          app.category?.toLowerCase().includes(searchQuery),
       )
       .slice(0, 5)
-      .map(app => ({
+      .map((app) => ({
         id: app.id,
         title: app.name,
-        description: app.description || '',
-        category: 'app' as const,
+        description: app.description || "",
+        category: "app" as const,
         path: `/app/${app.id}`,
         icon: app.icon,
         isExternal: app.url ? true : false,
       }));
 
     const pageResults: SearchResult[] = pages
-      .filter(page =>
-        page.title.toLowerCase().includes(searchQuery) ||
-        page.description.toLowerCase().includes(searchQuery)
+      .filter(
+        (page) =>
+          page.title.toLowerCase().includes(searchQuery) ||
+          page.description.toLowerCase().includes(searchQuery),
       )
       .slice(0, 3);
 
@@ -100,24 +145,27 @@ const GlobalSearch: React.FC = () => {
   const handleSelect = (result: SearchResult) => {
     saveToRecent(result.title);
     setIsOpen(false);
-    setQuery('');
+    setQuery("");
     navigate(result.path);
   };
 
   const saveToRecent = (search: string) => {
-    const updated = [search, ...recentSearches.filter(s => s !== search)].slice(0, 5);
+    const updated = [
+      search,
+      ...recentSearches.filter((s) => s !== search),
+    ].slice(0, 5);
     setRecentSearches(updated);
-    localStorage.setItem('recentSearches', JSON.stringify(updated));
+    localStorage.setItem("recentSearches", JSON.stringify(updated));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowDown') {
+    if (e.key === "ArrowDown") {
       e.preventDefault();
-      setSelectedIndex(prev => (prev + 1) % results.length);
-    } else if (e.key === 'ArrowUp') {
+      setSelectedIndex((prev) => (prev + 1) % results.length);
+    } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setSelectedIndex(prev => (prev - 1 + results.length) % results.length);
-    } else if (e.key === 'Enter' && results[selectedIndex]) {
+      setSelectedIndex((prev) => (prev - 1 + results.length) % results.length);
+    } else if (e.key === "Enter" && results[selectedIndex]) {
       e.preventDefault();
       handleSelect(results[selectedIndex]);
     }
@@ -125,9 +173,9 @@ const GlobalSearch: React.FC = () => {
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'app':
+      case "app":
         return <Hash className="h-4 w-4" />;
-      case 'page':
+      case "page":
         return <ArrowRight className="h-4 w-4" />;
       default:
         return <Search className="h-4 w-4" />;
@@ -170,7 +218,7 @@ const GlobalSearch: React.FC = () => {
               initial={{ opacity: 0, scale: 0.95, y: -20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -20 }}
-              transition={{ type: 'spring', duration: 0.3 }}
+              transition={{ type: "spring", duration: 0.3 }}
               className="fixed top-[10%] left-1/2 -translate-x-1/2 w-full max-w-2xl z-50 px-4"
             >
               <div className="bg-gray-900 rounded-xl border border-gray-700 shadow-2xl overflow-hidden">
@@ -186,7 +234,9 @@ const GlobalSearch: React.FC = () => {
                     className="flex-1 bg-transparent text-white placeholder-gray-400 outline-none"
                   />
                   <div className="flex items-center gap-1 text-xs text-gray-500">
-                    <kbd className="px-2 py-1 bg-gray-800 rounded border border-gray-700">ESC</kbd>
+                    <kbd className="px-2 py-1 bg-gray-800 rounded border border-gray-700">
+                      ESC
+                    </kbd>
                   </div>
                 </div>
 
@@ -219,12 +269,18 @@ const GlobalSearch: React.FC = () => {
                           transition={{ delay: index * 0.05 }}
                           onClick={() => handleSelect(result)}
                           className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg transition-colors text-left ${
-                            index === selectedIndex ? 'bg-primary-500/20 border border-primary-500/50' : 'hover:bg-gray-800'
+                            index === selectedIndex
+                              ? "bg-primary-500/20 border border-primary-500/50"
+                              : "hover:bg-gray-800"
                           }`}
                         >
-                          <div className={`p-2 rounded-lg ${
-                            result.category === 'app' ? 'bg-primary-500/20' : 'bg-gray-700'
-                          }`}>
+                          <div
+                            className={`p-2 rounded-lg ${
+                              result.category === "app"
+                                ? "bg-primary-500/20"
+                                : "bg-gray-700"
+                            }`}
+                          >
                             {result.icon ? (
                               <span className="text-xl">{result.icon}</span>
                             ) : (
@@ -233,12 +289,16 @@ const GlobalSearch: React.FC = () => {
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <span className="font-medium text-white truncate">{result.title}</span>
+                              <span className="font-medium text-white truncate">
+                                {result.title}
+                              </span>
                               {result.isExternal && (
                                 <ExternalLink className="h-3 w-3 text-gray-500 flex-shrink-0" />
                               )}
                             </div>
-                            <p className="text-sm text-gray-400 truncate">{result.description}</p>
+                            <p className="text-sm text-gray-400 truncate">
+                              {result.description}
+                            </p>
                           </div>
                           <ArrowRight className="h-4 w-4 text-gray-500 flex-shrink-0" />
                         </motion.button>
@@ -256,15 +316,21 @@ const GlobalSearch: React.FC = () => {
                   <div className="flex items-center justify-between text-xs text-gray-500">
                     <div className="flex items-center gap-4">
                       <span className="flex items-center gap-1">
-                        <kbd className="px-1.5 py-0.5 bg-gray-700 rounded">↑↓</kbd>
+                        <kbd className="px-1.5 py-0.5 bg-gray-700 rounded">
+                          ↑↓
+                        </kbd>
                         Navigate
                       </span>
                       <span className="flex items-center gap-1">
-                        <kbd className="px-1.5 py-0.5 bg-gray-700 rounded">↵</kbd>
+                        <kbd className="px-1.5 py-0.5 bg-gray-700 rounded">
+                          ↵
+                        </kbd>
                         Select
                       </span>
                       <span className="flex items-center gap-1">
-                        <kbd className="px-1.5 py-0.5 bg-gray-700 rounded">ESC</kbd>
+                        <kbd className="px-1.5 py-0.5 bg-gray-700 rounded">
+                          ESC
+                        </kbd>
                         Close
                       </span>
                     </div>

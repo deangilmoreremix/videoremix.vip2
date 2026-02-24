@@ -1,7 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Video, Plus, Edit, Trash2, Play, AlertCircle, CheckCircle } from 'lucide-react';
-import { supabase } from '../../utils/supabaseClient';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import {
+  Video,
+  Plus,
+  Edit,
+  Trash2,
+  Play,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-react";
+import { supabase } from "../../utils/supabaseClient";
 
 interface VideoItem {
   id: string;
@@ -23,12 +31,12 @@ const AdminVideosManagement: React.FC = () => {
   const [success, setSuccess] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    url: '',
-    thumbnail_url: '',
+    title: "",
+    description: "",
+    url: "",
+    thumbnail_url: "",
     duration: 0,
-    is_active: true
+    is_active: true,
   });
 
   useEffect(() => {
@@ -43,18 +51,24 @@ const AdminVideosManagement: React.FC = () => {
   const fetchVideos = async () => {
     try {
       clearMessages();
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
       if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
+        setError("Authentication required. Please log in again.");
         return;
       }
       const token = session.access_token;
 
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-videos`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-videos`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -64,11 +78,11 @@ const AdminVideosManagement: React.FC = () => {
       if (data.success) {
         setVideos(data.data || []);
       } else {
-        setError(data.error || 'Failed to load videos');
+        setError(data.error || "Failed to load videos");
       }
     } catch (error) {
-      console.error('Error fetching videos:', error);
-      setError('Failed to load videos. The function may not be deployed yet.');
+      console.error("Error fetching videos:", error);
+      setError("Failed to load videos. The function may not be deployed yet.");
     } finally {
       setLoading(false);
     }
@@ -79,21 +93,21 @@ const AdminVideosManagement: React.FC = () => {
       setEditingVideo(video);
       setFormData({
         title: video.title,
-        description: video.description || '',
+        description: video.description || "",
         url: video.url,
-        thumbnail_url: video.thumbnail_url || '',
+        thumbnail_url: video.thumbnail_url || "",
         duration: video.duration || 0,
-        is_active: video.is_active
+        is_active: video.is_active,
       });
     } else {
       setEditingVideo(null);
       setFormData({
-        title: '',
-        description: '',
-        url: '',
-        thumbnail_url: '',
+        title: "",
+        description: "",
+        url: "",
+        thumbnail_url: "",
         duration: 0,
-        is_active: true
+        is_active: true,
       });
     }
     setShowModal(true);
@@ -104,12 +118,12 @@ const AdminVideosManagement: React.FC = () => {
     setShowModal(false);
     setEditingVideo(null);
     setFormData({
-      title: '',
-      description: '',
-      url: '',
-      thumbnail_url: '',
+      title: "",
+      description: "",
+      url: "",
+      thumbnail_url: "",
       duration: 0,
-      is_active: true
+      is_active: true,
     });
   };
 
@@ -118,9 +132,12 @@ const AdminVideosManagement: React.FC = () => {
     clearMessages();
 
     try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
       if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
+        setError("Authentication required. Please log in again.");
         return;
       }
       const token = session.access_token;
@@ -130,57 +147,67 @@ const AdminVideosManagement: React.FC = () => {
         : `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-videos`;
 
       const response = await fetch(url, {
-        method: editingVideo ? 'PUT' : 'POST',
+        method: editingVideo ? "PUT" : "POST",
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
       const data = await response.json();
       if (data.success) {
-        setSuccess(editingVideo ? 'Video updated successfully' : 'Video created successfully');
+        setSuccess(
+          editingVideo
+            ? "Video updated successfully"
+            : "Video created successfully",
+        );
         handleCloseModal();
         fetchVideos();
       } else {
-        setError(data.error || 'Operation failed');
+        setError(data.error || "Operation failed");
       }
     } catch (error) {
-      console.error('Error saving video:', error);
-      setError('Failed to save video');
+      console.error("Error saving video:", error);
+      setError("Failed to save video");
     }
   };
 
   const handleDelete = async (videoId: string) => {
-    if (!confirm('Are you sure you want to delete this video?')) return;
+    if (!confirm("Are you sure you want to delete this video?")) return;
 
     try {
       clearMessages();
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
       if (sessionError || !session) {
-        setError('Authentication required. Please log in again.');
+        setError("Authentication required. Please log in again.");
         return;
       }
       const token = session.access_token;
 
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-videos/${videoId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-videos/${videoId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       const data = await response.json();
       if (data.success) {
-        setSuccess('Video deleted successfully');
+        setSuccess("Video deleted successfully");
         fetchVideos();
       } else {
-        setError(data.error || 'Failed to delete video');
+        setError(data.error || "Failed to delete video");
       }
     } catch (error) {
-      console.error('Error deleting video:', error);
-      setError('Failed to delete video');
+      console.error("Error deleting video:", error);
+      setError("Failed to delete video");
     }
   };
 
@@ -234,7 +261,9 @@ const AdminVideosManagement: React.FC = () => {
       {videos.length === 0 ? (
         <div className="text-center py-12">
           <Video className="h-16 w-16 text-gray-600 mx-auto mb-4" />
-          <p className="text-gray-400">No videos found. Add your first video!</p>
+          <p className="text-gray-400">
+            No videos found. Add your first video!
+          </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -252,13 +281,19 @@ const AdminVideosManagement: React.FC = () => {
                   className="w-full h-40 object-cover rounded-lg mb-3"
                 />
               )}
-              <h3 className="text-lg font-semibold text-white mb-2">{video.title}</h3>
+              <h3 className="text-lg font-semibold text-white mb-2">
+                {video.title}
+              </h3>
               {video.description && (
-                <p className="text-sm text-gray-400 mb-3 line-clamp-2">{video.description}</p>
+                <p className="text-sm text-gray-400 mb-3 line-clamp-2">
+                  {video.description}
+                </p>
               )}
               <div className="flex items-center justify-between">
-                <span className={`text-xs px-2 py-1 rounded ${video.is_active ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'}`}>
-                  {video.is_active ? 'Active' : 'Inactive'}
+                <span
+                  className={`text-xs px-2 py-1 rounded ${video.is_active ? "bg-green-500/20 text-green-400" : "bg-gray-500/20 text-gray-400"}`}
+                >
+                  {video.is_active ? "Active" : "Inactive"}
                 </span>
                 <div className="flex space-x-2">
                   <button
@@ -288,53 +323,76 @@ const AdminVideosManagement: React.FC = () => {
             className="bg-gray-800 rounded-xl p-6 max-w-md w-full border border-gray-700"
           >
             <h3 className="text-xl font-bold text-white mb-4">
-              {editingVideo ? 'Edit Video' : 'Add New Video'}
+              {editingVideo ? "Edit Video" : "Add New Video"}
             </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Title</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Title
+                </label>
                 <input
                   type="text"
                   value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, title: e.target.value })
+                  }
                   className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Description</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Description
+                </label>
                 <textarea
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                   className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
                   rows={3}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Video URL</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Video URL
+                </label>
                 <input
                   type="url"
                   value={formData.url}
-                  onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, url: e.target.value })
+                  }
                   className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Thumbnail URL</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Thumbnail URL
+                </label>
                 <input
                   type="url"
                   value={formData.thumbnail_url}
-                  onChange={(e) => setFormData({ ...formData, thumbnail_url: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, thumbnail_url: e.target.value })
+                  }
                   className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Duration (seconds)</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Duration (seconds)
+                </label>
                 <input
                   type="number"
                   value={formData.duration}
-                  onChange={(e) => setFormData({ ...formData, duration: parseInt(e.target.value) })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      duration: parseInt(e.target.value),
+                    })
+                  }
                   className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -342,7 +400,9 @@ const AdminVideosManagement: React.FC = () => {
                 <input
                   type="checkbox"
                   checked={formData.is_active}
-                  onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, is_active: e.target.checked })
+                  }
                   className="mr-2"
                 />
                 <label className="text-sm text-gray-300">Active</label>
@@ -359,7 +419,7 @@ const AdminVideosManagement: React.FC = () => {
                   type="submit"
                   className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
                 >
-                  {editingVideo ? 'Update' : 'Create'}
+                  {editingVideo ? "Update" : "Create"}
                 </button>
               </div>
             </form>
