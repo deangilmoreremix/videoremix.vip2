@@ -58,16 +58,12 @@ const MagicSparkles: React.FC<MagicSparklesProps> = ({
 }) => {
   const { prefersReducedMotion, lowPowerMode } = useAnimationContext();
   
-  // Don't render animations for reduced motion or low power
-  if (prefersReducedMotion || lowPowerMode) {
-    return <div className={`relative ${className}`}>{children}</div>;
-  }
-  
   // Get a random number of sparkles between min and max
   const sparkleCount = Math.floor(
     Math.random() * (maxSparkles - minSparkles + 1) + minSparkles
   );
   
+  // Call all hooks unconditionally (React Rules of Hooks)
   const [sparkles, setSparkles] = useState<Sparkle[]>([]);
   const timeoutRef = useRef<number | null>(null);
   
@@ -81,6 +77,11 @@ const MagicSparkles: React.FC<MagicSparklesProps> = ({
     }
   };
 
+  // Don't render animations for reduced motion or low power
+  if (prefersReducedMotion || lowPowerMode) {
+    return <div className={`relative ${className}`}>{children}</div>;
+  }
+  
   // Initialize sparkles and set up cleanup
   useEffect(() => {
     // Create initial sparkles

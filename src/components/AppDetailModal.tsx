@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Star, Users, Check, Lock, ExternalLink, Play, Award, TrendingUp, Target, Zap, ArrowRight, ShoppingCart } from 'lucide-react';
+import { X, Star, Users, Check, Lock, Play, Award, TrendingUp, Target, Zap, ShoppingCart } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useUserAccess } from '../hooks/useUserAccess';
 import { getEnhancedAppData } from '../data/enhancedAppsData';
