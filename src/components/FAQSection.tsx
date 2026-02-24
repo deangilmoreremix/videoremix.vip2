@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown, X } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { useLandingPageContent } from '../context/LandingPageContext';
 
 export const FAQSection: React.FC = () => {

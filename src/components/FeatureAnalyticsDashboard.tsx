@@ -8,7 +8,6 @@ import {
   Star,
   BarChart2,
   Activity,
-  Calendar,
   Filter,
   Download,
   RefreshCw,

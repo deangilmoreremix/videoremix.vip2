@@ -25,7 +25,6 @@ import { useInView } from 'react-intersection-observer';
 import { useApps } from '../hooks/useApps';
 import { useAuth } from '../context/AuthContext';
 import { useUserAccess } from '../hooks/useUserAccess';
-import AppDetailModal from './AppDetailModal';
 import LazyIcon from './LazyIcon';
 
 // Define TrendingUp component before it's used
@@ -104,8 +103,6 @@ const AppGallerySection: React.FC = () => {
 
   // Image loading error handling state
   const [imageErrors, setImageErrors] = useState<Record<string, number>>({});
-  const [selectedApp, setSelectedApp] = useState<any>(null);
-  const [showModal, setShowModal] = useState(false);
 
   // Update filtered tools when category or search query changes
   useEffect(() => {

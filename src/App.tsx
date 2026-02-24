@@ -51,8 +51,10 @@ const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const SignInPage = lazy(() => import('./pages/SignInPage'));
 const SignUpPage = lazy(() => import('./pages/SignUpPage'));
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
-const ResetPasswordPage = lazy(() => import('./pages/ResetPasswordPage'));
+const ResetPassword = lazy(() => import('./pages/ResetPassword'));
 const EmailConfirmPage = lazy(() => import('./pages/EmailConfirmPage'));
+const AuthCallback = lazy(() => import('./pages/AuthCallback'));
+const MagicLinkPage = lazy(() => import('./pages/MagicLinkPage'));
 
 // Loading fallback component
 const SectionLoader = () => (
@@ -112,9 +114,8 @@ function App() {
   }, []);
 
   // Handle errors from error boundaries
-  const handleError = (error: Error) => {
+  const handleError = () => {
     // In a production app, you might send this to an error tracking service
-    // Error caught: error.message
   };
 
   return (
@@ -410,7 +411,7 @@ function App() {
         <Route path="/reset-password" element={
           <ErrorBoundary onError={handleError}>
             <Suspense fallback={<SectionLoader />}>
-              <ResetPasswordPage />
+              <ResetPassword />
             </Suspense>
           </ErrorBoundary>
         } />
@@ -418,7 +419,7 @@ function App() {
         <Route path="/auth/reset-password" element={
           <ErrorBoundary onError={handleError}>
             <Suspense fallback={<SectionLoader />}>
-              <ResetPasswordPage />
+              <ResetPassword />
             </Suspense>
           </ErrorBoundary>
         } />
@@ -434,7 +435,15 @@ function App() {
         <Route path="/auth/callback" element={
           <ErrorBoundary onError={handleError}>
             <Suspense fallback={<SectionLoader />}>
-              <SignInPage />
+              <AuthCallback />
+            </Suspense>
+          </ErrorBoundary>
+        } />
+
+        <Route path="/auth/magic-link" element={
+          <ErrorBoundary onError={handleError}>
+            <Suspense fallback={<SectionLoader />}>
+              <MagicLinkPage />
             </Suspense>
           </ErrorBoundary>
         } />

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Play, Check, ChevronDown, Sparkles, ArrowRight } from 'lucide-react';
+import { Play, Check, Sparkles, ArrowRight } from 'lucide-react';
 
 const DemoSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);

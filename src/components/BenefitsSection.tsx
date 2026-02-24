@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Star, Clock, Award, Zap, Video, ArrowRight, Sparkles, Target, BarChart2, TrendingUp, DollarSign, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Users, Star, Clock, Zap, ArrowRight, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 import CountUp from 'react-countup';
 import { useLandingPageContent } from '../context/LandingPageContext';
 import MagicSparkles from './MagicSparkles';

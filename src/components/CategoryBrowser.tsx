@@ -7,7 +7,6 @@ import {
   Palette,
   UserCircle,
   Package,
-  Layers,
   Sparkles,
   ArrowRight,
   Lock
