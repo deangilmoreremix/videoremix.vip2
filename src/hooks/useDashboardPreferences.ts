@@ -1,24 +1,25 @@
-import { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { supabase } from '../utils/supabaseClient';
+import { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import { supabase } from "../utils/supabaseClient";
 
 export interface DashboardPreferences {
-  theme: 'dark' | 'light';
-  layout_density: 'compact' | 'comfortable';
+  theme: "dark" | "light";
+  layout_density: "compact" | "comfortable";
   widget_order: string[];
   hidden_widgets: string[];
 }
 
 const DEFAULT_PREFERENCES: DashboardPreferences = {
-  theme: 'dark',
-  layout_density: 'comfortable',
+  theme: "dark",
+  layout_density: "comfortable",
   widget_order: [],
   hidden_widgets: [],
 };
 
 export const useDashboardPreferences = () => {
   const { user } = useAuth();
-  const [preferences, setPreferences] = useState<DashboardPreferences>(DEFAULT_PREFERENCES);
+  const [preferences, setPreferences] =
+    useState<DashboardPreferences>(DEFAULT_PREFERENCES);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -40,21 +41,21 @@ export const useDashboardPreferences = () => {
       setError(null);
 
       const { data, error: fetchError } = await supabase
-        .from('user_dashboard_preferences')
-        .select('theme, layout_density, widget_order, hidden_widgets')
-        .eq('user_id', user.id)
+        .from("user_dashboard_preferences")
+        .select("theme, layout_density, widget_order, hidden_widgets")
+        .eq("user_id", user.id)
         .maybeSingle();
 
       if (fetchError) {
-        console.error('Error fetching preferences:', fetchError);
+        console.error("Error fetching preferences:", fetchError);
         setError(fetchError.message);
         return;
       }
 
       if (data) {
         setPreferences({
-          theme: data.theme || 'dark',
-          layout_density: data.layout_density || 'comfortable',
+          theme: data.theme || "dark",
+          layout_density: data.layout_density || "comfortable",
           widget_order: data.widget_order || [],
           hidden_widgets: data.hidden_widgets || [],
         });
@@ -62,8 +63,8 @@ export const useDashboardPreferences = () => {
         await createDefaultPreferences();
       }
     } catch (err) {
-      console.error('Error in fetchPreferences:', err);
-      setError('Failed to load preferences');
+      console.error("Error in fetchPreferences:", err);
+      setError("Failed to load preferences");
     } finally {
       setLoading(false);
     }
@@ -74,7 +75,7 @@ export const useDashboardPreferences = () => {
 
     try {
       const { data, error: insertError } = await supabase
-        .from('user_dashboard_preferences')
+        .from("user_dashboard_preferences")
         .insert({
           user_id: user.id,
           theme: DEFAULT_PREFERENCES.theme,
@@ -86,7 +87,7 @@ export const useDashboardPreferences = () => {
         .single();
 
       if (insertError) {
-        console.error('Error creating default preferences:', insertError);
+        console.error("Error creating default preferences:", insertError);
         return;
       }
 
@@ -99,7 +100,7 @@ export const useDashboardPreferences = () => {
         });
       }
     } catch (err) {
-      console.error('Error in createDefaultPreferences:', err);
+      console.error("Error in createDefaultPreferences:", err);
     }
   };
 
@@ -111,40 +112,40 @@ export const useDashboardPreferences = () => {
       const newPreferences = { ...preferences, ...updates };
 
       const { error: updateError } = await supabase
-        .from('user_dashboard_preferences')
+        .from("user_dashboard_preferences")
         .update({
           theme: newPreferences.theme,
           layout_density: newPreferences.layout_density,
           widget_order: newPreferences.widget_order,
           hidden_widgets: newPreferences.hidden_widgets,
         })
-        .eq('user_id', user.id);
+        .eq("user_id", user.id);
 
       if (updateError) {
-        console.error('Error updating preferences:', updateError);
+        console.error("Error updating preferences:", updateError);
         setError(updateError.message);
         return;
       }
 
       setPreferences(newPreferences);
     } catch (err) {
-      console.error('Error in updatePreferences:', err);
-      setError('Failed to update preferences');
+      console.error("Error in updatePreferences:", err);
+      setError("Failed to update preferences");
     }
   };
 
-  const setTheme = (theme: 'dark' | 'light') => {
+  const setTheme = (theme: "dark" | "light") => {
     updatePreferences({ theme });
   };
 
-  const setLayoutDensity = (density: 'compact' | 'comfortable') => {
+  const setLayoutDensity = (density: "compact" | "comfortable") => {
     updatePreferences({ layout_density: density });
   };
 
   const toggleWidget = (widgetId: string) => {
     const isHidden = preferences.hidden_widgets.includes(widgetId);
     const newHiddenWidgets = isHidden
-      ? preferences.hidden_widgets.filter(id => id !== widgetId)
+      ? preferences.hidden_widgets.filter((id) => id !== widgetId)
       : [...preferences.hidden_widgets, widgetId];
 
     updatePreferences({ hidden_widgets: newHiddenWidgets });

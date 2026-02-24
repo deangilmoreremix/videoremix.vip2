@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { X, Eye, EyeOff, AlertCircle, CheckCircle } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import React, { useState } from "react";
+
+import { X, Eye, EyeOff, AlertCircle, CheckCircle } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface SignUpModalProps {
   isOpen: boolean;
@@ -14,14 +19,18 @@ interface SignUpModalProps {
   onSwitchToSignIn: () => void;
 }
 
-const SignUpModal: React.FC<SignUpModalProps> = ({ isOpen, onClose, onSwitchToSignIn }) => {
+const SignUpModal: React.FC<SignUpModalProps> = ({
+  isOpen,
+  onClose,
+  onSwitchToSignIn,
+}) => {
   const { signUp } = useAuth();
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    firstName: '',
-    lastName: ''
+    email: "",
+    password: "",
+    confirmPassword: "",
+    firstName: "",
+    lastName: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -35,12 +44,12 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ isOpen, onClose, onSwitchToSi
     setSuccess(null);
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return;
     }
 
     if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
+      setError("Password must be at least 6 characters");
       return;
     }
 
@@ -55,18 +64,21 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ isOpen, onClose, onSwitchToSi
       if (error) {
         setError(error.message);
       } else {
-        setSuccess('Account created successfully! Please check your email to verify your account.');
+        setSuccess(
+          "Account created successfully! Please check your email to verify your account.",
+        );
       }
     } catch (err) {
-      setError('An unexpected error occurred');
+      setError("An unexpected error occurred");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleInputChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({ ...prev, [field]: e.target.value }));
-  };
+  const handleInputChange =
+    (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+    };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -77,7 +89,10 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ isOpen, onClose, onSwitchToSi
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <Alert variant="destructive" className="bg-red-500/20 border-red-500/50">
+            <Alert
+              variant="destructive"
+              className="bg-red-500/20 border-red-500/50"
+            >
               <AlertCircle className="h-5 w-5" />
               <AlertDescription>{error}</AlertDescription>
             </Alert>
@@ -99,7 +114,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ isOpen, onClose, onSwitchToSi
                 id="signup-firstname"
                 type="text"
                 value={formData.firstName}
-                onChange={handleInputChange('firstName')}
+                onChange={handleInputChange("firstName")}
                 className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
                 placeholder="John"
               />
@@ -112,7 +127,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ isOpen, onClose, onSwitchToSi
                 id="signup-lastname"
                 type="text"
                 value={formData.lastName}
-                onChange={handleInputChange('lastName')}
+                onChange={handleInputChange("lastName")}
                 className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
                 placeholder="Doe"
               />
@@ -127,7 +142,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ isOpen, onClose, onSwitchToSi
               id="signup-email"
               type="email"
               value={formData.email}
-              onChange={handleInputChange('email')}
+              onChange={handleInputChange("email")}
               className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
               placeholder="your@email.com"
               required
@@ -141,9 +156,9 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ isOpen, onClose, onSwitchToSi
             <div className="relative">
               <Input
                 id="signup-password"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 value={formData.password}
-                onChange={handleInputChange('password')}
+                onChange={handleInputChange("password")}
                 className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400 pr-12"
                 placeholder="Create a password"
                 required
@@ -153,7 +168,11 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ isOpen, onClose, onSwitchToSi
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors"
               >
-                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                {showPassword ? (
+                  <EyeOff className="h-5 w-5" />
+                ) : (
+                  <Eye className="h-5 w-5" />
+                )}
               </button>
             </div>
           </div>
@@ -165,9 +184,9 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ isOpen, onClose, onSwitchToSi
             <div className="relative">
               <Input
                 id="signup-confirm-password"
-                type={showConfirmPassword ? 'text' : 'password'}
+                type={showConfirmPassword ? "text" : "password"}
                 value={formData.confirmPassword}
-                onChange={handleInputChange('confirmPassword')}
+                onChange={handleInputChange("confirmPassword")}
                 className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400 pr-12"
                 placeholder="Confirm your password"
                 required
@@ -177,7 +196,11 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ isOpen, onClose, onSwitchToSi
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors"
               >
-                {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                {showConfirmPassword ? (
+                  <EyeOff className="h-5 w-5" />
+                ) : (
+                  <Eye className="h-5 w-5" />
+                )}
               </button>
             </div>
           </div>
@@ -187,13 +210,13 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ isOpen, onClose, onSwitchToSi
             disabled={loading}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800"
           >
-            {loading ? 'Creating Account...' : 'Sign Up'}
+            {loading ? "Creating Account..." : "Sign Up"}
           </Button>
         </form>
 
         <div className="mt-6 text-center">
           <p className="text-gray-400">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <button
               onClick={() => {
                 onClose();

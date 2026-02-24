@@ -1,4 +1,4 @@
-import { getAppUrl as getCentralizedAppUrl } from '../config/appUrls';
+import { getAppUrl as getCentralizedAppUrl } from "../config/appUrls";
 
 export interface DatabaseApp {
   id: string;
@@ -40,7 +40,7 @@ export interface ComponentApp {
 // Get icon name for app (used by LazyIcon component)
 export const getIconNameForApp = (app: DatabaseApp): string => {
   // Check specific app slug first, then fall back to category
-  return app.slug || app.category || 'ai';
+  return app.slug || app.category || "ai";
 };
 
 // Transform database app to component app (pure data transformation)
@@ -64,15 +64,17 @@ export const transformApp = (dbApp: DatabaseApp): ComponentApp => {
   return {
     id: dbApp.slug,
     name: dbApp.name,
-    description: dbApp.description || '',
+    description: dbApp.description || "",
     category: dbApp.category,
     iconName: getIconNameForApp(dbApp),
-    image: dbApp.image || 'https://images.unsplash.com/photo-1616469829941-c7200edec809?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    image:
+      dbApp.image ||
+      "https://images.unsplash.com/photo-1616469829941-c7200edec809?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     isActive: dbApp.is_active,
     isPublic: dbApp.is_public,
     popular: dbApp.popular || dbApp.is_featured,
     new: dbApp.new || false,
     comingSoon: dbApp.coming_soon || false,
-    url: appUrl
+    url: appUrl,
   };
 };

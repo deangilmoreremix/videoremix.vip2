@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
-import { Mail, ArrowLeft, CheckCircle, AlertCircle, Video } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import MagicSparkles from '../components/MagicSparkles';
-import SparkleEffect from '../components/SparkleEffect';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
+import { Mail, ArrowLeft, CheckCircle, AlertCircle, Video } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import MagicSparkles from "../components/MagicSparkles";
+import SparkleEffect from "../components/SparkleEffect";
 
 const ForgotPasswordPage: React.FC = () => {
   const { resetPassword } = useAuth();
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -28,7 +28,7 @@ const ForgotPasswordPage: React.FC = () => {
         setSuccess(true);
       }
     } catch (err) {
-      setError('An unexpected error occurred');
+      setError("An unexpected error occurred");
     } finally {
       setLoading(false);
     }
@@ -52,7 +52,7 @@ const ForgotPasswordPage: React.FC = () => {
 
         <SparkleEffect
           count={30}
-          colors={['#ffffff', '#c7d2fe', '#a5b4fc', '#818cf8']}
+          colors={["#ffffff", "#c7d2fe", "#a5b4fc", "#818cf8"]}
           minSize={2}
           maxSize={5}
         />
@@ -80,18 +80,29 @@ const ForgotPasswordPage: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-center mb-8"
             >
-              <Link to="/" className="inline-flex items-center justify-center space-x-2 group mb-6">
+              <Link
+                to="/"
+                className="inline-flex items-center justify-center space-x-2 group mb-6"
+              >
                 <div className="relative">
                   <motion.div
                     animate={{ rotate: [0, 10, 0] }}
-                    transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 5,
+                      ease: "easeInOut",
+                    }}
                     className="absolute inset-0 bg-primary-400 rounded-full blur-lg opacity-30 group-hover:opacity-60 transition-opacity"
                   ></motion.div>
                   <Video className="h-10 w-10 text-white relative z-10" />
                 </div>
                 <div className="text-left">
-                  <span className="text-2xl font-bold text-white leading-none block">VideoRemix.vip</span>
-                  <div className="text-xs text-primary-300">Marketing Personalization Platform</div>
+                  <span className="text-2xl font-bold text-white leading-none block">
+                    VideoRemix.vip
+                  </span>
+                  <div className="text-xs text-primary-300">
+                    Marketing Personalization Platform
+                  </div>
                 </div>
               </Link>
 
@@ -101,7 +112,8 @@ const ForgotPasswordPage: React.FC = () => {
                 </h1>
               </MagicSparkles>
               <p className="text-gray-300 text-lg">
-                Enter your email address and we'll send you instructions to reset your password
+                Enter your email address and we'll send you instructions to
+                reset your password
               </p>
             </motion.div>
 
@@ -125,7 +137,10 @@ const ForgotPasswordPage: React.FC = () => {
                   )}
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-gray-300 mb-2"
+                    >
                       Email Address
                     </label>
                     <div className="relative">
@@ -149,9 +164,25 @@ const ForgotPasswordPage: React.FC = () => {
                   >
                     {loading ? (
                       <>
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        <svg
+                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
                         </svg>
                         Sending Reset Link...
                       </>
@@ -172,12 +203,17 @@ const ForgotPasswordPage: React.FC = () => {
                   <div className="inline-flex items-center justify-center w-16 h-16 bg-green-500/20 rounded-full mb-4">
                     <CheckCircle className="h-8 w-8 text-green-400" />
                   </div>
-                  <h3 className="text-xl font-semibold text-white mb-3">Check Your Email</h3>
+                  <h3 className="text-xl font-semibold text-white mb-3">
+                    Check Your Email
+                  </h3>
                   <p className="text-gray-300 mb-6">
-                    We've sent password reset instructions to <span className="font-medium text-white">{email}</span>
+                    We've sent password reset instructions to{" "}
+                    <span className="font-medium text-white">{email}</span>
                   </p>
                   <div className="bg-gray-700/50 rounded-lg p-4 mb-6 text-left">
-                    <p className="text-sm text-gray-400 mb-2">Didn't receive the email?</p>
+                    <p className="text-sm text-gray-400 mb-2">
+                      Didn't receive the email?
+                    </p>
                     <ul className="text-sm text-gray-300 space-y-1">
                       <li>• Check your spam or junk folder</li>
                       <li>• Make sure you entered the correct email</li>
@@ -197,7 +233,7 @@ const ForgotPasswordPage: React.FC = () => {
               {!success && (
                 <div className="mt-8 text-center">
                   <p className="text-gray-400">
-                    Remember your password?{' '}
+                    Remember your password?{" "}
                     <Link
                       to="/signin"
                       className="text-primary-400 hover:text-primary-300 transition-colors font-medium"
@@ -226,7 +262,9 @@ const ForgotPasswordPage: React.FC = () => {
                 </li>
                 <li className="flex items-start">
                   <span className="text-primary-400 mr-2">✓</span>
-                  <span>Choose a strong password with at least 6 characters</span>
+                  <span>
+                    Choose a strong password with at least 6 characters
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-primary-400 mr-2">✓</span>

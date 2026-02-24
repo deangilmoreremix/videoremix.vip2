@@ -1,31 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { Mail, CheckCircle, AlertCircle, Video, Loader } from 'lucide-react';
-import { supabase } from '../utils/supabaseClient';
-import { useAuth } from '../context/AuthContext';
-import MagicSparkles from '../components/MagicSparkles';
-import SparkleEffect from '../components/SparkleEffect';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Mail, CheckCircle, AlertCircle, Video, Loader } from "lucide-react";
+import { supabase } from "../utils/supabaseClient";
+import { useAuth } from "../context/AuthContext";
+import MagicSparkles from "../components/MagicSparkles";
+import SparkleEffect from "../components/SparkleEffect";
 
 const ChangeEmailPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [searchParams] = useSearchParams();
-  const [newEmail, setNewEmail] = useState('');
+  const [newEmail, setNewEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [confirming, setConfirming] = useState(false);
-  const [confirmStatus, setConfirmStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [confirmStatus, setConfirmStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
 
   useEffect(() => {
-    const token = searchParams.get('token');
-    const type = searchParams.get('type');
-    const accessToken = searchParams.get('access_token');
+    const token = searchParams.get("token");
+    const type = searchParams.get("type");
+    const accessToken = searchParams.get("access_token");
 
     if (token || accessToken) {
-      if (type === 'email_change') {
+      if (type === "email_change") {
         handleConfirmEmailChange(accessToken);
       }
     }
@@ -39,19 +41,21 @@ const ChangeEmailPage: React.FC = () => {
         if (sessionError) throw sessionError;
       }
 
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       if (user) {
-        setConfirmStatus('success');
+        setConfirmStatus("success");
         setTimeout(() => {
-          navigate('/profile');
+          navigate("/profile");
         }, 3000);
       } else {
-        throw new Error('Unable to confirm email change');
+        throw new Error("Unable to confirm email change");
       }
     } catch (err: any) {
-      setConfirmStatus('error');
-      setError(err.message || 'Failed to confirm email change');
+      setConfirmStatus("error");
+      setError(err.message || "Failed to confirm email change");
     } finally {
       setConfirming(false);
     }
@@ -65,7 +69,7 @@ const ChangeEmailPage: React.FC = () => {
 
     try {
       if (!user) {
-        setError('You must be signed in to change your email');
+        setError("You must be signed in to change your email");
         setLoading(false);
         return;
       }
@@ -75,7 +79,7 @@ const ChangeEmailPage: React.FC = () => {
         { email: newEmail },
         {
           emailRedirectTo: `${siteUrl}/auth/change-email`,
-        }
+        },
       );
 
       if (error) {
@@ -84,13 +88,13 @@ const ChangeEmailPage: React.FC = () => {
         setSuccess(true);
       }
     } catch (err) {
-      setError('An unexpected error occurred');
+      setError("An unexpected error occurred");
     } finally {
       setLoading(false);
     }
   };
 
-  if (confirming || confirmStatus !== 'idle') {
+  if (confirming || confirmStatus !== "idle") {
     return (
       <>
         <Helmet>
@@ -105,7 +109,7 @@ const ChangeEmailPage: React.FC = () => {
 
           <SparkleEffect
             count={30}
-            colors={['#ffffff', '#c7d2fe', '#a5b4fc', '#818cf8']}
+            colors={["#ffffff", "#c7d2fe", "#a5b4fc", "#818cf8"]}
             minSize={2}
             maxSize={5}
           />
@@ -123,19 +127,24 @@ const ChangeEmailPage: React.FC = () => {
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-500/20 rounded-full mb-4">
                       <Loader className="h-8 w-8 text-primary-400 animate-spin" />
                     </div>
-                    <h3 className="text-xl font-semibold text-white mb-3">Confirming Email Change</h3>
+                    <h3 className="text-xl font-semibold text-white mb-3">
+                      Confirming Email Change
+                    </h3>
                     <p className="text-gray-300">Please wait...</p>
                   </div>
                 )}
 
-                {confirmStatus === 'success' && (
+                {confirmStatus === "success" && (
                   <div className="py-4">
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-green-500/20 rounded-full mb-4">
                       <CheckCircle className="h-8 w-8 text-green-400" />
                     </div>
-                    <h3 className="text-xl font-semibold text-white mb-3">Email Changed Successfully!</h3>
+                    <h3 className="text-xl font-semibold text-white mb-3">
+                      Email Changed Successfully!
+                    </h3>
                     <p className="text-gray-300 mb-6">
-                      Your email address has been updated. Redirecting to your profile...
+                      Your email address has been updated. Redirecting to your
+                      profile...
                     </p>
                     <Link
                       to="/profile"
@@ -146,13 +155,17 @@ const ChangeEmailPage: React.FC = () => {
                   </div>
                 )}
 
-                {confirmStatus === 'error' && (
+                {confirmStatus === "error" && (
                   <div className="py-4">
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-red-500/20 rounded-full mb-4">
                       <AlertCircle className="h-8 w-8 text-red-400" />
                     </div>
-                    <h3 className="text-xl font-semibold text-white mb-3">Confirmation Failed</h3>
-                    <p className="text-gray-300 mb-6">{error || 'Unable to confirm email change.'}</p>
+                    <h3 className="text-xl font-semibold text-white mb-3">
+                      Confirmation Failed
+                    </h3>
+                    <p className="text-gray-300 mb-6">
+                      {error || "Unable to confirm email change."}
+                    </p>
                     <Link
                       to="/profile"
                       className="inline-flex items-center justify-center w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white py-3 px-6 rounded-lg font-medium transition-all"
@@ -181,8 +194,12 @@ const ChangeEmailPage: React.FC = () => {
             <div className="max-w-md mx-auto text-center">
               <div className="bg-gray-800/70 backdrop-blur-md rounded-2xl p-8 border border-gray-700 shadow-2xl">
                 <AlertCircle className="h-12 w-12 text-yellow-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-3">Sign In Required</h3>
-                <p className="text-gray-300 mb-6">You must be signed in to change your email address.</p>
+                <h3 className="text-xl font-semibold text-white mb-3">
+                  Sign In Required
+                </h3>
+                <p className="text-gray-300 mb-6">
+                  You must be signed in to change your email address.
+                </p>
                 <Link
                   to="/signin"
                   className="inline-block bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white py-3 px-6 rounded-lg font-semibold transition-all"
@@ -215,7 +232,7 @@ const ChangeEmailPage: React.FC = () => {
 
         <SparkleEffect
           count={30}
-          colors={['#ffffff', '#c7d2fe', '#a5b4fc', '#818cf8']}
+          colors={["#ffffff", "#c7d2fe", "#a5b4fc", "#818cf8"]}
           minSize={2}
           maxSize={5}
         />
@@ -228,18 +245,29 @@ const ChangeEmailPage: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-center mb-8"
             >
-              <Link to="/" className="inline-flex items-center justify-center space-x-2 group mb-6">
+              <Link
+                to="/"
+                className="inline-flex items-center justify-center space-x-2 group mb-6"
+              >
                 <div className="relative">
                   <motion.div
                     animate={{ rotate: [0, 10, 0] }}
-                    transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 5,
+                      ease: "easeInOut",
+                    }}
                     className="absolute inset-0 bg-primary-400 rounded-full blur-lg opacity-30 group-hover:opacity-60 transition-opacity"
                   ></motion.div>
                   <Video className="h-10 w-10 text-white relative z-10" />
                 </div>
                 <div className="text-left">
-                  <span className="text-2xl font-bold text-white leading-none block">VideoRemix.vip</span>
-                  <div className="text-xs text-primary-300">Marketing Personalization Platform</div>
+                  <span className="text-2xl font-bold text-white leading-none block">
+                    VideoRemix.vip
+                  </span>
+                  <div className="text-xs text-primary-300">
+                    Marketing Personalization Platform
+                  </div>
                 </div>
               </Link>
 
@@ -249,7 +277,8 @@ const ChangeEmailPage: React.FC = () => {
                 </h1>
               </MagicSparkles>
               <p className="text-gray-300 text-lg">
-                Current email: <span className="font-medium text-white">{user.email}</span>
+                Current email:{" "}
+                <span className="font-medium text-white">{user.email}</span>
               </p>
             </motion.div>
 
@@ -273,7 +302,10 @@ const ChangeEmailPage: React.FC = () => {
                   )}
 
                   <div>
-                    <label htmlFor="newEmail" className="block text-sm font-medium text-gray-300 mb-2">
+                    <label
+                      htmlFor="newEmail"
+                      className="block text-sm font-medium text-gray-300 mb-2"
+                    >
                       New Email Address
                     </label>
                     <div className="relative">
@@ -297,9 +329,25 @@ const ChangeEmailPage: React.FC = () => {
                   >
                     {loading ? (
                       <>
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        <svg
+                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
                         </svg>
                         Sending Confirmation...
                       </>
@@ -320,9 +368,12 @@ const ChangeEmailPage: React.FC = () => {
                   <div className="inline-flex items-center justify-center w-16 h-16 bg-green-500/20 rounded-full mb-4">
                     <CheckCircle className="h-8 w-8 text-green-400" />
                   </div>
-                  <h3 className="text-xl font-semibold text-white mb-3">Check Your Email</h3>
+                  <h3 className="text-xl font-semibold text-white mb-3">
+                    Check Your Email
+                  </h3>
                   <p className="text-gray-300 mb-6">
-                    We've sent a confirmation email to <span className="font-medium text-white">{newEmail}</span>.
+                    We've sent a confirmation email to{" "}
+                    <span className="font-medium text-white">{newEmail}</span>.
                     Click the link in that email to confirm your new address.
                   </p>
                   <div className="bg-gray-700/50 rounded-lg p-4 mb-6 text-left">
@@ -357,15 +408,22 @@ const ChangeEmailPage: React.FC = () => {
               <ul className="space-y-3 text-gray-300 text-sm">
                 <li className="flex items-start">
                   <span className="text-primary-400 mr-2">✓</span>
-                  <span>You'll receive confirmation emails at both addresses</span>
+                  <span>
+                    You'll receive confirmation emails at both addresses
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-primary-400 mr-2">✓</span>
-                  <span>Your old email remains active until change is confirmed</span>
+                  <span>
+                    Your old email remains active until change is confirmed
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-primary-400 mr-2">✓</span>
-                  <span>All notifications will be sent to the new email after confirmation</span>
+                  <span>
+                    All notifications will be sent to the new email after
+                    confirmation
+                  </span>
                 </li>
               </ul>
             </motion.div>

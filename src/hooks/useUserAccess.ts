@@ -1,7 +1,11 @@
-import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '../utils/supabaseClient';
-import { purchaseService, UserAppAccess, Purchase } from '../services/purchaseService';
-import { appConfig } from '../config/appConfig';
+import { useState, useEffect, useCallback } from "react";
+import { supabase } from "../utils/supabaseClient";
+import {
+  purchaseService,
+  UserAppAccess,
+  Purchase,
+} from "../services/purchaseService";
+import { appConfig } from "../config/appConfig";
 
 /**
  * Utility function for retry logic with exponential backoff
@@ -16,7 +20,7 @@ import { appConfig } from '../config/appConfig';
 const retryWithBackoff = async <T>(
   fn: () => Promise<T>,
   maxRetries: number = appConfig.UI.MAX_RETRY_ATTEMPTS,
-  baseDelay: number = appConfig.UI.RETRY_BASE_DELAY_MS
+  baseDelay: number = appConfig.UI.RETRY_BASE_DELAY_MS,
 ): Promise<T> => {
   let lastError: unknown;
 
@@ -32,7 +36,7 @@ const retryWithBackoff = async <T>(
 
       // Exponential backoff: baseDelay * 2^attempt
       const delay = baseDelay * Math.pow(2, attempt);
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 
@@ -117,7 +121,7 @@ export const useUserAccess = (): UnifiedAccessData & {
   // Loading states for individual operations to prevent race conditions
   const [loadingStates, setLoadingStates] = useState({
     purchaseData: false,
-    accessData: false
+    accessData: false,
   });
 
   // Cache for user data to prevent unnecessary re-fetches
@@ -125,7 +129,9 @@ export const useUserAccess = (): UnifiedAccessData & {
 
   const loadPurchaseData = useCallback(async () => {
     try {
-      const { data: { user } } = await retryWithBackoff(() => supabase.auth.getUser());
+      const {
+        data: { user },
+      } = await retryWithBackoff(() => supabase.auth.getUser());
 
       if (!user) {
         setPurchasedApps([]);
@@ -136,7 +142,9 @@ export const useUserAccess = (): UnifiedAccessData & {
 
       const [apps, accessDetails, userPurchases] = await Promise.all([
         retryWithBackoff(() => purchaseService.getUserPurchasedApps(user.id)),
-        retryWithBackoff(() => purchaseService.getUserAppAccessDetails(user.id)),
+        retryWithBackoff(() =>
+          purchaseService.getUserAppAccessDetails(user.id),
+        ),
         retryWithBackoff(() => purchaseService.getAllUserPurchases(user.id)),
       ]);
 
@@ -144,7 +152,7 @@ export const useUserAccess = (): UnifiedAccessData & {
       setAppAccessDetails(accessDetails);
       setPurchases(userPurchases);
     } catch (err: unknown) {
-      console.error('Error fetching purchase data after retries:', err);
+      console.error("Error fetching purchase data after retries:", err);
       // Don't set global error for individual failures - let loadAllAccessData handle it
       throw err; // Re-throw to let Promise.allSettled handle it
     }
@@ -154,14 +162,18 @@ export const useUserAccess = (): UnifiedAccessData & {
     setError(null);
 
     try {
-      const { data: { user } } = await retryWithBackoff(() => supabase.auth.getUser());
+      const {
+        data: { user },
+      } = await retryWithBackoff(() => supabase.auth.getUser());
 
       if (!user) {
         setAccessData(null);
         return;
       }
 
-      const { data: session } = await retryWithBackoff(() => supabase.auth.getSession());
+      const { data: session } = await retryWithBackoff(() =>
+        supabase.auth.getSession(),
+      );
       if (!session?.session?.access_token) {
         setAccessData(null);
         return;
@@ -171,12 +183,12 @@ export const useUserAccess = (): UnifiedAccessData & {
         const response = await fetch(
           `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/resolve-user-access`,
           {
-            method: 'GET',
+            method: "GET",
             headers: {
-              'Authorization': `Bearer ${session.session.access_token}`,
-              'Content-Type': 'application/json',
+              Authorization: `Bearer ${session.session.access_token}`,
+              "Content-Type": "application/json",
             },
-          }
+          },
         );
 
         if (!response.ok) {
@@ -186,7 +198,7 @@ export const useUserAccess = (): UnifiedAccessData & {
         const data = await response.json();
 
         if (!data.success) {
-          throw new Error('Failed to load user access');
+          throw new Error("Failed to load user access");
         }
 
         return data;
@@ -194,7 +206,7 @@ export const useUserAccess = (): UnifiedAccessData & {
 
       setAccessData(result.data);
     } catch (err: unknown) {
-      console.error('Error loading user access after retries:', err);
+      console.error("Error loading user access after retries:", err);
       // Don't expose internal error details to users
       throw err; // Re-throw to let Promise.allSettled handle it
     }
@@ -202,7 +214,9 @@ export const useUserAccess = (): UnifiedAccessData & {
 
   const loadAllAccessData = useCallback(async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       // Skip if user hasn't changed (prevents unnecessary re-fetches)
       if (lastUserId === (user?.id || null)) {
@@ -215,18 +229,18 @@ export const useUserAccess = (): UnifiedAccessData & {
 
       const [purchaseResult, accessResult] = await Promise.allSettled([
         loadPurchaseData(),
-        loadUserAccess()
+        loadUserAccess(),
       ]);
 
       // Handle partial failures gracefully
-      if (purchaseResult.status === 'rejected') {
-        console.error('Failed to load purchase data:', purchaseResult.reason);
+      if (purchaseResult.status === "rejected") {
+        console.error("Failed to load purchase data:", purchaseResult.reason);
       }
-      if (accessResult.status === 'rejected') {
-        console.error('Failed to load access data:', accessResult.reason);
+      if (accessResult.status === "rejected") {
+        console.error("Failed to load access data:", accessResult.reason);
       }
     } catch (err: unknown) {
-      console.error('Error in loadAllAccessData:', err);
+      console.error("Error in loadAllAccessData:", err);
       setError(appConfig.ERRORS.GENERIC_LOAD_ERROR);
     } finally {
       setLoading(false);
@@ -238,9 +252,9 @@ export const useUserAccess = (): UnifiedAccessData & {
     loadAllAccessData();
 
     const { data: authListener } = supabase.auth.onAuthStateChange((event) => {
-      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+      if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
         loadAllAccessData();
-      } else if (event === 'SIGNED_OUT') {
+      } else if (event === "SIGNED_OUT") {
         setLastUserId(null);
         setPurchasedApps([]);
         setAppAccessDetails([]);
@@ -266,23 +280,22 @@ export const useUserAccess = (): UnifiedAccessData & {
 
       // Check imported product access
       if (accessData?.apps) {
-        return accessData.apps.some(app => app.appSlug === appSlug);
+        return accessData.apps.some((app) => app.appSlug === appSlug);
       }
 
       return false;
     },
-    [purchasedApps, accessData]
+    [purchasedApps, accessData],
   );
 
-  const checkAccess = useCallback(
-    async (appSlug: string): Promise<boolean> => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return false;
+  const checkAccess = useCallback(async (appSlug: string): Promise<boolean> => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return false;
 
-      return await purchaseService.checkUserHasAccess(user.id, appSlug);
-    },
-    []
-  );
+    return await purchaseService.checkUserHasAccess(user.id, appSlug);
+  }, []);
 
   const refetch = useCallback(async () => {
     await loadAllAccessData();
@@ -298,7 +311,8 @@ export const useUserAccess = (): UnifiedAccessData & {
     hasAccessToApp,
     checkAccess,
     refetch,
-    hasAnyPurchases: purchasedApps.length > 0 || (accessData?.apps?.length || 0) > 0,
+    hasAnyPurchases:
+      purchasedApps.length > 0 || (accessData?.apps?.length || 0) > 0,
   };
 };
 

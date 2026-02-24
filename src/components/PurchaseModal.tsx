@@ -1,7 +1,15 @@
-import React, { useState } from 'react';
-import { X, Lock, Check, ExternalLink, Loader, Star, Users } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useAuth } from '../context/AuthContext';
+import React, { useState } from "react";
+import {
+  X,
+  Lock,
+  Check,
+  ExternalLink,
+  Loader,
+  Star,
+  Users,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "../context/AuthContext";
 
 interface PurchaseModalProps {
   isOpen: boolean;
@@ -17,7 +25,11 @@ interface PurchaseModalProps {
   };
 }
 
-const PurchaseModal: React.FC<PurchaseModalProps> = ({ isOpen, onClose, app }) => {
+const PurchaseModal: React.FC<PurchaseModalProps> = ({
+  isOpen,
+  onClose,
+  app,
+}) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -26,11 +38,11 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({ isOpen, onClose, app }) =
   const price = app.price || defaultPrice;
 
   const defaultFeatures = [
-    'Lifetime access to the app',
-    'All future updates included',
-    'Priority customer support',
-    'Commercial usage rights',
-    'Money-back guarantee',
+    "Lifetime access to the app",
+    "All future updates included",
+    "Priority customer support",
+    "Commercial usage rights",
+    "Money-back guarantee",
   ];
 
   const features = app.features || defaultFeatures;
@@ -38,7 +50,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({ isOpen, onClose, app }) =
   const handlePurchase = async () => {
     if (!user) {
       onClose();
-      document.dispatchEvent(new CustomEvent('open-signin-modal'));
+      document.dispatchEvent(new CustomEvent("open-signin-modal"));
       return;
     }
 
@@ -49,9 +61,9 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({ isOpen, onClose, app }) =
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-checkout-session`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
           },
           body: JSON.stringify({
@@ -61,11 +73,11 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({ isOpen, onClose, app }) =
             userId: user.id,
             userEmail: user.email,
           }),
-        }
+        },
       );
 
       if (!response.ok) {
-        throw new Error('Failed to create checkout session');
+        throw new Error("Failed to create checkout session");
       }
 
       const { url } = await response.json();
@@ -73,11 +85,11 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({ isOpen, onClose, app }) =
       if (url) {
         window.location.href = url;
       } else {
-        throw new Error('No checkout URL received');
+        throw new Error("No checkout URL received");
       }
     } catch (err: any) {
-      console.error('Error creating checkout session:', err);
-      setError(err.message || 'Failed to start checkout. Please try again.');
+      console.error("Error creating checkout session:", err);
+      setError(err.message || "Failed to start checkout. Please try again.");
       setLoading(false);
     }
   };
@@ -121,13 +133,15 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({ isOpen, onClose, app }) =
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="p-3 bg-gray-800/80 backdrop-blur-sm rounded-xl">
-                      {React.isValidElement(app.icon) ? (
-                        React.cloneElement(app.icon as React.ReactElement, {
-                          className: 'h-6 w-6 text-primary-400',
-                        })
-                      ) : null}
+                      {React.isValidElement(app.icon)
+                        ? React.cloneElement(app.icon as React.ReactElement, {
+                            className: "h-6 w-6 text-primary-400",
+                          })
+                        : null}
                     </div>
-                    <h2 className="text-3xl font-bold text-white">{app.name}</h2>
+                    <h2 className="text-3xl font-bold text-white">
+                      {app.name}
+                    </h2>
                   </div>
                   <p className="text-gray-300 text-lg">{app.description}</p>
                 </div>
@@ -137,9 +151,13 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({ isOpen, onClose, app }) =
                 <div className="bg-gradient-to-br from-primary-900/40 to-primary-700/40 border border-primary-500/30 rounded-xl p-6 mb-6">
                   <div className="flex items-baseline justify-between mb-4">
                     <div>
-                      <span className="text-gray-400 text-sm">One-time payment</span>
+                      <span className="text-gray-400 text-sm">
+                        One-time payment
+                      </span>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-5xl font-bold text-white">${price}</span>
+                        <span className="text-5xl font-bold text-white">
+                          ${price}
+                        </span>
                         <span className="text-gray-400 text-lg">USD</span>
                       </div>
                     </div>
@@ -205,23 +223,30 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({ isOpen, onClose, app }) =
                     <div className="flex items-center justify-center gap-2 mb-2">
                       <Users className="h-5 w-5 text-primary-400" />
                     </div>
-                    <div className="text-2xl font-bold text-white mb-1">1,200+</div>
+                    <div className="text-2xl font-bold text-white mb-1">
+                      1,200+
+                    </div>
                     <div className="text-gray-400 text-sm">Happy customers</div>
                   </div>
                   <div className="bg-gray-800/50 rounded-lg p-4 text-center border border-gray-700">
                     <div className="flex items-center justify-center gap-2 mb-2">
                       <ExternalLink className="h-5 w-5 text-primary-400" />
                     </div>
-                    <div className="text-2xl font-bold text-white mb-1">24/7</div>
+                    <div className="text-2xl font-bold text-white mb-1">
+                      24/7
+                    </div>
                     <div className="text-gray-400 text-sm">Instant access</div>
                   </div>
                 </div>
 
                 <div className="bg-gray-800/30 border border-gray-700 rounded-lg p-4">
-                  <h4 className="font-bold text-white mb-2">30-Day Money-Back Guarantee</h4>
+                  <h4 className="font-bold text-white mb-2">
+                    30-Day Money-Back Guarantee
+                  </h4>
                   <p className="text-gray-400 text-sm">
-                    Try {app.name} risk-free. If you're not completely satisfied within 30
-                    days, we'll refund your purchase—no questions asked.
+                    Try {app.name} risk-free. If you're not completely satisfied
+                    within 30 days, we'll refund your purchase—no questions
+                    asked.
                   </p>
                 </div>
               </div>

@@ -1,9 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 const activeVideos = new Set<HTMLVideoElement>();
 const MAX_CONCURRENT_VIDEOS = 5;
 
-export const useVideoManager = (videoRef: React.RefObject<HTMLVideoElement>) => {
+export const useVideoManager = (
+  videoRef: React.RefObject<HTMLVideoElement>,
+) => {
   const isRegistered = useRef(false);
 
   useEffect(() => {
@@ -32,17 +34,17 @@ export const useVideoManager = (videoRef: React.RefObject<HTMLVideoElement>) => 
       isRegistered.current = false;
     };
 
-    video.addEventListener('play', handlePlay);
-    video.addEventListener('pause', handlePause);
-    video.addEventListener('ended', handleEnded);
+    video.addEventListener("play", handlePlay);
+    video.addEventListener("pause", handlePause);
+    video.addEventListener("ended", handleEnded);
 
     return () => {
       if (isRegistered.current) {
         activeVideos.delete(video);
       }
-      video.removeEventListener('play', handlePlay);
-      video.removeEventListener('pause', handlePause);
-      video.removeEventListener('ended', handleEnded);
+      video.removeEventListener("play", handlePlay);
+      video.removeEventListener("pause", handlePause);
+      video.removeEventListener("ended", handleEnded);
     };
   }, [videoRef]);
 

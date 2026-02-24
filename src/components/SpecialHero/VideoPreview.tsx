@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Play, Sparkles } from 'lucide-react';
-import { Tilt } from 'react-tilt';
-import MagicSparkles from '../MagicSparkles';
+import React, { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Play, Sparkles } from "lucide-react";
+import { Tilt } from "react-tilt";
+import MagicSparkles from "../MagicSparkles";
 
 const VideoPreview = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -55,7 +55,7 @@ const VideoPreview = () => {
     const currentSeconds = (progress / 100) * totalSeconds;
     const minutes = Math.floor(currentSeconds / 60);
     const seconds = Math.floor(currentSeconds % 60);
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
 
   return (
@@ -64,7 +64,7 @@ const VideoPreview = () => {
         max: 10,
         scale: 1.05,
         speed: 1000,
-        perspective: 1000
+        perspective: 1000,
       }}
     >
       <motion.div
@@ -128,7 +128,9 @@ const VideoPreview = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={togglePlay}
-                aria-label={isPlaying ? 'Pause video preview' : 'Play video preview'}
+                aria-label={
+                  isPlaying ? "Pause video preview" : "Play video preview"
+                }
                 aria-pressed={isPlaying}
               >
                 {/* Pulsing animation */}
@@ -136,17 +138,19 @@ const VideoPreview = () => {
                   className="absolute -inset-4 rounded-full bg-primary-500/20 blur-md"
                   animate={{
                     scale: [1, 1.5, 1],
-                    opacity: [0.5, 0, 0.5]
+                    opacity: [0.5, 0, 0.5],
                   }}
                   transition={{
                     duration: 2,
                     repeat: Infinity,
-                    repeatType: "loop"
+                    repeatType: "loop",
                   }}
                 />
 
                 <div className="bg-primary-600 hover:bg-primary-500 rounded-full p-5 relative">
-                  <Play className={`h-8 w-8 text-white ${isPlaying ? 'opacity-0' : 'ml-1'}`} />
+                  <Play
+                    className={`h-8 w-8 text-white ${isPlaying ? "opacity-0" : "ml-1"}`}
+                  />
 
                   {isPlaying && (
                     <motion.div
@@ -190,13 +194,21 @@ const VideoPreview = () => {
         {/* Video caption */}
         <motion.div
           className="absolute -bottom-4 -right-4 bg-primary-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium"
-          animate={isPlaying ? {
-            x: [0, -5, 0],
-            boxShadow: ["0 10px 25px rgba(79, 70, 229, 0.2)", "0 10px 25px rgba(79, 70, 229, 0.4)", "0 10px 25px rgba(79, 70, 229, 0.2)"]
-          } : {
-            x: 0,
-            boxShadow: "0 10px 25px rgba(79, 70, 229, 0.2)"
-          }}
+          animate={
+            isPlaying
+              ? {
+                  x: [0, -5, 0],
+                  boxShadow: [
+                    "0 10px 25px rgba(79, 70, 229, 0.2)",
+                    "0 10px 25px rgba(79, 70, 229, 0.4)",
+                    "0 10px 25px rgba(79, 70, 229, 0.2)",
+                  ],
+                }
+              : {
+                  x: 0,
+                  boxShadow: "0 10px 25px rgba(79, 70, 229, 0.2)",
+                }
+          }
           transition={{ repeat: Infinity, duration: 2 }}
         >
           See personalized marketing content in action
@@ -216,7 +228,7 @@ const VideoPreview = () => {
           transition={{
             repeat: Infinity,
             duration: 4,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
         />
 
@@ -230,7 +242,7 @@ const VideoPreview = () => {
             repeat: Infinity,
             duration: 5,
             ease: "easeInOut",
-            delay: 1
+            delay: 1,
           }}
         />
       </motion.div>

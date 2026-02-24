@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { supabase } from '../utils/supabaseClient';
+import { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import { supabase } from "../utils/supabaseClient";
 
 export interface Achievement {
   id: string;
@@ -19,46 +19,46 @@ export interface AchievementDefinition {
 
 export const ACHIEVEMENT_DEFINITIONS: Record<string, AchievementDefinition> = {
   profile_completed: {
-    type: 'profile_completed',
-    title: 'Profile Master',
-    description: 'Completed your profile',
-    icon: '👤',
-    color: 'from-blue-500 to-blue-600',
+    type: "profile_completed",
+    title: "Profile Master",
+    description: "Completed your profile",
+    icon: "👤",
+    color: "from-blue-500 to-blue-600",
   },
   first_purchase: {
-    type: 'first_purchase',
-    title: 'First Steps',
-    description: 'Made your first purchase',
-    icon: '🎉',
-    color: 'from-green-500 to-green-600',
+    type: "first_purchase",
+    title: "First Steps",
+    description: "Made your first purchase",
+    icon: "🎉",
+    color: "from-green-500 to-green-600",
   },
   video_creator: {
-    type: 'video_creator',
-    title: 'Video Creator',
-    description: 'Created your first video',
-    icon: '🎬',
-    color: 'from-purple-500 to-purple-600',
+    type: "video_creator",
+    title: "Video Creator",
+    description: "Created your first video",
+    icon: "🎬",
+    color: "from-purple-500 to-purple-600",
   },
   power_user: {
-    type: 'power_user',
-    title: 'Power User',
-    description: 'Accessed 5 different apps',
-    icon: '⚡',
-    color: 'from-yellow-500 to-yellow-600',
+    type: "power_user",
+    title: "Power User",
+    description: "Accessed 5 different apps",
+    icon: "⚡",
+    color: "from-yellow-500 to-yellow-600",
   },
   early_adopter: {
-    type: 'early_adopter',
-    title: 'Early Adopter',
-    description: 'Joined in the early days',
-    icon: '🚀',
-    color: 'from-pink-500 to-pink-600',
+    type: "early_adopter",
+    title: "Early Adopter",
+    description: "Joined in the early days",
+    icon: "🚀",
+    color: "from-pink-500 to-pink-600",
   },
   content_master: {
-    type: 'content_master',
-    title: 'Content Master',
-    description: 'Created 10 videos',
-    icon: '🏆',
-    color: 'from-orange-500 to-orange-600',
+    type: "content_master",
+    title: "Content Master",
+    description: "Created 10 videos",
+    icon: "🏆",
+    color: "from-orange-500 to-orange-600",
   },
 };
 
@@ -89,21 +89,21 @@ export const useAchievements = () => {
       setError(null);
 
       const { data, error: fetchError } = await supabase
-        .from('user_achievements')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('earned_at', { ascending: false });
+        .from("user_achievements")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("earned_at", { ascending: false });
 
       if (fetchError) {
-        console.error('Error fetching achievements:', fetchError);
+        console.error("Error fetching achievements:", fetchError);
         setError(fetchError.message);
         return;
       }
 
       setAchievements(data || []);
     } catch (err) {
-      console.error('Error in fetchAchievements:', err);
-      setError('Failed to load achievements');
+      console.error("Error in fetchAchievements:", err);
+      setError("Failed to load achievements");
     } finally {
       setLoading(false);
     }
@@ -113,33 +113,42 @@ export const useAchievements = () => {
     if (!user) return;
 
     try {
-      const { data, error: rpcError } = await supabase.rpc('get_user_progress_percentage', {
-        p_user_id: user.id,
-      });
+      const { data, error: rpcError } = await supabase.rpc(
+        "get_user_progress_percentage",
+        {
+          p_user_id: user.id,
+        },
+      );
 
       if (rpcError) {
-        console.error('Error fetching progress:', rpcError);
+        console.error("Error fetching progress:", rpcError);
         return;
       }
 
       setProgressPercentage(data || 0);
     } catch (err) {
-      console.error('Error in fetchProgressPercentage:', err);
+      console.error("Error in fetchProgressPercentage:", err);
     }
   };
 
-  const awardAchievement = async (achievementType: string, metadata: Record<string, any> = {}) => {
+  const awardAchievement = async (
+    achievementType: string,
+    metadata: Record<string, any> = {},
+  ) => {
     if (!user) return null;
 
     try {
-      const { data, error: rpcError } = await supabase.rpc('award_achievement', {
-        p_user_id: user.id,
-        p_achievement_type: achievementType,
-        p_metadata: metadata,
-      });
+      const { data, error: rpcError } = await supabase.rpc(
+        "award_achievement",
+        {
+          p_user_id: user.id,
+          p_achievement_type: achievementType,
+          p_metadata: metadata,
+        },
+      );
 
       if (rpcError) {
-        console.error('Error awarding achievement:', rpcError);
+        console.error("Error awarding achievement:", rpcError);
         return null;
       }
 
@@ -150,17 +159,21 @@ export const useAchievements = () => {
 
       return data;
     } catch (err) {
-      console.error('Error in awardAchievement:', err);
+      console.error("Error in awardAchievement:", err);
       return null;
     }
   };
 
   const hasAchievement = (achievementType: string): boolean => {
-    return achievements.some(a => a.achievement_type === achievementType);
+    return achievements.some((a) => a.achievement_type === achievementType);
   };
 
-  const getAchievementsByType = (achievementType: string): Achievement | null => {
-    return achievements.find(a => a.achievement_type === achievementType) || null;
+  const getAchievementsByType = (
+    achievementType: string,
+  ): Achievement | null => {
+    return (
+      achievements.find((a) => a.achievement_type === achievementType) || null
+    );
   };
 
   const getRecentAchievements = (limit: number = 3): Achievement[] => {

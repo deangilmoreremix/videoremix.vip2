@@ -1,10 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Users, ArrowUpRight, Bell, CheckCircle, ShoppingCart } from 'lucide-react';
-import { useAnimationContext } from '../context/AnimationContext';
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Users,
+  ArrowUpRight,
+  Bell,
+  CheckCircle,
+  ShoppingCart,
+} from "lucide-react";
+import { useAnimationContext } from "../context/AnimationContext";
 
 interface NotificationProps {
-  type: 'signup' | 'purchase' | 'activity';
+  type: "signup" | "purchase" | "activity";
   message: string;
   timestamp: string;
   id: number;
@@ -16,43 +22,77 @@ const LiveActivityIndicator: React.FC = () => {
   const [notifications, setNotifications] = useState<NotificationProps[]>([]);
   const [showToast, setShowToast] = useState(false);
   const timeoutRef = useRef<number | null>(null);
-  const { prefersReducedMotion, lowPowerMode, isInitialLoadComplete } = useAnimationContext();
-  
+  const { prefersReducedMotion, lowPowerMode, isInitialLoadComplete } =
+    useAnimationContext();
+
   // Generate random names for notifications
-  const firstNames = ["John", "Sarah", "Michael", "Emma", "David", "Lisa", "Robert", "Jennifer", "William", "Maria"];
-  const lastNames = ["Smith", "Johnson", "Brown", "Taylor", "Martinez", "Lee", "Garcia", "Wilson", "Anderson", "Thomas"];
-  
+  const firstNames = [
+    "John",
+    "Sarah",
+    "Michael",
+    "Emma",
+    "David",
+    "Lisa",
+    "Robert",
+    "Jennifer",
+    "William",
+    "Maria",
+  ];
+  const lastNames = [
+    "Smith",
+    "Johnson",
+    "Brown",
+    "Taylor",
+    "Martinez",
+    "Lee",
+    "Garcia",
+    "Wilson",
+    "Anderson",
+    "Thomas",
+  ];
+
   const getRandomName = () => {
     const first = firstNames[Math.floor(Math.random() * firstNames.length)];
     const last = lastNames[Math.floor(Math.random() * lastNames.length)];
     return `${first} ${last.charAt(0)}.`;
   };
-  
+
   const getRandomLocation = () => {
-    const locations = ["New York", "Los Angeles", "London", "Sydney", "Toronto", "Berlin", "Tokyo", "Paris", "Madrid", "Singapore"];
+    const locations = [
+      "New York",
+      "Los Angeles",
+      "London",
+      "Sydney",
+      "Toronto",
+      "Berlin",
+      "Tokyo",
+      "Paris",
+      "Madrid",
+      "Singapore",
+    ];
     return locations[Math.floor(Math.random() * locations.length)];
   };
-  
-  const getRandomMessage = (type: 'signup' | 'purchase' | 'activity') => {
+
+  const getRandomMessage = (type: "signup" | "purchase" | "activity") => {
     const name = getRandomName();
     const location = getRandomLocation();
-    
+
     switch (type) {
-      case 'signup':
+      case "signup":
         return `${name} just signed up for VideoRemix.vip`;
-      case 'purchase':
+      case "purchase":
         return `${name} from ${location} just purchased Pro`;
-      case 'activity':
+      case "activity":
         return `${name} created their first video`;
       default:
         return "New activity detected";
     }
   };
-  
+
   const createRandomNotification = (): NotificationProps => {
-    const types = ['signup', 'purchase', 'activity'] as const;
+    const types = ["signup", "purchase", "activity"] as const;
     const type = types[Math.floor(Math.random() * types.length)];
-    
+
     return {
       type,
       message: getRandomMessage(type),
@@ -60,56 +100,56 @@ const LiveActivityIndicator: React.FC = () => {
       id: Date.now(),
     };
   };
-  
+
   // Initialize from localStorage
   useEffect(() => {
     // Don't initialize until the initial page load is complete
     if (!isInitialLoadComplete) return;
-    
-    const savedPreference = localStorage.getItem('activityEnabled');
+
+    const savedPreference = localStorage.getItem("activityEnabled");
     if (savedPreference !== null) {
-      setIsEnabled(savedPreference === 'true');
+      setIsEnabled(savedPreference === "true");
     } else {
       // Default to enabled
       setIsEnabled(true);
-      localStorage.setItem('activityEnabled', 'true');
+      localStorage.setItem("activityEnabled", "true");
     }
   }, [isInitialLoadComplete]);
-  
+
   // Simulate active user count changing
   useEffect(() => {
     if (!isEnabled || !isInitialLoadComplete) return;
-    
+
     const interval = setInterval(() => {
       // Random fluctuation in user count
       const change = Math.floor(Math.random() * 6) - 2; // -2 to +3 change
-      setActiveUserCount(prev => Math.max(prev + change, 500));
+      setActiveUserCount((prev) => Math.max(prev + change, 500));
     }, 5000);
-    
+
     return () => clearInterval(interval);
   }, [isEnabled, isInitialLoadComplete]);
-  
+
   // Simulate notifications appearing
   useEffect(() => {
     if (!isEnabled || !isInitialLoadComplete) return;
-    
+
     const interval = setInterval(() => {
       // Only show notifications when the browser tab is active
       if (document.hidden) return;
-      
+
       const shouldShowNotification = Math.random() > 0.5;
-      
+
       if (shouldShowNotification) {
         const notification = createRandomNotification();
-        setNotifications(prev => [notification, ...prev].slice(0, 5));
+        setNotifications((prev) => [notification, ...prev].slice(0, 5));
         setShowToast(true);
-        
+
         // Clear any existing timeout
         if (timeoutRef.current !== null) {
           window.clearTimeout(timeoutRef.current);
           timeoutRef.current = null;
         }
-        
+
         // Hide toast after 5 seconds
         timeoutRef.current = window.setTimeout(() => {
           setShowToast(false);
@@ -117,7 +157,7 @@ const LiveActivityIndicator: React.FC = () => {
         }, 5000);
       }
     }, 15000);
-    
+
     return () => {
       clearInterval(interval);
       if (timeoutRef.current !== null) {
@@ -125,15 +165,15 @@ const LiveActivityIndicator: React.FC = () => {
       }
     };
   }, [isEnabled, isInitialLoadComplete]);
-  
+
   // Get icon based on notification type
   const getNotificationIcon = (type: string) => {
     switch (type) {
-      case 'signup':
+      case "signup":
         return <Users className="w-4 h-4" />;
-      case 'purchase':
+      case "purchase":
         return <ShoppingCart className="w-4 h-4" />;
-      case 'activity':
+      case "activity":
         return <CheckCircle className="w-4 h-4" />;
       default:
         return <Bell className="w-4 h-4" />;
@@ -160,13 +200,13 @@ const LiveActivityIndicator: React.FC = () => {
             <motion.div
               initial={{ scale: 1 }}
               animate={{ scale: [1, 1.15, 1] }}
-              transition={{ 
-                repeat: Infinity, 
+              transition={{
+                repeat: Infinity,
                 duration: 2,
-                repeatDelay: 3
+                repeatDelay: 3,
               }}
               className="w-2 h-2 bg-green-500 rounded-full mr-2"
-              style={{ willChange: 'transform' }}
+              style={{ willChange: "transform" }}
             />
             <span className="text-white font-medium text-sm flex items-center">
               <Users className="h-4 w-4 mr-1 text-primary-400" />
@@ -181,16 +221,19 @@ const LiveActivityIndicator: React.FC = () => {
               people online now
             </span>
           </div>
-          
+
           {/* Recent activity list - only render when visible for performance */}
           {isEnabled && (
-            <div className="max-h-36 overflow-y-auto thin-scrollbar" style={{ scrollbarWidth: 'thin' }}>
+            <div
+              className="max-h-36 overflow-y-auto thin-scrollbar"
+              style={{ scrollbarWidth: "thin" }}
+            >
               <AnimatePresence initial={false}>
                 {notifications.map((notification) => (
-                  <motion.div 
+                  <motion.div
                     key={notification.id}
                     initial={{ opacity: 0, x: -20, height: 0 }}
-                    animate={{ opacity: 1, x: 0, height: 'auto' }}
+                    animate={{ opacity: 1, x: 0, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.3 }}
                     className="px-3 py-2 border-b border-gray-700/50 last:border-0 hover:bg-gray-800/50 transition-colors flex items-center"
@@ -199,13 +242,15 @@ const LiveActivityIndicator: React.FC = () => {
                       {getNotificationIcon(notification.type)}
                     </div>
                     <div className="text-xs flex-1 overflow-hidden">
-                      <p className="text-white truncate">{notification.message}</p>
+                      <p className="text-white truncate">
+                        {notification.message}
+                      </p>
                       <p className="text-gray-400">{notification.timestamp}</p>
                     </div>
                   </motion.div>
                 ))}
               </AnimatePresence>
-              
+
               {notifications.length === 0 && (
                 <div className="p-3 text-xs text-gray-400 text-center">
                   Activity will appear here...
@@ -213,11 +258,11 @@ const LiveActivityIndicator: React.FC = () => {
               )}
             </div>
           )}
-          
+
           {/* View all link */}
           <div className="p-2 bg-gray-800/50">
-            <a 
-              href="#activity" 
+            <a
+              href="#activity"
               className="text-xs text-primary-400 hover:text-primary-300 flex items-center justify-center"
             >
               View all activity
@@ -226,7 +271,7 @@ const LiveActivityIndicator: React.FC = () => {
           </div>
         </div>
       </motion.div>
-      
+
       {/* Toast notification for new activity - only shown when actively visible */}
       {isEnabled && showToast && notifications.length > 0 && (
         <AnimatePresence>
@@ -245,8 +290,12 @@ const LiveActivityIndicator: React.FC = () => {
                 </div>
               </div>
               <div>
-                <p className="text-sm text-white font-medium">{notifications[0].message}</p>
-                <p className="text-xs text-gray-400">{notifications[0].timestamp}</p>
+                <p className="text-sm text-white font-medium">
+                  {notifications[0].message}
+                </p>
+                <p className="text-xs text-gray-400">
+                  {notifications[0].timestamp}
+                </p>
               </div>
             </div>
             <div className="w-full bg-gray-700 h-1">

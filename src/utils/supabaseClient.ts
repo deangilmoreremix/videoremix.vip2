@@ -1,42 +1,52 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 // Initialize the Supabase client
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "";
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
 
 // Debug logging for environment variables (only in development)
 if (import.meta.env.DEV) {
-  console.log('Supabase Environment check:', {
+  console.log("Supabase Environment check:", {
     hasUrl: !!supabaseUrl,
     hasKey: !!supabaseAnonKey,
-    urlValue: supabaseUrl ? `${supabaseUrl.substring(0, 30)}...` : 'MISSING',
+    urlValue: supabaseUrl ? `${supabaseUrl.substring(0, 30)}...` : "MISSING",
     keyLength: supabaseAnonKey ? supabaseAnonKey.length : 0,
     mode: import.meta.env.MODE,
-    allViteVars: Object.keys(import.meta.env).filter(k => k.startsWith('VITE_'))
+    allViteVars: Object.keys(import.meta.env).filter((k) =>
+      k.startsWith("VITE_"),
+    ),
   });
 }
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('❌ Supabase credentials are not set. Please check your environment variables.');
-  console.error('Missing:', {
-    VITE_SUPABASE_URL: !supabaseUrl ? 'MISSING' : 'OK',
-    VITE_SUPABASE_ANON_KEY: !supabaseAnonKey ? 'MISSING' : 'OK'
+  console.error(
+    "❌ Supabase credentials are not set. Please check your environment variables.",
+  );
+  console.error("Missing:", {
+    VITE_SUPABASE_URL: !supabaseUrl ? "MISSING" : "OK",
+    VITE_SUPABASE_ANON_KEY: !supabaseAnonKey ? "MISSING" : "OK",
   });
-  console.error('⚠️ Make sure you have a .env file with VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY');
-  console.error('⚠️ After adding .env, restart your dev server');
-  throw new Error('supabaseKey is required.');
+  console.error(
+    "⚠️ Make sure you have a .env file with VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY",
+  );
+  console.error("⚠️ After adding .env, restart your dev server");
+  throw new Error("supabaseKey is required.");
 }
 
-export const supabase: SupabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true,
-    storage: window.localStorage,
-    storageKey: 'videoremix-auth',
-    flowType: 'pkce'
-  }
-});
+export const supabase: SupabaseClient = createClient(
+  supabaseUrl,
+  supabaseAnonKey,
+  {
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
+      storage: window.localStorage,
+      storageKey: "videoremix-auth",
+      flowType: "pkce",
+    },
+  },
+);
 
 // Hero section types
 export interface HeroContent {
@@ -120,7 +130,7 @@ export interface Video {
   original_filename: string;
   file_path: string;
   thumbnail_path?: string;
-  status: 'uploaded' | 'processing' | 'completed' | 'failed';
+  status: "uploaded" | "processing" | "completed" | "failed";
   duration?: number;
   file_size?: number;
   mime_type?: string;
@@ -155,92 +165,86 @@ export interface VideoUpdateData {
 async function getHeroContent() {
   try {
     const { data, error } = await supabase
-      .from('hero_content')
-      .select('*')
-      .eq('enabled', true)
-      .order('created_at', { ascending: false })
+      .from("hero_content")
+      .select("*")
+      .eq("enabled", true)
+      .order("created_at", { ascending: false })
       .limit(1)
       .single();
-    
+
     if (error) {
-      console.error('Error fetching hero content:', error);
+      console.error("Error fetching hero content:", error);
       return null;
     }
-    
+
     return data;
   } catch (error) {
-    console.error('Error fetching hero content:', error);
+    console.error("Error fetching hero content:", error);
     return null;
   }
 }
 
 async function getBenefitsFeatures() {
   const { data, error } = await supabase
-    .from('benefits_features')
-    .select('*')
-    .eq('enabled', true)
-    .order('id', { ascending: true });
-  
+    .from("benefits_features")
+    .select("*")
+    .eq("enabled", true)
+    .order("id", { ascending: true });
+
   if (error) {
-    console.error('Error fetching benefits/features:', error);
+    console.error("Error fetching benefits/features:", error);
     return [];
   }
-  
+
   return data as BenefitFeature[];
 }
 
 async function getTestimonials(featured_only = false) {
-  let query = supabase
-    .from('testimonials')
-    .select('*')
-    .eq('enabled', true);
-  
+  let query = supabase.from("testimonials").select("*").eq("enabled", true);
+
   if (featured_only) {
-    query = query.eq('featured', true);
+    query = query.eq("featured", true);
   }
-  
-  const { data, error } = await query.order('id', { ascending: true });
-  
+
+  const { data, error } = await query.order("id", { ascending: true });
+
   if (error) {
-    console.error('Error fetching testimonials:', error);
+    console.error("Error fetching testimonials:", error);
     return [];
   }
-  
+
   return data as Testimonial[];
 }
 
-async function getFAQs(category = 'all') {
-  let query = supabase
-    .from('faqs')
-    .select('*')
-    .eq('enabled', true);
-  
-  if (category !== 'all') {
-    query = query.eq('category', category);
+async function getFAQs(category = "all") {
+  let query = supabase.from("faqs").select("*").eq("enabled", true);
+
+  if (category !== "all") {
+    query = query.eq("category", category);
   }
-  
-  const { data, error } = await query.order('list_order', { ascending: true });
-  
+
+  const { data, error } = await query.order("list_order", { ascending: true });
+
   if (error) {
-    console.error('Error fetching FAQs:', error);
+    console.error("Error fetching FAQs:", error);
     return [];
   }
-  
+
   return data as FAQ[];
 }
 
 async function getPricingPlans() {
   const { data, error } = await supabase
-    .from('pricing_plans')
-    .select('*')
-    .eq('enabled', true)
-    .order('price_monthly', { ascending: true });
-  
+    .from("pricing_plans")
+    .select("*")
+    .eq("enabled", true)
+    .order("price_monthly", { ascending: true });
+
   if (error) {
-    console.error('Error fetching pricing plans:', error);
+    console.error("Error fetching pricing plans:", error);
     return [];
   }
-  
+
   return data as PricingPlan[];
 }
 
@@ -251,7 +255,7 @@ export async function getAllLandingPageContent() {
       getBenefitsFeatures(),
       getTestimonials(true),
       getFAQs(),
-      getPricingPlans()
+      getPricingPlans(),
     ]);
 
     return {
@@ -259,33 +263,35 @@ export async function getAllLandingPageContent() {
       benefits,
       testimonials,
       faqs,
-      pricing
+      pricing,
     };
   } catch (error) {
-    console.error('Error fetching all landing page content:', error);
+    console.error("Error fetching all landing page content:", error);
     return {
       hero: null,
       benefits: [],
       testimonials: [],
       faqs: [],
-      pricing: []
+      pricing: [],
     };
   }
 }
 
 // Video-related utility functions
 async function getUserVideos(): Promise<Video[]> {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error('User not authenticated');
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("User not authenticated");
 
   const { data, error } = await supabase
-    .from('videos')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false });
+    .from("videos")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error('Error fetching videos:', error);
+    console.error("Error fetching videos:", error);
     return [];
   }
 
@@ -293,19 +299,21 @@ async function getUserVideos(): Promise<Video[]> {
 }
 
 async function getVideoById(id: string): Promise<Video | null> {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error('User not authenticated');
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("User not authenticated");
 
   const { data, error } = await supabase
-    .from('videos')
-    .select('*')
-    .eq('id', id)
-    .eq('user_id', user.id)
+    .from("videos")
+    .select("*")
+    .eq("id", id)
+    .eq("user_id", user.id)
     .single();
 
   if (error) {
-    if (error.code === 'PGRST116') return null;
-    console.error('Error fetching video:', error);
+    if (error.code === "PGRST116") return null;
+    console.error("Error fetching video:", error);
     return null;
   }
 
@@ -314,14 +322,14 @@ async function getVideoById(id: string): Promise<Video | null> {
 
 async function getPublicVideos(): Promise<Video[]> {
   const { data, error } = await supabase
-    .from('videos')
-    .select('*')
-    .eq('is_public', true)
-    .eq('status', 'completed')
-    .order('created_at', { ascending: false });
+    .from("videos")
+    .select("*")
+    .eq("is_public", true)
+    .eq("status", "completed")
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error('Error fetching public videos:', error);
+    console.error("Error fetching public videos:", error);
     return [];
   }
 
@@ -330,16 +338,16 @@ async function getPublicVideos(): Promise<Video[]> {
 
 async function getHomepageVideos(): Promise<Video[]> {
   const { data, error } = await supabase
-    .from('videos')
-    .select('*')
-    .eq('is_public', true)
-    .eq('display_on_homepage', true)
-    .eq('status', 'completed')
-    .order('homepage_order', { ascending: true, nullsFirst: false })
-    .order('created_at', { ascending: false });
+    .from("videos")
+    .select("*")
+    .eq("is_public", true)
+    .eq("display_on_homepage", true)
+    .eq("status", "completed")
+    .order("homepage_order", { ascending: true, nullsFirst: false })
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error('Error fetching homepage videos:', error);
+    console.error("Error fetching homepage videos:", error);
     return [];
   }
 
@@ -348,20 +356,26 @@ async function getHomepageVideos(): Promise<Video[]> {
 
 async function getFeaturedVideos(): Promise<Video[]> {
   const { data, error } = await supabase
-    .from('videos')
-    .select('*')
-    .eq('is_public', true)
-    .eq('is_featured', true)
-    .eq('status', 'completed')
-    .order('homepage_order', { ascending: true, nullsFirst: false })
-    .order('created_at', { ascending: false });
+    .from("videos")
+    .select("*")
+    .eq("is_public", true)
+    .eq("is_featured", true)
+    .eq("status", "completed")
+    .order("homepage_order", { ascending: true, nullsFirst: false })
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error('Error fetching featured videos:', error);
+    console.error("Error fetching featured videos:", error);
     return [];
   }
 
   return data as Video[];
 }
 
-export { getUserVideos, getVideoById, getPublicVideos, getHomepageVideos, getFeaturedVideos };
+export {
+  getUserVideos,
+  getVideoById,
+  getPublicVideos,
+  getHomepageVideos,
+  getFeaturedVideos,
+};

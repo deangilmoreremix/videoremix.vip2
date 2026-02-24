@@ -1,6 +1,14 @@
-import React, { useState, useCallback } from 'react';
-import { Upload, FileText, AlertCircle, CheckCircle, X, Download, Eye } from 'lucide-react';
-import { supabase } from '../../utils/supabaseClient';
+import React, { useState, useCallback } from "react";
+import {
+  Upload,
+  FileText,
+  AlertCircle,
+  CheckCircle,
+  X,
+  Download,
+  Eye,
+} from "lucide-react";
+import { supabase } from "../../utils/supabaseClient";
 
 interface CSVPreviewData {
   headers: string[];
@@ -26,19 +34,19 @@ const AdminCSVImport: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewData, setPreviewData] = useState<CSVPreviewData | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [importName, setImportName] = useState('');
+  const [importName, setImportName] = useState("");
   const [importResult, setImportResult] = useState<ImportResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const parseCSV = (text: string): CSVPreviewData => {
-    const lines = text.split('\n').filter(line => line.trim());
-    const headers = lines[0].split(',').map(h => h.trim());
+    const lines = text.split("\n").filter((line) => line.trim());
+    const headers = lines[0].split(",").map((h) => h.trim());
 
-    const rows = lines.slice(1, Math.min(101, lines.length)).map(line => {
-      const values = line.split(',').map(v => v.trim());
+    const rows = lines.slice(1, Math.min(101, lines.length)).map((line) => {
+      const values = line.split(",").map((v) => v.trim());
       const row: Record<string, string> = {};
       headers.forEach((header, index) => {
-        row[header] = values[index] || '';
+        row[header] = values[index] || "";
       });
       return row;
     });
@@ -46,9 +54,9 @@ const AdminCSVImport: React.FC = () => {
     const uniqueProducts = new Set<string>();
     const uniqueCampaigns = new Set<string>();
 
-    rows.forEach(row => {
-      if (row['Product']) uniqueProducts.add(row['Product']);
-      if (row['Campaign']) uniqueCampaigns.add(row['Campaign']);
+    rows.forEach((row) => {
+      if (row["Product"]) uniqueProducts.add(row["Product"]);
+      if (row["Campaign"]) uniqueCampaigns.add(row["Campaign"]);
     });
 
     return {
@@ -56,7 +64,7 @@ const AdminCSVImport: React.FC = () => {
       rows,
       totalRows: lines.length - 1,
       uniqueProducts: Array.from(uniqueProducts),
-      uniqueCampaigns: Array.from(uniqueCampaigns)
+      uniqueCampaigns: Array.from(uniqueCampaigns),
     };
   };
 
@@ -75,10 +83,10 @@ const AdminCSVImport: React.FC = () => {
     setIsDragging(false);
 
     const file = e.dataTransfer.files[0];
-    if (file && file.name.endsWith('.csv')) {
+    if (file && file.name.endsWith(".csv")) {
       handleFileSelect(file);
     } else {
-      setError('Please upload a CSV file');
+      setError("Please upload a CSV file");
     }
   }, []);
 
@@ -92,21 +100,21 @@ const AdminCSVImport: React.FC = () => {
   const handleFileSelect = async (file: File) => {
     setError(null);
     setSelectedFile(file);
-    setImportName(file.name.replace('.csv', ''));
+    setImportName(file.name.replace(".csv", ""));
 
     try {
       const text = await file.text();
       const preview = parseCSV(text);
       setPreviewData(preview);
     } catch (err) {
-      setError('Failed to parse CSV file. Please check the format.');
-      console.error('CSV parse error:', err);
+      setError("Failed to parse CSV file. Please check the format.");
+      console.error("CSV parse error:", err);
     }
   };
 
   const handleImport = async () => {
     if (!selectedFile || !previewData || !importName.trim()) {
-      setError('Please provide an import name');
+      setError("Please provide an import name");
       return;
     }
 
@@ -114,18 +122,20 @@ const AdminCSVImport: React.FC = () => {
     setError(null);
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
 
       const text = await selectedFile.text();
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/process-csv-import`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
-            'Content-Type': 'application/json',
+            Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             importName: importName.trim(),
@@ -134,7 +144,7 @@ const AdminCSVImport: React.FC = () => {
             csvContent: text,
             headers: previewData.headers,
           }),
-        }
+        },
       );
 
       const result = await response.json();
@@ -143,21 +153,21 @@ const AdminCSVImport: React.FC = () => {
         setImportResult({
           success: true,
           importId: result.data.importId,
-          message: 'CSV imported successfully!',
+          message: "CSV imported successfully!",
           stats: result.data.stats,
         });
 
         setSelectedFile(null);
         setPreviewData(null);
-        setImportName('');
+        setImportName("");
       } else {
-        throw new Error(result.error || 'Import failed');
+        throw new Error(result.error || "Import failed");
       }
     } catch (err: any) {
-      setError(err.message || 'Failed to import CSV');
+      setError(err.message || "Failed to import CSV");
       setImportResult({
         success: false,
-        message: err.message || 'Import failed',
+        message: err.message || "Import failed",
       });
     } finally {
       setIsProcessing(false);
@@ -167,7 +177,7 @@ const AdminCSVImport: React.FC = () => {
   const resetForm = () => {
     setSelectedFile(null);
     setPreviewData(null);
-    setImportName('');
+    setImportName("");
     setError(null);
     setImportResult(null);
   };
@@ -187,8 +197,8 @@ const AdminCSVImport: React.FC = () => {
         <div
           className={`p-4 rounded-lg border ${
             importResult.success
-              ? 'bg-green-500/10 border-green-500/50 text-green-400'
-              : 'bg-red-500/10 border-red-500/50 text-red-400'
+              ? "bg-green-500/10 border-green-500/50 text-green-400"
+              : "bg-red-500/10 border-red-500/50 text-red-400"
           }`}
         >
           <div className="flex items-start">
@@ -235,8 +245,8 @@ const AdminCSVImport: React.FC = () => {
           onDrop={handleDrop}
           className={`border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
             isDragging
-              ? 'border-blue-500 bg-blue-500/10'
-              : 'border-gray-600 hover:border-gray-500'
+              ? "border-blue-500 bg-blue-500/10"
+              : "border-gray-600 hover:border-gray-500"
           }`}
         >
           <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
@@ -338,7 +348,7 @@ const AdminCSVImport: React.FC = () => {
                               key={cellIndex}
                               className="px-4 py-3 text-gray-400"
                             >
-                              {row[header] || '-'}
+                              {row[header] || "-"}
                             </td>
                           ))}
                         </tr>

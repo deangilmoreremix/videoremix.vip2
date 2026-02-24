@@ -1,6 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { purchaseService, UserAppAccess, Purchase } from '../services/purchaseService';
+import { useState, useEffect, useCallback } from "react";
+import { useAuth } from "../context/AuthContext";
+import {
+  purchaseService,
+  UserAppAccess,
+  Purchase,
+} from "../services/purchaseService";
 
 interface UsePurchasesReturn {
   purchasedApps: string[];
@@ -45,8 +49,8 @@ export const usePurchases = (): UsePurchasesReturn => {
       setAppAccessDetails(accessDetails);
       setPurchases(userPurchases);
     } catch (err: any) {
-      console.error('Error fetching purchase data:', err);
-      setError(err.message || 'Failed to load purchase data');
+      console.error("Error fetching purchase data:", err);
+      setError(err.message || "Failed to load purchase data");
     } finally {
       setLoading(false);
     }
@@ -62,16 +66,16 @@ export const usePurchases = (): UsePurchasesReturn => {
     const channel = supabase
       .channel(`user_purchases:${user.id}`)
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: '*',
-          schema: 'public',
-          table: 'user_app_access',
+          event: "*",
+          schema: "public",
+          table: "user_app_access",
           filter: `user_id=eq.${user.id}`,
         },
         () => {
           fetchPurchaseData();
-        }
+        },
       )
       .subscribe();
 
@@ -84,7 +88,7 @@ export const usePurchases = (): UsePurchasesReturn => {
     (appSlug: string): boolean => {
       return purchasedApps.includes(appSlug);
     },
-    [purchasedApps]
+    [purchasedApps],
   );
 
   const checkAccess = useCallback(
@@ -92,7 +96,7 @@ export const usePurchases = (): UsePurchasesReturn => {
       if (!user) return false;
       return await purchaseService.checkUserHasAccess(user.id, appSlug);
     },
-    [user]
+    [user],
   );
 
   const refetch = useCallback(async () => {
@@ -114,4 +118,4 @@ export const usePurchases = (): UsePurchasesReturn => {
 
 export default usePurchases;
 
-import { supabase } from '../utils/supabaseClient';
+import { supabase } from "../utils/supabaseClient";

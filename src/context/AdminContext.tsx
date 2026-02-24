@@ -1,5 +1,12 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
-import { supabase } from '../utils/supabaseClient';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  ReactNode,
+} from "react";
+import { supabase } from "../utils/supabaseClient";
 
 interface AdminUser {
   id: string;
@@ -15,8 +22,14 @@ interface AdminContextType {
   user: AdminUser | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  signup: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  login: (
+    email: string,
+    password: string,
+  ) => Promise<{ success: boolean; error?: string }>;
+  signup: (
+    email: string,
+    password: string,
+  ) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
   verifyAuth: () => Promise<void>;
   sessionExpiry?: Date;
@@ -27,7 +40,7 @@ const AdminContext = createContext<AdminContextType | undefined>(undefined);
 export const useAdmin = () => {
   const context = useContext(AdminContext);
   if (context === undefined) {
-    throw new Error('useAdmin must be used within an AdminProvider');
+    throw new Error("useAdmin must be used within an AdminProvider");
   }
   return context;
 };
@@ -45,104 +58,133 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
   const VERIFICATION_COOLDOWN = 2000;
   const SESSION_TIMEOUT_MS = 8 * 60 * 60 * 1000; // 8 hours
 
-  const login = useCallback(async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
-    try {
-      setIsLoading(true);
+  const login = useCallback(
+    async (
+      email: string,
+      password: string,
+    ): Promise<{ success: boolean; error?: string }> => {
+      try {
+        setIsLoading(true);
 
-      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+        const { data: authData, error: authError } =
+          await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
 
-      if (authError) {
-        return { success: false, error: authError.message };
+        if (authError) {
+          return { success: false, error: authError.message };
+        }
+
+        if (!authData.user || !authData.session) {
+          return { success: false, error: "Authentication failed" };
+        }
+
+        const { data: roleData, error: roleError } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", authData.user.id)
+          .maybeSingle();
+
+        if (roleError || !roleData) {
+          await supabase.auth.signOut();
+          return {
+            success: false,
+            error: "User does not have admin privileges",
+          };
+        }
+
+        if (roleData.role !== "super_admin" && roleData.role !== "admin") {
+          await supabase.auth.signOut();
+          return {
+            success: false,
+            error: "Access denied: Admin privileges required",
+          };
+        }
+
+        const adminUser: AdminUser = {
+          id: authData.user.id,
+          email: authData.user.email!,
+          role: roleData.role,
+          is_active: true,
+          permissions: {},
+          created_at: authData.user.created_at,
+          last_login: new Date().toISOString(),
+        };
+
+        // Set session expiry
+        const expiry = new Date(Date.now() + SESSION_TIMEOUT_MS);
+        setSessionExpiry(expiry);
+
+        console.log(
+          "AdminContext - Login successful, setting user:",
+          adminUser,
+        );
+        console.log("AdminContext - Session exists:", !!authData.session);
+        console.log("AdminContext - Session expires:", expiry.toISOString());
+        setUser(adminUser);
+
+        // Verify session was persisted
+        setTimeout(async () => {
+          const {
+            data: { session },
+          } = await supabase.auth.getSession();
+          console.log(
+            "AdminContext - Session persisted after login:",
+            !!session,
+          );
+        }, 100);
+
+        return { success: true };
+      } catch (error) {
+        console.error("Login error:", error);
+        return { success: false, error: "Network error occurred" };
+      } finally {
+        setIsLoading(false);
       }
+    },
+    [],
+  );
 
-      if (!authData.user || !authData.session) {
-        return { success: false, error: 'Authentication failed' };
+  const signup = useCallback(
+    async (
+      email: string,
+      password: string,
+    ): Promise<{ success: boolean; error?: string }> => {
+      try {
+        setIsLoading(true);
+
+        const { data: authData, error: authError } = await supabase.auth.signUp(
+          {
+            email,
+            password,
+          },
+        );
+
+        if (authError) {
+          return { success: false, error: authError.message };
+        }
+
+        if (!authData.user) {
+          return { success: false, error: "Sign up failed" };
+        }
+
+        return { success: true };
+      } catch (error) {
+        console.error("Sign up error:", error);
+        return { success: false, error: "Network error occurred" };
+      } finally {
+        setIsLoading(false);
       }
-
-      const { data: roleData, error: roleError } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', authData.user.id)
-        .maybeSingle();
-
-      if (roleError || !roleData) {
-        await supabase.auth.signOut();
-        return { success: false, error: 'User does not have admin privileges' };
-      }
-
-      if (roleData.role !== 'super_admin' && roleData.role !== 'admin') {
-        await supabase.auth.signOut();
-        return { success: false, error: 'Access denied: Admin privileges required' };
-      }
-
-      const adminUser: AdminUser = {
-        id: authData.user.id,
-        email: authData.user.email!,
-        role: roleData.role,
-        is_active: true,
-        permissions: {},
-        created_at: authData.user.created_at,
-        last_login: new Date().toISOString(),
-      };
-
-      // Set session expiry
-      const expiry = new Date(Date.now() + SESSION_TIMEOUT_MS);
-      setSessionExpiry(expiry);
-
-      console.log('AdminContext - Login successful, setting user:', adminUser);
-      console.log('AdminContext - Session exists:', !!authData.session);
-      console.log('AdminContext - Session expires:', expiry.toISOString());
-      setUser(adminUser);
-
-      // Verify session was persisted
-      setTimeout(async () => {
-        const { data: { session } } = await supabase.auth.getSession();
-        console.log('AdminContext - Session persisted after login:', !!session);
-      }, 100);
-
-      return { success: true };
-    } catch (error) {
-      console.error('Login error:', error);
-      return { success: false, error: 'Network error occurred' };
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  const signup = useCallback(async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
-    try {
-      setIsLoading(true);
-
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-
-      if (authError) {
-        return { success: false, error: authError.message };
-      }
-
-      if (!authData.user) {
-        return { success: false, error: 'Sign up failed' };
-      }
-
-      return { success: true };
-    } catch (error) {
-      console.error('Sign up error:', error);
-      return { success: false, error: 'Network error occurred' };
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+    },
+    [],
+  );
 
   const logout = useCallback(async (): Promise<void> => {
     try {
       await supabase.auth.signOut();
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
     } finally {
       setUser(null);
       setSessionExpiry(undefined);
@@ -170,7 +212,10 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
         isVerifyingRef.current = false;
       }, 10000);
 
-      const { data: { session }, error } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession();
       clearTimeout(timeoutId);
 
       if (error || !session) {
@@ -181,13 +226,13 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
       }
 
       const { data: roleData, error: roleError } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', session.user.id)
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", session.user.id)
         .maybeSingle();
 
       if (roleError) {
-        console.error('AdminContext - Error fetching role:', roleError);
+        console.error("AdminContext - Error fetching role:", roleError);
         // Don't sign out on error, just set loading to false and keep existing user
         setIsLoading(false);
         isVerifyingRef.current = false;
@@ -195,7 +240,7 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
       }
 
       if (!roleData) {
-        console.log('AdminContext - No role found for user');
+        console.log("AdminContext - No role found for user");
         await supabase.auth.signOut();
         setUser(null);
         setIsLoading(false);
@@ -203,8 +248,11 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
         return;
       }
 
-      if (roleData.role !== 'super_admin' && roleData.role !== 'admin') {
-        console.log('AdminContext - User does not have admin role:', roleData.role);
+      if (roleData.role !== "super_admin" && roleData.role !== "admin") {
+        console.log(
+          "AdminContext - User does not have admin role:",
+          roleData.role,
+        );
         await supabase.auth.signOut();
         setUser(null);
         setIsLoading(false);
@@ -225,7 +273,7 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
       setIsLoading(false);
       isVerifyingRef.current = false;
     } catch (error) {
-      console.error('AdminContext - Auth verification error:', error);
+      console.error("AdminContext - Auth verification error:", error);
       setUser(null);
       setIsLoading(false);
       isVerifyingRef.current = false;
@@ -238,7 +286,7 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
 
     const checkSessionTimeout = () => {
       if (new Date() > sessionExpiry) {
-        console.log('AdminContext - Session expired, logging out');
+        console.log("AdminContext - Session expired, logging out");
         logout();
       }
     };
@@ -255,12 +303,14 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
   useEffect(() => {
     verifyAuth();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_OUT') {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") {
         setUser(null);
         setSessionExpiry(undefined);
         setIsLoading(false);
-      } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+      } else if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
         verifyAuth();
       }
     });
@@ -270,20 +320,21 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
     };
   }, [verifyAuth]);
 
-  const value: AdminContextType = React.useMemo(() => ({
-    user,
-    isLoading,
-    isAuthenticated: !!user,
-    login,
-    signup,
-    logout,
-    verifyAuth,
-    sessionExpiry,
-  }), [user, isLoading, login, signup, logout, verifyAuth, sessionExpiry]);
+  const value: AdminContextType = React.useMemo(
+    () => ({
+      user,
+      isLoading,
+      isAuthenticated: !!user,
+      login,
+      signup,
+      logout,
+      verifyAuth,
+      sessionExpiry,
+    }),
+    [user, isLoading, login, signup, logout, verifyAuth, sessionExpiry],
+  );
 
   return (
-    <AdminContext.Provider value={value}>
-      {children}
-    </AdminContext.Provider>
+    <AdminContext.Provider value={value}>{children}</AdminContext.Provider>
   );
 };

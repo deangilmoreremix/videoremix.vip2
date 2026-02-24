@@ -1,11 +1,11 @@
-import { supabase } from '../utils/supabaseClient';
+import { supabase } from "../utils/supabaseClient";
 
 export interface UserAppAccess {
   id: string;
   user_id: string;
   app_slug: string;
   purchase_id?: string;
-  access_type: 'subscription' | 'lifetime' | 'trial';
+  access_type: "subscription" | "lifetime" | "trial";
   granted_at: string;
   expires_at?: string;
   is_active: boolean;
@@ -25,7 +25,7 @@ export interface Purchase {
   product_sku?: string;
   amount: number;
   currency: string;
-  status: 'completed' | 'pending' | 'refunded' | 'failed';
+  status: "completed" | "pending" | "refunded" | "failed";
   purchase_date: string;
   is_subscription?: boolean;
   created_at: string;
@@ -41,7 +41,7 @@ export interface ProductCatalog {
   slug: string;
   sku?: string;
   description: string;
-  product_type: 'subscription' | 'one_time';
+  product_type: "subscription" | "one_time";
   apps_granted: string[];
   is_active: boolean;
   created_at: string;
@@ -55,15 +55,15 @@ export const purchaseService = {
   async checkUserHasAccess(userId: string, appSlug: string): Promise<boolean> {
     try {
       const { data, error } = await supabase
-        .from('user_app_access')
-        .select('*')
-        .eq('user_id', userId)
-        .eq('app_slug', appSlug)
-        .eq('is_active', true)
+        .from("user_app_access")
+        .select("*")
+        .eq("user_id", userId)
+        .eq("app_slug", appSlug)
+        .eq("is_active", true)
         .maybeSingle();
 
       if (error) {
-        console.error('Error checking user access:', error);
+        console.error("Error checking user access:", error);
         return false;
       }
 
@@ -79,7 +79,7 @@ export const purchaseService = {
 
       return true;
     } catch (error) {
-      console.error('Error in checkUserHasAccess:', error);
+      console.error("Error in checkUserHasAccess:", error);
       return false;
     }
   },
@@ -90,13 +90,13 @@ export const purchaseService = {
   async getUserPurchasedApps(userId: string): Promise<string[]> {
     try {
       const { data, error } = await supabase
-        .from('user_app_access')
-        .select('app_slug')
-        .eq('user_id', userId)
-        .eq('is_active', true);
+        .from("user_app_access")
+        .select("app_slug")
+        .eq("user_id", userId)
+        .eq("is_active", true);
 
       if (error) {
-        console.error('Error fetching user purchased apps:', error);
+        console.error("Error fetching user purchased apps:", error);
         return [];
       }
 
@@ -105,7 +105,7 @@ export const purchaseService = {
       }
 
       const appSlugs = data
-        .filter(access => {
+        .filter((access) => {
           if (access.expires_at) {
             const expiresAt = new Date(access.expires_at);
             const now = new Date();
@@ -113,11 +113,11 @@ export const purchaseService = {
           }
           return true;
         })
-        .map(access => access.app_slug);
+        .map((access) => access.app_slug);
 
       return appSlugs;
     } catch (error) {
-      console.error('Error in getUserPurchasedApps:', error);
+      console.error("Error in getUserPurchasedApps:", error);
       return [];
     }
   },
@@ -128,20 +128,20 @@ export const purchaseService = {
   async getUserAppAccessDetails(userId: string): Promise<UserAppAccess[]> {
     try {
       const { data, error } = await supabase
-        .from('user_app_access')
-        .select('*')
-        .eq('user_id', userId)
-        .eq('is_active', true)
-        .order('granted_at', { ascending: false });
+        .from("user_app_access")
+        .select("*")
+        .eq("user_id", userId)
+        .eq("is_active", true)
+        .order("granted_at", { ascending: false });
 
       if (error) {
-        console.error('Error fetching user app access details:', error);
+        console.error("Error fetching user app access details:", error);
         return [];
       }
 
       return (data as UserAppAccess[]) || [];
     } catch (error) {
-      console.error('Error in getUserAppAccessDetails:', error);
+      console.error("Error in getUserAppAccessDetails:", error);
       return [];
     }
   },
@@ -152,19 +152,19 @@ export const purchaseService = {
   async getAllUserPurchases(userId: string): Promise<Purchase[]> {
     try {
       const { data, error } = await supabase
-        .from('purchases')
-        .select('*')
-        .eq('user_id', userId)
-        .order('purchase_date', { ascending: false });
+        .from("purchases")
+        .select("*")
+        .eq("user_id", userId)
+        .order("purchase_date", { ascending: false });
 
       if (error) {
-        console.error('Error fetching user purchases:', error);
+        console.error("Error fetching user purchases:", error);
         return [];
       }
 
       return (data as Purchase[]) || [];
     } catch (error) {
-      console.error('Error in getAllUserPurchases:', error);
+      console.error("Error in getAllUserPurchases:", error);
       return [];
     }
   },
@@ -175,19 +175,19 @@ export const purchaseService = {
   async getPurchasesByEmail(email: string): Promise<Purchase[]> {
     try {
       const { data, error } = await supabase
-        .from('purchases')
-        .select('*')
-        .eq('email', email.toLowerCase())
-        .order('purchase_date', { ascending: false });
+        .from("purchases")
+        .select("*")
+        .eq("email", email.toLowerCase())
+        .order("purchase_date", { ascending: false });
 
       if (error) {
-        console.error('Error fetching purchases by email:', error);
+        console.error("Error fetching purchases by email:", error);
         return [];
       }
 
       return (data as Purchase[]) || [];
     } catch (error) {
-      console.error('Error in getPurchasesByEmail:', error);
+      console.error("Error in getPurchasesByEmail:", error);
       return [];
     }
   },
@@ -208,7 +208,7 @@ export const purchaseService = {
       paymentIntentId?: string;
       invoiceId?: string;
       customerId?: string;
-    }
+    },
   ): Promise<{ success: boolean; error?: string }> {
     try {
       const purchaseData: any = {
@@ -219,7 +219,7 @@ export const purchaseService = {
         product_name: productName,
         amount,
         currency,
-        status: 'completed',
+        status: "completed",
         purchase_date: new Date().toISOString(),
       };
 
@@ -230,38 +230,38 @@ export const purchaseService = {
       }
 
       const { data: purchase, error: purchaseError } = await supabase
-        .from('purchases')
+        .from("purchases")
         .insert(purchaseData)
         .select()
         .single();
 
       if (purchaseError) {
-        console.error('Error recording purchase:', purchaseError);
+        console.error("Error recording purchase:", purchaseError);
         return { success: false, error: purchaseError.message };
       }
 
       if (userId && appSlugs.length > 0) {
-        const accessRecords = appSlugs.map(appSlug => ({
+        const accessRecords = appSlugs.map((appSlug) => ({
           user_id: userId,
           app_slug: appSlug,
           purchase_id: purchase.id,
-          access_type: 'lifetime' as const,
+          access_type: "lifetime" as const,
           is_active: true,
         }));
 
         const { error: accessError } = await supabase
-          .from('user_app_access')
+          .from("user_app_access")
           .insert(accessRecords);
 
         if (accessError) {
-          console.error('Error granting app access:', accessError);
+          console.error("Error granting app access:", accessError);
           return { success: false, error: accessError.message };
         }
       }
 
       return { success: true };
     } catch (error: any) {
-      console.error('Error in recordPurchase:', error);
+      console.error("Error in recordPurchase:", error);
       return { success: false, error: error.message };
     }
   },
@@ -272,12 +272,12 @@ export const purchaseService = {
   async grantAppAccess(
     userId: string,
     appSlugs: string[],
-    accessType: 'subscription' | 'lifetime' | 'trial' = 'lifetime',
+    accessType: "subscription" | "lifetime" | "trial" = "lifetime",
     purchaseId?: string,
-    expiresAt?: Date
+    expiresAt?: Date,
   ): Promise<{ success: boolean; error?: string }> {
     try {
-      const accessRecords = appSlugs.map(appSlug => ({
+      const accessRecords = appSlugs.map((appSlug) => ({
         user_id: userId,
         app_slug: appSlug,
         purchase_id: purchaseId,
@@ -287,17 +287,17 @@ export const purchaseService = {
       }));
 
       const { error } = await supabase
-        .from('user_app_access')
+        .from("user_app_access")
         .insert(accessRecords);
 
       if (error) {
-        console.error('Error granting app access:', error);
+        console.error("Error granting app access:", error);
         return { success: false, error: error.message };
       }
 
       return { success: true };
     } catch (error: any) {
-      console.error('Error in grantAppAccess:', error);
+      console.error("Error in grantAppAccess:", error);
       return { success: false, error: error.message };
     }
   },
@@ -307,23 +307,23 @@ export const purchaseService = {
    */
   async revokeAppAccess(
     userId: string,
-    appSlug: string
+    appSlug: string,
   ): Promise<{ success: boolean; error?: string }> {
     try {
       const { error } = await supabase
-        .from('user_app_access')
+        .from("user_app_access")
         .update({ is_active: false, updated_at: new Date().toISOString() })
-        .eq('user_id', userId)
-        .eq('app_slug', appSlug);
+        .eq("user_id", userId)
+        .eq("app_slug", appSlug);
 
       if (error) {
-        console.error('Error revoking app access:', error);
+        console.error("Error revoking app access:", error);
         return { success: false, error: error.message };
       }
 
       return { success: true };
     } catch (error: any) {
-      console.error('Error in revokeAppAccess:', error);
+      console.error("Error in revokeAppAccess:", error);
       return { success: false, error: error.message };
     }
   },
@@ -334,19 +334,19 @@ export const purchaseService = {
   async getProductCatalog(): Promise<ProductCatalog[]> {
     try {
       const { data, error } = await supabase
-        .from('products_catalog')
-        .select('*')
-        .eq('is_active', true)
-        .order('name');
+        .from("products_catalog")
+        .select("*")
+        .eq("is_active", true)
+        .order("name");
 
       if (error) {
-        console.error('Error fetching product catalog:', error);
+        console.error("Error fetching product catalog:", error);
         return [];
       }
 
       return (data as ProductCatalog[]) || [];
     } catch (error) {
-      console.error('Error in getProductCatalog:', error);
+      console.error("Error in getProductCatalog:", error);
       return [];
     }
   },
@@ -357,20 +357,20 @@ export const purchaseService = {
   async getProductBySlug(slug: string): Promise<ProductCatalog | null> {
     try {
       const { data, error } = await supabase
-        .from('products_catalog')
-        .select('*')
-        .eq('slug', slug)
-        .eq('is_active', true)
+        .from("products_catalog")
+        .select("*")
+        .eq("slug", slug)
+        .eq("is_active", true)
         .maybeSingle();
 
       if (error) {
-        console.error('Error fetching product by slug:', error);
+        console.error("Error fetching product by slug:", error);
         return null;
       }
 
       return data as ProductCatalog | null;
     } catch (error) {
-      console.error('Error in getProductBySlug:', error);
+      console.error("Error in getProductBySlug:", error);
       return null;
     }
   },
@@ -381,20 +381,20 @@ export const purchaseService = {
   async hasAnyPurchases(userId: string): Promise<boolean> {
     try {
       const { data, error } = await supabase
-        .from('user_app_access')
-        .select('id')
-        .eq('user_id', userId)
-        .eq('is_active', true)
+        .from("user_app_access")
+        .select("id")
+        .eq("user_id", userId)
+        .eq("is_active", true)
         .limit(1);
 
       if (error) {
-        console.error('Error checking for purchases:', error);
+        console.error("Error checking for purchases:", error);
         return false;
       }
 
       return (data?.length || 0) > 0;
     } catch (error) {
-      console.error('Error in hasAnyPurchases:', error);
+      console.error("Error in hasAnyPurchases:", error);
       return false;
     }
   },
@@ -402,25 +402,29 @@ export const purchaseService = {
   /**
    * Get user purchases with product catalog details
    */
-  async getUserPurchasesWithProducts(userId: string): Promise<PurchaseWithProduct[]> {
+  async getUserPurchasesWithProducts(
+    userId: string,
+  ): Promise<PurchaseWithProduct[]> {
     try {
       const { data, error } = await supabase
-        .from('purchases')
-        .select(`
+        .from("purchases")
+        .select(
+          `
           *,
           product:products_catalog(*)
-        `)
-        .eq('user_id', userId)
-        .order('purchase_date', { ascending: false });
+        `,
+        )
+        .eq("user_id", userId)
+        .order("purchase_date", { ascending: false });
 
       if (error) {
-        console.error('Error fetching user purchases with products:', error);
+        console.error("Error fetching user purchases with products:", error);
         return [];
       }
 
       return (data as PurchaseWithProduct[]) || [];
     } catch (error) {
-      console.error('Error in getUserPurchasesWithProducts:', error);
+      console.error("Error in getUserPurchasesWithProducts:", error);
       return [];
     }
   },

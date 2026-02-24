@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { X, Eye, EyeOff, AlertCircle } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import React, { useState } from "react";
+
+import { X, Eye, EyeOff, AlertCircle } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface SignInModalProps {
   isOpen: boolean;
@@ -14,11 +19,15 @@ interface SignInModalProps {
   onSwitchToSignUp: () => void;
 }
 
-const SignInModal: React.FC<SignInModalProps> = ({ isOpen, onClose, onSwitchToSignUp }) => {
+const SignInModal: React.FC<SignInModalProps> = ({
+  isOpen,
+  onClose,
+  onSwitchToSignUp,
+}) => {
   const { signIn } = useAuth();
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,15 +46,16 @@ const SignInModal: React.FC<SignInModalProps> = ({ isOpen, onClose, onSwitchToSi
         onClose();
       }
     } catch (err) {
-      setError('An unexpected error occurred');
+      setError("An unexpected error occurred");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleInputChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({ ...prev, [field]: e.target.value }));
-  };
+  const handleInputChange =
+    (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+    };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -56,7 +66,10 @@ const SignInModal: React.FC<SignInModalProps> = ({ isOpen, onClose, onSwitchToSi
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <Alert variant="destructive" className="bg-red-500/20 border-red-500/50">
+            <Alert
+              variant="destructive"
+              className="bg-red-500/20 border-red-500/50"
+            >
               <AlertCircle className="h-5 w-5" />
               <AlertDescription>{error}</AlertDescription>
             </Alert>
@@ -70,7 +83,7 @@ const SignInModal: React.FC<SignInModalProps> = ({ isOpen, onClose, onSwitchToSi
               id="signin-email"
               type="email"
               value={formData.email}
-              onChange={handleInputChange('email')}
+              onChange={handleInputChange("email")}
               className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
               placeholder="your@email.com"
               required
@@ -84,9 +97,9 @@ const SignInModal: React.FC<SignInModalProps> = ({ isOpen, onClose, onSwitchToSi
             <div className="relative">
               <Input
                 id="signin-password"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 value={formData.password}
-                onChange={handleInputChange('password')}
+                onChange={handleInputChange("password")}
                 className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400 pr-12"
                 placeholder="Enter your password"
                 required
@@ -96,7 +109,11 @@ const SignInModal: React.FC<SignInModalProps> = ({ isOpen, onClose, onSwitchToSi
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors"
               >
-                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                {showPassword ? (
+                  <EyeOff className="h-5 w-5" />
+                ) : (
+                  <Eye className="h-5 w-5" />
+                )}
               </button>
             </div>
           </div>
@@ -106,7 +123,7 @@ const SignInModal: React.FC<SignInModalProps> = ({ isOpen, onClose, onSwitchToSi
             disabled={loading}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800"
           >
-            {loading ? 'Signing In...' : 'Sign In'}
+            {loading ? "Signing In..." : "Sign In"}
           </Button>
         </form>
 
@@ -118,7 +135,7 @@ const SignInModal: React.FC<SignInModalProps> = ({ isOpen, onClose, onSwitchToSi
             Forgot your password?
           </a>
           <p className="text-gray-400">
-            Don't have an account?{' '}
+            Don't have an account?{" "}
             <button
               onClick={() => {
                 onClose();

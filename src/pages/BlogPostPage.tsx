@@ -1,17 +1,28 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
-import { Link, useParams } from 'react-router-dom';
-import { ChevronLeft, Calendar, Clock, Twitter, Facebook, Linkedin, Copy, ArrowRight, MessageSquare } from 'lucide-react';
-import MagicSparkles from '../components/MagicSparkles';
+import React from "react";
+import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
+import { Link, useParams } from "react-router-dom";
+import {
+  ChevronLeft,
+  Calendar,
+  Clock,
+  Twitter,
+  Facebook,
+  Linkedin,
+  Copy,
+  ArrowRight,
+  MessageSquare,
+} from "lucide-react";
+import MagicSparkles from "../components/MagicSparkles";
 
 // Sample blog post data
 // In a real application, this would likely be fetched from an API
 const blogPosts = [
   {
-    id: 'ai-video-revolution',
-    title: 'How AI is Revolutionizing Video Creation in 2025',
-    excerpt: 'Discover how artificial intelligence is transforming the video production landscape and making professional video creation accessible to everyone.',
+    id: "ai-video-revolution",
+    title: "How AI is Revolutionizing Video Creation in 2025",
+    excerpt:
+      "Discover how artificial intelligence is transforming the video production landscape and making professional video creation accessible to everyone.",
     content: `
       <p>The landscape of video production has undergone a dramatic transformation in recent years, with artificial intelligence emerging as the driving force behind this revolution. As we move through 2025, the impact of AI on video creation continues to accelerate, democratizing what was once an exclusive domain requiring specialized skills, expensive equipment, and years of expertise.</p>
       
@@ -105,14 +116,16 @@ const blogPosts = [
       
       <p>As we look ahead, one thing is clear: the ability to create compelling video content is no longer limited by technical skill or resource constraints. It's limited only by creativity and vision—a truly revolutionary development for creators everywhere.</p>
     `,
-    category: 'Technology',
-    author: 'Sarah Johnson',
-    authorImage: 'https://randomuser.me/api/portraits/women/44.jpg',
-    authorBio: 'Sarah is the Head of Content at VideoRemix.vip with over 10 years of experience in digital media and video production.',
-    date: 'May 15, 2025',
-    readTime: '8 min read',
-    image: 'https://images.unsplash.com/photo-1616469829941-c7200edec809?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-    tags: ['AI', 'Video Production', 'Content Creation', 'Technology Trends']
+    category: "Technology",
+    author: "Sarah Johnson",
+    authorImage: "https://randomuser.me/api/portraits/women/44.jpg",
+    authorBio:
+      "Sarah is the Head of Content at VideoRemix.vip with over 10 years of experience in digital media and video production.",
+    date: "May 15, 2025",
+    readTime: "8 min read",
+    image:
+      "https://images.unsplash.com/photo-1616469829941-c7200edec809?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    tags: ["AI", "Video Production", "Content Creation", "Technology Trends"],
   },
   // Other blog posts would be defined here
 ];
@@ -122,45 +135,53 @@ const RelatedPosts = () => {
   // In a real app, you would filter these based on category, tags, etc.
   const relatedPosts = [
     {
-      id: 'video-marketing-tips',
-      title: '10 Video Marketing Tips to Boost Engagement and Conversions',
-      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
-      date: 'May 8, 2025'
+      id: "video-marketing-tips",
+      title: "10 Video Marketing Tips to Boost Engagement and Conversions",
+      image:
+        "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      date: "May 8, 2025",
     },
     {
-      id: 'content-repurposing',
-      title: 'Content Repurposing: Turn One Video into Multiple Content Pieces',
-      image: 'https://images.unsplash.com/photo-1592859600972-1b0834d83747?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
-      date: 'April 29, 2025'
+      id: "content-repurposing",
+      title: "Content Repurposing: Turn One Video into Multiple Content Pieces",
+      image:
+        "https://images.unsplash.com/photo-1592859600972-1b0834d83747?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      date: "April 29, 2025",
     },
     {
-      id: 'video-seo-guide',
-      title: 'The Ultimate Guide to Video SEO in 2025',
-      image: 'https://images.unsplash.com/photo-1607799279861-4dd421887fb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
-      date: 'April 22, 2025'
-    }
+      id: "video-seo-guide",
+      title: "The Ultimate Guide to Video SEO in 2025",
+      image:
+        "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      date: "April 22, 2025",
+    },
   ];
-  
+
   return (
     <div>
       <h3 className="text-2xl font-bold text-white mb-6">Related Articles</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {relatedPosts.map(post => (
-          <motion.div 
+        {relatedPosts.map((post) => (
+          <motion.div
             key={post.id}
             whileHover={{ y: -8 }}
             transition={{ duration: 0.3 }}
           >
-            <Link to={`/blog/${post.id}`} className="block bg-gray-800 rounded-lg overflow-hidden h-full border border-gray-700 hover:border-primary-500/50 transition-colors">
+            <Link
+              to={`/blog/${post.id}`}
+              className="block bg-gray-800 rounded-lg overflow-hidden h-full border border-gray-700 hover:border-primary-500/50 transition-colors"
+            >
               <div className="aspect-video">
-                <img 
-                  src={post.image} 
-                  alt={post.title} 
+                <img
+                  src={post.image}
+                  alt={post.title}
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="p-4">
-                <h4 className="text-lg font-semibold text-white mb-2 line-clamp-2">{post.title}</h4>
+                <h4 className="text-lg font-semibold text-white mb-2 line-clamp-2">
+                  {post.title}
+                </h4>
                 <p className="text-gray-400 text-sm">{post.date}</p>
               </div>
             </Link>
@@ -172,23 +193,25 @@ const RelatedPosts = () => {
 };
 
 const BlogPostPage: React.FC = () => {
-  const { postId } = useParams<{postId: string}>();
-  const post = blogPosts.find(post => post.id === postId);
-  
+  const { postId } = useParams<{ postId: string }>();
+  const post = blogPosts.find((post) => post.id === postId);
+
   // Helper function to copy current page URL
   const copyPageUrl = () => {
     navigator.clipboard.writeText(window.location.href);
     // In a real app, you would show a toast notification
-    alert('Link copied to clipboard!');
+    alert("Link copied to clipboard!");
   };
-  
+
   if (!post) {
     return (
       <div className="container mx-auto px-4 py-20 text-center">
         <h1 className="text-3xl font-bold text-white mb-6">Post Not Found</h1>
-        <p className="text-gray-300 mb-8">The article you're looking for doesn't exist or has been moved.</p>
-        <Link 
-          to="/blog" 
+        <p className="text-gray-300 mb-8">
+          The article you're looking for doesn't exist or has been moved.
+        </p>
+        <Link
+          to="/blog"
           className="inline-flex items-center bg-primary-600 text-white px-6 py-3 rounded-lg font-medium"
         >
           <ChevronLeft className="mr-2 h-5 w-5" />
@@ -203,13 +226,19 @@ const BlogPostPage: React.FC = () => {
       <Helmet>
         <title>{post.title} | VideoRemix.vip Blog</title>
         <meta name="description" content={post.excerpt} />
-        <meta property="og:title" content={`${post.title} | VideoRemix.vip Blog`} />
+        <meta
+          property="og:title"
+          content={`${post.title} | VideoRemix.vip Blog`}
+        />
         <meta property="og:description" content={post.excerpt} />
         <meta property="og:image" content={post.image} />
         <meta property="og:type" content="article" />
-        <meta property="article:published_time" content={new Date(post.date).toISOString()} />
+        <meta
+          property="article:published_time"
+          content={new Date(post.date).toISOString()}
+        />
         <meta property="article:author" content={post.author} />
-        {post.tags.map(tag => (
+        {post.tags.map((tag) => (
           <meta key={tag} property="article:tag" content={tag} />
         ))}
       </Helmet>
@@ -220,60 +249,63 @@ const BlogPostPage: React.FC = () => {
           <section className="relative mb-16">
             {/* Back button */}
             <div className="container mx-auto px-4 mb-8">
-              <Link 
-                to="/blog" 
+              <Link
+                to="/blog"
                 className="inline-flex items-center text-primary-400 hover:text-primary-300"
               >
                 <ChevronLeft className="mr-2 h-5 w-5" />
                 Back to all articles
               </Link>
             </div>
-            
+
             {/* Featured image */}
             <div className="relative h-[40vh] md:h-[50vh] mb-10">
               <div className="absolute inset-0">
-                <img 
-                  src={post.image} 
-                  alt={post.title} 
+                <img
+                  src={post.image}
+                  alt={post.title}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-gray-900/20"></div>
               </div>
-              
+
               <div className="absolute bottom-0 left-0 right-0 container mx-auto px-4 pb-8">
                 <div className="max-w-4xl">
                   <div className="flex flex-wrap gap-2 mb-4">
                     <span className="bg-primary-600/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm">
                       {post.category}
                     </span>
-                    {post.tags.map(tag => (
-                      <span key={tag} className="bg-gray-800/80 backdrop-blur-sm text-gray-300 px-3 py-1 rounded-full text-sm">
+                    {post.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="bg-gray-800/80 backdrop-blur-sm text-gray-300 px-3 py-1 rounded-full text-sm"
+                      >
                         {tag}
                       </span>
                     ))}
                   </div>
-                  
+
                   <MagicSparkles minSparkles={3} maxSparkles={6}>
                     <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
                       {post.title}
                     </h1>
                   </MagicSparkles>
-                  
+
                   <div className="flex flex-wrap items-center gap-6">
                     <div className="flex items-center">
-                      <img 
-                        src={post.authorImage} 
-                        alt={post.author} 
+                      <img
+                        src={post.authorImage}
+                        alt={post.author}
                         className="w-10 h-10 rounded-full mr-3 object-cover border-2 border-primary-500/30"
                       />
                       <span className="text-white">{post.author}</span>
                     </div>
-                    
+
                     <div className="flex items-center text-gray-400">
                       <Calendar className="h-4 w-4 mr-2" />
                       <span>{post.date}</span>
                     </div>
-                    
+
                     <div className="flex items-center text-gray-400">
                       <Clock className="h-4 w-4 mr-2" />
                       <span>{post.readTime}</span>
@@ -282,11 +314,11 @@ const BlogPostPage: React.FC = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Article Content */}
             <div className="container mx-auto px-4">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                <motion.div 
+                <motion.div
                   className="lg:col-span-8"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -294,9 +326,7 @@ const BlogPostPage: React.FC = () => {
                 >
                   {/* Social Sharing */}
                   <div className="flex items-center justify-between mb-8 pb-8 border-b border-gray-700">
-                    <div className="text-gray-300">
-                      Share this article:
-                    </div>
+                    <div className="text-gray-300">Share this article:</div>
                     <div className="flex space-x-3">
                       <motion.button
                         whileHover={{ scale: 1.1, y: -3 }}
@@ -333,82 +363,113 @@ const BlogPostPage: React.FC = () => {
                       </motion.button>
                     </div>
                   </div>
-                  
+
                   {/* Article content */}
                   <div className="prose prose-lg max-w-none prose-invert prose-headings:text-white prose-a:text-primary-400 prose-a:no-underline hover:prose-a:text-primary-300">
                     <div dangerouslySetInnerHTML={{ __html: post.content }} />
                   </div>
-                  
+
                   {/* Tags */}
                   <div className="mt-12 pt-6 border-t border-gray-700">
-                    <h3 className="text-white font-medium mb-3">Tagged with:</h3>
+                    <h3 className="text-white font-medium mb-3">
+                      Tagged with:
+                    </h3>
                     <div className="flex flex-wrap gap-2">
-                      {post.tags.map(tag => (
-                        <Link key={tag} to={`/blog?tag=${tag}`} className="bg-gray-800 text-gray-300 px-3 py-1 rounded-full text-sm hover:bg-primary-900/50 hover:text-primary-300 transition-colors">
+                      {post.tags.map((tag) => (
+                        <Link
+                          key={tag}
+                          to={`/blog?tag=${tag}`}
+                          className="bg-gray-800 text-gray-300 px-3 py-1 rounded-full text-sm hover:bg-primary-900/50 hover:text-primary-300 transition-colors"
+                        >
                           {tag}
                         </Link>
                       ))}
                     </div>
                   </div>
-                  
+
                   {/* Author Bio */}
                   <div className="mt-12 p-6 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg border border-gray-700">
                     <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-                      <img 
-                        src={post.authorImage} 
-                        alt={post.author} 
+                      <img
+                        src={post.authorImage}
+                        alt={post.author}
                         className="w-24 h-24 rounded-full object-cover border-2 border-primary-500/30"
                       />
                       <div>
-                        <h4 className="text-xl font-bold text-white mb-2">{post.author}</h4>
+                        <h4 className="text-xl font-bold text-white mb-2">
+                          {post.author}
+                        </h4>
                         <p className="text-gray-300 mb-4">{post.authorBio}</p>
                         <div className="flex space-x-3">
-                          <a href="#twitter" className="text-primary-400 hover:text-primary-300">
+                          <a
+                            href="#twitter"
+                            className="text-primary-400 hover:text-primary-300"
+                          >
                             <Twitter className="h-5 w-5" />
                           </a>
-                          <a href="#linkedin" className="text-primary-400 hover:text-primary-300">
+                          <a
+                            href="#linkedin"
+                            className="text-primary-400 hover:text-primary-300"
+                          >
                             <Linkedin className="h-5 w-5" />
                           </a>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Comments Section */}
                   <div className="mt-12">
                     <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
                       <MessageSquare className="h-5 w-5 mr-2" /> Comments (5)
                     </h3>
-                    
+
                     <div className="space-y-6">
                       {/* Comment Form */}
                       <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-                        <h4 className="text-white font-bold mb-4">Leave a comment</h4>
+                        <h4 className="text-white font-bold mb-4">
+                          Leave a comment
+                        </h4>
                         <div className="space-y-4">
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                              <label htmlFor="name" className="block text-gray-300 mb-1">Name</label>
-                              <input 
-                                type="text" 
-                                id="name" 
+                              <label
+                                htmlFor="name"
+                                className="block text-gray-300 mb-1"
+                              >
+                                Name
+                              </label>
+                              <input
+                                type="text"
+                                id="name"
                                 className="bg-gray-700 border border-gray-600 text-white rounded-lg w-full p-3 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                                 placeholder="Your name"
                               />
                             </div>
                             <div>
-                              <label htmlFor="email" className="block text-gray-300 mb-1">Email</label>
-                              <input 
-                                type="email" 
-                                id="email" 
+                              <label
+                                htmlFor="email"
+                                className="block text-gray-300 mb-1"
+                              >
+                                Email
+                              </label>
+                              <input
+                                type="email"
+                                id="email"
                                 className="bg-gray-700 border border-gray-600 text-white rounded-lg w-full p-3 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                                 placeholder="Your email"
                               />
                             </div>
                           </div>
                           <div>
-                            <label htmlFor="comment" className="block text-gray-300 mb-1">Comment</label>
-                            <textarea 
-                              id="comment" 
+                            <label
+                              htmlFor="comment"
+                              className="block text-gray-300 mb-1"
+                            >
+                              Comment
+                            </label>
+                            <textarea
+                              id="comment"
                               rows={4}
                               className="bg-gray-700 border border-gray-600 text-white rounded-lg w-full p-3 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                               placeholder="Share your thoughts..."
@@ -423,33 +484,46 @@ const BlogPostPage: React.FC = () => {
                           </motion.button>
                         </div>
                       </div>
-                      
+
                       {/* Sample Comments */}
                       {[...Array(3)].map((_, index) => (
-                        <div key={index} className="bg-gray-800/50 rounded-lg p-6 border border-gray-700">
+                        <div
+                          key={index}
+                          className="bg-gray-800/50 rounded-lg p-6 border border-gray-700"
+                        >
                           <div className="flex items-center mb-4">
-                            <img 
-                              src={`https://randomuser.me/api/portraits/${index % 2 ? 'women' : 'men'}/${20 + index}.jpg`} 
-                              alt="Commenter" 
+                            <img
+                              src={`https://randomuser.me/api/portraits/${index % 2 ? "women" : "men"}/${20 + index}.jpg`}
+                              alt="Commenter"
                               className="w-10 h-10 rounded-full mr-3 object-cover"
                             />
                             <div>
-                              <h5 className="text-white font-medium">John Doe</h5>
-                              <p className="text-gray-400 text-sm">May 18, 2025</p>
+                              <h5 className="text-white font-medium">
+                                John Doe
+                              </h5>
+                              <p className="text-gray-400 text-sm">
+                                May 18, 2025
+                              </p>
                             </div>
                           </div>
                           <p className="text-gray-300">
-                            This article was incredibly insightful! I've been struggling with traditional video editing software for years, and AI-powered tools are definitely the future. Can't wait to see how this technology evolves in the coming years.
+                            This article was incredibly insightful! I've been
+                            struggling with traditional video editing software
+                            for years, and AI-powered tools are definitely the
+                            future. Can't wait to see how this technology
+                            evolves in the coming years.
                           </p>
-                          <button className="mt-3 text-primary-400 text-sm hover:text-primary-300">Reply</button>
+                          <button className="mt-3 text-primary-400 text-sm hover:text-primary-300">
+                            Reply
+                          </button>
                         </div>
                       ))}
                     </div>
                   </div>
                 </motion.div>
-                
+
                 {/* Sidebar */}
-                <motion.div 
+                <motion.div
                   className="lg:col-span-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -458,28 +532,34 @@ const BlogPostPage: React.FC = () => {
                   {/* Author Card */}
                   <div className="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-8">
                     <div className="text-center mb-4">
-                      <img 
-                        src={post.authorImage} 
-                        alt={post.author} 
+                      <img
+                        src={post.authorImage}
+                        alt={post.author}
                         className="w-20 h-20 rounded-full mx-auto mb-3 object-cover border-2 border-primary-500/30"
                       />
-                      <h4 className="text-xl font-bold text-white">{post.author}</h4>
-                      <p className="text-gray-400 text-sm">Content Strategist</p>
+                      <h4 className="text-xl font-bold text-white">
+                        {post.author}
+                      </h4>
+                      <p className="text-gray-400 text-sm">
+                        Content Strategist
+                      </p>
                     </div>
                     <p className="text-gray-300 text-sm mb-4">
                       {post.authorBio}
                     </p>
-                    <Link 
-                      to="#author-profile" 
+                    <Link
+                      to="#author-profile"
                       className="block text-center text-primary-400 hover:text-primary-300 font-medium"
                     >
                       View Profile
                     </Link>
                   </div>
-                  
+
                   {/* Table of Contents */}
                   <div className="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-8 sticky top-24">
-                    <h4 className="text-white font-bold mb-4">Table of Contents</h4>
+                    <h4 className="text-white font-bold mb-4">
+                      Table of Contents
+                    </h4>
                     <nav className="space-y-2">
                       {[
                         "The Evolution of Video Creation",
@@ -487,11 +567,11 @@ const BlogPostPage: React.FC = () => {
                         "The Democratization of Video Production",
                         "The Technical Innovations Driving Change",
                         "Looking to the Future",
-                        "Conclusion"
+                        "Conclusion",
                       ].map((heading, index) => (
-                        <a 
-                          key={index} 
-                          href={`#${heading.toLowerCase().replace(/\s+/g, '-')}`} 
+                        <a
+                          key={index}
+                          href={`#${heading.toLowerCase().replace(/\s+/g, "-")}`}
                           className="block text-gray-300 hover:text-primary-400 transition-colors text-sm py-1 border-l-2 border-gray-700 hover:border-primary-400 pl-3"
                         >
                           {heading}
@@ -499,17 +579,20 @@ const BlogPostPage: React.FC = () => {
                       ))}
                     </nav>
                   </div>
-                  
+
                   {/* Newsletter */}
                   <div className="bg-gradient-to-br from-primary-900/40 to-primary-700/40 rounded-lg p-6 border border-primary-500/30 mb-8">
-                    <h4 className="text-white font-bold mb-4">Subscribe to our Newsletter</h4>
+                    <h4 className="text-white font-bold mb-4">
+                      Subscribe to our Newsletter
+                    </h4>
                     <p className="text-gray-300 text-sm mb-4">
-                      Get weekly insights and tips on video creation and AI technology.
+                      Get weekly insights and tips on video creation and AI
+                      technology.
                     </p>
                     <div className="space-y-3">
-                      <input 
-                        type="email" 
-                        placeholder="Your email address" 
+                      <input
+                        type="email"
+                        placeholder="Your email address"
                         className="bg-gray-700/80 border border-gray-600 text-white rounded-lg w-full p-3 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                       />
                       <motion.button
@@ -525,14 +608,14 @@ const BlogPostPage: React.FC = () => {
               </div>
             </div>
           </section>
-          
+
           {/* Related Posts */}
           <section className="py-16 bg-gradient-to-b from-transparent to-gray-900/50">
             <div className="container mx-auto px-4">
               <RelatedPosts />
             </div>
           </section>
-          
+
           {/* CTA Section */}
           <section className="py-16 bg-gradient-to-r from-primary-900/40 to-primary-700/40">
             <div className="container mx-auto px-4">
@@ -548,11 +631,12 @@ const BlogPostPage: React.FC = () => {
                     Ready to Transform Your Video Creation?
                   </h2>
                 </MagicSparkles>
-                
+
                 <p className="text-xl text-gray-300 mb-8">
-                  Experience the power of AI-driven video tools and create professional-quality content in minutes.
+                  Experience the power of AI-driven video tools and create
+                  professional-quality content in minutes.
                 </p>
-                
+
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}

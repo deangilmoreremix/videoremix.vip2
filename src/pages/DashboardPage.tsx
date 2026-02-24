@@ -1,19 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { motion } from 'framer-motion';
-import { User, Settings, Bell, LogOut, Zap, Video, Award, Sun, Moon, Menu, Home } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { toast } from '../components/ui/toast';
-import { useUserStats } from '../hooks/useUserStats';
-import { useDashboardPreferences } from '../hooks/useDashboardPreferences';
-import { useAchievements } from '../hooks/useAchievements';
-import DashboardToolsSection from '../components/dashboard/DashboardToolsSection';
-import DashboardPersonalizerSection from '../components/dashboard/DashboardPersonalizerSection';
-import DashboardContactSection from '../components/dashboard/DashboardContactSection';
-import EnhancedStatCard from '../components/dashboard/EnhancedStatCard';
-import OnboardingProgressTracker from '../components/dashboard/OnboardingProgressTracker';
-import MagicSparkles from '../components/MagicSparkles';
+import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+import { motion } from "framer-motion";
+import {
+  User,
+  Settings,
+  Bell,
+  LogOut,
+  Zap,
+  Video,
+  Award,
+  Sun,
+  Moon,
+  Menu,
+  Home,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { toast } from "../components/ui/toast";
+import { useUserStats } from "../hooks/useUserStats";
+import { useDashboardPreferences } from "../hooks/useDashboardPreferences";
+import { useAchievements } from "../hooks/useAchievements";
+import DashboardToolsSection from "../components/dashboard/DashboardToolsSection";
+import DashboardPersonalizerSection from "../components/dashboard/DashboardPersonalizerSection";
+import DashboardContactSection from "../components/dashboard/DashboardContactSection";
+import EnhancedStatCard from "../components/dashboard/EnhancedStatCard";
+import OnboardingProgressTracker from "../components/dashboard/OnboardingProgressTracker";
+import MagicSparkles from "../components/MagicSparkles";
 
 const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
@@ -21,22 +33,23 @@ const DashboardPage: React.FC = () => {
   const { stats, loading: statsLoading, error: statsError } = useUserStats();
   const { preferences, setTheme } = useDashboardPreferences();
   const { achievements, getRecentAchievements } = useAchievements();
-  const [greeting, setGreeting] = useState('');
+  const [greeting, setGreeting] = useState("");
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
 
   useEffect(() => {
     const hour = new Date().getHours();
-    if (hour < 12) setGreeting('Good morning');
-    else if (hour < 18) setGreeting('Good afternoon');
-    else setGreeting('Good evening');
+    if (hour < 12) setGreeting("Good morning");
+    else if (hour < 18) setGreeting("Good afternoon");
+    else setGreeting("Good evening");
   }, []);
 
-  const timeSavedPercentage = stats.activeDays > 0
-    ? Math.min(95, Math.floor((stats.activeDays / 30) * 100))
-    : 0;
+  const timeSavedPercentage =
+    stats.activeDays > 0
+      ? Math.min(95, Math.floor((stats.activeDays / 30) * 100))
+      : 0;
 
-  const userName = user?.email?.split('@')[0] || 'there';
+  const userName = user?.email?.split("@")[0] || "there";
   const recentAchievements = getRecentAchievements(3);
 
   const sparklineData = [
@@ -52,9 +65,9 @@ const DashboardPage: React.FC = () => {
     <>
       <Helmet>
         <title>Dashboard | VideoRemix.vip</title>
-        <meta 
-          name="description" 
-          content="Access your personalized VideoRemix.vip dashboard with all your favorite tools and account settings." 
+        <meta
+          name="description"
+          content="Access your personalized VideoRemix.vip dashboard with all your favorite tools and account settings."
         />
       </Helmet>
 
@@ -82,7 +95,8 @@ const DashboardPage: React.FC = () => {
                       animate={{ opacity: 1, x: 0 }}
                       className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2"
                     >
-                      {greeting}, <span className="text-primary-400">{userName}</span>! 👋
+                      {greeting},{" "}
+                      <span className="text-primary-400">{userName}</span>! 👋
                     </motion.h1>
                     <motion.p
                       initial={{ opacity: 0, x: -20 }}
@@ -98,16 +112,24 @@ const DashboardPage: React.FC = () => {
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      onClick={() => setTheme(preferences.theme === 'dark' ? 'light' : 'dark')}
+                      onClick={() =>
+                        setTheme(
+                          preferences.theme === "dark" ? "light" : "dark",
+                        )
+                      }
                       className="bg-gray-800 hover:bg-gray-700 text-white p-2 rounded-lg border border-gray-700 transition-colors"
                       title="Toggle theme"
                     >
-                      {preferences.theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                      {preferences.theme === "dark" ? (
+                        <Sun className="h-5 w-5" />
+                      ) : (
+                        <Moon className="h-5 w-5" />
+                      )}
                     </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      onClick={() => navigate('/profile')}
+                      onClick={() => navigate("/profile")}
                       className="hidden md:flex bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg items-center gap-2 border border-gray-700 transition-colors"
                     >
                       <User className="h-5 w-5" />
@@ -123,9 +145,9 @@ const DashboardPage: React.FC = () => {
                           const { error } = await signOut();
                           if (error) {
                             toast({
-                              title: 'Sign Out Failed',
+                              title: "Sign Out Failed",
                               description: error.message,
-                              variant: 'destructive'
+                              variant: "destructive",
                             });
                           }
                         } finally {
@@ -140,7 +162,7 @@ const DashboardPage: React.FC = () => {
                       ) : (
                         <LogOut className="h-5 w-5" />
                       )}
-                      <span>{signingOut ? 'Signing Out...' : 'Sign Out'}</span>
+                      <span>{signingOut ? "Signing Out..." : "Sign Out"}</span>
                     </motion.button>
                   </div>
                 </div>
@@ -156,8 +178,16 @@ const DashboardPage: React.FC = () => {
                     <div className="flex items-center gap-3">
                       <Award className="h-6 w-6 text-yellow-400 flex-shrink-0" />
                       <div className="flex-1">
-                        <p className="text-sm font-semibold text-white">Recent Achievement!</p>
-                        <p className="text-xs text-gray-300">You earned: {recentAchievements[0].achievement_type.replace('_', ' ')}</p>
+                        <p className="text-sm font-semibold text-white">
+                          Recent Achievement!
+                        </p>
+                        <p className="text-xs text-gray-300">
+                          You earned:{" "}
+                          {recentAchievements[0].achievement_type.replace(
+                            "_",
+                            " ",
+                          )}
+                        </p>
                       </div>
                     </div>
                   </motion.div>

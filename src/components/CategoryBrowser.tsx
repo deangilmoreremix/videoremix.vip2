@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 import {
   Video,
   Users,
@@ -9,75 +9,75 @@ import {
   Package,
   Sparkles,
   ArrowRight,
-  Lock
-} from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+  Lock,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 // Public categories that are visible to everyone
 const publicCategories = [
   {
-    id: 'video',
-    name: 'Video Creation',
-    description: 'AI-powered video tools for content creators',
+    id: "video",
+    name: "Video Creation",
+    description: "AI-powered video tools for content creators",
     icon: Video,
     public: true,
     featured: true,
-    appsCount: 8
+    appsCount: 8,
   },
   {
-    id: 'ai-image',
-    name: 'AI Image Generation',
-    description: 'Create stunning visuals with artificial intelligence',
+    id: "ai-image",
+    name: "AI Image Generation",
+    description: "Create stunning visuals with artificial intelligence",
     icon: ImageIcon,
     public: true,
     featured: true,
-    appsCount: 5
+    appsCount: 5,
   },
   {
-    id: 'marketing',
-    name: 'Marketing Tools',
-    description: 'Boost your marketing with AI-driven insights',
+    id: "marketing",
+    name: "Marketing Tools",
+    description: "Boost your marketing with AI-driven insights",
     icon: Users,
     public: false, // Requires login
     featured: true,
-    appsCount: 6
+    appsCount: 6,
   },
   {
-    id: 'branding',
-    name: 'Brand Design',
-    description: 'Professional branding tools for businesses',
+    id: "branding",
+    name: "Brand Design",
+    description: "Professional branding tools for businesses",
     icon: Palette,
     public: false, // Requires login
     featured: true,
-    appsCount: 4
+    appsCount: 4,
   },
   {
-    id: 'personalizer',
-    name: 'Content Personalization',
-    description: 'Tailor content for maximum engagement',
+    id: "personalizer",
+    name: "Content Personalization",
+    description: "Tailor content for maximum engagement",
     icon: UserCircle,
     public: true,
     featured: false,
-    appsCount: 3
+    appsCount: 3,
   },
   {
-    id: 'creative',
-    name: 'Creative Suite',
-    description: 'Complete toolkit for creative professionals',
+    id: "creative",
+    name: "Creative Suite",
+    description: "Complete toolkit for creative professionals",
     icon: Package,
     public: false, // Requires login
     featured: false,
-    appsCount: 12
-  }
+    appsCount: 12,
+  },
 ];
 
 const CategoryBrowser: React.FC = () => {
   const { user } = useAuth();
 
   // Filter categories based on user access
-  const visibleCategories = publicCategories.filter(category =>
-    category.public || user
+  const visibleCategories = publicCategories.filter(
+    (category) => category.public || user,
   );
 
   return (
@@ -93,7 +93,8 @@ const CategoryBrowser: React.FC = () => {
           >
             Explore Our
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-purple-400">
-              {" "}Tool Categories
+              {" "}
+              Tool Categories
             </span>
           </motion.h2>
           <motion.p
@@ -102,7 +103,8 @@ const CategoryBrowser: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-lg text-gray-400 max-w-2xl mx-auto"
           >
-            Discover tools organized by category. Find exactly what you need for your creative projects.
+            Discover tools organized by category. Find exactly what you need for
+            your creative projects.
           </motion.p>
         </div>
 
@@ -120,21 +122,25 @@ const CategoryBrowser: React.FC = () => {
                 transition={{ duration: 0.6, delay: 0.1 * index }}
                 className={`group relative bg-gray-800/50 backdrop-blur-sm rounded-xl border transition-all duration-300 overflow-hidden ${
                   isLocked
-                    ? 'border-gray-700/50 opacity-75'
-                    : 'border-gray-700/50 hover:border-primary-500/50 hover:shadow-lg hover:shadow-primary-500/10'
+                    ? "border-gray-700/50 opacity-75"
+                    : "border-gray-700/50 hover:border-primary-500/50 hover:shadow-lg hover:shadow-primary-500/10"
                 }`}
               >
                 <div className="p-6">
                   {/* Icon and Badge */}
                   <div className="flex items-center justify-between mb-4">
-                    <div className={`p-3 rounded-lg ${
-                      isLocked
-                        ? 'bg-gray-700/50'
-                        : 'bg-primary-500/10 group-hover:bg-primary-500/20'
-                    } transition-colors`}>
-                      <IconComponent className={`h-6 w-6 ${
-                        isLocked ? 'text-gray-500' : 'text-primary-400'
-                      }`} />
+                    <div
+                      className={`p-3 rounded-lg ${
+                        isLocked
+                          ? "bg-gray-700/50"
+                          : "bg-primary-500/10 group-hover:bg-primary-500/20"
+                      } transition-colors`}
+                    >
+                      <IconComponent
+                        className={`h-6 w-6 ${
+                          isLocked ? "text-gray-500" : "text-primary-400"
+                        }`}
+                      />
                     </div>
 
                     <div className="flex items-center space-x-2">
@@ -144,16 +150,18 @@ const CategoryBrowser: React.FC = () => {
                           Featured
                         </span>
                       )}
-                      {isLocked && (
-                        <Lock className="h-4 w-4 text-gray-500" />
-                      )}
+                      {isLocked && <Lock className="h-4 w-4 text-gray-500" />}
                     </div>
                   </div>
 
                   {/* Content */}
-                  <h3 className={`text-lg font-semibold mb-2 ${
-                    isLocked ? 'text-gray-400' : 'text-white group-hover:text-primary-400'
-                  } transition-colors`}>
+                  <h3
+                    className={`text-lg font-semibold mb-2 ${
+                      isLocked
+                        ? "text-gray-400"
+                        : "text-white group-hover:text-primary-400"
+                    } transition-colors`}
+                  >
                     {category.name}
                   </h3>
 
@@ -210,7 +218,8 @@ const CategoryBrowser: React.FC = () => {
                 Unlock All Categories
               </h3>
               <p className="text-gray-400 mb-6">
-                Sign in to access our complete toolkit including marketing tools, branding suites, and advanced creative features.
+                Sign in to access our complete toolkit including marketing
+                tools, branding suites, and advanced creative features.
               </p>
               <Link
                 to="/sign-in"

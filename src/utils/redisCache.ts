@@ -10,7 +10,11 @@ interface CacheEntry<T> {
 // Redis client interface for caching
 interface RedisCacheClient {
   get(key: string): Promise<string | null>;
-  set(key: string, value: string, options?: { ex?: number }): Promise<string | null>;
+  set(
+    key: string,
+    value: string,
+    options?: { ex?: number },
+  ): Promise<string | null>;
   del(key: string): Promise<number>;
   exists(key: string): Promise<number>;
   expire(key: string, seconds: number): Promise<number>;
@@ -26,15 +30,19 @@ class RedisCache {
   constructor() {
     this.initializeCache();
     // Clean up expired in-memory entries every 5 minutes
-    this.cleanupInterval = setInterval(() => {
-      this.cleanup();
-    }, 5 * 60 * 1000);
+    this.cleanupInterval = setInterval(
+      () => {
+        this.cleanup();
+      },
+      5 * 60 * 1000,
+    );
   }
 
   private async initializeCache(): Promise<void> {
     try {
       // Try to import Redis client for Deno
-      const { createClient } = await import("https://deno.land/x/redis@v0.32.0/mod.ts");
+      const { createClient } =
+        await import("https://deno.land/x/redis@v0.32.0/mod.ts");
 
       const redisUrl = Deno.env.get("REDIS_URL");
       if (!redisUrl) {
@@ -53,7 +61,10 @@ class RedisCache {
       this.isConnected = true;
       console.log("Redis cache client connected successfully");
     } catch (error) {
-      console.warn("Failed to connect to Redis for caching, using in-memory cache:", error.message);
+      console.warn(
+        "Failed to connect to Redis for caching, using in-memory cache:",
+        error.message,
+      );
     }
   }
 
@@ -96,7 +107,7 @@ class RedisCache {
     const entry: CacheEntry<T> = {
       data: value,
       timestamp: Date.now(),
-      ttl: ttlSeconds * 1000
+      ttl: ttlSeconds * 1000,
     };
 
     if (this.isConnected && this.client) {
@@ -153,12 +164,12 @@ class RedisCache {
   getStats(): { redisConnected: boolean; inMemoryEntries: number } {
     return {
       redisConnected: this.isConnected,
-      inMemoryEntries: this.inMemoryCache.size
+      inMemoryEntries: this.inMemoryCache.size,
     };
   }
 
   async disconnect(): Promise<void> {
-    if (this.client && typeof this.client.quit === 'function') {
+    if (this.client && typeof this.client.quit === "function") {
       try {
         await this.client.quit();
       } catch (error) {
@@ -180,8 +191,8 @@ export const redisCache = new RedisCache();
 // Cache key generators
 export const cacheKeys = {
   userAnalytics: (userId: string) => `admin:analytics:${userId}`,
-  dashboardStats: () => 'admin:dashboard:stats',
-  announcements: () => 'admin:announcements',
+  dashboardStats: () => "admin:dashboard:stats",
+  announcements: () => "admin:announcements",
   userList: (page: number, limit: number) => `admin:users:${page}:${limit}`,
   appAccess: (userId: string) => `user:app_access:${userId}`,
 };
