@@ -3,16 +3,9 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { featuresData } from "../data/featuresData";
-import {
-  ChevronRight,
-  Sparkles,
-  ArrowRight,
-  Filter,
-  Search,
-  X,
-  Check,
-} from "lucide-react";
+import { ChevronRight, Sparkles, ArrowRight, ListFilter as Filter, Search, X, Check } from "lucide-react";
 import MagicSparkles from "../components/MagicSparkles";
+import { FeatureThumbnail } from "../components/FeatureThumbnail";
 
 // Additional features not covered in featuresData
 const additionalFeatures = [
@@ -330,44 +323,14 @@ const FeatureListPage: React.FC = () => {
                     onMouseLeave={() => setHoveredFeature(null)}
                   >
                     {/* Feature image */}
-                    {feature.image ? (
-                      <div className="relative aspect-video overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10"></div>
-                        <img
-                          src={feature.image}
-                          alt={feature.title}
-                          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                        />
-
-                        {/* Icon overlay */}
-                        <div className="absolute top-4 left-4 z-20 bg-black/40 backdrop-blur-sm p-2 rounded-lg">
-                          <div className="text-primary-400">{feature.icon}</div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-gray-700 to-gray-900">
-                        <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent/20 z-10"></div>
-
-                        {/* Centered icon for features without images */}
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="text-primary-400 text-6xl">
-                            {typeof feature.icon === "string" ? (
-                              feature.icon
-                            ) : feature.icon ? (
-                              feature.icon
-                            ) : (
-                              <Sparkles className="h-16 w-16" />
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Category badge */}
-                        <div className="absolute top-4 left-4 z-20 bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full text-xs text-primary-300">
-                          {categories.find((c) => c.id === feature.category)
-                            ?.name || "Feature"}
-                        </div>
-                      </div>
-                    )}
+                    <div className="relative aspect-video overflow-hidden">
+                      <FeatureThumbnail
+                        featureId={feature.id}
+                        icon={feature.icon}
+                        className="transform group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none"></div>
+                    </div>
 
                     <div className="p-6 relative z-20">
                       <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-primary-400 transition-colors break-words">

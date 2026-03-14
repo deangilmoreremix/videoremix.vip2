@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Video, FileText, Sparkles, ArrowRight, Wand2 } from "lucide-react";
+import { Video, FileText, Sparkles, ArrowRight, Wand as Wand2 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import usePurchases from "../../hooks/usePurchases";
 import { useApps } from "../../hooks/useApps";
 import MagicSparkles from "../MagicSparkles";
+import { AppThumbnail } from "../AppThumbnail";
 
 // Helper function to get app URL
 const getAppUrl = (appId: string, apps: any[]) => {
@@ -95,10 +96,12 @@ const DashboardPersonalizerSection: React.FC = () => {
               >
                 <a href={getAppUrl(app.id, appsData)} className="block">
                   <div className="relative h-[180px]">
-                    <img
-                      src={app.image}
-                      alt={app.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    <AppThumbnail
+                      id={app.id}
+                      name={app.name}
+                      category={app.category}
+                      icon={app.icon}
+                      className="group-hover:scale-105 transition-transform duration-300"
                     />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>

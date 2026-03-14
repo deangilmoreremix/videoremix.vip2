@@ -8,7 +8,7 @@ import FeatureStats from "../../components/FeatureStats";
 import FeatureTestimonials from "../../components/FeatureTestimonials";
 import FeatureFAQ from "../../components/FeatureFAQ";
 import FeatureCTA from "../../components/FeatureCTA";
-import { Wand2 } from "lucide-react";
+import { Wand as Wand2 } from "lucide-react";
 import PageNavigation from "../../components/PageNavigation";
 
 const AIEditingPage: React.FC = () => {
@@ -64,6 +64,7 @@ const AIEditingPage: React.FC = () => {
           title={feature.title}
           description={feature.description}
           image={feature.image}
+          featureId={feature.id}
           icon={React.createElement(Wand2)}
           videoUrl={feature.videoUrl}
         />

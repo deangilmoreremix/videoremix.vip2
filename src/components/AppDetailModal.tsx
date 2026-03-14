@@ -17,6 +17,7 @@ import { useAuth } from "../context/AuthContext";
 import { useUserAccess } from "../hooks/useUserAccess";
 import { getEnhancedAppData } from "../data/enhancedAppsData";
 import PurchaseModal from "./PurchaseModal";
+import { AppThumbnail } from "./AppThumbnail";
 
 interface AppDetailModalProps {
   app: any;
@@ -80,11 +81,14 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
             >
               {/* Header */}
               <div className="relative h-64 bg-gradient-to-br from-primary-600 to-primary-800">
-                <img
-                  src={app.image}
-                  alt={app.name}
-                  className="w-full h-full object-cover opacity-20"
-                />
+                <div className="w-full h-full opacity-20">
+                  <AppThumbnail
+                    id={app.id}
+                    name={app.name}
+                    category={app.category}
+                    icon={app.icon}
+                  />
+                </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
                 {/* Close button */}

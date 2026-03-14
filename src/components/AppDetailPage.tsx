@@ -37,6 +37,7 @@ import { useUserAccess } from "../hooks/useUserAccess";
 import { getEnhancedAppData } from "../data/enhancedAppsData";
 import { getAppUrl, isExternalUrl } from "../config/appUrls";
 import PurchaseModal from "./PurchaseModal";
+import { AppThumbnail } from "./AppThumbnail";
 
 // Floating Icon component to add visual interest
 const FloatingIcon: React.FC<{
@@ -572,11 +573,14 @@ const AppDetailPage: React.FC = () => {
                   }}
                 />
 
-                <img
-                  src={app.demoImage || app.image}
-                  alt={app.name}
-                  className="w-full aspect-video object-cover rounded-lg relative z-10"
-                />
+                <div className="w-full aspect-video rounded-lg relative z-10 overflow-hidden">
+                  <AppThumbnail
+                    id={app.id}
+                    name={app.name}
+                    category={app.category}
+                    icon={app.icon}
+                  />
+                </div>
 
                 {/* Floating icons specific to the current app type */}
                 <motion.div
@@ -1750,11 +1754,12 @@ const AppDetailPage: React.FC = () => {
                   }}
                 />
 
-                <div className="aspect-video relative z-10">
-                  <img
-                    src={app.demoImage || app.image}
-                    alt={`${app.name} Demo`}
-                    className="w-full h-full object-cover"
+                <div className="aspect-video relative z-10 overflow-hidden">
+                  <AppThumbnail
+                    id={app.id}
+                    name={app.name}
+                    category={app.category}
+                    icon={app.icon}
                   />
                   <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
                     <motion.button
@@ -2109,10 +2114,12 @@ const AppDetailPage: React.FC = () => {
 
                   {/* App image with animated hover effect */}
                   <div className="aspect-video overflow-hidden">
-                    <img
-                      src={relatedApp.image}
-                      alt={relatedApp.name}
-                      className="w-full h-full object-cover transform transition-transform duration-700 ease-in-out group-hover:scale-110"
+                    <AppThumbnail
+                      id={relatedApp.id}
+                      name={relatedApp.name}
+                      category={relatedApp.category}
+                      icon={relatedApp.icon}
+                      className="transform transition-transform duration-700 ease-in-out group-hover:scale-110"
                     />
                   </div>
 

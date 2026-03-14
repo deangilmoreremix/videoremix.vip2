@@ -64,6 +64,7 @@ const AIVideoCreatorPage: React.FC = () => {
           title={feature.title}
           description={feature.description}
           image={feature.image}
+          featureId={feature.id}
           icon={React.createElement(Video)}
           videoUrl={feature.videoUrl}
         />

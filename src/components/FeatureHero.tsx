@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import MagicSparkles from "./MagicSparkles";
+import { FeatureThumbnail } from "./FeatureThumbnail";
 
 interface FeatureHeroProps {
   title: string;
@@ -10,6 +11,7 @@ interface FeatureHeroProps {
   image: string;
   icon: React.ReactNode;
   videoUrl?: string;
+  featureId?: string;
 }
 
 const FeatureHero: React.FC<FeatureHeroProps> = ({
@@ -18,6 +20,7 @@ const FeatureHero: React.FC<FeatureHeroProps> = ({
   image,
   icon,
   videoUrl,
+  featureId,
 }) => {
   return (
     <section className="pt-32 pb-20 relative overflow-hidden">
@@ -159,12 +162,16 @@ const FeatureHero: React.FC<FeatureHeroProps> = ({
                 boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.4)",
               }}
             >
-              <motion.div className="rounded-lg overflow-hidden">
-                <img
-                  src={image}
-                  alt={title}
-                  className="w-full object-cover rounded-lg aspect-video"
-                />
+              <motion.div className="rounded-lg overflow-hidden aspect-video">
+                {featureId ? (
+                  <FeatureThumbnail featureId={featureId} icon={icon} />
+                ) : (
+                  <img
+                    src={image}
+                    alt={title}
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </motion.div>
 
               {/* Play button overlay (if video available) */}

@@ -10,6 +10,7 @@ import { useApps } from "../../hooks/useApps";
 import LockedAppOverlay from "../LockedAppOverlay";
 import PurchaseModal from "../PurchaseModal";
 import LazyIcon from "../LazyIcon";
+import { AppThumbnail } from "../AppThumbnail";
 
 // Define TrendingUp component
 const TrendingUp: React.FC<{ className?: string }> = (props) => (
@@ -79,15 +80,6 @@ const featuredApps = [
   "rebrander-ai",
 ];
 
-// Fallback image URLs to use when an app image fails to load
-const fallbackImages = [
-  "https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?auto=compress&cs=tinysrgb&w=800",
-];
-
 // Personalization benefits
 const personalizationBenefits = [
   {
@@ -153,8 +145,6 @@ const DashboardToolsSection: React.FC = () => {
     triggerOnce: true,
   });
 
-  // Image loading error handling state
-  const [imageErrors, setImageErrors] = useState<Record<string, number>>({});
 
   // Update filtered tools when category, search query, or access data change
   useEffect(() => {
@@ -212,31 +202,6 @@ const DashboardToolsSection: React.FC = () => {
 
     setFilteredApps(result);
   }, [selectedCategory, searchQuery, sortOrder, user, accessData, appsData]);
-
-  // Handle image load errors
-  const handleImageError = (appId: string) => {
-    setImageErrors((prev) => {
-      // Get the current error count or 0 if first error
-      const currentErrorCount = prev[appId] || 0;
-
-      // Increment error count for this app
-      return {
-        ...prev,
-        [appId]: currentErrorCount + 1,
-      };
-    });
-  };
-
-  // Get a fallback image URL based on app ID
-  const getFallbackImage = (appId: string, errorCount: number = 0) => {
-    // Start with a deterministic fallback based on app ID
-    const index = appId.charCodeAt(0) % fallbackImages.length;
-
-    // If multiple errors, cycle through fallbacks
-    const adjustedIndex = (index + errorCount) % fallbackImages.length;
-
-    return fallbackImages[adjustedIndex];
-  };
 
   // Scroll helpers
   const scrollLeft10Percent = () => {
@@ -518,15 +483,12 @@ const DashboardToolsSection: React.FC = () => {
 
                     {/* App image */}
                     <div className="w-full aspect-video">
-                      <img
-                        src={
-                          imageErrors[app.id]
-                            ? getFallbackImage(app.id, imageErrors[app.id])
-                            : app.image
-                        }
-                        alt={app.name}
-                        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out"
-                        onError={() => handleImageError(app.id)}
+                      <AppThumbnail
+                        id={app.id}
+                        name={app.name}
+                        category={app.category}
+                        icon={app.icon}
+                        className="transform group-hover:scale-105 transition-transform duration-700 ease-in-out"
                       />
 
                       {/* Gradient overlay */}
@@ -774,15 +736,11 @@ const DashboardToolsSection: React.FC = () => {
                       onClick={handleClick}
                     >
                       <div className="relative h-[160px]">
-                        <img
-                          src={
-                            imageErrors[app.id]
-                              ? getFallbackImage(app.id, imageErrors[app.id])
-                              : app.image
-                          }
-                          alt={app.name}
-                          className="w-full h-full object-cover"
-                          onError={() => handleImageError(app.id)}
+                        <AppThumbnail
+                          id={app.id}
+                          name={app.name}
+                          category={app.category}
+                          icon={app.icon}
                         />
 
                         {/* Overlay with personalization focus */}
@@ -900,19 +858,11 @@ const DashboardToolsSection: React.FC = () => {
                         }
                       >
                         <div className="relative h-full">
-                          <img
-                            src={
-                              imageErrors[app.id]
-                                ? getFallbackImage(app.id, imageErrors[app.id])
-                                : app.image
-                            }
-                            alt={app.name}
-                            className={`object-cover ${
-                              viewMode === "grid"
-                                ? "w-full h-full"
-                                : "w-32 h-full"
-                            }`}
-                            onError={() => handleImageError(app.id)}
+                          <AppThumbnail
+                            id={app.id}
+                            name={app.name}
+                            category={app.category}
+                            icon={app.icon}
                           />
 
                           {/* Personalization marker */}
