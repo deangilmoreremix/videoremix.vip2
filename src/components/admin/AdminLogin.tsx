@@ -297,7 +297,7 @@ const AdminLogin: React.FC = () => {
                   value={formData.email}
                   onChange={handleInputChange("email")}
                   onBlur={handleBlur("email")}
-                  className={`w-full bg-gray-700 border rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+                  className={`w-full bg-gray-700 border rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors ${
                     fieldErrors.email ? "border-blue-500" : "border-gray-600"
                   }`}
                   placeholder="admin@videoremix.vip"
@@ -335,7 +335,7 @@ const AdminLogin: React.FC = () => {
                     value={formData.password}
                     onChange={handleInputChange("password")}
                     onBlur={handleBlur("password")}
-                    className={`w-full bg-gray-700 border rounded-lg px-4 py-3 pr-12 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+                    className={`w-full bg-gray-700 border rounded-lg px-4 py-3 pr-12 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors ${
                       fieldErrors.password
                         ? "border-blue-500"
                         : "border-gray-600"
@@ -353,7 +353,7 @@ const AdminLogin: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-700 rounded"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-700 rounded"
                     disabled={isLoading}
                     aria-label={
                       showPassword ? "Hide password" : "Show password"
@@ -451,7 +451,7 @@ const AdminLogin: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoading || !!lockoutUntil}
-                className="w-full bg-blue-600 hover:bg-red-700 disabled:bg-red-800 disabled:opacity-50 text-white py-3 px-4 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:cursor-not-allowed"
+                className="w-full bg-primary-600 hover:bg-primary-700 disabled:bg-primary-800 disabled:opacity-50 text-white py-3 px-4 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:cursor-not-allowed"
                 aria-describedby={lockoutUntil ? "lockout-info" : undefined}
               >
                 {isLoading ? (

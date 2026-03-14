@@ -101,13 +101,19 @@ export function useAsyncOperation<T, P extends unknown[] = []>(
   const [retryAttempt, setRetryAttempt] = useState(0);
 
   // Track in-flight requests to prevent duplicates
+  // Note: requestIdRef is intentionally incremented in cleanup to cancel in-flight requests on unmount.
+  // The ref value changing between render and cleanup is expected behavior for request cancellation.
   const requestIdRef = useRef(0);
   const lastParamsRef = useRef<P | null>(null);
   const isExecutingRef = useRef(false);
 
-  // Cleanup on unmount
+  // Cleanup on unmount - cancels any in-flight requests
   useEffect(() => {
     return () => {
+      // Intentionally increment to cancel in-flight requests on unmount.
+      // The ref value changing is expected behavior for request cancellation.
+      // We WANT the latest value to cancel any requests that started before unmount.
+       
       requestIdRef.current++;
       isExecutingRef.current = false;
     };
@@ -231,12 +237,29 @@ export function useAsyncOperation<T, P extends unknown[] = []>(
 }
 
 /**
- * Simplified hook for data fetching with automatic loading states
+ * Simplified hook for data fetching with automatic loading states.
+ * 
+ * Uses a ref pattern to avoid stale closure issues with the dependencies array.
+ * The result ref is updated on each render to ensure the latest execute function
+ * is called when dependencies change, without triggering infinite re-renders.
+ * 
+ * @param fetchFn - The async function to call for data fetching
+ * @param options - Configuration options including dependencies array
+ * 
+ * @example
+ * ```tsx
+ * // Basic usage - fetches on mount
+ * const { data, isLoading, error, refetch } = useDataFetch(() => fetchUsers());
+ * 
+ * // With dependencies - refetches when userId changes
+ * const { data } = useDataFetch(() => fetchUser(userId), { dependencies: [userId] });
+ * ```
  */
 export function useDataFetch<T>(
   fetchFn: () => Promise<T>,
   options: Omit<AsyncOptions<T>, 'preventDuplicates'> & { 
     preventDuplicates?: boolean;
+    /** Dependencies array - will refetch when these values change */
     dependencies?: unknown[];
   } = {}
 ): AsyncOperationResult<T, []> & { refetch: () => Promise<T | null> } {
@@ -248,11 +271,18 @@ export function useDataFetch<T>(
     preventDuplicates: true,
   });
 
+  // Store result in a ref to avoid stale closure issues
+  // This allows us to call the latest execute function without adding it to dependencies
+  const resultRef = useRef(result);
+  resultRef.current = result;
+
   // Re-fetch when dependencies change
+  // Using ref to avoid including result.execute in dependencies (which would cause infinite loops)
   useEffect(() => {
     if (dependencies.length > 0) {
-      result.execute();
+      resultRef.current.execute();
     }
+     
   }, dependencies);
 
   return {
@@ -262,8 +292,25 @@ export function useDataFetch<T>(
 }
 
 /**
- * Hook for mutations (operations that modify data)
- * Includes double-submit prevention
+ * Hook for mutations (operations that modify data).
+ * Includes double-submit prevention by default.
+ * 
+ * @param mutationFn - The async mutation function
+ * @param options - Configuration options
+ * 
+ * @example
+ * ```tsx
+ * const { execute, isLoading, canSubmit, isError } = useMutation(
+ *   async (data: FormData) => {
+ *     return await api.submitForm(data);
+ *   }
+ * );
+ * 
+ * // In your form submit handler:
+ * <button onClick={() => execute(formData)} disabled={!canSubmit}>
+ *   {isLoading ? 'Saving...' : 'Submit'}
+ * </button>
+ * ```
  */
 export function useMutation<T, P extends unknown[] = []>(
   mutationFn: (...params: P) => Promise<T>,

@@ -229,7 +229,7 @@ const AdminVideosManagement: React.FC = () => {
         </div>
         <button
           onClick={() => handleOpenModal()}
-          className="flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="flex items-center px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Video
@@ -336,7 +336,7 @@ const AdminVideosManagement: React.FC = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, title: e.target.value })
                   }
-                  className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-primary-500"
                   required
                 />
               </div>
@@ -349,7 +349,7 @@ const AdminVideosManagement: React.FC = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, description: e.target.value })
                   }
-                  className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-primary-500"
                   rows={3}
                 />
               </div>
@@ -363,7 +363,7 @@ const AdminVideosManagement: React.FC = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, url: e.target.value })
                   }
-                  className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-primary-500"
                   required
                 />
               </div>
@@ -377,7 +377,7 @@ const AdminVideosManagement: React.FC = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, thumbnail_url: e.target.value })
                   }
-                  className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-primary-500"
                 />
               </div>
               <div>
@@ -393,7 +393,7 @@ const AdminVideosManagement: React.FC = () => {
                       duration: parseInt(e.target.value),
                     })
                   }
-                  className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-primary-500"
                 />
               </div>
               <div className="flex items-center">
@@ -417,7 +417,7 @@ const AdminVideosManagement: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                  className="flex-1 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors"
                 >
                   {editingVideo ? "Update" : "Create"}
                 </button>

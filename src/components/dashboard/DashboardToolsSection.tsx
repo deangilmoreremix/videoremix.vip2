@@ -537,7 +537,7 @@ const DashboardToolsSection: React.FC = () => {
                           </span>
                         )}
                         {app.new && (
-                          <span className="bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">
+                          <span className="bg-primary-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">
                             NEW
                           </span>
                         )}
@@ -838,7 +838,7 @@ const DashboardToolsSection: React.FC = () => {
                             </span>
                           )}
                           {app.new && (
-                            <span className="bg-blue-500 text-white text-xs px-2 py-0.5 rounded font-bold">
+                            <span className="bg-primary-500 text-white text-xs px-2 py-0.5 rounded font-bold">
                               NEW
                             </span>
                           )}
@@ -965,7 +965,7 @@ const DashboardToolsSection: React.FC = () => {
                               </div>
                             )}
                             {app.new && (
-                              <div className="bg-blue-500 text-xs text-white px-1.5 py-0.5 rounded font-bold">
+                              <div className="bg-primary-500 text-xs text-white px-1.5 py-0.5 rounded font-bold">
                                 NEW
                               </div>
                             )}

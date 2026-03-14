@@ -528,7 +528,7 @@ const ToolsCarouselSection: React.FC = () => {
                             {tool.name}
                           </h3>
                           {tool.new && (
-                            <span className="bg-blue-600/70 text-white text-xs px-2 py-0.5 rounded">
+                            <span className="bg-primary-600 text-white text-xs px-2 py-0.5 rounded">
                               NEW
                             </span>
                           )}

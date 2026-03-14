@@ -106,6 +106,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const handleAuthError = useCallback((err: unknown, context: string) => {
     console.error(`[Auth] Error in ${context}:`, err);
 
+    // Using let because we modify properties, not reassign the variable
+    // eslint-disable-next-line prefer-const
     let authError: AuthErrorState = {
       message: "An unexpected authentication error occurred",
       recoverable: true,

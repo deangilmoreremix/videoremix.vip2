@@ -170,7 +170,7 @@ export const AdminSubscriptionsManagement: React.FC = () => {
         <button
           onClick={runExpirationCheck}
           disabled={runningCheck}
-          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
+          className="flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:bg-gray-400 transition-colors"
         >
           <RefreshCw
             className={`w-4 h-4 mr-2 ${runningCheck ? "animate-spin" : ""}`}
@@ -214,14 +214,14 @@ export const AdminSubscriptionsManagement: React.FC = () => {
             placeholder="Search by email..."
             value={searchEmail}
             onChange={(e) => setSearchEmail(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
         <div>
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           >
             <option value="all">All Status</option>
             <option value="active">Active</option>

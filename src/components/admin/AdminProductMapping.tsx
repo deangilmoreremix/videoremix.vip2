@@ -269,7 +269,7 @@ const AdminProductMapping: React.FC = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search products or campaigns..."
-            className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
           />
         </div>
         <div className="flex items-center space-x-2">
@@ -277,7 +277,7 @@ const AdminProductMapping: React.FC = () => {
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
           >
             <option value="all">All Products</option>
             <option value="mapped">Mapped Only</option>
@@ -414,7 +414,7 @@ const AdminProductMapping: React.FC = () => {
                   onChange={(e) =>
                     setMappingForm({ ...mappingForm, appId: e.target.value })
                   }
-                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
                 >
                   <option value="">Choose an app...</option>
                   {apps.map((app) => (
@@ -434,7 +434,7 @@ const AdminProductMapping: React.FC = () => {
                   onChange={(e) =>
                     setMappingForm({ ...mappingForm, tierId: e.target.value })
                   }
-                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
                 >
                   <option value="">Choose a tier...</option>
                   {tiers.map((tier) => (
@@ -456,7 +456,7 @@ const AdminProductMapping: React.FC = () => {
               <button
                 onClick={handleCreateMapping}
                 disabled={!mappingForm.appId || !mappingForm.tierId}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
               >
                 <Link2 className="h-4 w-4 mr-2" />
                 Create Mapping

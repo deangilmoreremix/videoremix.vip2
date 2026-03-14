@@ -46,13 +46,20 @@ export const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({
   rows = 3,
   className = '',
 }) => {
+  // Deterministic width pattern based on row index
+  // This avoids Math.random() which can cause hydration mismatches in SSR
+  const getWidth = (index: number): string => {
+    const widths = ['60%', '80%', '70%', '90%', '65%', '75%'];
+    return widths[index % widths.length];
+  };
+
   return (
     <div className={`animate-pulse space-y-3 ${className}`}>
       {Array.from({ length: rows }).map((_, i) => (
         <div
           key={i}
           className="h-4 bg-gray-700 rounded"
-          style={{ width: `${Math.random() * 40 + 60}%` }}
+          style={{ width: getWidth(i) }}
         />
       ))}
     </div>

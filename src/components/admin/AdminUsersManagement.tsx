@@ -788,7 +788,7 @@ const AdminUsersManagement: React.FC = () => {
 
           <button
             onClick={() => setShowBulkUploadModal(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors"
+            className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors"
           >
             <Upload className="h-4 w-4 mr-2" />
             Bulk Upload
@@ -876,7 +876,7 @@ const AdminUsersManagement: React.FC = () => {
                 </button>
                 <button
                   onClick={() => openFeatureAccessModal(user)}
-                  className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg flex items-center transition-colors"
+                  className="px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs rounded-lg flex items-center transition-colors"
                   title="Manage feature access"
                 >
                   <Settings className="h-3 w-3 mr-1" />
@@ -1135,7 +1135,7 @@ user3@example.com,Bob,Johnson,user`}
               <button
                 onClick={bulkCreateUsers}
                 disabled={uploading}
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
+                className="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
               >
                 {uploading ? "Uploading..." : "Upload Users"}
               </button>
@@ -1302,7 +1302,7 @@ user3@example.com,Bob,Johnson,user`}
                             availableFeatures.map((feature) => feature.slug),
                           )
                         }
-                        className="text-xs px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
+                        className="text-xs px-3 py-1 bg-primary-600 hover:bg-primary-700 text-white rounded transition-colors"
                       >
                         Select All
                       </button>
@@ -1371,7 +1371,7 @@ user3@example.com,Bob,Johnson,user`}
                   <button
                     onClick={saveFeatureAccess}
                     disabled={savingFeatureAccess}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
+                    className="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
                   >
                     {savingFeatureAccess ? "Saving..." : "Save Changes"}
                   </button>

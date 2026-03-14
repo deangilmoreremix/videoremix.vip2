@@ -579,7 +579,7 @@ const AdminAppsManagement: React.FC = () => {
                   Public
                 </span>
               )}
-              <span className="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">
+              <span className="px-2 py-1 bg-primary-500/20 text-primary-400 text-xs rounded-full">
                 Order: {app.sort_order}
               </span>
             </div>

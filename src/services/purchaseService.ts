@@ -1,4 +1,5 @@
 import { supabase } from "../utils/supabaseClient";
+import { safeMutation, createPurchaseIdempotencyKey, createAppAccessIdempotencyKey } from "../lib/safeMutation";
 
 export interface UserAppAccess {
   id: string;
@@ -194,6 +195,13 @@ export const purchaseService = {
 
   /**
    * Record a new purchase and grant app access
+   * Uses safeMutation to prevent duplicate purchases
+   * 
+   * NOTE: The idempotency implementation uses client-side caching which helps prevent
+   * duplicates within the same browser session (e.g., rapid clicks). For complete
+   * duplicate prevention across sessions/browsers, consider adding a unique constraint
+   * on the purchases table for (platform, platform_transaction_id) and handling
+   * the unique constraint violation error appropriately.
    */
   async recordPurchase(
     userId: string | null,
@@ -209,61 +217,96 @@ export const purchaseService = {
       invoiceId?: string;
       customerId?: string;
     },
-  ): Promise<{ success: boolean; error?: string }> {
-    try {
-      const purchaseData: any = {
-        user_id: userId,
-        email: email.toLowerCase(),
-        platform,
-        platform_transaction_id: platformTransactionId,
-        product_name: productName,
-        amount,
-        currency,
-        status: "completed",
-        purchase_date: new Date().toISOString(),
-      };
+  ): Promise<{ success: boolean; error?: string; isDuplicate?: boolean }> {
+    // Create idempotency key based on transaction ID to prevent duplicates
+    const idempotencyKey = createPurchaseIdempotencyKey(
+      userId || 'anonymous',
+      platformTransactionId,
+      platform
+    );
 
-      if (stripeData) {
-        purchaseData.stripe_payment_intent_id = stripeData.paymentIntentId;
-        purchaseData.stripe_invoice_id = stripeData.invoiceId;
-        purchaseData.stripe_customer_id = stripeData.customerId;
-      }
-
-      const { data: purchase, error: purchaseError } = await supabase
-        .from("purchases")
-        .insert(purchaseData)
-        .select()
-        .single();
-
-      if (purchaseError) {
-        console.error("Error recording purchase:", purchaseError);
-        return { success: false, error: purchaseError.message };
-      }
-
-      if (userId && appSlugs.length > 0) {
-        const accessRecords = appSlugs.map((appSlug) => ({
+    const result = await safeMutation(
+      async () => {
+        const purchaseData = {
           user_id: userId,
-          app_slug: appSlug,
-          purchase_id: purchase.id,
-          access_type: "lifetime" as const,
-          is_active: true,
-        }));
+          email: email.toLowerCase(),
+          platform,
+          platform_transaction_id: platformTransactionId,
+          product_name: productName,
+          amount,
+          currency,
+          status: "completed" as const,
+          purchase_date: new Date().toISOString(),
+        };
 
-        const { error: accessError } = await supabase
-          .from("user_app_access")
-          .insert(accessRecords);
-
-        if (accessError) {
-          console.error("Error granting app access:", accessError);
-          return { success: false, error: accessError.message };
+        // Add stripe data if provided
+        if (stripeData) {
+          Object.assign(purchaseData, {
+            stripe_payment_intent_id: stripeData.paymentIntentId,
+            stripe_invoice_id: stripeData.invoiceId,
+            stripe_customer_id: stripeData.customerId,
+          });
         }
-      }
 
+        const { data: purchase, error: purchaseError } = await supabase
+          .from("purchases")
+          .insert(purchaseData)
+          .select()
+          .single();
+
+        if (purchaseError) {
+          // Check for duplicate key errors
+          if (purchaseError.message.includes('duplicate key') || 
+              purchaseError.message.includes('unique constraint')) {
+            console.log("[recordPurchase] Duplicate purchase detected:", platformTransactionId);
+            return { duplicate: true, purchase: null };
+          }
+          throw purchaseError;
+        }
+
+        // Grant app access if userId and appSlugs provided
+        if (userId && appSlugs.length > 0 && purchase) {
+          const accessRecords = appSlugs.map((appSlug) => ({
+            user_id: userId,
+            app_slug: appSlug,
+            purchase_id: purchase.id,
+            access_type: "lifetime" as const,
+            is_active: true,
+          }));
+
+          const { error: accessError } = await supabase
+            .from("user_app_access")
+            .insert(accessRecords);
+
+          if (accessError) {
+            console.error("Error granting app access:", accessError);
+            throw accessError;
+          }
+        }
+
+        return { duplicate: false, purchase };
+      },
+      {
+        table: 'purchases',
+        idempotencyKey,
+        retryConfig: {
+          maxAttempts: 3,
+          baseDelayMs: 500,
+          maxDelayMs: 5000,
+          backoffFactor: 2,
+        },
+      }
+    );
+
+    if (result.success) {
       return { success: true };
-    } catch (error: any) {
-      console.error("Error in recordPurchase:", error);
-      return { success: false, error: error.message };
     }
+
+    return {
+      success: false,
+      error: result.error,
+      isDuplicate: result.isDuplicate,
+    };
   },
 
   /**
