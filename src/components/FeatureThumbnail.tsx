@@ -4,6 +4,7 @@ interface FeatureThumbnailProps {
   featureId: string;
   icon?: React.ReactNode;
   className?: string;
+  image?: string;
 }
 
 interface FeatureConfig {
@@ -76,6 +77,7 @@ export function FeatureThumbnail({
   featureId,
   icon,
   className = "",
+  image,
 }: FeatureThumbnailProps) {
   const config = FEATURE_CONFIG[featureId] ?? FALLBACK_CONFIG;
   const a = config.ringColor;
@@ -99,6 +101,17 @@ export function FeatureThumbnail({
       className={`relative overflow-hidden w-full h-full select-none ${className}`}
       style={{ background: config.bg }}
     >
+      {/* Background image layer (if provided) */}
+      {image && (
+        <div
+          className="absolute inset-0 bg-cover bg-center pointer-events-none"
+          style={{
+            backgroundImage: `url(${image})`,
+            opacity: 0.5,
+            mixBlendMode: 'overlay',
+          }}
+        />
+      )}
       {/* Dot grid pattern */}
       <div
         className="absolute inset-0 pointer-events-none"

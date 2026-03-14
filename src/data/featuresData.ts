@@ -45,7 +45,7 @@ export const featuresData: Feature[] = [
       "Our advanced AI Video Creator transforms your text, keywords, and basic ideas into fully-produced, professional-quality videos in just minutes. Skip the learning curve of complex video editing software and let our AI handle the technical aspects while you maintain creative control.",
     icon: React.createElement(Video),
     image:
-      "https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      "/thumbnails/features/ai-video-creator.svg",
     videoUrl: "https://example.com/video/ai-creator-demo.mp4",
     keyPoints: [
       "Turn text and keywords into complete videos",
@@ -162,7 +162,7 @@ export const featuresData: Feature[] = [
       "Our advanced AI video editing technology analyzes your footage and automatically enhances colors, adjusts lighting, crops frames, and suggests optimal cuts for professional results. The system identifies the best moments, removes mistakes, and applies Hollywood-quality editing techniques automatically.",
     icon: React.createElement(Wand2),
     image:
-      "https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      "/thumbnails/features/ai-editing.svg",
     videoUrl: "https://example.com/video/ai-editing-demo.mp4",
     keyPoints: [
       "Smart scene detection and auto-editing",
@@ -283,7 +283,7 @@ export const featuresData: Feature[] = [
       "Access our extensive library of customizable video templates designed for every industry and purpose. Our smart templates adapt to your content, automatically adjusting to maintain perfect timing, transitions, and visual coherence regardless of what assets you add.",
     icon: React.createElement(LayoutTemplate),
     image:
-      "https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      "/thumbnails/features/smart-templates.svg",
     videoUrl: "https://example.com/video/templates-demo.mp4",
     keyPoints: [
       "500+ professionally designed templates",
@@ -404,7 +404,7 @@ export const featuresData: Feature[] = [
       "Our intelligent content repurposing system automatically identifies the most engaging parts of your long-form videos and transforms them into perfectly formatted short-form content for every platform. Multiply your content output without additional creation time.",
     icon: React.createElement(PencilRuler),
     image:
-      "https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      "/thumbnails/features/content-repurposing.svg",
     videoUrl: "https://example.com/video/repurposing-demo.mp4",
     keyPoints: [
       "AI-powered highlight detection",
@@ -521,7 +521,7 @@ export const featuresData: Feature[] = [
       "Our powerful speech recognition technology automatically converts spoken words into accurate text captions. With support for 40+ languages and dialect recognition, your videos become accessible to global audiences and optimized for sound-off viewing.",
     icon: React.createElement(Globe),
     image:
-      "https://images.pexels.com/photos/4348401/pexels-photo-4348401.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      "/thumbnails/features/auto-captions.svg",
     videoUrl: "https://example.com/video/captions-demo.mp4",
     keyPoints: [
       "98% accuracy in speech recognition",
@@ -642,7 +642,7 @@ export const featuresData: Feature[] = [
       "Our powerful collaboration features enable teams to work together effectively on video projects, regardless of location. With real-time editing, commenting, version control, and approval workflows, you can streamline your video production process and improve team efficiency.",
     icon: React.createElement(Users),
     image:
-      "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      "/thumbnails/features/collaboration.svg",
     videoUrl: "https://example.com/video/collaboration-demo.mp4",
     keyPoints: [
       "Real-time collaborative editing",

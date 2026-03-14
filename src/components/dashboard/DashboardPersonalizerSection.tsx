@@ -101,6 +101,7 @@ const DashboardPersonalizerSection: React.FC = () => {
                       name={app.name}
                       category={app.category}
                       icon={app.icon}
+                      image={app.image}
                       className="group-hover:scale-105 transition-transform duration-300"
                     />
 

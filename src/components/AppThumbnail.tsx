@@ -7,6 +7,7 @@ interface AppThumbnailProps {
   icon?: React.ReactNode;
   className?: string;
   locked?: boolean;
+  image?: string;
 }
 
 interface CategoryConfig {
@@ -88,6 +89,7 @@ export function AppThumbnail({
   icon,
   className = "",
   locked = false,
+  image,
 }: AppThumbnailProps) {
   const config = CATEGORY_CONFIG[category] ?? CATEGORY_CONFIG["video"];
   const hash = hashId(id);
@@ -115,6 +117,17 @@ export function AppThumbnail({
       className={`relative overflow-hidden w-full h-full select-none ${className}`}
       style={{ background: config.bg }}
     >
+      {/* Background image layer (if provided) */}
+      {image && (
+        <div
+          className="absolute inset-0 bg-cover bg-center pointer-events-none"
+          style={{
+            backgroundImage: `url(${image})`,
+            opacity: locked ? 0.3 : 0.6,
+            mixBlendMode: 'overlay',
+          }}
+        />
+      )}
       {/* Pattern layer */}
       <div
         className="absolute inset-0 pointer-events-none"

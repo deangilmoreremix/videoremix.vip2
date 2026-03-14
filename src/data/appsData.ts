@@ -52,7 +52,7 @@ export const appsData: App[] = [
     category: "video",
     icon: React.createElement(Video),
     image:
-      "https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/video-creator.svg",
     popular: true,
   },
   {
@@ -62,7 +62,7 @@ export const appsData: App[] = [
     category: "video",
     icon: React.createElement(Video),
     image:
-      "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/promo-generator.svg",
     popular: true,
   },
   {
@@ -72,7 +72,7 @@ export const appsData: App[] = [
     category: "lead-gen",
     icon: React.createElement(Layers),
     image:
-      "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/landing-page.svg",
     popular: true,
   },
   {
@@ -82,7 +82,7 @@ export const appsData: App[] = [
     category: "ai-image",
     icon: React.createElement(ImageIcon),
     image:
-      "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/ai-image-tools.svg",
     new: true,
   },
   {
@@ -92,7 +92,7 @@ export const appsData: App[] = [
     category: "branding",
     icon: React.createElement(Palette),
     image:
-      "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/rebrander-ai.svg",
     new: true,
   },
   {
@@ -102,7 +102,7 @@ export const appsData: App[] = [
     category: "branding",
     icon: React.createElement(Palette),
     image:
-      "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/business-brander.svg",
   },
   {
     id: "branding-analyzer",
@@ -111,7 +111,7 @@ export const appsData: App[] = [
     category: "branding",
     icon: React.createElement(Palette),
     image:
-      "https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/branding-analyzer.svg",
   },
   {
     id: "ai-branding",
@@ -120,7 +120,7 @@ export const appsData: App[] = [
     category: "branding",
     icon: React.createElement(Sparkles),
     image:
-      "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/ai-branding.svg",
   },
   {
     id: "ai-sales",
@@ -129,7 +129,7 @@ export const appsData: App[] = [
     category: "branding",
     icon: React.createElement(Sparkles),
     image:
-      "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/ai-sales.svg",
   },
   {
     id: "voice-coach",
@@ -138,7 +138,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(Mic),
     image:
-      "https://images.pexels.com/photos/3783471/pexels-photo-3783471.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/voice-coach.svg",
   },
   {
     id: "resume-amplifier",
@@ -147,7 +147,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(FileText),
     image:
-      "https://images.pexels.com/photos/590016/pexels-photo-590016.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/resume-amplifier.svg",
   },
   {
     id: "storyboard",
@@ -156,7 +156,7 @@ export const appsData: App[] = [
     category: "creative",
     icon: React.createElement(Layers),
     image:
-      "https://images.pexels.com/photos/1174952/pexels-photo-1174952.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/storyboard.svg",
     popular: true,
   },
   {
@@ -166,7 +166,7 @@ export const appsData: App[] = [
     category: "lead-gen",
     icon: React.createElement(Sparkles),
     image:
-      "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/sales-monetizer.svg",
   },
   {
     id: "smart-presentations",
@@ -175,7 +175,7 @@ export const appsData: App[] = [
     category: "creative",
     icon: React.createElement(Layers),
     image:
-      "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/smart-presentations.svg",
     popular: true,
   },
   {
@@ -185,7 +185,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(Video),
     image:
-      "https://images.pexels.com/photos/4050315/pexels-photo-4050315.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/personalizer-recorder.svg",
   },
   {
     id: "personalizer-profile",
@@ -194,7 +194,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(UserCircle),
     image:
-      "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/personalizer-profile.svg",
   },
   {
     id: "thumbnail-generator",
@@ -203,7 +203,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(ImageIcon),
     image:
-      "https://images.pexels.com/photos/6476808/pexels-photo-6476808.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/thumbnail-generator.svg",
     popular: true,
   },
   {
@@ -213,7 +213,7 @@ export const appsData: App[] = [
     category: "creative",
     icon: React.createElement(Video),
     image:
-      "https://images.pexels.com/photos/3945317/pexels-photo-3945317.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/interactive-outros.svg",
   },
   {
     id: "social-pack",
@@ -222,7 +222,7 @@ export const appsData: App[] = [
     category: "creative",
     icon: React.createElement(Package),
     image:
-      "https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/social-pack.svg",
   },
   {
     id: "ai-art",
@@ -231,7 +231,7 @@ export const appsData: App[] = [
     category: "ai-image",
     icon: React.createElement(Sparkles),
     image:
-      "https://images.pexels.com/photos/8386434/pexels-photo-8386434.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/ai-art.svg",
     new: true,
   },
   {
@@ -241,7 +241,7 @@ export const appsData: App[] = [
     category: "ai-image",
     icon: React.createElement(ImageIcon),
     image:
-      "https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/bg-remover.svg",
     popular: true,
   },
   {
@@ -251,7 +251,7 @@ export const appsData: App[] = [
     category: "video",
     icon: React.createElement(Mic),
     image:
-      "https://images.pexels.com/photos/3783471/pexels-photo-3783471.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/voice-coach.svg",
   },
   {
     id: "niche-script",
@@ -260,7 +260,7 @@ export const appsData: App[] = [
     category: "video",
     icon: React.createElement(FileText),
     image:
-      "https://images.pexels.com/photos/4348401/pexels-photo-4348401.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/niche-script.svg",
   },
   // NEW APPS
   {
@@ -270,7 +270,7 @@ export const appsData: App[] = [
     category: "lead-gen",
     icon: React.createElement(Megaphone),
     image:
-      "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/ai-referral-maximizer.svg",
     new: true,
   },
   {
@@ -280,7 +280,7 @@ export const appsData: App[] = [
     category: "lead-gen",
     icon: React.createElement(Database),
     image:
-      "https://images.pexels.com/photos/7688460/pexels-photo-7688460.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/smart-crm-closer.svg",
     popular: true,
   },
   {
@@ -290,7 +290,7 @@ export const appsData: App[] = [
     category: "video",
     icon: React.createElement(Video),
     image:
-      "https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/video-ai-editor.svg",
     new: true,
   },
   {
@@ -300,7 +300,7 @@ export const appsData: App[] = [
     category: "ai-image",
     icon: React.createElement(ImageIcon),
     image:
-      "https://images.pexels.com/photos/8386422/pexels-photo-8386422.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/ai-video-image.svg",
     popular: true,
   },
   {
@@ -310,7 +310,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(DollarSign),
     image:
-      "https://images.pexels.com/photos/3943723/pexels-photo-3943723.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/ai-skills-monetizer.svg",
     new: true,
   },
   {
@@ -320,7 +320,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(FileSignature),
     image:
-      "https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/ai-signature.svg",
     new: true,
   },
   {
@@ -330,7 +330,7 @@ export const appsData: App[] = [
     category: "creative",
     icon: React.createElement(LayoutTemplate),
     image:
-      "https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/ai-template-generator.svg",
     popular: true,
   },
   {
@@ -340,7 +340,7 @@ export const appsData: App[] = [
     category: "lead-gen",
     icon: React.createElement(BarChart2),
     image:
-      "https://images.pexels.com/photos/6801874/pexels-photo-6801874.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/funnelcraft-ai.svg",
     popular: true,
   },
   {
@@ -350,7 +350,7 @@ export const appsData: App[] = [
     category: "creative",
     icon: React.createElement(ShoppingBag),
     image:
-      "https://images.pexels.com/photos/5632386/pexels-photo-5632386.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/interactive-shopping.svg",
     new: true,
   },
   {
@@ -360,7 +360,7 @@ export const appsData: App[] = [
     category: "ai-image",
     icon: React.createElement(Sparkles),
     image:
-      "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/ai-image-tools.svg",
     new: true,
   },
   {
@@ -370,7 +370,7 @@ export const appsData: App[] = [
     category: "video",
     icon: React.createElement(Video),
     image:
-      "https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/video-creator.svg",
     new: true,
   },
   {
@@ -380,7 +380,7 @@ export const appsData: App[] = [
     category: "lead-gen",
     icon: React.createElement(Briefcase),
     image:
-      "https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/sales-assistant-app.svg",
     popular: true,
   },
   {
@@ -390,7 +390,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(FileText),
     image:
-      "https://images.pexels.com/photos/4348401/pexels-photo-4348401.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/niche-script.svg",
     new: true,
   },
   {
@@ -400,7 +400,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(Video),
     image:
-      "https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/video-ai-editor.svg",
     popular: true,
   },
   {
@@ -410,7 +410,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(FileText),
     image:
-      "https://images.pexels.com/photos/261763/pexels-photo-261763.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/thumbnails/apps/personalizer-writing-toolkit.svg",
     new: true,
   },
 ];

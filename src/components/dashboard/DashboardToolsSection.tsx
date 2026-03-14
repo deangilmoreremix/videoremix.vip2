@@ -488,6 +488,7 @@ const DashboardToolsSection: React.FC = () => {
                         name={app.name}
                         category={app.category}
                         icon={app.icon}
+                        image={app.image}
                         className="transform group-hover:scale-105 transition-transform duration-700 ease-in-out"
                       />
 
@@ -741,6 +742,7 @@ const DashboardToolsSection: React.FC = () => {
                           name={app.name}
                           category={app.category}
                           icon={app.icon}
+                          image={app.image}
                         />
 
                         {/* Overlay with personalization focus */}

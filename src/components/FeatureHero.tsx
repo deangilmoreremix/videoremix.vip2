@@ -164,7 +164,7 @@ const FeatureHero: React.FC<FeatureHeroProps> = ({
             >
               <motion.div className="rounded-lg overflow-hidden aspect-video">
                 {featureId ? (
-                  <FeatureThumbnail featureId={featureId} icon={icon} />
+                  <FeatureThumbnail featureId={featureId} icon={icon} image={image} />
                 ) : (
                   <img
                     src={image}

@@ -327,6 +327,7 @@ const FeatureListPage: React.FC = () => {
                       <FeatureThumbnail
                         featureId={feature.id}
                         icon={feature.icon}
+                        image={feature.image}
                         className="transform group-hover:scale-105 transition-transform duration-700"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none"></div>
