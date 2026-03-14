@@ -1,24 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  ArrowRight,
-  BarChart,
-  TrendingUp,
-  Users,
-  Clock,
-  DollarSign,
-  ChevronRight,
-  ChevronLeft,
-  ArrowUpRight,
-  ExternalLink,
-  CheckCircle,
-  Target,
-  LineChart,
-  Video,
-  Zap,
-  Share,
-  MessageSquare,
-} from "lucide-react";
+import { ArrowRight, ChartBar as BarChart, TrendingUp, Users, Clock, DollarSign, ChevronRight, ChevronLeft, ArrowUpRight, ExternalLink, CircleCheck as CheckCircle, Target, ChartLine as LineChart, Video, Zap, Share, MessageSquare } from "lucide-react";
 import MagicSparkles from "./MagicSparkles";
 
 interface CaseStudyType {
@@ -49,7 +31,7 @@ const caseStudies: CaseStudyType[] = [
     id: "ecommerce-fashion",
     company: "StyleTrend",
     industry: "E-Commerce Fashion",
-    logo: "https://images.unsplash.com/photo-1579762593175-20c9062ccc59?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&q=80",
+    logo: "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=120",
     challenge:
       "StyleTrend was sending the same generic product videos to all customers, resulting in low engagement rates (2.3%) and poor conversion (1.7%). Their marketing team couldn't create personalized content at scale.",
     solution:
@@ -86,17 +68,17 @@ const caseStudies: CaseStudyType[] = [
       author: "Emma Richardson",
       role: "Marketing Director",
       image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+        "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150",
     },
     timeline: "3 weeks from implementation to first results",
     featuredImage:
-      "https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/5632386/pexels-photo-5632386.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "saas-enterprise",
     company: "CloudSphere Solutions",
     industry: "SaaS / Enterprise Software",
-    logo: "https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&q=80",
+    logo: "https://images.pexels.com/photos/4050315/pexels-photo-4050315.jpeg?auto=compress&cs=tinysrgb&w=120",
     challenge:
       "CloudSphere's generic product demo videos had a 9-minute average view time (only 27% completion rate). Their sales cycle was 92 days, with sales teams spending hours creating custom demos for each prospect.",
     solution:
@@ -133,17 +115,17 @@ const caseStudies: CaseStudyType[] = [
       author: "Michael Chen",
       role: "VP of Global Sales",
       image:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+        "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150",
     },
     timeline: "2 months from implementation to company-wide adoption",
     featuredImage:
-      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "education-platform",
     company: "EduVista Learning",
     industry: "Educational Technology",
-    logo: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&q=80",
+    logo: "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=120",
     challenge:
       "EduVista was struggling with high course abandonment rates (72%) and low engagement in their educational content despite high-quality material. Generic course introductions failed to connect with diverse learning styles.",
     solution:
@@ -180,17 +162,17 @@ const caseStudies: CaseStudyType[] = [
       author: "Dr. Sarah Williams",
       role: "Chief Education Officer",
       image:
-        "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+        "https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=150",
     },
     timeline: "1 semester pilot program, now fully implemented",
     featuredImage:
-      "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "finance-advisory",
     company: "Meridian Financial",
     industry: "Financial Services",
-    logo: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&q=80",
+    logo: "https://images.pexels.com/photos/6801874/pexels-photo-6801874.jpeg?auto=compress&cs=tinysrgb&w=120",
     challenge:
       "Meridian was sending the same investment advice videos to all clients regardless of portfolio size, risk tolerance, or investment goals, resulting in low client satisfaction and high advisor workload explaining strategies.",
     solution:
@@ -227,17 +209,17 @@ const caseStudies: CaseStudyType[] = [
       author: "Jonathan Hayes",
       role: "Head of Client Services",
       image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+        "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150",
     },
     timeline: "6 months from concept to full implementation",
     featuredImage:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/7688460/pexels-photo-7688460.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "healthcare-provider",
     company: "Vitality Health Network",
     industry: "Healthcare",
-    logo: "https://images.unsplash.com/photo-1612531385446-f7e6d131e1d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&q=80",
+    logo: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=120",
     challenge:
       "Vitality Health was sending generic pre and post-procedure videos to all patients, resulting in low compliance with preparation instructions (68%) and post-care guidelines (72%).",
     solution:
@@ -274,11 +256,11 @@ const caseStudies: CaseStudyType[] = [
       author: "Dr. Rebecca Martinez",
       role: "Chief Medical Officer",
       image:
-        "https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+        "https://images.pexels.com/photos/1181695/pexels-photo-1181695.jpeg?auto=compress&cs=tinysrgb&w=150",
     },
     timeline: "Pilot program of 3 months, full rollout in 9 months",
     featuredImage:
-      "https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
 ];
 

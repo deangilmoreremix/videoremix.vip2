@@ -77,7 +77,7 @@ const VideoPreview = () => {
           {/* Video thumbnail with play button overlay */}
           <div className="aspect-video bg-gray-900 relative">
             <img
-              src="https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80"
+              src="https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=1770"
               alt="Personalized Marketing Video Demo"
               className="w-full h-full object-cover opacity-60"
             />
@@ -184,7 +184,7 @@ const VideoPreview = () => {
           <div className="h-8 bg-gradient-to-b from-gray-900 to-transparent opacity-50 transform scale-y-[-1] relative">
             <div className="absolute inset-0 bg-gray-900/80"></div>
             <img
-              src="https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80"
+              src="https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=1770"
               alt=""
               className="w-full h-16 object-cover opacity-20 transform scale-y-[-1]"
             />

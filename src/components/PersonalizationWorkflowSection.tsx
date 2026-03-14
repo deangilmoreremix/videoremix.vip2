@@ -1,19 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Sparkles,
-  Users,
-  Target,
-  Play,
-  ArrowRight,
-  Check,
-  Wand2,
-  Clock,
-  BarChart,
-  Layers,
-  Settings,
-  FileText,
-} from "lucide-react";
+import { Sparkles, Users, Target, Play, ArrowRight, Check, Wand as Wand2, Clock, ChartBar as BarChart, Layers, Settings, FileText } from "lucide-react";
 import MagicSparkles from "./MagicSparkles";
 import { Link } from "react-router-dom";
 
@@ -34,7 +21,7 @@ const workflowSteps = [
     icon: <Users className="h-10 w-10 text-white" />,
     stats: { value: "2 min", label: "Average setup time" },
     image:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "content-personalization",
@@ -51,7 +38,7 @@ const workflowSteps = [
     icon: <Wand2 className="h-10 w-10 text-white" />,
     stats: { value: "5 min", label: "Average personalization time" },
     image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "automation-setup",
@@ -68,7 +55,7 @@ const workflowSteps = [
     icon: <Settings className="h-10 w-10 text-white" />,
     stats: { value: "3 min", label: "Average setup time" },
     image:
-      "https://images.unsplash.com/photo-1551033406-611cf9a28f67?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "measure-optimize",
@@ -85,7 +72,7 @@ const workflowSteps = [
     icon: <BarChart className="h-10 w-10 text-white" />,
     stats: { value: "300%", label: "Average marketing ROI increase" },
     image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/6801874/pexels-photo-6801874.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
 ];
 

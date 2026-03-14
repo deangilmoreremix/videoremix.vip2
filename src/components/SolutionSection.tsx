@@ -1,27 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import {
-  Wand2,
-  Check,
-  X,
-  Zap,
-  Clock,
-  Monitor,
-  Copy,
-  ArrowRight,
-  Sparkles,
-  Users,
-  BarChart,
-  Target,
-  UserRoundX,
-  MessageSquareOff,
-  TrendingDown,
-  Coins,
-  EyeOff,
-  Share2,
-  LineChart,
-  HandCoins,
-} from "lucide-react";
+import { Wand as Wand2, Check, X, Zap, Clock, Monitor, Copy, ArrowRight, Sparkles, Users, ChartBar as BarChart, Target, UserRoundX, MessageSquareOff, TrendingDown, Coins, EyeOff, Share2, ChartLine as LineChart, HandCoins } from "lucide-react";
 import MagicSparkles from "./MagicSparkles";
 import SparkleEffect from "./SparkleEffect";
 
@@ -138,7 +117,7 @@ const SolutionSection: React.FC = () => {
             >
               <div className="bg-black rounded-lg overflow-hidden aspect-video relative">
                 <img
-                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                  src="https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg?auto=compress&cs=tinysrgb&w=1000"
                   alt="Personalized Marketing Video Interface"
                   className="w-full h-full object-cover opacity-90"
                 />

@@ -126,7 +126,7 @@ const FeatureHero: React.FC<FeatureHeroProps> = ({
                   {[...Array(4)].map((_, i) => (
                     <motion.img
                       key={i}
-                      src={`https://randomuser.me/api/portraits/men/${20 + i}.jpg`}
+                      src={["https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&w=150","https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150","https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150","https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=150"][i]}
                       alt="User"
                       className="w-8 h-8 rounded-full border-2 border-gray-900"
                       whileHover={{

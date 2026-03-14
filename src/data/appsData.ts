@@ -1,38 +1,5 @@
 import React from "react";
-import {
-  Video,
-  Users,
-  Image as ImageIcon,
-  Sparkles,
-  Palette,
-  CircleUser as UserCircle,
-  Package,
-  Layers,
-  FileText,
-  Mic,
-  Search,
-  ArrowRight,
-  Filter,
-  Play,
-  Star,
-  PanelTop,
-  Zap,
-  Camera,
-  Share,
-  Megaphone,
-  Database,
-  Monitor,
-  DollarSign,
-  Ligature as FileSignature,
-  LayoutTemplate,
-  ShoppingBag,
-  Store,
-  UserCheck,
-  Rocket,
-  Settings,
-  BarChart2,
-  Briefcase,
-} from "lucide-react";
+import { Video, Users, Image as ImageIcon, Sparkles, Palette, CircleUser as UserCircle, Package, Layers, FileText, Mic, Search, ArrowRight, ListFilter as Filter, Play, Star, PanelTop, Zap, Camera, Share, Megaphone, Database, Monitor, DollarSign, Ligature as FileSignature, LayoutTemplate, ShoppingBag, Store, UserCheck, Rocket, Settings, ChartBar as BarChart2, Briefcase } from "lucide-react";
 
 // App data structure
 interface App {
@@ -85,7 +52,7 @@ export const appsData: App[] = [
     category: "video",
     icon: React.createElement(Video),
     image:
-      "https://images.unsplash.com/photo-1616469829941-c7200edec809?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=800",
     popular: true,
   },
   {
@@ -95,7 +62,7 @@ export const appsData: App[] = [
     category: "video",
     icon: React.createElement(Video),
     image:
-      "https://images.unsplash.com/photo-1532456745301-b2c645adce21?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=800",
     popular: true,
   },
   {
@@ -105,7 +72,7 @@ export const appsData: App[] = [
     category: "lead-gen",
     icon: React.createElement(Layers),
     image:
-      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800",
     popular: true,
   },
   {
@@ -115,7 +82,7 @@ export const appsData: App[] = [
     category: "ai-image",
     icon: React.createElement(ImageIcon),
     image:
-      "https://images.unsplash.com/photo-1579403124614-197f69d8187b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800",
     new: true,
   },
   {
@@ -125,7 +92,7 @@ export const appsData: App[] = [
     category: "branding",
     icon: React.createElement(Palette),
     image:
-      "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800",
     new: true,
   },
   {
@@ -135,7 +102,7 @@ export const appsData: App[] = [
     category: "branding",
     icon: React.createElement(Palette),
     image:
-      "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "branding-analyzer",
@@ -144,7 +111,7 @@ export const appsData: App[] = [
     category: "branding",
     icon: React.createElement(Palette),
     image:
-      "https://images.unsplash.com/photo-1559028012-481c04fa702d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "ai-branding",
@@ -153,7 +120,7 @@ export const appsData: App[] = [
     category: "branding",
     icon: React.createElement(Sparkles),
     image:
-      "https://images.unsplash.com/photo-1493612276216-ee3925520721?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "ai-sales",
@@ -162,7 +129,7 @@ export const appsData: App[] = [
     category: "branding",
     icon: React.createElement(Sparkles),
     image:
-      "https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "voice-coach",
@@ -171,7 +138,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(Mic),
     image:
-      "https://images.unsplash.com/photo-1590602846028-08e9d0a40b94?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3783471/pexels-photo-3783471.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "resume-amplifier",
@@ -180,7 +147,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(FileText),
     image:
-      "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/590016/pexels-photo-590016.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "storyboard",
@@ -189,7 +156,7 @@ export const appsData: App[] = [
     category: "creative",
     icon: React.createElement(Layers),
     image:
-      "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/1174952/pexels-photo-1174952.jpeg?auto=compress&cs=tinysrgb&w=800",
     popular: true,
   },
   {
@@ -199,7 +166,7 @@ export const appsData: App[] = [
     category: "lead-gen",
     icon: React.createElement(Sparkles),
     image:
-      "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "smart-presentations",
@@ -208,7 +175,7 @@ export const appsData: App[] = [
     category: "creative",
     icon: React.createElement(Layers),
     image:
-      "https://images.unsplash.com/photo-1544531585-9847b68c8c86?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800",
     popular: true,
   },
   {
@@ -218,7 +185,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(Video),
     image:
-      "https://images.unsplash.com/photo-1633419461186-7d40a38105ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/4050315/pexels-photo-4050315.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "personalizer-profile",
@@ -227,7 +194,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(UserCircle),
     image:
-      "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "thumbnail-generator",
@@ -236,7 +203,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(ImageIcon),
     image:
-      "https://images.unsplash.com/photo-1611162616475-46b635cb6868?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/6476808/pexels-photo-6476808.jpeg?auto=compress&cs=tinysrgb&w=800",
     popular: true,
   },
   {
@@ -246,7 +213,7 @@ export const appsData: App[] = [
     category: "creative",
     icon: React.createElement(Video),
     image:
-      "https://images.unsplash.com/photo-1498084393753-b411b2d26b34?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3945317/pexels-photo-3945317.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "social-pack",
@@ -255,7 +222,7 @@ export const appsData: App[] = [
     category: "creative",
     icon: React.createElement(Package),
     image:
-      "https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "ai-art",
@@ -264,7 +231,7 @@ export const appsData: App[] = [
     category: "ai-image",
     icon: React.createElement(Sparkles),
     image:
-      "https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/8386434/pexels-photo-8386434.jpeg?auto=compress&cs=tinysrgb&w=800",
     new: true,
   },
   {
@@ -274,7 +241,7 @@ export const appsData: App[] = [
     category: "ai-image",
     icon: React.createElement(ImageIcon),
     image:
-      "https://images.unsplash.com/photo-1635942071564-bc6acda3ac20?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg?auto=compress&cs=tinysrgb&w=800",
     popular: true,
   },
   {
@@ -284,7 +251,7 @@ export const appsData: App[] = [
     category: "video",
     icon: React.createElement(Mic),
     image:
-      "https://images.unsplash.com/photo-1598550476439-6847785fcea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3783471/pexels-photo-3783471.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     id: "niche-script",
@@ -293,7 +260,7 @@ export const appsData: App[] = [
     category: "video",
     icon: React.createElement(FileText),
     image:
-      "https://images.unsplash.com/photo-1455390528084-8b85e4bcd271?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/4348401/pexels-photo-4348401.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   // NEW APPS
   {
@@ -303,7 +270,7 @@ export const appsData: App[] = [
     category: "lead-gen",
     icon: React.createElement(Megaphone),
     image:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800",
     new: true,
   },
   {
@@ -313,7 +280,7 @@ export const appsData: App[] = [
     category: "lead-gen",
     icon: React.createElement(Database),
     image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/7688460/pexels-photo-7688460.jpeg?auto=compress&cs=tinysrgb&w=800",
     popular: true,
   },
   {
@@ -323,7 +290,7 @@ export const appsData: App[] = [
     category: "video",
     icon: React.createElement(Video),
     image:
-      "https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?auto=compress&cs=tinysrgb&w=800",
     new: true,
   },
   {
@@ -333,7 +300,7 @@ export const appsData: App[] = [
     category: "ai-image",
     icon: React.createElement(ImageIcon),
     image:
-      "https://images.unsplash.com/photo-1579403124614-197f69d8187b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/8386422/pexels-photo-8386422.jpeg?auto=compress&cs=tinysrgb&w=800",
     popular: true,
   },
   {
@@ -343,7 +310,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(DollarSign),
     image:
-      "https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3943723/pexels-photo-3943723.jpeg?auto=compress&cs=tinysrgb&w=800",
     new: true,
   },
   {
@@ -353,7 +320,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(FileSignature),
     image:
-      "https://images.unsplash.com/photo-1586380980850-5bb0c0329b2e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&cs=tinysrgb&w=800",
     new: true,
   },
   {
@@ -363,7 +330,7 @@ export const appsData: App[] = [
     category: "creative",
     icon: React.createElement(LayoutTemplate),
     image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg?auto=compress&cs=tinysrgb&w=800",
     popular: true,
   },
   {
@@ -373,7 +340,7 @@ export const appsData: App[] = [
     category: "lead-gen",
     icon: React.createElement(BarChart2),
     image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/6801874/pexels-photo-6801874.jpeg?auto=compress&cs=tinysrgb&w=800",
     popular: true,
   },
   {
@@ -383,7 +350,7 @@ export const appsData: App[] = [
     category: "creative",
     icon: React.createElement(ShoppingBag),
     image:
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/5632386/pexels-photo-5632386.jpeg?auto=compress&cs=tinysrgb&w=800",
     new: true,
   },
   {
@@ -393,7 +360,7 @@ export const appsData: App[] = [
     category: "ai-image",
     icon: React.createElement(Sparkles),
     image:
-      "https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800",
     new: true,
   },
   {
@@ -403,7 +370,7 @@ export const appsData: App[] = [
     category: "video",
     icon: React.createElement(Video),
     image:
-      "https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=800",
     new: true,
   },
   {
@@ -413,7 +380,7 @@ export const appsData: App[] = [
     category: "lead-gen",
     icon: React.createElement(Briefcase),
     image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg?auto=compress&cs=tinysrgb&w=800",
     popular: true,
   },
   {
@@ -423,7 +390,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(FileText),
     image:
-      "https://images.unsplash.com/photo-1455390528084-8b85e4bcd271?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/4348401/pexels-photo-4348401.jpeg?auto=compress&cs=tinysrgb&w=800",
     new: true,
   },
   {
@@ -433,7 +400,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(Video),
     image:
-      "https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?auto=compress&cs=tinysrgb&w=800",
     popular: true,
   },
   {
@@ -443,7 +410,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(FileText),
     image:
-      "https://images.unsplash.com/photo-1517842645767-c639042777db?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/261763/pexels-photo-261763.jpeg?auto=compress&cs=tinysrgb&w=800",
     new: true,
   },
 ];

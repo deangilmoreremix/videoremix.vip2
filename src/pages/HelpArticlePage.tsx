@@ -2,21 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { useParams, Link } from "react-router-dom";
-import {
-  ChevronRight,
-  Clock,
-  ThumbsUp,
-  ThumbsDown,
-  FileText,
-  Share2,
-  Printer,
-  Play,
-  ArrowRight,
-  MessageSquare,
-  Video as VideoIcon,
-  BookOpen,
-  HelpCircle,
-} from "lucide-react";
+import { ChevronRight, Clock, ThumbsUp, ThumbsDown, FileText, Share2, Printer, Play, ArrowRight, MessageSquare, Video as VideoIcon, BookOpen, Circle as HelpCircle } from "lucide-react";
 
 // Mock article data - in a real app this would come from an API or CMS
 const articles = [
@@ -801,7 +787,7 @@ const HelpArticlePage: React.FC = () => {
                         <div className="absolute inset-0 bg-gray-900 flex items-center justify-center">
                           {/* Replace with actual video thumbnail */}
                           <img
-                            src="https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            src="https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=800"
                             alt="Video thumbnail"
                             className="w-full h-full object-cover opacity-80"
                           />

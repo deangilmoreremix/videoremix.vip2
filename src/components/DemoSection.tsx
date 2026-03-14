@@ -83,7 +83,7 @@ const DemoSection: React.FC = () => {
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1593697821028-7cc59cfd7399?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+              src="https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=1200"
               alt="VideoRemix.vip Demo"
               className="w-full h-full object-cover opacity-80"
             />

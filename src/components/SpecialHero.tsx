@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  ChevronDown,
-  Shield,
-  Star,
-  ArrowRight,
-  Sparkles,
-  Award,
-  CheckCircle,
-  Clock,
-} from "lucide-react";
+import { ChevronDown, Shield, Star, ArrowRight, Sparkles, Award, CircleCheck as CheckCircle, Clock } from "lucide-react";
 import { TypeAnimation } from "react-type-animation";
 import CountUp from "react-countup";
 import { Link } from "react-router-dom";
@@ -33,7 +24,7 @@ const SpecialHero: React.FC = () => {
       quote:
         "The personalization tools helped us achieve a 215% increase in marketing engagement and 3X more campaign leads.",
       image:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150",
+        "https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&w=150",
     },
     {
       name: "Sarah Wilson",
@@ -41,7 +32,7 @@ const SpecialHero: React.FC = () => {
       quote:
         "I create custom marketing content for different audience segments in minutes. My conversion rates have doubled since using VideoRemix.",
       image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=150",
+        "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150",
     },
   ];
 
@@ -165,7 +156,7 @@ const SpecialHero: React.FC = () => {
                 <img
                   src={
                     hero?.background_image_url ||
-                    "https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+                    "https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=1470"
                   }
                   alt="Personalized Marketing Demo"
                   className="w-full h-full object-cover"
@@ -324,11 +315,11 @@ const SpecialHero: React.FC = () => {
                   whileHover={{ scale: 1.05, filter: "brightness(1.2)" }}
                   src={
                     [
-                      "https://cdn.pixabay.com/photo/2013/02/12/09/07/microsoft-80658_960_720.png",
-                      "https://cdn.pixabay.com/photo/2015/12/11/11/43/google-1088003_960_720.png",
-                      "https://cdn.pixabay.com/photo/2017/03/30/17/42/youtube-2189041_960_720.png",
-                      "https://cdn.pixabay.com/photo/2018/06/05/13/24/instagram-3456027_960_720.png",
-                      "https://cdn.pixabay.com/photo/2017/06/22/14/23/twitter-2430933_960_720.png",
+                      "https://cdn.worldvectorlogo.com/logos/microsoft-1.svg",
+                      "https://cdn.worldvectorlogo.com/logos/google-1-1.svg",
+                      "https://cdn.worldvectorlogo.com/logos/youtube-1.svg",
+                      "https://cdn.worldvectorlogo.com/logos/instagram-2016-5.svg",
+                      "https://cdn.worldvectorlogo.com/logos/twitter-6.svg",
                     ][i]
                   }
                   alt={brand}

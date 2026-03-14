@@ -124,7 +124,7 @@ const TestimonialsSection: React.FC = () => {
   const caseStudies = [
     {
       company: "TechGrowth Marketing",
-      logo: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&q=80",
+      logo: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=120",
       metrics: {
         engagement: "+215%",
         production: "10x",
@@ -135,7 +135,7 @@ const TestimonialsSection: React.FC = () => {
     },
     {
       company: "Global Learning Academy",
-      logo: "https://images.unsplash.com/photo-1577641992252-1e9b3f789732?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&q=80",
+      logo: "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=120",
       metrics: {
         engagement: "+186%",
         production: "7x",

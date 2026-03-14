@@ -1,25 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import {
-  Video,
-  Users,
-  Image as ImageIcon,
-  Sparkles,
-  Palette,
-  UserCircle,
-  Package,
-  Layers,
-  Search,
-  ArrowRight,
-  Filter,
-  Star,
-  Zap,
-  Wand2,
-  Globe,
-  Brain,
-  Check,
-  Lock,
-} from "lucide-react";
+import { Video, Users, Image as ImageIcon, Sparkles, Palette, CircleUser as UserCircle, Package, Layers, Search, ArrowRight, ListFilter as Filter, Star, Zap, Wand as Wand2, Globe, Brain, Check, Lock } from "lucide-react";
 import MagicSparkles from "./MagicSparkles";
 import { useInView } from "react-intersection-observer";
 import { useApps } from "../hooks/useApps";
@@ -97,11 +78,11 @@ const featuredApps = [
 
 // Fallback image URLs to use when an app image fails to load
 const fallbackImages = [
-  "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1550751827-4bd374c3f58e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  "https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?auto=compress&cs=tinysrgb&w=800",
 ];
 
 // Personalization benefits

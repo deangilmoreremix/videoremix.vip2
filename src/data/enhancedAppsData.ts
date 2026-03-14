@@ -1,31 +1,5 @@
 import React from "react";
-import {
-  Video,
-  Users,
-  Image as ImageIcon,
-  Sparkles,
-  Palette,
-  CircleUser as UserCircle,
-  Package,
-  Layers,
-  FileText,
-  Mic,
-  Megaphone,
-  Database,
-  DollarSign,
-  Ligature as FileSignature,
-  LayoutTemplate,
-  ShoppingBag,
-  Briefcase,
-  Clock,
-  Award,
-  Zap,
-  Share2,
-  TrendingUp,
-  Target,
-  BarChart2,
-  Camera,
-} from "lucide-react";
+import { Video, Users, Image as ImageIcon, Sparkles, Palette, CircleUser as UserCircle, Package, Layers, FileText, Mic, Megaphone, Database, DollarSign, Ligature as FileSignature, LayoutTemplate, ShoppingBag, Briefcase, Clock, Award, Zap, Share2, TrendingUp, Target, ChartBar as BarChart2, Camera } from "lucide-react";
 
 export const enhancedAppDetails: Record<string, any> = {
   "ai-referral-maximizer": {
@@ -137,7 +111,7 @@ export const enhancedAppDetails: Record<string, any> = {
         name: "Sarah Martinez",
         role: "VP of Growth, TechFlow Solutions",
         avatar:
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         quote:
@@ -145,7 +119,7 @@ export const enhancedAppDetails: Record<string, any> = {
         name: "Michael Chen",
         role: "CMO, CloudScale Inc.",
         avatar:
-          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
     ],
     faqs: [
@@ -286,7 +260,7 @@ export const enhancedAppDetails: Record<string, any> = {
         name: "David Thompson",
         role: "VP of Sales, Enterprise Solutions Co.",
         avatar:
-          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         quote:
@@ -294,7 +268,7 @@ export const enhancedAppDetails: Record<string, any> = {
         name: "Jennifer Park",
         role: "Director of Revenue Operations, GrowthTech",
         avatar:
-          "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          "https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
     ],
     faqs: [
@@ -436,7 +410,7 @@ export const enhancedAppDetails: Record<string, any> = {
         name: "Marcus Rodriguez",
         role: "YouTube Creator, 850K Subscribers",
         avatar:
-          "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         quote:
@@ -444,7 +418,7 @@ export const enhancedAppDetails: Record<string, any> = {
         name: "Amanda Foster",
         role: "Marketing Director, TechBrand Inc.",
         avatar:
-          "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
     ],
     faqs: [
@@ -579,7 +553,7 @@ export const enhancedAppDetails: Record<string, any> = {
         name: "Jessica Williams",
         role: "Marketing Coach & Consultant",
         avatar:
-          "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          "https://images.pexels.com/photos/1181519/pexels-photo-1181519.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         quote:
@@ -587,7 +561,7 @@ export const enhancedAppDetails: Record<string, any> = {
         name: "Robert Chang",
         role: "Web Development Consultant",
         avatar:
-          "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          "https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
     ],
     faqs: [
@@ -728,7 +702,7 @@ export const enhancedAppDetails: Record<string, any> = {
         name: "Emma Richardson",
         role: "Creative Director, Brand Studio",
         avatar:
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         quote:
@@ -736,7 +710,7 @@ export const enhancedAppDetails: Record<string, any> = {
         name: "Alex Morrison",
         role: "Content Creator & Educator",
         avatar:
-          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
     ],
     faqs: [
@@ -871,7 +845,7 @@ export const enhancedAppDetails: Record<string, any> = {
         name: "Patrick Sullivan",
         role: "Founder, Digital Course Academy",
         avatar:
-          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         quote:
@@ -879,7 +853,7 @@ export const enhancedAppDetails: Record<string, any> = {
         name: "Lisa Chen",
         role: "CEO, SaaS Startup",
         avatar:
-          "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          "https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
     ],
     faqs: [
@@ -1019,7 +993,7 @@ export const enhancedAppDetails: Record<string, any> = {
         name: "Sophia Martinez",
         role: "E-Commerce Director, Fashion Brand",
         avatar:
-          "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         quote:
@@ -1027,7 +1001,7 @@ export const enhancedAppDetails: Record<string, any> = {
         name: "Daniel Kim",
         role: "Founder, Online Eyewear Boutique",
         avatar:
-          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
     ],
     faqs: [

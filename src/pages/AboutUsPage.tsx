@@ -64,7 +64,7 @@ const AboutUsPage: React.FC = () => {
                   <div className="absolute -inset-1 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-lg blur opacity-25"></div>
                   <div className="relative">
                     <img
-                      src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80"
+                      src="https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=1400"
                       alt="VideoRemix.vip Team"
                       className="rounded-lg shadow-xl"
                     />
@@ -231,25 +231,25 @@ const AboutUsPage: React.FC = () => {
                     name: "Alex Morgan",
                     role: "Founder & CEO",
                     bio: "Former AI Research Lead at Google, Alex founded VideoRemix.vip to democratize marketing personalization.",
-                    image: "https://randomuser.me/api/portraits/men/32.jpg",
+                    image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150",
                   },
                   {
                     name: "Sarah Chen",
                     role: "Chief Technology Officer",
                     bio: "Machine learning expert with over 15 years of experience in computer vision and AI systems.",
-                    image: "https://randomuser.me/api/portraits/women/44.jpg",
+                    image: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150",
                   },
                   {
                     name: "James Wilson",
                     role: "Head of Product",
                     bio: "Former filmmaker turned product leader, focused on creating intuitive creative tools.",
-                    image: "https://randomuser.me/api/portraits/men/68.jpg",
+                    image: "https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&w=150",
                   },
                   {
                     name: "Priya Sharma",
                     role: "Chief Marketing Officer",
                     bio: "Digital marketing strategist who has helped scale multiple SaaS startups to success.",
-                    image: "https://randomuser.me/api/portraits/women/65.jpg",
+                    image: "https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=150",
                   },
                 ].map((member, index) => (
                   <motion.div

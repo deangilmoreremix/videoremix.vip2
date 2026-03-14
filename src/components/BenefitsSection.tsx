@@ -113,7 +113,7 @@ const BenefitsSection: React.FC = () => {
       name: "Alex Rodriguez",
       role: "Marketing Director",
       company: "TechGrowth Solutions",
-      image: "https://randomuser.me/api/portraits/men/32.jpg",
+      image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150",
       metrics: {
         conversion: "Fast Setup",
         engagement: "Easy to Use",
@@ -126,7 +126,7 @@ const BenefitsSection: React.FC = () => {
       name: "Sarah Johnson",
       role: "Email Marketing Lead",
       company: "Retail Innovations Inc.",
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
+      image: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150",
       metrics: {
         conversion: "Time Saver",
         engagement: "50+ Tools",
@@ -139,7 +139,7 @@ const BenefitsSection: React.FC = () => {
       name: "Michael Chen",
       role: "VP of Sales",
       company: "Enterprise Solutions",
-      image: "https://randomuser.me/api/portraits/men/65.jpg",
+      image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150",
       metrics: {
         conversion: "Powerful AI",
         engagement: "Reliable",
@@ -152,7 +152,7 @@ const BenefitsSection: React.FC = () => {
       name: "Emily Drake",
       role: "Customer Success Director",
       company: "CloudTools Pro",
-      image: "https://randomuser.me/api/portraits/women/68.jpg",
+      image: "https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=150",
       metrics: {
         conversion: "All-in-One",
         engagement: "Efficient",
@@ -165,7 +165,7 @@ const BenefitsSection: React.FC = () => {
       name: "Dr. James Wilson",
       role: "Marketing Director",
       company: "MedTech Innovations",
-      image: "https://randomuser.me/api/portraits/men/54.jpg",
+      image: "https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&w=150",
       metrics: {
         conversion: "+320%",
         engagement: "4.5x",
@@ -178,7 +178,7 @@ const BenefitsSection: React.FC = () => {
       name: "Jessica Martinez",
       role: "Digital Marketing Manager",
       company: "Premier Properties",
-      image: "https://randomuser.me/api/portraits/women/45.jpg",
+      image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150",
       metrics: {
         conversion: "+214%",
         engagement: "3.2x",
@@ -191,7 +191,7 @@ const BenefitsSection: React.FC = () => {
       name: "Ryan Thompson",
       role: "E-commerce Director",
       company: "Fashion Forward",
-      image: "https://randomuser.me/api/portraits/men/33.jpg",
+      image: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=150",
       metrics: {
         conversion: "+187%",
         engagement: "2.8x",
@@ -204,7 +204,7 @@ const BenefitsSection: React.FC = () => {
       name: "Olivia Parker",
       role: "University Marketing Lead",
       company: "Global Education Institute",
-      image: "https://randomuser.me/api/portraits/women/52.jpg",
+      image: "https://images.pexels.com/photos/1587009/pexels-photo-1587009.jpeg?auto=compress&cs=tinysrgb&w=150",
       metrics: {
         conversion: "+176%",
         engagement: "3.9x",
@@ -217,7 +217,7 @@ const BenefitsSection: React.FC = () => {
       name: "Daniel Morgan",
       role: "Client Acquisition Head",
       company: "Precision Financial Group",
-      image: "https://randomuser.me/api/portraits/men/75.jpg",
+      image: "https://images.pexels.com/photos/1300402/pexels-photo-1300402.jpeg?auto=compress&cs=tinysrgb&w=150",
       metrics: {
         conversion: "+249%",
         engagement: "3.7x",
@@ -230,7 +230,7 @@ const BenefitsSection: React.FC = () => {
       name: "Amelia Washington",
       role: "Donor Relations Director",
       company: "Global Hope Initiative",
-      image: "https://randomuser.me/api/portraits/women/33.jpg",
+      image: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=150",
       metrics: {
         conversion: "+194%",
         engagement: "4.1x",

@@ -2,27 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import {
-  Search,
-  ChevronRight,
-  Book,
-  CreditCard,
-  Video,
-  Sparkles,
-  HelpCircle,
-  Users,
-  Code,
-  Zap,
-  ArrowRight,
-  Star,
-  Video as VideoIcon,
-  FilePlus,
-  Settings,
-  LayoutTemplate,
-  Laptop,
-  PencilRuler,
-  ArrowUpRight,
-} from "lucide-react";
+import { Search, ChevronRight, Book, CreditCard, Video, Sparkles, Circle as HelpCircle, Users, Code, Zap, ArrowRight, Star, Video as VideoIcon, FilePlus, Settings, LayoutTemplate, Laptop, PencilRuler, ArrowUpRight } from "lucide-react";
 import MagicSparkles from "../components/MagicSparkles";
 
 // Define the help content structure
@@ -853,37 +833,37 @@ const HelpCenterPage: React.FC = () => {
                     title: "Getting Started Tutorial",
                     duration: "6:42",
                     thumbnail:
-                      "https://images.unsplash.com/photo-1611162616475-46b635cb6868?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                      "https://images.pexels.com/photos/6476808/pexels-photo-6476808.jpeg?auto=compress&cs=tinysrgb&w=800",
                   },
                   {
                     title: "AI Editing Masterclass",
                     duration: "12:18",
                     thumbnail:
-                      "https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                      "https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=800",
                   },
                   {
                     title: "Team Collaboration Tutorial",
                     duration: "8:55",
                     thumbnail:
-                      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                      "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800",
                   },
                   {
                     title: "Content Repurposing Guide",
                     duration: "9:27",
                     thumbnail:
-                      "https://images.unsplash.com/photo-1576602975754-fe2bf45eaf2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                      "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=800",
                   },
                   {
                     title: "Advanced Export Settings",
                     duration: "7:13",
                     thumbnail:
-                      "https://images.unsplash.com/photo-1616469829941-c7200edec809?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                      "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800",
                   },
                   {
                     title: "Mastering Video Templates",
                     duration: "10:45",
                     thumbnail:
-                      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                      "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800",
                   },
                 ].map((tutorial, index) => (
                   <motion.div

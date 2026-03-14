@@ -118,13 +118,13 @@ const blogPosts = [
     `,
     category: "Technology",
     author: "Sarah Johnson",
-    authorImage: "https://randomuser.me/api/portraits/women/44.jpg",
+    authorImage: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150",
     authorBio:
       "Sarah is the Head of Content at VideoRemix.vip with over 10 years of experience in digital media and video production.",
     date: "May 15, 2025",
     readTime: "8 min read",
     image:
-      "https://images.unsplash.com/photo-1616469829941-c7200edec809?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=1200",
     tags: ["AI", "Video Production", "Content Creation", "Technology Trends"],
   },
   // Other blog posts would be defined here
@@ -138,21 +138,21 @@ const RelatedPosts = () => {
       id: "video-marketing-tips",
       title: "10 Video Marketing Tips to Boost Engagement and Conversions",
       image:
-        "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=500",
       date: "May 8, 2025",
     },
     {
       id: "content-repurposing",
       title: "Content Repurposing: Turn One Video into Multiple Content Pieces",
       image:
-        "https://images.unsplash.com/photo-1592859600972-1b0834d83747?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=500",
       date: "April 29, 2025",
     },
     {
       id: "video-seo-guide",
       title: "The Ultimate Guide to Video SEO in 2025",
       image:
-        "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        "https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?auto=compress&cs=tinysrgb&w=500",
       date: "April 22, 2025",
     },
   ];
@@ -493,7 +493,7 @@ const BlogPostPage: React.FC = () => {
                         >
                           <div className="flex items-center mb-4">
                             <img
-                              src={`https://randomuser.me/api/portraits/${index % 2 ? "women" : "men"}/${20 + index}.jpg`}
+                              src={`https://images.pexels.com/photos/${[1181686, 2379004, 1239291, 1516680, 1181424, 220453, 1681010, 1587009, 1300402, 774909][index % 10]}/pexels-photo-${[1181686, 2379004, 1239291, 1516680, 1181424, 220453, 1681010, 1587009, 1300402, 774909][index % 10]}.jpeg?auto=compress&cs=tinysrgb&w=150`}
                               alt="Commenter"
                               className="w-10 h-10 rounded-full mr-3 object-cover"
                             />

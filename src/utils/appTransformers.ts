@@ -69,7 +69,7 @@ export const transformApp = (dbApp: DatabaseApp): ComponentApp => {
     iconName: getIconNameForApp(dbApp),
     image:
       dbApp.image ||
-      "https://images.unsplash.com/photo-1616469829941-c7200edec809?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=800",
     isActive: dbApp.is_active,
     isPublic: dbApp.is_public,
     popular: dbApp.popular || dbApp.is_featured,

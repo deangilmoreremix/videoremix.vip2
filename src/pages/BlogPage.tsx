@@ -22,11 +22,11 @@ const blogPosts = [
       "Discover how artificial intelligence is transforming the video production landscape and making professional video creation accessible to everyone.",
     category: "Technology",
     author: "Sarah Johnson",
-    authorImage: "https://randomuser.me/api/portraits/women/44.jpg",
+    authorImage: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150",
     date: "May 15, 2025",
     readTime: "8 min read",
     image:
-      "https://images.unsplash.com/photo-1616469829941-c7200edec809?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.pexels.com/photos/3945313/pexels-photo-3945313.jpeg?auto=compress&cs=tinysrgb&w=1200",
     featured: true,
   },
   {
@@ -36,11 +36,11 @@ const blogPosts = [
       "Learn proven strategies to create videos that not only capture attention but drive meaningful engagement and conversions for your business.",
     category: "Marketing",
     author: "David Chen",
-    authorImage: "https://randomuser.me/api/portraits/men/32.jpg",
+    authorImage: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150",
     date: "May 8, 2025",
     readTime: "6 min read",
     image:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1200",
     featured: false,
   },
   {
@@ -50,11 +50,11 @@ const blogPosts = [
       "Maximize your content strategy by learning how to efficiently transform a single video into dozens of engaging content pieces for every platform.",
     category: "Strategy",
     author: "Emma Rodriguez",
-    authorImage: "https://randomuser.me/api/portraits/women/63.jpg",
+    authorImage: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150",
     date: "April 29, 2025",
     readTime: "7 min read",
     image:
-      "https://images.unsplash.com/photo-1592859600972-1b0834d83747?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=1200",
     featured: false,
   },
   {
@@ -64,11 +64,11 @@ const blogPosts = [
       "Master the latest techniques to optimize your videos for search engines and dramatically increase your organic visibility and traffic.",
     category: "SEO",
     author: "Michael Wilson",
-    authorImage: "https://randomuser.me/api/portraits/men/68.jpg",
+    authorImage: "https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&w=150",
     date: "April 22, 2025",
     readTime: "10 min read",
     image:
-      "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?auto=compress&cs=tinysrgb&w=1200",
     featured: false,
   },
   {
@@ -78,11 +78,11 @@ const blogPosts = [
       "Explore how effective storytelling in your videos can create emotional connections with viewers and build lasting brand loyalty.",
     category: "Creativity",
     author: "Olivia Martinez",
-    authorImage: "https://randomuser.me/api/portraits/women/33.jpg",
+    authorImage: "https://images.pexels.com/photos/1181424/pexels-photo-1181424.jpeg?auto=compress&cs=tinysrgb&w=150",
     date: "April 15, 2025",
     readTime: "9 min read",
     image:
-      "https://images.unsplash.com/photo-1585647347384-2b64cc9277ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg?auto=compress&cs=tinysrgb&w=1200",
     featured: false,
   },
   {
@@ -92,11 +92,11 @@ const blogPosts = [
       "Learn how to leverage data and metrics to measure video performance and create content that resonates with your target audience.",
     category: "Analytics",
     author: "James Peterson",
-    authorImage: "https://randomuser.me/api/portraits/men/45.jpg",
+    authorImage: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150",
     date: "April 8, 2025",
     readTime: "7 min read",
     image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1200",
     featured: false,
   },
 ];

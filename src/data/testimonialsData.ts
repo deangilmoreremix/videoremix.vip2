@@ -25,7 +25,7 @@ export const testimonialsData: Testimonial[] = [
     company: "Global Marketing Inc.",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+      "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "marketing",
     featured: true,
   },
@@ -38,7 +38,7 @@ export const testimonialsData: Testimonial[] = [
     company: "TechReviews Channel",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+      "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "content-creation",
     featured: true,
   },
@@ -51,7 +51,7 @@ export const testimonialsData: Testimonial[] = [
     company: "E-Learning Solutions",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1022&q=80",
+      "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "education",
     featured: true,
   },
@@ -64,7 +64,7 @@ export const testimonialsData: Testimonial[] = [
     company: "Visionary Agency",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+      "https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "agency",
     featured: false,
   },
@@ -77,7 +77,7 @@ export const testimonialsData: Testimonial[] = [
     company: "Global Brands Inc.",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+      "https://images.pexels.com/photos/1181424/pexels-photo-1181424.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "marketing",
     featured: false,
   },
@@ -90,7 +90,7 @@ export const testimonialsData: Testimonial[] = [
     company: "1.2M Subscribers",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+      "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "content-creation",
     featured: true,
   },
@@ -103,7 +103,7 @@ export const testimonialsData: Testimonial[] = [
     company: "LearnFast Academy",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+      "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "education",
     featured: false,
   },
@@ -116,7 +116,7 @@ export const testimonialsData: Testimonial[] = [
     company: "Artisan Crafts Co.",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+      "https://images.pexels.com/photos/1587009/pexels-photo-1587009.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "small-business",
     featured: false,
   },
@@ -129,7 +129,7 @@ export const testimonialsData: Testimonial[] = [
     company: "Enterprise Solutions Inc.",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+      "https://images.pexels.com/photos/1300402/pexels-photo-1300402.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "enterprise",
     featured: true,
   },
@@ -142,7 +142,7 @@ export const testimonialsData: Testimonial[] = [
     company: "Tech Innovations Ltd.",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80",
+      "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "marketing",
     featured: false,
   },
@@ -155,7 +155,7 @@ export const testimonialsData: Testimonial[] = [
     company: "Visual Story Studios",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+      "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "professional",
     featured: true,
   },
@@ -168,7 +168,7 @@ export const testimonialsData: Testimonial[] = [
     company: "Global Creative Team",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=776&q=80",
+      "https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "agency",
     featured: false,
   },
@@ -181,7 +181,7 @@ export const testimonialsData: Testimonial[] = [
     company: "Enterprise Corp.",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+      "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "enterprise",
     featured: false,
   },
@@ -194,7 +194,7 @@ export const testimonialsData: Testimonial[] = [
     company: "SaaS Solutions Inc.",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=776&q=80",
+      "https://images.pexels.com/photos/1181695/pexels-photo-1181695.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "sales",
     featured: false,
   },
@@ -207,7 +207,7 @@ export const testimonialsData: Testimonial[] = [
     company: "2.5M Followers",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1531891437562-4301cf35b7e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=778&q=80",
+      "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "content-creation",
     featured: true,
   },
@@ -220,7 +220,7 @@ export const testimonialsData: Testimonial[] = [
     company: "Creative Visuals",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1022&q=80",
+      "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "design",
     featured: false,
   },
@@ -233,7 +233,7 @@ export const testimonialsData: Testimonial[] = [
     company: "Premium Properties",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1331&q=80",
+      "https://images.pexels.com/photos/1043473/pexels-photo-1043473.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "real-estate",
     featured: true,
   },
@@ -246,7 +246,7 @@ export const testimonialsData: Testimonial[] = [
     company: "Creative Films Productions",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1771&q=80",
+      "https://images.pexels.com/photos/1181519/pexels-photo-1181519.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "professional",
     featured: false,
   },
@@ -259,7 +259,7 @@ export const testimonialsData: Testimonial[] = [
     company: "Global Relief Initiative",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1549473448-5d7196c91f48?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+      "https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "non-profit",
     featured: false,
   },
@@ -272,7 +272,7 @@ export const testimonialsData: Testimonial[] = [
     company: "Success Strategies",
     rating: 5,
     image:
-      "https://images.unsplash.com/photo-1587614382346-4ec70e388b28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=770&q=80",
+      "https://images.pexels.com/photos/1181577/pexels-photo-1181577.jpeg?auto=compress&cs=tinysrgb&w=150",
     category: "coaching",
     featured: false,
   },
