@@ -14,7 +14,14 @@ vi.mock('../src/utils/supabaseClient', () => ({
       signOut: vi.fn(),
       resetPasswordForEmail: vi.fn(),
       updateUser: vi.fn(),
+      refreshSession: vi.fn(),
     },
+    from: vi.fn(() => ({
+      select: vi.fn().mockReturnThis(),
+      eq: vi.fn().mockReturnThis(),
+      update: vi.fn().mockReturnThis(),
+      maybeSingle: vi.fn().mockResolvedValue({ data: null, error: null }),
+    })),
   },
 }));
 
@@ -38,6 +45,13 @@ describe('AuthContext', () => {
     (supabase.auth.onAuthStateChange as any).mockReturnValue({
       data: { subscription: mockSubscription },
     });
+
+    (supabase.from as any).mockReturnValue({
+      select: vi.fn().mockReturnThis(),
+      eq: vi.fn().mockReturnThis(),
+      update: vi.fn().mockReturnThis(),
+      maybeSingle: vi.fn().mockResolvedValue({ data: null, error: null }),
+    });
   });
 
   afterEach(() => {
@@ -51,10 +65,21 @@ describe('AuthContext', () => {
       expect(result.current.user).toBeNull();
       expect(result.current.session).toBeNull();
       expect(result.current.loading).toBe(true);
+      expect(result.current.authState).toBe('initializing');
 
       await waitFor(() => {
         expect(result.current.loading).toBe(false);
       });
+    });
+
+    it('should transition to unauthenticated state when no session exists', async () => {
+      const { result } = renderHook(() => useAuth(), { wrapper });
+
+      await waitFor(() => {
+        expect(result.current.authState).toBe('unauthenticated');
+      });
+
+      expect(result.current.isAuthenticated).toBe(false);
     });
 
     it('should load existing session on mount', async () => {
@@ -72,7 +97,7 @@ describe('AuthContext', () => {
         access_token: 'token-123',
         refresh_token: 'refresh-123',
         expires_in: 3600,
-        expires_at: Date.now() + 3600000,
+        expires_at: Math.floor(Date.now() / 1000) + 3600,
         token_type: 'bearer',
       };
 
@@ -89,6 +114,8 @@ describe('AuthContext', () => {
 
       expect(result.current.user).toEqual(mockUser);
       expect(result.current.session).toEqual(mockSession);
+      expect(result.current.authState).toBe('authenticated');
+      expect(result.current.isAuthenticated).toBe(true);
     });
 
     it('should set up auth state listener', () => {
@@ -106,6 +133,27 @@ describe('AuthContext', () => {
       unmount();
 
       expect(mockSubscription.unsubscribe).toHaveBeenCalled();
+    });
+
+    it('should expose isAuthenticated as false when unauthenticated', async () => {
+      const { result } = renderHook(() => useAuth(), { wrapper });
+
+      await waitFor(() => {
+        expect(result.current.authState).toBe('unauthenticated');
+      });
+
+      expect(result.current.isAuthenticated).toBe(false);
+    });
+
+    it('should expose profile and organization as null initially', async () => {
+      const { result } = renderHook(() => useAuth(), { wrapper });
+
+      await waitFor(() => {
+        expect(result.current.loading).toBe(false);
+      });
+
+      expect(result.current.profile).toBeNull();
+      expect(result.current.organization).toBeNull();
     });
   });
 
@@ -131,7 +179,7 @@ describe('AuthContext', () => {
         expect(result.current.loading).toBe(false);
       });
 
-      let signUpResult;
+      let signUpResult: any;
       await act(async () => {
         signUpResult = await result.current.signUp('newuser@example.com', 'password123', {
           first_name: 'John',
@@ -139,13 +187,15 @@ describe('AuthContext', () => {
         });
       });
 
-      expect(supabase.auth.signUp).toHaveBeenCalledWith({
-        email: 'newuser@example.com',
-        password: 'password123',
-        options: {
-          data: { first_name: 'John', last_name: 'Doe' },
-        },
-      });
+      expect(supabase.auth.signUp).toHaveBeenCalledWith(
+        expect.objectContaining({
+          email: 'newuser@example.com',
+          password: 'password123',
+          options: expect.objectContaining({
+            data: { first_name: 'John', last_name: 'Doe' },
+          }),
+        })
+      );
 
       expect(signUpResult).toEqual({
         user: mockUser,
@@ -170,7 +220,7 @@ describe('AuthContext', () => {
         expect(result.current.loading).toBe(false);
       });
 
-      let signUpResult;
+      let signUpResult: any;
       await act(async () => {
         signUpResult = await result.current.signUp('existing@example.com', 'password123');
       });
@@ -204,7 +254,7 @@ describe('AuthContext', () => {
         expect(result.current.loading).toBe(false);
       });
 
-      let signInResult;
+      let signInResult: any;
       await act(async () => {
         signInResult = await result.current.signIn('test@example.com', 'password123');
       });
@@ -237,7 +287,7 @@ describe('AuthContext', () => {
         expect(result.current.loading).toBe(false);
       });
 
-      let signInResult;
+      let signInResult: any;
       await act(async () => {
         signInResult = await result.current.signIn('test@example.com', 'wrongpassword');
       });
@@ -265,7 +315,7 @@ describe('AuthContext', () => {
         expect(result.current.loading).toBe(false);
       });
 
-      let signInResult;
+      let signInResult: any;
       await act(async () => {
         signInResult = await result.current.signIn('notfound@example.com', 'password123');
       });
@@ -289,13 +339,69 @@ describe('AuthContext', () => {
         expect(result.current.loading).toBe(false);
       });
 
-      let signOutResult;
+      let signOutResult: any;
       await act(async () => {
         signOutResult = await result.current.signOut();
       });
 
       expect(supabase.auth.signOut).toHaveBeenCalled();
       expect(signOutResult).toEqual({ error: null });
+    });
+
+    it('should clear user state after sign out', async () => {
+      let authCallback: (event: string, session: any) => void;
+
+      const mockUser = {
+        id: 'user-123',
+        email: 'test@example.com',
+        app_metadata: {},
+        user_metadata: {},
+        aud: 'authenticated',
+        created_at: '2024-01-01T00:00:00Z',
+      };
+
+      const mockSession = {
+        user: mockUser,
+        access_token: 'token-123',
+        refresh_token: 'refresh-123',
+        expires_in: 3600,
+        expires_at: Math.floor(Date.now() / 1000) + 3600,
+        token_type: 'bearer',
+      };
+
+      (supabase.auth.getSession as any).mockResolvedValue({
+        data: { session: mockSession },
+        error: null,
+      });
+
+      (supabase.auth.onAuthStateChange as any).mockImplementation((callback: any) => {
+        authCallback = callback;
+        return { data: { subscription: mockSubscription } };
+      });
+
+      (supabase.auth.signOut as any).mockResolvedValue({ error: null });
+
+      const { result } = renderHook(() => useAuth(), { wrapper });
+
+      await waitFor(() => {
+        expect(result.current.isAuthenticated).toBe(true);
+      });
+
+      (supabase.auth.getSession as any).mockResolvedValue({
+        data: { session: null },
+        error: null,
+      });
+
+      await act(async () => {
+        await result.current.signOut();
+        authCallback!('SIGNED_OUT', null);
+      });
+
+      await waitFor(() => {
+        expect(result.current.user).toBeNull();
+        expect(result.current.session).toBeNull();
+        expect(result.current.authState).toBe('unauthenticated');
+      });
     });
 
     it('should handle sign out errors', async () => {
@@ -314,7 +420,7 @@ describe('AuthContext', () => {
         expect(result.current.loading).toBe(false);
       });
 
-      let signOutResult;
+      let signOutResult: any;
       await act(async () => {
         signOutResult = await result.current.signOut();
       });
@@ -336,12 +442,15 @@ describe('AuthContext', () => {
         expect(result.current.loading).toBe(false);
       });
 
-      let resetResult;
+      let resetResult: any;
       await act(async () => {
         resetResult = await result.current.resetPassword('test@example.com');
       });
 
-      expect(supabase.auth.resetPasswordForEmail).toHaveBeenCalledWith('test@example.com');
+      expect(supabase.auth.resetPasswordForEmail).toHaveBeenCalledWith(
+        'test@example.com',
+        expect.objectContaining({ redirectTo: expect.stringContaining('/reset-password') })
+      );
       expect(resetResult).toEqual({ error: null });
     });
 
@@ -362,7 +471,7 @@ describe('AuthContext', () => {
         expect(result.current.loading).toBe(false);
       });
 
-      let resetResult;
+      let resetResult: any;
       await act(async () => {
         resetResult = await result.current.resetPassword('notfound@example.com');
       });
@@ -393,7 +502,7 @@ describe('AuthContext', () => {
         expect(result.current.loading).toBe(false);
       });
 
-      let updateResult;
+      let updateResult: any;
       await act(async () => {
         updateResult = await result.current.updateProfile({
           first_name: 'Jane',
@@ -428,7 +537,7 @@ describe('AuthContext', () => {
         expect(result.current.loading).toBe(false);
       });
 
-      let updateResult;
+      let updateResult: any;
       await act(async () => {
         updateResult = await result.current.updateProfile({ first_name: 'Jane' });
       });
@@ -440,11 +549,38 @@ describe('AuthContext', () => {
     });
   });
 
+  describe('clearError', () => {
+    it('should clear error state', async () => {
+      const mockError = { message: 'Invalid login credentials', status: 400 };
+
+      (supabase.auth.signInWithPassword as any).mockResolvedValue({
+        data: { user: null, session: null },
+        error: mockError,
+      });
+
+      const { result } = renderHook(() => useAuth(), { wrapper });
+
+      await waitFor(() => expect(result.current.loading).toBe(false));
+
+      await act(async () => {
+        await result.current.signIn('test@example.com', 'wrong');
+      });
+
+      expect(result.current.error).not.toBeNull();
+
+      act(() => {
+        result.current.clearError();
+      });
+
+      expect(result.current.error).toBeNull();
+    });
+  });
+
   describe('Auth State Changes', () => {
-    it('should update user state when auth state changes', async () => {
+    it('should update user state when auth state changes to SIGNED_IN', async () => {
       let authCallback: (event: string, session: any) => void;
 
-      (supabase.auth.onAuthStateChange as any).mockImplementation((callback) => {
+      (supabase.auth.onAuthStateChange as any).mockImplementation((callback: any) => {
         authCallback = callback;
         return { data: { subscription: mockSubscription } };
       });
@@ -469,7 +605,7 @@ describe('AuthContext', () => {
         access_token: 'token-123',
         refresh_token: 'refresh-123',
         expires_in: 3600,
-        expires_at: Date.now() + 3600000,
+        expires_at: Math.floor(Date.now() / 1000) + 3600,
         token_type: 'bearer',
       };
 
@@ -480,10 +616,11 @@ describe('AuthContext', () => {
       await waitFor(() => {
         expect(result.current.user).toEqual(mockUser);
         expect(result.current.session).toEqual(mockSession);
+        expect(result.current.authState).toBe('authenticated');
       });
     });
 
-    it('should clear user state on sign out event', async () => {
+    it('should clear user state on SIGNED_OUT event', async () => {
       let authCallback: (event: string, session: any) => void;
 
       const mockUser = {
@@ -500,7 +637,7 @@ describe('AuthContext', () => {
         access_token: 'token-123',
         refresh_token: 'refresh-123',
         expires_in: 3600,
-        expires_at: Date.now() + 3600000,
+        expires_at: Math.floor(Date.now() / 1000) + 3600,
         token_type: 'bearer',
       };
 
@@ -509,7 +646,7 @@ describe('AuthContext', () => {
         error: null,
       });
 
-      (supabase.auth.onAuthStateChange as any).mockImplementation((callback) => {
+      (supabase.auth.onAuthStateChange as any).mockImplementation((callback: any) => {
         authCallback = callback;
         return { data: { subscription: mockSubscription } };
       });
@@ -527,7 +664,87 @@ describe('AuthContext', () => {
       await waitFor(() => {
         expect(result.current.user).toBeNull();
         expect(result.current.session).toBeNull();
+        expect(result.current.authState).toBe('unauthenticated');
+        expect(result.current.isAuthenticated).toBe(false);
       });
+    });
+
+    it('should update session on TOKEN_REFRESHED event', async () => {
+      let authCallback: (event: string, session: any) => void;
+
+      (supabase.auth.onAuthStateChange as any).mockImplementation((callback: any) => {
+        authCallback = callback;
+        return { data: { subscription: mockSubscription } };
+      });
+
+      const { result } = renderHook(() => useAuth(), { wrapper });
+
+      await waitFor(() => expect(result.current.loading).toBe(false));
+
+      const mockUser = { id: 'user-123', email: 'test@example.com', app_metadata: {}, user_metadata: {}, aud: 'authenticated', created_at: '2024-01-01T00:00:00Z' };
+      const refreshedSession = {
+        user: mockUser,
+        access_token: 'new-token-456',
+        refresh_token: 'new-refresh-456',
+        expires_in: 3600,
+        expires_at: Math.floor(Date.now() / 1000) + 7200,
+        token_type: 'bearer',
+      };
+
+      act(() => {
+        authCallback!('TOKEN_REFRESHED', refreshedSession);
+      });
+
+      await waitFor(() => {
+        expect(result.current.session?.access_token).toBe('new-token-456');
+        expect(result.current.authState).toBe('authenticated');
+      });
+    });
+  });
+
+  describe('isSessionExpiringSoon', () => {
+    it('should return false when session is not expiring soon', async () => {
+      const mockSession = {
+        user: { id: 'user-123', email: 'test@example.com', app_metadata: {}, user_metadata: {}, aud: 'authenticated', created_at: '2024-01-01T00:00:00Z' },
+        access_token: 'token-123',
+        refresh_token: 'refresh-123',
+        expires_in: 3600,
+        expires_at: Math.floor(Date.now() / 1000) + 3600,
+        token_type: 'bearer',
+      };
+
+      (supabase.auth.getSession as any).mockResolvedValue({
+        data: { session: mockSession },
+        error: null,
+      });
+
+      const { result } = renderHook(() => useAuth(), { wrapper });
+
+      await waitFor(() => expect(result.current.loading).toBe(false));
+
+      expect(result.current.isSessionExpiringSoon).toBe(false);
+    });
+
+    it('should return true when session expires within 5 minutes', async () => {
+      const mockSession = {
+        user: { id: 'user-123', email: 'test@example.com', app_metadata: {}, user_metadata: {}, aud: 'authenticated', created_at: '2024-01-01T00:00:00Z' },
+        access_token: 'token-123',
+        refresh_token: 'refresh-123',
+        expires_in: 60,
+        expires_at: Math.floor(Date.now() / 1000) + 60,
+        token_type: 'bearer',
+      };
+
+      (supabase.auth.getSession as any).mockResolvedValue({
+        data: { session: mockSession },
+        error: null,
+      });
+
+      const { result } = renderHook(() => useAuth(), { wrapper });
+
+      await waitFor(() => expect(result.current.loading).toBe(false));
+
+      expect(result.current.isSessionExpiringSoon).toBe(true);
     });
   });
 });

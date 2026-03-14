@@ -5,6 +5,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import SignUpPage from '../src/pages/SignUpPage';
 import { AuthProvider } from '../src/context/AuthContext';
 import * as AuthContext from '../src/context/AuthContext';
+import { mockAuthContext, mockAuthenticatedContext } from './helpers/mockAuth';
 
 const mockNavigate = vi.fn();
 vi.mock('react-router-dom', async () => {
@@ -21,6 +22,26 @@ vi.mock('../src/components/MagicSparkles', () => ({
 
 vi.mock('../src/components/SparkleEffect', () => ({
   default: () => <div data-testid="sparkle-effect" />,
+}));
+
+vi.mock('../src/utils/supabaseClient', () => ({
+  supabase: {
+    auth: {
+      getSession: vi.fn().mockResolvedValue({ data: { session: null }, error: null }),
+      onAuthStateChange: vi.fn().mockReturnValue({ data: { subscription: { unsubscribe: vi.fn() } } }),
+      signUp: vi.fn(),
+      signInWithPassword: vi.fn(),
+      signOut: vi.fn(),
+      resetPasswordForEmail: vi.fn(),
+      updateUser: vi.fn(),
+    },
+    from: vi.fn().mockReturnValue({
+      insert: vi.fn().mockResolvedValue({ data: null, error: null }),
+      select: vi.fn().mockReturnThis(),
+      eq: vi.fn().mockReturnThis(),
+      maybeSingle: vi.fn().mockResolvedValue({ data: null, error: null }),
+    }),
+  },
 }));
 
 const renderSignUpPage = () => {
@@ -42,6 +63,7 @@ describe('SignUpPage', () => {
 
   describe('Rendering', () => {
     it('should render sign up form with all fields', () => {
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(mockAuthContext());
       renderSignUpPage();
 
       expect(screen.getByLabelText(/first name/i)).toBeInTheDocument();
@@ -53,12 +75,14 @@ describe('SignUpPage', () => {
     });
 
     it('should display start your journey heading', () => {
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(mockAuthContext());
       renderSignUpPage();
 
       expect(screen.getByText(/start your journey/i)).toBeInTheDocument();
     });
 
     it('should display link to sign in page', () => {
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(mockAuthContext());
       renderSignUpPage();
 
       const signInLink = screen.getByText(/sign in/i);
@@ -67,6 +91,7 @@ describe('SignUpPage', () => {
     });
 
     it('should display back to home link', () => {
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(mockAuthContext());
       renderSignUpPage();
 
       const backLink = screen.getByText(/back to home/i);
@@ -75,6 +100,7 @@ describe('SignUpPage', () => {
     });
 
     it('should display terms and privacy policy links', () => {
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(mockAuthContext());
       renderSignUpPage();
 
       expect(screen.getByText(/by creating an account/i)).toBeInTheDocument();
@@ -87,6 +113,7 @@ describe('SignUpPage', () => {
     });
 
     it('should display benefits section', () => {
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(mockAuthContext());
       renderSignUpPage();
 
       expect(screen.getByText(/start your free account today/i)).toBeInTheDocument();
@@ -96,6 +123,7 @@ describe('SignUpPage', () => {
 
   describe('Form Interaction', () => {
     it('should allow typing in all input fields', () => {
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(mockAuthContext());
       renderSignUpPage();
 
       const firstNameInput = screen.getByLabelText(/first name/i) as HTMLInputElement;
@@ -118,6 +146,7 @@ describe('SignUpPage', () => {
     });
 
     it('should toggle password visibility', () => {
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(mockAuthContext());
       renderSignUpPage();
 
       const passwordInput = screen.getByLabelText(/^password$/i) as HTMLInputElement;
@@ -133,6 +162,7 @@ describe('SignUpPage', () => {
     });
 
     it('should toggle confirm password visibility', () => {
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(mockAuthContext());
       renderSignUpPage();
 
       const confirmPasswordInput = screen.getByLabelText(/confirm password/i) as HTMLInputElement;
@@ -148,6 +178,7 @@ describe('SignUpPage', () => {
     });
 
     it('should require email field', () => {
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(mockAuthContext());
       renderSignUpPage();
 
       const emailInput = screen.getByLabelText(/email address/i);
@@ -155,6 +186,7 @@ describe('SignUpPage', () => {
     });
 
     it('should require password fields', () => {
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(mockAuthContext());
       renderSignUpPage();
 
       const passwordInput = screen.getByLabelText(/^password$/i);
@@ -169,23 +201,18 @@ describe('SignUpPage', () => {
     it('should show error if passwords do not match', async () => {
       const mockSignUp = vi.fn();
 
-      vi.spyOn(AuthContext, 'useAuth').mockReturnValue({
-        signUp: mockSignUp,
-        user: null,
-        session: null,
-        loading: false,
-        signIn: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
-      });
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(
+        mockAuthContext({ signUp: mockSignUp })
+      );
 
       renderSignUpPage();
 
+      const emailInput = screen.getByLabelText(/email address/i);
       const passwordInput = screen.getByLabelText(/^password$/i);
       const confirmPasswordInput = screen.getByLabelText(/confirm password/i);
       const submitButton = screen.getByRole('button', { name: /create account/i });
 
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
       fireEvent.change(passwordInput, { target: { value: 'password123' } });
       fireEvent.change(confirmPasswordInput, { target: { value: 'different456' } });
       fireEvent.click(submitButton);
@@ -200,23 +227,18 @@ describe('SignUpPage', () => {
     it('should show error if password is too short', async () => {
       const mockSignUp = vi.fn();
 
-      vi.spyOn(AuthContext, 'useAuth').mockReturnValue({
-        signUp: mockSignUp,
-        user: null,
-        session: null,
-        loading: false,
-        signIn: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
-      });
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(
+        mockAuthContext({ signUp: mockSignUp })
+      );
 
       renderSignUpPage();
 
+      const emailInput = screen.getByLabelText(/email address/i);
       const passwordInput = screen.getByLabelText(/^password$/i);
       const confirmPasswordInput = screen.getByLabelText(/confirm password/i);
       const submitButton = screen.getByRole('button', { name: /create account/i });
 
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
       fireEvent.change(passwordInput, { target: { value: '12345' } });
       fireEvent.change(confirmPasswordInput, { target: { value: '12345' } });
       fireEvent.click(submitButton);
@@ -233,16 +255,9 @@ describe('SignUpPage', () => {
     it('should call signUp with correct data on submit', async () => {
       const mockSignUp = vi.fn().mockResolvedValue({ user: {}, error: null });
 
-      vi.spyOn(AuthContext, 'useAuth').mockReturnValue({
-        signUp: mockSignUp,
-        user: null,
-        session: null,
-        loading: false,
-        signIn: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
-      });
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(
+        mockAuthContext({ signUp: mockSignUp })
+      );
 
       renderSignUpPage();
 
@@ -273,16 +288,9 @@ describe('SignUpPage', () => {
         () => new Promise((resolve) => setTimeout(() => resolve({ user: {}, error: null }), 100))
       );
 
-      vi.spyOn(AuthContext, 'useAuth').mockReturnValue({
-        signUp: mockSignUp,
-        user: null,
-        session: null,
-        loading: false,
-        signIn: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
-      });
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(
+        mockAuthContext({ signUp: mockSignUp })
+      );
 
       renderSignUpPage();
 
@@ -313,16 +321,9 @@ describe('SignUpPage', () => {
         error: { message: 'User already registered' },
       });
 
-      vi.spyOn(AuthContext, 'useAuth').mockReturnValue({
-        signUp: mockSignUp,
-        user: null,
-        session: null,
-        loading: false,
-        signIn: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
-      });
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(
+        mockAuthContext({ signUp: mockSignUp })
+      );
 
       renderSignUpPage();
 
@@ -342,23 +343,19 @@ describe('SignUpPage', () => {
     });
 
     it('should show success message and navigate on successful sign up', async () => {
-      vi.useFakeTimers();
-
       const mockSignUp = vi.fn().mockResolvedValue({
-        user: { id: 'user-123', email: 'john@example.com' },
+        user: {
+          id: 'user-123',
+          email: 'john@example.com',
+          identities: [{ id: 'identity-1' }],
+          email_confirmed_at: '2024-01-01T00:00:00Z',
+        },
         error: null,
       });
 
-      vi.spyOn(AuthContext, 'useAuth').mockReturnValue({
-        signUp: mockSignUp,
-        user: null,
-        session: null,
-        loading: false,
-        signIn: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
-      });
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(
+        mockAuthContext({ signUp: mockSignUp })
+      );
 
       renderSignUpPage();
 
@@ -376,32 +373,27 @@ describe('SignUpPage', () => {
         expect(screen.getByText(/account created successfully/i)).toBeInTheDocument();
       });
 
-      vi.advanceTimersByTime(2000);
-
       await waitFor(() => {
         expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
-      });
-
-      vi.useRealTimers();
+      }, { timeout: 3000 });
     });
   });
 
   describe('Redirect Logic', () => {
-    it('should redirect to dashboard if user is already logged in', () => {
-      vi.spyOn(AuthContext, 'useAuth').mockReturnValue({
-        signUp: vi.fn(),
-        user: { id: 'user-123', email: 'test@example.com' } as any,
-        session: {} as any,
-        loading: false,
-        signIn: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
-      });
+    it('should redirect to dashboard if user is already authenticated', () => {
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(mockAuthenticatedContext());
 
       renderSignUpPage();
 
       expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
+    });
+
+    it('should not redirect if user is not authenticated', () => {
+      vi.spyOn(AuthContext, 'useAuth').mockReturnValue(mockAuthContext());
+
+      renderSignUpPage();
+
+      expect(mockNavigate).not.toHaveBeenCalledWith('/dashboard');
     });
   });
 });
