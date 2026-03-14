@@ -5,17 +5,19 @@ import React, {
   useEffect,
   useCallback,
   ReactNode,
+  useRef,
+  useMemo,
 } from "react";
 import { supabase } from "../utils/supabaseClient";
+
+type AdminRole = "super_admin" | "admin";
 
 interface AdminUser {
   id: string;
   email: string;
-  role: string;
+  role: AdminRole;
   is_active: boolean;
-  permissions: Record<string, any>;
   created_at: string;
-  last_login?: string;
 }
 
 interface AdminContextType {
@@ -24,77 +26,117 @@ interface AdminContextType {
   isAuthenticated: boolean;
   login: (
     email: string,
-    password: string,
+    password: string
   ) => Promise<{ success: boolean; error?: string }>;
   signup: (
     email: string,
-    password: string,
+    password: string
   ) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
   verifyAuth: () => Promise<void>;
-  sessionExpiry?: Date;
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
 export const useAdmin = () => {
   const context = useContext(AdminContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useAdmin must be used within an AdminProvider");
   }
   return context;
 };
 
-interface AdminProviderProps {
-  children: ReactNode;
+async function resolveAdminUser(userId: string, email: string, createdAt: string): Promise<AdminUser | null> {
+  const { data: roleData, error } = await supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (error || !roleData) return null;
+  if (roleData.role !== "super_admin" && roleData.role !== "admin") return null;
+
+  return {
+    id: userId,
+    email,
+    role: roleData.role as AdminRole,
+    is_active: true,
+    created_at: createdAt,
+  };
 }
 
-export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
+export const AdminProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<AdminUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [sessionExpiry, setSessionExpiry] = useState<Date | undefined>();
-  const isVerifyingRef = React.useRef(false);
-  const lastVerificationRef = React.useRef<number>(0);
-  const VERIFICATION_COOLDOWN = 2000;
-  const SESSION_TIMEOUT_MS = 8 * 60 * 60 * 1000; // 8 hours
+
+  const isVerifyingRef = useRef(false);
+  const lastVerificationRef = useRef(0);
+  const VERIFICATION_COOLDOWN_MS = 2000;
+
+  const verifyAuth = useCallback(async (): Promise<void> => {
+    const now = Date.now();
+    if (isVerifyingRef.current) return;
+    if (now - lastVerificationRef.current < VERIFICATION_COOLDOWN_MS) return;
+
+    isVerifyingRef.current = true;
+    lastVerificationRef.current = now;
+
+    try {
+      setIsLoading(true);
+
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
+
+      if (sessionError || !session?.user) {
+        setUser(null);
+        return;
+      }
+
+      const adminUser = await resolveAdminUser(
+        session.user.id,
+        session.user.email ?? "",
+        session.user.created_at
+      );
+
+      setUser(adminUser);
+    } catch (err) {
+      console.error("[Admin] Auth verification error:", err);
+      setUser(null);
+    } finally {
+      setIsLoading(false);
+      isVerifyingRef.current = false;
+    }
+  }, []);
 
   const login = useCallback(
     async (
       email: string,
-      password: string,
+      password: string
     ): Promise<{ success: boolean; error?: string }> => {
       try {
         setIsLoading(true);
 
         const { data: authData, error: authError } =
-          await supabase.auth.signInWithPassword({
-            email,
-            password,
-          });
+          await supabase.auth.signInWithPassword({ email, password });
 
-        if (authError) {
-          return { success: false, error: authError.message };
-        }
-
-        if (!authData.user || !authData.session) {
-          return { success: false, error: "Authentication failed" };
-        }
-
-        const { data: roleData, error: roleError } = await supabase
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", authData.user.id)
-          .maybeSingle();
-
-        if (roleError || !roleData) {
-          await supabase.auth.signOut();
+        if (authError || !authData.user || !authData.session) {
           return {
             success: false,
-            error: "User does not have admin privileges",
+            error: authError?.message ?? "Authentication failed",
           };
         }
 
-        if (roleData.role !== "super_admin" && roleData.role !== "admin") {
+        const adminUser = await resolveAdminUser(
+          authData.user.id,
+          authData.user.email ?? "",
+          authData.user.created_at
+        );
+
+        if (!adminUser) {
           await supabase.auth.signOut();
           return {
             success: false,
@@ -102,225 +144,72 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
           };
         }
 
-        const adminUser: AdminUser = {
-          id: authData.user.id,
-          email: authData.user.email!,
-          role: roleData.role,
-          is_active: true,
-          permissions: {},
-          created_at: authData.user.created_at,
-          last_login: new Date().toISOString(),
-        };
-
-        // Set session expiry
-        const expiry = new Date(Date.now() + SESSION_TIMEOUT_MS);
-        setSessionExpiry(expiry);
-
-        console.log(
-          "AdminContext - Login successful, setting user:",
-          adminUser,
-        );
-        console.log("AdminContext - Session exists:", !!authData.session);
-        console.log("AdminContext - Session expires:", expiry.toISOString());
         setUser(adminUser);
-
-        // Verify session was persisted
-        setTimeout(async () => {
-          const {
-            data: { session },
-          } = await supabase.auth.getSession();
-          console.log(
-            "AdminContext - Session persisted after login:",
-            !!session,
-          );
-        }, 100);
-
         return { success: true };
-      } catch (error) {
-        console.error("Login error:", error);
+      } catch {
         return { success: false, error: "Network error occurred" };
       } finally {
         setIsLoading(false);
       }
     },
-    [],
+    []
   );
 
   const signup = useCallback(
     async (
       email: string,
-      password: string,
+      password: string
     ): Promise<{ success: boolean; error?: string }> => {
       try {
         setIsLoading(true);
-
-        const { data: authData, error: authError } = await supabase.auth.signUp(
-          {
-            email,
-            password,
-          },
-        );
-
-        if (authError) {
-          return { success: false, error: authError.message };
+        const { data, error: authError } = await supabase.auth.signUp({
+          email,
+          password,
+        });
+        if (authError || !data.user) {
+          return {
+            success: false,
+            error: authError?.message ?? "Sign up failed",
+          };
         }
-
-        if (!authData.user) {
-          return { success: false, error: "Sign up failed" };
-        }
-
         return { success: true };
-      } catch (error) {
-        console.error("Sign up error:", error);
+      } catch {
         return { success: false, error: "Network error occurred" };
       } finally {
         setIsLoading(false);
       }
     },
-    [],
+    []
   );
 
   const logout = useCallback(async (): Promise<void> => {
     try {
       await supabase.auth.signOut();
-    } catch (error) {
-      console.error("Logout error:", error);
+    } catch (err) {
+      console.error("[Admin] Logout error:", err);
     } finally {
       setUser(null);
-      setSessionExpiry(undefined);
     }
   }, []);
-
-  const verifyAuth = useCallback(async (): Promise<void> => {
-    const now = Date.now();
-
-    if (isVerifyingRef.current) {
-      return;
-    }
-
-    if (now - lastVerificationRef.current < VERIFICATION_COOLDOWN) {
-      return;
-    }
-
-    try {
-      isVerifyingRef.current = true;
-      lastVerificationRef.current = now;
-
-      const timeoutId = setTimeout(() => {
-        setIsLoading(false);
-        setUser(null);
-        isVerifyingRef.current = false;
-      }, 10000);
-
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.getSession();
-      clearTimeout(timeoutId);
-
-      if (error || !session) {
-        setUser(null);
-        setIsLoading(false);
-        isVerifyingRef.current = false;
-        return;
-      }
-
-      const { data: roleData, error: roleError } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", session.user.id)
-        .maybeSingle();
-
-      if (roleError) {
-        console.error("AdminContext - Error fetching role:", roleError);
-        // Don't sign out on error, just set loading to false and keep existing user
-        setIsLoading(false);
-        isVerifyingRef.current = false;
-        return;
-      }
-
-      if (!roleData) {
-        console.log("AdminContext - No role found for user");
-        await supabase.auth.signOut();
-        setUser(null);
-        setIsLoading(false);
-        isVerifyingRef.current = false;
-        return;
-      }
-
-      if (roleData.role !== "super_admin" && roleData.role !== "admin") {
-        console.log(
-          "AdminContext - User does not have admin role:",
-          roleData.role,
-        );
-        await supabase.auth.signOut();
-        setUser(null);
-        setIsLoading(false);
-        isVerifyingRef.current = false;
-        return;
-      }
-
-      const adminUser: AdminUser = {
-        id: session.user.id,
-        email: session.user.email!,
-        role: roleData.role,
-        is_active: true,
-        permissions: {},
-        created_at: session.user.created_at,
-      };
-
-      setUser(adminUser);
-      setIsLoading(false);
-      isVerifyingRef.current = false;
-    } catch (error) {
-      console.error("AdminContext - Auth verification error:", error);
-      setUser(null);
-      setIsLoading(false);
-      isVerifyingRef.current = false;
-    }
-  }, []);
-
-  // Session timeout checker
-  useEffect(() => {
-    if (!sessionExpiry || !user) return;
-
-    const checkSessionTimeout = () => {
-      if (new Date() > sessionExpiry) {
-        console.log("AdminContext - Session expired, logging out");
-        logout();
-      }
-    };
-
-    // Check immediately
-    checkSessionTimeout();
-
-    // Set up interval to check every minute
-    const interval = setInterval(checkSessionTimeout, 60 * 1000);
-
-    return () => clearInterval(interval);
-  }, [sessionExpiry, user, logout]);
 
   useEffect(() => {
     verifyAuth();
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    } = supabase.auth.onAuthStateChange((event) => {
       if (event === "SIGNED_OUT") {
         setUser(null);
-        setSessionExpiry(undefined);
         setIsLoading(false);
       } else if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
         verifyAuth();
       }
     });
 
-    return () => {
-      subscription.unsubscribe();
-    };
+    return () => subscription.unsubscribe();
   }, [verifyAuth]);
 
-  const value: AdminContextType = React.useMemo(
+  const value = useMemo<AdminContextType>(
     () => ({
       user,
       isLoading,
@@ -329,12 +218,9 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
       signup,
       logout,
       verifyAuth,
-      sessionExpiry,
     }),
-    [user, isLoading, login, signup, logout, verifyAuth, sessionExpiry],
+    [user, isLoading, login, signup, logout, verifyAuth]
   );
 
-  return (
-    <AdminContext.Provider value={value}>{children}</AdminContext.Provider>
-  );
+  return <AdminContext.Provider value={value}>{children}</AdminContext.Provider>;
 };

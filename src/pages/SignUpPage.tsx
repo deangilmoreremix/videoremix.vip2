@@ -2,22 +2,14 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Eye,
-  EyeOff,
-  AlertCircle,
-  Sparkles,
-  Video,
-  ArrowLeft,
-  CheckCircle,
-} from "lucide-react";
+import { Eye, EyeOff, CircleAlert as AlertCircle, Sparkles, Video, ArrowLeft, CircleCheck as CheckCircle } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { supabase } from "../utils/supabaseClient";
 import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
 
 const SignUpPage: React.FC = () => {
-  const { signUp, user } = useAuth();
+  const { signUp, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -34,10 +26,10 @@ const SignUpPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user) {
+    if (isAuthenticated) {
       navigate("/dashboard");
     }
-  }, [user, navigate]);
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

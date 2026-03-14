@@ -54,7 +54,7 @@ const AuthLoadingGate: React.FC<AuthLoadingGateProps> = ({
 
   // Notify when auth is resolved
   useEffect(() => {
-    if (!loading && authState !== "idle" && authState !== "loading" && !hasNotifiedResolution) {
+    if (!loading && authState !== "initializing" && !hasNotifiedResolution) {
       setHasNotifiedResolution(true);
       onAuthResolved?.(isAuthenticated);
     }
@@ -98,7 +98,7 @@ const AuthLoadingGate: React.FC<AuthLoadingGateProps> = ({
   }
 
   // Show loading state until auth is resolved AND minimum time has passed
-  if (loading || authState === "loading" || authState === "idle" || !hasMinLoadingTimePassed) {
+  if (loading || authState === "initializing" || !hasMinLoadingTimePassed) {
     return <>{loadingComponent || defaultLoadingComponent}</>;
   }
 

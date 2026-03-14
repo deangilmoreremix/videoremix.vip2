@@ -8,11 +8,36 @@ import React, {
   ReactNode,
   useRef,
 } from "react";
-import { User, Session, AuthError, AuthChangeEvent } from "@supabase/supabase-js";
+import { User, Session, AuthError } from "@supabase/supabase-js";
 import { supabase } from "../utils/supabaseClient";
 
-// Auth state types
-export type AuthState = "idle" | "loading" | "authenticated" | "unauthenticated" | "error";
+export type AuthState =
+  | "initializing"
+  | "authenticated"
+  | "unauthenticated"
+  | "error";
+
+export interface UserProfile {
+  id: string;
+  user_id: string;
+  first_name: string;
+  last_name: string;
+  display_name: string;
+  avatar_url?: string;
+  default_organization_id?: string;
+  onboarding_completed: boolean;
+  metadata: Record<string, unknown>;
+}
+
+export interface Organization {
+  id: string;
+  slug: string;
+  name: string;
+  owner_id: string;
+  plan: "free" | "pro" | "enterprise";
+  settings: Record<string, unknown>;
+  is_active: boolean;
+}
 
 export interface AuthErrorState {
   message: string;
@@ -21,19 +46,16 @@ export interface AuthErrorState {
 }
 
 interface AuthContextType {
-  // Core state
   user: User | null;
   session: Session | null;
+  profile: UserProfile | null;
+  organization: Organization | null;
+  authState: AuthState;
   loading: boolean;
   isAuthenticated: boolean;
-  authState: AuthState;
   error: AuthErrorState | null;
-
-  // Session metadata
-  sessionExpiresAt: number | null;
   isSessionExpiringSoon: boolean;
 
-  // Auth actions
   signUp: (
     email: string,
     password: string,
@@ -49,344 +71,237 @@ interface AuthContextType {
     updates: Record<string, unknown>
   ) => Promise<{ user: User | null; error: AuthError | null }>;
   refreshSession: () => Promise<boolean>;
-
-  // Utility
   clearError: () => void;
+  switchOrganization: (orgId: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
 
-interface AuthProviderProps {
-  children: ReactNode;
+const SESSION_REFRESH_THRESHOLD_MS = 5 * 60 * 1000;
+const SESSION_CHECK_INTERVAL_MS = 60 * 1000;
+
+async function fetchUserProfile(userId: string): Promise<UserProfile | null> {
+  const { data, error } = await supabase
+    .from("user_profiles")
+    .select("*")
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (error) {
+    console.warn("[Auth] Could not fetch user profile:", error.message);
+    return null;
+  }
+  return data as UserProfile | null;
 }
 
-// Constants
-const SESSION_REFRESH_THRESHOLD_MS = 5 * 60 * 1000; // 5 minutes before expiry
-const SESSION_CHECK_INTERVAL_MS = 60 * 1000; // Check every minute
-const STORAGE_KEY_SESSION = "sb-session-state";
+async function fetchUserOrganization(
+  orgId: string
+): Promise<Organization | null> {
+  const { data, error } = await supabase
+    .from("organizations")
+    .select("*")
+    .eq("id", orgId)
+    .maybeSingle();
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  // Core state
+  if (error) {
+    console.warn("[Auth] Could not fetch organization:", error.message);
+    return null;
+  }
+  return data as Organization | null;
+}
+
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [authState, setAuthState] = useState<AuthState>("idle");
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [organization, setOrganization] = useState<Organization | null>(null);
+  const [authState, setAuthState] = useState<AuthState>("initializing");
   const [error, setError] = useState<AuthErrorState | null>(null);
 
-  // Refs for cleanup and tracking
   const mountedRef = useRef(true);
-  const subscriptionRef = useRef<{ unsubscribe: () => void } | null>(null);
-  const sessionCheckIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const isRefreshingRef = useRef(false);
 
-  // Derived state
-  const isAuthenticated = useMemo(() => !!user && !!session, [user, session]);
-  const sessionExpiresAt = useMemo(() => session?.expires_at ?? null, [session]);
+  const loading = authState === "initializing";
+  const isAuthenticated = authState === "authenticated" && !!user && !!session;
+
   const isSessionExpiringSoon = useMemo(() => {
-    if (!sessionExpiresAt) return false;
-    const expiresAtMs = sessionExpiresAt * 1000;
-    const now = Date.now();
-    return expiresAtMs - now < SESSION_REFRESH_THRESHOLD_MS;
-  }, [sessionExpiresAt]);
+    if (!session?.expires_at) return false;
+    return session.expires_at * 1000 - Date.now() < SESSION_REFRESH_THRESHOLD_MS;
+  }, [session]);
 
-  // Clear error utility
-  const clearError = useCallback(() => {
-    setError(null);
-  }, []);
+  const clearError = useCallback(() => setError(null), []);
 
-  // Handle auth errors
-  const handleAuthError = useCallback((err: unknown, context: string) => {
-    console.error(`[Auth] Error in ${context}:`, err);
+  const loadUserData = useCallback(async (userId: string) => {
+    if (!mountedRef.current) return;
+    const userProfile = await fetchUserProfile(userId);
+    if (!mountedRef.current) return;
+    setProfile(userProfile);
 
-    let authError: AuthErrorState = {
-      message: "An unexpected authentication error occurred",
-      recoverable: true,
-    };
-
-    if (err instanceof Error) {
-      authError.message = err.message;
-
-      // Check for specific error types
-      if (err.message.includes("refresh") || err.message.includes("token")) {
-        authError.code = "TOKEN_REFRESH_FAILED";
-        authError.recoverable = true;
-      } else if (err.message.includes("network") || err.message.includes("fetch")) {
-        authError.code = "NETWORK_ERROR";
-        authError.recoverable = true;
-      } else if (err.message.includes("session") || err.message.includes("expired")) {
-        authError.code = "SESSION_EXPIRED";
-        authError.recoverable = true;
-      }
+    if (userProfile?.default_organization_id) {
+      const org = await fetchUserOrganization(
+        userProfile.default_organization_id
+      );
+      if (mountedRef.current) setOrganization(org);
     }
-
-    setError(authError);
-    return authError;
   }, []);
 
-  // Refresh session proactively
   const refreshSession = useCallback(async (): Promise<boolean> => {
-    if (isRefreshingRef.current) {
-      return false;
-    }
-
+    if (isRefreshingRef.current) return false;
     try {
       isRefreshingRef.current = true;
       const { data, error: refreshError } = await supabase.auth.refreshSession();
-
-      if (refreshError) {
-        handleAuthError(refreshError, "refreshSession");
-        return false;
-      }
-
-      if (mountedRef.current && data.session) {
+      if (refreshError || !data.session) return false;
+      if (mountedRef.current) {
         setSession(data.session);
         setUser(data.session.user);
-        return true;
       }
-
-      return false;
-    } catch (err) {
-      handleAuthError(err, "refreshSession");
+      return true;
+    } catch {
       return false;
     } finally {
       isRefreshingRef.current = false;
     }
-  }, [handleAuthError]);
+  }, []);
 
-  // Initialize session and set up listeners
   useEffect(() => {
-    let mounted = true;
     mountedRef.current = true;
 
-    const initializeAuth = async () => {
+    const initialize = async () => {
       try {
-        setAuthState("loading");
-        setLoading(true);
-
-        // Get initial session
-        const { data: { session: initialSession }, error: sessionError } = await supabase.auth.getSession();
+        const {
+          data: { session: initialSession },
+          error: sessionError,
+        } = await supabase.auth.getSession();
 
         if (sessionError) {
-          handleAuthError(sessionError, "initializeAuth");
+          console.error("[Auth] Session error:", sessionError.message);
         }
 
-        if (mounted) {
-          if (initialSession) {
-            setSession(initialSession);
-            setUser(initialSession.user);
-            setAuthState("authenticated");
+        if (!mountedRef.current) return;
 
-            // Store session hint for faster recovery
-            try {
-              sessionStorage.setItem(STORAGE_KEY_SESSION, JSON.stringify({
-                userId: initialSession.user.id,
-                expiresAt: initialSession.expires_at,
-              }));
-            } catch {
-              // Ignore storage errors
-            }
-          } else {
-            setSession(null);
-            setUser(null);
-            setAuthState("unauthenticated");
-          }
-          setLoading(false);
+        if (initialSession?.user) {
+          setSession(initialSession);
+          setUser(initialSession.user);
+          setAuthState("authenticated");
+          loadUserData(initialSession.user.id);
+        } else {
+          setAuthState("unauthenticated");
         }
       } catch (err) {
-        handleAuthError(err, "initializeAuth");
-        if (mounted) {
+        console.error("[Auth] Initialization error:", err);
+        if (mountedRef.current) {
           setAuthState("error");
-          setLoading(false);
+          setError({
+            message: "Failed to initialize authentication",
+            recoverable: true,
+          });
         }
       }
     };
 
-    // Initialize auth
-    initializeAuth();
+    initialize();
 
-    // Set up auth state change listener
-    const { data } = supabase.auth.onAuthStateChange(
-      async (event: AuthChangeEvent, newSession: Session | null) => {
-        console.log("[Auth] State change event:", event);
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, newSession) => {
+      if (!mountedRef.current) return;
 
-        if (!mounted) return;
-
-        switch (event) {
-          case "SIGNED_IN":
-          case "TOKEN_REFRESHED":
-            if (newSession) {
-              setSession(newSession);
-              setUser(newSession.user);
-              setAuthState("authenticated");
-              setError(null);
-
-              // Update session hint
-              try {
-                sessionStorage.setItem(STORAGE_KEY_SESSION, JSON.stringify({
-                  userId: newSession.user.id,
-                  expiresAt: newSession.expires_at,
-                }));
-              } catch {
-                // Ignore storage errors
-              }
-            }
-            break;
-
-          case "SIGNED_OUT":
-            setSession(null);
-            setUser(null);
-            setAuthState("unauthenticated");
-            setError(null);
-            try {
-              sessionStorage.removeItem(STORAGE_KEY_SESSION);
-            } catch {
-              // Ignore storage errors
-            }
-            break;
-
-          case "USER_UPDATED":
-            if (newSession) {
-              setSession(newSession);
-              setUser(newSession.user);
-            }
-            break;
-
-          case "PASSWORD_RECOVERY":
-            // Keep session but allow password reset flow
-            if (newSession) {
-              setSession(newSession);
-              setUser(newSession.user);
-            }
-            break;
-
-          default:
-            // Handle other events
-            if (newSession) {
-              setSession(newSession);
-              setUser(newSession.user);
-              setAuthState("authenticated");
-            }
+      if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
+        if (newSession?.user) {
+          setSession(newSession);
+          setUser(newSession.user);
+          setAuthState("authenticated");
+          setError(null);
+          loadUserData(newSession.user.id);
         }
-
-        setLoading(false);
+      } else if (event === "SIGNED_OUT") {
+        setSession(null);
+        setUser(null);
+        setProfile(null);
+        setOrganization(null);
+        setAuthState("unauthenticated");
+        setError(null);
+      } else if (event === "USER_UPDATED" || event === "PASSWORD_RECOVERY") {
+        if (newSession?.user) {
+          setSession(newSession);
+          setUser(newSession.user);
+          if (event === "USER_UPDATED") {
+            loadUserData(newSession.user.id);
+          }
+        }
       }
-    );
+    });
 
-    subscriptionRef.current = data.subscription;
-
-    // Set up periodic session check
-    sessionCheckIntervalRef.current = setInterval(async () => {
-      if (!mounted || !session) return;
-
-      // Check if session needs refresh
-      const expiresAt = session.expires_at;
-      if (expiresAt) {
-        const expiresAtMs = expiresAt * 1000;
-        const now = Date.now();
-        const timeUntilExpiry = expiresAtMs - now;
-
-        // Refresh if expiring within threshold
-        if (timeUntilExpiry < SESSION_REFRESH_THRESHOLD_MS && timeUntilExpiry > 0) {
-          console.log("[Auth] Session expiring soon, refreshing...");
-          await refreshSession();
-        }
+    const sessionCheckInterval = setInterval(async () => {
+      if (!mountedRef.current || !session) return;
+      if (isSessionExpiringSoon) {
+        await refreshSession();
       }
     }, SESSION_CHECK_INTERVAL_MS);
 
-    // Handle visibility change (tab switching)
     const handleVisibilityChange = async () => {
-      if (document.visibilityState === "visible" && mounted) {
-        console.log("[Auth] Tab became visible, checking session...");
+      if (document.visibilityState !== "visible" || !mountedRef.current) return;
+      const {
+        data: { session: currentSession },
+      } = await supabase.auth.getSession();
+      if (!mountedRef.current) return;
 
-        // Verify session is still valid
-        const { data: { session: currentSession } } = await supabase.auth.getSession();
-
-        if (currentSession) {
-          // Check if session expired while tab was hidden
-          const expiresAt = currentSession.expires_at;
-          if (expiresAt && expiresAt * 1000 < Date.now()) {
-            console.log("[Auth] Session expired while tab was hidden");
-            setSession(null);
-            setUser(null);
-            setAuthState("unauthenticated");
-          } else {
-            setSession(currentSession);
-            setUser(currentSession.user);
-            setAuthState("authenticated");
-          }
+      if (currentSession?.user) {
+        if (
+          currentSession.expires_at &&
+          currentSession.expires_at * 1000 < Date.now()
+        ) {
+          setSession(null);
+          setUser(null);
+          setProfile(null);
+          setOrganization(null);
+          setAuthState("unauthenticated");
         } else {
-          // Session was cleared (possibly signed out in another tab)
-          console.log("[Auth] No session found on tab focus");
-          setSession(null);
-          setUser(null);
-          setAuthState("unauthenticated");
+          setSession(currentSession);
+          setUser(currentSession.user);
+          setAuthState("authenticated");
         }
-
-        setLoading(false);
+      } else {
+        setSession(null);
+        setUser(null);
+        setProfile(null);
+        setOrganization(null);
+        setAuthState("unauthenticated");
       }
     };
 
-    // Handle storage events (cross-tab sync)
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === STORAGE_KEY_SESSION && mounted) {
-        console.log("[Auth] Session storage changed in another tab");
-
-        if (!e.newValue) {
-          // Session was cleared in another tab
-          setSession(null);
-          setUser(null);
-          setAuthState("unauthenticated");
-        }
-      }
-    };
-
-    // Handle online/offline events
     const handleOnline = () => {
-      console.log("[Auth] Network back online, refreshing session...");
-      refreshSession();
+      if (session) refreshSession();
     };
 
-    const handleOffline = () => {
-      console.log("[Auth] Network offline");
-    };
-
-    // Add event listeners
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("storage", handleStorageChange);
     window.addEventListener("online", handleOnline);
-    window.addEventListener("offline", handleOffline);
 
-    // Cleanup
     return () => {
-      mounted = false;
       mountedRef.current = false;
-
-      if (subscriptionRef.current) {
-        subscriptionRef.current.unsubscribe();
-      }
-
-      if (sessionCheckIntervalRef.current) {
-        clearInterval(sessionCheckIntervalRef.current);
-      }
-
+      subscription.unsubscribe();
+      clearInterval(sessionCheckInterval);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("storage", handleStorageChange);
       window.removeEventListener("online", handleOnline);
-      window.removeEventListener("offline", handleOffline);
     };
-  }, [handleAuthError, refreshSession, session]);
+  }, [loadUserData, refreshSession, session, isSessionExpiringSoon]);
 
-  // Auth actions
   const signUp = useCallback(
-    async (email: string, password: string, metadata?: Record<string, unknown>) => {
+    async (
+      email: string,
+      password: string,
+      metadata?: Record<string, unknown>
+    ) => {
       clearError();
       const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
       const { data, error: signUpError } = await supabase.auth.signUp({
@@ -397,14 +312,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           emailRedirectTo: `${siteUrl}/auth/confirm`,
         },
       });
-
       if (signUpError) {
-        handleAuthError(signUpError, "signUp");
+        setError({ message: signUpError.message, recoverable: true });
       }
-
       return { user: data.user, error: signUpError };
     },
-    [clearError, handleAuthError]
+    [clearError]
   );
 
   const signIn = useCallback(
@@ -414,65 +327,41 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         email,
         password,
       });
-
       if (signInError) {
-        handleAuthError(signInError, "signIn");
+        setError({ message: signInError.message, recoverable: true });
       }
-
       return { user: data.user, error: signInError };
     },
-    [clearError, handleAuthError]
+    [clearError]
   );
 
   const signOut = useCallback(async () => {
     clearError();
-    setLoading(true);
-
-    try {
-      const { error: signOutError } = await supabase.auth.signOut();
-
-      if (signOutError) {
-        handleAuthError(signOutError, "signOut");
-        setLoading(false);
-        return { error: signOutError };
-      }
-
-      // Clear local state immediately
+    const { error: signOutError } = await supabase.auth.signOut();
+    if (!signOutError && mountedRef.current) {
       setSession(null);
       setUser(null);
+      setProfile(null);
+      setOrganization(null);
       setAuthState("unauthenticated");
-
-      // Clear session storage
-      try {
-        sessionStorage.removeItem(STORAGE_KEY_SESSION);
-      } catch {
-        // Ignore storage errors
-      }
-
-      setLoading(false);
-      return { error: null };
-    } catch (err) {
-      handleAuthError(err, "signOut");
-      setLoading(false);
-      return { error: err as AuthError };
     }
-  }, [clearError, handleAuthError]);
+    return { error: signOutError };
+  }, [clearError]);
 
   const resetPassword = useCallback(
     async (email: string) => {
       clearError();
       const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${siteUrl}/auth/callback`,
-      });
-
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+        email,
+        { redirectTo: `${siteUrl}/reset-password` }
+      );
       if (resetError) {
-        handleAuthError(resetError, "resetPassword");
+        setError({ message: resetError.message, recoverable: true });
       }
-
       return { error: resetError };
     },
-    [clearError, handleAuthError]
+    [clearError]
   );
 
   const updateProfile = useCallback(
@@ -481,49 +370,61 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const { data, error: updateError } = await supabase.auth.updateUser({
         data: updates,
       });
-
       if (updateError) {
-        handleAuthError(updateError, "updateProfile");
+        setError({ message: updateError.message, recoverable: true });
       }
-
       return { user: data.user, error: updateError };
     },
-    [clearError, handleAuthError]
+    [clearError]
   );
 
-  const value: AuthContextType = useMemo(
+  const switchOrganization = useCallback(
+    async (orgId: string) => {
+      if (!user) return;
+      const org = await fetchUserOrganization(orgId);
+      if (org && mountedRef.current) {
+        setOrganization(org);
+        await supabase
+          .from("user_profiles")
+          .update({ default_organization_id: orgId })
+          .eq("user_id", user.id);
+        if (profile) {
+          setProfile({ ...profile, default_organization_id: orgId });
+        }
+      }
+    },
+    [user, profile]
+  );
+
+  const value = useMemo<AuthContextType>(
     () => ({
-      // Core state
       user,
       session,
+      profile,
+      organization,
+      authState,
       loading,
       isAuthenticated,
-      authState,
       error,
-
-      // Session metadata
-      sessionExpiresAt,
       isSessionExpiringSoon,
-
-      // Auth actions
       signUp,
       signIn,
       signOut,
       resetPassword,
       updateProfile,
       refreshSession,
-
-      // Utility
       clearError,
+      switchOrganization,
     }),
     [
       user,
       session,
+      profile,
+      organization,
+      authState,
       loading,
       isAuthenticated,
-      authState,
       error,
-      sessionExpiresAt,
       isSessionExpiringSoon,
       signUp,
       signIn,
@@ -532,6 +433,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       updateProfile,
       refreshSession,
       clearError,
+      switchOrganization,
     ]
   );
 

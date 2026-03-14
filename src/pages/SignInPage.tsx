@@ -2,59 +2,50 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import {
-  Eye,
-  EyeOff,
-  AlertCircle,
-  Sparkles,
-  Video,
-  ArrowLeft,
-  CheckCircle,
-} from "lucide-react";
+import { Eye, EyeOff, CircleAlert as AlertCircle, Sparkles, Video, ArrowLeft, CircleCheck as CheckCircle } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
 
 const SignInPage: React.FC = () => {
-  const { signIn, user } = useAuth();
+  const { signIn, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = (location.state as any)?.from || "/dashboard";
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const from = (location.state as { from?: string })?.from ?? "/dashboard";
+
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user) {
+    if (isAuthenticated) {
       navigate(from, { replace: true });
     }
-  }, [user, navigate, from]);
+  }, [isAuthenticated, navigate, from]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-
     try {
-      const { error } = await signIn(formData.email, formData.password);
-      if (error) {
-        setError(error.message);
-      } else {
-        navigate(from, { replace: true });
+      const { error: signInError } = await signIn(
+        formData.email,
+        formData.password
+      );
+      if (signInError) {
+        setError(signInError.message);
       }
-    } catch (err) {
-      setError("An unexpected error occurred");
+    } catch {
+      setError("An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleInputChange =
-    (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    (field: keyof typeof formData) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       setFormData((prev) => ({ ...prev, [field]: e.target.value }));
     };
 
@@ -69,22 +60,20 @@ const SignInPage: React.FC = () => {
       </Helmet>
 
       <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black relative overflow-hidden flex items-center justify-center py-20">
-        {/* Background effects */}
         <div className="absolute inset-0">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/20 rounded-full blur-[100px]"></div>
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-primary-600/20 rounded-full blur-[100px]"></div>
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-500/20 rounded-full blur-[100px]"></div>
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px]"></div>
         </div>
 
         <SparkleEffect
           count={30}
-          colors={["#ffffff", "#c7d2fe", "#a5b4fc", "#818cf8"]}
+          colors={["#ffffff", "#bfdbfe", "#93c5fd", "#60a5fa"]}
           minSize={2}
           maxSize={5}
         />
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-md mx-auto">
-            {/* Back to home link */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -100,7 +89,6 @@ const SignInPage: React.FC = () => {
               </Link>
             </motion.div>
 
-            {/* Logo section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -119,7 +107,7 @@ const SignInPage: React.FC = () => {
                       duration: 5,
                       ease: "easeInOut",
                     }}
-                    className="absolute inset-0 bg-primary-400 rounded-full blur-lg opacity-30 group-hover:opacity-60 transition-opacity"
+                    className="absolute inset-0 bg-blue-400 rounded-full blur-lg opacity-30 group-hover:opacity-60 transition-opacity"
                   ></motion.div>
                   <Video className="h-10 w-10 text-white relative z-10" />
                 </div>
@@ -127,7 +115,7 @@ const SignInPage: React.FC = () => {
                   <span className="text-2xl font-bold text-white leading-none block">
                     VideoRemix.vip
                   </span>
-                  <div className="text-xs text-primary-300">
+                  <div className="text-xs text-blue-300">
                     Marketing Personalization Platform
                   </div>
                 </div>
@@ -143,7 +131,6 @@ const SignInPage: React.FC = () => {
               </p>
             </motion.div>
 
-            {/* Sign-in form card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -174,8 +161,9 @@ const SignInPage: React.FC = () => {
                     type="email"
                     value={formData.email}
                     onChange={handleInputChange("email")}
-                    className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                    className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     placeholder="your@email.com"
+                    autoComplete="email"
                     required
                   />
                 </div>
@@ -190,7 +178,7 @@ const SignInPage: React.FC = () => {
                     </label>
                     <Link
                       to="/forgot-password"
-                      className="text-sm text-primary-400 hover:text-primary-300 transition-colors"
+                      className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
                     >
                       Forgot password?
                     </Link>
@@ -201,14 +189,16 @@ const SignInPage: React.FC = () => {
                       type={showPassword ? "text" : "password"}
                       value={formData.password}
                       onChange={handleInputChange("password")}
-                      className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 pr-12 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                      className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 pr-12 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                       placeholder="Enter your password"
+                      autoComplete="current-password"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors"
+                      aria-label={showPassword ? "Hide password" : "Show password"}
                     >
                       {showPassword ? (
                         <EyeOff className="h-5 w-5" />
@@ -222,7 +212,7 @@ const SignInPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 disabled:from-primary-800 disabled:to-primary-700 disabled:opacity-50 text-white py-4 px-6 rounded-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-800 shadow-lg shadow-primary-600/20 flex items-center justify-center"
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 disabled:opacity-50 disabled:cursor-not-allowed text-white py-4 px-6 rounded-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 shadow-lg flex items-center justify-center"
                 >
                   {loading ? (
                     <>
@@ -257,35 +247,19 @@ const SignInPage: React.FC = () => {
                 </button>
               </form>
 
-              <div className="mt-8 text-center space-y-4">
+              <div className="mt-8 text-center">
                 <p className="text-gray-400">
                   Don't have an account?{" "}
                   <Link
                     to="/signup"
-                    className="text-primary-400 hover:text-primary-300 transition-colors font-medium"
+                    className="text-blue-400 hover:text-blue-300 transition-colors font-medium"
                   >
                     Sign up for free
                   </Link>
                 </p>
-
-                <div className="pt-4 border-t border-gray-700">
-                  <button
-                    type="button"
-                    onClick={() => navigate("/admin/login")}
-                    className="w-full bg-yellow-600/20 hover:bg-yellow-600/30 border-2 border-yellow-500/50 text-yellow-400 py-3 px-6 rounded-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-gray-800 flex items-center justify-center group"
-                  >
-                    <Sparkles className="mr-2 h-5 w-5 group-hover:animate-pulse" />
-                    Admin Dev Access
-                    <Sparkles className="ml-2 h-5 w-5 group-hover:animate-pulse" />
-                  </button>
-                  <p className="text-xs text-gray-500 mt-2">
-                    Development & Admin Use Only
-                  </p>
-                </div>
               </div>
             </motion.div>
 
-            {/* Benefits section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -293,24 +267,24 @@ const SignInPage: React.FC = () => {
               className="mt-8 bg-gray-800/40 backdrop-blur-sm rounded-xl p-6 border border-gray-700"
             >
               <h3 className="text-white font-semibold mb-4 flex items-center">
-                <CheckCircle className="h-5 w-5 text-primary-400 mr-2" />
+                <CheckCircle className="h-5 w-5 text-blue-400 mr-2" />
                 What you'll get with VideoRemix.vip
               </h3>
               <ul className="space-y-3 text-gray-300 text-sm">
                 <li className="flex items-start">
-                  <span className="text-primary-400 mr-2">✓</span>
+                  <span className="text-blue-400 mr-2">✓</span>
                   <span>Access to 37+ marketing personalization tools</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-primary-400 mr-2">✓</span>
+                  <span className="text-blue-400 mr-2">✓</span>
                   <span>Unlimited audience segmentation</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-primary-400 mr-2">✓</span>
+                  <span className="text-blue-400 mr-2">✓</span>
                   <span>AI-powered campaign personalization</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-primary-400 mr-2">✓</span>
+                  <span className="text-blue-400 mr-2">✓</span>
                   <span>Multi-channel marketing automation</span>
                 </li>
               </ul>

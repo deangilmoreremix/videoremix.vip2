@@ -2,22 +2,7 @@ import React, { useState, useEffect, memo, useCallback } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { Navigate } from "react-router-dom";
-import {
-  Shield,
-  Settings,
-  Users,
-  ToggleLeft,
-  AlertTriangle,
-  Clock,
-  ShoppingCart,
-  Upload,
-  Calendar,
-  Video,
-  FileUp,
-  Link2,
-  History,
-  TrendingUp,
-} from "lucide-react";
+import { Shield, Settings, Users, ToggleLeft, TriangleAlert as AlertTriangle, Clock, ShoppingCart, Upload, Calendar, Video, FileUp, Link2, History, TrendingUp } from "lucide-react";
 import { useAdmin } from "../context/AdminContext";
 import { redisCache, cacheKeys, CACHE_TTL } from "../utils/redisCache";
 import AdminAppsManagement from "../components/admin/AdminAppsManagement";
@@ -393,30 +378,10 @@ const StatsCards = memo(() => {
 StatsCards.displayName = "StatsCards";
 
 const AdminDashboard: React.FC = () => {
-  const { user, isAuthenticated, isLoading, logout, sessionExpiry } =
-    useAdmin();
+  const { user, isAuthenticated, isLoading, logout } = useAdmin();
   const [activeTab, setActiveTab] = useState<TabConfig["id"]>("analytics");
   const [showTimeoutWarning, setShowTimeoutWarning] = useState(false);
   const [announcements, setAnnouncements] = useState<string>("");
-
-  // Session timeout warning
-  useEffect(() => {
-    if (sessionExpiry) {
-      const timeUntilExpiry = sessionExpiry.getTime() - Date.now();
-      const warningTime = timeUntilExpiry - 5 * 60 * 1000; // 5 minutes before
-
-      if (warningTime > 0) {
-        const warningTimeout = setTimeout(() => {
-          setShowTimeoutWarning(true);
-        }, warningTime);
-
-        return () => clearTimeout(warningTimeout);
-      } else if (timeUntilExpiry <= 0) {
-        // Session already expired
-        logout();
-      }
-    }
-  }, [sessionExpiry, logout]);
 
   // Keyboard navigation
   useEffect(() => {
