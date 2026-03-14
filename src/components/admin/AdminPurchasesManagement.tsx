@@ -596,7 +596,7 @@ const AdminPurchasesManagement: React.FC = () => {
 
           <button
             onClick={() => setShowImportModal(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors"
+            className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors"
           >
             <Upload className="h-4 w-4 mr-2" />
             Import
@@ -752,7 +752,7 @@ user2@example.com,Landing Page Creator,49.00,paykickstart,pk_789012`}
               <button
                 onClick={handleImport}
                 disabled={importing}
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
+                className="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
               >
                 {importing ? "Importing..." : "Import Purchases"}
               </button>

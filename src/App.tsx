@@ -14,6 +14,7 @@ import MobileBottomNav from "./components/MobileBottomNav";
 import { AdminProvider } from "./context/AdminContext";
 import { AuthProvider } from "./context/AuthContext";
 import { Toaster } from "./components/ui/toast";
+import { NetworkStatusIndicator } from "./components/AsyncStates";
 
 // Lazy loaded components for better performance
 const LandingPage = lazy(() => import("./pages/LandingPage"));
@@ -588,6 +589,7 @@ function App() {
           </Routes>
           <Toaster />
           <MobileBottomNav />
+          <NetworkStatusIndicator />
         </div>
       </AdminProvider>
     </AuthProvider>

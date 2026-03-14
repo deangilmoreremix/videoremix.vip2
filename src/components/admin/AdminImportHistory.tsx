@@ -73,7 +73,7 @@ const AdminImportHistory: React.FC = () => {
     const badges = {
       completed: "bg-green-500/20 text-green-400",
       failed: "bg-red-500/20 text-red-400",
-      processing: "bg-blue-500/20 text-blue-400",
+      processing: "bg-primary-500/20 text-primary-400",
       pending: "bg-yellow-500/20 text-yellow-400",
       cancelled: "bg-gray-500/20 text-gray-400",
     };
@@ -121,7 +121,7 @@ const AdminImportHistory: React.FC = () => {
         </div>
         <button
           onClick={loadImports}
-          className="flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="flex items-center px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors"
         >
           <RefreshCw className="h-4 w-4 mr-2" />
           Refresh

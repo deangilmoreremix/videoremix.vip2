@@ -121,7 +121,7 @@ const SignInModal: React.FC<SignInModalProps> = ({
           <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800"
+            className="w-full bg-primary-600 hover:bg-primary-700 disabled:bg-primary-800"
           >
             {loading ? "Signing In..." : "Sign In"}
           </Button>

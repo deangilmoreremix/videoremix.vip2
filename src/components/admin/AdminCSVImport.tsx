@@ -245,7 +245,7 @@ const AdminCSVImport: React.FC = () => {
           onDrop={handleDrop}
           className={`border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
             isDragging
-              ? "border-blue-500 bg-blue-500/10"
+              ? "border-primary-500 bg-primary-500/10"
               : "border-gray-600 hover:border-gray-500"
           }`}
         >
@@ -254,7 +254,7 @@ const AdminCSVImport: React.FC = () => {
             Drop your CSV file here
           </h3>
           <p className="text-gray-400 mb-4">or</p>
-          <label className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg cursor-pointer transition-colors">
+          <label className="inline-flex items-center px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg cursor-pointer transition-colors">
             <FileText className="h-5 w-5 mr-2" />
             Browse Files
             <input
@@ -294,7 +294,7 @@ const AdminCSVImport: React.FC = () => {
                   value={importName}
                   onChange={(e) => setImportName(e.target.value)}
                   placeholder="e.g., PayKickstart October 2025"
-                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
               </div>
 
@@ -374,7 +374,7 @@ const AdminCSVImport: React.FC = () => {
                 <button
                   onClick={handleImport}
                   disabled={isProcessing || !importName.trim()}
-                  className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                  className="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
                 >
                   {isProcessing ? (
                     <>

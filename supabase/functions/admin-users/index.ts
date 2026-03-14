@@ -33,10 +33,6 @@ Deno.serve(async (req: Request) => {
 
     const token = authHeader.replace("Bearer ", "");
 
-    if (token === "dev_bypass_token") {
-      return handleRequest(req, supabase);
-    }
-
     const { data: { user }, error: authError } = await supabase.auth.getUser(token);
 
     if (authError || !user) {

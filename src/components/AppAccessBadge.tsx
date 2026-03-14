@@ -41,9 +41,9 @@ const AppAccessBadge: React.FC<AppAccessBadgeProps> = ({
         };
       case 2:
         return {
-          bg: "bg-blue-500/20",
-          text: "text-blue-400",
-          border: "border-blue-500/50",
+          bg: "bg-primary-500/20",
+          text: "text-primary-400",
+          border: "border-primary-500/50",
         };
       case 3:
         return {

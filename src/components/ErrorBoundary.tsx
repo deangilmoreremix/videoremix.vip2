@@ -223,6 +223,8 @@ class ErrorBoundary extends Component<Props, State> {
 /**
  * Higher-order component for wrapping components with error boundaries
  */
+// This is intentional - the HOC pattern is useful and the warning only affects dev hot reload
+ 
 export const withErrorBoundary = <P extends object>(
   Component: React.ComponentType<P>,
   errorBoundaryProps?: Omit<Props, "children">,
