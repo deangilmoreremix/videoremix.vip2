@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { CheckCircle, AlertCircle, Video, Loader } from "lucide-react";
+import { CircleCheck as CheckCircle, CircleAlert as AlertCircle, Video, Loader } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
 import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
@@ -60,11 +60,12 @@ const EmailConfirmPage: React.FC = () => {
         } else {
           throw new Error("Unable to verify email. Please try again.");
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         setStatus("error");
         setError(
-          err.message ||
-            "An unexpected error occurred during email verification.",
+          err instanceof Error
+            ? err.message
+            : "An unexpected error occurred during email verification.",
         );
       }
     };
@@ -98,13 +99,13 @@ const EmailConfirmPage: React.FC = () => {
 
       <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black relative overflow-hidden flex items-center justify-center py-20">
         <div className="absolute inset-0">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/20 rounded-full blur-[100px]"></div>
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-primary-600/20 rounded-full blur-[100px]"></div>
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-500/20 rounded-full blur-[100px]"></div>
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px]"></div>
         </div>
 
         <SparkleEffect
           count={30}
-          colors={["#ffffff", "#c7d2fe", "#a5b4fc", "#818cf8"]}
+          colors={["#ffffff", "#bfdbfe", "#93c5fd", "#60a5fa"]}
           minSize={2}
           maxSize={5}
         />
@@ -129,7 +130,7 @@ const EmailConfirmPage: React.FC = () => {
                       duration: 5,
                       ease: "easeInOut",
                     }}
-                    className="absolute inset-0 bg-primary-400 rounded-full blur-lg opacity-30 group-hover:opacity-60 transition-opacity"
+                    className="absolute inset-0 bg-blue-400 rounded-full blur-lg opacity-30 group-hover:opacity-60 transition-opacity"
                   ></motion.div>
                   <Video className="h-10 w-10 text-white relative z-10" />
                 </div>
@@ -137,7 +138,7 @@ const EmailConfirmPage: React.FC = () => {
                   <span className="text-2xl font-bold text-white leading-none block">
                     VideoRemix.vip
                   </span>
-                  <div className="text-xs text-primary-300">
+                  <div className="text-xs text-blue-300">
                     Marketing Personalization Platform
                   </div>
                 </div>
@@ -164,8 +165,8 @@ const EmailConfirmPage: React.FC = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   className="py-4"
                 >
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-500/20 rounded-full mb-4">
-                    <Loader className="h-8 w-8 text-primary-400 animate-spin" />
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-500/20 rounded-full mb-4">
+                    <Loader className="h-8 w-8 text-blue-400 animate-spin" />
                   </div>
                   <h3 className="text-xl font-semibold text-white mb-3">
                     Verifying Your Email
@@ -194,7 +195,7 @@ const EmailConfirmPage: React.FC = () => {
                   </p>
                   <Link
                     to="/dashboard"
-                    className="inline-flex items-center justify-center w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white py-3 px-6 rounded-lg font-medium transition-all"
+                    className="inline-flex items-center justify-center w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white py-3 px-6 rounded-lg font-medium transition-all"
                   >
                     Go to Dashboard Now
                   </Link>
@@ -220,7 +221,7 @@ const EmailConfirmPage: React.FC = () => {
                   <div className="space-y-3">
                     <Link
                       to="/signin"
-                      className="inline-flex items-center justify-center w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white py-3 px-6 rounded-lg font-medium transition-all"
+                      className="inline-flex items-center justify-center w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white py-3 px-6 rounded-lg font-medium transition-all"
                     >
                       Go to Sign In
                     </Link>
@@ -248,19 +249,19 @@ const EmailConfirmPage: React.FC = () => {
                 </h3>
                 <ul className="space-y-3 text-gray-300 text-sm">
                   <li className="flex items-start">
-                    <span className="text-primary-400 mr-2">✓</span>
+                    <span className="text-blue-400 mr-2">✓</span>
                     <span>Access 37+ marketing personalization tools</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-primary-400 mr-2">✓</span>
+                    <span className="text-blue-400 mr-2">✓</span>
                     <span>Create your first personalized campaign</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-primary-400 mr-2">✓</span>
+                    <span className="text-blue-400 mr-2">✓</span>
                     <span>Explore AI-powered marketing features</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-primary-400 mr-2">✓</span>
+                    <span className="text-blue-400 mr-2">✓</span>
                     <span>Connect with your audience at scale</span>
                   </li>
                 </ul>
@@ -280,21 +281,21 @@ const EmailConfirmPage: React.FC = () => {
                 </h3>
                 <ul className="space-y-3 text-gray-300 text-sm">
                   <li className="flex items-start">
-                    <span className="text-primary-400 mr-2">•</span>
+                    <span className="text-blue-400 mr-2">•</span>
                     <span>Email verification links expire after 24 hours</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-primary-400 mr-2">•</span>
+                    <span className="text-blue-400 mr-2">•</span>
                     <span>
                       Try signing in if you've already verified your email
                     </span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-primary-400 mr-2">•</span>
+                    <span className="text-blue-400 mr-2">•</span>
                     <span>Create a new account if the link has expired</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-primary-400 mr-2">•</span>
+                    <span className="text-blue-400 mr-2">•</span>
                     <span>Contact support if you continue to have issues</span>
                   </li>
                 </ul>
