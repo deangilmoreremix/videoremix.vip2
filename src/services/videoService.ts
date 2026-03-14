@@ -125,19 +125,27 @@ export class VideoService {
     } = await supabase.auth.getUser();
     if (!user) throw new Error("User not authenticated");
 
-    // First get the video to get file paths
     const video = await this.getVideoById(id);
     if (!video) throw new Error("Video not found");
 
-    // Delete from storage
     if (video.file_path) {
-      await supabase.storage.from("videos").remove([video.file_path]);
+      const { error: storageError } = await supabase.storage
+        .from("videos")
+        .remove([video.file_path]);
+      if (storageError) {
+        console.error("Error deleting video file from storage:", storageError);
+        throw storageError;
+      }
     }
     if (video.thumbnail_path) {
-      await supabase.storage.from("thumbnails").remove([video.thumbnail_path]);
+      const { error: thumbError } = await supabase.storage
+        .from("thumbnails")
+        .remove([video.thumbnail_path]);
+      if (thumbError) {
+        console.error("Error deleting thumbnail from storage:", thumbError);
+      }
     }
 
-    // Delete from database
     const { error } = await supabase
       .from("videos")
       .delete()
@@ -145,7 +153,7 @@ export class VideoService {
       .eq("user_id", user.id);
 
     if (error) {
-      console.error("Error deleting video:", error);
+      console.error("Error deleting video record:", error);
       throw error;
     }
   }
@@ -219,15 +227,18 @@ export class VideoService {
   }
 
   /**
-   * Get public URL for video file
+   * Get a signed URL for a private video file (expires in 1 hour)
    */
-  static getVideoUrl(filePath: string): string {
-    const { data } = supabase.storage.from("videos").getPublicUrl(filePath);
-    return data.publicUrl;
+  static async getVideoUrl(filePath: string): Promise<string> {
+    const { data, error } = await supabase.storage
+      .from("videos")
+      .createSignedUrl(filePath, 3600);
+    if (error) throw error;
+    return data.signedUrl;
   }
 
   /**
-   * Get public URL for thumbnail
+   * Get public URL for thumbnail (thumbnails bucket is public)
    */
   static getThumbnailUrl(thumbnailPath: string): string {
     const { data } = supabase.storage

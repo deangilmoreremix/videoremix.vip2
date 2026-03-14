@@ -65,7 +65,7 @@ Deno.serve(async (req: Request) => {
     const videoId = pathParts[pathParts.length - 1];
 
     if (req.method === 'GET' && pathParts.length === 3) {
-      return await getVideos(supabaseClient);
+      return await getVideos(req, supabaseClient);
     } else if (req.method === 'POST') {
       return await createVideo(req, supabaseClient);
     } else if (req.method === 'PUT' && videoId) {
@@ -94,10 +94,9 @@ Deno.serve(async (req: Request) => {
   }
 });
 
-async function getVideos(supabaseClient: any) {
-  const url = new URL(supabaseClient.supabaseUrl);
-  const queryParams = new URLSearchParams(url.search);
-  const filter = queryParams.get('filter');
+async function getVideos(req: Request, supabaseClient: any) {
+  const url = new URL(req.url);
+  const filter = url.searchParams.get('filter');
 
   let query = supabaseClient
     .from("videos")
@@ -216,6 +215,44 @@ async function updateVideo(req: Request, videoId: string, supabaseClient: any) {
 }
 
 async function deleteVideo(videoId: string, supabaseClient: any) {
+  const { data: video, error: fetchError } = await supabaseClient
+    .from("videos")
+    .select("file_path, thumbnail_path")
+    .eq("id", videoId)
+    .maybeSingle();
+
+  if (fetchError) {
+    return new Response(
+      JSON.stringify({ success: false, error: fetchError.message }),
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+  }
+
+  if (!video) {
+    return new Response(
+      JSON.stringify({ success: false, error: "Video not found" }),
+      { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+  }
+
+  if (video.file_path) {
+    const { error: storageError } = await supabaseClient.storage
+      .from("videos")
+      .remove([video.file_path]);
+    if (storageError) {
+      console.error("Error deleting video file from storage:", storageError.message);
+    }
+  }
+
+  if (video.thumbnail_path) {
+    const { error: thumbError } = await supabaseClient.storage
+      .from("thumbnails")
+      .remove([video.thumbnail_path]);
+    if (thumbError) {
+      console.error("Error deleting thumbnail from storage:", thumbError.message);
+    }
+  }
+
   const { error } = await supabaseClient
     .from("videos")
     .delete()
@@ -224,18 +261,12 @@ async function deleteVideo(videoId: string, supabaseClient: any) {
   if (error) {
     return new Response(
       JSON.stringify({ success: false, error: error.message }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
 
   return new Response(
     JSON.stringify({ success: true }),
-    {
-      status: 200,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    }
+    { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
   );
 }

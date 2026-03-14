@@ -35,7 +35,7 @@ export const useHomepageVideos = (options: UseHomepageVideosOptions = {}) => {
     }
   }, [featured]);
 
-  const getVideoUrl = useCallback((filePath: string): string => {
+  const getVideoUrl = useCallback(async (filePath: string): Promise<string> => {
     return VideoService.getVideoUrl(filePath);
   }, []);
 
@@ -78,7 +78,7 @@ export const usePublicVideos = () => {
     }
   }, []);
 
-  const getVideoUrl = useCallback((filePath: string): string => {
+  const getVideoUrl = useCallback(async (filePath: string): Promise<string> => {
     return VideoService.getVideoUrl(filePath);
   }, []);
 

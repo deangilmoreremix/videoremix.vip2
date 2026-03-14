@@ -95,7 +95,7 @@ export const useVideos = () => {
     [],
   );
 
-  const getVideoUrl = useCallback((filePath: string): string => {
+  const getVideoUrl = useCallback(async (filePath: string): Promise<string> => {
     return VideoService.getVideoUrl(filePath);
   }, []);
 
