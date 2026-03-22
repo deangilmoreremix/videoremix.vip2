@@ -15,6 +15,8 @@ import {
   CreditCard,
   Package,
   Loader,
+  Globe,
+  Building,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import {
@@ -28,6 +30,9 @@ const ProfilePage: React.FC = () => {
   const [formData, setFormData] = useState({
     first_name: user?.user_metadata?.first_name || "",
     last_name: user?.user_metadata?.last_name || "",
+    bio: user?.user_metadata?.bio || "",
+    company: user?.user_metadata?.company || "",
+    website: user?.user_metadata?.website || "",
   });
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -37,7 +42,7 @@ const ProfilePage: React.FC = () => {
   const [purchasesError, setPurchasesError] = useState<string | null>(null);
 
   const handleInputChange =
-    (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setFormData((prev) => ({ ...prev, [field]: e.target.value }));
     };
 
@@ -50,6 +55,9 @@ const ProfilePage: React.FC = () => {
       const { error } = await updateProfile({
         first_name: formData.first_name,
         last_name: formData.last_name,
+        bio: formData.bio,
+        company: formData.company,
+        website: formData.website,
       });
 
       if (error) {
@@ -69,6 +77,9 @@ const ProfilePage: React.FC = () => {
     setFormData({
       first_name: user?.user_metadata?.first_name || "",
       last_name: user?.user_metadata?.last_name || "",
+      bio: user?.user_metadata?.bio || "",
+      company: user?.user_metadata?.company || "",
+      website: user?.user_metadata?.website || "",
     });
     setIsEditing(false);
     setError(null);
@@ -266,6 +277,86 @@ const ProfilePage: React.FC = () => {
                       <User className="h-5 w-5 text-gray-400 mr-3" />
                       <span className="text-white">
                         {user.user_metadata?.last_name || "Not set"}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Bio */}
+                <div>
+                  <label
+                    htmlFor="bio"
+                    className="block text-sm font-medium text-gray-300 mb-2"
+                  >
+                    Bio
+                  </label>
+                  {isEditing ? (
+                    <textarea
+                      id="bio"
+                      value={formData.bio}
+                      onChange={handleInputChange("bio")}
+                      rows={3}
+                      className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
+                      placeholder="Tell us about yourself"
+                    />
+                  ) : (
+                    <div className="flex items-center bg-gray-700 border border-gray-600 rounded-lg px-4 py-3">
+                      <span className="text-white">
+                        {user.user_metadata?.bio || "Not set"}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Company */}
+                <div>
+                  <label
+                    htmlFor="company"
+                    className="block text-sm font-medium text-gray-300 mb-2"
+                  >
+                    Company
+                  </label>
+                  {isEditing ? (
+                    <input
+                      id="company"
+                      type="text"
+                      value={formData.company}
+                      onChange={handleInputChange("company")}
+                      className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                      placeholder="Your company name"
+                    />
+                  ) : (
+                    <div className="flex items-center bg-gray-700 border border-gray-600 rounded-lg px-4 py-3">
+                      <Building className="h-5 w-5 text-gray-400 mr-3" />
+                      <span className="text-white">
+                        {user.user_metadata?.company || "Not set"}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Website */}
+                <div>
+                  <label
+                    htmlFor="website"
+                    className="block text-sm font-medium text-gray-300 mb-2"
+                  >
+                    Website
+                  </label>
+                  {isEditing ? (
+                    <input
+                      id="website"
+                      type="url"
+                      value={formData.website}
+                      onChange={handleInputChange("website")}
+                      className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                      placeholder="https://yourwebsite.com"
+                    />
+                  ) : (
+                    <div className="flex items-center bg-gray-700 border border-gray-600 rounded-lg px-4 py-3">
+                      <Globe className="h-5 w-5 text-gray-400 mr-3" />
+                      <span className="text-white">
+                        {user.user_metadata?.website || "Not set"}
                       </span>
                     </div>
                   )}
