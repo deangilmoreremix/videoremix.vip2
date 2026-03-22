@@ -59,7 +59,6 @@ Deno.serve(async (req: Request) => {
           }
         );
       }
-    }
 
     if (req.method === "GET") {
       const { data: subscriptions, error } = await supabase

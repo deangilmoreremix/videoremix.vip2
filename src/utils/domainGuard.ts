@@ -176,7 +176,7 @@ export function validateOutgoingRequest(url: string): ValidationResult {
 
     // Check allowed API domains
     const allowedApiDomains = [
-      "mohueeozazjxyzmikdbs.supabase.co",
+      "bzxohkrxcwodllketcpz.supabase.co",
       "api.openai.com",
       "api.stripe.com",
       "generativelanguage.googleapis.com",
