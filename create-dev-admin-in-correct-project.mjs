@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Create dev@videoremix.vip admin user in mohueeozazjxyzmikdbs project
+ * Create dev@videoremix.vip admin user in bzxohkrxcwodllketcpz project
  */
 
 import { config } from 'dotenv';
