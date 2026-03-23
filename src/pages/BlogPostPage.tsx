@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import DOMPurify from "dompurify";
 import { Link, useParams } from "react-router-dom";
 import {
   ChevronLeft,
@@ -366,7 +367,7 @@ const BlogPostPage: React.FC = () => {
 
                   {/* Article content */}
                   <div className="prose prose-lg max-w-none prose-invert prose-headings:text-white prose-a:text-primary-400 prose-a:no-underline hover:prose-a:text-primary-300">
-                    <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }} />
                   </div>
 
                   {/* Tags */}
