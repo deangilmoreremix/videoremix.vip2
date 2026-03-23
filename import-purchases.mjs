@@ -119,19 +119,33 @@ async function main() {
     productMap[p.name] = p.id;
   });
 
-  // Get all users
-  const { data: users, error: usersError } = await supabase.auth.admin.listUsers();
+  // Get all users with pagination
+  console.log('🔍 Fetching all users...');
+  let allUsers = [];
+  let page = 1;
+  let hasMore = true;
 
-  if (usersError) {
-    console.error('❌ Error fetching users:', usersError.message);
-    process.exit(1);
+  while (hasMore) {
+    const { data, error } = await supabase.auth.admin.listUsers({
+      page: page,
+      perPage: 50
+    });
+    if (error) {
+      console.error('Error fetching users:', error.message);
+      break;
+    }
+    const users = data.users || [];
+    allUsers = allUsers.concat(users);
+    console.log(`   Fetched page ${page}, got ${users.length} users, total so far: ${allUsers.length}`);
+    hasMore = data.nextPage !== null && data.nextPage !== undefined;
+    page++;
   }
 
-  console.log(`✅ Found ${users.users.length} users in database\n`);
+  console.log(`✅ Found ${allUsers.length} users in database\n`);
 
   // Create user email map
   const userMap = {};
-  users.users.forEach(u => {
+  allUsers.forEach(u => {
     userMap[u.email.toLowerCase()] = u.id;
   });
 
@@ -194,23 +208,24 @@ async function main() {
     // Get subscription ID (PayPal Preapproval Key)
     const subscriptionId = row['PAYPAL PREAPPROVAL KEY'] || null;
 
-    // Insert purchase
-    const purchase = {
-      user_id: userId,
-      email: email,
-      platform: 'paypal',
-      platform_transaction_id: transactionId,
-      product_id: productId,
-      product_name: productName,
-      amount: amount,
-      currency: 'USD',
-      status: status === 'completed' ? 'completed' : status === 'refunded' ? 'refunded' : 'pending',
-      is_subscription: isSubscription,
-      subscription_id: subscriptionId,
-      purchase_date: purchaseDate.toISOString(),
-      webhook_data: row,
-      processed: false
-    };
+      // Insert purchase
+      const purchase = {
+        user_id: userId,
+        email: email,
+        platform: 'stripe', // Using stripe as platform for PayPal transactions (constraint allows: paykickstart, stripe, zaxxa)
+        platform_transaction_id: transactionId,
+        product_id: productId,
+        product_name: productName,
+        amount: amount,
+        currency: 'USD',
+        status: status === 'completed' ? 'completed' : status === 'refunded' ? 'refunded' : 'pending',
+        is_subscription: isSubscription,
+        subscription_id: subscriptionId,
+        purchase_date: purchaseDate.toISOString(),
+        webhook_data: row,
+        processed: false,
+        tenant_id: '00000000-0000-0000-0000-000000000001' // Default VideoRemix tenant
+      };
 
     const { error } = await supabase.from('purchases').insert(purchase);
 
