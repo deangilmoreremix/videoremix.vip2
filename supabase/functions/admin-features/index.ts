@@ -59,7 +59,6 @@ Deno.serve(async (req: Request) => {
           }
         );
       }
-    }
 
     const url = new URL(req.url);
     const pathParts = url.pathname.split("/").filter(Boolean);

@@ -9,12 +9,7 @@ if (import.meta.env.DEV) {
   console.log("Supabase Environment check:", {
     hasUrl: !!supabaseUrl,
     hasKey: !!supabaseAnonKey,
-    urlValue: supabaseUrl ? `${supabaseUrl.substring(0, 30)}...` : "MISSING",
-    keyLength: supabaseAnonKey ? supabaseAnonKey.length : 0,
     mode: import.meta.env.MODE,
-    allViteVars: Object.keys(import.meta.env).filter((k) =>
-      k.startsWith("VITE_"),
-    ),
   });
 }
 

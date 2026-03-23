@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import DOMPurify from "dompurify";
 import { useParams, Link } from "react-router-dom";
 import {
   ChevronRight,
@@ -828,7 +829,7 @@ const HelpArticlePage: React.FC = () => {
                   {/* Article Content */}
                   <div
                     className="prose prose-lg prose-invert max-w-none prose-headings:scroll-mt-24 prose-a:text-primary-400 hover:prose-a:text-primary-300 prose-a:no-underline prose-a:transition-colors prose-h2:border-b prose-h2:border-gray-700 prose-h2:pb-2 prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-700 prose-code:text-primary-300 prose-img:rounded-lg"
-                    dangerouslySetInnerHTML={{ __html: article.content }}
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }}
                   />
 
                   {/* Article Feedback */}
