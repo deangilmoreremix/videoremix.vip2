@@ -85,7 +85,7 @@ CREATE INDEX IF NOT EXISTS idx_apps_tenant_id ON apps(tenant_id);
 CREATE INDEX IF NOT EXISTS idx_apps_slug ON apps(slug);
 CREATE INDEX IF NOT EXISTS idx_user_app_access_tenant_id ON user_app_access(tenant_id);
 CREATE INDEX IF NOT EXISTS idx_user_app_access_user_tenant ON user_app_access(user_id, tenant_id);
-CREATE INDEX IF NOT EXISTS idx_user_app_access_app_tenant ON user_app_access(app_id, tenant_id);
+CREATE INDEX IF NOT EXISTS idx_user_app_access_app_tenant ON user_app_access(app_slug, tenant_id);
 CREATE INDEX IF NOT EXISTS idx_profiles_tenant_id ON profiles(tenant_id);
 CREATE INDEX IF NOT EXISTS idx_user_roles_tenant_id ON user_roles(tenant_id);
 CREATE INDEX IF NOT EXISTS idx_app_user_roles_app ON app_user_roles(app_id);
@@ -136,7 +136,7 @@ FOR ALL USING (
 -- =============================================================================
 
 -- Get user's current tenant
-CREATE OR REPLACE FUNCTION auth.get_current_tenant_id()
+CREATE OR REPLACE FUNCTION public.get_current_tenant_id()
 RETURNS uuid AS $$
   SELECT tenant_id FROM user_roles 
   WHERE user_id = auth.uid() 
@@ -145,43 +145,46 @@ RETURNS uuid AS $$
 $$ LANGUAGE sql STABLE;
 
 -- Get user's accessible apps
-CREATE OR REPLACE FUNCTION auth.get_user_app_ids()
+CREATE OR REPLACE FUNCTION public.get_user_app_ids()
 RETURNS uuid[] AS $$
   SELECT ARRAY(
-    SELECT app_id FROM user_app_access 
-    WHERE user_id = auth.uid() 
-    AND status = 'active'
+    SELECT id FROM apps 
+    WHERE slug IN (
+      SELECT app_slug FROM user_app_access 
+      WHERE user_id = auth.uid() 
+      AND status = 'active'
+    )
   );
 $$ LANGUAGE sql STABLE;
 
 -- Check if user has access to specific app
-CREATE OR REPLACE FUNCTION auth.user_has_app_access(app_uuid uuid)
+CREATE OR REPLACE FUNCTION public.user_has_app_access(app_slug text)
 RETURNS boolean AS $$
   SELECT EXISTS (
     SELECT 1 FROM user_app_access 
     WHERE user_id = auth.uid() 
-    AND app_id = app_uuid 
+    AND app_slug = app_slug 
     AND status = 'active'
   );
 $$ LANGUAGE sql STABLE;
 
 -- Get user's role in specific app
-CREATE OR REPLACE FUNCTION auth.get_user_app_role(app_uuid uuid)
+CREATE OR REPLACE FUNCTION public.get_user_app_role(app_slug text)
 RETURNS text AS $$
   SELECT role::text FROM app_user_roles 
   WHERE user_id = auth.uid() 
-  AND app_id = app_uuid 
+  AND app_id = (SELECT id FROM apps WHERE slug = app_slug LIMIT 1)
   AND is_active = true
   LIMIT 1;
 $$ LANGUAGE sql STABLE;
 
 -- Check if user is admin of app
-CREATE OR REPLACE FUNCTION auth.user_is_app_admin(app_uuid uuid)
+CREATE OR REPLACE FUNCTION public.user_is_app_admin(app_slug text)
 RETURNS boolean AS $$
   SELECT EXISTS (
     SELECT 1 FROM app_user_roles 
     WHERE user_id = auth.uid() 
-    AND app_id = app_uuid 
+    AND app_id = (SELECT id FROM apps WHERE slug = app_slug LIMIT 1)
     AND role IN ('owner', 'admin')
     AND is_active = true
   );
@@ -257,63 +260,63 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Invite user to application
 CREATE OR REPLACE FUNCTION public.invite_user_to_app(
-  p_app_id uuid,
-  p_email text,
-  p_role user_app_role DEFAULT 'viewer',
-  pExpiresInDays int DEFAULT 7
+   p_app_id uuid,
+   p_email text,
+   p_role user_app_role DEFAULT 'viewer',
+   pExpiresInDays int DEFAULT 7
 )
 RETURNS uuid AS $$
-  DECLARE
-    v_invitation_token text;
-    v_invitation_id uuid;
-    v_user_id uuid;
-  BEGIN
-    -- Only app admins can invite users
-    IF NOT auth.user_is_app_access(p_app_id) THEN
-      RAISE EXCEPTION 'You do not have access to this application';
-    END IF;
-    
-    -- Generate invitation token
-    v_invitation_token := encode(gen_random_bytes(32), 'hex');
-    
-    -- Check if user exists
-    SELECT id INTO v_user_id FROM auth.users WHERE email = p_email;
-    
-    -- Create invitation record
-    INSERT INTO user_app_access (
-      user_id, app_id, status, invited_by,
-      invitation_token, invitation_expires_at,
-      created_at, updated_at
-    )
-    VALUES (
-      v_user_id, p_app_id, 'pending', auth.uid(),
-      v_invitation_token, now() + (pExpiresInDays || ' days')::interval,
-      now(), now()
-    )
-    RETURNING id INTO v_invitation_id;
-    
-    RETURN v_invitation_id;
-  END;
+   DECLARE
+     v_invitation_token text;
+     v_invitation_id uuid;
+     v_user_id uuid;
+   BEGIN
+     -- Only app admins can invite users
+     IF NOT public.user_is_app_access(p_app_id) THEN
+       RAISE EXCEPTION 'You do not have access to this application';
+     END IF;
+     
+     -- Generate invitation token
+     v_invitation_token := encode(gen_random_bytes(32), 'hex');
+     
+     -- Check if user exists
+     SELECT id INTO v_user_id FROM auth.users WHERE email = p_email;
+     
+     -- Create invitation record
+     INSERT INTO user_app_access (
+       user_id, app_id, status, invited_by,
+       invitation_token, invitation_expires_at,
+       created_at, updated_at
+     )
+     VALUES (
+       v_user_id, p_app_id, 'pending', auth.uid(),
+       v_invitation_token, now() + (pExpiresInDays || ' days')::interval,
+       now(), now()
+     )
+     RETURNING id INTO v_invitation_id;
+     
+     RETURN v_invitation_id;
+   END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Accept invitation and join app
 CREATE OR REPLACE FUNCTION public.accept_app_invitation(
-  p_invitation_token text
+   p_invitation_token text
 )
 RETURNS void AS $$
-  BEGIN
-    UPDATE user_app_access
-    SET status = 'active',
-        invitation_token = NULL,
-        updated_at = now()
-    WHERE invitation_token = p_invitation_token
-      AND invitation_expires_at > now()
-      AND user_id = auth.uid();
-      
-    IF NOT FOUND THEN
-      RAISE EXCEPTION 'Invalid or expired invitation';
-    END IF;
-  END;
+   BEGIN
+     UPDATE user_app_access
+     SET status = 'active',
+         invitation_token = NULL,
+         updated_at = now()
+     WHERE invitation_token = p_invitation_token
+       AND invitation_expires_at > now()
+       AND user_id = auth.uid();
+       
+     IF NOT FOUND THEN
+       RAISE EXCEPTION 'Invalid or expired invitation';
+     END IF;
+   END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- =============================================================================

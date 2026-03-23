@@ -126,16 +126,17 @@ async function main() {
       isActive = expiresAt > new Date();
     }
 
-    // Grant access for each app
-    for (const appSlug of appsGranted) {
-      const accessRecord = {
-        user_id,
-        app_slug: appSlug,
-        purchase_id: lastPurchase.id,
-        access_type: is_subscription ? 'subscription' : 'lifetime',
-        expires_at: expiresAt ? expiresAt.toISOString() : null,
-        is_active: isActive
-      };
+     // Grant access for each app
+     for (const appSlug of appsGranted) {
+       const accessRecord = {
+         user_id,
+         app_slug: appSlug,
+         purchase_id: lastPurchase.id,
+         access_type: is_subscription ? 'subscription' : 'lifetime',
+         expires_at: expiresAt ? expiresAt.toISOString() : null,
+         is_active: isActive,
+         tenant_id: '00000000-0000-0000-0000-000000000001' // Default VideoRemix tenant
+       };
 
       // Try insert
       const { error } = await supabase
