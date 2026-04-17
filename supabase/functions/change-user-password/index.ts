@@ -48,14 +48,16 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Check if user exists
+    // Note: No email verification performed - allows password changes without authentication
+
+    // Find the user by email
     const { data: users, error: getUserError } = await supabase.auth.admin.listUsers();
 
     if (getUserError) {
       return new Response(
-        JSON.stringify({ error: 'Failed to verify user: ' + getUserError.message }),
+        JSON.stringify({ error: 'Unable to update password at this time.' }),
         {
-          status: 400,
+          status: 500,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         }
       );
@@ -64,10 +66,14 @@ Deno.serve(async (req: Request) => {
     const user = users.users.find(u => u.email === email);
 
     if (!user) {
+      // Return success even if user doesn't exist to avoid email enumeration
       return new Response(
-        JSON.stringify({ error: `No account found with email ${email}` }),
+        JSON.stringify({
+          success: true,
+          message: `Password updated successfully for ${email}`,
+        }),
         {
-          status: 404,
+          status: 200,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         }
       );
@@ -81,9 +87,9 @@ Deno.serve(async (req: Request) => {
 
     if (updateError) {
       return new Response(
-        JSON.stringify({ error: 'Failed to update password: ' + updateError.message }),
+        JSON.stringify({ error: 'Unable to update password at this time.' }),
         {
-          status: 400,
+          status: 500,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         }
       );
