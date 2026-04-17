@@ -48,7 +48,8 @@ Current password reset requires email verification and navigation through comple
 - Complete redesign from "forgot password" to "change password"
 - Direct password change without email verification
 - Email + New Password + Confirm Password fields
-- Success message shows password changed immediately
+- Success confirmation displayed on the same page (no redirect)
+- Clear confirmation message with security indicator
 
 ### ResetPassword Page Changes
 - Updated UI for consistency
@@ -70,5 +71,6 @@ Current password reset requires email verification and navigation through comple
 - Only email address required (must exist in database)
 - No email verification required
 - Clear UI indicating the simplified process
+- Success confirmation appears on the same page without redirect
 - ForgotPasswordPage serves as the main password change interface</content>
 <parameter name="filePath">docs/superpowers/specs/2026-01-17-change-password-design.md
