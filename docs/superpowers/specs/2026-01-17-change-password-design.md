@@ -30,25 +30,45 @@ Current password reset requires email verification and navigation through comple
 
 ### Files to Create/Modify
 1. `src/pages/ProfilePage.tsx` - Add change password link
-2. `src/pages/ResetPassword.tsx` - Complete redesign for email-based password changes
-3. `supabase/functions/change-user-password/index.ts` - New edge function for password updates
+2. `src/pages/ForgotPasswordPage.tsx` - Redesigned for direct password changes (no email required)
+3. `src/pages/ResetPassword.tsx` - Complete redesign for email-based password changes
+4. `supabase/functions/change-user-password/index.ts` - New edge function for password updates
 
 ### New Dependencies
 - Edge function using Supabase admin client
 - Modified authentication flow
+
+## User Experience
+
+### ProfilePage Changes
+- Add "Change Password" link next to the email field in the Profile Information section
+- Link navigates to `/reset-password` route
+
+### ForgotPasswordPage Changes (Main Password Change Page)
+- Complete redesign from "forgot password" to "change password"
+- Direct password change without email verification
+- Email + New Password + Confirm Password fields
+- Success message shows password changed immediately
+
+### ResetPassword Page Changes
+- Updated UI for consistency
+- Email input field for password changes without login
+- Maintains existing functionality for edge cases
 
 ## Security Considerations
 ⚠️ **CRITICAL SECURITY NOTICE**: This implementation allows password changes without any verification. Anyone knowing a user's email address can change their password. The system returns success messages even for non-existent emails to prevent enumeration attacks, but will actually update passwords for valid email addresses. This is an extremely high security risk and should only be used in controlled environments where this level of access is explicitly required.
 
 ## Testing Requirements
 - Verify users can change passwords by providing only email
-- Test form validation works correctly
+- Test form validation works correctly (8+ characters, password confirmation)
 - Verify success messaging appears for all email inputs
 - Confirm passwords are actually updated for existing users
+- Test ForgotPasswordPage (/forgot-password) works as main change password page
 
 ## Success Criteria
 - Users can change passwords without being logged in
 - Only email address required (must exist in database)
 - No email verification required
-- Clear UI indicating the simplified process</content>
+- Clear UI indicating the simplified process
+- ForgotPasswordPage serves as the main password change interface</content>
 <parameter name="filePath">docs/superpowers/specs/2026-01-17-change-password-design.md
