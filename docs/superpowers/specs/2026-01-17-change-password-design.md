@@ -38,13 +38,13 @@ Current password reset requires email verification and navigation through comple
 - Modified authentication flow
 
 ## Security Considerations
-⚠️ **CRITICAL SECURITY NOTICE**: This implementation allows password changes with only email verification. Anyone knowing a user's email can change their password. This is a significant security risk and should only be used in controlled environments.
+⚠️ **CRITICAL SECURITY NOTICE**: This implementation allows password changes without any verification. Anyone knowing a user's email address can change their password. The system returns success messages even for non-existent emails to prevent enumeration attacks, but will actually update passwords for valid email addresses. This is an extremely high security risk and should only be used in controlled environments where this level of access is explicitly required.
 
 ## Testing Requirements
 - Verify users can change passwords by providing only email
-- Confirm email validation (user exists in database)
 - Test form validation works correctly
-- Verify success/error messaging
+- Verify success messaging appears for all email inputs
+- Confirm passwords are actually updated for existing users
 
 ## Success Criteria
 - Users can change passwords without being logged in
