@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   User,
@@ -219,9 +220,17 @@ const ProfilePage: React.FC = () => {
                   <label className="block text-sm font-medium text-gray-300 mb-2">
                     Email Address
                   </label>
-                  <div className="flex items-center bg-gray-700 border border-gray-600 rounded-lg px-4 py-3">
-                    <Mail className="h-5 w-5 text-gray-400 mr-3" />
-                    <span className="text-white">{user.email}</span>
+                  <div className="flex items-center justify-between bg-gray-700 border border-gray-600 rounded-lg px-4 py-3">
+                    <div className="flex items-center">
+                      <Mail className="h-5 w-5 text-gray-400 mr-3" />
+                      <span className="text-white">{user.email}</span>
+                    </div>
+                    <Link
+                      to="/reset-password"
+                      className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
+                    >
+                      Change Password
+                    </Link>
                   </div>
                   <p className="text-xs text-gray-500 mt-1">
                     Email cannot be changed

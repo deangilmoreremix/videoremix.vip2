@@ -232,6 +232,7 @@ async function matchProduct(productName) {
 
   let productSlug = null;
 
+  // Existing Personalizer products
   if (normalized.includes('personalizer ai agency') && normalized.includes('monthly')) {
     productSlug = 'personalizer-monthly';
   } else if (normalized.includes('personalizer ai agency') && normalized.includes('yearly')) {
@@ -248,6 +249,102 @@ async function matchProduct(productName) {
     productSlug = 'personalizer-interactive-shopping';
   } else if (normalized.includes('video and image transformer')) {
     productSlug = 'personalizer-video-transformer';
+  }
+  // New products
+  else if (normalized.includes('ai personalized content hub')) {
+    productSlug = 'ai-personalized-content-hub-product';
+  } else if (normalized.includes('funnelcraft ai')) {
+    productSlug = 'funnelcraft-ai-product';
+  } else if (normalized.includes('ai skills monetizer') && !normalized.includes('pro') && !normalized.includes('walkthrough')) {
+    productSlug = 'ai-skills-monetizer-product';
+  } else if (normalized.includes('ai skills & resume')) {
+    productSlug = 'ai-skills-resume-product';
+  } else if (normalized.includes('ai skills monetizer pro')) {
+    productSlug = 'ai-skills-monetizer-pro-product';
+  } else if (normalized.includes('sales page builder') && !normalized.includes('pro')) {
+    productSlug = 'sales-page-builder-product';
+  } else if (normalized.includes('sales page builder pro')) {
+    productSlug = 'sales-page-builder-pro-product';
+  } else if (normalized.includes('sales assistant pro')) {
+    productSlug = 'sales-assistant-pro-product';
+  } else if (normalized.includes('sales assistant platform')) {
+    productSlug = 'sales-assistant-platform-product';
+  } else if (normalized.includes('ai personalization studio')) {
+    productSlug = 'ai-personalization-studio-product';
+  } else if (normalized.includes('ai screen recorder') && !normalized.includes('pro') && !normalized.includes('gold')) {
+    productSlug = 'ai-screen-recorder-product';
+  } else if (normalized.includes('ai screen recorder pro')) {
+    productSlug = 'ai-screen-recorder-pro-product';
+  } else if (normalized.includes('ai signature') && !normalized.includes('pro') && !normalized.includes('app')) {
+    productSlug = 'ai-signature-product';
+  } else if (normalized.includes('ai signature pro')) {
+    productSlug = 'ai-signature-pro-product';
+  } else if (normalized.includes('profile gen')) {
+    productSlug = 'profile-gen-product';
+  } else if (normalized.includes('profile generator pro')) {
+    productSlug = 'profile-generator-pro-product';
+  } else if (normalized.includes('smart crm closer pro')) {
+    productSlug = 'smart-crm-closer-pro-product';
+  } else if (normalized.includes('ai referral maximizer pro')) {
+    productSlug = 'ai-referral-maximizer-pro-product';
+  } else if (normalized.includes('ai sales maximizer')) {
+    productSlug = 'ai-sales-maximizer-product';
+  } else if (normalized.includes('ai video editor')) {
+    productSlug = 'ai-video-editor-product';
+  } else if (normalized.includes('video ai editor pro')) {
+    productSlug = 'video-ai-editor-pro-product';
+  } else if (normalized.includes('videoemail app')) {
+    productSlug = 'videoemail-app-product';
+  } else if (normalized.includes('contentai')) {
+    productSlug = 'contentai-product';
+  } else if (normalized.includes('smartanimator')) {
+    productSlug = 'smartanimator-product';
+  } else if (normalized.includes('luminaai ai studio gemini')) {
+    productSlug = 'luminaai-ai-studio-gemini-product';
+  } else if (normalized.includes('product research ai')) {
+    productSlug = 'product-research-ai-product';
+  } else if (normalized.includes('contactshub')) {
+    productSlug = 'contactshub-product';
+  } else if (normalized.includes('ai studio')) {
+    productSlug = 'ai-studio-product';
+  } else if (normalized.includes('ai insight module')) {
+    productSlug = 'ai-insight-module-product';
+  } else if (normalized.includes('ai screen recorder gold')) {
+    productSlug = 'ai-screen-recorder-gold-product';
+  } else if (normalized.includes('white label management app')) {
+    productSlug = 'white-label-management-app-product';
+  } else if (normalized.includes('ai brand creator 2')) {
+    productSlug = 'ai-brand-creator-2-product';
+  } else if (normalized.includes('ai brand creator analysis')) {
+    productSlug = 'ai-brand-creator-analysis-product';
+  } else if (normalized.includes('ai skills monetizer with walkthrough')) {
+    productSlug = 'ai-skills-monetizer-with-walkthrough-product';
+  } else if (normalized.includes('ai rebranding calculator')) {
+    productSlug = 'ai-rebranding-calculator-product';
+  } else if (normalized.includes('videoremix special offer landing page')) {
+    productSlug = 'videoremix-special-offer-landing-page-product';
+  } else if (normalized.includes('elevate rebranding accelerator')) {
+    productSlug = 'elevate-rebranding-accelerator-product';
+  } else if (normalized.includes('ai video recorder remotion')) {
+    productSlug = 'ai-video-recorder-remotion-product';
+  } else if (normalized.includes('business brander ai recraft')) {
+    productSlug = 'business-brander-ai-recraft-product';
+  } else if (normalized.includes('power hour webinar landing page')) {
+    productSlug = 'power-hour-webinar-landing-page-product';
+  } else if (normalized.includes('resume ai')) {
+    productSlug = 'resume-ai-product';
+  } else if (normalized.includes('videoremix power hour 2 page')) {
+    productSlug = 'videoremix-power-hour-2-page-product';
+  } else if (normalized.includes('ai signature app 1')) {
+    productSlug = 'ai-signature-app-1-product';
+  } else if (normalized.includes('url video 2')) {
+    productSlug = 'url-video-2-product';
+  } else if (normalized.includes('video generation templates')) {
+    productSlug = 'video-generation-templates-product';
+  } else if (normalized.includes('personalizer website')) {
+    productSlug = 'personalizer-website-product';
+  } else if (normalized.includes('video ai pro')) {
+    productSlug = 'video-ai-pro-product';
   }
 
   if (!productSlug) {

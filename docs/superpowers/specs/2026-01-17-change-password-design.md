@@ -1,54 +1,54 @@
 # Change Password Functionality Design
 
 ## Overview
-Implement a streamlined change password feature for logged-in users without requiring email verification. Leverage the existing ResetPassword page infrastructure while improving discoverability and user experience.
+Implement password change functionality that allows users to update their passwords without requiring login or email verification. Users only need to provide their email address (if it exists in the database) to change their password.
 
 ## Problem Statement
-Users currently need to navigate to `/reset-password` (which is designed for email-based password resets) to change their password, but there's no clear way to access this functionality from their profile. The page messaging also focuses on "resetting" rather than "changing" passwords.
+Current password reset requires email verification and navigation through complex flows. Users want a simpler way to change passwords without authentication barriers.
 
 ## Solution
-- Add a "Change Password" link to the ProfilePage for easy access
-- Rebrand the ResetPassword page to focus on password changes for logged-in users
-- Maintain existing functionality since it already supports direct password updates
+- Modify the ResetPassword page to allow password changes by email alone
+- Remove authentication requirements
+- Create a new edge function to handle password updates using admin privileges
+- Update UI to reflect the new purpose
 
 ## User Experience
 
 ### ProfilePage Changes
 - Add "Change Password" link next to the email field in the Profile Information section
 - Link navigates to `/reset-password` route
-- Clear, accessible placement following existing UI patterns
 
 ### Change Password Page (ResetPassword) Updates
-- Update page title and headings from "Reset Password" to "Change Password"
-- Modify instructional text to focus on password changes rather than resets
-- Keep existing form validation (8+ characters, password confirmation)
-- Maintain success messaging and redirect to dashboard
+- Remove authentication requirement
+- Add email input field as the first step
+- Update page title and headings to "Change Password"
+- Modify instructional text to focus on direct password changes
+- Keep form validation (8+ characters, password confirmation)
+- Update success messaging
 
 ## Technical Implementation
 
-### Files to Modify
+### Files to Create/Modify
 1. `src/pages/ProfilePage.tsx` - Add change password link
-2. `src/pages/ResetPassword.tsx` - Update UI text and branding
+2. `src/pages/ResetPassword.tsx` - Complete redesign for email-based password changes
+3. `supabase/functions/change-user-password/index.ts` - New edge function for password updates
 
-### No New Dependencies
-- Uses existing Supabase auth functionality
-- Leverages current form validation patterns
-- Follows established UI component library usage
+### New Dependencies
+- Edge function using Supabase admin client
+- Modified authentication flow
 
 ## Security Considerations
-- Maintains existing session validation (redirects to signin if not authenticated)
-- Uses Supabase's `updateUser({ password })` which handles server-side validation
-- No reduction in security compared to current implementation
+⚠️ **CRITICAL SECURITY NOTICE**: This implementation allows password changes with only email verification. Anyone knowing a user's email can change their password. This is a significant security risk and should only be used in controlled environments.
 
 ## Testing Requirements
-- Verify logged-in users can access and use the change password functionality
-- Confirm form validation works correctly
-- Test navigation flow from ProfilePage to change password page
-- Verify success redirect to dashboard
+- Verify users can change passwords by providing only email
+- Confirm email validation (user exists in database)
+- Test form validation works correctly
+- Verify success/error messaging
 
 ## Success Criteria
-- Users can easily find and access password change functionality from their profile
-- Password changes work without email verification for logged-in users
-- UI clearly communicates the purpose (changing vs resetting passwords)
-- No breaking changes to existing forgot password flow</content>
+- Users can change passwords without being logged in
+- Only email address required (must exist in database)
+- No email verification required
+- Clear UI indicating the simplified process</content>
 <parameter name="filePath">docs/superpowers/specs/2026-01-17-change-password-design.md
