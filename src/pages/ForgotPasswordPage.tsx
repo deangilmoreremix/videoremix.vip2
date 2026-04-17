@@ -3,13 +3,14 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Mail, ArrowLeft, CheckCircle, AlertCircle, Video } from "lucide-react";
-import { useAuth } from "../context/AuthContext";
+import { supabase } from "../utils/supabaseClient";
 import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
 
 const ForgotPasswordPage: React.FC = () => {
-  const { resetPassword } = useAuth();
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -18,17 +19,36 @@ const ForgotPasswordPage: React.FC = () => {
     e.preventDefault();
     setError(null);
     setSuccess(false);
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const { error } = await resetPassword(email);
+      const { data, error } = await supabase.functions.invoke('change-user-password', {
+        body: {
+          email: email,
+          newPassword: password,
+        },
+      });
+
       if (error) {
-        setError(error.message);
-      } else {
+        setError(error.message || 'Failed to update password');
+      } else if (data?.success) {
         setSuccess(true);
+      } else {
+        setError(data?.error || 'Failed to update password');
       }
-    } catch (err) {
-      setError("An unexpected error occurred");
+    } catch (err: any) {
+      setError(err.message || 'An unexpected error occurred');
     } finally {
       setLoading(false);
     }
@@ -37,10 +57,10 @@ const ForgotPasswordPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Forgot Password | VideoRemix.vip</title>
+        <title>Change Password | VideoRemix.vip</title>
         <meta
           name="description"
-          content="Reset your VideoRemix.vip password. Enter your email to receive password reset instructions."
+          content="Change your VideoRemix.vip password. Enter your email and new password to update your account."
         />
       </Helmet>
 
@@ -108,12 +128,11 @@ const ForgotPasswordPage: React.FC = () => {
 
               <MagicSparkles minSparkles={3} maxSparkles={6}>
                 <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
-                  Reset Your Password
+                  Change Password
                 </h1>
               </MagicSparkles>
               <p className="text-gray-300 text-lg">
-                Enter your email address and we'll send you instructions to
-                reset your password
+                Enter your email and new password to change your account password
               </p>
             </motion.div>
 
@@ -157,6 +176,42 @@ const ForgotPasswordPage: React.FC = () => {
                     </div>
                   </div>
 
+                  <div>
+                    <label
+                      htmlFor="password"
+                      className="block text-sm font-medium text-gray-300 mb-2"
+                    >
+                      New Password
+                    </label>
+                    <input
+                      id="password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                      placeholder="Enter new password"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="confirmPassword"
+                      className="block text-sm font-medium text-gray-300 mb-2"
+                    >
+                      Confirm Password
+                    </label>
+                    <input
+                      id="confirmPassword"
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                      placeholder="Confirm new password"
+                      required
+                    />
+                  </div>
+
                   <button
                     type="submit"
                     disabled={loading}
@@ -184,12 +239,11 @@ const ForgotPasswordPage: React.FC = () => {
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                           ></path>
                         </svg>
-                        Sending Reset Link...
+                        Changing Password...
                       </>
                     ) : (
                       <>
-                        <Mail className="mr-2 h-5 w-5" />
-                        Send Reset Link
+                        Change Password
                       </>
                     )}
                   </button>
@@ -204,28 +258,16 @@ const ForgotPasswordPage: React.FC = () => {
                     <CheckCircle className="h-8 w-8 text-green-400" />
                   </div>
                   <h3 className="text-xl font-semibold text-white mb-3">
-                    Check Your Email
+                    Password Changed!
                   </h3>
                   <p className="text-gray-300 mb-6">
-                    We've sent password reset instructions to{" "}
-                    <span className="font-medium text-white">{email}</span>
+                    Your password has been successfully updated. You can now sign in with your new password.
                   </p>
-                  <div className="bg-gray-700/50 rounded-lg p-4 mb-6 text-left">
-                    <p className="text-sm text-gray-400 mb-2">
-                      Didn't receive the email?
-                    </p>
-                    <ul className="text-sm text-gray-300 space-y-1">
-                      <li>• Check your spam or junk folder</li>
-                      <li>• Make sure you entered the correct email</li>
-                      <li>• Wait a few minutes for the email to arrive</li>
-                    </ul>
-                  </div>
                   <Link
                     to="/signin"
-                    className="inline-flex items-center justify-center w-full bg-gray-700 hover:bg-gray-600 text-white py-3 px-6 rounded-lg font-medium transition-colors"
+                    className="inline-flex items-center justify-center w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white py-3 px-6 rounded-lg font-medium transition-all"
                   >
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back to Sign In
+                    Sign In Now
                   </Link>
                 </motion.div>
               )}
@@ -233,12 +275,12 @@ const ForgotPasswordPage: React.FC = () => {
               {!success && (
                 <div className="mt-8 text-center">
                   <p className="text-gray-400">
-                    Remember your password?{" "}
+                    Already signed in?{" "}
                     <Link
-                      to="/signin"
+                      to="/dashboard"
                       className="text-primary-400 hover:text-primary-300 transition-colors font-medium"
                     >
-                      Sign in
+                      Go to Dashboard
                     </Link>
                   </p>
                 </div>
@@ -253,26 +295,24 @@ const ForgotPasswordPage: React.FC = () => {
             >
               <h3 className="text-white font-semibold mb-4 flex items-center">
                 <AlertCircle className="h-5 w-5 text-primary-400 mr-2" />
-                Security Tips
+                Password Requirements
               </h3>
               <ul className="space-y-3 text-gray-300 text-sm">
                 <li className="flex items-start">
                   <span className="text-primary-400 mr-2">✓</span>
-                  <span>The reset link expires after 1 hour for security</span>
+                  <span>Password must be at least 8 characters long</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-primary-400 mr-2">✓</span>
-                  <span>
-                    Choose a strong password with at least 6 characters
-                  </span>
+                  <span>Use a combination of letters, numbers, and symbols</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-primary-400 mr-2">✓</span>
+                  <span>Choose a unique password not used elsewhere</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-primary-400 mr-2">✓</span>
                   <span>Never share your password with anyone</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-primary-400 mr-2">✓</span>
-                  <span>Contact support if you need additional help</span>
                 </li>
               </ul>
             </motion.div>
