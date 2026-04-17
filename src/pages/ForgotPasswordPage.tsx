@@ -263,12 +263,11 @@ const ForgotPasswordPage: React.FC = () => {
                   <p className="text-gray-300 mb-6">
                     Your password has been successfully updated. You can now sign in with your new password.
                   </p>
-                  <Link
-                    to="/signin"
-                    className="inline-flex items-center justify-center w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white py-3 px-6 rounded-lg font-medium transition-all"
-                  >
-                    Sign In Now
-                  </Link>
+                  <div className="bg-gray-700/50 rounded-lg p-4 mb-6">
+                    <p className="text-sm text-gray-300">
+                      ✅ Password change confirmed. Your account is now secure with the new password.
+                    </p>
+                  </div>
                 </motion.div>
               )}
 
