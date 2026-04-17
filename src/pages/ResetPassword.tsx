@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
 
 export default function ResetPassword() {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -10,22 +11,14 @@ export default function ResetPassword() {
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Check if user is authenticated, if not redirect to signin
-    const checkAuth = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      if (!session) {
-        navigate("/signin", { replace: true });
-      }
-    };
-    checkAuth();
-  }, [navigate]);
-
   const updatePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (!email) {
+      setError("Email is required");
+      return;
+    }
 
     if (password.length < 8) {
       setError("Password must be at least 8 characters");
@@ -39,21 +32,32 @@ export default function ResetPassword() {
 
     setLoading(true);
 
-    const { error } = await supabase.auth.updateUser({
-      password: password,
-    });
+    try {
+      const { data, error } = await supabase.functions.invoke('change-user-password', {
+        body: {
+          email: email,
+          newPassword: password,
+        },
+      });
 
-    setLoading(false);
+      if (error) {
+        setError(error.message || 'Failed to update password');
+        return;
+      }
 
-    if (error) {
-      setError(error.message);
-      return;
+      if (data?.success) {
+        setSuccess(true);
+        setTimeout(() => {
+          navigate("/signin", { replace: true });
+        }, 3000);
+      } else {
+        setError(data?.error || 'Failed to update password');
+      }
+    } catch (err: any) {
+      setError(err.message || 'An unexpected error occurred');
+    } finally {
+      setLoading(false);
     }
-
-    setSuccess(true);
-    setTimeout(() => {
-      navigate("/dashboard", { replace: true });
-    }, 2000);
   };
 
   if (success) {
@@ -113,7 +117,7 @@ export default function ResetPassword() {
               marginBottom: "12px",
             }}
           >
-            Password Updated!
+            Password Changed!
           </h2>
           <p
             style={{
@@ -122,8 +126,7 @@ export default function ResetPassword() {
               lineHeight: "1.6",
             }}
           >
-            Your password has been successfully updated. Redirecting you to the
-            dashboard...
+            Your password has been successfully updated. You can now sign in with your new password.
           </p>
         </div>
       </div>
@@ -164,7 +167,7 @@ export default function ResetPassword() {
               marginBottom: "8px",
             }}
           >
-            Choose a New Password
+            Change Password
           </h2>
           <p
             style={{
@@ -172,7 +175,7 @@ export default function ResetPassword() {
               color: "rgba(255, 255, 255, 0.7)",
             }}
           >
-            Enter your new password below
+            Enter your email and new password below
           </p>
         </div>
 
@@ -194,6 +197,38 @@ export default function ResetPassword() {
               {error}
             </div>
           )}
+
+          <div>
+            <label
+              style={{
+                display: "block",
+                fontSize: "14px",
+                fontWeight: "500",
+                color: "rgba(255, 255, 255, 0.9)",
+                marginBottom: "8px",
+              }}
+            >
+              Email Address
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              style={{
+                width: "100%",
+                padding: "12px 16px",
+                background: "rgba(255, 255, 255, 0.1)",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
+                borderRadius: "8px",
+                color: "#ffffff",
+                fontSize: "14px",
+                outline: "none",
+                boxSizing: "border-box",
+              }}
+              placeholder="Enter your email address"
+            />
+          </div>
 
           <div>
             <label
@@ -277,7 +312,7 @@ export default function ResetPassword() {
               transition: "all 0.2s",
             }}
           >
-            {loading ? "Updating..." : "Update Password"}
+            {loading ? "Changing..." : "Change Password"}
           </button>
         </form>
 
@@ -291,7 +326,7 @@ export default function ResetPassword() {
           }}
         >
           Your password must be at least 8 characters and match the
-          confirmation.
+          confirmation. Make sure to use a strong, unique password.
         </p>
       </div>
     </div>

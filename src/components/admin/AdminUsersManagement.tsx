@@ -30,6 +30,12 @@ interface User {
   app_count?: number;
 }
 
+interface App {
+  slug: string;
+  name: string;
+  category: string;
+}
+
 const AdminUsersManagement: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
@@ -77,6 +83,11 @@ const AdminUsersManagement: React.FC = () => {
   const [loadingApps, setLoadingApps] = useState(false);
   const [savingAppAccess, setSavingAppAccess] = useState(false);
 
+  // Direct app toggle states
+  const [togglingApp, setTogglingApp] = useState<string | null>(null);
+  const [allApps, setAllApps] = useState<App[]>([]);
+  const [loadingAllApps, setLoadingAllApps] = useState(false);
+
   // Feature access management states
   const [showFeatureAccessModal, setShowFeatureAccessModal] = useState(false);
   const [selectedUserForFeatures, setSelectedUserForFeatures] =
@@ -94,9 +105,54 @@ const AdminUsersManagement: React.FC = () => {
   const [loadingFeatures, setLoadingFeatures] = useState(false);
   const [savingFeatureAccess, setSavingFeatureAccess] = useState(false);
 
+  // App toggle expansion states
+  const [expandedUsers, setExpandedUsers] = useState<Set<string>>(new Set());
+
   useEffect(() => {
     fetchUsers();
+    fetchAllApps();
   }, []);
+
+  const fetchAllApps = async () => {
+    setLoadingAllApps(true);
+    try {
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
+      if (sessionError || !session) {
+        console.warn("Cannot fetch apps: No valid session");
+        return;
+      }
+      const token = session.access_token;
+
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-apps`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch apps: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        setAllApps(data.data || []);
+      } else {
+        console.warn("Failed to fetch apps:", data.error);
+        setAllApps([]); // Set empty array as fallback
+      }
+    } catch (error) {
+      console.error("Error fetching apps:", error);
+      setAllApps([]); // Set empty array as fallback
+    } finally {
+      setLoadingAllApps(false);
+    }
+  };
 
   const clearMessages = () => {
     setError(null);
@@ -467,6 +523,86 @@ const AdminUsersManagement: React.FC = () => {
     });
   };
 
+  // Direct app toggle for individual users with rate limiting and error recovery
+  const toggleUserAppAccess = async (userId: string, appSlug: string, currentAccess: boolean) => {
+    const toggleKey = `${userId}-${appSlug}`;
+
+    // Prevent double-clicks and rate limiting
+    if (togglingApp === toggleKey) {
+      return; // Already processing this toggle
+    }
+
+    setTogglingApp(toggleKey);
+    clearMessages();
+
+    // Optimistic UI update
+    const previousUsers = [...users];
+    setUsers(prevUsers => prevUsers.map(user => {
+      if (user.id === userId) {
+        const currentAccessList = user.app_access || [];
+        const updatedAccess = currentAccessList.includes(appSlug)
+          ? currentAccessList.filter(slug => slug !== appSlug)
+          : [...currentAccessList, appSlug];
+
+        return {
+          ...user,
+          app_access: updatedAccess,
+          app_count: updatedAccess.length
+        };
+      }
+      return user;
+    }));
+
+    try {
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
+      if (sessionError || !session) {
+        // Revert optimistic update on auth error
+        setUsers(previousUsers);
+        setError("Authentication required. Please log in again.");
+        return;
+      }
+      const token = session.access_token;
+
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${userId}/app-access`,
+        {
+          method: currentAccess ? "DELETE" : "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ app_slugs: [appSlug] }),
+        },
+      );
+
+      if (!response.ok) {
+        // Revert optimistic update on API error
+        setUsers(previousUsers);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        setSuccess(`App ${currentAccess ? 'access removed' : 'access granted'} successfully`);
+      } else {
+        // Revert optimistic update on business logic error
+        setUsers(previousUsers);
+        throw new Error(data.error || `Failed to ${currentAccess ? 'remove' : 'grant'} app access`);
+      }
+    } catch (error: any) {
+      // Revert optimistic update on any error
+      setUsers(previousUsers);
+      console.error("Error toggling app access:", error);
+      setError(error.message || `Failed to ${currentAccess ? 'remove' : 'grant'} app access. Please try again.`);
+    } finally {
+      setTogglingApp(null);
+    }
+  };
+
   const saveAppAccess = async () => {
     if (!selectedUserForApps) return;
 
@@ -595,6 +731,18 @@ const AdminUsersManagement: React.FC = () => {
       } else {
         return [...prev, featureSlug];
       }
+    });
+  };
+
+  const toggleUserExpansion = (userId: string) => {
+    setExpandedUsers(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(userId)) {
+        newSet.delete(userId);
+      } else {
+        newSet.add(userId);
+      }
+      return newSet;
     });
   };
 
@@ -862,6 +1010,84 @@ const AdminUsersManagement: React.FC = () => {
                     </span>
                   )}
                 </div>
+
+                {/* App Access Toggles */}
+                {!loadingAllApps && allApps.length > 0 && (
+                  <div className="mt-4">
+                    <button
+                      onClick={() => toggleUserExpansion(user.id)}
+                      className="flex items-center text-sm text-gray-400 hover:text-white transition-colors mb-2"
+                      disabled={!user.app_access && !Array.isArray(user.app_access)}
+                    >
+                      <span className="mr-2">
+                        {expandedUsers.has(user.id) ? "Hide" : "Show"} App Access
+                      </span>
+                      <ChevronDown
+                        className={`h-4 w-4 transition-transform ${
+                          expandedUsers.has(user.id) ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+
+                    {expandedUsers.has(user.id) && (
+                      <div className="bg-gray-900/50 rounded-lg p-3 border border-gray-600">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                          {allApps.slice(0, 12).map((app) => {
+                            const hasAccess = (user.app_access || []).includes(app.slug);
+                            const toggleKey = `${user.id}-${app.slug}`;
+                            const isToggling = togglingApp === toggleKey;
+
+                            return (
+                              <div
+                                key={app.slug}
+                                className="flex items-center justify-between p-2 bg-gray-800/50 rounded border border-gray-700"
+                              >
+                                <span className="text-xs text-gray-300 truncate mr-2" title={app.name}>
+                                  {app.name}
+                                </span>
+                                <button
+                                  onClick={() => toggleUserAppAccess(user.id, app.slug, hasAccess)}
+                                  disabled={isToggling}
+                                  className={`relative inline-flex h-5 w-8 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:cursor-not-allowed ${
+                                    hasAccess ? "bg-primary-600 hover:bg-primary-700" : "bg-gray-600 hover:bg-gray-500"
+                                  } ${isToggling ? "opacity-50" : ""}`}
+                                  title={`${hasAccess ? "Remove" : "Grant"} access to ${app.name}`}
+                                  aria-label={`${hasAccess ? "Remove" : "Grant"} access to ${app.name}`}
+                                >
+                                  <span
+                                    className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${
+                                      hasAccess ? "translate-x-4" : "translate-x-1"
+                                    }`}
+                                  />
+                                  {isToggling && (
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                      <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin"></div>
+                                    </div>
+                                  )}
+                                </button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        {allApps.length > 12 && (
+                          <div className="mt-2 text-xs text-gray-400 text-center">
+                            Showing 12 of {allApps.length} apps. Use "Manage Apps" button for full control.
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Loading state for apps */}
+                {loadingAllApps && (
+                  <div className="mt-4">
+                    <div className="flex items-center text-sm text-gray-400 mb-2">
+                      <div className="w-4 h-4 border border-gray-600 border-t-gray-400 rounded-full animate-spin mr-2"></div>
+                      Loading apps...
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Actions */}
