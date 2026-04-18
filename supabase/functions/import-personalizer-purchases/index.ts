@@ -218,8 +218,10 @@ async function importPurchase(
     const productMatch = await matchProductFromName(supabase, purchase.productName);
 
     const transactionId = purchase.paypalTxnId || purchase.zaxxaTxnId;
+    // Generate transaction ID if missing (for CSV imports)
+    let transactionId = purchase.paypalTxnId || purchase.zaxxaTxnId;
     if (!transactionId) {
-      return { success: false, error: 'No transaction ID found' };
+      transactionId = `csv_import_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     }
 
     const { data: existingPurchase } = await supabase
