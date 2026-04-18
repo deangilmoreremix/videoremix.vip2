@@ -84,28 +84,7 @@ const AdminLogin: React.FC = () => {
   const [lockoutUntil, setLockoutUntil] = useState<Date | null>(null);
   const [announcements, setAnnouncements] = useState<string>("");
 
-  const isDevMode =
-    import.meta.env.DEV || window.location.hostname === "localhost";
 
-  const handleDevLogin = async () => {
-    setError(null);
-    setSuccess(null);
-
-    try {
-      const result = await login("dean@videoremix.vip", "VideoRemix2025");
-
-      if (result.success) {
-        setSuccess("Dev mode: Logged in successfully!");
-        setTimeout(() => {
-          navigate("/admin");
-        }, 500);
-      } else {
-        setError("Dev mode login failed. Please check credentials.");
-      }
-    } catch (err) {
-      setError("Dev mode login error. Please ensure admin account exists.");
-    }
-  };
 
   // Focus management
   useEffect(() => {
@@ -493,35 +472,6 @@ const AdminLogin: React.FC = () => {
             </div>
           </div>
 
-          {/* Dev Mode Quick Login */}
-          {isDevMode && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: ANIMATION_DURATIONS.FAST, delay: 0.3 }}
-              className="mt-4 bg-yellow-900/30 backdrop-blur-sm rounded-xl p-4 border border-yellow-700/50"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <AlertCircle className="h-5 w-5 text-yellow-400 mr-2" />
-                  <div>
-                    <p className="text-sm font-medium text-yellow-400">
-                      Development Mode
-                    </p>
-                    <p className="text-xs text-yellow-300/80">
-                      Quick login for testing
-                    </p>
-                  </div>
-                </div>
-                <button
-                  onClick={handleDevLogin}
-                  className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                >
-                  Dev Login
-                </button>
-              </div>
-            </motion.div>
-          )}
 
           {/* Screen Reader Announcements */}
           <div aria-live="polite" aria-atomic="true" className="sr-only">
