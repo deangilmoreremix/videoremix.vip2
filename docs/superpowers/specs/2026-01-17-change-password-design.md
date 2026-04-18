@@ -1,4 +1,4 @@
-# Change Password Functionality Design
+d# Change Password Functionality Design
 
 ## Overview
 Implement password change functionality that allows users to update their passwords without requiring login or email verification. Users only need to provide their email address (if it exists in the database) to change their password.

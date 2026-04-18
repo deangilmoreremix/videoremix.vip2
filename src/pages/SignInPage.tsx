@@ -268,20 +268,6 @@ const SignInPage: React.FC = () => {
                   </Link>
                 </p>
 
-                <div className="pt-4 border-t border-gray-700">
-                  <button
-                    type="button"
-                    onClick={() => navigate("/admin/login")}
-                    className="w-full bg-yellow-600/20 hover:bg-yellow-600/30 border-2 border-yellow-500/50 text-yellow-400 py-3 px-6 rounded-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-gray-800 flex items-center justify-center group"
-                  >
-                    <Sparkles className="mr-2 h-5 w-5 group-hover:animate-pulse" />
-                    Admin Dev Access
-                    <Sparkles className="ml-2 h-5 w-5 group-hover:animate-pulse" />
-                  </button>
-                  <p className="text-xs text-gray-500 mt-2">
-                    Development & Admin Use Only
-                  </p>
-                </div>
               </div>
             </motion.div>
 
