@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS tenants (
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );
+-- Add description column to tenants table if it does not exist
+ALTER TABLE tenants ADD COLUMN IF NOT EXISTS description text DEFAULT '';
 
 -- Apps table (applications owned by tenants)
 ALTER TABLE apps ADD COLUMN IF NOT EXISTS tenant_id uuid REFERENCES tenants(id);
@@ -152,7 +154,7 @@ RETURNS uuid[] AS $$
     WHERE slug IN (
       SELECT app_slug FROM user_app_access 
       WHERE user_id = auth.uid() 
-      AND status = 'active'
+      AND is_active = true
     )
   );
 $$ LANGUAGE sql STABLE;
@@ -164,7 +166,7 @@ RETURNS boolean AS $$
     SELECT 1 FROM user_app_access 
     WHERE user_id = auth.uid() 
     AND app_slug = app_slug 
-    AND status = 'active'
+    AND is_active = true
   );
 $$ LANGUAGE sql STABLE;
 
