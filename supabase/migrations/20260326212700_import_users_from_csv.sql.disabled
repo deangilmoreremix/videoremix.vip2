@@ -50,6 +50,7 @@ DECLARE
     v_pos INTEGER;
     v_delimiter CONSTANT TEXT := '|';
     v_exists BOOLEAN;
+    v_user_record RECORD;
 BEGIN
     -- Process each user in the staging table
     FOR v_user_record IN 
@@ -78,8 +79,6 @@ BEGIN
             INSERT INTO auth.users (
                 email,
                 encrypted_password,
-                email_confirmed_at,
-                confirmed_at,
                 raw_app_meta_data,
                 raw_user_meta_data,
                 created_at,
@@ -89,8 +88,6 @@ BEGIN
             ) VALUES (
                 v_email,
                 crypt(gen_random_uuid()::text, gen_salt('bf')), -- Random password
-                now(),
-                now(),
                 '{"provider":"email","providers":["email"]}',
                 jsonb_build_object(
                     'full_name', v_full_name,
