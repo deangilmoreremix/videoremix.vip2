@@ -112,15 +112,39 @@ async function purchaseExists(userId, productId) {
   return !!(existingPurchases && existingPurchases.id);
 }
 
+// Function to get default tenant ID
+async function getDefaultTenantId() {
+  const { data: tenantData, error: tenantError } = await supabase
+    .from('tenants')
+    .select('id')
+    .eq('is_active', true)
+    .limit(1)
+    .single();
+
+  if (tenantError) {
+    console.error('Error fetching tenant ID:', tenantError.message);
+    return null;
+  }
+
+  return tenantData.id;
+}
+
 // Function to create a purchase record
 async function createPurchaseRecord(userId, email, productId, productName) {
   const platformTransactionId = `manual_import_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  
+  const tenantId = await getDefaultTenantId();
+
+  if (!tenantId) {
+    console.error('Could not get tenant ID');
+    return null;
+  }
+
   const { data: purchaseData, error } = await supabase
     .from('purchases')
     .insert({
       user_id: userId,
       email: email,
+      tenant_id: tenantId,
       platform: 'manual_import',
       platform_transaction_id: platformTransactionId,
       platform_customer_id: null,
