@@ -19,7 +19,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load environment variables from project root .env
-const projectRoot = path.resolve(__dirname); // Current directory (project root)
+const projectRoot = path.resolve(__dirname, '../../../../'); // Go up 4 levels to project root
 const envPath = path.join(projectRoot, '.env');
 if (fs.existsSync(envPath)) {
   const envContent = fs.readFileSync(envPath, 'utf-8');
@@ -193,8 +193,13 @@ function groupUsersByEmail(records) {
 }
 
 async function generateSecurePassword(length = 12) {
-  // Use fixed password for all imported users as requested
-  return 'VideoRemix2026';
+  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+  let password = '';
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    password += charset[randomIndex];
+  }
+  return password;
 }
 
 async function createAuthUser(email, fullName) {
@@ -213,32 +218,24 @@ async function createAuthUser(email, fullName) {
     });
 
     if (createError) {
-      // Check for duplicate user error (message may contain "already" or "exists")
-      if (createError.message.toLowerCase().includes('already') ||
-          createError.message.toLowerCase().includes('exists') ||
-          createError.message.toLowerCase().includes('duplicate')) {
+      // Check for duplicate user error (message may contain "already")
+      if (createError.message.toLowerCase().includes('already')) {
         console.log(`  ℹ User already exists: ${email}`);
-
-        // Try to get existing user using admin API
-        try {
-          const { data: existingUsers, error: listError } = await supabase.auth.admin.listUsers({
-            filter: `email.eq.${email}`
-          });
-
-          if (listError) {
-            console.error(`  ⚠ Could not fetch existing user: ${listError.message}`);
-            throw createError;
-          }
-
-          if (existingUsers.users && existingUsers.users.length > 0) {
-            const existingUser = existingUsers.users[0];
-            return { userId: existingUser.id, password: null, existing: true };
-          } else {
-            console.log(`  ⚠ Existing user not found by email: ${email}`);
-            throw createError;
-          }
-        } catch (adminError) {
-          console.error(`  ⚠ Admin API error: ${adminError.message}`);
+        // Query auth.users directly using service role key (bypasses RLS)
+        const { data: existingUser, error: fetchError } = await supabase
+          .from('users', { schema: 'auth' })
+          .select('id')
+          .eq('email', email)
+          .single();
+          
+        if (fetchError) {
+          console.error(`  ⚠ Could not fetch existing user: ${fetchError.message}`);
+          throw createError;
+        }
+        if (existingUser?.id) {
+          return { userId: existingUser.id, password: null, existing: true };
+        } else {
+          console.log(`  ⚠ Existing user not found by email: ${email}`);
           throw createError;
         }
       }
