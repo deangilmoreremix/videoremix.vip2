@@ -20,6 +20,7 @@
 **New Files:**
 - `src/data/appSalesCopy.ts` - Generated sales copy for all 27 apps
 - `src/components/ui/SalesDropdown.tsx` - Reusable dropdown component
+- `src/components/ui/SalesDropdownErrorBoundary.tsx` - Error boundary for dropdown failures
 
 **Test Files:**
 - `src/components/dashboard/__tests__/DashboardToolsSection.test.tsx` - Component tests
@@ -69,6 +70,10 @@ interface App {
 export const appSalesCopy: AppSalesData = {
   // Will be populated with generated content
 };
+
+export const validateSalesCopy = (copy: SalesCopy): boolean => {
+  return !!(copy.tonality && copy.whatItDoes && copy.howItMakesMoney && copy.whyBusinessesNeedIt);
+};
 ```
 
 - [ ] **Step 4: Commit initial data structure**
@@ -94,12 +99,26 @@ Based on GTM Skills tonalities matched to app categories:
 - Branding: Jeff Bezos, Trusted Advisor
 - Personalizer: Chris Voss, Pain Point Research
 
-- [ ] **Step 2: Generate sales copy for first 9 apps**
+- [ ] **Step 2: Create sales copy generation script**
 
-Create content for apps in order of tonality assignment, ensuring each covers:
-- What the app does (clear functionality)
-- How local businesses monetize it (specific revenue strategies)
-- Why they need it (compelling value proposition)
+```typescript
+// scripts/generate-sales-copy.ts
+const generateSalesCopy = async (app: App, tonality: string) => {
+  const prompt = `Write sales copy for ${app.name} using ${tonality} tonality. Structure as:
+  - What it does: [clear functionality description]
+  - How it makes money: [specific local business monetization strategies]
+  - Why businesses need it: [compelling value proposition in ${tonality} style]
+
+  App details: ${JSON.stringify(app)}`;
+
+  // Use AI service to generate content
+  return await generateWithAI(prompt);
+};
+```
+
+- [ ] **Step 3: Generate sales copy for all 27 apps**
+
+Create content for apps using assigned tonalities, ensuring each covers the required sections.
 
 - [ ] **Step 3: Add content to appSalesCopy object**
 
@@ -385,11 +404,45 @@ if (!salesCopy) {
 const contentStyle = isExpanded ? { maxHeight: '1000px' } : { maxHeight: '0' };
 ```
 
-- [ ] **Step 4: Commit accessibility improvements**
+- [ ] **Step 4: Create error boundary component**
+
+```typescript
+// src/components/ui/SalesDropdownErrorBoundary.tsx
+class SalesDropdownErrorBoundary extends React.Component<
+  { children: React.ReactNode; fallback?: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('SalesDropdown Error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback || (
+        <div className="sales-error">
+          Unable to load sales information
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+```
+
+- [ ] **Step 5: Commit accessibility improvements**
 
 ```bash
-git add src/components/ui/SalesDropdown.tsx src/components/dashboard/DashboardToolsSection.tsx
-git commit -m "feat: add accessibility features and error handling to dropdown component"
+git add src/components/ui/SalesDropdown.tsx src/components/ui/SalesDropdownErrorBoundary.tsx src/components/dashboard/DashboardToolsSection.tsx
+git commit -m "feat: add accessibility features, error boundary, and error handling to dropdown component"
 ```
 
 ---
@@ -479,9 +532,14 @@ const animationConfig = prefersReducedMotion
 - [ ] **Step 2: Add lazy loading for expanded content**
 
 ```typescript
-// Only render content when expanded to improve initial load
+// Use React.lazy and Suspense for code splitting
+const SalesContent = lazy(() => import('./SalesContent'));
+
+// In SalesDropdown component
 {isExpanded && (
-  <SalesContent salesCopy={salesCopy} />
+  <Suspense fallback={<div className="skeleton">Loading...</div>}>
+    <SalesContent salesCopy={salesCopy} />
+  </Suspense>
 )}
 ```
 
