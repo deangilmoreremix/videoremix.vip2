@@ -33,6 +33,8 @@ import {
   BarChart2,
   Briefcase,
 } from "lucide-react";
+import { updateAppThumbnails } from "../utils/thumbnailMapper";
+import { SalesCopy } from './appSalesCopy';
 
 // App data structure
 interface App {
@@ -74,10 +76,11 @@ interface App {
     answer: string;
   }[];
   tags?: string[];
+  salesCopy?: SalesCopy;
 }
 
 // All apps data
-export const appsData: App[] = [
+const rawAppsData: App[] = [
   {
     id: "video-creator",
     name: "AI Video Creator",
@@ -85,7 +88,7 @@ export const appsData: App[] = [
     category: "video",
     icon: React.createElement(Video),
     image:
-      "https://images.unsplash.com/photo-1616469829941-c7200edec809?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/video-creator-ai-thumbnail-1776625726577.png",
     popular: true,
   },
   {
@@ -95,7 +98,7 @@ export const appsData: App[] = [
     category: "video",
     icon: React.createElement(Video),
     image:
-      "https://images.unsplash.com/photo-1532456745301-b2c645adce21?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/promo-generator-ai-thumbnail-1776625727189.png",
     popular: true,
   },
   {
@@ -105,7 +108,7 @@ export const appsData: App[] = [
     category: "lead-gen",
     icon: React.createElement(Layers),
     image:
-      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/landing-page-ai-thumbnail-1776625729992.png",
     popular: true,
   },
   {
@@ -115,7 +118,7 @@ export const appsData: App[] = [
     category: "ai-image",
     icon: React.createElement(ImageIcon),
     image:
-      "https://images.unsplash.com/photo-1579403124614-197f69d8187b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-image-tools-ai-thumbnail-1776625760448.png",
     new: true,
   },
   {
@@ -125,7 +128,7 @@ export const appsData: App[] = [
     category: "branding",
     icon: React.createElement(Palette),
     image:
-      "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/rebrander-ai-ai-thumbnail-1776625764714.png",
     new: true,
   },
   {
@@ -171,7 +174,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(Mic),
     image:
-      "https://images.unsplash.com/photo-1590602846028-08e9d0a40b94?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/voice-coach-ai-thumbnail-1776625763165.png",
   },
   {
     id: "resume-amplifier",
@@ -189,7 +192,7 @@ export const appsData: App[] = [
     category: "creative",
     icon: React.createElement(Layers),
     image:
-      "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/storyboard-ai-thumbnail-1776625955310.png",
     popular: true,
   },
   {
@@ -199,7 +202,7 @@ export const appsData: App[] = [
     category: "lead-gen",
     icon: React.createElement(Sparkles),
     image:
-      "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/sales-monetizer-ai-thumbnail-1776625959763.png",
   },
   {
     id: "smart-presentations",
@@ -208,7 +211,7 @@ export const appsData: App[] = [
     category: "creative",
     icon: React.createElement(Layers),
     image:
-      "https://images.unsplash.com/photo-1544531585-9847b68c8c86?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/smart-presentations-ai-thumbnail-1776625954908.png",
     popular: true,
   },
   {
@@ -218,7 +221,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(Video),
     image:
-      "https://images.unsplash.com/photo-1633419461186-7d40a38105ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-recorder-ai-thumbnail-1776625995139.png",
   },
   {
     id: "personalizer-profile",
@@ -236,7 +239,7 @@ export const appsData: App[] = [
     category: "personalizer",
     icon: React.createElement(ImageIcon),
     image:
-      "https://images.unsplash.com/photo-1611162616475-46b635cb6868?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/thumbnail-generator-ai-thumbnail-1776625994953.png",
     popular: true,
   },
   {
@@ -246,7 +249,7 @@ export const appsData: App[] = [
     category: "creative",
     icon: React.createElement(Video),
     image:
-      "https://images.unsplash.com/photo-1498084393753-b411b2d26b34?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/interactive-outros-ai-thumbnail-1776625994817.png",
   },
   {
     id: "social-pack",
@@ -255,7 +258,7 @@ export const appsData: App[] = [
     category: "creative",
     icon: React.createElement(Package),
     image:
-      "https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/social-pack-ai-thumbnail-1776626028165.png",
   },
   {
     id: "ai-art",
@@ -264,7 +267,7 @@ export const appsData: App[] = [
     category: "ai-image",
     icon: React.createElement(Sparkles),
     image:
-      "https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-art-ai-thumbnail-1776626027553.png",
     new: true,
   },
   {
@@ -274,7 +277,7 @@ export const appsData: App[] = [
     category: "ai-image",
     icon: React.createElement(ImageIcon),
     image:
-      "https://images.unsplash.com/photo-1635942071564-bc6acda3ac20?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/bg-remover-ai-thumbnail-1776626027625.png",
     popular: true,
   },
   {
@@ -447,3 +450,6 @@ export const appsData: App[] = [
     new: true,
   },
 ];
+
+// Export apps data with AI-generated thumbnails where available
+export const appsData: App[] = updateAppThumbnails(rawAppsData);
