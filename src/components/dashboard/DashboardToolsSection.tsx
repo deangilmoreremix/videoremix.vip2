@@ -39,6 +39,7 @@ import LockedAppOverlay from "../LockedAppOverlay";
 import PurchaseModal from "../PurchaseModal";
 import LazyIcon from "../LazyIcon";
 import SalesDropdown from '../ui/SalesDropdown';
+import SalesDropdownErrorBoundary from '../ui/SalesDropdownErrorBoundary';
 import { appSalesCopy } from '../../data/appSalesCopy';
 
 // Define TrendingUp component
@@ -1020,11 +1021,14 @@ const DashboardToolsSection: React.FC = () => {
                         </div>
 
                         {/* Sales Dropdown */}
-                        <SalesDropdown
-                          salesCopy={appSalesCopy[app.id]}
-                          isExpanded={expandedCards[app.id] || false}
-                          onToggle={() => toggleCardExpansion(app.id)}
-                        />
+                        <SalesDropdownErrorBoundary>
+                          <SalesDropdown
+                            salesCopy={appSalesCopy[app.id]}
+                            isExpanded={expandedCards[app.id] || false}
+                            onToggle={() => toggleCardExpansion(app.id)}
+                            appId={app.id}
+                          />
+                        </SalesDropdownErrorBoundary>
                       </div>
 
                       {/* Hover effect for grid view */}
