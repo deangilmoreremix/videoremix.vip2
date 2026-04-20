@@ -56,7 +56,8 @@ interface App {
 
 ### State Management
 - `expandedCards: Record<string, boolean>` - tracks which cards are expanded
-- Single expansion at a time (optional) to prevent layout issues
+- Single expansion at a time to prevent layout issues (accordion behavior)
+- Handle concurrent expansion conflicts with user feedback
 
 ## Implementation Details
 
@@ -78,6 +79,8 @@ interface App {
    - Specific monetization strategies for local businesses
    - Compelling reasons to adopt the solution
 
+3. **Generation Process**: Use AI prompts with assigned tonality frameworks to create consistent, persuasive copy. Include scripts for bulk generation and validation of tonality adherence.
+
 ### Interaction Design
 - Click anywhere on card toggles expansion
 - Visual feedback: chevron rotation, subtle background change
@@ -93,10 +96,11 @@ interface App {
 
 ## Error Handling
 
-- Graceful fallback if sales copy is missing
+- Graceful fallback if sales copy is missing ("Content unavailable" message)
 - Animation failsafe for older browsers
 - Touch event handling for mobile devices
-- Keyboard accessibility support
+- Keyboard accessibility support with ARIA attributes (`aria-expanded`, `role="button"`)
+- Logging for missing sales copy scenarios
 
 ## Performance Considerations
 
@@ -108,10 +112,11 @@ interface App {
 ## Testing Strategy
 
 - Visual regression tests for expanded states
-- Accessibility testing for keyboard navigation
-- Mobile touch testing for expand/collapse
-- Content validation for all 27 apps
-- Performance testing for animation smoothness
+- Accessibility testing for keyboard navigation and ARIA compliance
+- Mobile touch testing for expand/collapse interactions
+- Content validation for all 27 apps and tonality adherence
+- Performance testing for animation smoothness on low-end devices
+- Integration tests for data loading states and error handling
 
 ## Success Criteria
 
