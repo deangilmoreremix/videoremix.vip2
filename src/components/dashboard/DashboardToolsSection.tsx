@@ -38,6 +38,8 @@ import { useApps } from "../../hooks/useApps";
 import LockedAppOverlay from "../LockedAppOverlay";
 import PurchaseModal from "../PurchaseModal";
 import LazyIcon from "../LazyIcon";
+import SalesDropdown from '../ui/SalesDropdown';
+import { appSalesCopy } from '../../data/appSalesCopy';
 
 // Define TrendingUp component
 const TrendingUp: React.FC<{ className?: string }> = (props) => (
@@ -172,6 +174,7 @@ const DashboardToolsSection: React.FC = () => {
   );
   const [hoveredApp, setHoveredApp] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
   const containerRef = useRef<HTMLDivElement>(null);
   const [purchaseModalOpen, setPurchaseModalOpen] = useState(false);
   const [selectedAppForPurchase, setSelectedAppForPurchase] =
@@ -287,6 +290,14 @@ const DashboardToolsSection: React.FC = () => {
 
     // Dispatch custom event for sound effect
     document.dispatchEvent(new Event("sound:click"));
+  };
+
+  // Handle card expansion toggle
+  const toggleCardExpansion = (appId: string) => {
+    setExpandedCards(prev => ({
+      ...prev,
+      [appId]: !prev[appId]
+    }));
   };
 
   // Get featured apps
@@ -1008,8 +1019,16 @@ const DashboardToolsSection: React.FC = () => {
                           </span>
                         </div>
 
-                        {/* Hover effect for grid view */}
-                        {viewMode === "grid" && (
+                        {/* Sales Dropdown */}
+                        <SalesDropdown
+                          salesCopy={appSalesCopy[app.id]}
+                          isExpanded={expandedCards[app.id] || false}
+                          onToggle={() => toggleCardExpansion(app.id)}
+                        />
+                      </div>
+
+                      {/* Hover effect for grid view */}
+                      {viewMode === "grid" && (
                           <div className="absolute inset-0 bg-primary-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center z-20">
                             {isPurchased ? (
                               <a
@@ -1052,7 +1071,6 @@ const DashboardToolsSection: React.FC = () => {
                             </div>
                           </div>
                         )}
-                      </div>
                     </motion.div>
                   );
                 })}
