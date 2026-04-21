@@ -384,7 +384,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       window.removeEventListener("online", handleOnline);
       window.removeEventListener("offline", handleOffline);
     };
-  }, [handleAuthError, refreshSession, session]);
+  }, [handleAuthError, refreshSession]);
 
   // Auth actions
   const signUp = useCallback(
