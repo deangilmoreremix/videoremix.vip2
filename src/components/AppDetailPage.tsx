@@ -1911,81 +1911,93 @@ const AppDetailPage: React.FC = () => {
                     },
                     // @ts-expect-error
                   ]
-                ).map((faq, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                    className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 relative"
-                  >
-                    {/* Subtle animated highlight around the active FAQ */}
-                    {activeFaq === index && (
-                      <motion.div
-                        className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-primary-500/20 via-secondary-500/20 to-primary-500/20 blur-sm z-0"
-                        animate={{
-                          opacity: [0.3, 0.7, 0.3],
-                          background: [
-                            "linear-gradient(to right, rgba(99,102,241,0.2), rgba(236,72,153,0.2), rgba(99,102,241,0.2))",
-                            "linear-gradient(to right, rgba(236,72,153,0.2), rgba(99,102,241,0.2), rgba(236,72,153,0.2))",
-                            "linear-gradient(to right, rgba(99,102,241,0.2), rgba(236,72,153,0.2), rgba(99,102,241,0.2))",
-                          ],
-                        }}
-                        transition={{
-                          repeat: Infinity,
-                          duration: 3,
-                        }}
-                      />
-                    )}
-
-                    <button
-                      className="w-full text-left p-6 flex justify-between items-center focus:outline-none relative z-10"
-                      onClick={() => toggleFaq(index)}
-                      aria-expanded={activeFaq === index}
+                ).map((faq, index) => {
+                  const faqId = `faq-${index}`;
+                  return (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
+                      className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 relative"
                     >
-                      <h3 className="text-lg font-semibold text-white break-words pr-8">
-                        {faq.question}
-                      </h3>
+                      {/* Subtle animated highlight around the active FAQ */}
+                      {activeFaq === index && (
+                        <motion.div
+                          className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-primary-500/20 via-secondary-500/20 to-primary-500/20 blur-sm z-0"
+                          animate={{
+                            opacity: [0.3, 0.7, 0.3],
+                            background: [
+                              "linear-gradient(to right, rgba(99,102,241,0.2), rgba(236,72,153,0.2), rgba(99,102,241,0.2))",
+                              "linear-gradient(to right, rgba(236,72,153,0.2), rgba(99,102,241,0.2), rgba(236,72,153,0.2))",
+                              "linear-gradient(to right, rgba(99,102,241,0.2), rgba(236,72,153,0.2), rgba(99,102,241,0.2))",
+                            ],
+                          }}
+                          transition={{
+                            repeat: Infinity,
+                            duration: 3,
+                          }}
+                        />
+                      )}
+
+                      <button
+                        className="w-full text-left p-6 flex justify-between items-center focus:outline-none relative z-10"
+                        onClick={() => toggleFaq(index)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            toggleFaq(index);
+                          }
+                        }}
+                        aria-expanded={activeFaq === index}
+                        aria-controls={faqId}
+                        tabIndex={0}
+                      >
+                        <h3 className="text-lg font-semibold text-white break-words pr-8">
+                          {faq.question}
+                        </h3>
+                        <motion.div
+                          className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 ${
+                            activeFaq === index
+                              ? "bg-primary-600/60 text-white"
+                              : "bg-gray-700 text-gray-300"
+                          }`}
+                          animate={
+                            activeFaq === index
+                              ? {
+                                  rotate: 180,
+                                }
+                              : {
+                                  rotate: 0,
+                                }
+                          }
+                          transition={{ duration: 0.3 }}
+                        >
+                          {activeFaq === index ? (
+                            <Minus className="h-4 w-4" />
+                          ) : (
+                            <Plus className="h-4 w-4" />
+                          )}
+                        </motion.div>
+                      </button>
+
+                      {/* Answer with animation */}
                       <motion.div
-                        className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 ${
-                          activeFaq === index
-                            ? "bg-primary-600/60 text-white"
-                            : "bg-gray-700 text-gray-300"
-                        }`}
+                        id={faqId}
+                        initial={{ opacity: 0, height: 0 }}
                         animate={
                           activeFaq === index
-                            ? {
-                                rotate: 180,
-                              }
-                            : {
-                                rotate: 0,
-                              }
+                            ? { opacity: 1, height: "auto", marginBottom: 16 }
+                            : { opacity: 0, height: 0, marginBottom: 0 }
                         }
                         transition={{ duration: 0.3 }}
+                        className="px-6 pb-0 overflow-hidden relative z-10"
                       >
-                        {activeFaq === index ? (
-                          <Minus className="h-4 w-4" />
-                        ) : (
-                          <Plus className="h-4 w-4" />
-                        )}
+                        <p className="text-gray-300 break-words">{faq.answer}</p>
                       </motion.div>
-                    </button>
-
-                    {/* Answer with animation */}
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={
-                        activeFaq === index
-                          ? { opacity: 1, height: "auto", marginBottom: 16 }
-                          : { opacity: 0, height: 0, marginBottom: 0 }
-                      }
-                      transition={{ duration: 0.3 }}
-                      className="px-6 pb-0 overflow-hidden relative z-10"
-                    >
-                      <p className="text-gray-300 break-words">{faq.answer}</p>
                     </motion.div>
-                  </motion.div>
-                ))}
+                  );
+                })}
               </div>
 
               <motion.div
@@ -2325,7 +2337,7 @@ const AppDetailPage: React.FC = () => {
             >
               <Gift className="h-4 w-4 text-gray-500 inline-block" />
             </motion.div>
-            No credit card required. 14-day free trial on all premium features.
+            No credit card required. Start with all premium features.
           </p>
         </div>
       </motion.div>

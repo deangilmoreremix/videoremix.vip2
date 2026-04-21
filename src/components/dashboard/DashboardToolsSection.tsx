@@ -38,7 +38,7 @@ import { useApps } from "../../hooks/useApps";
 import LockedAppOverlay from "../LockedAppOverlay";
 import PurchaseModal from "../PurchaseModal";
 import LazyIcon from "../LazyIcon";
-import SalesDropdown from '../ui/SalesDropdown';
+import { SalesDropdown } from '../ui/SalesDropdown';
 import SalesDropdownErrorBoundary from '../ui/SalesDropdownErrorBoundary';
 import { appSalesCopy } from '../../data/appSalesCopy';
 

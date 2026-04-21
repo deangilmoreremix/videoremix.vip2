@@ -11,7 +11,7 @@ const PricingPage: React.FC = () => {
         <title>Pricing | VideoRemix.vip</title>
         <meta
           name="description"
-          content="Choose the perfect plan for your marketing personalization needs with VideoRemix.vip. From free to enterprise, we have the right pricing for you."
+          content="Choose the perfect plan for your marketing personalization needs with VideoRemix.vip. From basic to enterprise, we have the right pricing for you."
         />
       </Helmet>
 
@@ -41,9 +41,9 @@ const PricingPage: React.FC = () => {
               "Yes, you can upgrade, downgrade, or cancel your subscription at any time. Changes take effect at the start of your next billing cycle.",
           },
           {
-            question: "Is there a free trial available?",
+            question: "How do I get started??",
             answer:
-              "Yes! We offer a 14-day free trial on all paid plans so you can experience the full power of VideoRemix.vip before committing.",
+              "You can start with our basic plan and upgrade as needed. No credit card required to get started.",
           },
           {
             question: "Do you offer refunds?",

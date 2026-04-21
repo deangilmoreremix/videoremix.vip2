@@ -442,7 +442,7 @@ const SignUpPage: React.FC = () => {
             >
               <h3 className="text-white font-semibold mb-4 flex items-center">
                 <Sparkles className="h-5 w-5 text-primary-400 mr-2" />
-                Start your free account today
+                Start your account today
               </h3>
               <ul className="space-y-3 text-gray-300 text-sm">
                 <li className="flex items-start">

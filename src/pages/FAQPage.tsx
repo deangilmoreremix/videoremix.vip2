@@ -112,7 +112,7 @@ const faqData = [
     category: "getting-started",
   },
   {
-    question: "Is there a free trial or free plan available?",
+    question: "What plans are available??",
     answer:
       "Yes! We offer a Free plan that gives you access to basic personalization features with 5 video exports per month, 2 audience segments, and limited access to our tools. For full access to all 37+ marketing tools, unlimited audience segmentation, and advanced personalization features, we offer paid plans starting at $29/month. You can upgrade or downgrade at any time based on your business needs.",
     category: "getting-started",
@@ -198,7 +198,7 @@ const faqData = [
   {
     question: "Is there a limit to how many marketing campaigns I can run?",
     answer:
-      "Free accounts can have up to 3 active projects simultaneously and 2 audience segments. Pro accounts get 50 active projects with unlimited audience segments, perfect for solopreneurs and small agencies. Business accounts have unlimited projects, unlimited segments, and can manage multiple client accounts. Completed campaigns can be archived to free up your active project slots while maintaining access to analytics and performance data.",
+      "Basic accounts can have up to 3 active projects simultaneously and 2 audience segments. Pro accounts get 50 active projects with unlimited audience segments, perfect for solopreneurs and small agencies. Business accounts have unlimited projects, unlimited segments, and can manage multiple client accounts. Completed campaigns can be archived to free up your active project slots while maintaining access to analytics and performance data.",
     category: "features",
   },
   {
@@ -455,7 +455,7 @@ const faqData = [
   {
     question: "Why does my exported video look pixelated?",
     answer:
-      "Pixelation usually results from exporting at a lower resolution than optimal or from heavily compressed source footage. Try exporting at a higher quality setting, or if using the free plan, upgrade to access higher resolution exports. If your source footage is low quality, our AI enhancement feature (Pro plan) can help improve visual clarity.",
+      "Pixelation usually results from exporting at a lower resolution than optimal or from heavily compressed source footage. Try exporting at a higher quality setting, or if using the basic plan, upgrade to access higher resolution exports. If your source footage is low quality, our AI enhancement feature (Pro plan) can help improve visual clarity.",
     category: "troubleshooting",
   },
   {

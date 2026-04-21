@@ -264,7 +264,7 @@ const SignInPage: React.FC = () => {
                     to="/signup"
                     className="text-primary-400 hover:text-primary-300 transition-colors font-medium"
                   >
-                    Sign up for free
+                    Sign up now
                   </Link>
                 </p>
 

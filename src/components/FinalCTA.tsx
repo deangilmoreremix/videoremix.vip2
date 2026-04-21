@@ -439,7 +439,7 @@ const FinalCTA: React.FC = () => {
 
               <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
                 <motion.a
-                  href="#try-free"
+                  href="#pricing"
                   className="btn bg-white text-primary-600 hover:bg-gray-100 font-semibold text-lg px-8 py-4 rounded-lg flex items-center justify-center"
                   whileHover={{
                     scale: 1.05,
@@ -596,7 +596,7 @@ const FinalCTA: React.FC = () => {
                 textShadow: "0 0 8px rgba(255, 255, 255, 0.5)",
               }}
             >
-              Start with a free trial. No credit card required.
+              Get started today. No credit card required.
             </motion.p>
           </motion.div>
         </div>
