@@ -78,25 +78,35 @@ export const FAQSection: React.FC = () => {
 
         <div className="max-w-3xl mx-auto">
           <div className="space-y-4">
-            {displayFaqs.map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.2 + index * 0.05 }}
-                whileHover={{
-                  boxShadow: "0 8px 30px rgba(0, 0, 0, 0.12)",
-                  y: -4,
-                  transition: { duration: 0.2 },
-                }}
-                className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden"
-              >
-                <button
-                  className="flex justify-between items-center w-full text-left px-6 py-5 focus:outline-none"
-                  onClick={() => toggleFaq(index)}
-                  aria-expanded={openIndex === index}
+            {displayFaqs.map((faq, index) => {
+              const faqId = `faq-section-${index}`;
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.2 + index * 0.05 }}
+                  whileHover={{
+                    boxShadow: "0 8px 30px rgba(0, 0, 0, 0.12)",
+                    y: -4,
+                    transition: { duration: 0.2 },
+                  }}
+                  className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden"
                 >
+                  <button
+                    className="flex justify-between items-center w-full text-left px-6 py-5 focus:outline-none"
+                    onClick={() => toggleFaq(index)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleFaq(index);
+                      }
+                    }}
+                    aria-expanded={openIndex === index}
+                    aria-controls={faqId}
+                    tabIndex={0}
+                  >
                   <h3 className="text-lg font-medium text-white">
                     {faq.question}
                   </h3>
@@ -113,22 +123,24 @@ export const FAQSection: React.FC = () => {
                     >
                       <ChevronDown className="h-5 w-5" />
                     </motion.div>
-                  </div>
-                </button>
+                    </div>
+                  </button>
 
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{
-                    height: openIndex === index ? "auto" : 0,
-                    opacity: openIndex === index ? 1 : 0,
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="overflow-hidden"
-                >
-                  <div className="px-6 pb-5 text-gray-300">{faq.answer}</div>
+                  <motion.div
+                    id={faqId}
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{
+                      height: openIndex === index ? "auto" : 0,
+                      opacity: openIndex === index ? 1 : 0,
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 pb-5 text-gray-300">{faq.answer}</div>
+                  </motion.div>
                 </motion.div>
-              </motion.div>
-            ))}
+              );
+            })}
           </div>
 
           <motion.div

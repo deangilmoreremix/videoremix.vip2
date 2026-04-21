@@ -80,7 +80,7 @@ const FeatureCTA: React.FC<FeatureCTAProps> = ({
           </motion.div>
 
           <p className="text-gray-500 text-sm mb-6">
-            No credit card required. 14-day free trial on all premium features.
+            No credit card required. Start building with all premium features.
           </p>
 
           {/* Related features */}

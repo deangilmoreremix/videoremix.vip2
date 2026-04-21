@@ -67,7 +67,7 @@ const GuaranteeSection: React.FC = () => {
 
                   <p className="text-gray-300 mb-6">
                     Start using VideoRemix with confidence. Try our platform
-                    with a free account or paid trial. Our dedicated support
+                    with your account. Our dedicated support
                     team is here to help you succeed with personalized
                     marketing.
                   </p>

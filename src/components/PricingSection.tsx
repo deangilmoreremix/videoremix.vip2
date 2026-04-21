@@ -79,8 +79,8 @@ export const PricingSection: React.FC = () => {
   // Find the popular plan
   const popularPlan = plans.find((plan) => plan.is_popular) || plans[1];
 
-  // Find the free plan
-  const freePlan = plans.find((plan) => plan.price_monthly === 0) || plans[0];
+  // Find the basic plan
+  const basicPlan = plans.find((plan) => plan.price_monthly === 0) || plans[0];
 
   // Categorized features for expanded display
   const featureCategories = [
@@ -89,37 +89,37 @@ export const PricingSection: React.FC = () => {
       features: [
         {
           title: "AI Video Creation",
-          free: "Limited to 5 videos",
+          basic: "Limited to 5 videos",
           pro: "Unlimited",
           business: "Unlimited with priority processing",
         },
         {
           title: "Video Quality",
-          free: "720p",
+          basic: "720p",
           pro: "4K",
           business: "4K",
         },
         {
           title: "AI Editing Tools",
-          free: "Basic editing",
+          basic: "Basic editing",
           pro: "Advanced editing",
           business: "Professional suite",
         },
         {
           title: "Smart Templates",
-          free: "5 templates",
+          basic: "5 templates",
           pro: "500+ templates",
           business: "500+ templates + custom",
         },
         {
           title: "Content Repurposing",
-          free: "✕",
+          basic: "✕",
           pro: "✓",
           business: "✓ Advanced",
         },
         {
           title: "Auto Captions",
-          free: "✕",
+          basic: "✕",
           pro: "✓ 40+ languages",
           business: "✓ 100+ languages",
         },
@@ -130,37 +130,37 @@ export const PricingSection: React.FC = () => {
       features: [
         {
           title: "Audience Segmentation",
-          free: "2 segments",
+          basic: "2 segments",
           pro: "Unlimited segments",
           business: "Unlimited with AI segmentation",
         },
         {
           title: "Marketing Personalization",
-          free: "Basic",
+          basic: "Basic",
           pro: "Advanced",
           business: "Enterprise-level",
         },
         {
           title: "Personalized Video Creation",
-          free: "✕",
+          basic: "✕",
           pro: "✓",
           business: "✓ Advanced",
         },
         {
           title: "Dynamic Content",
-          free: "✕",
+          basic: "✕",
           pro: "✓",
           business: "✓ Advanced",
         },
         {
           title: "AI Content Suggestions",
-          free: "✕",
+          basic: "✕",
           pro: "Basic",
           business: "Advanced",
         },
         {
           title: "Custom Branding",
-          free: "Limited",
+          basic: "Limited",
           pro: "Full branding kit",
           business: "Multiple brand profiles",
         },
@@ -171,37 +171,37 @@ export const PricingSection: React.FC = () => {
       features: [
         {
           title: "Team Members",
-          free: "1 user",
+          basic: "1 user",
           pro: "2 users",
           business: "10 users",
         },
         {
           title: "Collaboration Tools",
-          free: "✕",
+          basic: "✕",
           pro: "✓",
           business: "✓ Advanced",
         },
         {
           title: "Approval Workflows",
-          free: "✕",
+          basic: "✕",
           pro: "Basic",
           business: "Advanced",
         },
         {
           title: "Version History",
-          free: "Limited",
+          basic: "Limited",
           pro: "30 days",
           business: "Unlimited",
         },
         {
           title: "Role-Based Permissions",
-          free: "✕",
+          basic: "✕",
           pro: "Basic roles",
           business: "Advanced custom roles",
         },
         {
           title: "Team Projects",
-          free: "✕",
+          basic: "✕",
           pro: "Up to 5",
           business: "Unlimited",
         },
@@ -212,37 +212,37 @@ export const PricingSection: React.FC = () => {
       features: [
         {
           title: "Cloud Storage",
-          free: "2GB",
+          basic: "2GB",
           pro: "50GB",
           business: "500GB",
         },
         {
           title: "Direct Publishing",
-          free: "2 platforms",
+          basic: "2 platforms",
           pro: "All major platforms",
           business: "All platforms + scheduling",
         },
         {
           title: "Video Analytics",
-          free: "Basic",
+          basic: "Basic",
           pro: "Advanced",
           business: "Enterprise",
         },
         {
           title: "API Access",
-          free: "✕",
+          basic: "✕",
           pro: "Limited",
           business: "Full access",
         },
         {
           title: "Scheduled Publishing",
-          free: "✕",
+          basic: "✕",
           pro: "Basic",
           business: "Advanced with calendar",
         },
         {
           title: "Batch Processing",
-          free: "✕",
+          basic: "✕",
           pro: "Up to 5 videos",
           business: "Unlimited",
         },
@@ -253,37 +253,37 @@ export const PricingSection: React.FC = () => {
       features: [
         {
           title: "AI Voice Generation",
-          free: "2 voices",
+          basic: "2 voices",
           pro: "30+ voices",
           business: "100+ voices + custom voices",
         },
         {
           title: "AI Background Removal",
-          free: "5 per month",
+          basic: "5 per month",
           pro: "Unlimited",
           business: "Unlimited with batch processing",
         },
         {
           title: "AI Scene Detection",
-          free: "Basic",
+          basic: "Basic",
           pro: "Advanced",
           business: "Professional",
         },
         {
           title: "AI Music Generation",
-          free: "✕",
+          basic: "✕",
           pro: "✓",
           business: "✓ Custom mood profiles",
         },
         {
           title: "AI Video Enhancer",
-          free: "✕",
+          basic: "✕",
           pro: "Basic enhancement",
           business: "Professional enhancement",
         },
         {
           title: "Personalized Thumbnails",
-          free: "✕",
+          basic: "✕",
           pro: "AI-generated options",
           business: "Advanced A/B testing",
         },
@@ -294,37 +294,37 @@ export const PricingSection: React.FC = () => {
       features: [
         {
           title: "Support Channels",
-          free: "Email",
+          basic: "Email",
           pro: "Email + Chat",
           business: "Email + Chat + Phone",
         },
         {
           title: "Response Time",
-          free: "48 hours",
+          basic: "48 hours",
           pro: "24 hours",
           business: "4 hours",
         },
         {
           title: "Onboarding",
-          free: "Self-service",
+          basic: "Self-service",
           pro: "Guided setup",
           business: "Dedicated onboarding specialist",
         },
         {
           title: "Training Resources",
-          free: "Knowledge base",
+          basic: "Knowledge base",
           pro: "Tutorials + Webinars",
           business: "Custom training sessions",
         },
         {
           title: "Dedicated Account Manager",
-          free: "✕",
+          basic: "✕",
           pro: "✕",
           business: "✓",
         },
         {
           title: "SLA",
-          free: "✕",
+          basic: "✕",
           pro: "✕",
           business: "✓",
         },
@@ -332,7 +332,7 @@ export const PricingSection: React.FC = () => {
     },
   ];
 
-  // Features that are restricted in the free plan but available in Pro
+  // Features that are restricted in the basic plan but available in Pro
   const restrictedFeatures = [
     "Advanced AI effects",
     "Brand kit integration",
@@ -549,10 +549,10 @@ export const PricingSection: React.FC = () => {
             <div className="h-full bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
               <div className="p-6">
                 <div className="text-xl font-bold text-white mb-1 break-words">
-                  {freePlan.name}
+                  {basicPlan.name}
                 </div>
                 <div className="text-gray-400 mb-4 break-words">
-                  {freePlan.description}
+                  {basicPlan.description}
                 </div>
 
                 <div className="mb-6">
@@ -580,8 +580,8 @@ export const PricingSection: React.FC = () => {
                 </motion.a>
 
                 <div className="space-y-3">
-                  {Array.isArray(freePlan.features) &&
-                    freePlan.features.slice(0, 6).map((feature, i) => (
+                  {Array.isArray(basicPlan.features) &&
+                    basicPlan.features.slice(0, 6).map((feature, i) => (
                       <motion.div
                         key={i}
                         className="flex items-start"
@@ -685,7 +685,7 @@ export const PricingSection: React.FC = () => {
                     <div className="flex items-center justify-center">
                       <Shield className="h-4 w-4 text-gray-400 mr-1" />
                       <span className="text-sm text-gray-400">
-                        Start with a free trial
+                        Get started today
                       </span>
                     </div>
                   </div>
@@ -867,7 +867,7 @@ export const PricingSection: React.FC = () => {
                       Free
                     </div>
                     <motion.a
-                      href="#signup-free"
+                      href="#signup"
                       className="text-xs text-primary-400 hover:text-primary-300"
                       whileHover={{ scale: 1.05 }}
                     >
@@ -978,9 +978,9 @@ export const PricingSection: React.FC = () => {
                   "Yes! You can upgrade or downgrade your plan at any time from your account settings. Changes take effect immediately.",
               },
               {
-                question: "What's included in the free plan?",
+                question: "What plans are available??",
                 answer:
-                  "The free plan includes access to basic personalized marketing tools, limited video exports, and 2GB of storage. Perfect for trying out VideoRemix.",
+                  "Our plans start with basic access to personalized marketing tools, limited video exports, and 2GB of storage. Perfect for getting started with VideoRemix.",
               },
               {
                 question: "How does the lifetime plan work?",
@@ -988,9 +988,9 @@ export const PricingSection: React.FC = () => {
                   "The lifetime plan gives you permanent access to all Pro features for a one-time payment. You'll receive all future updates and improvements at no additional cost.",
               },
               {
-                question: "Is there a free trial?",
+                question: "How do I get started??",
                 answer:
-                  "Yes! You can start with our free plan to explore VideoRemix. No credit card required to get started.",
+                  "You can start exploring VideoRemix with our basic plan. No credit card required to get started.",
               },
             ].map((item, index) => (
               <motion.div
@@ -1107,13 +1107,13 @@ const AnimatedFeatureTable = ({ showAllFeatures, featureCategories }) => {
                   >
                     <td className="py-3 text-white">{feature.title}</td>
                     <td className="py-3 text-center">
-                      {feature.free === "✓" ? (
+                      {feature.basic === "✓" ? (
                         <Check className="h-5 w-5 text-green-500 mx-auto" />
-                      ) : feature.free === "✕" ? (
+                      ) : feature.basic === "✕" ? (
                         <X className="h-5 w-5 text-gray-600 mx-auto" />
                       ) : (
                         <span className="text-gray-400 text-sm">
-                          {feature.free}
+                          {feature.basic}
                         </span>
                       )}
                     </td>
@@ -1148,7 +1148,7 @@ const AnimatedFeatureTable = ({ showAllFeatures, featureCategories }) => {
 
         <div className="flex items-center justify-center gap-8 mt-10">
           <a
-            href="#signup-free"
+            href="#signup"
             className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded-lg"
           >
             Start Free

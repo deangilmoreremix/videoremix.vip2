@@ -487,13 +487,13 @@ const FeatureListPage: React.FC = () => {
                   to="/get-started"
                   className="bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold py-4 px-8 rounded-lg inline-flex items-center shadow-lg shadow-primary-700/30"
                 >
-                  Get Started Free
+                  Get Started Today
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </motion.div>
 
               <p className="text-gray-400 mt-4">
-                No credit card required. Free 14-day trial.
+                No credit card required. Start building today.
               </p>
             </motion.div>
           </div>

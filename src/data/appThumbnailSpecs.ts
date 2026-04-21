@@ -13,7 +13,7 @@ export const appThumbnailSpecs: ImageGenerationRequest[] = [
     appId: 'ai-logo',
     appName: 'AI Logo',
     description: 'Brand identity generator',
-    category: 'branding',
+    category: 'ai-image',
     keyFeatures: ['logo design automation', 'brand color selection', 'typography integration', 'vector output', 'brand guidelines'],
     targetSize: { width: 800, height: 600 }
   },
@@ -141,7 +141,7 @@ export const appThumbnailSpecs: ImageGenerationRequest[] = [
     appId: 'ai-character-studio',
     appName: 'AI Character Studio',
     description: 'Character creation',
-    category: 'branding',
+    category: 'creative',
     keyFeatures: ['character design', 'personality traits', 'visual customization', 'story integration', 'animation tools'],
     targetSize: { width: 800, height: 600 }
   },
@@ -157,7 +157,7 @@ export const appThumbnailSpecs: ImageGenerationRequest[] = [
     appId: 'ai-travel-studio',
     appName: 'AI Travel Studio',
     description: 'Travel content',
-    category: 'branding',
+    category: 'creative',
     keyFeatures: ['travel planning', 'destination visualization', 'itinerary creation', 'photo enhancement', 'experience sharing'],
     targetSize: { width: 800, height: 600 }
   },
@@ -231,30 +231,6 @@ export const appThumbnailSpecs: ImageGenerationRequest[] = [
     description: 'Video generation',
     category: 'video',
     keyFeatures: ['romantic video creation', 'couple animations', 'emotional storytelling', 'custom scenes', 'special effects'],
-    targetSize: { width: 800, height: 600 }
-  },
-  {
-    appId: 'ai-real-estate-stager',
-    appName: 'AI Real Estate Stager',
-    description: 'Property staging',
-    category: 'lead-gen',
-    keyFeatures: ['virtual staging', 'property enhancement', 'marketing visuals', 'buyer attraction', 'sales acceleration'],
-    targetSize: { width: 800, height: 600 }
-  },
-  {
-    appId: 'prompt-architect',
-    appName: 'Prompt Architect',
-    description: 'Prompt optimization',
-    category: 'lead-gen',
-    keyFeatures: ['prompt engineering', 'AI optimization', 'content generation', 'efficiency improvement', 'creative assistance'],
-    targetSize: { width: 800, height: 600 }
-  },
-  {
-    appId: 'clearmark-ai',
-    appName: 'ClearMark AI',
-    description: 'Watermark removal',
-    category: 'lead-gen',
-    keyFeatures: ['watermark detection', 'content cleaning', 'image restoration', 'copyright management', 'media optimization'],
     targetSize: { width: 800, height: 600 }
   },
   {
@@ -375,6 +351,54 @@ export const appThumbnailSpecs: ImageGenerationRequest[] = [
     description: 'Restaurant reservations',
     category: 'lead-gen',
     keyFeatures: ['restaurant booking', 'table management', 'customer preferences', 'waitlist handling', 'dining experience'],
+    targetSize: { width: 800, height: 600 }
+  },
+  {
+    appId: 'ai-content-creator',
+    appName: 'AI Content Creator',
+    description: 'Content generation',
+    category: 'lead-gen',
+    keyFeatures: ['content generation', 'topic research', 'writing assistance', 'multimedia support', 'engagement optimization'],
+    targetSize: { width: 800, height: 600 }
+  },
+  {
+    appId: 'ai-seo-optimizer',
+    appName: 'AI SEO Optimizer',
+    description: 'Search optimization',
+    category: 'lead-gen',
+    keyFeatures: ['keyword research', 'content optimization', 'ranking improvement', 'analytics integration', 'performance tracking'],
+    targetSize: { width: 800, height: 600 }
+  },
+  {
+    appId: 'ai-ad-generator',
+    appName: 'AI Ad Generator',
+    description: 'Advertising creation',
+    category: 'lead-gen',
+    keyFeatures: ['ad creation', 'target audience analysis', 'campaign optimization', 'creative design', 'conversion tracking'],
+    targetSize: { width: 800, height: 600 }
+  },
+  {
+    appId: 'ai-real-estate-stager',
+    appName: 'AI Real Estate Stager',
+    description: 'Property staging',
+    category: 'branding',
+    keyFeatures: ['virtual staging', 'property enhancement', 'marketing visuals', 'buyer attraction', 'sales acceleration'],
+    targetSize: { width: 800, height: 600 }
+  },
+  {
+    appId: 'prompt-architect',
+    appName: 'Prompt Architect',
+    description: 'Prompt optimization',
+    category: 'branding',
+    keyFeatures: ['prompt engineering', 'AI optimization', 'content generation', 'efficiency improvement', 'creative assistance'],
+    targetSize: { width: 800, height: 600 }
+  },
+  {
+    appId: 'clearmark-ai',
+    appName: 'ClearMark AI',
+    description: 'Watermark removal',
+    category: 'branding',
+    keyFeatures: ['watermark detection', 'content cleaning', 'image restoration', 'copyright management', 'media optimization'],
     targetSize: { width: 800, height: 600 }
   }
 ];

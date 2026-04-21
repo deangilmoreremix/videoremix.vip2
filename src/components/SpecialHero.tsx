@@ -144,7 +144,7 @@ const SpecialHero: React.FC = () => {
               </motion.div>
 
               <p className="text-gray-400 text-sm">
-                <span className="text-yellow-400">⚡</span> Start free. No
+                <span className="text-yellow-400">⚡</span> Get started now. No
                 credit card required.
               </p>
             </motion.div>

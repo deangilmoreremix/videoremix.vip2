@@ -6,9 +6,18 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     @apply font-sans text-gray-800 antialiased bg-black;
+  }
+
+  /* Global reduced motion preferences for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
   
   /* Add display: swap to prevent invisible text during font loading */
