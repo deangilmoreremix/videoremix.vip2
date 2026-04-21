@@ -171,6 +171,108 @@ export const appSalesCopy: AppSalesData = {
     whatItDoes: 'Transforms generic images and videos into personalized marketing content using AI face and object recognition.',
     howItMakesMoney: 'Create personalized content packages for $300-1000 per campaign, helping local businesses connect with individual customers.',
     whyBusinessesNeedIt: 'Generic content is forgettable. Be the brand they remember. This tool crafts personalized experiences that turn one-time buyers into lifelong fans, creating remarkable connections in a crowded market.'
+  },
+  'ai-headshot-studio': {
+    tonality: 'Steve Jobs',
+    whatItDoes: 'Transforms ordinary selfies into professional studio-quality headshots without cameras or lighting equipment.',
+    howItMakesMoney: 'Charge $50-200 per headshot package to local professionals like real estate agents, consultants, and small business owners.',
+    whyBusinessesNeedIt: 'In a visual world where first impressions matter, this changes everything. Your image is your brand. Make it revolutionary. Stop settling for amateur photos. Command respect with headshots that demand attention.'
+  },
+  'nano-banana-studio': {
+    tonality: 'Seth Godin',
+    whatItDoes: 'Creates miniature banana-themed visual content for social media and marketing campaigns using AI generation.',
+    howItMakesMoney: 'Sell themed content packages for $100-400 per campaign, helping local businesses create viral, shareable content.',
+    whyBusinessesNeedIt: 'In a world of boring posts, be the banana that stands out. Remarkable content doesn\'t have to be serious. This tool creates the kind of playful, memorable visuals that spread because they\'re worth sharing.'
+  },
+  'seedance-v2-studio': {
+    tonality: 'Cormac McCarthy',
+    whatItDoes: 'Generates dance-inspired visual sequences from seed phrases using advanced AI choreography algorithms.',
+    howItMakesMoney: 'Offer creative visual services for $300-1000 per project, targeting local event planners, performers, and marketers.',
+    whyBusinessesNeedIt: 'Movement is life. This tool births rhythm from stillness. In the quiet spaces between frames, it finds motion. Use it to awaken audiences with visuals that dance across screens.'
+  },
+  'easyveo': {
+    tonality: 'Hemingway',
+    whatItDoes: 'Simplifies video creation with intuitive AI tools for non-technical users.',
+    howItMakesMoney: 'Charge $200-600 per video for local businesses needing quick promotional content.',
+    whyBusinessesNeedIt: 'Videos sell. This makes them easy. No skills needed. Businesses create. Customers buy.'
+  },
+  'aiclip': {
+    tonality: 'Challenger Sale',
+    whatItDoes: 'Automatically clips and optimizes video content for maximum engagement using AI analysis of viewer behavior.',
+    howItMakesMoney: 'Provide video optimization services for $400-1200 per project, helping local marketers improve content performance.',
+    whyBusinessesNeedIt: 'Long videos lose audiences. The assumption that "more content equals better engagement" is wrong. Our insight-driven approach challenges this by teaching you to create clips that viewers actually watch, converting passive browsers into active fans.'
+  },
+  'pet-product-studio': {
+    tonality: 'Value-Based',
+    whatItDoes: 'Designs and markets pet products with AI-driven trend analysis and customer insights.',
+    howItMakesMoney: 'Offer product development services for $800-2500 per project, helping local pet businesses create and launch new offerings.',
+    whyBusinessesNeedIt: 'Pet owners spend billions annually. This tool delivers quantifiable value by identifying market gaps and creating products that capture premium pricing, ensuring your business maximizes revenue from the growing pet economy.'
+  },
+  'resale-photo-enhancer': {
+    tonality: 'Alex Hormozi',
+    whatItDoes: 'Enhances product photos for resale platforms with AI-powered lighting, background, and detail improvements.',
+    howItMakesMoney: 'Process photo batches for $20-50 per item, offering bulk packages to local resellers and e-commerce businesses.',
+    whyBusinessesNeedIt: 'Poor photos kill sales. This stacks value by making your listings look professional without expensive shoots. Spend $50 on enhancement, earn $500 more per item. The math is stupid simple—upgrade your photos or lose money.'
+  },
+  'ai-recruiter': {
+    tonality: 'Trusted Advisor',
+    whatItDoes: 'Uses AI to match candidates with job openings and streamline the hiring process for small businesses.',
+    howItMakesMoney: 'Provide recruitment services for $500-1500 per hire, helping local businesses find qualified employees efficiently.',
+    whyBusinessesNeedIt: 'Hiring the right people builds your business foundation. As your trusted advisor, we leverage AI to ensure you find candidates who not only have the skills but also fit your company culture, creating teams that drive long-term success.'
+  },
+  'talk-to-pdf': {
+    tonality: 'Socratic Selling',
+    whatItDoes: 'Enables conversational interaction with PDF documents using AI to extract and discuss information.',
+    howItMakesMoney: 'Offer document analysis services for $200-600 per project, helping local consultants and researchers process information.',
+    whyBusinessesNeedIt: 'What if your documents could answer questions? What insights are you missing because you can\'t query your PDFs? This tool helps you discover the hidden knowledge in your files—how would that change your decision-making?'
+  },
+  'blogger-cms': {
+    tonality: 'David Ogilvy',
+    whatItDoes: 'Provides a content management system optimized for bloggers with AI-powered SEO and engagement features.',
+    howItMakesMoney: 'Offer blogging platform setup for $400-1200 per site, plus monthly hosting fees of $50-150, targeting local content creators.',
+    whyBusinessesNeedIt: 'Research shows that businesses with active blogs generate 67% more leads. Our benefit-focused CMS ensures your content ranks higher, attracts more readers, and converts them into customers through proven SEO strategies.'
+  },
+  'amazon-product-studio': {
+    tonality: 'Warren Buffett',
+    whatItDoes: 'Creates optimized product listings for Amazon with AI-generated descriptions, images, and pricing strategies.',
+    howItMakesMoney: 'Provide listing optimization services for $300-1000 per product, helping local sellers maximize Amazon sales.',
+    whyBusinessesNeedIt: 'Amazon is a marathon, not a sprint. We help you build listings that stand the test of time, focusing on the fundamentals of great products, clear descriptions, and fair pricing that creates lasting customer loyalty and steady sales growth.'
+  },
+  'ai-business-card': {
+    tonality: 'Naval Ravikant',
+    whatItDoes: 'Generates minimalist, impactful business cards using AI design principles and first principles thinking.',
+    howItMakesMoney: 'Design business card packages for $50-150 per set, offering bulk orders to local professionals.',
+    whyBusinessesNeedIt: 'A business card is information compressed. Strip away everything non-essential. What remains is pure signal. This tool creates cards that communicate your value at a glance, built on the foundation of what truly matters.'
+  },
+  'mailwise': {
+    tonality: 'Chris Voss',
+    whatItDoes: 'Optimizes email marketing campaigns with AI analysis of recipient behavior and tactical communication strategies.',
+    howItMakesMoney: 'Manage email campaigns for $400-1200 per month, helping local businesses improve open rates and conversions.',
+    whyBusinessesNeedIt: 'Your emails are negotiations. What are you really asking for? This tool uses tactical empathy to craft messages that resonate, labeling the pain points your customers feel and offering solutions they can\'t refuse.'
+  },
+  'my-podcast': {
+    tonality: 'Pain Point Research',
+    whatItDoes: 'Creates and manages podcast content with AI-driven topic research and audience analysis.',
+    howItMakesMoney: 'Offer podcast production services for $500-1500 per episode, helping local experts build authority and attract clients.',
+    whyBusinessesNeedIt: 'Listeners tune out boring content. The real pain is not reaching your ideal audience because your topics don\'t address their deepest concerns. This tool uncovers the root causes of listener disengagement, creating shows that solve real problems and build loyal followings.'
+  },
+  'ezscribe': {
+    tonality: 'MEDDIC',
+    whatItDoes: 'Transcribes audio and video content with AI accuracy, providing editable text for various business applications.',
+    howItMakesMoney: 'Provide transcription services for $100-300 per hour, serving local podcasters, lawyers, and content creators.',
+    whyBusinessesNeedIt: 'Metrics show 80% of video content is consumed silently. Economic buyers need searchable, quotable text. Decision criteria include accuracy over 95% and fast turnaround. This solution meets all qualification frameworks for professional transcription needs.'
+  },
+  'ai-knowledge-base': {
+    tonality: 'Executive Briefing',
+    whatItDoes: 'Builds comprehensive knowledge bases from documents and data using AI organization and retrieval systems.',
+    howItMakesMoney: 'Implement knowledge management systems for $1000-3000 per setup, helping local businesses organize and access critical information.',
+    whyBusinessesNeedIt: 'In today\'s information economy, knowledge is your competitive advantage. This strategic solution provides top-down organization of your intellectual assets, enabling faster decision-making and scalable growth across all business functions.'
+  },
+  'ai-outbound': {
+    tonality: 'Competitive Displacement',
+    whatItDoes: 'Automates outbound sales prospecting with AI-driven lead generation and personalized outreach sequences.',
+    howItMakesMoney: 'Offer lead generation and outreach services for $600-1800 per campaign, helping local businesses acquire new customers.',
+    whyBusinessesNeedIt: 'Manual prospecting is inefficient. While traditional CRMs promise organization, they deliver frustration. Our surgical approach respectfully unseats outdated methods, providing the wedge that switches your sales process to automated success with higher conversion rates.'
   }
 };
 
