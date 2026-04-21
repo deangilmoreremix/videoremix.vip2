@@ -25,6 +25,33 @@ Deno.serve(async (req: Request) => {
       },
     });
 
+    // First verify the request is authenticated
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    const token = authHeader.substring(7);
+    
+    // Verify the JWT token is valid
+    const { data: { user: authUser }, error: authError } = await supabase.auth.getUser(token);
+    
+    if (authError || !authUser) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid or expired token' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
     const { email, newPassword } = await req.json();
 
     if (!email || !newPassword) {
@@ -32,6 +59,21 @@ Deno.serve(async (req: Request) => {
         JSON.stringify({ error: 'Email and newPassword are required' }),
         {
           status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    // Users can only change their OWN password
+    if (authUser.email !== email) {
+      // Return success even for mismatched emails to avoid enumeration
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: `Password updated successfully for ${email}`,
+        }),
+        {
+          status: 200,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         }
       );
@@ -81,15 +123,14 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Update the password - preserve existing user sessions
+    // Update the password - revoke old sessions for security
     const { error: updateError } = await supabase.auth.admin.updateUserById(
       user.id,
       { 
-        password: newPassword,
-        password_confirm: newPassword
+        password: newPassword
       },
       {
-        revokeRefreshTokens: false // Keep existing sessions active
+        revokeRefreshTokens: true // Revoke all existing sessions for security
       }
     );
 

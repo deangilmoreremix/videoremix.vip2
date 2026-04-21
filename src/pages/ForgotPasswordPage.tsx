@@ -6,8 +6,10 @@ import { Mail, ArrowLeft, CheckCircle, AlertCircle, Video } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
 import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
+import { useAuth } from "../context/AuthContext";
 
 const ForgotPasswordPage: React.FC = () => {
+  const { session } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -38,6 +40,9 @@ const ForgotPasswordPage: React.FC = () => {
           email: email,
           newPassword: password,
         },
+        headers: session?.access_token ? {
+          Authorization: `Bearer ${session.access_token}`
+        } : {}
       });
 
       if (error) {
