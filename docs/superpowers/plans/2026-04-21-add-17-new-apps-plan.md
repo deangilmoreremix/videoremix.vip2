@@ -217,9 +217,9 @@ Check that adding 17 new apps doesn't impact loading performance.
 ## New App Categories Breakdown
 
 **Video (3 apps):** EasyVeo, AIClip, My Podcast
-**AI-Image (5 apps):** AI Headshot Studio, Nano Banana Studio, Seedance V2 Studio, Pet Product Studio, Resale Photo Enhancer, Amazon Product Studio
+**AI-Image (6 apps):** AI Headshot Studio, Nano Banana Studio, Seedance V2 Studio, Pet Product Studio, Resale Photo Enhancer, Amazon Product Studio
 **Creative (2 apps):** Blogger CMS, AI Business Card
-**Lead-Gen (4 apps):** AI Recruiter, AI Outbound, MailWise
+**Lead-Gen (3 apps):** AI Recruiter, AI Outbound, MailWise
 **Personalizer (3 apps):** Talk to PDF, EZScribe, AI Knowledge Base
 
 This brings the total app count to 44 apps with comprehensive AI thumbnails and sales education content.
