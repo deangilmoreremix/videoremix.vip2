@@ -273,6 +273,72 @@ export const appSalesCopy: AppSalesData = {
     whatItDoes: 'Automates outbound sales prospecting with AI-driven lead generation and personalized outreach sequences.',
     howItMakesMoney: 'Offer lead generation and outreach services for $600-1800 per campaign, helping local businesses acquire new customers.',
     whyBusinessesNeedIt: 'Manual prospecting is inefficient. While traditional CRMs promise organization, they deliver frustration. Our surgical approach respectfully unseats outdated methods, providing the wedge that switches your sales process to automated success with higher conversion rates.'
+  },
+  'branding-analyzer': {
+    tonality: 'Executive Briefing',
+    whatItDoes: 'Analyzes brand presence and provides strategic recommendations for improvement across all marketing channels.',
+    howItMakesMoney: 'Offer brand audit services for $800-2500 per analysis, helping local businesses strengthen their market position.',
+    whyBusinessesNeedIt: 'Brand decisions impact every customer interaction. C-suite leaders need data-driven insights to make strategic choices that drive long-term growth and competitive advantage in their local markets.'
+  },
+  'ai-branding': {
+    tonality: 'Warren Buffett',
+    whatItDoes: 'Creates comprehensive AI-driven branding strategies and assets for consistent visual identity.',
+    howItMakesMoney: 'Provide branding packages for $1200-4000 per business, helping local companies establish professional brand presence.',
+    whyBusinessesNeedIt: 'Your brand is your promise to customers. A strong brand builds trust and commands premium pricing. We help you create a brand that lasts generations, focusing on fundamentals that drive real business value.'
+  },
+  'ai-sales': {
+    tonality: 'Alex Hormozi',
+    whatItDoes: 'Maximizes sales performance through AI-driven lead scoring, follow-up automation, and conversion optimization.',
+    howItMakesMoney: 'Offer sales optimization services for $900-2700 per month, helping local businesses close more deals.',
+    whyBusinessesNeedIt: 'Stop leaving money on the table. The offer is so good, saying no feels stupid. We make your sales process irresistible to prospects while maximizing your profit margins.'
+  },
+  'resume-amplifier': {
+    tonality: 'Hemingway',
+    whatItDoes: 'Enhances resumes with AI-powered keyword optimization and achievement highlighting for better job search results.',
+    howItMakesMoney: 'Offer resume optimization services for $150-400 per resume, helping job seekers land better positions.',
+    whyBusinessesNeedIt: 'One idea per line. Show, don\'t tell. Your resume competes in a crowded market. We eliminate unnecessary words and highlight achievements that matter to employers.'
+  },
+  'personalizer-profile': {
+    tonality: 'Naval Ravikant',
+    whatItDoes: 'Creates optimized personal profiles and bios for professional platforms using AI-driven content generation.',
+    howItMakesMoney: 'Provide personal branding services for $300-900 per profile, helping professionals establish stronger online presence.',
+    whyBusinessesNeedIt: 'Your personal brand is leverage. When you compound your reputation over time, you create opportunities that scale. We help you craft a personal narrative that attracts the right opportunities.'
+  },
+  'interactive-outros': {
+    tonality: 'Seth Godin',
+    whatItDoes: 'Creates engaging video endings with interactive elements and call-to-action optimization for higher engagement.',
+    howItMakesMoney: 'Offer video outro creation for $250-750 per video, helping content creators increase subscriber engagement.',
+    whyBusinessesNeedIt: 'Remarkable videos get shared. Invisible videos get ignored. Your outro is the last impression viewers remember. We make it remarkable, creating interactive experiences that drive action.'
+  },
+  'social-pack': {
+    tonality: 'David Ogilvy',
+    whatItDoes: 'Provides complete social media content creation and scheduling tools with AI-driven optimization.',
+    howItMakesMoney: 'Offer social media management packages for $500-1500 per month, helping local businesses grow their online presence.',
+    whyBusinessesNeedIt: 'Headlines determine whether people read your content. Research-backed social media strategies drive engagement. We create compelling content that converts followers into customers.'
+  },
+  'ai-template-generator': {
+    tonality: 'Cormac McCarthy',
+    whatItDoes: 'Generates custom templates for various business purposes using AI-driven design and content creation.',
+    howItMakesMoney: 'Sell template packages for $100-300 each, providing businesses with professional materials instantly.',
+    whyBusinessesNeedIt: 'Templates are destiny made visible. They structure chaos into order. We create templates that become the foundation of your business communications, enduring like the landscape itself.'
+  },
+  'personalizer-text-ai-editor': {
+    tonality: 'Chris Voss',
+    whatItDoes: 'Advanced text editing with personalization AI that adapts content to specific audiences and contexts.',
+    howItMakesMoney: 'Offer content personalization services for $400-1200 per project, helping businesses create more effective communications.',
+    whyBusinessesNeedIt: 'It\'s not about what you say, it\'s about what they hear. We mirror your audience\'s language and calibrate your message for maximum impact, creating conversations that lead to results.'
+  },
+  'personalizer-advanced-text-video-editor': {
+    tonality: 'MEDDIC',
+    whatItDoes: 'Combines advanced text and video editing capabilities with AI-driven content optimization and personalization.',
+    howItMakesMoney: 'Provide comprehensive content creation services for $800-2400 per project, serving businesses with multi-format content needs.',
+    whyBusinessesNeedIt: 'Metrics drive decisions. Economic buyer analysis ensures the right content reaches the right audience. Decision criteria evaluation maximizes content effectiveness across all channels.'
+  },
+  'personalizer-writing-toolkit': {
+    tonality: 'Trusted Advisor',
+    whatItDoes: 'Comprehensive AI-powered writing toolkit for content creation, editing, and optimization across all formats.',
+    howItMakesMoney: 'Offer writing and content services for $600-1800 per month, providing businesses with consistent, high-quality content.',
+    whyBusinessesNeedIt: 'Trust is earned through reliability and credibility. We build long-term partnerships by delivering consistent value, becoming the advisor businesses turn to for all their content needs.'
   }
 };
 
