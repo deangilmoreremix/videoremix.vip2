@@ -95,6 +95,78 @@ const featuredApps = [
   "ai-video-image",
 ];
 
+// Apps that should show "Coming Soon" label
+const comingSoonApps = [
+  "AI Headshot Studio",
+  "Nano Banana Studio",
+  "Seedance V2 Studio",
+  "EasyVeo",
+  "AIClip",
+  "Pet Product Studio",
+  "Resale Photo Enhancer",
+  "AI Recruiter",
+  "Talk to PDF",
+  "Blogger CMS",
+  "Amazon Product Studio",
+  "AI Business Card",
+  "MailWise",
+  "My Podcast",
+  "EZScribe",
+  "AI Knowledge Base",
+  "AI Outbound",
+  "AI Royal Portrait",
+  "AI MEME",
+  "AI Real Estate Stager",
+  "AI Logo",
+  "OldPhoto",
+  "AITryOn",
+  "AI Age Transformation",
+  "AI Professional Makeup Generator",
+  "AI Flash Cards",
+  "AI Group Photo",
+  "AI Tattoo Try-On",
+  "AI Hair Style Simulator",
+  "AI Kids-to-Adult Prediction",
+  "AI Room Declutter",
+  "AI Fitness Body Simulator",
+  "AI Pet Portrait",
+  "AI Kissing Video Generator",
+  "Chat with PDF",
+  "AI Travel Studio",
+  "Prompt Architect",
+  "ClearMark AI",
+  "PlantVision AI",
+  "AI Wedding Photo",
+  "User Account Registration Form",
+  "Social Post",
+  "MagicSelf AI",
+  "AI Resume Builder",
+  "GEO Checker",
+  "AI Character Studio",
+  "Luxury Hair Studio",
+  "ProFlow Plumbing",
+  "Solace AI",
+  "ReLive AI",
+  "AI Chiropractic Service",
+  "Tabla - ReserveAI",
+  "Dental ReserveAI",
+  "CounselMate",
+  "Intelligent Real Estate Agent",
+  "Fixera",
+  "Velora - Yoga AI",
+  "Nova AssuranceAI",
+  "TurboGlow Auto Spa",
+  "Paws & Pals",
+  "Vertex Tax Strategy",
+  "LedgerSync",
+  "Nova Care Clinic",
+  "Opulent Drive",
+  "ProFix Auto",
+  "TowMate",
+  "SwiftLink Logistics",
+  "Lumea Residence",
+];
+
 // Fallback image URLs to use when an app image fails to load
 const fallbackImages = [
   "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
@@ -438,32 +510,37 @@ const AppGallerySection: React.FC = () => {
                     </p>
                   </div>
 
-                  <div className="flex space-x-2">
-                    {user && (
-                      <>
-                        {hasAccessToApp(app.id) && app.isActive ? (
-                          <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
-                            <Check className="h-3 w-3" /> OWNED
-                          </span>
-                        ) : (
-                          <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
-                            <Lock className="h-3 w-3" />{" "}
-                            {app.isActive ? "LOCKED" : "INACTIVE"}
-                          </span>
-                        )}
-                      </>
-                    )}
-                    {app.popular && (
-                      <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded-full font-bold mb-1">
-                        POPULAR
-                      </span>
-                    )}
-                    {app.new && (
-                      <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded-full font-bold">
-                        NEW
-                      </span>
-                    )}
-                  </div>
+                   <div className="flex space-x-2">
+                     {comingSoonApps.includes(app.name) && (
+                       <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">
+                         COMING SOON
+                       </span>
+                     )}
+                     {user && (
+                       <>
+                         {hasAccessToApp(app.id) && app.isActive ? (
+                           <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                             <Check className="h-3 w-3" /> OWNED
+                           </span>
+                         ) : (
+                           <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                             <Lock className="h-3 w-3" />{" "}
+                             {app.isActive ? "LOCKED" : "INACTIVE"}
+                           </span>
+                         )}
+                       </>
+                     )}
+                     {app.popular && (
+                       <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded-full font-bold mb-1">
+                         POPULAR
+                       </span>
+                     )}
+                     {app.new && (
+                       <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded-full font-bold">
+                         NEW
+                       </span>
+                     )}
+                   </div>
                 </div>
 
                 {/* App image */}
@@ -752,33 +829,38 @@ const AppGallerySection: React.FC = () => {
                           Personalized
                         </div>
 
-                        {/* Status badges */}
-                        <div className="absolute top-3 right-3 flex flex-col space-y-1 items-end">
-                          {user && (
-                            <>
-                              {hasAccessToApp(app.id) && app.isActive ? (
-                                <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
-                                  <Check className="h-3 w-3" /> OWNED
-                                </span>
-                              ) : (
-                                <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
-                                  <Lock className="h-3 w-3" />{" "}
-                                  {app.isActive ? "LOCKED" : "INACTIVE"}
-                                </span>
-                              )}
-                            </>
-                          )}
-                          {app.popular && (
-                            <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded font-bold">
-                              POPULAR
-                            </span>
-                          )}
-                          {app.new && (
-                            <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded font-bold">
-                              NEW
-                            </span>
-                          )}
-                        </div>
+                         {/* Status badges */}
+                         <div className="absolute top-3 right-3 flex flex-col space-y-1 items-end">
+                           {comingSoonApps.includes(app.name) && (
+                             <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded font-bold">
+                               COMING SOON
+                             </span>
+                           )}
+                           {user && (
+                             <>
+                               {hasAccessToApp(app.id) && app.isActive ? (
+                                 <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                   <Check className="h-3 w-3" /> OWNED
+                                 </span>
+                               ) : (
+                                 <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                   <Lock className="h-3 w-3" />{" "}
+                                   {app.isActive ? "LOCKED" : "INACTIVE"}
+                                 </span>
+                               )}
+                             </>
+                           )}
+                           {app.popular && (
+                             <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded font-bold">
+                               POPULAR
+                             </span>
+                           )}
+                           {app.new && (
+                             <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded font-bold">
+                               NEW
+                             </span>
+                           )}
+                         </div>
                       </div>
 
                       <div className="p-4">
@@ -870,33 +952,38 @@ const AppGallerySection: React.FC = () => {
                           Personalized
                         </div>
 
-                        {/* Status badges */}
-                        <div className="absolute top-2 right-2">
-                          {user && (
-                            <>
-                              {hasAccessToApp(app.id) && app.isActive ? (
-                                <div className="bg-green-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
-                                  <Check className="h-3 w-3" /> OWNED
-                                </div>
-                              ) : (
-                                <div className="bg-gray-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
-                                  <Lock className="h-3 w-3" />{" "}
-                                  {app.isActive ? "LOCKED" : "INACTIVE"}
-                                </div>
-                              )}
-                            </>
-                          )}
-                          {app.popular && (
-                            <div className="bg-yellow-500 text-xs text-black px-1.5 py-0.5 rounded font-bold mb-1">
-                              POPULAR
-                            </div>
-                          )}
-                          {app.new && (
-                            <div className="bg-green-500 text-xs text-black px-1.5 py-0.5 rounded font-bold">
-                              NEW
-                            </div>
-                          )}
-                        </div>
+                         {/* Status badges */}
+                         <div className="absolute top-2 right-2">
+                           {comingSoonApps.includes(app.name) && (
+                             <div className="bg-orange-500 text-xs text-white px-1.5 py-0.5 rounded font-bold mb-1">
+                               COMING SOON
+                             </div>
+                           )}
+                           {user && (
+                             <>
+                               {hasAccessToApp(app.id) && app.isActive ? (
+                                 <div className="bg-green-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
+                                   <Check className="h-3 w-3" /> OWNED
+                                 </div>
+                               ) : (
+                                 <div className="bg-gray-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
+                                   <Lock className="h-3 w-3" />{" "}
+                                   {app.isActive ? "LOCKED" : "INACTIVE"}
+                                 </div>
+                               )}
+                             </>
+                           )}
+                           {app.popular && (
+                             <div className="bg-yellow-500 text-xs text-black px-1.5 py-0.5 rounded font-bold mb-1">
+                               POPULAR
+                             </div>
+                           )}
+                           {app.new && (
+                             <div className="bg-green-500 text-xs text-black px-1.5 py-0.5 rounded font-bold">
+                               NEW
+                             </div>
+                           )}
+                         </div>
                       </div>
                     </div>
 
