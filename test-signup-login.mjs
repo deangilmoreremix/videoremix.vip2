@@ -110,7 +110,7 @@ async function testSignupLogin() {
 
     // Step 4: Test accessing protected data (user_roles as the logged in user)
     console.log('Step 4: Testing role access as logged in user...');
-    
+
     const { data: userRoleData, error: userRoleError } = await anonClient
       .from('user_roles')
       .select('*')
@@ -123,6 +123,25 @@ async function testSignupLogin() {
     } else if (userRoleData) {
       console.log('✅ Can access own role data');
       console.log(`   Role: ${userRoleData.role}\n`);
+    }
+
+    // Step 4.5: Test app access (should be denied without purchases)
+    console.log('Step 4.5: Testing app access...');
+
+    const { data: purchasesData, error: purchasesError } = await anonClient
+      .from('purchases')
+      .select('*')
+      .eq('user_id', loginData.user.id);
+
+    if (purchasesError) {
+      console.error('❌ Cannot check purchases:', purchasesError.message);
+    } else {
+      console.log(`   User has ${purchasesData.length} purchases`);
+      if (purchasesData.length === 0) {
+        console.log('✅ No purchases - app access correctly denied\n');
+      } else {
+        console.log('⚠️ User has purchases unexpectedly\n');
+      }
     }
 
     // Step 5: Cleanup - delete test user
