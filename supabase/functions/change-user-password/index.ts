@@ -51,19 +51,26 @@ Deno.serve(async (req: Request) => {
     // Note: No email verification performed - allows password changes without authentication
 
     // Find the user by email
-    const { data: users, error: getUserError } = await supabase.auth.admin.listUsers();
-
-    if (getUserError) {
-      return new Response(
-        JSON.stringify({ error: 'Unable to update password at this time.' }),
-        {
-          status: 500,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
+    let allUsers = [];
+    let page = 1;
+    const perPage = 1000;
+    while (true) {
+      const { data: users, error: getUserError } = await supabase.auth.admin.listUsers({ page, perPage });
+      if (getUserError) {
+        return new Response(
+          JSON.stringify({ error: 'Unable to update password at this time.' }),
+          {
+            status: 500,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          }
+        );
+      }
+      allUsers = allUsers.concat(users.users);
+      if (users.users.length < perPage) break;
+      page++;
     }
 
-    const user = users.users.find(u => u.email === email);
+    const user = allUsers.find(u => u.email === email);
 
     if (!user) {
       // Return success even if user doesn't exist to avoid email enumeration
