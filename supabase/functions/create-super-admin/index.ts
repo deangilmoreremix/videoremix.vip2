@@ -71,7 +71,7 @@ Deno.serve(async (req: Request) => {
     } else {
       const { error } = await supabase
         .from('user_roles')
-        .insert({ user_id: userId, role: 'super_admin' });
+        .insert({ user_id: userId, role: 'super_admin', tenant_id: '00000000-0000-0000-0000-000000000000' });
       roleError = error;
     }
 
