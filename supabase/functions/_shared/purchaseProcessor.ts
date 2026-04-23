@@ -22,42 +22,90 @@ export async function processPurchase(
   try {
     const email = purchase.email.toLowerCase().trim();
 
+    // FIRST: Check for existing purchase (idempotency check)
+    // This prevents race conditions from duplicate webhooks
+    const { data: existingPurchase } = await supabase
+      .from('purchases')
+      .select('id, user_id, processed')
+      .eq('platform', platform)
+      .eq('platform_transaction_id', purchase.transactionId)
+      .maybeSingle();
+
+    if (existingPurchase) {
+      console.log(`Purchase ${purchase.transactionId} already exists, skipping`);
+      
+      // If purchase exists but wasn't fully processed, complete it
+      if (!existingPurchase.processed) {
+        const productMatch = await matchProduct(supabase, purchase.productName, purchase.productSku);
+        
+        if (productMatch && productMatch.appSlugs.length > 0) {
+          await grantAppAccess(
+            supabase,
+            existingPurchase.user_id,
+            productMatch.appSlugs,
+            existingPurchase.id,
+            purchase.isSubscription
+          );
+        }
+
+        await supabase
+          .from('purchases')
+          .update({ processed: true, processed_at: new Date().toISOString() })
+          .eq('id', existingPurchase.id);
+      }
+      
+      return { success: true, userId: existingPurchase.user_id };
+    }
+
     let userId: string | null = null;
     let userExists = false;
 
-    const { data: existingUser } = await supabase
-      .from('admin_profiles')
-      .select('user_id')
-      .eq('email', email)
-      .maybeSingle();
+    // Use advisory lock to prevent race conditions on user creation
+    const lockKey = BigInt('0x' + Array.from(new TextEncoder().encode(email))
+      .reduce((hash, byte) => ((hash << 5) - hash) + byte, 0)
+      .toString(16).padStart(16, '0'));
+    
+    await supabase.rpc('pg_advisory_lock', { key: lockKey });
+    
+    try {
+      const { data: existingUser } = await supabase
+        .from('admin_profiles')
+        .select('user_id')
+        .eq('email', email)
+        .maybeSingle();
 
-    if (existingUser) {
-      userId = existingUser.user_id;
-      userExists = true;
-    } else {
-      const tempPassword = generateSecurePassword();
-      const { data: newUser, error: signUpError } = await supabase.auth.admin.createUser({
-        email: email,
-        password: tempPassword,
-        email_confirm: true,
-        user_metadata: {
-          created_via: 'purchase_webhook',
-          platform: platform,
-        },
-      });
+      if (existingUser) {
+        userId = existingUser.user_id;
+        userExists = true;
+      } else {
+        const tempPassword = generateSecurePassword();
+        const { data: newUser, error: signUpError } = await supabase.auth.admin.createUser({
+          email: email,
+          password: tempPassword,
+          email_confirm: true,
+          user_metadata: {
+            created_via: 'purchase_webhook',
+            platform: platform,
+          },
+        });
 
-      if (signUpError || !newUser.user) {
-        console.error('Failed to create user:', signUpError);
-        return { success: false, error: 'Failed to create user account' };
+        if (signUpError || !newUser.user) {
+          console.error('Failed to create user:', signUpError);
+          return { success: false, error: 'Failed to create user account' };
+        }
+
+        userId = newUser.user.id;
+
+        await sendWelcomeEmail(email, tempPassword);
       }
-
-      userId = newUser.user.id;
-
-      await sendWelcomeEmail(email, tempPassword);
+    } finally {
+      // Always release the lock
+      await supabase.rpc('pg_advisory_unlock', { key: lockKey });
     }
 
     const productMatch = await matchProduct(supabase, purchase.productName, purchase.productSku);
 
+    // Use upsert with unique constraint to prevent duplicate purchases
     const { data: purchaseRecord, error: purchaseError } = await supabase
       .from('purchases')
       .insert({

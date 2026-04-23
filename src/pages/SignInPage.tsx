@@ -40,7 +40,9 @@ const SignInPage: React.FC = () => {
     setLoading(true);
 
     try {
-      const { error } = await signIn(formData.email, formData.password);
+      // ALWAYS normalize email to lowercase - critical fix for login issues!
+      const normalizedEmail = formData.email.toLowerCase().trim();
+      const { error } = await signIn(normalizedEmail, formData.password);
       if (error) {
         setError(error.message);
       } else {

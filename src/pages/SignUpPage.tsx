@@ -57,7 +57,9 @@ const SignUpPage: React.FC = () => {
     setLoading(true);
 
     try {
-      const { error, user } = await signUp(formData.email, formData.password, {
+      // ALWAYS normalize email to lowercase - critical fix!
+      const normalizedEmail = formData.email.toLowerCase().trim();
+      const { error, user } = await signUp(normalizedEmail, formData.password, {
         first_name: formData.firstName,
         last_name: formData.lastName,
       });
