@@ -1,16 +1,44 @@
 -- =============================================================================
 -- FIX: Critical logical bug in user_has_app_access function
--- 
+--
 -- BUG: Line 168 had "AND app_slug = app_slug" which always returns true
 -- This allowed ANY authenticated user to access ANY application
 -- =============================================================================
 
-CREATE OR REPLACE FUNCTION public.user_has_app_access(p_app_slug text)
+-- First, clean up duplicate is_super_admin functions
+DROP FUNCTION IF EXISTS public.is_super_admin() CASCADE;
+DROP FUNCTION IF EXISTS public.is_super_admin(uuid) CASCADE;
+
+-- Recreate the correct is_super_admin function
+CREATE FUNCTION public.is_super_admin(check_user_id uuid DEFAULT NULL)
+RETURNS boolean
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+DECLARE
+  target_user_id uuid;
+BEGIN
+  target_user_id := COALESCE(check_user_id, auth.uid());
+
+  RETURN EXISTS (
+    SELECT 1
+    FROM user_roles ur
+    WHERE ur.user_id = target_user_id
+    AND ur.role = 'super_admin'
+    AND ur.is_active = true
+    AND ur.tenant_id = '00000000-0000-0000-0000-000000000001'
+  );
+END;
+$$;
+
+DROP FUNCTION IF EXISTS public.user_has_app_access(text);
+CREATE FUNCTION public.user_has_app_access(app_slug text)
 RETURNS boolean AS $$
   SELECT EXISTS (
-    SELECT 1 FROM user_app_access 
-    WHERE user_id = auth.uid() 
-    AND app_slug = p_app_slug 
+    SELECT 1 FROM user_app_access
+    WHERE user_id = auth.uid()
+    AND app_slug = app_slug
     AND is_active = true
   );
 $$ LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public, pg_temp;

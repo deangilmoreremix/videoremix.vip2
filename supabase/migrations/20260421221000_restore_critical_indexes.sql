@@ -29,8 +29,8 @@ CREATE INDEX IF NOT EXISTS idx_subscription_status_user_id ON subscription_statu
 CREATE INDEX IF NOT EXISTS idx_user_app_access_purchase_id ON user_app_access(purchase_id);
 CREATE INDEX IF NOT EXISTS idx_user_app_access_user_id ON user_app_access(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_app_access_app_slug ON user_app_access(app_slug);
-CREATE INDEX IF NOT EXISTS idx_analytics_events_user_id ON analytics_events(user_id);
-CREATE INDEX IF NOT EXISTS idx_analytics_events_created_at ON analytics_events(created_at);
+CREATE INDEX IF NOT EXISTS idx_admin_analytics_events_user_id ON admin_analytics_events(user_id);
+CREATE INDEX IF NOT EXISTS idx_admin_analytics_events_created_at ON admin_analytics_events(created_at);
 CREATE INDEX IF NOT EXISTS idx_import_products_first_seen_in_import_id ON import_products(first_seen_in_import_id);
 CREATE INDEX IF NOT EXISTS idx_platform_product_mappings_product_id ON platform_product_mappings(product_id);
 CREATE INDEX IF NOT EXISTS idx_stripe_entitlements_user_id ON stripe_entitlements(user_id);

@@ -43,7 +43,7 @@ CREATE TRIGGER on_auth_user_created
   FOR EACH ROW
   EXECUTE FUNCTION public.handle_new_user();
 
--- Test the trigger by manually calling it (this should create a profile for existing users without one)
+-- Create profiles for existing users without them (without calling trigger directly)
 DO $$
 DECLARE
   user_record RECORD;
@@ -56,22 +56,19 @@ BEGIN
     WHERE p.user_id IS NULL
   LOOP
     RAISE NOTICE 'Creating profile for user: %', user_record.email;
-    
-    -- Call the trigger function logic manually
-    PERFORM public.handle_new_user();
-    
-    -- Actually create the profile (since we can't call the trigger directly)
+
+    -- Create the profile directly with proper logic (same as trigger function)
     INSERT INTO public.profiles (user_id, email, full_name, tenant_id)
     VALUES (
-      user_record.id, 
-      user_record.email, 
+      user_record.id,
+      LOWER(user_record.email), -- Always store lowercase email
       COALESCE(user_record.raw_user_meta_data->>'full_name', 'User'),
       '00000000-0000-0000-0000-000000000001'
     )
-    ON CONFLICT (user_id) DO NOTHING;
-    
+    ON CONFLICT DO NOTHING;
+
     RAISE NOTICE 'Profile created for: %', user_record.email;
   END LOOP;
-  
+
   RAISE NOTICE 'Profile creation check completed';
 END $$;

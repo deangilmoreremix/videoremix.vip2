@@ -25,12 +25,12 @@ BEGIN
   -- Create user_roles entry
   INSERT INTO user_roles (user_id, role)
   VALUES (NEW.id, 'user')
-  ON CONFLICT (user_id) DO NOTHING;
+  ;
 
   -- Create profiles entry with all available data
   INSERT INTO profiles (user_id, email, full_name, tenant_id)
   VALUES (NEW.id, NEW.email, COALESCE(NULLIF(full_name, ''), 'User'), '00000000-0000-0000-0000-000000000001')
-  ON CONFLICT (user_id) DO NOTHING;
+  ;
 
   RETURN NEW;
 EXCEPTION

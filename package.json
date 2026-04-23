@@ -54,6 +54,7 @@
   "devDependencies": {
     "@eslint/js": "^9.9.1",
     "@headlessui/react": "^1.7.17",
+    "@playwright/test": "^1.59.1",
     "@supabase/supabase-js": "^2.99.2",
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.10",

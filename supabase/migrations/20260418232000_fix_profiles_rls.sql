@@ -32,18 +32,11 @@ SELECT
 FROM auth.users au
 LEFT JOIN profiles p ON au.id = p.user_id
 WHERE p.user_id IS NULL
-ON CONFLICT (user_id) DO NOTHING;
+;
 
--- Create user roles for users without them
-INSERT INTO user_roles (user_id, role, tenant_id)
-SELECT
-  au.id,
-  'user',
-  '00000000-0000-0000-0000-000000000001'
-FROM auth.users au
-LEFT JOIN user_roles ur ON au.id = ur.user_id
-WHERE ur.user_id IS NULL
-ON CONFLICT (user_id) DO NOTHING;
+-- Skip user_roles creation during migration to avoid trigger issues
+-- User roles will be created by the application or other migrations as needed
+-- Focus on fixing profiles RLS and creating missing profiles
 
 -- Re-enable RLS
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
