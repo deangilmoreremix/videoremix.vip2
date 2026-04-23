@@ -33,9 +33,11 @@ const ForgotPasswordPage: React.FC = () => {
     setLoading(true);
 
     try {
+      // ALWAYS normalize email to lowercase
+      const normalizedEmail = email.toLowerCase().trim();
       const { data, error } = await supabase.functions.invoke('change-user-password', {
         body: {
-          email: email,
+          email: normalizedEmail,
           newPassword: password,
         },
       });

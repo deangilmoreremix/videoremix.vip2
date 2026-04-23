@@ -82,7 +82,12 @@ Deno.serve(async (req: Request) => {
     // Update the password
     const { error: updateError } = await supabase.auth.admin.updateUserById(
       user.id,
-      { password: newPassword }
+      { 
+        password: newPassword,
+        // CRITICAL: This invalidates ALL existing sessions for the user
+        // Without this, users cannot login with new password until sessions expire
+        revokeRefreshTokens: true
+      }
     );
 
     if (updateError) {

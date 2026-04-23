@@ -286,10 +286,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     // Set up periodic session check
     sessionCheckIntervalRef.current = setInterval(async () => {
-      if (!mounted || !session) return;
+      if (!mounted) return;
+      
+      // Get current session directly - avoids stale closure
+      const { data: { session: currentSession } } = await supabase.auth.getSession();
+      
+      if (!currentSession) return;
 
       // Check if session needs refresh
-      const expiresAt = session.expires_at;
+      const expiresAt = currentSession.expires_at;
       if (expiresAt) {
         const expiresAtMs = expiresAt * 1000;
         const now = Date.now();
@@ -384,7 +389,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       window.removeEventListener("online", handleOnline);
       window.removeEventListener("offline", handleOffline);
     };
-  }, [handleAuthError, refreshSession, session]);
+  }, [handleAuthError, refreshSession]);
 
   // Auth actions
   const signUp = useCallback(
@@ -397,6 +402,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         options: {
           data: metadata,
           emailRedirectTo: `${siteUrl}/auth/confirm`,
+          // SUPERPOWERS: Disable email confirmation requirement
+          emailConfirm: false
         },
       });
 
