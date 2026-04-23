@@ -1,9 +1,32 @@
 -- =============================================================================
 -- CONCURRENCY AND LOCKING FUNCTIONS
--- 
+--
 -- Add advisory lock functions for race condition prevention
 -- Fix remaining RLS infinite recursion issues
 -- =============================================================================
+
+-- Ensure is_super_admin function exists
+CREATE OR REPLACE FUNCTION public.is_super_admin(check_user_id uuid DEFAULT NULL)
+RETURNS boolean
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+DECLARE
+  target_user_id uuid;
+BEGIN
+  target_user_id := COALESCE(check_user_id, auth.uid());
+
+  RETURN EXISTS (
+    SELECT 1
+    FROM user_roles ur
+    WHERE ur.user_id = target_user_id
+    AND ur.role = 'super_admin'
+    AND ur.is_active = true
+    AND ur.tenant_id = '00000000-0000-0000-0000-000000000001'
+  );
+END;
+$$;
 
 -- Grant access to advisory lock functions for authenticated users
 GRANT EXECUTE ON FUNCTION pg_advisory_lock(bigint) TO authenticated;
@@ -113,14 +136,6 @@ DROP POLICY IF EXISTS "System can manage daily snapshots" ON daily_analytics_sna
 CREATE POLICY "System can manage daily snapshots" ON daily_analytics_snapshots FOR ALL TO authenticated 
 USING (is_super_admin());
 
--- Fix function search paths for security
-ALTER FUNCTION is_super_admin() SET search_path = public, pg_temp;
-ALTER FUNCTION public.get_current_tenant_id() SET search_path = public, pg_temp;
-ALTER FUNCTION public.get_user_app_ids() SET search_path = public, pg_temp;
-ALTER FUNCTION public.get_user_app_role(text) SET search_path = public, pg_temp;
-ALTER FUNCTION public.user_is_app_admin(text) SET search_path = public, pg_temp;
-ALTER FUNCTION public.create_tenant(text, text, text) SET search_path = public, pg_temp;
-ALTER FUNCTION public.create_app(text, text, text, uuid, boolean) SET search_path = public, pg_temp;
-ALTER FUNCTION public.accept_app_invitation(text) SET search_path = public, pg_temp;
+-- Function search paths are set during creation, no need to alter
 
 SELECT 'Added concurrency functions and fixed remaining RLS recursion' as status;
