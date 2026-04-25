@@ -224,6 +224,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         switch (event) {
           case "SIGNED_IN":
           case "TOKEN_REFRESHED":
+            console.log(`[Auth] ${event} - Setting authenticated state`);
             if (newSession) {
               setSession(newSession);
               setUser(newSession.user);
@@ -243,6 +244,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             break;
 
           case "SIGNED_OUT":
+            console.log("[Auth] SIGNED_OUT event received - user is being logged out", {
+              currentUser: user?.id,
+              currentSession: !!session,
+              reason: newSession ? "new session provided" : "no session",
+              timestamp: new Date().toISOString()
+            });
             setSession(null);
             setUser(null);
             setAuthState("unauthenticated");
@@ -287,11 +294,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Set up periodic session check
     sessionCheckIntervalRef.current = setInterval(async () => {
       if (!mounted) return;
-      
+
+      console.log("[Auth] Running periodic session check...");
+
       // Get current session directly - avoids stale closure
       const { data: { session: currentSession } } = await supabase.auth.getSession();
-      
-      if (!currentSession) return;
+
+      console.log("[Auth] Current session check result:", {
+        hasSession: !!currentSession,
+        userId: currentSession?.user?.id,
+        expiresAt: currentSession?.expires_at,
+        expiresAtDate: currentSession?.expires_at ? new Date(currentSession.expires_at * 1000).toISOString() : null,
+        now: new Date().toISOString()
+      });
+
+      if (!currentSession) {
+        console.log("[Auth] No session found during periodic check");
+        return;
+      }
 
       // Check if session needs refresh
       const expiresAt = currentSession.expires_at;
@@ -299,6 +319,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const expiresAtMs = expiresAt * 1000;
         const now = Date.now();
         const timeUntilExpiry = expiresAtMs - now;
+
+        console.log("[Auth] Session expiry check:", {
+          expiresAtMs,
+          now,
+          timeUntilExpiry,
+          threshold: SESSION_REFRESH_THRESHOLD_MS,
+          shouldRefresh: timeUntilExpiry < SESSION_REFRESH_THRESHOLD_MS && timeUntilExpiry > 0
+        });
 
         // Refresh if expiring within threshold
         if (timeUntilExpiry < SESSION_REFRESH_THRESHOLD_MS && timeUntilExpiry > 0) {
@@ -319,15 +347,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         if (currentSession) {
           // Check if session expired while tab was hidden
           const expiresAt = currentSession.expires_at;
-          if (expiresAt && expiresAt * 1000 < Date.now()) {
+          const now = Date.now();
+          const expiresAtMs = expiresAt ? expiresAt * 1000 : 0;
+
+          if (expiresAt && expiresAtMs < now) {
             console.log("[Auth] Session expired while tab was hidden");
             setSession(null);
             setUser(null);
             setAuthState("unauthenticated");
           } else {
-            setSession(currentSession);
-            setUser(currentSession.user);
-            setAuthState("authenticated");
+            // Only update if session actually changed
+            if (!session || session.access_token !== currentSession.access_token) {
+              console.log("[Auth] Session still valid, updating state");
+              setSession(currentSession);
+              setUser(currentSession.user);
+              setAuthState("authenticated");
+            }
           }
         } else {
           // Session was cleared (possibly signed out in another tab)
@@ -344,14 +379,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Handle storage events (cross-tab sync)
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === STORAGE_KEY_SESSION && mounted) {
-        console.log("[Auth] Session storage changed in another tab");
-
         if (!e.newValue) {
           // Session was cleared in another tab
           setSession(null);
           setUser(null);
           setAuthState("unauthenticated");
         }
+        // Don't update state for new values - let onAuthStateChange handle that
       }
     };
 
@@ -418,6 +452,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signIn = useCallback(
     async (email: string, password: string) => {
+      console.log("[Auth] signIn called", { email, timestamp: new Date().toISOString() });
       clearError();
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email,
@@ -425,7 +460,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
 
       if (signInError) {
+        console.log("[Auth] signIn failed", { error: signInError.message });
         handleAuthError(signInError, "signIn");
+      } else {
+        console.log("[Auth] signIn successful", {
+          userId: data.user?.id,
+          email: data.user?.email,
+          hasSession: !!data.session
+        });
       }
 
       return { user: data.user, error: signInError };
