@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import {
@@ -13,21 +13,25 @@ import {
   Moon,
   Menu,
   Home,
+  AlertTriangle,
+  Loader2,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "../components/ui/toast";
+import ErrorBoundary from "../components/ErrorBoundary";
 import { useUserStats } from "../hooks/useUserStats";
 import { useDashboardPreferences } from "../hooks/useDashboardPreferences";
 import { useAchievements } from "../hooks/useAchievements";
-import DashboardToolsSection from "../components/dashboard/DashboardToolsSection";
-import DashboardPersonalizerSection from "../components/dashboard/DashboardPersonalizerSection";
-import DashboardContactSection from "../components/dashboard/DashboardContactSection";
-import EnhancedStatCard from "../components/dashboard/EnhancedStatCard";
-import OnboardingProgressTracker from "../components/dashboard/OnboardingProgressTracker";
-import MagicSparkles from "../components/MagicSparkles";
+const DashboardToolsSection = lazy(() => import("../components/dashboard/DashboardToolsSection"));
+const DashboardPersonalizerSection = lazy(() => import("../components/dashboard/DashboardPersonalizerSection"));
+const DashboardContactSection = lazy(() => import("../components/dashboard/DashboardContactSection"));
+const EnhancedStatCard = lazy(() => import("../components/dashboard/EnhancedStatCard"));
+const OnboardingProgressTracker = lazy(() => import("../components/dashboard/OnboardingProgressTracker"));
+const MagicSparkles = lazy(() => import("../components/MagicSparkles"));
 
 const DashboardPage: React.FC = () => {
+  console.log("[DashboardPage] Rendering dashboard for user:", user?.id);
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
   const { stats, loading: statsLoading, error: statsError } = useUserStats();
@@ -38,11 +42,12 @@ const DashboardPage: React.FC = () => {
   const [signingOut, setSigningOut] = useState(false);
 
   useEffect(() => {
+    console.log("[DashboardPage] Component mounted, user:", user?.id);
     const hour = new Date().getHours();
     if (hour < 12) setGreeting("Good morning");
     else if (hour < 18) setGreeting("Good afternoon");
     else setGreeting("Good evening");
-  }, []);
+  }, [user]);
 
   const timeSavedPercentage =
     stats.activeDays > 0
@@ -61,6 +66,9 @@ const DashboardPage: React.FC = () => {
     { value: 35 },
     { value: stats.purchasedAppsCount || 0 },
   ];
+  // Debug: Check if we have basic data
+  console.log("[DashboardPage] User:", user, "Stats:", stats, "Preferences:", preferences);
+
   return (
     <>
       <Helmet>
@@ -206,38 +214,79 @@ const DashboardPage: React.FC = () => {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
               >
-                <EnhancedStatCard
-                  title="Tools Available"
-                  value={stats.purchasedAppsCount}
-                  icon={Zap}
-                  sparklineData={sparklineData}
-                  loading={statsLoading}
-                  error={statsError}
-                  change={15}
-                  changeLabel="vs last month"
-                  color="#6366f1"
-                />
-                <EnhancedStatCard
-                  title="Videos Created"
-                  value={stats.videosCreated}
-                  icon={Video}
-                  loading={statsLoading}
-                  error={statsError}
-                  change={stats.videosCreated > 0 ? 25 : 0}
-                  changeLabel="vs last month"
-                  color="#8b5cf6"
-                />
-                <EnhancedStatCard
-                  title="Productivity Boost"
-                  value={timeSavedPercentage}
-                  suffix="%"
-                  icon={Award}
-                  loading={statsLoading}
-                  error={statsError}
-                  change={timeSavedPercentage > 0 ? 10 : 0}
-                  changeLabel="vs last month"
-                  color="#10b981"
-                />
+                <ErrorBoundary fallback={
+                  <div className="bg-gray-800/50 rounded-lg p-4 text-center">
+                    <AlertTriangle className="h-6 w-6 text-yellow-500 mx-auto mb-2" />
+                    <p className="text-gray-400 text-sm">Stats unavailable</p>
+                  </div>
+                }>
+                  <Suspense fallback={
+                    <div className="bg-gray-800/50 rounded-lg p-4 text-center">
+                      <Loader2 className="h-6 w-6 animate-spin mx-auto text-primary-500" />
+                    </div>
+                  }>
+                    <EnhancedStatCard
+                      title="Tools Available"
+                      value={stats.purchasedAppsCount}
+                      icon={Zap}
+                      sparklineData={sparklineData}
+                      loading={statsLoading}
+                      error={statsError}
+                      change={15}
+                      changeLabel="vs last month"
+                      color="#6366f1"
+                    />
+                  </Suspense>
+                </ErrorBoundary>
+
+                <ErrorBoundary fallback={
+                  <div className="bg-gray-800/50 rounded-lg p-4 text-center">
+                    <AlertTriangle className="h-6 w-6 text-yellow-500 mx-auto mb-2" />
+                    <p className="text-gray-400 text-sm">Stats unavailable</p>
+                  </div>
+                }>
+                  <Suspense fallback={
+                    <div className="bg-gray-800/50 rounded-lg p-4 text-center">
+                      <Loader2 className="h-6 w-6 animate-spin mx-auto text-primary-500" />
+                    </div>
+                  }>
+                    <EnhancedStatCard
+                      title="Videos Created"
+                      value={stats.videosCreated}
+                      icon={Video}
+                      loading={statsLoading}
+                      error={statsError}
+                      change={stats.videosCreated > 0 ? 25 : 0}
+                      changeLabel="vs last month"
+                      color="#8b5cf6"
+                    />
+                  </Suspense>
+                </ErrorBoundary>
+
+                <ErrorBoundary fallback={
+                  <div className="bg-gray-800/50 rounded-lg p-4 text-center">
+                    <AlertTriangle className="h-6 w-6 text-yellow-500 mx-auto mb-2" />
+                    <p className="text-gray-400 text-sm">Stats unavailable</p>
+                  </div>
+                }>
+                  <Suspense fallback={
+                    <div className="bg-gray-800/50 rounded-lg p-4 text-center">
+                      <Loader2 className="h-6 w-6 animate-spin mx-auto text-primary-500" />
+                    </div>
+                  }>
+                    <EnhancedStatCard
+                      title="Productivity Boost"
+                      value={timeSavedPercentage}
+                      suffix="%"
+                      icon={Award}
+                      loading={statsLoading}
+                      error={statsError}
+                      change={timeSavedPercentage > 0 ? 10 : 0}
+                      changeLabel="vs last month"
+                      color="#10b981"
+                    />
+                  </Suspense>
+                </ErrorBoundary>
               </motion.div>
 
               {statsError && (
@@ -254,13 +303,54 @@ const DashboardPage: React.FC = () => {
         </section>
 
         {/* Dashboard Personalizer Section */}
-        <DashboardPersonalizerSection />
+        <ErrorBoundary fallback={
+          <div className="bg-yellow-900/20 border border-yellow-700 rounded-lg p-6 text-center">
+            <AlertTriangle className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
+            <p className="text-yellow-400">Personalizer section temporarily unavailable</p>
+          </div>
+        }>
+          <Suspense fallback={
+            <div className="bg-gray-800/30 rounded-lg p-4 text-center">
+              <Loader2 className="h-6 w-6 animate-spin mx-auto text-primary-500" />
+            </div>
+          }>
+            <DashboardPersonalizerSection />
+          </Suspense>
+        </ErrorBoundary>
 
         {/* Dashboard Tools Section */}
-        <DashboardToolsSection />
+        <ErrorBoundary fallback={
+          <div className="bg-red-900/20 border border-red-700 rounded-lg p-6 text-center">
+            <AlertTriangle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-red-400 mb-2">Tools Section Unavailable</h3>
+            <p className="text-gray-400">Unable to load the tools section. Please refresh the page.</p>
+          </div>
+        }>
+          <Suspense fallback={
+            <div className="bg-gray-800/50 rounded-lg p-6 text-center">
+              <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary-500" />
+              <p className="text-gray-400">Loading tools...</p>
+            </div>
+          }>
+            <DashboardToolsSection />
+          </Suspense>
+        </ErrorBoundary>
 
         {/* Dashboard Contact Section */}
-        <DashboardContactSection />
+        <ErrorBoundary fallback={
+          <div className="bg-blue-900/20 border border-blue-700 rounded-lg p-6 text-center">
+            <AlertTriangle className="h-8 w-8 text-blue-500 mx-auto mb-2" />
+            <p className="text-blue-400">Contact section temporarily unavailable</p>
+          </div>
+        }>
+          <Suspense fallback={
+            <div className="bg-gray-800/30 rounded-lg p-4 text-center">
+              <Loader2 className="h-6 w-6 animate-spin mx-auto text-primary-500" />
+            </div>
+          }>
+            <DashboardContactSection />
+          </Suspense>
+        </ErrorBoundary>
       </main>
     </>
   );

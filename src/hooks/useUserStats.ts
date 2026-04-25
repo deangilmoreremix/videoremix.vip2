@@ -39,7 +39,7 @@ export const useUserStats = () => {
             .from("user_app_access")
             .select("app_slug", { count: "exact", head: false })
             .eq("user_id", user.id)
-            .eq("has_access", true),
+            .eq("is_active", true),
           supabase
             .from("videos")
             .select("id", { count: "exact", head: false })

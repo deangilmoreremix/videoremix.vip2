@@ -19,9 +19,9 @@ export default defineConfig(({ mode }) => {
       output: {
         manualChunks: {
           vendor: [
-            'react', 
-            'react-dom', 
-            'framer-motion', 
+            'react',
+            'react-dom',
+            'framer-motion',
             'react-intersection-observer'
           ],
           animations: [
@@ -33,7 +33,10 @@ export default defineConfig(({ mode }) => {
           ],
         }
       }
-    }
+    },
+    sourcemap: true,
+    assetsDir: 'assets',
+    manifest: true,
   },
   server: {
     hmr: {
