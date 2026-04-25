@@ -393,11 +393,16 @@ const StatsCards = memo(() => {
 StatsCards.displayName = "StatsCards";
 
 const AdminDashboard: React.FC = () => {
-  const { user, isAuthenticated, isLoading, logout, sessionExpiry } =
+  const { user, isAuthenticated, isLoading, logout, sessionExpiry, verifyAuth } =
     useAdmin();
   const [activeTab, setActiveTab] = useState<TabConfig["id"]>("analytics");
   const [showTimeoutWarning, setShowTimeoutWarning] = useState(false);
   const [announcements, setAnnouncements] = useState<string>("");
+
+  // Verify admin authentication on mount
+  useEffect(() => {
+    verifyAuth();
+  }, [verifyAuth]);
 
   // Session timeout warning
   useEffect(() => {

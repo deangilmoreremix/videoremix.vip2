@@ -82,13 +82,14 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   if (!isAuthenticated || !user) {
     // Prevent redirect loops - don't redirect if we're already going to signin
     if (location.pathname === "/signin" || location.pathname === "/signup") {
+      console.log("[ProtectedRoute] On signin page, allowing access");
       return <>{children}</>;
     }
 
     // Store the intended destination
     const from = location.pathname + location.search + location.hash;
 
-    console.log("[ProtectedRoute] Not authenticated, redirecting to signin. Intended destination:", from);
+    console.log("[ProtectedRoute] Not authenticated, redirecting to signin. Current path:", location.pathname, "Auth state:", authState, "User:", !!user);
 
     return (
       <Navigate
@@ -102,6 +103,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
       />
     );
   }
+
+  console.log("[ProtectedRoute] User authenticated, allowing access to:", location.pathname);
 
   // Authenticated - render protected content
   hasMadeDecisionRef.current = true;

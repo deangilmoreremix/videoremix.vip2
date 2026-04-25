@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useState, useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Outlet } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import SparkleBackground from "./components/SparkleBackground";
 import SpecialHeader from "./components/SpecialHeader";
@@ -19,25 +19,15 @@ import { NetworkStatusIndicator } from "./components/AsyncStates";
 // Lazy loaded components for better performance
 const LandingPage = lazy(() => import("./pages/LandingPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
-const ToolsHubPage = lazy(() => import("./pages/ToolsHubPage")); // New Tools Hub Page
+const ToolsHubPage = lazy(() => import("./pages/ToolsHubPage"));
 
 // Feature pages
-const AIVideoCreatorPage = lazy(
-  () => import("./pages/features/AIVideoCreatorPage"),
-);
+const AIVideoCreatorPage = lazy(() => import("./pages/features/AIVideoCreatorPage"));
 const AIEditingPage = lazy(() => import("./pages/features/AIEditingPage"));
-const SmartTemplatesPage = lazy(
-  () => import("./pages/features/SmartTemplatesPage"),
-);
-const ContentRepurposingPage = lazy(
-  () => import("./pages/features/ContentRepurposingPage"),
-);
-const AutoCaptionsPage = lazy(
-  () => import("./pages/features/AutoCaptionsPage"),
-);
-const CollaborationPage = lazy(
-  () => import("./pages/features/CollaborationPage"),
-);
+const SmartTemplatesPage = lazy(() => import("./pages/features/SmartTemplatesPage"));
+const ContentRepurposingPage = lazy(() => import("./pages/features/ContentRepurposingPage"));
+const AutoCaptionsPage = lazy(() => import("./pages/features/AutoCaptionsPage"));
+const CollaborationPage = lazy(() => import("./pages/features/CollaborationPage"));
 
 // Generic pages
 const FeatureListPage = lazy(() => import("./pages/FeatureListPage"));
@@ -133,465 +123,527 @@ function App() {
 
   return (
     <AuthProvider>
-      <AdminProvider>
-        <div className="flex flex-col min-h-screen bg-gray-900">
-          <Helmet>
-            <title>
-              VideoRemix.vip - AI-Powered Marketing Personalization Platform
-            </title>
-            <meta
-              name="description"
-              content="Create personalized marketing content that converts with AI-powered tools. Transform your campaigns with VideoRemix.vip's marketing personalization platform."
-            />
-          </Helmet>
+      <div className="flex flex-col min-h-screen bg-gray-900">
+        <Helmet>
+          <title>
+            VideoRemix.vip - AI-Powered Marketing Personalization Platform
+          </title>
+          <meta
+            name="description"
+            content="Create personalized marketing content that converts with AI-powered tools. Transform your campaigns with VideoRemix.vip's marketing personalization platform."
+          />
+        </Helmet>
 
-          {/* Header Navigation - Hidden on admin pages */}
-          {!isAdminPage && <SpecialHeader topOffset={0} />}
+        {/* Header Navigation - Hidden on admin pages */}
+        {!isAdminPage && <SpecialHeader topOffset={0} />}
 
-          {/* Scroll Progress Indicator - Hidden on admin pages */}
-          {!isAdminPage && <ScrollProgressBar topOffset={0} />}
+        {/* Scroll Progress Indicator - Hidden on admin pages */}
+        {!isAdminPage && <ScrollProgressBar topOffset={0} />}
 
-          {/* Custom Cursor (desktop only) - Hidden on admin pages */}
-          {!isMobile && !isTablet && !isAdminPage && <CustomCursor />}
+        {/* Custom Cursor (desktop only) - Hidden on admin pages */}
+        {!isMobile && !isTablet && !isAdminPage && <CustomCursor />}
 
-          {/* Audio Feedback System - Hidden on admin pages */}
-          {!isAdminPage && <AudioPlayer />}
+        {/* Audio Feedback System - Hidden on admin pages */}
+        {!isAdminPage && <AudioPlayer />}
 
-          {/* Live Activity Indicator - Hidden on admin pages */}
-          {!isAdminPage && <LiveActivityIndicator />}
+        {/* Live Activity Indicator - Hidden on admin pages */}
+        {!isAdminPage && <LiveActivityIndicator />}
 
-          {/* AI Assistant - Hidden on admin pages */}
-          {!isAdminPage && <AIAssistant />}
+        {/* AI Assistant - Hidden on admin pages */}
+        {!isAdminPage && <AIAssistant />}
 
-          <Routes>
-            {/* Landing Page Route */}
-            <Route
-              path="/"
-              element={
+        <Routes>
+          {/* Landing Page Route */}
+          <Route
+            path="/"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <LandingPage isMobile={isMobile} isTablet={isTablet} />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Tools Hub Page */}
+          <Route
+            path="/tools"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <ToolsHubPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* App Detail Pages */}
+          <Route
+            path="/app/:appId"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AppPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Feature Landing Pages */}
+          <Route
+            path="/features/ai-video-creator"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AIVideoCreatorPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/features/ai-editing"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AIEditingPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/features/smart-templates"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <SmartTemplatesPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/features/content-repurposing"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <ContentRepurposingPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/features/auto-captions"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AutoCaptionsPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/features/collaboration"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <CollaborationPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* General Pages */}
+          <Route
+            path="/features"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <FeatureListPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/pricing"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <PricingPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/faq"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <FAQPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/about"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AboutUsPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/contact"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <ContactPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/blog"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <BlogPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/blog/:postId"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <BlogPostPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Help Center Routes */}
+          <Route
+            path="/help"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <HelpCenterPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/help/:articleId"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <HelpArticlePage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Dashboard Route */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
                 <ErrorBoundary onError={handleError}>
                   <SparkleBackground>
                     <Suspense fallback={<SectionLoader />}>
-                      <LandingPage isMobile={isMobile} isTablet={isTablet} />
+                      <DashboardPage />
                       <SpecialFooter />
                     </Suspense>
                   </SparkleBackground>
                 </ErrorBoundary>
-              }
-            />
+              </ProtectedRoute>
+            }
+          />
 
-            {/* Tools Hub Page */}
-            <Route
-              path="/tools"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <ToolsHubPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            {/* App Detail Pages */}
-            <Route
-              path="/app/:appId"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <AppPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            {/* Feature Landing Pages */}
-            <Route
-              path="/features/ai-video-creator"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <AIVideoCreatorPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            <Route
-              path="/features/ai-editing"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <AIEditingPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            <Route
-              path="/features/smart-templates"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <SmartTemplatesPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            <Route
-              path="/features/content-repurposing"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <ContentRepurposingPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            <Route
-              path="/features/auto-captions"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <AutoCaptionsPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            <Route
-              path="/features/collaboration"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <CollaborationPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            {/* General Pages */}
-            <Route
-              path="/features"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <FeatureListPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            <Route
-              path="/pricing"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <PricingPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            <Route
-              path="/faq"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <FAQPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            <Route
-              path="/about"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <AboutUsPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            <Route
-              path="/contact"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <ContactPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            <Route
-              path="/blog"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <BlogPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            <Route
-              path="/blog/:postId"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <BlogPostPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            {/* Help Center Routes */}
-            <Route
-              path="/help"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <HelpCenterPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            <Route
-              path="/help/:articleId"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <HelpArticlePage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
-
-            {/* Dashboard Route */}
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <ErrorBoundary onError={handleError}>
-                    <SparkleBackground>
-                      <Suspense fallback={<SectionLoader />}>
-                        <DashboardPage />
-                        <SpecialFooter />
-                      </Suspense>
-                    </SparkleBackground>
-                  </ErrorBoundary>
-                </ProtectedRoute>
-              }
-            />
-
-            {/* Profile Route */}
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <ErrorBoundary onError={handleError}>
-                    <Suspense fallback={<SectionLoader />}>
-                      <ProfilePage />
-                    </Suspense>
-                  </ErrorBoundary>
-                </ProtectedRoute>
-              }
-            />
-
-            {/* Auth Routes */}
-            <Route
-              path="/signin"
-              element={
+          {/* Profile Route */}
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
                 <ErrorBoundary onError={handleError}>
                   <Suspense fallback={<SectionLoader />}>
-                    <SignInPage />
+                    <ProfilePage />
                   </Suspense>
                 </ErrorBoundary>
-              }
-            />
+              </ProtectedRoute>
+            }
+          />
 
-            <Route
-              path="/signup"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <Suspense fallback={<SectionLoader />}>
-                    <SignUpPage />
-                  </Suspense>
-                </ErrorBoundary>
-              }
-            />
+          {/* Auth Routes */}
+          <Route
+            path="/signin"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <SignInPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
 
-            <Route
-              path="/forgot-password"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <Suspense fallback={<SectionLoader />}>
-                    <ForgotPasswordPage />
-                  </Suspense>
-                </ErrorBoundary>
-              }
-            />
+          <Route
+            path="/signup"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <SignUpPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
 
-            <Route
-              path="/auth/recovery"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <Suspense fallback={<SectionLoader />}>
-                    <ForgotPasswordPage />
-                  </Suspense>
-                </ErrorBoundary>
-              }
-            />
+          <Route
+            path="/forgot-password"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <ForgotPasswordPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
 
-            <Route
-              path="/reset-password"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <Suspense fallback={<SectionLoader />}>
-                    <ResetPassword />
-                  </Suspense>
-                </ErrorBoundary>
-              }
-            />
+          <Route
+            path="/auth/recovery"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <ForgotPasswordPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
 
-            <Route
-              path="/auth/reset-password"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <Suspense fallback={<SectionLoader />}>
-                    <ResetPassword />
-                  </Suspense>
-                </ErrorBoundary>
-              }
-            />
+          <Route
+            path="/reset-password"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <ResetPassword />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
 
-            <Route
-              path="/auth/confirm"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <Suspense fallback={<SectionLoader />}>
-                    <EmailConfirmPage />
-                  </Suspense>
-                </ErrorBoundary>
-              }
-            />
+          <Route
+            path="/auth/reset-password"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <ResetPassword />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
 
-            <Route
-              path="/auth/callback"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <Suspense fallback={<SectionLoader />}>
-                    <AuthCallback />
-                  </Suspense>
-                </ErrorBoundary>
-              }
-            />
+          <Route
+            path="/auth/confirm"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <EmailConfirmPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
 
-            <Route
-              path="/auth/magic-link"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <Suspense fallback={<SectionLoader />}>
-                    <MagicLinkPage />
-                  </Suspense>
-                </ErrorBoundary>
-              }
-            />
+          <Route
+            path="/auth/callback"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <AuthCallback />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
 
-            {/* Admin Routes */}
-            <Route
-              path="/admin/login"
-              element={
+          <Route
+            path="/auth/magic-link"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <MagicLinkPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Admin Routes */}
+          <Route
+            path="/admin/login"
+            element={
+              <AdminProvider>
                 <ErrorBoundary onError={handleError}>
                   <Suspense fallback={<SectionLoader />}>
                     <AdminLogin />
                   </Suspense>
                 </ErrorBoundary>
-              }
-            />
-
-            <Route
-              path="/admin/signup"
-              element={
+              </AdminProvider>
+            }
+          />
+          <Route
+            path="/admin/signup"
+            element={
+              <AdminProvider>
                 <ErrorBoundary onError={handleError}>
                   <Suspense fallback={<SectionLoader />}>
                     <AdminSignUp />
                   </Suspense>
                 </ErrorBoundary>
-              }
-            />
-
-            <Route
-              path="/admin"
-              element={
+              </AdminProvider>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <AdminProvider>
                 <ErrorBoundary onError={handleError}>
                   <Suspense fallback={<SectionLoader />}>
                     <AdminDashboard />
+                    <SpecialFooter />
                   </Suspense>
                 </ErrorBoundary>
-              }
-            />
-          </Routes>
-          <Toaster />
-          <MobileBottomNav />
-          <NetworkStatusIndicator />
-        </div>
-      </AdminProvider>
+              </AdminProvider>
+            }
+          />
+
+          {/* Temporary debug route */}
+          <Route
+            path="/debug"
+            element={
+              <div className="min-h-screen bg-gray-900 text-white p-8">
+                <h1 className="text-2xl font-bold mb-4">Auth Debug</h1>
+                <div id="debug-output" className="font-mono text-sm bg-gray-800 p-4 rounded">
+                  Loading debug info...
+                </div>
+                <script dangerouslySetInnerHTML={{
+                  __html: `
+                    console.log('🔍 Browser Storage & Auth Debug Test');
+                    const output = document.getElementById('debug-output');
+                    let log = '';
+
+                    function addLog(message) {
+                      log += message + '\\n';
+                      if (output) output.textContent = log;
+                      console.log(message);
+                    }
+
+                    addLog('📦 localStorage check:');
+                    try {
+                      const keys = Object.keys(localStorage);
+                      addLog(\`   Keys found: \${keys.length}\`);
+                      keys.forEach(key => {
+                        if (key.includes('auth') || key.includes('session') || key.includes('videoremix')) {
+                          const value = localStorage.getItem(key);
+                          addLog(\`   \${key}: \${value?.substring(0, 50)}...\`);
+                        }
+                      });
+                    } catch (error) {
+                      addLog(\`   ❌ localStorage error: \${error}\`);
+                    }
+
+                    addLog('📦 sessionStorage check:');
+                    try {
+                      const keys = Object.keys(sessionStorage);
+                      addLog(\`   Keys found: \${keys.length}\`);
+                      keys.forEach(key => {
+                        if (key.includes('auth') || key.includes('session') || key.includes('videoremix')) {
+                          const value = sessionStorage.getItem(key);
+                          addLog(\`   \${key}: \${value?.substring(0, 50)}...\`);
+                        }
+                      });
+                    } catch (error) {
+                      addLog(\`   ❌ sessionStorage error: \${error}\`);
+                    }
+
+                    addLog('🔧 Testing auth state...');
+                    setTimeout(() => {
+                      addLog('Check browser console for more detailed auth logs');
+                    }, 1000);
+                  `
+                }} />
+              </div>
+            }
+          />
+        </Routes>
+        <Toaster />
+        <MobileBottomNav />
+        <NetworkStatusIndicator />
+      </div>
     </AuthProvider>
   );
 }
