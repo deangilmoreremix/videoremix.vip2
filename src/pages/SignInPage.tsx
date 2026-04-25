@@ -16,7 +16,7 @@ import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
 
 const SignInPage: React.FC = () => {
-  const { signIn, user } = useAuth();
+  const { signIn, user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = (location.state as any)?.from || "/dashboard";
@@ -29,10 +29,12 @@ const SignInPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user) {
+    // Only navigate after authentication is confirmed
+    if (isAuthenticated && user) {
+      console.log("[SignInPage] User authenticated, navigating to:", from);
       navigate(from, { replace: true });
     }
-  }, [user, navigate, from]);
+  }, [isAuthenticated, user, navigate, from]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,13 +44,17 @@ const SignInPage: React.FC = () => {
     try {
       // ALWAYS normalize email to lowercase - critical fix for login issues!
       const normalizedEmail = formData.email.toLowerCase().trim();
+      console.log("[SignInPage] Attempting sign in for:", normalizedEmail);
       const { error } = await signIn(normalizedEmail, formData.password);
       if (error) {
+        console.log("[SignInPage] Sign in failed:", error.message);
         setError(error.message);
       } else {
-        navigate(from, { replace: true });
+        console.log("[SignInPage] Sign in API call successful, waiting for auth state update...");
+        // Don't navigate here - let the useEffect handle it when auth state updates
       }
     } catch (err) {
+      console.log("[SignInPage] Sign in error:", err);
       setError("An unexpected error occurred");
     } finally {
       setLoading(false);
