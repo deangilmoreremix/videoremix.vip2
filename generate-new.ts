@@ -31,7 +31,7 @@ The image should look like a real software application interface that users woul
 }
 
 const generatedAt = "2026-04-21T05:39:59+00:00";
-let timestamp = 1776705000018;
+const timestamp = 1776705000018;
 
 const newEntries = appThumbnailSpecs.map((spec, index) => ({
   url: `https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/${spec.appId}-ai-thumbnail-${timestamp + index}.png`,

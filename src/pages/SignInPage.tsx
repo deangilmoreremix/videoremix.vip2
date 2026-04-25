@@ -28,11 +28,8 @@ const SignInPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (user) {
-      navigate(from, { replace: true });
-    }
-  }, [user, navigate, from]);
+  // Don't auto-navigate on user changes - let handleSubmit handle navigation
+  // This prevents redirect loops and race conditions
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,7 +43,11 @@ const SignInPage: React.FC = () => {
       if (error) {
         setError(error.message);
       } else {
-        navigate(from, { replace: true });
+        // Wait for auth state to stabilize before navigating
+        // This prevents race conditions where navigation happens before onAuthStateChange fires
+        setTimeout(() => {
+          navigate(from, { replace: true });
+        }, 100); // Small delay to let auth state changes propagate
       }
     } catch (err) {
       setError("An unexpected error occurred");

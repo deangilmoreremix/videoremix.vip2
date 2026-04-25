@@ -5,6 +5,10 @@ import { HelmetProvider } from "react-helmet-async";
 import { AnimationProvider } from "./context/AnimationContext";
 import { ModalsProvider } from "./components/ModalsProvider";
 
+// Import performance monitoring and error handling
+import performanceMonitor from "./utils/performanceMonitor";
+import GlobalErrorBoundary from "./components/GlobalErrorBoundary";
+
 // Import base styles early to prevent layout shifts
 import "./index.css";
 
@@ -28,22 +32,65 @@ const mountApp = () => {
   const root = document.getElementById("root");
   if (root) {
     createRoot(root).render(
-      <StrictMode>
-        <BrowserRouter
-          future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      // Temporarily disabled StrictMode to prevent Supabase auth lock conflicts
+      // TODO: Re-enable after fixing Supabase client to handle multiple initializations
+      // <StrictMode>
+        <GlobalErrorBoundary
+          onError={(error, errorInfo) => {
+            console.error('🚨 Global error caught:', error, errorInfo);
+            // Could send to error reporting service here
+          }}
         >
-          <HelmetProvider>
-            <AnimationProvider>
-              <ModalsProvider>
-                <Suspense fallback={<LoadingScreen />}>
-                  <App />
-                </Suspense>
-              </ModalsProvider>
-            </AnimationProvider>
-          </HelmetProvider>
-        </BrowserRouter>
-      </StrictMode>,
+          <BrowserRouter
+            future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+          >
+            <HelmetProvider>
+              <AnimationProvider>
+                <ModalsProvider>
+                  <Suspense fallback={<LoadingScreen />}>
+                    <App />
+                  </Suspense>
+                </ModalsProvider>
+              </AnimationProvider>
+            </HelmetProvider>
+          </BrowserRouter>
+        </GlobalErrorBoundary>
+      // </StrictMode>,
     );
+  }
+};
+
+// Register service worker for better resource management
+const registerServiceWorker = async () => {
+  if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+    try {
+      const registration = await navigator.serviceWorker.register('/sw.js', {
+        scope: '/',
+      });
+
+      console.log('[SW] Service worker registered:', registration.scope);
+
+      // Handle updates
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        if (newWorker) {
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // New version available
+              console.log('[SW] New version available, consider refreshing');
+            }
+          });
+        }
+      });
+
+      // Handle messages from service worker
+      navigator.serviceWorker.addEventListener('message', (event) => {
+        console.log('[SW] Message from service worker:', event.data);
+      });
+
+    } catch (error) {
+      console.error('[SW] Service worker registration failed:', error);
+    }
   }
 };
 
@@ -56,4 +103,10 @@ const runWhenIdle = (cb: () => void) => {
   }
 };
 
-runWhenIdle(mountApp);
+// Mount app and register service worker
+const initializeApp = () => {
+  mountApp();
+  registerServiceWorker();
+};
+
+runWhenIdle(initializeApp);
