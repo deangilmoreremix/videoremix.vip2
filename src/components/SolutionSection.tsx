@@ -44,7 +44,7 @@ const comparisonPoints = [
   },
   {
     traditional: "Static templates with limited marketing options",
-    videoRemix: "50+ personalized marketing tools for any campaign",
+    videoRemix: "20+ personalized marketing apps for any campaign",
     icon: <Wand2 className="h-5 w-5" />,
   },
 ];
@@ -420,7 +420,7 @@ const SolutionSection: React.FC = () => {
                       boxShadow: "0 10px 15px -3px rgba(79, 70, 229, 0.4)",
                     }}
                   >
-                    <span>Explore 50+ Marketing Personalization Tools</span>
+                    <span>Explore 20+ Marketing Personalization Tools</span>
                     <motion.div
                       animate={{
                         x: [0, 5, 0],

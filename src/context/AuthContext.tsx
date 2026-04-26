@@ -69,8 +69,8 @@ interface AuthProviderProps {
 }
 
 // Constants
-const SESSION_REFRESH_THRESHOLD_MS = 5 * 60 * 1000; // 5 minutes before expiry
-const SESSION_CHECK_INTERVAL_MS = 60 * 1000; // Check every minute
+const SESSION_REFRESH_THRESHOLD_MS = 5 * 60 * 1000; // 5 minutes before expiry (less aggressive)
+const SESSION_CHECK_INTERVAL_MS = 60 * 1000; // Check every 60 seconds (less frequent)
 const STORAGE_KEY_SESSION = "sb-session-state";
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
@@ -136,27 +136,61 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Refresh session proactively
   const refreshSession = useCallback(async (): Promise<boolean> => {
     if (isRefreshingRef.current) {
+      console.log("[Auth] Refresh already in progress, skipping");
       return false;
     }
 
     try {
       isRefreshingRef.current = true;
+      console.log("[Auth] Starting session refresh");
+
       const { data, error: refreshError } = await supabase.auth.refreshSession();
 
       if (refreshError) {
-        handleAuthError(refreshError, "refreshSession");
-        return false;
+        console.error("[Auth] Session refresh failed:", refreshError.message);
+
+        // Only clear session on critical errors, not network issues
+        if (refreshError.message.includes("Invalid refresh token") ||
+            refreshError.message.includes("refresh_token_not_found")) {
+          console.log("[Auth] Critical refresh error - clearing session");
+          handleAuthError(refreshError, "refreshSession");
+          if (mountedRef.current) {
+            setSession(null);
+            setUser(null);
+            setAuthState("unauthenticated");
+          }
+          return false;
+        } else {
+          // For network errors or temporary issues, don't clear session
+          console.log("[Auth] Non-critical refresh error, keeping existing session");
+          return false;
+        }
       }
 
       if (mountedRef.current && data.session) {
+        console.log("[Auth] Session refresh successful");
         setSession(data.session);
         setUser(data.session.user);
+        setAuthState("authenticated");
         return true;
       }
 
+      console.log("[Auth] Refresh returned no session");
       return false;
     } catch (err) {
-      handleAuthError(err, "refreshSession");
+      console.error("[Auth] Session refresh exception:", err);
+
+      // Only clear session on authentication errors, not network errors
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      if (errorMessage.includes("Invalid refresh token") ||
+          errorMessage.includes("refresh_token_not_found")) {
+        handleAuthError(err, "refreshSession");
+        if (mountedRef.current) {
+          setSession(null);
+          setUser(null);
+          setAuthState("unauthenticated");
+        }
+      }
       return false;
     } finally {
       isRefreshingRef.current = false;
@@ -177,23 +211,41 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const { data: { session: initialSession }, error: sessionError } = await supabase.auth.getSession();
 
         if (sessionError) {
-          handleAuthError(sessionError, "initializeAuth");
+          // Only treat as error if it's not a network/connectivity issue
+          if (!sessionError.message.includes("fetch") && !sessionError.message.includes("network")) {
+            handleAuthError(sessionError, "initializeAuth");
+          } else {
+            console.log("[Auth] Network error during session check, will retry later");
+          }
         }
 
         if (mounted) {
           if (initialSession) {
-            setSession(initialSession);
-            setUser(initialSession.user);
-            setAuthState("authenticated");
+            // Check if the session is already expired
+            const now = Date.now();
+            const expiresAt = initialSession.expires_at * 1000;
 
-            // Store session hint for faster recovery
-            try {
-              sessionStorage.setItem(STORAGE_KEY_SESSION, JSON.stringify({
-                userId: initialSession.user.id,
-                expiresAt: initialSession.expires_at,
-              }));
-            } catch {
-              // Ignore storage errors
+            if (expiresAt > now) {
+              // Session is still valid
+              setSession(initialSession);
+              setUser(initialSession.user);
+              setAuthState("authenticated");
+
+              // Store session hint for faster recovery
+              try {
+                sessionStorage.setItem(STORAGE_KEY_SESSION, JSON.stringify({
+                  userId: initialSession.user.id,
+                  expiresAt: initialSession.expires_at,
+                }));
+              } catch {
+                // Ignore storage errors
+              }
+            } else {
+              // Session is expired
+              console.log("[Auth] Initial session is expired, clearing");
+              setSession(null);
+              setUser(null);
+              setAuthState("unauthenticated");
             }
           } else {
             setSession(null);
@@ -291,48 +343,50 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     subscriptionRef.current = data.subscription;
 
-    // Set up periodic session check
+    // Set up periodic session check (less aggressive)
     sessionCheckIntervalRef.current = setInterval(async () => {
       if (!mounted) return;
 
-      console.log("[Auth] Running periodic session check...");
+      try {
+        // Get current session directly - avoids stale closure
+        const { data: { session: currentSession } } = await supabase.auth.getSession();
 
-      // Get current session directly - avoids stale closure
-      const { data: { session: currentSession } } = await supabase.auth.getSession();
-
-      console.log("[Auth] Current session check result:", {
-        hasSession: !!currentSession,
-        userId: currentSession?.user?.id,
-        expiresAt: currentSession?.expires_at,
-        expiresAtDate: currentSession?.expires_at ? new Date(currentSession.expires_at * 1000).toISOString() : null,
-        now: new Date().toISOString()
-      });
-
-      if (!currentSession) {
-        console.log("[Auth] No session found during periodic check");
-        return;
-      }
-
-      // Check if session needs refresh
-      const expiresAt = currentSession.expires_at;
-      if (expiresAt) {
-        const expiresAtMs = expiresAt * 1000;
-        const now = Date.now();
-        const timeUntilExpiry = expiresAtMs - now;
-
-        console.log("[Auth] Session expiry check:", {
-          expiresAtMs,
-          now,
-          timeUntilExpiry,
-          threshold: SESSION_REFRESH_THRESHOLD_MS,
-          shouldRefresh: timeUntilExpiry < SESSION_REFRESH_THRESHOLD_MS && timeUntilExpiry > 0
-        });
-
-        // Refresh if expiring within threshold
-        if (timeUntilExpiry < SESSION_REFRESH_THRESHOLD_MS && timeUntilExpiry > 0) {
-          console.log("[Auth] Session expiring soon, refreshing...");
-          await refreshSession();
+        // Only log if there are issues or significant changes
+        if (!currentSession && session) {
+          console.log("[Auth] Session lost during periodic check - clearing state");
+          if (mounted) {
+            setSession(null);
+            setUser(null);
+            setAuthState("unauthenticated");
+          }
+          return;
         }
+
+        // Check if session is expired
+        if (currentSession?.expires_at) {
+          const expiresAtMs = currentSession.expires_at * 1000;
+          const now = Date.now();
+          const timeUntilExpiry = expiresAtMs - now;
+
+          // If session is already expired, clear state
+          if (timeUntilExpiry <= 0) {
+            console.log("[Auth] Session expired during periodic check");
+            if (mounted) {
+              setSession(null);
+              setUser(null);
+              setAuthState("unauthenticated");
+            }
+            return;
+          }
+
+          // Only refresh if expiring within threshold
+          if (timeUntilExpiry < SESSION_REFRESH_THRESHOLD_MS && timeUntilExpiry > 0) {
+            console.log("[Auth] Session expiring soon, refreshing...");
+            await refreshSession(); // Don't block on refresh result
+          }
+        }
+      } catch (error) {
+        console.error("[Auth] Error during periodic session check:", error);
       }
     }, SESSION_CHECK_INTERVAL_MS);
 
@@ -480,13 +534,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(true);
 
     try {
+      console.log("[Auth] Starting sign out process");
+
       const { error: signOutError } = await supabase.auth.signOut();
 
       if (signOutError) {
+        console.error("[Auth] Sign out error:", signOutError);
         handleAuthError(signOutError, "signOut");
         setLoading(false);
         return { error: signOutError };
       }
+
+      console.log("[Auth] Sign out successful, clearing local state");
 
       // Clear local state immediately
       setSession(null);
@@ -496,6 +555,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // Clear session storage
       try {
         sessionStorage.removeItem(STORAGE_KEY_SESSION);
+        localStorage.removeItem("videoremix-auth");
       } catch {
         // Ignore storage errors
       }
@@ -503,6 +563,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(false);
       return { error: null };
     } catch (err) {
+      console.error("[Auth] Sign out exception:", err);
       handleAuthError(err, "signOut");
       setLoading(false);
       return { error: err as AuthError };

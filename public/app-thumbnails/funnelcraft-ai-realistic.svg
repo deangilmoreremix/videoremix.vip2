@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" 
+     xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-funnelcraft-ai" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#2d2a4a"/>
+    </linearGradient>
+    <radialGradient id="glow-funnelcraft-ai" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" style="stop-color:#4ECDC4;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#4ECDC4;stop-opacity:0"/>
+    </radialGradient>
+    <filter id="shadow-funnelcraft-ai">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="rgba(0,0,0,0.3)"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg-funnelcraft-ai)"/>
+  
+  <!-- Scene Environment -->
+  
+    <!-- Conference Room -->
+    <rect x="0" y="300" width="800" height="300" fill="#F8F9FA"/>
+    <rect x="0" y="250" width="800" height="50" fill="#E9ECEF"/>
+    
+    <!-- Large Screen -->
+    <rect x="200" y="200" width="400" height="150" fill="#34495E" rx="5"/>
+    <rect x="220" y="220" width="360" height="110" fill="#2C3E50" rx="3"/>
+    
+    <!-- Conference Table -->
+    <rect x="100" y="450" width="600" height="15" fill="#8B4513" rx="2"/>
+    
+    <!-- Chairs around table -->
+    <circle cx="150" cy="480" r="25" fill="#34495E"/>
+    <circle cx="250" cy="480" r="25" fill="#34495E"/>
+    <circle cx="350" cy="480" r="25" fill="#34495E"/>
+    <circle cx="450" cy="480" r="25" fill="#34495E"/>
+    <circle cx="550" cy="480" r="25" fill="#34495E"/>
+    <circle cx="650" cy="480" r="25" fill="#34495E"/>
+    
+    <!-- Presentation Pointer -->
+    <rect x="180" y="390" width="3" height="50" fill="#E74C3C"/>
+    <circle cx="181" cy="385" r="8" fill="#E74C3C"/>
+  
+  
+  <!-- Software Interface -->
+  
+    <!-- Funnel Visualization -->
+    <polygon points="350,290 420,290 410,340 360,340" fill="#FFFFFF" stroke="#E1E8ED" stroke-width="1"/>
+    <rect x="365" y="295" width="35" height="8" fill="#27AE60" rx="1"/>
+    <rect x="370" y="310" width="25" height="6" fill="#3498DB" rx="1"/>
+    <rect x="375" y="320" width="15" height="6" fill="#E74C3C" rx="1"/>
+    <rect x="380" y="330" width="10" height="6" fill="#F39C12" rx="1"/>
+    
+    <!-- Funnel arrows -->
+    <polygon points="380,285 385,285 382.5,280" fill="#27AE60"/>
+    <polygon points="375,340 370,340 372.5,345" fill="#F39C12"/>
+  
+  
+  <!-- Person using the software -->
+  
+    <!-- Business Consultant -->
+    <circle cx="380" cy="220" r="18" fill="#E8B4A2"/>
+    <circle cx="370" cy="210" r="3" fill="#2C3E50"/>
+    <circle cx="390" cy="210" r="3" fill="#2C3E50"/>
+    <path d="M375,225 Q380,235 385,225" stroke="#D2B4A2" stroke-width="2" fill="none"/>
+    <rect x="365" y="240" width="30" height="40" fill="#E74C3C"/>
+    <rect x="370" y="280" width="20" height="30" fill="#34495E"/>
+  
+  
+  <!-- Glow effect around interface -->
+  <ellipse cx="400" cy="270" rx="180" ry="140" fill="url(#glow-funnelcraft-ai)"/>
+  
+  <!-- App name overlay -->
+  <rect x="0" y="480" width="800" height="120" fill="url(#bg-funnelcraft-ai)" opacity="0.9"/>
+  <linearGradient id="textFade-funnelcraft-ai" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:0"/>
+    <stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:0.8"/>
+  </linearGradient>
+  <rect x="0" y="480" width="800" height="40" fill="url(#textFade-funnelcraft-ai)"/>
+  
+  <!-- App name -->
+  <text x="400" y="550" 
+        text-anchor="middle" 
+        font-family="Arial, sans-serif" 
+        font-size="24" 
+        font-weight="700" 
+        fill="white"
+        filter="url(#shadow-funnelcraft-ai)">FunnelCraft AI</text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="575" 
+        text-anchor="middle" 
+        font-family="Arial, sans-serif" 
+        font-size="14" 
+        font-weight="400" 
+        fill="#94a3b8">Professional AI Tool</text>
+  
+  <!-- Subtle texture overlay -->
+  <defs>
+    <pattern id="texture-funnelcraft-ai" patternUnits="userSpaceOnUse" width="40" height="40">
+      <rect width="40" height="40" fill="transparent"/>
+      <circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.03)"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#texture-funnelcraft-ai)"/>
+</svg>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" 
+     xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-ai-sales-maximizer" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#2d2a4a"/>
+    </linearGradient>
+    <radialGradient id="glow-ai-sales-maximizer" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" style="stop-color:#4ECDC4;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#4ECDC4;stop-opacity:0"/>
+    </radialGradient>
+    <filter id="shadow-ai-sales-maximizer">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="rgba(0,0,0,0.3)"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg-ai-sales-maximizer)"/>
+  
+  <!-- Scene Environment -->
+  
+    <!-- Corporate Sales Office -->
+    <rect x="0" y="300" width="800" height="300" fill="#F8F9FA"/>
+    <rect x="0" y="250" width="800" height="50" fill="#E9ECEF"/>
+    
+    <!-- Performance Charts on Wall -->
+    <rect x="50" y="100" width="120" height="80" fill="#FFFFFF" stroke="#BDC3C7" stroke-width="2"/>
+    <rect x="60" y="110" width="100" height="3" fill="#27AE60"/>
+    <rect x="60" y="125" width="80" height="3" fill="#27AE60"/>
+    <rect x="60" y="140" width="60" height="3" fill="#3498DB"/>
+    
+    <!-- Sales Desk -->
+    <rect x="200" y="380" width="400" height="20" fill="#8B4513" rx="2"/>
+    
+    <!-- Multiple Monitors -->
+    <rect x="250" y="280" width="100" height="70" fill="#34495E" rx="3"/>
+    <rect x="260" y="290" width="80" height="50" fill="#2C3E50" rx="2"/>
+    
+    <rect x="450" y="280" width="100" height="70" fill="#34495E" rx="3"/>
+    <rect x="460" y="290" width="80" height="50" fill="#2C3E50" rx="2"/>
+    
+    <!-- Sales Awards -->
+    <rect x="650" y="320" width="15" height="40" fill="#F1C40F"/>
+    <rect x="670" y="320" width="15" height="35" fill="#E74C3C"/>
+    
+    <!-- CRM Dashboard -->
+    <rect x="300" y="340" width="80" height="50" fill="#FFFFFF" stroke="#BDC3C7" stroke-width="1"/>
+    <line x1="310" y1="355" x2="370" y2="355" stroke="#27AE60" stroke-width="2"/>
+    <line x1="310" y1="370" x2="350" y2="370" stroke="#3498DB" stroke-width="2"/>
+  
+  
+  <!-- Software Interface -->
+  
+    <!-- Sales Analytics Dashboard -->
+    <rect x="280" y="290" width="240" height="70" fill="#FFFFFF" stroke="#E1E8ED" stroke-width="1" rx="3"/>
+    <rect x="290" y="300" width="220" height="8" fill="#667EEA" rx="1"/>
+    <rect x="290" y="315" width="180" height="6" fill="#E1E8ED" rx="1"/>
+    <rect x="290" y="325" width="160" height="6" fill="#BDC3C7" rx="1"/>
+    <rect x="290" y="335" width="200" height="6" fill="#E1E8ED" rx="1"/>
+    <rect x="290" y="345" width="140" height="6" fill="#BDC3C7" rx="1"/>
+    <rect x="290" y="355" width="100" height="6" fill="#27AE60" rx="1"/>
+  
+  
+  <!-- Person using the software -->
+  
+    <!-- Person 1 -->
+    <circle cx="380" cy="220" r="18" fill="#FDBCB4"/>
+    <circle cx="370" cy="210" r="3" fill="#2C3E50"/>
+    <circle cx="390" cy="210" r="3" fill="#2C3E50"/>
+    <path d="M375,225 Q380,235 385,225" stroke="#E8B4A2" stroke-width="2" fill="none"/>
+    <rect x="365" y="240" width="30" height="40" fill="#3498DB"/>
+    <rect x="370" y="280" width="20" height="30" fill="#2C3E50"/>
+  
+  
+  <!-- Glow effect around interface -->
+  <ellipse cx="400" cy="270" rx="180" ry="140" fill="url(#glow-ai-sales-maximizer)"/>
+  
+  <!-- App name overlay -->
+  <rect x="0" y="480" width="800" height="120" fill="url(#bg-ai-sales-maximizer)" opacity="0.9"/>
+  <linearGradient id="textFade-ai-sales-maximizer" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:0"/>
+    <stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:0.8"/>
+  </linearGradient>
+  <rect x="0" y="480" width="800" height="40" fill="url(#textFade-ai-sales-maximizer)"/>
+  
+  <!-- App name -->
+  <text x="400" y="550" 
+        text-anchor="middle" 
+        font-family="Arial, sans-serif" 
+        font-size="24" 
+        font-weight="700" 
+        fill="white"
+        filter="url(#shadow-ai-sales-maximizer)">AI Sales Maximizer</text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="575" 
+        text-anchor="middle" 
+        font-family="Arial, sans-serif" 
+        font-size="14" 
+        font-weight="400" 
+        fill="#94a3b8">Professional AI Tool</text>
+  
+  <!-- Subtle texture overlay -->
+  <defs>
+    <pattern id="texture-ai-sales-maximizer" patternUnits="userSpaceOnUse" width="40" height="40">
+      <rect width="40" height="40" fill="transparent"/>
+      <circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.03)"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#texture-ai-sales-maximizer)"/>
+</svg>

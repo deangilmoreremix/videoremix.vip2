@@ -186,10 +186,27 @@ async function importPurchase(
     let userCreated = false;
     let userExisted = false;
 
-    const { data: existingUser } = await supabase.auth.admin.listUsers();
-    const foundUser = existingUser?.users?.find(
-      (u: any) => u.email?.toLowerCase() === email
-    );
+    // Check if user exists by fetching all users with pagination
+    let allUsers = [];
+    let page = 1;
+    const perPage = 1000;
+    let foundUser = null;
+
+    while (!foundUser) {
+      const { data: usersPage, error: listError } = await supabase.auth.admin.listUsers({ page, perPage });
+
+      if (listError) {
+        console.error('Error fetching users page', page, ':', listError);
+        break;
+      }
+
+      if (!usersPage?.users || usersPage.users.length === 0) break;
+
+      foundUser = usersPage.users.find((u: any) => u.email?.toLowerCase() === email.toLowerCase());
+
+      if (usersPage.users.length < perPage) break;
+      page++;
+    }
 
     if (foundUser) {
       userId = foundUser.id;

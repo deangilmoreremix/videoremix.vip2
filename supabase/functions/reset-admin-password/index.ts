@@ -37,17 +37,29 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const { data: users, error: getUserError } = await supabase.auth.admin.listUsers();
+    // Fetch ALL users with pagination (not just first 50)
+    let allUsers = [];
+    let page = 1;
+    const perPage = 1000;
+    while (true) {
+      const { data: usersPage, error: getUserError } = await supabase.auth.admin.listUsers({ page, perPage });
 
-    if (getUserError) {
-      return new Response(
-        JSON.stringify({ error: 'Failed to fetch users: ' + getUserError.message }),
-        {
-          status: 400,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
+      if (getUserError) {
+        return new Response(
+          JSON.stringify({ error: 'Failed to fetch users: ' + getUserError.message }),
+          {
+            status: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          }
+        );
+      }
+
+      allUsers = allUsers.concat(usersPage.users);
+      if (usersPage.users.length < perPage) break;
+      page++;
     }
+
+    const users = { users: allUsers };
 
     const user = users.users.find(u => u.email === email);
 

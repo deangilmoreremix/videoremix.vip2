@@ -45,42 +45,114 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
     setActiveDropdown(null);
   };
 
-  // Featured tools for the dropdown
+  // Featured tools for the dropdown - Updated with the 17 new apps
   const featuredTools = [
     {
-      name: "Personalized AI Image Generation",
-      url: "/features/ai-image",
-      description: "Create AI-generated images",
-      icon: <span className="text-lg">🎨</span>,
-    },
-    {
-      name: "Personalized Content Generator",
-      url: "/editor/:templateId",
-      description: "Generate personalized content",
+      name: "AI Personalized Content Hub",
+      url: "https://ai-personalizedcontent.videoremix.vip",
+      description: "Create personalized content with AI",
       icon: <span className="text-lg">🎬</span>,
     },
     {
-      name: "Personalized Multimodal AI Creator",
-      url: "/gemini-features",
-      description: "Create with text and visual inputs",
-      icon: <span className="text-lg">🔮</span>,
+      name: "FunnelCraft AI",
+      url: "https://ai-funnelcraft.videoremix.vip",
+      description: "Build high-converting sales funnels",
+      icon: <span className="text-lg">📊</span>,
     },
     {
-      name: "Personalized Sales Proposal Generator",
-      url: "https://proposal-ai.videoremix.vip",
-      description: "Create tailored proposals",
+      name: "AI Skills Monetizer",
+      url: "https://ai-skills-monetizer.videoremix.vip",
+      description: "Turn your skills into profits",
+      icon: <span className="text-lg">💰</span>,
+    },
+    {
+      name: "AI Skills & Resume",
+      url: "https://ai-skills.videoremix.vip",
+      description: "Perfect your resume and skills",
       icon: <span className="text-lg">📝</span>,
     },
     {
-      name: "Personalized Sales Page Builder",
-      url: "https://sales-page-builder.videoremix.vip",
-      description: "Build high-converting pages",
+      name: "Sales Page Builder",
+      url: "https://ai-salespage.videoremix.vip",
+      description: "Build high-converting sales pages",
       icon: <span className="text-lg">🏗️</span>,
     },
     {
-      name: "Personalized Client Research",
-      url: "/features/client-research",
-      description: "Research clients automatically",
+      name: "Sales Assistant Pro",
+      url: "https://ai-salesassistant.videoremix.vip",
+      description: "AI-powered sales assistance",
+      icon: <span className="text-lg">💼</span>,
+    },
+    {
+      name: "AI Personalization Studio",
+      url: "https://ai-personalizationstudio.videoremix.vip",
+      description: "Full personalization suite",
+      icon: <span className="text-lg">🎨</span>,
+    },
+    {
+      name: "AI Personalizer",
+      url: "https://ai-personalizer.videoremix.vip",
+      description: "Personalize any content",
+      icon: <span className="text-lg">✨</span>,
+    },
+    {
+      name: "AI Video Transformer",
+      url: "https://ai-video-transformer.videoremix.vip",
+      description: "Transform videos with AI",
+      icon: <span className="text-lg">🎥</span>,
+    },
+    {
+      name: "AI Screen Recorder",
+      url: "https://ai-screenrecorder.videoremix.vip",
+      description: "Record and enhance screen content",
+      icon: <span className="text-lg">🖥️</span>,
+    },
+    {
+      name: "AI Signature",
+      url: "https://ai-signature.videoremix.vip",
+      description: "Generate professional signatures",
+      icon: <span className="text-lg">✍️</span>,
+    },
+    {
+      name: "AI Thumbnail Generator",
+      url: "https://ai-thumbnail-generator.videoremix.vip",
+      description: "Create eye-catching thumbnails",
+      icon: <span className="text-lg">🖼️</span>,
+    },
+    {
+      name: "Profile Gen",
+      url: "https://ai-profilegen.videoremix.vip",
+      description: "Generate optimized profiles",
+      icon: <span className="text-lg">👤</span>,
+    },
+    {
+      name: "AI Video Editor",
+      url: "https://ai-videoeditor.videoremix.vip",
+      description: "Edit videos with AI power",
+      icon: <span className="text-lg">🎞️</span>,
+    },
+    {
+      name: "AI Referral Maximizer Pro",
+      url: "https://referrals.smartcrm.vip",
+      description: "Maximize your referral program",
+      icon: <span className="text-lg">🔗</span>,
+    },
+    {
+      name: "AI Sales Maximizer",
+      url: "https://salesmax.smartcrm.vip",
+      description: "Boost your sales performance",
+      icon: <span className="text-lg">📈</span>,
+    },
+    {
+      name: "ContentAI",
+      url: "https://contentai.smartcrm.vip",
+      description: "AI-powered content creation",
+      icon: <span className="text-lg">📝</span>,
+    },
+    {
+      name: "Product Research AI",
+      url: "https://research.smartcrm.vip",
+      description: "Research products with AI",
       icon: <span className="text-lg">🔍</span>,
     },
   ];
@@ -118,7 +190,7 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                 VideoRemix.vip
               </span>
               <div className="text-xs text-primary-300">
-                PERSONALIZED MARKETING
+                AI MARKETING PLATFORM
               </div>
             </div>
           </Link>
@@ -132,12 +204,6 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
           className="hidden md:flex items-center space-x-3"
         >
           <GlobalSearch />
-          <Link
-            to="/features"
-            className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium"
-          >
-            Features
-          </Link>
 
           {/* Tools Dropdown */}
           <div
@@ -149,7 +215,7 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
               className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium flex items-center"
               onClick={() => handleDropdownToggle("tools")}
             >
-              Tools{" "}
+              Tools 
               <ChevronDown
                 className={`ml-1 h-4 w-4 transition-transform duration-200 ${activeDropdown === "tools" ? "rotate-180" : ""}`}
               />
@@ -162,18 +228,20 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute left-0 mt-1 w-[320px] bg-black/90 backdrop-blur-md border border-gray-700 rounded-lg shadow-lg overflow-hidden z-[100]"
+                  className="absolute left-0 mt-1 w-[400px] bg-black/90 backdrop-blur-md border border-gray-700 rounded-lg shadow-lg overflow-hidden z-[100]"
                 >
                   <div className="p-4">
                     <h3 className="text-primary-400 font-medium text-sm mb-3 flex items-center">
-                      <Sparkles className="h-4 w-4 mr-1" /> Featured Tools
+                      <Sparkles className="h-4 w-4 mr-1" /> Our AI Tools
                     </h3>
 
-                    <div className="grid grid-cols-2 gap-2 mb-3">
+                    <div className="grid grid-cols-2 gap-2 mb-3 max-h-[300px] overflow-y-auto">
                       {featuredTools.map((tool, index) => (
                         <a
                           key={index}
                           href={tool.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="block p-2 hover:bg-gray-800 rounded text-white transition-colors group"
                         >
                           <div className="flex items-center mb-1">
@@ -221,12 +289,6 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
             className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium"
           >
             FAQ
-          </Link>
-          <Link
-            to="/help"
-            className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium"
-          >
-            Help Center
           </Link>
 
           {user ? (
@@ -343,13 +405,6 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
             className="md:hidden bg-black overflow-hidden"
           >
             <div className="container mx-auto px-4 py-2 space-y-1">
-              <Link
-                to="/features"
-                className="block text-white hover:bg-gray-800 px-3 py-2 rounded-md"
-              >
-                Features
-              </Link>
-
               {/* Mobile Tools Dropdown */}
               <div>
                 <button
@@ -370,11 +425,13 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <div className="py-2 px-4 bg-gray-900 rounded-md mt-1 mb-2 space-y-2">
+                      <div className="py-2 px-4 bg-gray-900 rounded-md mt-1 mb-2 space-y-2 max-h-[400px] overflow-y-auto">
                         {featuredTools.map((tool, index) => (
                           <a
                             key={index}
                             href={tool.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="block text-white hover:bg-gray-800 px-2 py-2 rounded text-sm"
                           >
                             <div className="flex items-center">
@@ -383,13 +440,6 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                             </div>
                           </a>
                         ))}
-
-                        <Link
-                          to="/tools"
-                          className="block text-center bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded text-sm transition-colors mt-2"
-                        >
-                          Browse All Tools
-                        </Link>
                       </div>
                     </motion.div>
                   )}
@@ -413,12 +463,6 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                 className="block text-white hover:bg-gray-800 px-3 py-2 rounded-md"
               >
                 FAQ
-              </Link>
-              <Link
-                to="/help"
-                className="block text-white hover:bg-gray-800 px-3 py-2 rounded-md"
-              >
-                Help Center
               </Link>
 
               {user ? (

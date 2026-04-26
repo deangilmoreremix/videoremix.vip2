@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   Video,
+  Clock,
   Users,
   Image as ImageIcon,
   Sparkles,
@@ -50,37 +51,37 @@ const TrendingUp: React.FC<{ className?: string }> = (props) => (
 const toolCategories = [
   {
     id: "all",
-    label: "All Personalization Tools",
+    label: "All AI Tools",
     icon: React.createElement(Layers, { className: "w-4 h-4" }),
   },
   {
     id: "video",
-    label: "Personalized Video",
+    label: "Video Creation",
     icon: React.createElement(Video, { className: "w-4 h-4" }),
   },
   {
     id: "lead-gen",
-    label: "Personalized Marketing",
+      label: "Sales & Marketing",
     icon: React.createElement(Users, { className: "w-4 h-4" }),
   },
   {
     id: "ai-image",
-    label: "Personalized AI Image",
+    label: "AI Image",
     icon: React.createElement(ImageIcon, { className: "w-4 h-4" }),
   },
   {
     id: "branding",
-    label: "Personalized Branding",
+    label: "Branding",
     icon: React.createElement(Palette, { className: "w-4 h-4" }),
   },
   {
     id: "personalizer",
-    label: "Content Personalizer",
+    label: "Personalizer",
     icon: React.createElement(UserCircle, { className: "w-4 h-4" }),
   },
   {
     id: "creative",
-    label: "Personalized Creative",
+    label: "Creative Tools",
     icon: React.createElement(Package, { className: "w-4 h-4" }),
   },
 ];
@@ -88,11 +89,23 @@ const toolCategories = [
 // Featured apps to highlight (by slug)
 const featuredApps = [
   "ai-personalized-content",
-  "ai-referral-maximizer",
-  "ai-sales-maximizer",
-  "smart-crm-closer",
+  "funnelcraft-ai",
+  "ai-skills-monetizer",
+  "resume-amplifier",
+  "landing-page",
+  "sales-assistant-app",
+  "ai-art",
+  "personalizer-profile",
+  "personalizer-video-image-transformer",
+  "personalizer-recorder",
+  "ai-signature",
+  "thumbnail-generator",
+  "personalizer-profile-generator",
   "video-ai-editor",
-  "ai-video-image",
+  "ai-referral-maximizer-pro",
+  "ai-sales-maximizer",
+  "ai-content",
+  "product-research-ai",
 ];
 
 // Apps that should show "Coming Soon" label

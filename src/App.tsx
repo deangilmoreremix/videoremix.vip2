@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useState, useEffect } from "react";
-import { Routes, Route, useLocation, Outlet } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import SparkleBackground from "./components/SparkleBackground";
 import SpecialHeader from "./components/SpecialHeader";
@@ -21,20 +21,10 @@ const LandingPage = lazy(() => import("./pages/LandingPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
 const ToolsHubPage = lazy(() => import("./pages/ToolsHubPage"));
 
-// Feature pages
-const AIVideoCreatorPage = lazy(() => import("./pages/features/AIVideoCreatorPage"));
-const AIEditingPage = lazy(() => import("./pages/features/AIEditingPage"));
-const SmartTemplatesPage = lazy(() => import("./pages/features/SmartTemplatesPage"));
-const ContentRepurposingPage = lazy(() => import("./pages/features/ContentRepurposingPage"));
-const AutoCaptionsPage = lazy(() => import("./pages/features/AutoCaptionsPage"));
-const CollaborationPage = lazy(() => import("./pages/features/CollaborationPage"));
-
 // Generic pages
-const FeatureListPage = lazy(() => import("./pages/FeatureListPage"));
 const PricingPage = lazy(() => import("./pages/PricingPage"));
 const FAQPage = lazy(() => import("./pages/FAQPage"));
 const AboutUsPage = lazy(() => import("./pages/AboutUsPage"));
-const ContactPage = lazy(() => import("./pages/ContactPage"));
 const BlogPage = lazy(() => import("./pages/BlogPage"));
 const BlogPostPage = lazy(() => import("./pages/BlogPostPage"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
@@ -43,9 +33,6 @@ const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
 const AdminSignUp = lazy(() => import("./components/admin/AdminSignUp"));
 const SpecialFooter = lazy(() => import("./components/SpecialFooter"));
 
-// Help Center pages
-const HelpCenterPage = lazy(() => import("./pages/HelpCenterPage"));
-const HelpArticlePage = lazy(() => import("./pages/HelpArticlePage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 
 // Auth pages
@@ -198,106 +185,7 @@ function App() {
             }
           />
 
-          {/* Feature Landing Pages */}
-          <Route
-            path="/features/ai-video-creator"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <AIVideoCreatorPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
-
-          <Route
-            path="/features/ai-editing"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <AIEditingPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
-
-          <Route
-            path="/features/smart-templates"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <SmartTemplatesPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
-
-          <Route
-            path="/features/content-repurposing"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <ContentRepurposingPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
-
-          <Route
-            path="/features/auto-captions"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <AutoCaptionsPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
-
-          <Route
-            path="/features/collaboration"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <CollaborationPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
-
-          {/* General Pages */}
-          <Route
-            path="/features"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <FeatureListPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
-
+          {/* Pricing Page */}
           <Route
             path="/pricing"
             element={
@@ -312,6 +200,7 @@ function App() {
             }
           />
 
+          {/* FAQ Page */}
           <Route
             path="/faq"
             element={
@@ -326,6 +215,7 @@ function App() {
             }
           />
 
+          {/* About Us Page */}
           <Route
             path="/about"
             element={
@@ -340,20 +230,7 @@ function App() {
             }
           />
 
-          <Route
-            path="/contact"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <ContactPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
-
+          {/* Blog Routes */}
           <Route
             path="/blog"
             element={
@@ -375,35 +252,6 @@ function App() {
                 <SparkleBackground>
                   <Suspense fallback={<SectionLoader />}>
                     <BlogPostPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
-
-          {/* Help Center Routes */}
-          <Route
-            path="/help"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <HelpCenterPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
-
-          <Route
-            path="/help/:articleId"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <HelpArticlePage />
                     <SpecialFooter />
                   </Suspense>
                 </SparkleBackground>

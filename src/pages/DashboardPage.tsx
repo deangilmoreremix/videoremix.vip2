@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense, lazy } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import {
@@ -23,17 +23,19 @@ import ErrorBoundary from "../components/ErrorBoundary";
 import { useUserStats } from "../hooks/useUserStats";
 import { useDashboardPreferences } from "../hooks/useDashboardPreferences";
 import { useAchievements } from "../hooks/useAchievements";
+
+import EnhancedStatCard from "../components/dashboard/EnhancedStatCard";
+import MagicSparkles from "../components/MagicSparkles";
+
+// Lazy load heavy dashboard sections
 const DashboardToolsSection = lazy(() => import("../components/dashboard/DashboardToolsSection"));
 const DashboardPersonalizerSection = lazy(() => import("../components/dashboard/DashboardPersonalizerSection"));
-const DashboardContactSection = lazy(() => import("../components/dashboard/DashboardContactSection"));
-const EnhancedStatCard = lazy(() => import("../components/dashboard/EnhancedStatCard"));
 const OnboardingProgressTracker = lazy(() => import("../components/dashboard/OnboardingProgressTracker"));
-const MagicSparkles = lazy(() => import("../components/MagicSparkles"));
 
 const DashboardPage: React.FC = () => {
-  console.log("[DashboardPage] Rendering dashboard for user:", user?.id);
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
+  console.log("[DashboardPage] Rendering dashboard for user:", user?.id);
   const { stats, loading: statsLoading, error: statsError } = useUserStats();
   const { preferences, setTheme } = useDashboardPreferences();
   const { achievements, getRecentAchievements } = useAchievements();
@@ -49,15 +51,18 @@ const DashboardPage: React.FC = () => {
     else setGreeting("Good evening");
   }, [user]);
 
-  const timeSavedPercentage =
+  const timeSavedPercentage = React.useMemo(() =>
     stats.activeDays > 0
       ? Math.min(95, Math.floor((stats.activeDays / 30) * 100))
-      : 0;
+      : 0, [stats.activeDays]);
 
-  const userName = user?.email?.split("@")[0] || "there";
-  const recentAchievements = getRecentAchievements(3);
+  const userName = React.useMemo(() =>
+    user?.email?.split("@")[0] || "there", [user?.email]);
 
-  const sparklineData = [
+  const recentAchievements = React.useMemo(() =>
+    getRecentAchievements(3), [achievements]);
+
+  const sparklineData = React.useMemo(() => [
     { value: 10 },
     { value: 20 },
     { value: 15 },
@@ -65,7 +70,7 @@ const DashboardPage: React.FC = () => {
     { value: 25 },
     { value: 35 },
     { value: stats.purchasedAppsCount || 0 },
-  ];
+  ], [stats.purchasedAppsCount]);
   // Debug: Check if we have basic data
   console.log("[DashboardPage] User:", user, "Stats:", stats, "Preferences:", preferences);
 
@@ -204,7 +209,9 @@ const DashboardPage: React.FC = () => {
 
               {/* Onboarding Progress */}
               <div className="mb-8">
-                <OnboardingProgressTracker />
+                <ErrorBoundary fallback={<div></div>}>
+                  <OnboardingProgressTracker />
+                </ErrorBoundary>
               </div>
 
               {/* Enhanced Stats */}
@@ -220,23 +227,17 @@ const DashboardPage: React.FC = () => {
                     <p className="text-gray-400 text-sm">Stats unavailable</p>
                   </div>
                 }>
-                  <Suspense fallback={
-                    <div className="bg-gray-800/50 rounded-lg p-4 text-center">
-                      <Loader2 className="h-6 w-6 animate-spin mx-auto text-primary-500" />
-                    </div>
-                  }>
-                    <EnhancedStatCard
-                      title="Tools Available"
-                      value={stats.purchasedAppsCount}
-                      icon={Zap}
-                      sparklineData={sparklineData}
-                      loading={statsLoading}
-                      error={statsError}
-                      change={15}
-                      changeLabel="vs last month"
-                      color="#6366f1"
-                    />
-                  </Suspense>
+                  <EnhancedStatCard
+                    title="Tools Available"
+                    value={stats.purchasedAppsCount}
+                    icon={Zap}
+                    sparklineData={sparklineData}
+                    loading={statsLoading}
+                    error={statsError}
+                    change={15}
+                    changeLabel="vs last month"
+                    color="#6366f1"
+                  />
                 </ErrorBoundary>
 
                 <ErrorBoundary fallback={
@@ -245,22 +246,16 @@ const DashboardPage: React.FC = () => {
                     <p className="text-gray-400 text-sm">Stats unavailable</p>
                   </div>
                 }>
-                  <Suspense fallback={
-                    <div className="bg-gray-800/50 rounded-lg p-4 text-center">
-                      <Loader2 className="h-6 w-6 animate-spin mx-auto text-primary-500" />
-                    </div>
-                  }>
-                    <EnhancedStatCard
-                      title="Videos Created"
-                      value={stats.videosCreated}
-                      icon={Video}
-                      loading={statsLoading}
-                      error={statsError}
-                      change={stats.videosCreated > 0 ? 25 : 0}
-                      changeLabel="vs last month"
-                      color="#8b5cf6"
-                    />
-                  </Suspense>
+                  <EnhancedStatCard
+                    title="Videos Created"
+                    value={stats.videosCreated}
+                    icon={Video}
+                    loading={statsLoading}
+                    error={statsError}
+                    change={stats.videosCreated > 0 ? 25 : 0}
+                    changeLabel="vs last month"
+                    color="#8b5cf6"
+                  />
                 </ErrorBoundary>
 
                 <ErrorBoundary fallback={
@@ -269,23 +264,17 @@ const DashboardPage: React.FC = () => {
                     <p className="text-gray-400 text-sm">Stats unavailable</p>
                   </div>
                 }>
-                  <Suspense fallback={
-                    <div className="bg-gray-800/50 rounded-lg p-4 text-center">
-                      <Loader2 className="h-6 w-6 animate-spin mx-auto text-primary-500" />
-                    </div>
-                  }>
-                    <EnhancedStatCard
-                      title="Productivity Boost"
-                      value={timeSavedPercentage}
-                      suffix="%"
-                      icon={Award}
-                      loading={statsLoading}
-                      error={statsError}
-                      change={timeSavedPercentage > 0 ? 10 : 0}
-                      changeLabel="vs last month"
-                      color="#10b981"
-                    />
-                  </Suspense>
+                  <EnhancedStatCard
+                    title="Productivity Boost"
+                    value={timeSavedPercentage}
+                    suffix="%"
+                    icon={Award}
+                    loading={statsLoading}
+                    error={statsError}
+                    change={timeSavedPercentage > 0 ? 10 : 0}
+                    changeLabel="vs last month"
+                    color="#10b981"
+                  />
                 </ErrorBoundary>
               </motion.div>
 
@@ -336,21 +325,7 @@ const DashboardPage: React.FC = () => {
           </Suspense>
         </ErrorBoundary>
 
-        {/* Dashboard Contact Section */}
-        <ErrorBoundary fallback={
-          <div className="bg-blue-900/20 border border-blue-700 rounded-lg p-6 text-center">
-            <AlertTriangle className="h-8 w-8 text-blue-500 mx-auto mb-2" />
-            <p className="text-blue-400">Contact section temporarily unavailable</p>
-          </div>
-        }>
-          <Suspense fallback={
-            <div className="bg-gray-800/30 rounded-lg p-4 text-center">
-              <Loader2 className="h-6 w-6 animate-spin mx-auto text-primary-500" />
-            </div>
-          }>
-            <DashboardContactSection />
-          </Suspense>
-        </ErrorBoundary>
+
       </main>
     </>
   );

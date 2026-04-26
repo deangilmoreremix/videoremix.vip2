@@ -82,17 +82,29 @@ async function handleRequest(req: Request, supabase: any) {
   const isBulk = url.searchParams.get("bulk") === "true";
 
   if (req.method === "GET") {
-    const { data: authUsers, error: authError } = await supabase.auth.admin.listUsers();
+    // Fetch ALL users with pagination (not just first 50)
+    let allUsers = [];
+    let page = 1;
+    const perPage = 1000;
+    while (true) {
+      const { data: authUsersPage, error: authError } = await supabase.auth.admin.listUsers({ page, perPage });
 
-    if (authError) {
-      return new Response(
-        JSON.stringify({ success: false, error: authError.message }),
-        {
-          status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
+      if (authError) {
+        return new Response(
+          JSON.stringify({ success: false, error: authError.message }),
+          {
+            status: 500,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
+
+      allUsers = allUsers.concat(authUsersPage.users);
+      if (authUsersPage.users.length < perPage) break;
+      page++;
     }
+
+    const authUsers = { users: allUsers };
 
     const { data: roles } = await supabase
       .from("user_roles")

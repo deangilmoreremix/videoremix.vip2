@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" 
+     xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-sales-page-builder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#2d2a4a"/>
+    </linearGradient>
+    <radialGradient id="glow-sales-page-builder" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" style="stop-color:#4ECDC4;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#4ECDC4;stop-opacity:0"/>
+    </radialGradient>
+    <filter id="shadow-sales-page-builder">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="rgba(0,0,0,0.3)"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg-sales-page-builder)"/>
+  
+  <!-- Scene Environment -->
+  
+    <!-- Creative Agency -->
+    <rect x="0" y="300" width="800" height="300" fill="#F8F9FA"/>
+    <rect x="0" y="250" width="800" height="50" fill="#E9ECEF"/>
+    
+    <!-- Collaborative Desks -->
+    <rect x="100" y="380" width="200" height="15" fill="#8B4513" rx="2"/>
+    <rect x="500" y="380" width="200" height="15" fill="#8B4513" rx="2"/>
+    
+    <!-- Design References on Wall -->
+    <rect x="50" y="100" width="80" height="60" fill="#FFFFFF" stroke="#BDC3C7" stroke-width="2"/>
+    <rect x="150" y="100" width="80" height="60" fill="#FFFFFF" stroke="#BDC3C7" stroke-width="2"/>
+    <rect x="50" y="180" width="80" height="60" fill="#FFFFFF" stroke="#BDC3C7" stroke-width="2"/>
+    
+    <!-- Design Tools -->
+    <rect x="120" y="370" width="20" height="8" fill="#E74C3C"/>
+    <rect x="150" y="370" width="20" height="8" fill="#F39C12"/>
+    <rect x="180" y="370" width="20" height="8" fill="#27AE60"/>
+    <rect x="210" y="370" width="20" height="8" fill="#3498DB"/>
+    
+    <!-- Coffee Cups -->
+    <ellipse cx="550" cy="365" rx="12" ry="6" fill="#8B4513"/>
+    <rect x="538" cy="360" width="24" height="15" fill="transparent" stroke="#8B4513" stroke-width="2"/>
+    
+    <ellipse cx="650" cy="365" rx="12" ry="6" fill="#8B4513"/>
+    <rect x="638" cy="360" width="24" height="15" fill="transparent" stroke="#8B4513" stroke-width="2"/>
+  
+  
+  <!-- Software Interface -->
+  
+    <!-- Page Builder Interface -->
+    <rect x="320" y="290" width="160" height="80" fill="#FFFFFF" stroke="#E1E8ED" stroke-width="1" rx="3"/>
+    <rect x="330" y="300" width="140" height="15" fill="#F8F9FA" stroke="#BDC3C7" stroke-width="1" rx="1"/>
+    <text x="400" y="312" text-anchor="middle" font-family="Arial" font-size="8" fill="#2C3E50">Headline</text>
+    <rect x="330" y="325" width="140" height="25" fill="#F8F9FA" stroke="#BDC3C7" stroke-width="1" rx="1"/>
+    <rect x="335" y="330" width="50" height="4" fill="#E1E8ED" rx="1"/>
+    <rect x="335" y="340" width="60" height="4" fill="#E1E8ED" rx="1"/>
+    <rect x="335" y="345" width="40" height="4" fill="#E1E8ED" rx="1"/>
+    <rect x="330" y="355" width="60" height="12" fill="#667EEA" rx="2"/>
+    <text x="360" y="365" text-anchor="middle" font-family="Arial" font-size="8" fill="white">Buy Now</text>
+  
+  
+  <!-- Person using the software -->
+  
+    <!-- Digital Marketer -->
+    <circle cx="380" cy="220" r="18" fill="#FDBCB4"/>
+    <circle cx="370" cy="210" r="3" fill="#2C3E50"/>
+    <circle cx="390" cy="210" r="3" fill="#2C3E50"/>
+    <path d="M375,225 Q380,235 385,225" stroke="#E8B4A2" stroke-width="2" fill="none"/>
+    <rect x="365" y="240" width="30" height="40" fill="#F39C12"/>
+    <rect x="370" y="280" width="20" height="30" fill="#34495E"/>
+  
+  
+  <!-- Glow effect around interface -->
+  <ellipse cx="400" cy="270" rx="180" ry="140" fill="url(#glow-sales-page-builder)"/>
+  
+  <!-- App name overlay -->
+  <rect x="0" y="480" width="800" height="120" fill="url(#bg-sales-page-builder)" opacity="0.9"/>
+  <linearGradient id="textFade-sales-page-builder" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:0"/>
+    <stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:0.8"/>
+  </linearGradient>
+  <rect x="0" y="480" width="800" height="40" fill="url(#textFade-sales-page-builder)"/>
+  
+  <!-- App name -->
+  <text x="400" y="550" 
+        text-anchor="middle" 
+        font-family="Arial, sans-serif" 
+        font-size="24" 
+        font-weight="700" 
+        fill="white"
+        filter="url(#shadow-sales-page-builder)">Sales Page Builder</text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="575" 
+        text-anchor="middle" 
+        font-family="Arial, sans-serif" 
+        font-size="14" 
+        font-weight="400" 
+        fill="#94a3b8">Professional AI Tool</text>
+  
+  <!-- Subtle texture overlay -->
+  <defs>
+    <pattern id="texture-sales-page-builder" patternUnits="userSpaceOnUse" width="40" height="40">
+      <rect width="40" height="40" fill="transparent"/>
+      <circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.03)"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#texture-sales-page-builder)"/>
+</svg>

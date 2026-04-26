@@ -309,24 +309,23 @@ const DashboardToolsSection: React.FC = () => {
     return appsData.filter((app) => featuredApps.includes(app.id));
   };
 
-  // Animated cards with staggered entrance
+  // Simplified animation variants for better performance
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.05,
-        delayChildren: 0.1,
+        staggerChildren: 0.02, // Reduced stagger for faster loading
+        delayChildren: 0.05,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
+    hidden: { opacity: 0 },
     show: {
-      y: 0,
       opacity: 1,
-      transition: { duration: 0.5 },
+      transition: { duration: 0.3 }, // Faster animation
     },
   };
 
@@ -382,7 +381,7 @@ const DashboardToolsSection: React.FC = () => {
               <>Browse available tools and start personalizing your content</>
             ) : (
               <>
-                VideoRemix.vip offers 50+ personalization tools that help you
+                VideoRemix.vip offers 20+ personalization apps that help you
                 create highly targeted, engaging content that resonates with
                 each specific viewer segment.
               </>
@@ -460,7 +459,7 @@ const DashboardToolsSection: React.FC = () => {
               </h3>
               <p className="text-gray-300 mb-6">
                 You've taken the first step toward creating highly personalized
-                content that converts. Browse our collection of 50+ AI-powered
+                content that converts. Browse our collection of 20+ AI-powered
                 personalization tools and see how they can transform your
                 marketing.
               </p>
@@ -795,7 +794,7 @@ const DashboardToolsSection: React.FC = () => {
                 className="flex space-x-4 px-1"
                 style={{ width: "max-content" }}
               >
-                {filteredApps.map((app) => {
+                {filteredApps.slice(0, 8).map((app) => { // Limit carousel to 8 apps
                   const appUrl = getAppUrl(app.id, appsData);
                   const isPurchased = user && hasAccessToApp(app.id);
                   const handleClick = (e: React.MouseEvent) => {
@@ -904,7 +903,7 @@ const DashboardToolsSection: React.FC = () => {
                     : "space-y-4"
                 }
               >
-                {filteredApps.map((app) => {
+                {filteredApps.slice(0, 12).map((app) => { // Limit to 12 apps for better performance
                   const appUrl = getAppUrl(app.id, appsData);
                   const isPurchased =
                     user && hasAccessToApp(app.slug || app.id);
@@ -1114,7 +1113,7 @@ const DashboardToolsSection: React.FC = () => {
             </MagicSparkles>
 
             <p className="text-gray-300 mb-8">
-              Get unlimited access to all 50+ personalization tools and create
+              Get unlimited access to all 20+ personalization apps and create
               content that delivers 3x better results than generic videos.
             </p>
 

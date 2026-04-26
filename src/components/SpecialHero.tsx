@@ -94,14 +94,14 @@ const SpecialHero: React.FC = () => {
 
               <p className="text-xl md:text-2xl text-gray-300 mb-8">
                 The professional platform for creating personalized marketing at
-                scale. 50+ AI-powered tools help you deliver the right message
+                scale. 20+ AI-powered apps help you deliver the right message
                 to the right audience segment.
               </p>
 
               <div className="space-y-4 mb-8">
                 {[
                   "AI-powered personalization for marketing content and campaigns",
-                  "50+ marketing personalization tools for marketers and businesses",
+                  "20+ marketing personalization apps for marketers and businesses",
                   "Create personalized campaigns in minutes, not hours",
                   "Increase marketing ROI with audience-specific content",
                 ].map((benefit, index) => (
