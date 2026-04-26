@@ -58,6 +58,10 @@ const MagicSparkles: React.FC<MagicSparklesProps> = ({
 }) => {
   const { prefersReducedMotion, lowPowerMode } = useAnimationContext();
 
+  // Temporarily disable animations to prevent infinite re-render issues
+  // TODO: Fix the infinite loop in sparkle animation logic
+  const animationsDisabled = true;
+
   // Get a random number of sparkles between min and max (memoized to prevent re-renders)
   const sparkleCount = useMemo(() => Math.floor(
     Math.random() * (maxSparkles - minSparkles + 1) + minSparkles,
@@ -131,8 +135,8 @@ const MagicSparkles: React.FC<MagicSparklesProps> = ({
     lowPowerMode,
   ]);
 
-  // Don't render animations for reduced motion or low power
-  if (prefersReducedMotion || lowPowerMode) {
+  // Don't render animations for reduced motion, low power, or when disabled
+  if (prefersReducedMotion || lowPowerMode || animationsDisabled) {
     return <div className={`relative ${className}`}>{children}</div>;
   }
 
