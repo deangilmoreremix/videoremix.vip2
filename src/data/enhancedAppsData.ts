@@ -24,6 +24,7 @@ import {
   Target,
   BarChart2,
   Briefcase,
+  Award,
 } from "lucide-react";
 
 export const enhancedAppDetails: Record<string, any> = {
