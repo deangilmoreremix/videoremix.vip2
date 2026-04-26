@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
 
@@ -5,90 +6,88 @@ dotenv.config()
 
 const supabase = createClient(
   process.env.VITE_SUPABASE_URL,
-  process.env.VITE_SUPABASE_ANON_KEY
+  process.env.VITE_SUPABASE_ANON_KEY,
+  {
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
+    }
+  }
 )
 
+console.log('🔍 Session Persistence Test\n')
+
 async function testSessionPersistence() {
-  console.log('🔐 Testing Session Persistence Over Time\n')
+  console.log('Testing session persistence and logout prevention...')
 
-  const testEmail = `session-test-${Date.now()}@example.com`
-  const testPassword = 'TestPass123!'
+  // Test 1: Login
+  console.log('\n1️⃣ Testing login...')
+  const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+    email: process.env.TEST_USER_EMAIL || 'test@example.com',
+    password: process.env.TEST_USER_PASSWORD || 'password123'
+  })
 
-  try {
-    // 1. Sign up user
-    console.log('📝 Step 1: Creating test user...')
-    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-      email: testEmail,
-      password: testPassword,
-      options: {
-        data: { full_name: 'Session Test User' },
-        emailConfirm: false
-      }
-    })
-
-    if (signUpError) {
-      console.log('   ❌ Sign up failed:', signUpError.message)
+  if (signInError) {
+    console.log('   ❌ Login failed:', signInError.message)
+    if (signInError.message.includes('Email not confirmed')) {
+      console.log('   ℹ️  User needs email confirmation')
       return
     }
+    return
+  }
 
-    console.log('   ✅ User created:', signUpData.user?.id)
+  console.log('   ✅ Login successful')
+  console.log('   User:', signInData.user?.email)
+  console.log('   Expires:', new Date((signInData.session?.expires_at || 0) * 1000).toISOString())
 
-    // 2. Sign in
-    console.log('\n🔑 Step 2: Signing in...')
-    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
-      email: testEmail,
-      password: testPassword
-    })
+  // Test 2: Check session persistence
+  console.log('\n2️⃣ Testing session persistence...')
+  await new Promise(resolve => setTimeout(resolve, 2000)) // Wait 2 seconds
 
-    if (signInError) {
-      console.log('   ❌ Sign in failed:', signInError.message)
-      return
-    }
+  const { data: { session: persistedSession }, error: sessionError } = await supabase.auth.getSession()
 
-    console.log('   ✅ Signed in successfully')
-    console.log('   Session expires at:', signInData.session?.expires_at ? new Date(signInData.session.expires_at * 1000).toISOString() : 'N/A')
+  if (sessionError) {
+    console.log('   ❌ Session check failed:', sessionError.message)
+  } else if (persistedSession) {
+    console.log('   ✅ Session persisted')
+    console.log('   Still expires:', new Date(persistedSession.expires_at * 1000).toISOString())
+  } else {
+    console.log('   ❌ Session lost immediately')
+  }
 
-    // 3. Test session persistence over time
-    console.log('\n⏱️  Step 3: Testing session persistence...')
+  // Test 3: Test refresh
+  console.log('\n3️⃣ Testing session refresh...')
+  const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession()
 
-    for (let i = 0; i < 5; i++) {
-      await new Promise(resolve => setTimeout(resolve, 2000)) // Wait 2 seconds
+  if (refreshError) {
+    console.log('   ❌ Refresh failed:', refreshError.message)
+  } else if (refreshData.session) {
+    console.log('   ✅ Refresh successful')
+    console.log('   New expiry:', new Date(refreshData.session.expires_at * 1000).toISOString())
+  } else {
+    console.log('   ❌ Refresh returned no session')
+  }
 
-      const { data: { session }, error } = await supabase.auth.getSession()
+  // Test 4: Test logout
+  console.log('\n4️⃣ Testing logout...')
+  const { error: signOutError } = await supabase.auth.signOut()
 
-      const now = new Date()
-      console.log(`   Check ${i + 1} (${now.toISOString()}):`, {
-        hasSession: !!session,
-        userId: session?.user?.id,
-        expiresAt: session?.expires_at ? new Date(session.expires_at * 1000).toISOString() : null,
-        timeUntilExpiry: session?.expires_at ? (session.expires_at * 1000 - now.getTime()) / 1000 : null,
-        error: error?.message
-      })
+  if (signOutError) {
+    console.log('   ❌ Logout failed:', signOutError.message)
+  } else {
+    console.log('   ✅ Logout successful')
+  }
 
-      if (!session) {
-        console.log('   ❌ Session lost!')
-        break
-      }
-    }
+  // Test 5: Verify logout persistence
+  console.log('\n5️⃣ Verifying logout...')
+  const { data: { session: finalSession } } = await supabase.auth.getSession()
 
-    // 4. Test manual refresh
-    console.log('\n🔄 Step 4: Testing manual session refresh...')
-    const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession()
-
-    console.log('   Refresh result:', {
-      success: !refreshError,
-      newExpiresAt: refreshData.session?.expires_at ? new Date(refreshData.session.expires_at * 1000).toISOString() : null,
-      error: refreshError?.message
-    })
-
-    // 5. Clean up
-    console.log('\n🧹 Step 5: Cleaning up...')
-    await supabase.auth.signOut()
-    console.log('   ✅ Signed out')
-
-  } catch (error) {
-    console.error('❌ Test failed:', error.message)
+  if (finalSession) {
+    console.log('   ❌ Session still exists after logout')
+  } else {
+    console.log('   ✅ Session properly cleared after logout')
   }
 }
 
-testSessionPersistence()
+testSessionPersistence().catch(console.error)

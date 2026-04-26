@@ -69,8 +69,8 @@ interface AuthProviderProps {
 }
 
 // Constants
-const SESSION_REFRESH_THRESHOLD_MS = 5 * 60 * 1000; // 5 minutes before expiry (less aggressive)
-const SESSION_CHECK_INTERVAL_MS = 60 * 1000; // Check every 60 seconds (less frequent)
+const SESSION_REFRESH_THRESHOLD_MS = 10 * 60 * 1000; // 10 minutes before expiry (more conservative)
+const SESSION_CHECK_INTERVAL_MS = 5 * 60 * 1000; // Check every 5 minutes (less frequent)
 const STORAGE_KEY_SESSION = "sb-session-state";
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
@@ -151,7 +151,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         // Only clear session on critical errors, not network issues
         if (refreshError.message.includes("Invalid refresh token") ||
-            refreshError.message.includes("refresh_token_not_found")) {
+            refreshError.message.includes("refresh_token_not_found") ||
+            refreshError.message.includes("JWT expired")) {
           console.log("[Auth] Critical refresh error - clearing session");
           handleAuthError(refreshError, "refreshSession");
           if (mountedRef.current) {
@@ -160,8 +161,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setAuthState("unauthenticated");
           }
           return false;
+        } else if (refreshError.message.includes("fetch") ||
+                   refreshError.message.includes("network") ||
+                   refreshError.message.includes("Failed to fetch")) {
+          // For network errors, retry once after a short delay
+          console.log("[Auth] Network error during refresh, will retry once");
+          await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds
+
+          const { data: retryData, error: retryError } = await supabase.auth.refreshSession();
+          if (retryError) {
+            console.log("[Auth] Retry also failed, keeping existing session");
+            return false;
+          }
+
+          if (mountedRef.current && retryData.session) {
+            console.log("[Auth] Retry successful");
+            setSession(retryData.session);
+            setUser(retryData.session.user);
+            setAuthState("authenticated");
+            return true;
+          }
         } else {
-          // For network errors or temporary issues, don't clear session
+          // For other temporary issues, don't clear session
           console.log("[Auth] Non-critical refresh error, keeping existing session");
           return false;
         }
@@ -172,6 +193,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setSession(data.session);
         setUser(data.session.user);
         setAuthState("authenticated");
+
+        // Update session hint
+        try {
+          sessionStorage.setItem(STORAGE_KEY_SESSION, JSON.stringify({
+            userId: data.session.user.id,
+            expiresAt: data.session.expires_at,
+          }));
+        } catch {
+          // Ignore storage errors
+        }
+
         return true;
       }
 
@@ -183,13 +215,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // Only clear session on authentication errors, not network errors
       const errorMessage = err instanceof Error ? err.message : String(err);
       if (errorMessage.includes("Invalid refresh token") ||
-          errorMessage.includes("refresh_token_not_found")) {
+          errorMessage.includes("refresh_token_not_found") ||
+          errorMessage.includes("JWT expired")) {
         handleAuthError(err, "refreshSession");
         if (mountedRef.current) {
           setSession(null);
           setUser(null);
           setAuthState("unauthenticated");
         }
+      } else {
+        console.log("[Auth] Non-critical exception during refresh, keeping session");
       }
       return false;
     } finally {
@@ -224,8 +259,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             // Check if the session is already expired
             const now = Date.now();
             const expiresAt = initialSession.expires_at * 1000;
+            const timeUntilExpiry = expiresAt - now;
 
-            if (expiresAt > now) {
+            if (timeUntilExpiry > 60000) { // More than 1 minute left
               // Session is still valid
               setSession(initialSession);
               setUser(initialSession.user);
@@ -240,12 +276,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               } catch {
                 // Ignore storage errors
               }
+            } else if (timeUntilExpiry > 0) {
+              // Session expires soon, try to refresh immediately
+              console.log("[Auth] Initial session expires soon, attempting immediate refresh");
+              setSession(initialSession); // Set temporarily
+              setUser(initialSession.user);
+              setAuthState("authenticated");
+
+              // Try to refresh in background
+              refreshSession().catch(err => {
+                console.error("[Auth] Background refresh failed:", err);
+              });
             } else {
-              // Session is expired
-              console.log("[Auth] Initial session is expired, clearing");
-              setSession(null);
-              setUser(null);
-              setAuthState("unauthenticated");
+              // Session is expired, try to refresh once
+              console.log("[Auth] Initial session is expired, attempting refresh");
+              const refreshSuccess = await refreshSession();
+              if (!refreshSuccess) {
+                setSession(null);
+                setUser(null);
+                setAuthState("unauthenticated");
+              }
             }
           } else {
             setSession(null);
@@ -343,16 +393,33 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     subscriptionRef.current = data.subscription;
 
-    // Set up periodic session check (less aggressive)
+    // Set up periodic session check (less aggressive, more robust)
     sessionCheckIntervalRef.current = setInterval(async () => {
       if (!mounted) return;
 
       try {
         // Get current session directly - avoids stale closure
-        const { data: { session: currentSession } } = await supabase.auth.getSession();
+        const { data: { session: currentSession }, error } = await supabase.auth.getSession();
+
+        // Don't clear session on network errors - be more forgiving
+        if (error) {
+          if (error.message.includes('fetch') || error.message.includes('network')) {
+            console.log("[Auth] Network error during session check, keeping existing session");
+            return;
+          }
+        }
 
         // Only log if there are issues or significant changes
         if (!currentSession && session) {
+          // Only clear if we're sure the session is gone (not just a network issue)
+          // Check if we have a stored session hint that might indicate persistence issues
+          const storedHint = sessionStorage.getItem(STORAGE_KEY_SESSION);
+          if (storedHint) {
+            console.log("[Auth] Session lost but storage hint exists, attempting refresh");
+            await refreshSession();
+            return;
+          }
+
           console.log("[Auth] Session lost during periodic check - clearing state");
           if (mounted) {
             setSession(null);
@@ -387,6 +454,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
       } catch (error) {
         console.error("[Auth] Error during periodic session check:", error);
+        // Don't clear session on exceptions - be conservative
       }
     }, SESSION_CHECK_INTERVAL_MS);
 
@@ -395,35 +463,62 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (document.visibilityState === "visible" && mounted) {
         console.log("[Auth] Tab became visible, checking session...");
 
-        // Verify session is still valid
-        const { data: { session: currentSession } } = await supabase.auth.getSession();
+        try {
+          // Verify session is still valid
+          const { data: { session: currentSession }, error } = await supabase.auth.getSession();
 
-        if (currentSession) {
-          // Check if session expired while tab was hidden
-          const expiresAt = currentSession.expires_at;
-          const now = Date.now();
-          const expiresAtMs = expiresAt ? expiresAt * 1000 : 0;
-
-          if (expiresAt && expiresAtMs < now) {
-            console.log("[Auth] Session expired while tab was hidden");
-            setSession(null);
-            setUser(null);
-            setAuthState("unauthenticated");
-          } else {
-            // Only update if session actually changed
-            if (!session || session.access_token !== currentSession.access_token) {
-              console.log("[Auth] Session still valid, updating state");
-              setSession(currentSession);
-              setUser(currentSession.user);
-              setAuthState("authenticated");
+          if (error) {
+            if (error.message.includes('fetch') || error.message.includes('network')) {
+              console.log("[Auth] Network error on tab focus, keeping existing session");
+              return;
             }
           }
-        } else {
-          // Session was cleared (possibly signed out in another tab)
-          console.log("[Auth] No session found on tab focus");
-          setSession(null);
-          setUser(null);
-          setAuthState("unauthenticated");
+
+          if (currentSession) {
+            // Check if session expired while tab was hidden
+            const expiresAt = currentSession.expires_at;
+            const now = Date.now();
+            const expiresAtMs = expiresAt ? expiresAt * 1000 : 0;
+
+            if (expiresAt && expiresAtMs < now) {
+              console.log("[Auth] Session expired while tab was hidden, attempting refresh");
+              const refreshSuccess = await refreshSession();
+              if (!refreshSuccess) {
+                setSession(null);
+                setUser(null);
+                setAuthState("unauthenticated");
+              }
+            } else {
+              // Only update if session actually changed
+              if (!session || session.access_token !== currentSession.access_token) {
+                console.log("[Auth] Session still valid, updating state");
+                setSession(currentSession);
+                setUser(currentSession.user);
+                setAuthState("authenticated");
+              }
+            }
+          } else {
+            // Check if we have a stored session hint that might indicate the session should still be valid
+            const storedHint = sessionStorage.getItem(STORAGE_KEY_SESSION);
+            if (storedHint && session) {
+              console.log("[Auth] No session found but storage hint exists, attempting refresh");
+              const refreshSuccess = await refreshSession();
+              if (!refreshSuccess) {
+                setSession(null);
+                setUser(null);
+                setAuthState("unauthenticated");
+              }
+            } else {
+              // Session was cleared (possibly signed out in another tab)
+              console.log("[Auth] No session found on tab focus");
+              setSession(null);
+              setUser(null);
+              setAuthState("unauthenticated");
+            }
+          }
+        } catch (err) {
+          console.error("[Auth] Error during visibility change check:", err);
+          // Don't clear session on errors
         }
 
         setLoading(false);
