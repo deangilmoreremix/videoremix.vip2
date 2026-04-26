@@ -1,0 +1,120 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "VideoRemix.vip AI MARKETING PLATFORM" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e10]
+        - generic [ref=e13]:
+          - text: VideoRemix.vip
+          - generic [ref=e14]: AI MARKETING PLATFORM
+      - generic [ref=e15]:
+        - button "Search... K" [ref=e16] [cursor=pointer]:
+          - img [ref=e17]
+          - generic [ref=e20]: Search...
+          - generic [ref=e21]:
+            - img [ref=e22]
+            - generic [ref=e24]: K
+        - button "Tools" [ref=e26] [cursor=pointer]:
+          - text: Tools
+          - img [ref=e27]
+        - link "Pricing" [ref=e29] [cursor=pointer]:
+          - /url: /pricing
+        - link "Dashboard" [ref=e30] [cursor=pointer]:
+          - /url: /dashboard
+        - link "FAQ" [ref=e31] [cursor=pointer]:
+          - /url: /faq
+        - generic [ref=e32]:
+          - link "Sign In" [ref=e33] [cursor=pointer]:
+            - /url: /signin
+          - link "Sign Up" [ref=e35] [cursor=pointer]:
+            - /url: /signup
+  - button "Enable sound effects" [ref=e36] [cursor=pointer]:
+    - img [ref=e37]
+  - generic [ref=e40]:
+    - generic [ref=e43]:
+      - img [ref=e44]
+      - generic [ref=e49]: "567"
+      - text: people online now
+    - generic [ref=e64]: Activity will appear here...
+    - link "View all activity" [ref=e51] [cursor=pointer]:
+      - /url: "#activity"
+      - text: View all activity
+      - img [ref=e52]
+  - generic [ref=e55]:
+    - heading "AI Assistant" [level=3] [ref=e56]
+    - paragraph [ref=e57]: AI assistant component placeholder
+  - main [ref=e65]:
+    - generic [ref=e70]:
+      - link "Back to home" [ref=e72] [cursor=pointer]:
+        - /url: /
+        - img [ref=e73]
+        - text: Back to home
+      - generic [ref=e75]:
+        - link "VideoRemix.vip Marketing Personalization Platform" [ref=e76] [cursor=pointer]:
+          - /url: /
+          - img [ref=e79]
+          - generic [ref=e82]:
+            - generic [ref=e83]: VideoRemix.vip
+            - generic [ref=e84]: Marketing Personalization Platform
+        - heading "Start Your Journey" [level=1] [ref=e86]
+        - paragraph [ref=e87]: Join thousands using personalized marketing to scale their business
+      - generic [ref=e88]:
+        - generic [ref=e89]:
+          - generic [ref=e90]:
+            - generic [ref=e91]:
+              - generic [ref=e92]: First Name
+              - textbox "First Name" [ref=e93]:
+                - /placeholder: John
+            - generic [ref=e94]:
+              - generic [ref=e95]: Last Name
+              - textbox "Last Name" [ref=e96]:
+                - /placeholder: Doe
+          - generic [ref=e97]:
+            - generic [ref=e98]: Email Address
+            - textbox "Email Address" [ref=e99]:
+              - /placeholder: your@email.com
+          - generic [ref=e100]:
+            - generic [ref=e101]: Password
+            - generic [ref=e102]:
+              - textbox "Password" [ref=e103]:
+                - /placeholder: Create a password (min. 6 characters)
+              - button [ref=e104] [cursor=pointer]:
+                - img [ref=e105]
+          - generic [ref=e108]:
+            - generic [ref=e109]: Confirm Password
+            - generic [ref=e110]:
+              - textbox "Confirm Password" [ref=e111]:
+                - /placeholder: Confirm your password
+              - button [ref=e112] [cursor=pointer]:
+                - img [ref=e113]
+          - generic [ref=e116]:
+            - text: By creating an account, you agree to our
+            - link "Terms of Service" [ref=e117] [cursor=pointer]:
+              - /url: /terms
+            - text: and
+            - link "Privacy Policy" [ref=e118] [cursor=pointer]:
+              - /url: /privacy
+          - button "Create Account" [ref=e119] [cursor=pointer]:
+            - text: Create Account
+            - img [ref=e120]
+        - paragraph [ref=e124]:
+          - text: Already have an account?
+          - link "Sign in" [ref=e125] [cursor=pointer]:
+            - /url: /signin
+      - generic [ref=e126]:
+        - heading "Start your account today" [level=3] [ref=e127]:
+          - img [ref=e128]
+          - text: Start your account today
+        - list [ref=e131]:
+          - listitem [ref=e132]:
+            - generic [ref=e133]: ✓
+            - generic [ref=e134]: No credit card required to start
+          - listitem [ref=e135]:
+            - generic [ref=e136]: ✓
+            - generic [ref=e137]: Access to 37+ marketing tools immediately
+          - listitem [ref=e138]:
+            - generic [ref=e139]: ✓
+            - generic [ref=e140]: Create personalized campaigns in minutes
+          - listitem [ref=e141]:
+            - generic [ref=e142]: ✓
+            - generic [ref=e143]: Join thousands of successful marketers
