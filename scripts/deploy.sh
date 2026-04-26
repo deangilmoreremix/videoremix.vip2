@@ -59,11 +59,23 @@ deploy_netlify() {
 
         if [ $? -eq 0 ]; then
             echo -e "${GREEN}✅ Netlify deployment completed${NC}"
+            echo ""
+            echo "🚀 Deployment successful! To see changes immediately:"
+            echo "1. Hard refresh your browser: Ctrl+F5 (or Cmd+Shift+R on Mac)"
+            echo "2. Or open in incognito/private mode"
+            echo "3. Clear browser cache if issues persist"
+            echo ""
+            echo "📋 Cache Clearing Instructions:"
+            echo "Chrome/Edge: Ctrl+Shift+Delete → Cached images and files → Clear"
+            echo "Firefox: Ctrl+Shift+Delete → Cache → Clear"
+            echo ""
         else
-            echo -e "${YELLOW}⚠️  Netlify deployment failed, but continuing...${NC}"
+            echo -e "${RED}❌ Netlify deployment failed${NC}"
+            exit 1
         fi
     else
         echo -e "${YELLOW}⚠️  Netlify CLI not found, skipping Netlify deployment${NC}"
+        echo -e "${YELLOW}Install with: npm install -g netlify-cli${NC}"
     fi
 }
 

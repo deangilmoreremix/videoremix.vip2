@@ -26,6 +26,18 @@ import {
   Briefcase,
   Award,
   Clock,
+  Book,
+  Calendar,
+  Database,
+  DollarSign,
+  FileSignature,
+  Globe,
+  LayoutTemplate,
+  Mail,
+  Megaphone,
+  PencilRuler,
+  Scissors,
+  ShoppingBag,
 } from "lucide-react";
 
 export const enhancedAppDetails: Record<string, any> = {
