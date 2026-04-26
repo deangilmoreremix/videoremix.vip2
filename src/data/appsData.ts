@@ -270,6 +270,7 @@ const rawAppsData: App[] = [
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-url-video-generation-thumbnail.png",
     salesCopy: appSalesCopy['personalizer-url-video-generation'],
   },
+];
 
 // Export apps data with AI-generated thumbnails where available
 export const appsData: App[] = updateAppThumbnails(rawAppsData);

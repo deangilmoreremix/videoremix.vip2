@@ -1,0 +1,14 @@
+- generic [ref=e3]:
+  - generic [ref=e4]: "[plugin:vite:esbuild] Transform failed with 1 error: /workspaces/videoremix.vip2/src/data/appsData.ts:275:0: ERROR: Unexpected \"export\""
+  - generic [ref=e5]: /workspaces/videoremix.vip2/src/data/appsData.ts:275:0
+  - generic [ref=e6]: "Unexpected \"export\" 273 | 274 | // Export apps data with AI-generated thumbnails where available 275 | export const appsData: App[] = updateAppThumbnails(rawAppsData); | ^ 276 |"
+  - generic [ref=e7]: at failureErrorWithLog (/workspaces/videoremix.vip2/node_modules/esbuild/lib/main.js:1748:15) at /workspaces/videoremix.vip2/node_modules/esbuild/lib/main.js:1017:50 at responseCallbacks.<computed> (/workspaces/videoremix.vip2/node_modules/esbuild/lib/main.js:884:9) at handleIncomingPacket (/workspaces/videoremix.vip2/node_modules/esbuild/lib/main.js:939:12) at Socket.readFromStdout (/workspaces/videoremix.vip2/node_modules/esbuild/lib/main.js:862:7) at Socket.emit (node:events:508:28) at addChunk (node:internal/streams/readable:559:12) at readableAddChunkPushByteMode (node:internal/streams/readable:510:3) at Readable.push (node:internal/streams/readable:390:5) at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+  - generic [ref=e8]:
+    - text: Click outside, press Esc key, or fix the code to dismiss.
+    - text: You can also disable this overlay by setting
+    - code [ref=e9]: server.hmr.overlay
+    - text: to
+    - code [ref=e10]: "false"
+    - text: in
+    - code [ref=e11]: vite.config.ts
+    - text: .
