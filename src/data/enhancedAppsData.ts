@@ -25,6 +25,7 @@ import {
   BarChart2,
   Briefcase,
   Award,
+  Clock,
 } from "lucide-react";
 
 export const enhancedAppDetails: Record<string, any> = {
