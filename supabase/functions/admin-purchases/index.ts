@@ -109,8 +109,27 @@ Deno.serve(async (req: Request) => {
         try {
           let userId = null;
 
-          const { data: authUser } = await supabase.auth.admin.listUsers();
-          const existingUser = authUser?.users.find((u: any) => u.email === purchase.email);
+          // Check if user exists by fetching all users with pagination
+          let allUsers = [];
+          let page = 1;
+          const perPage = 1000;
+          let existingUser = null;
+
+          while (!existingUser) {
+            const { data: usersPage, error: listError } = await supabase.auth.admin.listUsers({ page, perPage });
+
+            if (listError) {
+              console.error('Error fetching users page', page, ':', listError);
+              break;
+            }
+
+            if (!usersPage?.users || usersPage.users.length === 0) break;
+
+            existingUser = usersPage.users.find((u: any) => u.email === purchase.email);
+
+            if (usersPage.users.length < perPage) break;
+            page++;
+          }
 
           if (existingUser) {
             userId = existingUser.id;

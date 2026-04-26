@@ -28,7 +28,7 @@ const workflowSteps = [
       "Automatic segmentation based on existing marketing data",
       "Create custom segments for specific marketing campaigns",
       "Import segments from CRM and marketing systems",
-      "Up to 50+ unique marketing audience segments supported",
+      "Up to 20+ unique marketing audience segments supported",
     ],
     color: "from-blue-500 to-indigo-600",
     icon: <Users className="h-10 w-10 text-white" />,
@@ -40,7 +40,7 @@ const workflowSteps = [
     id: "content-personalization",
     title: "Personalize Your Marketing Content",
     description:
-      "Choose from 50+ personalization tools to tailor your marketing videos, images, and copy for each audience segment.",
+      "Choose from 20+ personalization tools to tailor your marketing videos, images, and copy for each audience segment.",
     benefits: [
       "Personalized marketing visuals, text, and audio",
       "Dynamic content insertion based on prospect data",
@@ -357,7 +357,7 @@ const PersonalizationWorkflowSection: React.FC = () => {
                 icon: <Clock className="h-6 w-6 text-primary-400" />,
               },
               {
-                value: "50+",
+                value: "20+",
                 label: "Marketing personalization tools available",
                 icon: <Layers className="h-6 w-6 text-primary-400" />,
               },

@@ -365,7 +365,7 @@ const ToolsCarouselSection: React.FC = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
               One Platform.{" "}
               <span className="text-primary-400">
-                50+ Marketing Personalization Tools
+                20+ Marketing Personalization Apps
               </span>
             </h2>
           </MagicSparkles>

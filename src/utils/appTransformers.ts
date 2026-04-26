@@ -1,4 +1,4 @@
-import { getAppUrl as getCentralizedAppUrl } from "../config/appUrls";
+import { getAppUrl as getCentralizedAppUrl, getAppThumbnail } from "../config/appUrls";
 
 export interface DatabaseApp {
   id: string;
@@ -37,6 +37,14 @@ export interface ComponentApp {
   url?: string;
 }
 
+// Fallback images for when no custom thumbnail is available
+const FALLBACK_IMAGES = [
+  "https://images.unsplash.com/photo-1616469829941-c7200edec809?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+];
+
 // Get icon name for app (used by LazyIcon component)
 export const getIconNameForApp = (app: DatabaseApp): string => {
   // Check specific app slug first, then fall back to category
@@ -61,15 +69,32 @@ export const transformApp = (dbApp: DatabaseApp): ComponentApp => {
     appUrl = getCentralizedAppUrl(dbApp.slug);
   }
 
+  // Image URL Priority Order:
+  // 1. Custom AI-generated thumbnail from APP_THUMBNAILS (new SVG thumbnails)
+  // 2. Database image field
+  // 3. Fallback to curated Unsplash images
+  const customThumbnail = getAppThumbnail(dbApp.slug);
+  const appImage = dbApp.image;
+
+  let imageUrl: string;
+  if (customThumbnail) {
+    // Use our custom SVG thumbnail
+    imageUrl = customThumbnail;
+  } else if (appImage) {
+    imageUrl = appImage;
+  } else {
+    // Fallback to a deterministic Unsplash image based on slug
+    const fallbackIndex = dbApp.slug.charCodeAt(0) % FALLBACK_IMAGES.length;
+    imageUrl = FALLBACK_IMAGES[fallbackIndex];
+  }
+
   return {
     id: dbApp.slug,
     name: dbApp.name,
     description: dbApp.description || "",
     category: dbApp.category,
     iconName: getIconNameForApp(dbApp),
-    image:
-      dbApp.image ||
-      "https://images.unsplash.com/photo-1616469829941-c7200edec809?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: imageUrl,
     isActive: dbApp.is_active,
     isPublic: dbApp.is_public,
     popular: dbApp.popular || dbApp.is_featured,

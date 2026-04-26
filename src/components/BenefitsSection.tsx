@@ -129,7 +129,7 @@ const BenefitsSection: React.FC = () => {
       image: "https://randomuser.me/api/portraits/women/44.jpg",
       metrics: {
         conversion: "Time Saver",
-        engagement: "50+ Tools",
+        engagement: "20+ Apps",
         roi: "Worth It",
       },
     },

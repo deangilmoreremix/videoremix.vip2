@@ -1,0 +1,136 @@
+{
+  "generated": "2026-04-25T16:09:26.898Z",
+  "philosophy": "Neural Precision",
+  "canvas": {
+    "width": 800,
+    "height": 600
+  },
+  "apps": [
+    {
+      "id": "ai-personalized-content",
+      "name": "AI Personalized Content Hub",
+      "filename": "ai-personalized-content.svg",
+      "url": "/app-thumbnails/ai-personalized-content.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/ai-personalized-content.svg"
+    },
+    {
+      "id": "funnelcraft-ai",
+      "name": "FunnelCraft AI",
+      "filename": "funnelcraft-ai.svg",
+      "url": "/app-thumbnails/funnelcraft-ai.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/funnelcraft-ai.svg"
+    },
+    {
+      "id": "ai-skills-monetizer",
+      "name": "AI Skills Monetizer",
+      "filename": "ai-skills-monetizer.svg",
+      "url": "/app-thumbnails/ai-skills-monetizer.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/ai-skills-monetizer.svg"
+    },
+    {
+      "id": "ai-skills-resume",
+      "name": "AI Skills & Resume",
+      "filename": "ai-skills-resume.svg",
+      "url": "/app-thumbnails/ai-skills-resume.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/ai-skills-resume.svg"
+    },
+    {
+      "id": "sales-page-builder",
+      "name": "Sales Page Builder",
+      "filename": "sales-page-builder.svg",
+      "url": "/app-thumbnails/sales-page-builder.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/sales-page-builder.svg"
+    },
+    {
+      "id": "sales-assistant-pro",
+      "name": "Sales Assistant Pro",
+      "filename": "sales-assistant-pro.svg",
+      "url": "/app-thumbnails/sales-assistant-pro.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/sales-assistant-pro.svg"
+    },
+    {
+      "id": "ai-personalization-studio",
+      "name": "AI Personalization Studio",
+      "filename": "ai-personalization-studio.svg",
+      "url": "/app-thumbnails/ai-personalization-studio.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/ai-personalization-studio.svg"
+    },
+    {
+      "id": "ai-personalizer",
+      "name": "AI Personalizer",
+      "filename": "ai-personalizer.svg",
+      "url": "/app-thumbnails/ai-personalizer.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/ai-personalizer.svg"
+    },
+    {
+      "id": "ai-video-transformer",
+      "name": "AI Video Transformer",
+      "filename": "ai-video-transformer.svg",
+      "url": "/app-thumbnails/ai-video-transformer.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/ai-video-transformer.svg"
+    },
+    {
+      "id": "ai-screen-recorder",
+      "name": "AI Screen Recorder",
+      "filename": "ai-screen-recorder.svg",
+      "url": "/app-thumbnails/ai-screen-recorder.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/ai-screen-recorder.svg"
+    },
+    {
+      "id": "ai-signature",
+      "name": "AI Signature",
+      "filename": "ai-signature.svg",
+      "url": "/app-thumbnails/ai-signature.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/ai-signature.svg"
+    },
+    {
+      "id": "ai-thumbnail-generator",
+      "name": "AI Thumbnail Generator",
+      "filename": "ai-thumbnail-generator.svg",
+      "url": "/app-thumbnails/ai-thumbnail-generator.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/ai-thumbnail-generator.svg"
+    },
+    {
+      "id": "profile-gen",
+      "name": "Profile Gen",
+      "filename": "profile-gen.svg",
+      "url": "/app-thumbnails/profile-gen.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/profile-gen.svg"
+    },
+    {
+      "id": "ai-video-editor",
+      "name": "AI Video Editor",
+      "filename": "ai-video-editor.svg",
+      "url": "/app-thumbnails/ai-video-editor.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/ai-video-editor.svg"
+    },
+    {
+      "id": "ai-referral-maximizer-pro",
+      "name": "AI Referral Maximizer Pro",
+      "filename": "ai-referral-maximizer-pro.svg",
+      "url": "/app-thumbnails/ai-referral-maximizer-pro.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/ai-referral-maximizer-pro.svg"
+    },
+    {
+      "id": "ai-sales-maximizer",
+      "name": "AI Sales Maximizer",
+      "filename": "ai-sales-maximizer.svg",
+      "url": "/app-thumbnails/ai-sales-maximizer.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/ai-sales-maximizer.svg"
+    },
+    {
+      "id": "contentai",
+      "name": "ContentAI",
+      "filename": "contentai.svg",
+      "url": "/app-thumbnails/contentai.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/contentai.svg"
+    },
+    {
+      "id": "product-research-ai",
+      "name": "Product Research AI",
+      "filename": "product-research-ai.svg",
+      "url": "/app-thumbnails/product-research-ai.svg",
+      "path": "/workspaces/videoremix.vip2/public/app-thumbnails/product-research-ai.svg"
+    }
+  ]
+}

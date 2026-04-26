@@ -62,36 +62,9 @@ const mountApp = () => {
 
 // Register service worker for better resource management
 const registerServiceWorker = async () => {
-  if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
-    try {
-      const registration = await navigator.serviceWorker.register('/sw.js', {
-        scope: '/',
-      });
-
-      console.log('[SW] Service worker registered:', registration.scope);
-
-      // Handle updates
-      registration.addEventListener('updatefound', () => {
-        const newWorker = registration.installing;
-        if (newWorker) {
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              // New version available
-              console.log('[SW] New version available, consider refreshing');
-            }
-          });
-        }
-      });
-
-      // Handle messages from service worker
-      navigator.serviceWorker.addEventListener('message', (event) => {
-        console.log('[SW] Message from service worker:', event.data);
-      });
-
-    } catch (error) {
-      console.error('[SW] Service worker registration failed:', error);
-    }
-  }
+  // Temporarily disabled service worker registration to avoid conflicts
+  // TODO: Re-enable after resolving CSP and extension conflicts
+  console.log('[SW] Service worker registration disabled for debugging');
 };
 
 // Safely handle requestIdleCallback

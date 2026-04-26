@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" 
+     xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-ai-thumbnail-generator" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#2d2a4a"/>
+    </linearGradient>
+    <radialGradient id="glow-ai-thumbnail-generator" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" style="stop-color:#FFEAA7;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#FFEAA7;stop-opacity:0"/>
+    </radialGradient>
+    <filter id="shadow-ai-thumbnail-generator">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="rgba(0,0,0,0.3)"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg-ai-thumbnail-generator)"/>
+  
+  <!-- Scene Environment -->
+  
+    <!-- YouTube Creator Studio -->
+    <rect x="0" y="300" width="800" height="300" fill="#F8F9FA"/>
+    <rect x="0" y="250" width="800" height="50" fill="#E9ECEF"/>
+    
+    <!-- Ring Light -->
+    <circle cx="150" cy="200" r="40" fill="#FFF8DC" opacity="0.6"/>
+    <circle cx="150" cy="200" r="35" fill="none" stroke="#BDC3C7" stroke-width="3"/>
+    
+    <!-- Camera on Tripod -->
+    <rect x="130" y="250" width="40" height="60" fill="#34495E"/>
+    <circle cx="150" cy="240" r="12" fill="#2C3E50"/>
+    
+    <!-- Green Screen -->
+    <rect x="500" y="100" width="250" height="200" fill="#27AE60" opacity="0.7"/>
+    
+    <!-- Desk with Equipment -->
+    <rect x="200" y="380" width="400" height="20" fill="#8B4513" rx="2"/>
+    
+    <!-- Dual Monitors -->
+    <rect x="250" y="300" width="80" height="60" fill="#34495E" rx="3"/>
+    <rect x="260" y="310" width="60" height="40" fill="#2C3E50" rx="2"/>
+    
+    <rect x="450" y="300" width="80" height="60" fill="#34495E" rx="3"/>
+    <rect x="460" y="310" width="60" height="40" fill="#2C3E50" rx="2"/>
+    
+    <!-- Microphone -->
+    <rect x="350" y="320" width="3" height="50" fill="#BDC3C7"/>
+    <circle cx="351" cy="310" r="10" fill="#34495E"/>
+    
+    <!-- Thumbnail Mockups -->
+    <rect x="50" y="350" width="60" height="45" fill="#E74C3C"/>
+    <rect x="120" y="350" width="60" height="45" fill="#F39C12"/>
+    <text x="80" y="375" text-anchor="middle" font-family="Arial" font-size="10" fill="white">THUMBNAIL</text>
+    <text x="150" y="375" text-anchor="middle" font-family="Arial" font-size="10" fill="white">A/B TEST</text>
+  
+  
+  <!-- Software Interface -->
+  
+    <!-- Thumbnail Optimization Interface -->
+    <rect x="300" y="290" width="200" height="70" fill="#FFFFFF" stroke="#E1E8ED" stroke-width="1" rx="3"/>
+    <rect x="310" y="300" width="60" height="50" fill="#E74C3C"/>
+    <text x="340" y="330" text-anchor="middle" font-family="Arial" font-size="10" fill="white">A</text>
+    <rect x="380" y="300" width="60" height="50" fill="#F39C12"/>
+    <text x="410" y="330" text-anchor="middle" font-family="Arial" font-size="10" fill="white">B</text>
+    <rect x="450" y="300" width="40" height="50" fill="#27AE60"/>
+    <text x="470" y="330" text-anchor="middle" font-family="Arial" font-size="10" fill="white">C</text>
+    <rect x="310" y="355" width="180" height="8" fill="#E1E8ED" rx="1"/>
+  
+  
+  <!-- Person using the software -->
+  
+    <!-- Content Creator -->
+    <circle cx="380" cy="220" r="18" fill="#FDBCB4"/>
+    <circle cx="370" cy="210" r="3" fill="#2C3E50"/>
+    <circle cx="390" cy="210" r="3" fill="#2C3E50"/>
+    <path d="M375,225 Q380,235 385,225" stroke="#E8B4A2" stroke-width="2" fill="none"/>
+    <rect x="365" y="240" width="30" height="40" fill="#E74C3C"/>
+    <rect x="370" y="280" width="20" height="30" fill="#34495E"/>
+  
+  
+  <!-- Glow effect around interface -->
+  <ellipse cx="400" cy="270" rx="180" ry="140" fill="url(#glow-ai-thumbnail-generator)"/>
+  
+  <!-- App name overlay -->
+  <rect x="0" y="480" width="800" height="120" fill="url(#bg-ai-thumbnail-generator)" opacity="0.9"/>
+  <linearGradient id="textFade-ai-thumbnail-generator" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:0"/>
+    <stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:0.8"/>
+  </linearGradient>
+  <rect x="0" y="480" width="800" height="40" fill="url(#textFade-ai-thumbnail-generator)"/>
+  
+  <!-- App name -->
+  <text x="400" y="550" 
+        text-anchor="middle" 
+        font-family="Arial, sans-serif" 
+        font-size="24" 
+        font-weight="700" 
+        fill="white"
+        filter="url(#shadow-ai-thumbnail-generator)">AI Thumbnail Generator</text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="575" 
+        text-anchor="middle" 
+        font-family="Arial, sans-serif" 
+        font-size="14" 
+        font-weight="400" 
+        fill="#94a3b8">Professional AI Tool</text>
+  
+  <!-- Subtle texture overlay -->
+  <defs>
+    <pattern id="texture-ai-thumbnail-generator" patternUnits="userSpaceOnUse" width="40" height="40">
+      <rect width="40" height="40" fill="transparent"/>
+      <circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.03)"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#texture-ai-thumbnail-generator)"/>
+</svg>

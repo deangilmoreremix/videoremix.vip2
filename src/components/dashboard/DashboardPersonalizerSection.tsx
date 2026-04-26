@@ -7,6 +7,28 @@ import usePurchases from "../../hooks/usePurchases";
 import { useApps } from "../../hooks/useApps";
 import MagicSparkles from "../MagicSparkles";
 
+// The 17 AI Marketing Apps as specified
+const newAppsList = [
+  "ai-personalized-content",
+  "funnelcraft-ai",
+  "ai-skills-monetizer",
+  "resume-amplifier",
+  "landing-page",
+  "sales-assistant-app",
+  "ai-art",
+  "personalizer-profile",
+  "personalizer-video-image-transformer",
+  "personalizer-recorder",
+  "ai-signature",
+  "thumbnail-generator",
+  "personalizer-profile-generator",
+  "video-ai-editor",
+  "ai-referral-maximizer-pro",
+  "ai-sales-maximizer",
+  "ai-content",
+  "product-research-ai",
+];
+
 // Helper function to get app URL
 const getAppUrl = (appId: string, apps: any[]) => {
   const app = apps.find((a) => a.id === appId);
@@ -20,27 +42,11 @@ const DashboardPersonalizerSection: React.FC = () => {
 
   const personalizerApps = appsData.filter(
     (app) =>
-      app.category === "personalizer" &&
+      newAppsList.includes(app.id) &&
       (!user || purchasedApps.includes(app.id)),
   );
 
-  const specificPersonalizerApps = [
-    "personalizer-text-ai-editor",
-    "personalizer-url-video-generation",
-    "personalizer-video-image-transformer",
-    "ai-signature",
-    "personalizer-advanced-text-video-editor",
-    "interactive-shopping",
-    "personalizer-recorder",
-    "thumbnail-generator",
-    "personalizer-writing-toolkit",
-  ];
-
-  const filteredPersonalizerApps = personalizerApps.filter((app) =>
-    specificPersonalizerApps.includes(app.id),
-  );
-
-  if (!user || !hasAnyPurchases || filteredPersonalizerApps.length === 0) {
+  if (!user || !hasAnyPurchases || personalizerApps.length === 0) {
     return null;
   }
 
@@ -61,17 +67,17 @@ const DashboardPersonalizerSection: React.FC = () => {
             <div className="inline-block mb-4">
               <div className="bg-gradient-to-r from-primary-600 to-primary-400 text-white font-bold px-6 py-2 rounded-full">
                 <Wand2 className="inline-block mr-2 h-5 w-5" />
-                PERSONALIZER SUITE
+                AI MARKETING TOOLS
               </div>
             </div>
           </MagicSparkles>
 
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-            Your <span className="text-primary-400">Personalizer</span> Tools
+            Your <span className="text-primary-400">AI Marketing</span> Tools
           </h2>
 
           <p className="text-xl text-gray-300 mb-8">
-            Advanced personalization tools to create highly targeted content
+            Powerful AI tools to enhance your marketing and grow your business
           </p>
         </motion.div>
 
@@ -83,7 +89,7 @@ const DashboardPersonalizerSection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {filteredPersonalizerApps.map((app, index) => (
+            {personalizerApps.slice(0, 9).map((app, index) => (
               <motion.div
                 key={app.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -93,7 +99,7 @@ const DashboardPersonalizerSection: React.FC = () => {
                 whileHover={{ y: -10 }}
                 className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-primary-500/50 transition-colors shadow-lg group"
               >
-                <a href={getAppUrl(app.id, appsData)} className="block">
+                <a to={`/app/${app.id}`} className="block">
                   <div className="relative h-[180px]">
                     <img
                       src={app.image}
@@ -104,7 +110,7 @@ const DashboardPersonalizerSection: React.FC = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
 
                     <div className="absolute top-3 left-3 bg-primary-600/80 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full">
-                      Personalizer
+                      AI Tool
                     </div>
 
                     {app.popular && (
@@ -138,7 +144,7 @@ const DashboardPersonalizerSection: React.FC = () => {
                           <Sparkles className="h-4 w-4 text-primary-400 mr-1" />
                         )}
                         <span className="text-gray-500 text-xs">
-                          Personalizer Tool
+                          AI Marketing Tool
                         </span>
                       </div>
 
@@ -169,7 +175,7 @@ const DashboardPersonalizerSection: React.FC = () => {
           </motion.div>
         </div>
 
-        {filteredPersonalizerApps.length > 6 && (
+        {personalizerApps.length > 9 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -181,7 +187,7 @@ const DashboardPersonalizerSection: React.FC = () => {
               to="/tools"
               className="inline-flex items-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg shadow-primary-600/20"
             >
-              View All Personalizer Tools
+              View All AI Marketing Tools
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </motion.div>

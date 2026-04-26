@@ -14,55 +14,48 @@ import {
   Globe,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { featuresData } from "../data/featuresData";
 import { appsData } from "../data/appsData";
+
+// The 17 New Apps
+const newApps = [
+  { name: "AI Personalized Content Hub", url: "https://ai-personalizedcontent.videoremix.vip" },
+  { name: "FunnelCraft AI", url: "https://ai-funnelcraft.videoremix.vip" },
+  { name: "AI Skills Monetizer", url: "https://ai-skills-monetizer.videoremix.vip" },
+  { name: "AI Skills & Resume", url: "https://ai-skills.videoremix.vip" },
+  { name: "Sales Page Builder", url: "https://ai-salespage.videoremix.vip" },
+  { name: "Sales Assistant Pro", url: "https://ai-salesassistant.videoremix.vip" },
+  { name: "AI Personalization Studio", url: "https://ai-personalizationstudio.videoremix.vip" },
+  { name: "AI Personalizer", url: "https://ai-personalizer.videoremix.vip" },
+  { name: "AI Video Transformer", url: "https://ai-video-transformer.videoremix.vip" },
+  { name: "AI Screen Recorder", url: "https://ai-screenrecorder.videoremix.vip" },
+  { name: "AI Signature", url: "https://ai-signature.videoremix.vip" },
+  { name: "AI Thumbnail Generator", url: "https://ai-thumbnail-generator.videoremix.vip" },
+  { name: "Profile Gen", url: "https://ai-profilegen.videoremix.vip" },
+  { name: "AI Video Editor", url: "https://ai-videoeditor.videoremix.vip" },
+  { name: "AI Referral Maximizer Pro", url: "https://referrals.smartcrm.vip" },
+  { name: "AI Sales Maximizer", url: "https://salesmax.smartcrm.vip" },
+  { name: "ContentAI", url: "https://contentai.smartcrm.vip" },
+  { name: "Product Research AI", url: "https://research.smartcrm.vip" },
+];
 
 const SpecialFooter: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
-  // Get popular apps for footer links
-  const popularApps = appsData.filter((app) => app.popular).slice(0, 5);
-
-  // Main section groups
+  // Main section groups - Updated without Features, Help Center, Contact
   const footerSections = {
     product: [
-      { name: "Features", url: "/features" },
       { name: "Pricing", url: "/pricing" },
-      { name: "Apps", url: "/apps" },
-      { name: "Templates", url: "/templates" },
-      { name: "Integrations", url: "/integrations" },
-      { name: "Changelog", url: "/changelog" },
-      { name: "Roadmap", url: "/roadmap" },
-    ],
-    resources: [
-      { name: "Blog", url: "/blog" },
-      { name: "Help Center", url: "/help" },
-      { name: "Tutorials", url: "/tutorials" },
-      { name: "Documentation", url: "/docs" },
-      { name: "Guides", url: "/guides" },
-      { name: "API Reference", url: "/api" },
-    ],
-    solutions: [
-      { name: "For Content Creators", url: "/solutions/creators" },
-      { name: "For Marketers", url: "/solutions/marketers" },
-      { name: "For Small Businesses", url: "/solutions/small-business" },
-      { name: "For Enterprise", url: "/solutions/enterprise" },
-      { name: "For Education", url: "/solutions/education" },
-      { name: "For Non-Profits", url: "/solutions/non-profits" },
+      { name: "Tools", url: "/tools" },
+      { name: "Dashboard", url: "/dashboard" },
     ],
     company: [
       { name: "About Us", url: "/about" },
-      { name: "Careers", url: "/careers" },
-      { name: "Contact Us", url: "/contact" },
-      { name: "Partners", url: "/partners" },
-      { name: "Affiliate Program", url: "/affiliates" },
+      { name: "Blog", url: "/blog" },
     ],
     legal: [
       { name: "Terms of Service", url: "/terms" },
       { name: "Privacy Policy", url: "/privacy" },
       { name: "Cookie Policy", url: "/cookies" },
-      { name: "GDPR Compliance", url: "/gdpr" },
-      { name: "Security", url: "/security" },
     ],
   };
 
@@ -80,9 +73,8 @@ const SpecialFooter: React.FC = () => {
               </span>
             </div>
             <p className="mb-4">
-              Create personalized content in minutes with our AI-powered
-              platform. Perfect for marketers, content creators, and businesses
-              of all sizes.
+              AI-powered marketing tools to help you create personalized content,
+              close more sales, and grow your business faster.
             </p>
 
             {/* Social Media */}
@@ -135,25 +127,6 @@ const SpecialFooter: React.FC = () => {
                   hello@videoremix.vip
                 </a>
               </div>
-              <div className="flex items-center">
-                <Phone className="h-4 w-4 mr-2 text-primary-400" />
-                <a
-                  href="tel:+1-555-123-4567"
-                  className="hover:text-white transition-colors"
-                >
-                  +1 (555) 123-4567
-                </a>
-              </div>
-              <div className="flex items-start">
-                <MapPin className="h-4 w-4 mr-2 mt-1 text-primary-400" />
-                <address className="not-italic">
-                  123 Innovation Way
-                  <br />
-                  San Francisco, CA 94107
-                  <br />
-                  United States
-                </address>
-              </div>
             </div>
           </div>
 
@@ -176,75 +149,16 @@ const SpecialFooter: React.FC = () => {
                 Subscribe
               </button>
             </div>
-
-            {/* App downloads */}
-            <div>
-              <h3 className="text-white font-semibold text-lg mb-2">
-                Get our mobile app
-              </h3>
-              <div className="flex flex-wrap gap-4">
-                <a href="#app-store">
-                  <img
-                    src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
-                    alt="Download on the App Store"
-                    className="h-10"
-                  />
-                </a>
-                <a href="#google-play">
-                  <img
-                    src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-                    alt="Get it on Google Play"
-                    className="h-10"
-                  />
-                </a>
-              </div>
-            </div>
           </div>
         </div>
 
         {/* Main Footer Navigation */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           {/* Product */}
           <div className="space-y-3">
             <h3 className="text-white font-semibold mb-4">Product</h3>
             <ul className="space-y-2">
               {footerSections.product.map((link, i) => (
-                <li key={i}>
-                  <Link
-                    to={link.url}
-                    className="hover:text-white transition-colors inline-flex items-center"
-                  >
-                    <ChevronRight className="h-3 w-3 mr-1" />
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Resources */}
-          <div className="space-y-3">
-            <h3 className="text-white font-semibold mb-4">Resources</h3>
-            <ul className="space-y-2">
-              {footerSections.resources.map((link, i) => (
-                <li key={i}>
-                  <Link
-                    to={link.url}
-                    className="hover:text-white transition-colors inline-flex items-center"
-                  >
-                    <ChevronRight className="h-3 w-3 mr-1" />
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Solutions */}
-          <div className="space-y-3">
-            <h3 className="text-white font-semibold mb-4">Solutions</h3>
-            <ul className="space-y-2">
-              {footerSections.solutions.map((link, i) => (
                 <li key={i}>
                   <Link
                     to={link.url}
@@ -276,33 +190,21 @@ const SpecialFooter: React.FC = () => {
             </ul>
           </div>
 
-          {/* Popular Features */}
-          <div className="space-y-3">
-            <h3 className="text-white font-semibold mb-4">Top Features</h3>
+          {/* AI Tools */}
+          <div className="space-y-3 col-span-2">
+            <h3 className="text-white font-semibold mb-4">AI Marketing Tools</h3>
             <ul className="space-y-2">
-              {/* Key features */}
-              {featuresData.slice(0, 4).map((feature) => (
-                <li key={feature.id}>
-                  <Link
-                    to={`/features/${feature.id}`}
-                    className="hover:text-white transition-colors inline-flex items-center"
-                  >
-                    <ChevronRight className="h-3 w-3 mr-1" />
-                    {feature.title}
-                  </Link>
-                </li>
-              ))}
-
-              {/* Popular apps */}
-              {popularApps.slice(0, 3).map((app) => (
-                <li key={app.id}>
-                  <Link
-                    to={`/app/${app.id}`}
+              {newApps.slice(0, 8).map((app, i) => (
+                <li key={i}>
+                  <a
+                    href={app.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="hover:text-white transition-colors inline-flex items-center"
                   >
                     <ChevronRight className="h-3 w-3 mr-1" />
                     {app.name}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
