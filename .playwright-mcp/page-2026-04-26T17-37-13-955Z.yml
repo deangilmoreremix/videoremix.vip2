@@ -1,0 +1,382 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "VideoRemix.vip AI MARKETING PLATFORM" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e10]
+        - generic [ref=e13]:
+          - text: VideoRemix.vip
+          - generic [ref=e14]: AI MARKETING PLATFORM
+      - generic [ref=e15]:
+        - button "Search... K" [ref=e16] [cursor=pointer]:
+          - img [ref=e17]
+          - generic [ref=e20]: Search...
+          - generic [ref=e21]:
+            - img [ref=e22]
+            - generic [ref=e24]: K
+        - button "Tools" [ref=e26] [cursor=pointer]:
+          - text: Tools
+          - img [ref=e27]
+        - link "Pricing" [ref=e29] [cursor=pointer]:
+          - /url: /pricing
+        - link "Dashboard" [ref=e30] [cursor=pointer]:
+          - /url: /dashboard
+        - link "FAQ" [active] [ref=e31] [cursor=pointer]:
+          - /url: /faq
+        - generic [ref=e32]:
+          - link "Sign In" [ref=e33] [cursor=pointer]:
+            - /url: /signin
+          - link "Sign Up" [ref=e35] [cursor=pointer]:
+            - /url: /signup
+  - button "Enable sound effects" [ref=e36] [cursor=pointer]:
+    - img [ref=e37]
+  - generic [ref=e40]:
+    - generic [ref=e43]:
+      - img [ref=e44]
+      - generic [ref=e3803]: "576"
+      - text: people online now
+    - generic [ref=e67]:
+      - generic [ref=e3804]:
+        - img [ref=e3806]
+        - generic [ref=e3809]:
+          - paragraph [ref=e3810]: Lisa A. created their first video
+          - paragraph [ref=e3811]: Just now
+      - generic [ref=e3086]:
+        - img [ref=e3088]
+        - generic [ref=e3093]:
+          - paragraph [ref=e3094]: Maria B. just signed up for VideoRemix.vip
+          - paragraph [ref=e3095]: Just now
+      - generic [ref=e2891]:
+        - img [ref=e2893]
+        - generic [ref=e2896]:
+          - paragraph [ref=e2897]: Robert L. created their first video
+          - paragraph [ref=e2898]: Just now
+    - link "View all activity" [ref=e51] [cursor=pointer]:
+      - /url: "#activity"
+      - text: View all activity
+      - img [ref=e52]
+  - generic [ref=e3813]:
+    - img [ref=e3816]
+    - generic [ref=e3819]:
+      - paragraph [ref=e3820]: Lisa A. created their first video
+      - paragraph [ref=e3821]: Just now
+  - generic [ref=e55]:
+    - heading "AI Assistant" [level=3] [ref=e56]
+    - paragraph [ref=e57]: AI assistant component placeholder
+  - generic [ref=e3824]:
+    - main [ref=e3828]:
+      - generic [ref=e3833]:
+        - generic [ref=e3834]:
+          - generic [ref=e3835]:
+            - heading "Frequently Asked Questions" [level=1] [ref=e3837]
+            - paragraph [ref=e3838]: Find answers to common questions about our marketing personalization platform, tools, pricing, and how to scale your business.
+          - generic [ref=e3840]:
+            - generic:
+              - img
+            - textbox "Search for answers..." [ref=e3841]
+          - generic [ref=e3842]:
+            - paragraph [ref=e3843]: "Popular searches:"
+            - generic [ref=e3844]:
+              - button "Marketing personalization features" [ref=e3845] [cursor=pointer]
+              - button "37 tools available" [ref=e3846] [cursor=pointer]
+              - button "Audience segmentation" [ref=e3847] [cursor=pointer]
+              - button "Agency and client management" [ref=e3848] [cursor=pointer]
+              - button "Solopreneur scaling" [ref=e3849] [cursor=pointer]
+              - button "Pricing and plans" [ref=e3850] [cursor=pointer]
+        - generic [ref=e3851]:
+          - generic [ref=e3853]:
+            - heading "FAQ Categories" [level=2] [ref=e3854]:
+              - img [ref=e3855]
+              - text: FAQ Categories
+            - navigation [ref=e3858]:
+              - button "All Questions" [ref=e3859] [cursor=pointer]:
+                - img [ref=e3860]
+                - generic [ref=e3863]: All Questions
+              - button "Getting Started" [ref=e3864] [cursor=pointer]:
+                - img [ref=e3865]
+                - generic [ref=e3867]: Getting Started
+                - img [ref=e3868]
+              - button "Accounts & Billing" [ref=e3870] [cursor=pointer]:
+                - img [ref=e3871]
+                - generic [ref=e3873]: Accounts & Billing
+              - button "Features & Capabilities" [ref=e3874] [cursor=pointer]:
+                - img [ref=e3875]
+                - generic [ref=e3878]: Features & Capabilities
+              - button "Technical Questions" [ref=e3879] [cursor=pointer]:
+                - img [ref=e3880]
+                - generic [ref=e3882]: Technical Questions
+              - button "Collaboration" [ref=e3883] [cursor=pointer]:
+                - img [ref=e3884]
+                - generic [ref=e3889]: Collaboration
+              - button "Privacy & Security" [ref=e3890] [cursor=pointer]:
+                - img [ref=e3891]
+                - generic [ref=e3893]: Privacy & Security
+              - button "AI Features" [ref=e3894] [cursor=pointer]:
+                - img [ref=e3895]
+                - generic [ref=e3897]: AI Features
+              - button "Exporting & Publishing" [ref=e3898] [cursor=pointer]:
+                - img [ref=e3899]
+                - generic [ref=e3901]: Exporting & Publishing
+              - button "Templates & Content" [ref=e3902] [cursor=pointer]:
+                - img [ref=e3903]
+                - generic [ref=e3907]: Templates & Content
+              - button "Troubleshooting" [ref=e3908] [cursor=pointer]:
+                - img [ref=e3909]
+                - generic [ref=e3912]: Troubleshooting
+            - generic [ref=e3913]:
+              - heading "Can't find your answer?" [level=3] [ref=e3914]
+              - paragraph [ref=e3915]: Our support team is here to help with any questions you might have.
+              - link "Contact Support" [ref=e3916] [cursor=pointer]:
+                - /url: /contact
+                - img [ref=e3917]
+                - text: Contact Support
+          - generic [ref=e3919]:
+            - generic [ref=e3920]:
+              - heading "Getting Started" [level=2] [ref=e3921]
+              - paragraph [ref=e3922]: Everything you need to know to get started with personalized marketing on VideoRemix.vip.
+            - generic [ref=e3923]:
+              - button "What is VideoRemix.vip?" [ref=e3925] [cursor=pointer]:
+                - heading "What is VideoRemix.vip?" [level=3] [ref=e3926]
+                - img [ref=e3928]
+              - button "How does VideoRemix.vip work?" [ref=e3931] [cursor=pointer]:
+                - heading "How does VideoRemix.vip work?" [level=3] [ref=e3932]
+                - img [ref=e3934]
+              - button "Do I need any technical skills to use VideoRemix.vip?" [ref=e3937] [cursor=pointer]:
+                - heading "Do I need any technical skills to use VideoRemix.vip?" [level=3] [ref=e3938]
+                - img [ref=e3940]
+              - button "How long does it take to learn VideoRemix.vip?" [ref=e3943] [cursor=pointer]:
+                - heading "How long does it take to learn VideoRemix.vip?" [level=3] [ref=e3944]
+                - img [ref=e3946]
+              - button "What types of marketing content can I create with VideoRemix.vip?" [ref=e3949] [cursor=pointer]:
+                - heading "What types of marketing content can I create with VideoRemix.vip?" [level=3] [ref=e3950]
+                - img [ref=e3952]
+              - button "What plans are available??" [ref=e3955] [cursor=pointer]:
+                - heading "What plans are available??" [level=3] [ref=e3956]
+                - img [ref=e3958]
+              - button "What makes VideoRemix.vip different from other marketing tools?" [ref=e3961] [cursor=pointer]:
+                - heading "What makes VideoRemix.vip different from other marketing tools?" [level=3] [ref=e3962]
+                - img [ref=e3964]
+              - button "Can I use VideoRemix.vip for my agency or to serve multiple clients?" [ref=e3967] [cursor=pointer]:
+                - heading "Can I use VideoRemix.vip for my agency or to serve multiple clients?" [level=3] [ref=e3968]
+                - img [ref=e3970]
+              - button "How can VideoRemix.vip help me scale my solopreneur business?" [ref=e3973] [cursor=pointer]:
+                - heading "How can VideoRemix.vip help me scale my solopreneur business?" [level=3] [ref=e3974]
+                - img [ref=e3976]
+              - button "What's the difference between generic marketing and personalized marketing?" [ref=e3979] [cursor=pointer]:
+                - heading "What's the difference between generic marketing and personalized marketing?" [level=3] [ref=e3980]
+                - img [ref=e3982]
+              - button "How do I get started with personalized marketing if I'm new to it?" [ref=e3985] [cursor=pointer]:
+                - heading "How do I get started with personalized marketing if I'm new to it?" [level=3] [ref=e3986]
+                - img [ref=e3988]
+            - generic [ref=e3991]:
+              - img [ref=e3994]
+              - generic [ref=e3997]:
+                - heading "Still have questions?" [level=3] [ref=e3998]
+                - paragraph [ref=e3999]: Our support team is here to help you with any questions or issues.
+              - generic [ref=e4000]:
+                - link "Contact Support" [ref=e4001] [cursor=pointer]:
+                  - /url: /contact
+                  - img [ref=e4002]
+                  - text: Contact Support
+                - link "Email Us" [ref=e4004] [cursor=pointer]:
+                  - /url: mailto:support@videoremix.vip
+                  - img [ref=e4005]
+                  - text: Email Us
+        - generic [ref=e4008]:
+          - heading "Additional Resources" [level=2] [ref=e4009]
+          - generic [ref=e4010]:
+            - link "Video Tutorials Watch step-by-step video guides on using VideoRemix.vip's features Explore" [ref=e4011] [cursor=pointer]:
+              - /url: /tutorials
+              - img [ref=e4013]
+              - heading "Video Tutorials" [level=3] [ref=e4016]
+              - paragraph [ref=e4017]: Watch step-by-step video guides on using VideoRemix.vip's features
+              - generic [ref=e4019]:
+                - text: Explore
+                - img [ref=e4020]
+            - link "Help Center Browse our comprehensive knowledge base articles and guides Explore" [ref=e4022] [cursor=pointer]:
+              - /url: /help-center
+              - img [ref=e4024]
+              - heading "Help Center" [level=3] [ref=e4027]
+              - paragraph [ref=e4028]: Browse our comprehensive knowledge base articles and guides
+              - generic [ref=e4030]:
+                - text: Explore
+                - img [ref=e4031]
+            - link "Community Forum Connect with other users to share tips and get inspiration Explore" [ref=e4033] [cursor=pointer]:
+              - /url: /community
+              - img [ref=e4035]
+              - heading "Community Forum" [level=3] [ref=e4040]
+              - paragraph [ref=e4041]: Connect with other users to share tips and get inspiration
+              - generic [ref=e4043]:
+                - text: Explore
+                - img [ref=e4044]
+        - generic [ref=e4046]:
+          - heading "Ready to Experience VideoRemix.vip?" [level=2] [ref=e4048]
+          - paragraph [ref=e4049]: Create personalized marketing campaigns with our AI-powered platform and 37+ specialized tools.
+          - link "Start Your Free Trial" [ref=e4050] [cursor=pointer]:
+            - /url: /get-started
+            - text: Start Your Free Trial
+            - img [ref=e4051]
+          - paragraph [ref=e4053]: No credit card required. Start with our Free plan or upgrade anytime.
+          - generic [ref=e4054]:
+            - generic [ref=e4055]:
+              - img [ref=e4057]
+              - generic [ref=e4059]: AI-powered personalization
+            - generic [ref=e4060]:
+              - img [ref=e4062]
+              - generic [ref=e4065]: Create campaigns in minutes
+            - generic [ref=e4066]:
+              - img [ref=e4068]
+              - generic [ref=e4071]: 37+ marketing tools
+            - generic [ref=e4072]:
+              - img [ref=e4074]
+              - generic [ref=e4078]: Audience segmentation
+            - generic [ref=e4079]:
+              - img [ref=e4081]
+              - generic [ref=e4086]: Agency & team features
+            - generic [ref=e4087]:
+              - img [ref=e4089]
+              - generic [ref=e4092]: Multi-channel campaigns
+    - contentinfo [ref=e4093]:
+      - generic [ref=e4094]:
+        - generic [ref=e4095]:
+          - generic [ref=e4096]:
+            - generic [ref=e4097]:
+              - img [ref=e4098]
+              - generic [ref=e4101]: VideoRemix.vip
+            - paragraph [ref=e4102]: AI-powered marketing tools to help you create personalized content, close more sales, and grow your business faster.
+            - generic [ref=e4103]:
+              - link "Facebook" [ref=e4104] [cursor=pointer]:
+                - /url: "#facebook"
+                - img [ref=e4105]
+                - generic [ref=e4107]: Facebook
+              - link "Twitter" [ref=e4108] [cursor=pointer]:
+                - /url: "#twitter"
+                - img [ref=e4109]
+                - generic [ref=e4111]: Twitter
+              - link "Instagram" [ref=e4112] [cursor=pointer]:
+                - /url: "#instagram"
+                - img [ref=e4113]
+                - generic [ref=e4116]: Instagram
+              - link "LinkedIn" [ref=e4117] [cursor=pointer]:
+                - /url: "#linkedin"
+                - img [ref=e4118]
+                - generic [ref=e4122]: LinkedIn
+              - link "YouTube" [ref=e4123] [cursor=pointer]:
+                - /url: "#youtube"
+                - img [ref=e4124]
+                - generic [ref=e4127]: YouTube
+            - generic [ref=e4129]:
+              - img [ref=e4130]
+              - link "hello@videoremix.vip" [ref=e4133] [cursor=pointer]:
+                - /url: mailto:hello@videoremix.vip
+          - generic [ref=e4134]:
+            - heading "Stay up to date" [level=3] [ref=e4135]
+            - paragraph [ref=e4136]: Get the latest news, updates, and tips straight to your inbox.
+            - generic [ref=e4137]:
+              - textbox "Your email" [ref=e4138]
+              - button "Subscribe" [ref=e4139] [cursor=pointer]
+        - generic [ref=e4140]:
+          - generic [ref=e4141]:
+            - heading "Product" [level=3] [ref=e4142]
+            - list [ref=e4143]:
+              - listitem [ref=e4144]:
+                - link "Pricing" [ref=e4145] [cursor=pointer]:
+                  - /url: /pricing
+                  - img [ref=e4146]
+                  - text: Pricing
+              - listitem [ref=e4148]:
+                - link "Tools" [ref=e4149] [cursor=pointer]:
+                  - /url: /tools
+                  - img [ref=e4150]
+                  - text: Tools
+              - listitem [ref=e4152]:
+                - link "Dashboard" [ref=e4153] [cursor=pointer]:
+                  - /url: /dashboard
+                  - img [ref=e4154]
+                  - text: Dashboard
+          - generic [ref=e4156]:
+            - heading "Company" [level=3] [ref=e4157]
+            - list [ref=e4158]:
+              - listitem [ref=e4159]:
+                - link "About Us" [ref=e4160] [cursor=pointer]:
+                  - /url: /about
+                  - img [ref=e4161]
+                  - text: About Us
+              - listitem [ref=e4163]:
+                - link "Blog" [ref=e4164] [cursor=pointer]:
+                  - /url: /blog
+                  - img [ref=e4165]
+                  - text: Blog
+          - generic [ref=e4167]:
+            - heading "AI Marketing Tools" [level=3] [ref=e4168]
+            - list [ref=e4169]:
+              - listitem [ref=e4170]:
+                - link "AI Personalized Content Hub" [ref=e4171] [cursor=pointer]:
+                  - /url: https://ai-personalizedcontent.videoremix.vip
+                  - img [ref=e4172]
+                  - text: AI Personalized Content Hub
+              - listitem [ref=e4174]:
+                - link "FunnelCraft AI" [ref=e4175] [cursor=pointer]:
+                  - /url: https://ai-funnelcraft.videoremix.vip
+                  - img [ref=e4176]
+                  - text: FunnelCraft AI
+              - listitem [ref=e4178]:
+                - link "AI Skills Monetizer" [ref=e4179] [cursor=pointer]:
+                  - /url: https://ai-skills-monetizer.videoremix.vip
+                  - img [ref=e4180]
+                  - text: AI Skills Monetizer
+              - listitem [ref=e4182]:
+                - link "AI Skills & Resume" [ref=e4183] [cursor=pointer]:
+                  - /url: https://ai-skills.videoremix.vip
+                  - img [ref=e4184]
+                  - text: AI Skills & Resume
+              - listitem [ref=e4186]:
+                - link "Sales Page Builder" [ref=e4187] [cursor=pointer]:
+                  - /url: https://ai-salespage.videoremix.vip
+                  - img [ref=e4188]
+                  - text: Sales Page Builder
+              - listitem [ref=e4190]:
+                - link "Sales Assistant Pro" [ref=e4191] [cursor=pointer]:
+                  - /url: https://ai-salesassistant.videoremix.vip
+                  - img [ref=e4192]
+                  - text: Sales Assistant Pro
+              - listitem [ref=e4194]:
+                - link "AI Personalization Studio" [ref=e4195] [cursor=pointer]:
+                  - /url: https://ai-personalizationstudio.videoremix.vip
+                  - img [ref=e4196]
+                  - text: AI Personalization Studio
+              - listitem [ref=e4198]:
+                - link "AI Personalizer" [ref=e4199] [cursor=pointer]:
+                  - /url: https://ai-personalizer.videoremix.vip
+                  - img [ref=e4200]
+                  - text: AI Personalizer
+        - generic [ref=e4202]:
+          - generic [ref=e4203]:
+            - img [ref=e4204]
+            - generic [ref=e4206]: SOC 2 Compliant
+          - generic [ref=e4207]:
+            - img [ref=e4208]
+            - generic [ref=e4210]: GDPR Compliant
+          - generic [ref=e4211]:
+            - img [ref=e4212]
+            - generic [ref=e4215]: Global CDN
+          - generic [ref=e4216]:
+            - img [ref=e4217]
+            - generic [ref=e4219]: 99.9% Uptime
+          - generic [ref=e4220]:
+            - img [ref=e4221]
+            - generic [ref=e4223]: Bank-Level Encryption
+        - generic [ref=e4224]:
+          - generic [ref=e4225]: © 2026 VideoRemix.vip. All rights reserved.
+          - generic [ref=e4226]:
+            - link "Terms of Service" [ref=e4227] [cursor=pointer]:
+              - /url: /terms
+            - link "Privacy Policy" [ref=e4228] [cursor=pointer]:
+              - /url: /privacy
+            - link "Cookie Policy" [ref=e4229] [cursor=pointer]:
+              - /url: /cookies
+        - paragraph [ref=e4231]:
+          - text: VideoRemix.vip uses cookies to ensure you get the best experience on our website. By continuing to browse, you agree to our
+          - link "privacy policy" [ref=e4232] [cursor=pointer]:
+            - /url: /privacy
+          - text: .

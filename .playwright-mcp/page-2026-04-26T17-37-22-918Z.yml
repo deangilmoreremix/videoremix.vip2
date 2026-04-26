@@ -1,0 +1,135 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "VideoRemix.vip AI MARKETING PLATFORM" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e10]
+        - generic [ref=e13]:
+          - text: VideoRemix.vip
+          - generic [ref=e14]: AI MARKETING PLATFORM
+      - generic [ref=e15]:
+        - button "Search... K" [ref=e16] [cursor=pointer]:
+          - img [ref=e17]
+          - generic [ref=e20]: Search...
+          - generic [ref=e21]:
+            - img [ref=e22]
+            - generic [ref=e24]: K
+        - button "Tools" [ref=e26] [cursor=pointer]:
+          - text: Tools
+          - img [ref=e27]
+        - link "Pricing" [ref=e29] [cursor=pointer]:
+          - /url: /pricing
+        - link "Dashboard" [ref=e30] [cursor=pointer]:
+          - /url: /dashboard
+        - link "FAQ" [ref=e31] [cursor=pointer]:
+          - /url: /faq
+        - generic [ref=e32]:
+          - link "Sign In" [ref=e33] [cursor=pointer]:
+            - /url: /signin
+          - link "Sign Up" [active] [ref=e35] [cursor=pointer]:
+            - /url: /signup
+  - button "Enable sound effects" [ref=e36] [cursor=pointer]:
+    - img [ref=e37]
+  - generic [ref=e40]:
+    - generic [ref=e43]:
+      - img [ref=e44]
+      - generic [ref=e4297]: "576"
+      - text: people online now
+    - generic [ref=e67]:
+      - generic [ref=e3804]:
+        - img [ref=e3806]
+        - generic [ref=e3809]:
+          - paragraph [ref=e3810]: Lisa A. created their first video
+          - paragraph [ref=e3811]: Just now
+      - generic [ref=e3086]:
+        - img [ref=e3088]
+        - generic [ref=e3093]:
+          - paragraph [ref=e3094]: Maria B. just signed up for VideoRemix.vip
+          - paragraph [ref=e3095]: Just now
+      - generic [ref=e2891]:
+        - img [ref=e2893]
+        - generic [ref=e2896]:
+          - paragraph [ref=e2897]: Robert L. created their first video
+          - paragraph [ref=e2898]: Just now
+    - link "View all activity" [ref=e51] [cursor=pointer]:
+      - /url: "#activity"
+      - text: View all activity
+      - img [ref=e52]
+  - generic [ref=e55]:
+    - heading "AI Assistant" [level=3] [ref=e56]
+    - paragraph [ref=e57]: AI assistant component placeholder
+  - main [ref=e4298]:
+    - generic [ref=e4303]:
+      - link "Back to home" [ref=e4305] [cursor=pointer]:
+        - /url: /
+        - img [ref=e4306]
+        - text: Back to home
+      - generic [ref=e4308]:
+        - link "VideoRemix.vip Marketing Personalization Platform" [ref=e4309] [cursor=pointer]:
+          - /url: /
+          - img [ref=e4312]
+          - generic [ref=e4315]:
+            - generic [ref=e4316]: VideoRemix.vip
+            - generic [ref=e4317]: Marketing Personalization Platform
+        - heading "Start Your Journey" [level=1] [ref=e4319]
+        - paragraph [ref=e4320]: Join thousands using personalized marketing to scale their business
+      - generic [ref=e4321]:
+        - generic [ref=e4322]:
+          - generic [ref=e4323]:
+            - generic [ref=e4324]:
+              - generic [ref=e4325]: First Name
+              - textbox "First Name" [ref=e4326]:
+                - /placeholder: John
+            - generic [ref=e4327]:
+              - generic [ref=e4328]: Last Name
+              - textbox "Last Name" [ref=e4329]:
+                - /placeholder: Doe
+          - generic [ref=e4330]:
+            - generic [ref=e4331]: Email Address
+            - textbox "Email Address" [ref=e4332]:
+              - /placeholder: your@email.com
+          - generic [ref=e4333]:
+            - generic [ref=e4334]: Password
+            - generic [ref=e4335]:
+              - textbox "Password" [ref=e4336]:
+                - /placeholder: Create a password (min. 6 characters)
+              - button [ref=e4337] [cursor=pointer]:
+                - img [ref=e4338]
+          - generic [ref=e4341]:
+            - generic [ref=e4342]: Confirm Password
+            - generic [ref=e4343]:
+              - textbox "Confirm Password" [ref=e4344]:
+                - /placeholder: Confirm your password
+              - button [ref=e4345] [cursor=pointer]:
+                - img [ref=e4346]
+          - generic [ref=e4349]:
+            - text: By creating an account, you agree to our
+            - link "Terms of Service" [ref=e4350] [cursor=pointer]:
+              - /url: /terms
+            - text: and
+            - link "Privacy Policy" [ref=e4351] [cursor=pointer]:
+              - /url: /privacy
+          - button "Create Account" [ref=e4352] [cursor=pointer]:
+            - text: Create Account
+            - img [ref=e4353]
+        - paragraph [ref=e4357]:
+          - text: Already have an account?
+          - link "Sign in" [ref=e4358] [cursor=pointer]:
+            - /url: /signin
+      - generic [ref=e4359]:
+        - heading "Start your account today" [level=3] [ref=e4360]:
+          - img [ref=e4361]
+          - text: Start your account today
+        - list [ref=e4364]:
+          - listitem [ref=e4365]:
+            - generic [ref=e4366]: ✓
+            - generic [ref=e4367]: No credit card required to start
+          - listitem [ref=e4368]:
+            - generic [ref=e4369]: ✓
+            - generic [ref=e4370]: Access to 37+ marketing tools immediately
+          - listitem [ref=e4371]:
+            - generic [ref=e4372]: ✓
+            - generic [ref=e4373]: Create personalized campaigns in minutes
+          - listitem [ref=e4374]:
+            - generic [ref=e4375]: ✓
+            - generic [ref=e4376]: Join thousands of successful marketers

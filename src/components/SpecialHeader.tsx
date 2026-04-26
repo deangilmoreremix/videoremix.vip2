@@ -211,15 +211,17 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
             onMouseEnter={() => setActiveDropdown("tools")}
             onMouseLeave={closeDropdowns}
           >
-            <button
+            <Link
+              to="/tools"
               className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium flex items-center"
-              onClick={() => handleDropdownToggle("tools")}
+              onMouseEnter={() => setActiveDropdown("tools")}
+              onMouseLeave={closeDropdowns}
             >
-              Tools 
+              Tools
               <ChevronDown
                 className={`ml-1 h-4 w-4 transition-transform duration-200 ${activeDropdown === "tools" ? "rotate-180" : ""}`}
               />
-            </button>
+            </Link>
 
             <AnimatePresence>
               {activeDropdown === "tools" && (
@@ -407,43 +409,14 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
             <div className="container mx-auto px-4 py-2 space-y-1">
               {/* Mobile Tools Dropdown */}
               <div>
-                <button
+                <Link
+                  to="/tools"
                   className="flex justify-between items-center w-full text-white hover:bg-gray-800 px-3 py-2 rounded-md"
-                  onClick={() => handleDropdownToggle("mobile-tools")}
+                  onClick={() => setMobileMenuOpen(false)} // Close mobile menu when navigating
                 >
                   <span>Tools</span>
-                  <ChevronDown
-                    className={`h-4 w-4 transition-transform duration-200 ${activeDropdown === "mobile-tools" ? "rotate-180" : ""}`}
-                  />
-                </button>
-
-                <AnimatePresence>
-                  {activeDropdown === "mobile-tools" && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <div className="py-2 px-4 bg-gray-900 rounded-md mt-1 mb-2 space-y-2 max-h-[400px] overflow-y-auto">
-                        {featuredTools.map((tool, index) => (
-                          <a
-                            key={index}
-                            href={tool.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block text-white hover:bg-gray-800 px-2 py-2 rounded text-sm"
-                          >
-                            <div className="flex items-center">
-                              <div className="mr-2">{tool.icon}</div>
-                              <span>{tool.name}</span>
-                            </div>
-                          </a>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
               </div>
 
               <Link

@@ -1,0 +1,1864 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "VideoRemix.vip AI MARKETING PLATFORM" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e10]
+        - generic [ref=e13]:
+          - text: VideoRemix.vip
+          - generic [ref=e14]: AI MARKETING PLATFORM
+      - generic [ref=e15]:
+        - button "Search... K" [ref=e16] [cursor=pointer]:
+          - img [ref=e17]
+          - generic [ref=e20]: Search...
+          - generic [ref=e21]:
+            - img [ref=e22]
+            - generic [ref=e24]: K
+        - button "Tools" [ref=e26] [cursor=pointer]:
+          - text: Tools
+          - img [ref=e27]
+        - link "Pricing" [ref=e29] [cursor=pointer]:
+          - /url: /pricing
+        - link "Dashboard" [ref=e30] [cursor=pointer]:
+          - /url: /dashboard
+        - link "FAQ" [ref=e31] [cursor=pointer]:
+          - /url: /faq
+        - generic [ref=e32]:
+          - link "Sign In" [ref=e33] [cursor=pointer]:
+            - /url: /signin
+          - link "Sign Up" [ref=e35] [cursor=pointer]:
+            - /url: /signup
+  - button "Enable sound effects" [ref=e36] [cursor=pointer]:
+    - img [ref=e37]
+  - generic [ref=e40]:
+    - generic [ref=e43]:
+      - img [ref=e44]
+      - generic [ref=e49]: "567"
+      - text: people online now
+    - generic [ref=e68]: Activity will appear here...
+    - link "View all activity" [ref=e51] [cursor=pointer]:
+      - /url: "#activity"
+      - text: View all activity
+      - img [ref=e52]
+  - generic [ref=e55]:
+    - heading "AI Assistant" [level=3] [ref=e56]
+    - paragraph [ref=e57]: AI assistant component placeholder
+  - generic [ref=e58]:
+    - main [ref=e69]:
+      - generic [ref=e71]:
+        - generic [ref=e72]:
+          - generic [ref=e74]:
+            - generic [ref=e75]:
+              - img [ref=e76]
+              - generic [ref=e79]: THE NEW VIDEOREMIX PLATFORM
+            - heading "Welcome to VideoRemix - Your Complete Personalized Marketing Platform" [level=1] [ref=e80]
+            - paragraph [ref=e81]: The professional platform for creating personalized marketing at scale. 20+ AI-powered apps help you deliver the right message to the right audience segment.
+            - generic [ref=e82]:
+              - generic [ref=e83]:
+                - img [ref=e85]
+                - paragraph [ref=e88]: AI-powered personalization for marketing content and campaigns
+              - generic [ref=e89]:
+                - img [ref=e91]
+                - paragraph [ref=e94]: 20+ marketing personalization apps for marketers and businesses
+              - generic [ref=e95]:
+                - img [ref=e97]
+                - paragraph [ref=e100]: Create personalized campaigns in minutes, not hours
+              - generic [ref=e101]:
+                - img [ref=e103]
+                - paragraph [ref=e106]: Increase marketing ROI with audience-specific content
+            - link "GET STARTED WITH VIDEOREMIX" [ref=e109] [cursor=pointer]:
+              - /url: /signup
+              - generic [ref=e110]:
+                - text: GET STARTED WITH VIDEOREMIX
+                - img [ref=e111]
+            - paragraph [ref=e113]: ⚡ Get started now. No credit card required.
+          - generic [ref=e114]:
+            - generic [ref=e116]:
+              - img "Personalized Marketing Demo" [ref=e117]
+              - link [ref=e118] [cursor=pointer]:
+                - /url: /signup
+                - img [ref=e123]
+              - generic [ref=e126]:
+                - img [ref=e127]
+                - generic [ref=e130]: AI-Powered Personalization
+            - generic [ref=e131]:
+              - generic [ref=e132]:
+                - generic [ref=e133]:
+                  - img "David Chen" [ref=e134]
+                  - generic [ref=e135]:
+                    - generic [ref=e136]: David Chen
+                    - generic [ref=e137]: Marketing Director
+                    - generic [ref=e138]:
+                      - img [ref=e139]
+                      - img [ref=e141]
+                      - img [ref=e143]
+                      - img [ref=e145]
+                      - img [ref=e147]
+                - paragraph [ref=e149]: "\"The personalization tools helped us achieve a 215% increase in marketing engagement and 3X more campaign leads.\""
+              - tablist "Testimonials" [ref=e150]:
+                - 'tab "View testimonial 1 of 2: David Chen" [selected] [ref=e151] [cursor=pointer]'
+                - 'tab "View testimonial 2 of 2: Sarah Wilson" [ref=e152] [cursor=pointer]'
+            - generic [ref=e153]:
+              - generic [ref=e154]:
+                - generic [ref=e155]: 12,467+
+                - generic [ref=e156]: Marketing Professionals
+              - generic [ref=e157]:
+                - generic [ref=e158]:
+                  - img [ref=e159]
+                  - img [ref=e161]
+                  - img [ref=e163]
+                  - img [ref=e165]
+                  - img [ref=e167]
+                - generic [ref=e169]: 4.9/5
+                - generic [ref=e170]: Marketing ROI Rating
+        - generic [ref=e171]:
+          - paragraph [ref=e172]: TRUSTED BY MARKETING TEAMS WORLDWIDE
+          - generic [ref=e173]:
+            - img "Microsoft" [ref=e174]
+            - img "Google" [ref=e175]
+            - img "YouTube" [ref=e176]
+            - img "Instagram" [ref=e177]
+            - img "Twitter" [ref=e178]
+        - generic [ref=e179]:
+          - generic [ref=e180]:
+            - img [ref=e182]
+            - generic [ref=e185]: 90% faster marketing creation
+          - generic [ref=e186]:
+            - img [ref=e188]
+            - generic [ref=e190]: Enterprise-grade security
+          - generic [ref=e191]:
+            - img [ref=e193]
+            - generic [ref=e195]: Professional marketing results
+          - generic [ref=e196]:
+            - img [ref=e198]
+            - generic [ref=e201]: 350% higher conversions
+        - generic [ref=e204]:
+          - img [ref=e206]
+          - generic [ref=e209]:
+            - generic [ref=e210]: 9,721
+            - text: marketers using personalization now
+        - generic [ref=e215]:
+          - generic [ref=e217]:
+            - img "Personalized Marketing Video Demo" [ref=e218]
+            - generic [ref=e219]:
+              - img [ref=e220]
+              - generic [ref=e223]: Personalized Marketing
+            - button "Play video preview" [ref=e225] [cursor=pointer]:
+              - img [ref=e228]
+            - generic [ref=e232]: 00:00 / 02:30
+          - generic [ref=e235]: See personalized marketing content in action
+        - button "Scroll to problem section and discover more about marketing personalization" [ref=e241] [cursor=pointer]:
+          - generic [ref=e242]: Discover more
+          - img [ref=e243]
+      - generic [ref=e246]:
+        - generic [ref=e247]:
+          - heading "Are You Still Creating Generic, One-Size-Fits-All Marketing Content?" [level=2] [ref=e248]
+          - paragraph [ref=e249]: In today's hyper-competitive marketing landscape, generic campaigns get ignored. Personalized marketing videos deliver up to 3x higher engagement, 5x better retention, and dramatically improved conversion rates across all your marketing channels.
+        - generic [ref=e250]:
+          - generic [ref=e251]:
+            - generic [ref=e252]: Engagement Crisis
+            - generic [ref=e253]:
+              - img [ref=e255]
+              - generic [ref=e260]:
+                - heading "Generic Marketing Gets Ignored" [level=3] [ref=e261]
+                - paragraph [ref=e262]: 73% of prospects skip generic marketing videos within seconds, while personalized marketing videos have 5x longer watch times and 3x higher completion rates.
+          - generic [ref=e263]:
+            - generic [ref=e264]: Audience Mismatch
+            - generic [ref=e265]:
+              - img [ref=e267]
+              - generic [ref=e271]:
+                - heading "Different Market Segments Have Different Needs" [level=3] [ref=e272]
+                - paragraph [ref=e273]: Your prospects at different buyer journey stages all need different messaging, yet most marketers serve identical content to everyone.
+          - generic [ref=e274]:
+            - generic [ref=e275]: Connection Gap
+            - generic [ref=e276]:
+              - img [ref=e278]
+              - generic [ref=e282]:
+                - heading "Generic Marketing Fails to Connect" [level=3] [ref=e283]
+                - paragraph [ref=e284]: 86% of consumers say personalization impacts their purchasing decisions, but only 12% of marketing videos contain any personalized elements.
+          - generic [ref=e285]:
+            - generic [ref=e286]: Revenue Loss
+            - generic [ref=e287]:
+              - img [ref=e289]
+              - generic [ref=e291]:
+                - heading "Lower Marketing Conversion Rates" [level=3] [ref=e292]
+                - paragraph [ref=e293]: Non-personalized marketing videos convert 3X worse than personalized campaigns, with personalized marketing achieving conversion rates of up to 19% versus 6% for generic videos.
+          - generic [ref=e294]:
+            - generic [ref=e295]: Diminishing Returns
+            - generic [ref=e296]:
+              - img [ref=e298]
+              - generic [ref=e299]:
+                - heading "Declining Marketing Performance Over Time" [level=3] [ref=e300]
+                - paragraph [ref=e301]: The effectiveness gap between personalized and generic marketing is widening every year, with generic marketing performance dropping 18% annually.
+          - generic [ref=e302]:
+            - generic [ref=e303]: Market Threat
+            - generic [ref=e304]:
+              - img [ref=e306]
+              - generic [ref=e308]:
+                - heading "Competitive Disadvantage in Marketing" [level=3] [ref=e309]
+                - paragraph [ref=e310]: 67% of your competitors are already using personalized marketing to connect with your potential customers, creating a widening advantage gap.
+        - generic [ref=e311]:
+          - heading "The True Cost of Missing Marketing Personalization" [level=3] [ref=e312]
+          - generic [ref=e314]:
+            - generic [ref=e315]:
+              - generic [ref=e316]:
+                - generic [ref=e317]:
+                  - img [ref=e319]
+                  - generic [ref=e324]: 215%
+                - generic [ref=e325]: Lost Audience Attention
+              - generic [ref=e326]: Higher engagement with personalized marketing
+              - generic [ref=e327]: Prospects spend 3.2x longer watching personalized marketing videos
+            - generic [ref=e328]:
+              - generic [ref=e329]:
+                - generic [ref=e330]:
+                  - img [ref=e332]
+                  - generic [ref=e337]: 183%
+                - generic [ref=e338]: Lost Conversions
+              - generic [ref=e339]: Higher conversion rates with personalized marketing
+              - generic [ref=e340]: Average ROI increases 2.8x with personalized marketing campaigns
+            - generic [ref=e341]:
+              - generic [ref=e342]:
+                - generic [ref=e343]:
+                  - img [ref=e345]
+                  - generic [ref=e348]: 157%
+                - generic [ref=e349]: Lost Message Delivery
+              - generic [ref=e350]: Longer view time with personalized marketing videos
+              - generic [ref=e351]: Marketing messages are 2.4x more likely to be remembered
+            - generic [ref=e352]:
+              - generic [ref=e353]:
+                - generic [ref=e354]:
+                  - img [ref=e356]
+                  - generic [ref=e362]: 287%
+                - generic [ref=e363]: Lost Organic Reach
+              - generic [ref=e364]: More shares and social amplification of marketing
+              - generic [ref=e365]: Free distribution through increased audience sharing of personalized marketing
+          - generic [ref=e366]:
+            - heading "Industry-Specific Marketing Impact of Generic Content" [level=4] [ref=e367]:
+              - img [ref=e368]
+              - text: Industry-Specific Marketing Impact of Generic Content
+            - generic [ref=e371]:
+              - generic [ref=e372]:
+                - generic [ref=e373]: E-commerce Marketing
+                - generic [ref=e374]: "-42%"
+                - generic [ref=e375]: Product video conversion rate
+              - generic [ref=e376]:
+                - generic [ref=e377]: B2B Marketing
+                - generic [ref=e378]: "-67%"
+                - generic [ref=e379]: Lead qualification rate
+              - generic [ref=e380]:
+                - generic [ref=e381]: Social Media Marketing
+                - generic [ref=e382]: "-53%"
+                - generic [ref=e383]: Audience engagement metrics
+          - generic [ref=e384]:
+            - heading "Marketing ROI Impact" [level=4] [ref=e385]:
+              - img [ref=e386]
+              - text: Marketing ROI Impact
+            - generic [ref=e389]:
+              - generic [ref=e390]:
+                - generic [ref=e391]: Generic Marketing
+                - generic [ref=e392]:
+                  - img [ref=e393]
+                  - generic [ref=e396]: 6%
+                - generic [ref=e397]: Average Conversion Rate
+                - generic [ref=e398]:
+                  - generic [ref=e399]:
+                    - generic [ref=e400]: $10,000 Spent
+                    - generic [ref=e401]: $36,000 Revenue
+                  - generic [ref=e402]: 3.6x ROI
+              - generic [ref=e403]:
+                - generic [ref=e404]: Personalized Marketing
+                - generic [ref=e405]:
+                  - img [ref=e406]
+                  - generic [ref=e409]: 19%
+                - generic [ref=e410]: Average Conversion Rate
+                - generic [ref=e411]:
+                  - generic [ref=e412]:
+                    - generic [ref=e413]: $10,000 Spent
+                    - generic [ref=e414]: $114,000 Revenue
+                  - generic [ref=e415]: 11.4x ROI
+            - generic [ref=e416]: Based on average campaign metrics across 1,000+ marketing campaigns
+          - generic [ref=e417]:
+            - heading "The Compounding Cost of Marketing Without Personalization" [level=4] [ref=e418]:
+              - img [ref=e419]
+              - text: The Compounding Cost of Marketing Without Personalization
+            - generic [ref=e422]:
+              - generic [ref=e425]: Today
+              - generic [ref=e428]: 3 months
+              - generic [ref=e431]: 6 months
+              - generic [ref=e434]: 1 year
+            - generic [ref=e435]: The marketing performance gap between personalized and generic content widens exponentially over time
+          - generic [ref=e436]:
+            - generic [ref=e437]:
+              - img [ref=e438]
+              - heading "Annual Marketing Financial Impact" [level=4] [ref=e444]
+            - generic [ref=e445]:
+              - generic [ref=e446]:
+                - generic [ref=e447]: 10,000 marketing video views
+                - generic [ref=e448]: $42,000 lost revenue
+              - generic [ref=e449]:
+                - generic [ref=e450]: 100,000 marketing video views
+                - generic [ref=e451]: $420,000 lost revenue
+            - generic [ref=e452]: Based on average 13% conversion gap and $250 customer value
+          - generic [ref=e453]:
+            - heading "Market Dominance Impact" [level=4] [ref=e454]:
+              - img [ref=e455]
+              - text: Market Dominance Impact
+            - generic [ref=e458]:
+              - generic [ref=e459]:
+                - generic [ref=e462]:
+                  - text: Your Business
+                  - text: (Generic Marketing)
+                - generic [ref=e465]:
+                  - text: Competitors
+                  - text: (Personalized Marketing)
+              - generic [ref=e466]: Companies using personalized marketing capture 60% more market share on average
+          - generic [ref=e467]:
+            - paragraph [ref=e468]: The longer you delay implementing marketing personalization, the wider the performance gap grows between your campaigns and your competitors' personalized marketing videos.
+            - link "Discover How VideoRemix.vip Personalizes Your Marketing" [ref=e470] [cursor=pointer]:
+              - /url: "#solution"
+              - generic [ref=e471]: Discover How VideoRemix.vip Personalizes Your Marketing
+              - img [ref=e472]
+      - generic [ref=e477]:
+        - generic [ref=e478]:
+          - generic [ref=e481]:
+            - img [ref=e482]
+            - text: THE PERSONALIZED MARKETING REVOLUTION
+          - heading "Introducing VideoRemix.vip Your Complete Personalized Marketing Platform" [level=2] [ref=e485]:
+            - text: Introducing
+            - generic [ref=e486]: VideoRemix.vip
+            - text: Your Complete Personalized Marketing Platform
+          - paragraph [ref=e488]: Create personalized marketing videos that speak directly to each viewer, driving 3X higher engagement and dramatically increasing conversion rates across your marketing campaigns.
+        - generic [ref=e489]:
+          - generic [ref=e490]:
+            - generic [ref=e492]:
+              - img "Personalized Marketing Video Interface" [ref=e493]
+              - generic [ref=e495]:
+                - img [ref=e496]
+                - generic [ref=e501]: "Audience: B2B Decision Makers"
+              - generic [ref=e502]:
+                - img [ref=e503]
+                - generic [ref=e506]: Marketing Personalization Active
+              - generic [ref=e510]:
+                - button [ref=e511] [cursor=pointer]:
+                  - img [ref=e512]
+                - generic [ref=e514]: 01:23 / 02:30
+              - generic [ref=e516]:
+                - img [ref=e517]
+                - generic [ref=e520]: AI marketing personalization applied to this segment
+            - generic [ref=e521]:
+              - generic [ref=e522]: Segmented Audiences
+              - generic [ref=e523]: Dynamic Marketing Content
+              - generic [ref=e524]: Personalized CTAs
+              - generic [ref=e525]: Conversion-Focused Messaging
+          - generic [ref=e526]:
+            - heading "How VideoRemix.vip Transforms Your Marketing With Personalization" [level=3] [ref=e527]
+            - generic [ref=e528]:
+              - generic [ref=e529]:
+                - generic [ref=e530]:
+                  - img [ref=e532]
+                  - generic [ref=e535]: One-size-fits-all marketing for everyone
+                - generic [ref=e536]:
+                  - img [ref=e539]
+                  - generic [ref=e541]: Personalized marketing videos for each audience segment
+              - generic [ref=e542]:
+                - generic [ref=e543]:
+                  - img [ref=e545]
+                  - generic [ref=e548]: Manual customization takes hours per campaign
+                - generic [ref=e549]:
+                  - img [ref=e552]
+                  - generic [ref=e554]: AI personalizes marketing in minutes
+              - generic [ref=e555]:
+                - generic [ref=e556]:
+                  - img [ref=e558]
+                  - generic [ref=e561]: Same messaging regardless of prospect stage
+                - generic [ref=e562]:
+                  - img [ref=e565]
+                  - generic [ref=e567]: Dynamic marketing adapts to each buyer journey stage
+              - generic [ref=e568]:
+                - generic [ref=e569]:
+                  - img [ref=e571]
+                  - generic [ref=e574]: Static templates with limited marketing options
+                - generic [ref=e575]:
+                  - img [ref=e578]
+                  - generic [ref=e580]: 20+ personalized marketing apps for any campaign
+            - generic [ref=e581]:
+              - heading "What Personalized Marketing Means For Your Business:" [level=3] [ref=e583]
+              - list [ref=e584]:
+                - listitem [ref=e585]:
+                  - img [ref=e587]
+                  - generic [ref=e589]: 215% increase in marketing video engagement rates
+                - listitem [ref=e590]:
+                  - img [ref=e592]
+                  - generic [ref=e594]: 183% higher conversion rates across your marketing funnel
+                - listitem [ref=e595]:
+                  - img [ref=e597]
+                  - generic [ref=e599]: 67% more time spent viewing your marketing videos
+                - listitem [ref=e600]:
+                  - img [ref=e602]
+                  - generic [ref=e604]: 3X more shares and social amplification of your campaigns
+                - listitem [ref=e605]:
+                  - img [ref=e607]
+                  - generic [ref=e609]: Stronger audience connection and measurable marketing ROI
+              - link "Explore 20+ Marketing Personalization Tools" [ref=e612] [cursor=pointer]:
+                - /url: /tools
+                - generic [ref=e613]: Explore 20+ Marketing Personalization Tools
+                - img [ref=e615]
+        - generic [ref=e617]:
+          - heading "Personalized Marketing By The Numbers" [level=3] [ref=e620]
+          - paragraph [ref=e621]: "The data is clear: personalized marketing significantly outperforms generic marketing"
+          - generic [ref=e622]:
+            - generic [ref=e623]:
+              - generic [ref=e624]: 215%
+              - generic [ref=e625]: Higher Engagement
+            - generic [ref=e626]:
+              - generic [ref=e627]: 183%
+              - generic [ref=e628]: Better Conversion
+            - generic [ref=e629]:
+              - generic [ref=e630]: 300%
+              - generic [ref=e631]: Marketing ROI
+          - link "Get Personalized Marketing Access Today" [ref=e632] [cursor=pointer]:
+            - /url: "#pricing"
+            - generic [ref=e633]: Get Personalized Marketing Access Today
+            - img [ref=e635]
+      - generic [ref=e644]:
+        - generic [ref=e645]:
+          - generic [ref=e647]: MARKETING PERSONALIZATION MADE SIMPLE
+          - heading "Create Personalized Marketing in Just Minutes" [level=2] [ref=e649]
+          - paragraph [ref=e650]: Our intuitive workflow makes it easy to create personalized marketing videos and campaigns for every audience segment
+        - generic [ref=e652]:
+          - button "1 Identify Your" [ref=e654] [cursor=pointer]:
+            - generic [ref=e656]: "1"
+            - generic [ref=e657]: Identify Your
+          - button "2 Personalize Your" [ref=e658] [cursor=pointer]:
+            - generic [ref=e660]: "2"
+            - generic [ref=e661]: Personalize Your
+          - button "3 Set Up" [ref=e662] [cursor=pointer]:
+            - generic [ref=e664]: "3"
+            - generic [ref=e665]: Set Up
+          - button "4 Measure &" [ref=e666] [cursor=pointer]:
+            - generic [ref=e668]: "4"
+            - generic [ref=e669]: Measure &
+        - generic [ref=e670]:
+          - generic [ref=e671]:
+            - img [ref=e673]
+            - heading "Identify Your Marketing Audience Segments" [level=3] [ref=e678]
+            - paragraph [ref=e679]: Our AI automatically analyzes your audience data and segments them based on behavior, demographics, and buying intent.
+            - generic [ref=e680]:
+              - heading "Key Features:" [level=4] [ref=e681]
+              - generic [ref=e682]:
+                - generic [ref=e683]:
+                  - img [ref=e685]
+                  - paragraph [ref=e687]: Automatic segmentation based on existing marketing data
+                - generic [ref=e688]:
+                  - img [ref=e690]
+                  - paragraph [ref=e692]: Create custom segments for specific marketing campaigns
+                - generic [ref=e693]:
+                  - img [ref=e695]
+                  - paragraph [ref=e697]: Import segments from CRM and marketing systems
+                - generic [ref=e698]:
+                  - img [ref=e700]
+                  - paragraph [ref=e702]: Up to 20+ unique marketing audience segments supported
+            - generic [ref=e703]:
+              - img [ref=e704]
+              - generic [ref=e707]:
+                - generic [ref=e708]: 2 min
+                - generic [ref=e709]: Average setup time
+          - generic [ref=e711]:
+            - img "Identify Your Marketing Audience Segments" [ref=e712]
+            - button [ref=e715] [cursor=pointer]:
+              - img [ref=e716]
+            - generic [ref=e718]: Marketing Step 1 of 4
+            - generic [ref=e720]:
+              - generic [ref=e721]:
+                - img [ref=e722]
+                - heading "Marketing Personalization Preview" [level=4] [ref=e725]
+              - paragraph [ref=e726]: "Marketing segments identified: Decision Makers, Researchers, Influencers, Budget Holders"
+              - generic [ref=e728]: Marketing personalization powered by AI
+        - generic [ref=e729]:
+          - generic [ref=e730]:
+            - generic [ref=e731]:
+              - img [ref=e733]
+              - generic [ref=e737]: 215%
+              - generic [ref=e738]: Higher engagement with marketing personalization
+            - generic [ref=e739]:
+              - img [ref=e741]
+              - generic [ref=e742]: 183%
+              - generic [ref=e743]: Increased marketing conversion rate
+            - generic [ref=e744]:
+              - img [ref=e746]
+              - generic [ref=e749]: 10 min
+              - generic [ref=e750]: Average marketing personalization time
+            - generic [ref=e751]:
+              - img [ref=e753]
+              - generic [ref=e757]: 20+
+              - generic [ref=e758]: Marketing personalization tools available
+          - generic [ref=e759]:
+            - link "Explore All Marketing Personalization Tools" [ref=e761] [cursor=pointer]:
+              - /url: /tools
+              - generic [ref=e762]: Explore All Marketing Personalization Tools
+              - img [ref=e763]
+            - paragraph [ref=e765]: Get started with VideoRemix.vip today. No credit card required.
+      - generic [ref=e770]:
+        - generic [ref=e771]:
+          - generic [ref=e773]: MARKETING PERSONALIZATION TOOLS
+          - heading "One Platform. 20+ Marketing Personalization Apps" [level=2] [ref=e775]
+          - paragraph [ref=e776]: Explore our comprehensive suite of personalized marketing tools designed for every campaign need
+        - generic [ref=e779]:
+          - button "Marketing Content Creation Create personalized marketing videos and images" [ref=e780] [cursor=pointer]:
+            - generic [ref=e781]:
+              - img [ref=e783]
+              - generic [ref=e786]: Marketing Content Creation
+              - generic [ref=e787]: Create personalized marketing videos and images
+          - button "Visual Marketing Apply personalized visual treatments to marketing" [ref=e788] [cursor=pointer]:
+            - generic [ref=e789]:
+              - img [ref=e791]
+              - generic [ref=e797]: Visual Marketing
+              - generic [ref=e798]: Apply personalized visual treatments to marketing
+          - button "Sales & Marketing Tools Close more deals with personalization" [ref=e799] [cursor=pointer]:
+            - generic [ref=e800]:
+              - img [ref=e802]
+              - generic [ref=e806]: Sales & Marketing Tools
+              - generic [ref=e807]: Close more deals with personalization
+          - button "Marketing Communication Personalized marketing outreach tools" [ref=e808] [cursor=pointer]:
+            - generic [ref=e809]:
+              - img [ref=e811]
+              - generic [ref=e813]: Marketing Communication
+              - generic [ref=e814]: Personalized marketing outreach tools
+          - button "Advanced AI Marketing Cutting edge AI marketing personalization" [ref=e815] [cursor=pointer]:
+            - generic [ref=e816]:
+              - img [ref=e818]
+              - generic [ref=e821]: Advanced AI Marketing
+              - generic [ref=e822]: Cutting edge AI marketing personalization
+        - generic [ref=e823]:
+          - heading "Featured Marketing Collections" [level=3] [ref=e824]
+          - generic [ref=e825]:
+            - generic [ref=e827]:
+              - img [ref=e829]
+              - heading "Visual Marketing" [level=4] [ref=e835]
+              - paragraph [ref=e836]: Transform ideas into stunning personalized marketing visuals
+              - generic [ref=e837]:
+                - link "Marketing AI Creative Studio" [ref=e838] [cursor=pointer]:
+                  - /url: https://ai-personalized-content.videoremix.vip
+                  - img [ref=e840]
+                  - generic [ref=e844]: Marketing AI Creative Studio
+                - link "Marketing AI Image Generation" [ref=e845] [cursor=pointer]:
+                  - /url: https://ai-personalized-content.videoremix.vip
+                  - img [ref=e847]
+                  - generic [ref=e854]: Marketing AI Image Generation
+                - link "Marketing Action Figures" [ref=e855] [cursor=pointer]:
+                  - /url: https://ai-personalized-content.videoremix.vip
+                  - img [ref=e857]
+                  - generic [ref=e864]: Marketing Action Figures
+                - link "Marketing Studio Ghibli Style" [ref=e865] [cursor=pointer]:
+                  - /url: https://ai-personalized-content.videoremix.vip
+                  - img [ref=e867]
+                  - generic [ref=e874]: Marketing Studio Ghibli Style
+            - generic [ref=e876]:
+              - img [ref=e878]
+              - heading "Sales Acceleration" [level=4] [ref=e882]
+              - paragraph [ref=e883]: Close more deals with personalized marketing tools
+              - generic [ref=e884]:
+                - link "Marketing Proposal Generator" [ref=e885] [cursor=pointer]:
+                  - /url: https://proposal-ai.videoremix.vip
+                  - img [ref=e887]
+                  - generic [ref=e892]: Marketing Proposal Generator
+                - link "Marketing Audience Research" [ref=e893] [cursor=pointer]:
+                  - /url: https://sales-assistant-ai.videoremix.vip
+                  - img [ref=e895]
+                  - generic [ref=e901]: Marketing Audience Research
+                - link "Marketing Smart Pricing" [ref=e902] [cursor=pointer]:
+                  - /url: https://proposal-ai.videoremix.vip
+                  - img [ref=e904]
+                  - generic [ref=e909]: Marketing Smart Pricing
+                - link "Marketing Objection Handler" [ref=e910] [cursor=pointer]:
+                  - /url: https://sales-assistant-ai.videoremix.vip
+                  - img [ref=e912]
+                  - generic [ref=e915]: Marketing Objection Handler
+            - generic [ref=e917]:
+              - img [ref=e919]
+              - heading "Global Marketing" [level=4] [ref=e922]
+              - paragraph [ref=e923]: Supercharge your international marketing efforts
+              - generic [ref=e924]:
+                - link "Multi-Language Marketing" [ref=e925] [cursor=pointer]:
+                  - /url: https://ai-personalized-content.videoremix.vip
+                  - img [ref=e927]
+                  - generic [ref=e931]: Multi-Language Marketing
+                - link "Real-Time Marketing Translation" [ref=e932] [cursor=pointer]:
+                  - /url: https://ai-personalized-content.videoremix.vip
+                  - img [ref=e934]
+                  - generic [ref=e938]: Real-Time Marketing Translation
+                - link "Marketing Follow-Up Emails" [ref=e939] [cursor=pointer]:
+                  - /url: https://sales-assistant-ai.videoremix.vip
+                  - img [ref=e941]
+                  - generic [ref=e944]: Marketing Follow-Up Emails
+        - generic [ref=e945]:
+          - button "Scroll left" [ref=e946] [cursor=pointer]:
+            - img [ref=e947]
+          - button "Scroll right" [ref=e949] [cursor=pointer]:
+            - img [ref=e950]
+          - heading "Marketing Content Creation Tools" [level=3] [ref=e952]
+          - generic [ref=e954]:
+            - link "Marketing AI Creative Studio POPULAR Marketing Content Creation Create AI-generated marketing content tailored to your audience Try Marketing Tool" [ref=e956] [cursor=pointer]:
+              - /url: https://ai-personalized-content.videoremix.vip
+              - generic [ref=e957]:
+                - img [ref=e959]
+                - generic [ref=e962]:
+                  - generic [ref=e963]:
+                    - heading "Marketing AI Creative Studio" [level=3] [ref=e964]
+                    - generic [ref=e965]: POPULAR
+                  - paragraph [ref=e966]: Marketing Content Creation
+              - paragraph [ref=e967]: Create AI-generated marketing content tailored to your audience
+              - generic [ref=e969]:
+                - text: Try Marketing Tool
+                - img [ref=e970]
+            - link "Marketing Video Generator POPULAR Marketing Content Creation Generate marketing videos based on audience data Try Marketing Tool" [ref=e973] [cursor=pointer]:
+              - /url: https://ai-personalized-content.videoremix.vip
+              - generic [ref=e974]:
+                - img [ref=e976]
+                - generic [ref=e979]:
+                  - generic [ref=e980]:
+                    - heading "Marketing Video Generator" [level=3] [ref=e981]
+                    - generic [ref=e982]: POPULAR
+                  - paragraph [ref=e983]: Marketing Content Creation
+              - paragraph [ref=e984]: Generate marketing videos based on audience data
+              - generic [ref=e986]:
+                - text: Try Marketing Tool
+                - img [ref=e987]
+            - link "Marketing GIF Editor NEW Marketing Content Creation Create and customize animated GIFs for marketing campaigns Try Marketing Tool" [ref=e990] [cursor=pointer]:
+              - /url: https://ai-personalized-content.videoremix.vip
+              - generic [ref=e991]:
+                - img [ref=e993]
+                - generic [ref=e998]:
+                  - generic [ref=e999]:
+                    - heading "Marketing GIF Editor" [level=3] [ref=e1000]
+                    - generic [ref=e1001]: NEW
+                  - paragraph [ref=e1002]: Marketing Content Creation
+              - paragraph [ref=e1003]: Create and customize animated GIFs for marketing campaigns
+              - generic [ref=e1005]:
+                - text: Try Marketing Tool
+                - img [ref=e1006]
+            - link "Marketing AI Image Generation POPULAR Marketing Content Creation Generate images for targeted marketing campaigns Try Marketing Tool" [ref=e1009] [cursor=pointer]:
+              - /url: https://ai-personalized-content.videoremix.vip
+              - generic [ref=e1010]:
+                - img [ref=e1012]
+                - generic [ref=e1018]:
+                  - generic [ref=e1019]:
+                    - heading "Marketing AI Image Generation" [level=3] [ref=e1020]
+                    - generic [ref=e1021]: POPULAR
+                  - paragraph [ref=e1022]: Marketing Content Creation
+              - paragraph [ref=e1023]: Generate images for targeted marketing campaigns
+              - generic [ref=e1025]:
+                - text: Try Marketing Tool
+                - img [ref=e1026]
+        - generic [ref=e1029]:
+          - heading "Unlock the Full Power of Marketing Personalization" [level=2] [ref=e1031]
+          - paragraph [ref=e1032]: Access all our professional marketing personalization tools with a premium subscription
+          - link "Get Premium Access" [ref=e1033] [cursor=pointer]:
+            - /url: /pricing
+            - text: Get Premium Access
+            - img [ref=e1034]
+      - generic [ref=e1040]:
+        - generic [ref=e1041]:
+          - generic [ref=e1043]: MARKETING PERSONALIZATION FEATURES
+          - heading "Comprehensive Marketing Personalization Features" [level=2] [ref=e1045]
+          - paragraph [ref=e1046]: Explore the powerful personalization capabilities of VideoRemix.vip's marketing platform
+        - generic [ref=e1047]:
+          - generic [ref=e1048]:
+            - heading "Personalized Video Marketing" [level=3] [ref=e1050]
+            - list [ref=e1051]:
+              - listitem [ref=e1052]:
+                - img [ref=e1054]
+                - generic [ref=e1056]: Personalized Marketing from Text/Keywords/Prompts
+              - listitem [ref=e1057]:
+                - img [ref=e1059]
+                - generic [ref=e1061]: Personalized Marketing from User Data
+              - listitem [ref=e1062]:
+                - img [ref=e1064]
+                - generic [ref=e1066]: Personalized Audio/Music for Campaigns
+              - listitem [ref=e1067]:
+                - img [ref=e1069]
+                - generic [ref=e1071]: Personalized Imagery from Various Sources
+              - listitem [ref=e1072]:
+                - img [ref=e1074]
+                - generic [ref=e1076]: Personalized Marketing Campaign Storage
+              - listitem [ref=e1077]:
+                - img [ref=e1079]
+                - generic [ref=e1081]: Personalized Campaign Layer Management
+          - generic [ref=e1082]:
+            - heading "Personalized Marketing Copy" [level=3] [ref=e1084]
+            - list [ref=e1085]:
+              - listitem [ref=e1086]:
+                - img [ref=e1088]
+                - generic [ref=e1090]: Personalized Marketing Text Elements
+              - listitem [ref=e1091]:
+                - img [ref=e1093]
+                - generic [ref=e1095]: Personalized Marketing Text Masking
+              - listitem [ref=e1096]:
+                - img [ref=e1098]
+                - generic [ref=e1100]: Personalized Marketing Copy Based on User Data
+              - listitem [ref=e1101]:
+                - img [ref=e1103]
+                - generic [ref=e1105]: Personalized Marketing for Email Lists
+              - listitem [ref=e1106]:
+                - img [ref=e1108]
+                - generic [ref=e1110]: Personalized Marketing Link™ with Various Email Services
+              - listitem [ref=e1111]:
+                - img [ref=e1113]
+                - generic [ref=e1115]: Personalized Marketing Text Animations
+          - generic [ref=e1116]:
+            - heading "Personalized Marketing Elements" [level=3] [ref=e1118]
+            - list [ref=e1119]:
+              - listitem [ref=e1120]:
+                - img [ref=e1122]
+                - generic [ref=e1124]: Personalized Marketing Animation Elements
+              - listitem [ref=e1125]:
+                - img [ref=e1127]
+                - generic [ref=e1129]: Personalized Marketing Transition Elements
+              - listitem [ref=e1130]:
+                - img [ref=e1132]
+                - generic [ref=e1134]: Personalized Marketing Blend Modes
+              - listitem [ref=e1135]:
+                - img [ref=e1137]
+                - generic [ref=e1139]: Personalized Marketing Pause Elements
+              - listitem [ref=e1140]:
+                - img [ref=e1142]
+                - generic [ref=e1144]: Personalized Marketing Loop Elements
+              - listitem [ref=e1145]:
+                - img [ref=e1147]
+                - generic [ref=e1149]: Personalized Marketing Skip Elements
+          - generic [ref=e1150]:
+            - heading "Personalized Interactive Marketing" [level=3] [ref=e1152]
+            - list [ref=e1153]:
+              - listitem [ref=e1154]:
+                - img [ref=e1156]
+                - generic [ref=e1158]: Personalized Marketing CTA Elements
+              - listitem [ref=e1159]:
+                - img [ref=e1161]
+                - generic [ref=e1163]: Personalized Marketing Connect Form
+              - listitem [ref=e1164]:
+                - img [ref=e1166]
+                - generic [ref=e1168]: Personalized Marketing Google Maps Integration
+              - listitem [ref=e1169]:
+                - img [ref=e1171]
+                - generic [ref=e1173]: Personalized Marketing Screen Recorder
+              - listitem [ref=e1174]:
+                - img [ref=e1176]
+                - generic [ref=e1178]: Personalized Marketing Audio Recorder
+              - listitem [ref=e1179]:
+                - img [ref=e1181]
+                - generic [ref=e1183]: Personalized Marketing Opt-in Form
+          - generic [ref=e1184]:
+            - heading "Personalized Professional Marketing" [level=3] [ref=e1186]
+            - list [ref=e1187]:
+              - listitem [ref=e1188]:
+                - img [ref=e1190]
+                - generic [ref=e1192]: Personalized Marketing Lower Thirds Presets
+              - listitem [ref=e1193]:
+                - img [ref=e1195]
+                - generic [ref=e1197]: Personalized Marketing Custom Lower Thirds
+              - listitem [ref=e1198]:
+                - img [ref=e1200]
+                - generic [ref=e1202]: Personalized Marketing AI Voice Coach
+              - listitem [ref=e1203]:
+                - img [ref=e1205]
+                - generic [ref=e1207]: Personalized Marketing Storyboard AI
+              - listitem [ref=e1208]:
+                - img [ref=e1210]
+                - generic [ref=e1212]: Personalized Marketing AI Script Creator
+              - listitem [ref=e1213]:
+                - img [ref=e1215]
+                - generic [ref=e1217]: Personalized Marketing Template Generator
+          - generic [ref=e1218]:
+            - heading "Personalized Marketing Social & Sharing" [level=3] [ref=e1220]
+            - list [ref=e1221]:
+              - listitem [ref=e1222]:
+                - img [ref=e1224]
+                - generic [ref=e1226]: Personalized Social Campaign Tools
+              - listitem [ref=e1227]:
+                - img [ref=e1229]
+                - generic [ref=e1231]: Personalized Marketing Social Plugin Integration
+              - listitem [ref=e1232]:
+                - img [ref=e1234]
+                - generic [ref=e1236]: Personalized Marketing Facebook/LinkedIn Content
+              - listitem [ref=e1237]:
+                - img [ref=e1239]
+                - generic [ref=e1241]: Personalized Marketing LinkedIn Video Sharing
+              - listitem [ref=e1242]:
+                - img [ref=e1244]
+                - generic [ref=e1246]: Personalized Social Media Marketing Pack
+              - listitem [ref=e1247]:
+                - img [ref=e1249]
+                - generic [ref=e1251]: Personalized Interactive Marketing Video Outros
+          - generic [ref=e1252]:
+            - heading "Personalized Marketing Advanced Tools" [level=3] [ref=e1254]
+            - list [ref=e1255]:
+              - listitem [ref=e1256]:
+                - img [ref=e1258]
+                - generic [ref=e1260]: Personalized Marketing Clip Editor
+              - listitem [ref=e1261]:
+                - img [ref=e1263]
+                - generic [ref=e1265]: Personalized Marketing Thumbnail Generator
+              - listitem [ref=e1266]:
+                - img [ref=e1268]
+                - generic [ref=e1270]: Personalized Marketing AI Background Remover
+              - listitem [ref=e1271]:
+                - img [ref=e1273]
+                - generic [ref=e1275]: Personalized Marketing AI Art Generator
+              - listitem [ref=e1276]:
+                - img [ref=e1278]
+                - generic [ref=e1280]: Personalized Marketing Video Project Thumbnails
+              - listitem [ref=e1281]:
+                - img [ref=e1283]
+                - generic [ref=e1285]: Personalized Marketing Text to Speech
+          - generic [ref=e1286]:
+            - heading "Personalized Marketing Multi-Language" [level=3] [ref=e1288]
+            - list [ref=e1289]:
+              - listitem [ref=e1290]:
+                - img [ref=e1292]
+                - generic [ref=e1294]: Personalized Marketing Automatic Captions
+              - listitem [ref=e1295]:
+                - img [ref=e1297]
+                - generic [ref=e1299]: Personalized Marketing Multi-language Support
+              - listitem [ref=e1300]:
+                - img [ref=e1302]
+                - generic [ref=e1304]: Personalized Marketing Copy Translation
+              - listitem [ref=e1305]:
+                - img [ref=e1307]
+                - generic [ref=e1309]: Personalized Marketing International Formatting
+              - listitem [ref=e1310]:
+                - img [ref=e1312]
+                - generic [ref=e1314]: Personalized Marketing Regional Dialect Recognition
+              - listitem [ref=e1315]:
+                - img [ref=e1317]
+                - generic [ref=e1319]: Personalized Marketing Cultural Context Adaptation
+      - generic [ref=e1352]:
+        - generic [ref=e1353]:
+          - generic [ref=e1355]: MARKETING PERSONALIZATION BENEFITS
+          - heading "Transform Your Marketing Results With Personalization" [level=2] [ref=e1357]
+          - paragraph [ref=e1358]: Personalization isn't just a nice-to-have feature—it's the difference between marketing that converts and marketing that gets ignored.
+        - generic [ref=e1359]:
+          - generic [ref=e1361]:
+            - generic [ref=e1362]:
+              - img [ref=e1364]
+              - generic [ref=e1367]:
+                - heading "Create Personalized Marketing in Minutes" [level=3] [ref=e1368]
+                - paragraph [ref=e1369]: Our AI tools analyze your audience and automatically personalize marketing content that resonates with each segment.
+            - generic [ref=e1370]:
+              - generic [ref=e1371]:
+                - generic [ref=e1372]: "92"
+                - generic [ref=e1373]: Time saved vs manual marketing personalization
+              - generic [ref=e1374]:
+                - generic [ref=e1375]: "5"
+                - generic [ref=e1376]: Average marketing personalization time
+          - generic [ref=e1378]:
+            - generic [ref=e1379]:
+              - img [ref=e1381]
+              - generic [ref=e1386]:
+                - heading "Segment Your Audience Automatically" [level=3] [ref=e1387]
+                - paragraph [ref=e1388]: Let AI identify and group your prospects into segments for highly targeted personalized marketing.
+            - generic [ref=e1389]:
+              - generic [ref=e1390]:
+                - generic [ref=e1391]: "215"
+                - generic [ref=e1392]: Increase in engagement with segmentation
+              - generic [ref=e1393]:
+                - generic [ref=e1394]: "183"
+                - generic [ref=e1395]: Higher conversion with personalized marketing
+          - generic [ref=e1397]:
+            - generic [ref=e1398]:
+              - img [ref=e1400]
+              - generic [ref=e1402]:
+                - heading "Personalized Marketing That Converts" [level=3] [ref=e1403]
+                - paragraph [ref=e1404]: Customize marketing to each prospect's needs, preferences, and position in the buyer journey.
+            - generic [ref=e1405]:
+              - generic [ref=e1406]:
+                - generic [ref=e1407]: "48"
+                - generic [ref=e1408]: Personalized marketing conversion rate
+              - generic [ref=e1409]:
+                - generic [ref=e1410]: "267"
+                - generic [ref=e1411]: Marketing ROI increase with personalization
+          - generic [ref=e1413]:
+            - generic [ref=e1414]:
+              - img [ref=e1416]
+              - generic [ref=e1418]:
+                - heading "Scale Your Marketing Personalization" [level=3] [ref=e1419]
+                - paragraph [ref=e1420]: Create thousands of personalized marketing video variations without additional work using our automation tools.
+            - generic [ref=e1421]:
+              - generic [ref=e1422]:
+                - generic [ref=e1423]: "100"
+                - generic [ref=e1424]: Marketing variations from one video
+              - generic [ref=e1425]:
+                - generic [ref=e1426]: 0Unlimited
+                - generic [ref=e1427]: Audience segments supported
+        - generic [ref=e1428]:
+          - heading "Success Stories" [level=3] [ref=e1429]
+          - button "Previous testimonial" [ref=e1430] [cursor=pointer]:
+            - img [ref=e1431]
+          - button "Next testimonial" [ref=e1433] [cursor=pointer]:
+            - img [ref=e1434]
+          - generic [ref=e1436]:
+            - generic [ref=e1438]:
+              - generic [ref=e1439]:
+                - img "Alex Rodriguez" [ref=e1442]
+                - generic [ref=e1444]:
+                  - img [ref=e1446]
+                  - img [ref=e1449]
+                  - img [ref=e1452]
+                  - img [ref=e1455]
+                  - img [ref=e1458]
+              - generic [ref=e1460]:
+                - paragraph [ref=e1461]: "\"VideoRemix makes personalized marketing so easy. The AI tools help us create segment-specific content in minutes. The platform is intuitive and powerful.\""
+                - generic [ref=e1462]:
+                  - generic [ref=e1463]: Alex Rodriguez
+                  - generic [ref=e1464]: Marketing Director, TechGrowth Solutions
+                - generic [ref=e1465]:
+                  - generic [ref=e1466]:
+                    - generic [ref=e1467]: Fast Setup
+                    - generic [ref=e1468]: Conversion
+                  - generic [ref=e1469]:
+                    - generic [ref=e1470]: Easy to Use
+                    - generic [ref=e1471]: Engagement
+                  - generic [ref=e1472]:
+                    - generic [ref=e1473]: Great Support
+                    - generic [ref=e1474]: Marketing ROI
+            - generic [ref=e1475]:
+              - button "Go to testimonial 1" [ref=e1476] [cursor=pointer]
+              - button "Go to testimonial 2" [ref=e1477] [cursor=pointer]
+              - button "Go to testimonial 3" [ref=e1478] [cursor=pointer]
+              - button "Go to testimonial 4" [ref=e1479] [cursor=pointer]
+              - button "Go to testimonial 5" [ref=e1480] [cursor=pointer]
+              - button "Go to testimonial 6" [ref=e1481] [cursor=pointer]
+              - button "Go to testimonial 7" [ref=e1482] [cursor=pointer]
+              - button "Go to testimonial 8" [ref=e1483] [cursor=pointer]
+              - button "Go to testimonial 9" [ref=e1484] [cursor=pointer]
+              - button "Go to testimonial 10" [ref=e1485] [cursor=pointer]
+        - link "Explore Marketing Personalization Tools" [ref=e1487] [cursor=pointer]:
+          - /url: "#tools"
+          - img [ref=e1488]
+          - generic [ref=e1491]: Explore Marketing Personalization Tools
+          - img [ref=e1493]
+      - generic [ref=e1501]:
+        - generic [ref=e1502]:
+          - generic [ref=e1504]: MARKETING PERSONALIZATION SUCCESS
+          - heading "Real Results From Real Businesses" [level=2] [ref=e1506]
+          - paragraph [ref=e1507]: See how companies across industries have transformed their marketing performance with personalized content
+        - generic [ref=e1509]:
+          - button "StyleTrend StyleTrend E-Commerce Fashion" [ref=e1510] [cursor=pointer]:
+            - generic [ref=e1511]:
+              - img "StyleTrend" [ref=e1513]
+              - generic [ref=e1514]:
+                - heading "StyleTrend" [level=4] [ref=e1515]
+                - paragraph [ref=e1516]: E-Commerce Fashion
+          - button "CloudSphere Solutions CloudSphere Solutions SaaS / Enterprise Software" [ref=e1517] [cursor=pointer]:
+            - generic [ref=e1518]:
+              - img "CloudSphere Solutions" [ref=e1520]
+              - generic [ref=e1521]:
+                - heading "CloudSphere Solutions" [level=4] [ref=e1522]
+                - paragraph [ref=e1523]: SaaS / Enterprise Software
+          - button "EduVista Learning EduVista Learning Educational Technology" [ref=e1524] [cursor=pointer]:
+            - generic [ref=e1525]:
+              - img "EduVista Learning" [ref=e1527]
+              - generic [ref=e1528]:
+                - heading "EduVista Learning" [level=4] [ref=e1529]
+                - paragraph [ref=e1530]: Educational Technology
+          - button "Meridian Financial Meridian Financial Financial Services" [ref=e1531] [cursor=pointer]:
+            - generic [ref=e1532]:
+              - img "Meridian Financial" [ref=e1534]
+              - generic [ref=e1535]:
+                - heading "Meridian Financial" [level=4] [ref=e1536]
+                - paragraph [ref=e1537]: Financial Services
+          - button "Vitality Health Network Vitality Health Network Healthcare" [ref=e1538] [cursor=pointer]:
+            - generic [ref=e1539]:
+              - img "Vitality Health Network" [ref=e1541]
+              - generic [ref=e1542]:
+                - heading "Vitality Health Network" [level=4] [ref=e1543]
+                - paragraph [ref=e1544]: Healthcare
+        - generic [ref=e1546]:
+          - generic [ref=e1547]:
+            - generic [ref=e1549]:
+              - img [ref=e1551]
+              - generic [ref=e1554]:
+                - heading "StyleTrend" [level=3] [ref=e1555]
+                - paragraph [ref=e1556]: E-Commerce Fashion
+            - generic [ref=e1557]:
+              - generic [ref=e1558]:
+                - heading "The Challenge" [level=4] [ref=e1559]
+                - paragraph [ref=e1560]: StyleTrend was sending the same generic product videos to all customers, resulting in low engagement rates (2.3%) and poor conversion (1.7%). Their marketing team couldn't create personalized content at scale.
+              - generic [ref=e1561]:
+                - heading "The Solution" [level=4] [ref=e1562]
+                - paragraph [ref=e1563]: Implemented audience segmentation by style preference, browsing history, and purchase behavior. Created personalized marketing videos for each segment using VideoRemix.vip's AI personalization tools.
+            - generic [ref=e1565]:
+              - img "Emma Richardson" [ref=e1568]
+              - generic [ref=e1569]:
+                - paragraph [ref=e1570]: "\"The difference in our marketing performance is night and day. We now produce segment-specific fashion videos in minutes that connect with each audience perfectly. Our marketing ROI increased over 5x.\""
+                - generic [ref=e1571]:
+                  - text: Emma Richardson
+                  - generic [ref=e1572]: • Marketing Director
+            - generic [ref=e1573]: "Implementation Timeline: 3 weeks from implementation to first results"
+          - generic [ref=e1574]:
+            - generic [ref=e1576]:
+              - img "StyleTrend implementation" [ref=e1577]
+              - generic [ref=e1579]:
+                - generic [ref=e1580]: VideoRemix.vip Solution
+                - link "Watch Case Study Video" [ref=e1581] [cursor=pointer]:
+                  - /url: https://ai-personalized-content.videoremix.vip
+                  - text: Watch Case Study Video
+                  - img [ref=e1582]
+            - generic [ref=e1584]:
+              - heading "The Results" [level=4] [ref=e1585]
+              - generic [ref=e1586]:
+                - generic [ref=e1588]:
+                  - img [ref=e1590]
+                  - generic [ref=e1591]:
+                    - generic [ref=e1592]: +347%
+                    - generic [ref=e1593]: Engagement
+                - generic [ref=e1595]:
+                  - img [ref=e1597]
+                  - generic [ref=e1600]:
+                    - generic [ref=e1601]: 8.4%
+                    - generic [ref=e1602]: Conversion
+                - generic [ref=e1604]:
+                  - img [ref=e1606]
+                  - generic [ref=e1609]:
+                    - generic [ref=e1610]: "-85%"
+                    - generic [ref=e1611]: Production Time
+                - generic [ref=e1613]:
+                  - img [ref=e1615]
+                  - generic [ref=e1617]:
+                    - generic [ref=e1618]: 518%
+                    - generic [ref=e1619]: ROI
+            - generic [ref=e1620]:
+              - heading "Marketing Performance Transformation" [level=4] [ref=e1621]:
+                - img [ref=e1622]
+                - text: Marketing Performance Transformation
+              - generic [ref=e1625]:
+                - generic [ref=e1626]:
+                  - generic [ref=e1627]: BEFORE
+                  - generic [ref=e1632]:
+                    - generic [ref=e1633]: Generic Marketing
+                    - generic [ref=e1634]: Low Performance
+                - generic [ref=e1635]:
+                  - generic [ref=e1636]: AFTER
+                  - generic [ref=e1641]:
+                    - generic [ref=e1642]: Personalized Marketing
+                    - generic [ref=e1643]: High Performance
+              - link "Explore the complete case study" [ref=e1645] [cursor=pointer]:
+                - /url: https://ai-personalized-content.videoremix.vip
+                - text: Explore the complete case study
+                - img [ref=e1646]
+        - generic [ref=e1649]:
+          - button [ref=e1650] [cursor=pointer]:
+            - img [ref=e1651]
+          - generic [ref=e1653]:
+            - button "Go to case study 1" [ref=e1654] [cursor=pointer]
+            - button "Go to case study 2" [ref=e1655] [cursor=pointer]
+            - button "Go to case study 3" [ref=e1656] [cursor=pointer]
+            - button "Go to case study 4" [ref=e1657] [cursor=pointer]
+            - button "Go to case study 5" [ref=e1658] [cursor=pointer]
+          - button [ref=e1659] [cursor=pointer]:
+            - img [ref=e1660]
+        - generic [ref=e1662]:
+          - generic [ref=e1663]:
+            - heading "Industry-Specific Results" [level=3] [ref=e1664]
+            - generic [ref=e1665]:
+              - button "E-commerce" [ref=e1666] [cursor=pointer]
+              - button "B2B Software" [ref=e1667] [cursor=pointer]
+              - button "Financial Services" [ref=e1668] [cursor=pointer]
+              - button "Healthcare" [ref=e1669] [cursor=pointer]
+          - generic [ref=e1670]:
+            - heading "Marketing Personalization Impact in E-commerce" [level=4] [ref=e1671]:
+              - img [ref=e1672]
+              - text: Marketing Personalization Impact in E-commerce
+            - generic [ref=e1675]:
+              - generic [ref=e1676]:
+                - generic [ref=e1677]: +183%
+                - generic [ref=e1678]: Average Conversion Lift
+              - generic [ref=e1679]:
+                - generic [ref=e1680]: +215%
+                - generic [ref=e1681]: Customer Engagement
+              - generic [ref=e1682]:
+                - generic [ref=e1683]: +47%
+                - generic [ref=e1684]: Return Customer Rate
+            - link "Download the complete E-commerce benchmark report" [ref=e1686] [cursor=pointer]:
+              - /url: https://ai-personalized-content.videoremix.vip
+              - text: Download the complete E-commerce benchmark report
+              - img [ref=e1687]
+        - generic [ref=e1691]:
+          - heading "Ready to Create Your Success Story?" [level=3] [ref=e1692]
+          - paragraph [ref=e1693]: Join these businesses and achieve breakthrough results with personalized marketing videos
+          - link "Start Your Personalization Journey" [ref=e1695] [cursor=pointer]:
+            - /url: https://ai-personalized-content.videoremix.vip
+            - text: Start Your Personalization Journey
+            - img [ref=e1697]
+          - paragraph [ref=e1699]: No credit card required • Start today • Cancel anytime
+      - generic [ref=e1704]:
+        - generic [ref=e1705]:
+          - generic [ref=e1708]:
+            - img [ref=e1709]
+            - text: PERSONALIZED TOOLS COLLECTION
+          - heading "Create Content That Speaks Directly To Your Audience" [level=2] [ref=e1712]
+          - paragraph [ref=e1713]: VideoRemix.vip offers 50+ personalization tools that help you create highly targeted, engaging content that resonates with each specific viewer segment.
+          - generic [ref=e1714]:
+            - generic [ref=e1715]:
+              - img [ref=e1718]
+              - heading "47% Higher Engagement" [level=3] [ref=e1720]
+              - paragraph [ref=e1721]: Personalized content drives significantly more engagement than generic content
+            - generic [ref=e1722]:
+              - img [ref=e1725]
+              - heading "3.5x More Conversions" [level=3] [ref=e1728]
+              - paragraph [ref=e1729]: Personalized videos convert at rates up to 3.5x higher than standard videos
+            - generic [ref=e1730]:
+              - img [ref=e1733]
+              - heading "92% Message Retention" [level=3] [ref=e1741]
+              - paragraph [ref=e1742]: Viewers remember personalized content longer and more accurately
+            - generic [ref=e1743]:
+              - img [ref=e1746]
+              - heading "Global Audience Ready" [level=3] [ref=e1749]
+              - paragraph [ref=e1750]: Personalize content for different regions, languages, and cultures
+        - generic [ref=e1753]:
+          - button "All AI Tools" [ref=e1754] [cursor=pointer]:
+            - generic [ref=e1755]:
+              - img [ref=e1757]
+              - generic [ref=e1761]: All AI Tools
+          - button "Video Creation" [ref=e1762] [cursor=pointer]:
+            - generic [ref=e1763]:
+              - img [ref=e1765]
+              - generic [ref=e1768]: Video Creation
+          - button "Sales & Marketing" [ref=e1769] [cursor=pointer]:
+            - generic [ref=e1770]:
+              - img [ref=e1772]
+              - generic [ref=e1777]: Sales & Marketing
+          - button "AI Image" [ref=e1778] [cursor=pointer]:
+            - generic [ref=e1779]:
+              - img [ref=e1781]
+              - generic [ref=e1785]: AI Image
+          - button "Branding" [ref=e1786] [cursor=pointer]:
+            - generic [ref=e1787]:
+              - img [ref=e1789]
+              - generic [ref=e1795]: Branding
+          - button "Personalizer" [ref=e1796] [cursor=pointer]:
+            - generic [ref=e1797]:
+              - img [ref=e1799]
+              - generic [ref=e1803]: Personalizer
+          - button "Creative Tools" [ref=e1804] [cursor=pointer]:
+            - generic [ref=e1805]:
+              - img [ref=e1807]
+              - generic [ref=e1811]: Creative Tools
+        - heading "Featured Personalization Tools" [level=3] [ref=e1813]
+        - generic [ref=e1815]:
+          - generic [ref=e1816]:
+            - generic:
+              - img
+            - textbox "Search personalization tools..." [ref=e1817]
+          - generic [ref=e1818]:
+            - generic [ref=e1819]:
+              - generic:
+                - img
+              - combobox [ref=e1820]:
+                - option "Most Popular First" [selected]
+                - option "Newest First"
+                - option "Alphabetical"
+              - generic:
+                - img
+            - generic [ref=e1821]:
+              - button "Grid view" [ref=e1822] [cursor=pointer]:
+                - img [ref=e1823]
+              - button "List view" [ref=e1828] [cursor=pointer]:
+                - img [ref=e1829]
+        - generic [ref=e1831]:
+          - heading "Personalization Tools" [level=3] [ref=e1832]:
+            - img [ref=e1833]
+            - text: Personalization Tools
+          - button "Scroll left" [ref=e1836] [cursor=pointer]:
+            - img [ref=e1837]
+          - button "Scroll right" [ref=e1839] [cursor=pointer]:
+            - img [ref=e1840]
+        - generic [ref=e1844]:
+          - generic [ref=e1845]: No personalization tools found matching your criteria
+          - button "Reset filters" [ref=e1846] [cursor=pointer]
+        - generic [ref=e1847]:
+          - heading "Unlock All Personalization Tools" [level=3] [ref=e1849]
+          - paragraph [ref=e1850]: Get unlimited access to all 50+ personalization tools and create content that delivers 3x better results than generic videos.
+          - link "Start Personalizing Today" [ref=e1851] [cursor=pointer]:
+            - /url: "#pricing"
+            - generic [ref=e1852]: Start Personalizing Today
+            - img [ref=e1853]
+      - generic [ref=e1860]:
+        - generic [ref=e1861]:
+          - generic [ref=e1863]: SEE HOW SIMPLE IT IS
+          - heading "Create Professional Videos in 3 Simple Steps" [level=2] [ref=e1864]
+          - paragraph [ref=e1865]: VideoRemix.vip makes professional video creation accessible to everyone, regardless of technical skills or experience.
+          - generic [ref=e1866]:
+            - img "VideoRemix.vip Demo" [ref=e1867]
+            - generic [ref=e1868]:
+              - button "Watch Demo" [ref=e1869] [cursor=pointer]:
+                - img [ref=e1872]
+                - generic [ref=e1874]: Watch Demo
+              - generic [ref=e1875]: 2:45
+          - generic [ref=e1876]:
+            - generic [ref=e1877]:
+              - button "1 Template Selection" [ref=e1878] [cursor=pointer]:
+                - generic [ref=e1879]:
+                  - generic [ref=e1880]: "1"
+                  - text: Template Selection
+              - button "2 AI Editing" [ref=e1881] [cursor=pointer]:
+                - generic [ref=e1882]:
+                  - generic [ref=e1883]: "2"
+                  - text: AI Editing
+              - button "3 Export & Share" [ref=e1884] [cursor=pointer]:
+                - generic [ref=e1885]:
+                  - generic [ref=e1886]: "3"
+                  - text: Export & Share
+            - generic [ref=e1889]:
+              - generic [ref=e1890]:
+                - img [ref=e1892]
+                - generic [ref=e1894]: 500+ professionally designed templates
+              - generic [ref=e1895]:
+                - img [ref=e1897]
+                - generic [ref=e1899]: Category filters for any industry or purpose
+              - generic [ref=e1900]:
+                - img [ref=e1902]
+                - generic [ref=e1904]: Preview templates before selection
+              - generic [ref=e1905]:
+                - img [ref=e1907]
+                - generic [ref=e1909]: Customizable to match your brand
+              - generic [ref=e1910]:
+                - img [ref=e1912]
+                - generic [ref=e1914]: Regular updates with new designs
+        - generic [ref=e1915]:
+          - generic [ref=e1916]:
+            - img [ref=e1917]
+            - generic [ref=e1920]: AI-POWERED WORKFLOW
+          - heading "Stop Wasting Time on Manual Video Editing" [level=3] [ref=e1921]
+          - paragraph [ref=e1922]: Our AI technology handles the tedious work so you can focus on creating amazing content that grows your audience and business.
+          - link "Get Access Today" [ref=e1923] [cursor=pointer]:
+            - /url: "#pricing"
+            - generic [ref=e1924]: Get Access Today
+            - img [ref=e1926]
+          - paragraph [ref=e1928]: Join 10,000+ creators and businesses already using VideoRemix.vip
+      - generic [ref=e1934]:
+        - generic [ref=e1935]:
+          - generic [ref=e1937]:
+            - img [ref=e1938]
+            - text: SUCCESS STORIES
+          - heading "Don't Take Our Word For It" [level=2] [ref=e1942]
+          - paragraph [ref=e1943]: Hear directly from creators and businesses who've transformed their video production with VideoRemix.vip
+        - generic [ref=e1944]:
+          - img "Microsoft" [ref=e1945]
+          - img "Adobe" [ref=e1946]
+          - img "Spotify" [ref=e1947]
+          - img "Shopify" [ref=e1948]
+          - img "Slack" [ref=e1949]
+          - img "Airbnb" [ref=e1950]
+        - generic [ref=e1952]:
+          - button "All Stories" [ref=e1953] [cursor=pointer]
+          - button "Content Creators" [ref=e1954] [cursor=pointer]
+          - button "Marketing" [ref=e1955] [cursor=pointer]
+          - button "Enterprise" [ref=e1956] [cursor=pointer]
+          - button "Small Business" [ref=e1957] [cursor=pointer]
+          - button "Education" [ref=e1958] [cursor=pointer]
+        - generic [ref=e1959]:
+          - button "Previous testimonial" [ref=e1960] [cursor=pointer]:
+            - img [ref=e1961]
+          - button "Next testimonial" [ref=e1963] [cursor=pointer]:
+            - img [ref=e1964]
+          - generic [ref=e1966]:
+            - generic [ref=e1968]:
+              - generic [ref=e1969]:
+                - img "Sarah Johnson" [ref=e1972]
+                - generic [ref=e1973]:
+                  - generic [ref=e1974]: Sarah Johnson
+                  - generic [ref=e1975]: Social Media Manager, Global Marketing Inc.
+                  - generic [ref=e1976]:
+                    - img [ref=e1977]
+                    - generic [ref=e1980]: Verified Customer
+              - generic [ref=e1981]:
+                - generic [ref=e1982]:
+                  - generic [ref=e1983]:
+                    - img [ref=e1984]
+                    - generic [ref=e1987]:
+                      - img [ref=e1989]
+                      - img [ref=e1992]
+                      - img [ref=e1995]
+                      - img [ref=e1998]
+                      - img [ref=e2001]
+                  - paragraph [ref=e2003]: "\"VideoRemix.vip transformed our social media strategy. We're creating 3x more content in half the time, and our engagement has increased by 200%.\""
+                - generic [ref=e2004]:
+                  - generic [ref=e2005]:
+                    - img [ref=e2006]
+                    - generic [ref=e2009]: "Results after using VideoRemix.vip:"
+                  - generic [ref=e2010]:
+                    - generic [ref=e2011]:
+                      - generic [ref=e2012]: +210%
+                      - generic [ref=e2013]: Video Output
+                    - generic [ref=e2014]:
+                      - generic [ref=e2015]: "-75%"
+                      - generic [ref=e2016]: Production Time
+                    - generic [ref=e2017]:
+                      - generic [ref=e2018]: +186%
+                      - generic [ref=e2019]: Engagement
+                - button "Watch video testimonial" [ref=e2021] [cursor=pointer]:
+                  - img [ref=e2022]
+                  - text: Watch video testimonial
+            - generic [ref=e2025]:
+              - button "Go to testimonial 1" [ref=e2026] [cursor=pointer]
+              - button "Go to testimonial 2" [ref=e2027] [cursor=pointer]
+              - button "Go to testimonial 3" [ref=e2028] [cursor=pointer]
+              - button "Go to testimonial 4" [ref=e2029] [cursor=pointer]
+              - button "Go to testimonial 5" [ref=e2030] [cursor=pointer]
+              - button "Go to testimonial 6" [ref=e2031] [cursor=pointer]
+              - button "Go to testimonial 7" [ref=e2032] [cursor=pointer]
+              - button "Go to testimonial 8" [ref=e2033] [cursor=pointer]
+        - generic [ref=e2034]:
+          - generic [ref=e2035]:
+            - img [ref=e2037]
+            - generic [ref=e2040]: 5M+
+            - generic [ref=e2041]: Videos Created
+          - generic [ref=e2042]:
+            - img [ref=e2044]
+            - generic [ref=e2047]: 83%
+            - generic [ref=e2048]: Time Saved
+          - generic [ref=e2049]:
+            - img [ref=e2051]
+            - generic [ref=e2056]: 12K+
+            - generic [ref=e2057]: Active Users
+          - generic [ref=e2058]:
+            - img [ref=e2060]
+            - generic [ref=e2063]: 150+
+            - generic [ref=e2064]: Countries
+        - generic [ref=e2065]:
+          - generic [ref=e2066]:
+            - heading "Success Stories" [level=3] [ref=e2067]
+            - link "View all case studies" [ref=e2068] [cursor=pointer]:
+              - /url: "#case-studies"
+              - text: View all case studies
+              - img [ref=e2069]
+          - generic [ref=e2071]:
+            - generic [ref=e2073]:
+              - generic [ref=e2074]:
+                - img "TechGrowth Marketing" [ref=e2075]
+                - generic [ref=e2076]:
+                  - heading "TechGrowth Marketing" [level=4] [ref=e2077]
+                  - generic [ref=e2078]:
+                    - img [ref=e2079]
+                    - generic [ref=e2082]: Verified Case Study
+              - paragraph [ref=e2083]: TechGrowth scaled their video marketing from 5 to 50 videos per month without hiring additional team members.
+              - generic [ref=e2084]:
+                - generic [ref=e2085]:
+                  - generic [ref=e2086]: +215%
+                  - generic [ref=e2087]: Engagement
+                - generic [ref=e2088]:
+                  - generic [ref=e2089]: 10x
+                  - generic [ref=e2090]: Production
+                - generic [ref=e2091]:
+                  - generic [ref=e2092]: +157%
+                  - generic [ref=e2093]: Conversion
+            - generic [ref=e2095]:
+              - generic [ref=e2096]:
+                - img "Global Learning Academy" [ref=e2097]
+                - generic [ref=e2098]:
+                  - heading "Global Learning Academy" [level=4] [ref=e2099]
+                  - generic [ref=e2100]:
+                    - img [ref=e2101]
+                    - generic [ref=e2104]: Verified Case Study
+              - paragraph [ref=e2105]: This online learning platform increased student engagement by generating personalized educational videos.
+              - generic [ref=e2106]:
+                - generic [ref=e2107]:
+                  - generic [ref=e2108]: +186%
+                  - generic [ref=e2109]: Engagement
+                - generic [ref=e2110]:
+                  - generic [ref=e2111]: 7x
+                  - generic [ref=e2112]: Production
+                - generic [ref=e2113]:
+                  - generic [ref=e2114]: +92%
+                  - generic [ref=e2115]: Conversion
+        - generic [ref=e2116]:
+          - heading "Award-Winning Platform" [level=3] [ref=e2117]
+          - generic [ref=e2118]:
+            - generic [ref=e2119]:
+              - img [ref=e2121]
+              - generic [ref=e2124]: Video Innovation Award 2024
+              - generic [ref=e2125]: Digital Media Alliance
+            - generic [ref=e2126]:
+              - img [ref=e2128]
+              - generic [ref=e2131]: Best AI-Driven Product
+              - generic [ref=e2132]: Tech Innovator Awards
+            - generic [ref=e2133]:
+              - img [ref=e2135]
+              - generic [ref=e2138]: Top Creator Tool
+              - generic [ref=e2139]: Content Creator Summit
+            - generic [ref=e2140]:
+              - img [ref=e2142]
+              - generic [ref=e2145]: Most User-Friendly Video Platform
+              - generic [ref=e2146]: UX Design Awards
+        - generic [ref=e2147]:
+          - heading "Join Thousands of Happy Customers" [level=3] [ref=e2148]
+          - paragraph [ref=e2149]: Experience the platform that creators and businesses trust for their video content
+          - generic [ref=e2150]:
+            - link "Get Started Free" [ref=e2151] [cursor=pointer]:
+              - /url: "#get-started"
+              - text: Get Started Free
+              - img [ref=e2153]
+            - link "View All Testimonials" [ref=e2155] [cursor=pointer]:
+              - /url: "#view-all-testimonials"
+      - generic [ref=e2160]:
+        - generic [ref=e2161]:
+          - generic [ref=e2163]: VIDEOREMIX PLANS
+          - heading "Choose Your VideoRemix Plan" [level=2] [ref=e2165]
+          - paragraph [ref=e2166]: Select the plan that fits your personalized marketing needs. Flexible options for teams of all sizes.
+          - generic [ref=e2168]:
+            - button "Monthly" [ref=e2169] [cursor=pointer]
+            - button "Yearly Save 20%" [ref=e2170] [cursor=pointer]
+            - button "Lifetime Best Value" [ref=e2171] [cursor=pointer]
+        - generic [ref=e2172]:
+          - generic [ref=e2175]:
+            - generic [ref=e2176]: Free
+            - generic [ref=e2177]: Perfect for trying out the platform
+            - generic [ref=e2178]:
+              - generic [ref=e2179]:
+                - generic [ref=e2180]: Free
+                - generic [ref=e2181]: forever
+              - generic [ref=e2182]: No credit card required
+            - link "Start For Free" [ref=e2183] [cursor=pointer]:
+              - /url: "#signup"
+            - generic [ref=e2184]:
+              - generic [ref=e2185]:
+                - img [ref=e2186]
+                - generic [ref=e2188]: 5 video exports per month
+              - generic [ref=e2189]:
+                - img [ref=e2190]
+                - generic [ref=e2192]: 720p video quality
+              - generic [ref=e2193]:
+                - img [ref=e2194]
+                - generic [ref=e2196]: Basic editing features
+              - generic [ref=e2197]:
+                - img [ref=e2198]
+                - generic [ref=e2200]: 2GB cloud storage
+              - generic [ref=e2201]:
+                - img [ref=e2202]
+                - generic [ref=e2204]: Standard templates
+              - generic [ref=e2205]:
+                - img [ref=e2206]
+                - generic [ref=e2208]: Watermarked videos
+          - generic [ref=e2211]:
+            - generic [ref=e2213]: MOST POPULAR
+            - generic [ref=e2214]:
+              - generic [ref=e2215]:
+                - generic [ref=e2216]: Pro
+                - generic [ref=e2217]: Ideal for content creators and small teams
+                - generic [ref=e2218]:
+                  - generic [ref=e2219]:
+                    - generic [ref=e2220]: $290
+                    - generic [ref=e2221]: /year
+                  - generic [ref=e2222]: Billed annually (effectively $24/mo)
+                - link "GET STARTED NOW" [ref=e2224] [cursor=pointer]:
+                  - /url: "#checkout"
+                - generic [ref=e2226]:
+                  - img [ref=e2227]
+                  - generic [ref=e2229]: Get started today
+              - generic [ref=e2230]:
+                - generic [ref=e2231]:
+                  - generic [ref=e2232]:
+                    - img [ref=e2233]
+                    - generic [ref=e2237]: "INCLUDES:"
+                  - generic [ref=e2238]:
+                    - generic [ref=e2239]:
+                      - generic [ref=e2240]: Priority Support
+                      - paragraph [ref=e2241]: Get help when you need it with our dedicated support team
+                    - generic [ref=e2242]:
+                      - generic [ref=e2243]: Regular Updates
+                      - paragraph [ref=e2244]: Access new features and improvements as they're released
+                    - generic [ref=e2245]:
+                      - generic [ref=e2246]: Training Resources
+                      - paragraph [ref=e2247]: Comprehensive guides and tutorials to master VideoRemix
+                - generic [ref=e2248]:
+                  - generic [ref=e2249]: "Everything in Pro includes:"
+                  - generic [ref=e2250]:
+                    - generic [ref=e2251]:
+                      - img [ref=e2252]
+                      - generic [ref=e2254]: Unlimited video exports
+                    - generic [ref=e2255]:
+                      - img [ref=e2256]
+                      - generic [ref=e2258]: 4K video quality
+                    - generic [ref=e2259]:
+                      - img [ref=e2260]
+                      - generic [ref=e2262]: All editing features
+                    - generic [ref=e2263]:
+                      - img [ref=e2264]
+                      - generic [ref=e2266]: 50GB cloud storage
+                    - generic [ref=e2267]:
+                      - img [ref=e2268]
+                      - generic [ref=e2270]: Premium templates
+                    - generic [ref=e2271]:
+                      - img [ref=e2272]
+                      - generic [ref=e2274]: No watermarks
+                    - generic [ref=e2275]:
+                      - img [ref=e2276]
+                      - generic [ref=e2278]: Basic AI features
+                    - generic [ref=e2279]:
+                      - img [ref=e2280]
+                      - generic [ref=e2282]: Auto subtitle generation
+                    - generic [ref=e2283]:
+                      - img [ref=e2284]
+                      - generic [ref=e2286]: 2 team members
+                    - generic [ref=e2287]:
+                      - img [ref=e2288]
+                      - generic [ref=e2290]: Priority email support
+        - button "Show Full Feature Comparison" [ref=e2292] [cursor=pointer]:
+          - generic [ref=e2293]: Show Full Feature Comparison
+          - img [ref=e2295]
+        - generic [ref=e2298]:
+          - generic [ref=e2299]:
+            - heading "Feature Comparison" [level=3] [ref=e2300]
+            - button "Toggle feature comparison" [ref=e2301] [cursor=pointer]:
+              - generic [ref=e2302]: View all features
+              - img [ref=e2304]
+          - generic [ref=e2307]:
+            - generic [ref=e2308]:
+              - generic [ref=e2309]: Advanced AI effects
+              - img [ref=e2312]
+              - img [ref=e2317]
+            - generic [ref=e2319]:
+              - generic [ref=e2320]: Brand kit integration
+              - img [ref=e2323]
+              - img [ref=e2328]
+            - generic [ref=e2330]:
+              - generic [ref=e2331]: Multi-platform optimization
+              - img [ref=e2334]
+              - img [ref=e2339]
+            - generic [ref=e2341]:
+              - generic [ref=e2342]: Bulk export capabilities
+              - img [ref=e2345]
+              - img [ref=e2350]
+            - generic [ref=e2352]:
+              - generic [ref=e2353]: API access
+              - img [ref=e2356]
+              - img [ref=e2361]
+            - generic [ref=e2363]:
+              - generic [ref=e2364]:
+                - generic [ref=e2365]: Free
+                - link "Sign Up" [ref=e2366] [cursor=pointer]:
+                  - /url: "#signup"
+              - generic [ref=e2367]:
+                - generic [ref=e2368]: Pro Plan
+                - link "Get Access" [ref=e2369] [cursor=pointer]:
+                  - /url: "#checkout"
+        - generic [ref=e2370]:
+          - generic [ref=e2371]:
+            - heading "Frequently Asked Questions" [level=3] [ref=e2372]
+            - paragraph [ref=e2373]: Quick answers to common questions
+          - generic [ref=e2374]:
+            - group [ref=e2376]:
+              - generic "Can I switch between plans?" [ref=e2377] [cursor=pointer]:
+                - generic [ref=e2378]: Can I switch between plans?
+                - img [ref=e2380]
+            - group [ref=e2383]:
+              - generic "What plans are available??" [ref=e2384] [cursor=pointer]:
+                - generic [ref=e2385]: What plans are available??
+                - img [ref=e2387]
+            - group [ref=e2390]:
+              - generic "How does the lifetime plan work?" [ref=e2391] [cursor=pointer]:
+                - generic [ref=e2392]: How does the lifetime plan work?
+                - img [ref=e2394]
+            - group [ref=e2397]:
+              - generic "How do I get started??" [ref=e2398] [cursor=pointer]:
+                - generic [ref=e2399]: How do I get started??
+                - img [ref=e2401]
+          - link "View all FAQs" [ref=e2404] [cursor=pointer]:
+            - /url: "#faq"
+            - text: View all FAQs
+            - img [ref=e2406]
+      - generic [ref=e2416]:
+        - img [ref=e2421]
+        - generic [ref=e2423]:
+          - heading "Risk-Free Trial with Full Platform Support" [level=3] [ref=e2424]
+          - paragraph [ref=e2425]: Start using VideoRemix with confidence. Try our platform with your account. Our dedicated support team is here to help you succeed with personalized marketing.
+          - generic [ref=e2426]:
+            - generic [ref=e2427]:
+              - img [ref=e2429]
+              - generic [ref=e2431]: Free plan available to get started
+            - generic [ref=e2432]:
+              - img [ref=e2434]
+              - generic [ref=e2436]: Comprehensive onboarding and tutorials
+            - generic [ref=e2437]:
+              - img [ref=e2439]
+              - generic [ref=e2441]: Dedicated support team available 24/7
+            - generic [ref=e2442]:
+              - img [ref=e2444]
+              - generic [ref=e2446]: Regular platform updates and new features
+          - link "Try Risk-Free Today" [ref=e2448] [cursor=pointer]:
+            - /url: "#pricing"
+            - generic [ref=e2449]: Try Risk-Free Today
+            - img [ref=e2451]
+      - generic [ref=e2456]:
+        - generic [ref=e2457]:
+          - heading "Frequently Asked Questions" [level=2] [ref=e2458]
+          - paragraph [ref=e2459]: Everything you need to know about our marketing personalization platform
+        - generic [ref=e2460]:
+          - generic [ref=e2461]:
+            - generic [ref=e2462]:
+              - button "What is VideoRemix.vip?" [expanded] [ref=e2463] [cursor=pointer]:
+                - heading "What is VideoRemix.vip?" [level=3] [ref=e2464]
+                - img [ref=e2467]
+              - generic [ref=e2470]: VideoRemix.vip is an AI-powered marketing personalization platform with 37+ tools designed to help solopreneurs, agencies, and businesses create personalized marketing content that drives results. Our platform combines audience segmentation, AI-powered personalization, and integrated marketing tools to help you achieve 3x higher engagement and conversion rates compared to generic marketing approaches.
+            - generic [ref=e2471]:
+              - button "How does VideoRemix.vip work?" [ref=e2472] [cursor=pointer]:
+                - heading "How does VideoRemix.vip work?" [level=3] [ref=e2473]
+                - img [ref=e2476]
+              - generic [ref=e2478]: VideoRemix.vip provides 37+ AI-powered marketing tools across Video, AI Image, Lead Generation, Branding, and Creative categories. Choose the tools you need, define your audience segments, and our AI automatically personalizes content, messaging, and calls-to-action for each segment. You can create personalized marketing campaigns—from videos to landing pages to CRM sequences—in minutes instead of days.
+            - generic [ref=e2479]:
+              - button "Do I need any technical skills to use VideoRemix.vip?" [ref=e2480] [cursor=pointer]:
+                - heading "Do I need any technical skills to use VideoRemix.vip?" [level=3] [ref=e2481]
+                - img [ref=e2484]
+              - generic [ref=e2486]: Not at all! VideoRemix.vip is designed for solopreneurs, marketers, and business owners with no technical background. Our intuitive interface and AI-powered personalization features make it easy for anyone to create professional marketing content, segment audiences, and launch personalized campaigns without technical skills or marketing expertise.
+            - generic [ref=e2487]:
+              - button "What types of marketing content can I create?" [ref=e2488] [cursor=pointer]:
+                - heading "What types of marketing content can I create?" [level=3] [ref=e2489]
+                - img [ref=e2492]
+              - generic [ref=e2494]: You can create personalized videos, landing pages, promotional content, email campaigns, social media posts, lead generation funnels, CRM sequences, branding materials, and more. With 37+ tools including AI Video Creator, Landing Page Creator, Smart CRM Closer, FunnelCraft AI, and Interactive Shopping, you can create virtually any type of personalized marketing content for your business or clients.
+            - generic [ref=e2495]:
+              - button "How much does VideoRemix.vip cost?" [ref=e2496] [cursor=pointer]:
+                - heading "How much does VideoRemix.vip cost?" [level=3] [ref=e2497]
+                - img [ref=e2500]
+              - generic [ref=e2502]: VideoRemix.vip offers a Free plan with basic features (5 video exports per month, 2 audience segments), a Pro plan at $29/month with unlimited access to all tools and segments, and a Business plan at $79/month with advanced features, team collaboration, and white-label options. We also offer annual and lifetime pricing options.
+            - generic [ref=e2503]:
+              - button "Can I use VideoRemix.vip for my agency or multiple clients?" [ref=e2504] [cursor=pointer]:
+                - heading "Can I use VideoRemix.vip for my agency or multiple clients?" [level=3] [ref=e2505]
+                - img [ref=e2508]
+              - generic [ref=e2510]: Absolutely! Business plans support up to 10 team members and allow you to manage multiple client accounts with separate branding, campaigns, and analytics. Many agencies use our platform to offer personalized marketing services that would typically require multiple specialized tools and larger teams.
+          - generic [ref=e2511]:
+            - paragraph [ref=e2512]: Still have questions? Our support team is here to help.
+            - link "Contact Support" [ref=e2513] [cursor=pointer]:
+              - /url: "#contact"
+      - generic [ref=e2515]:
+        - generic [ref=e2518]:
+          - generic [ref=e2519]:
+            - img [ref=e2521]
+            - generic [ref=e2526]: JOIN VIDEOREMIX TODAY
+          - heading "Ready to Start Personalizing Your Marketing?" [level=2] [ref=e2527]
+          - generic [ref=e2529]:
+            - img [ref=e2531]
+            - paragraph [ref=e2534]: "Get Started: Choose from Free, Pro, or Lifetime plans"
+          - paragraph [ref=e2535]: Join thousands of creators and businesses who are transforming their video content and seeing real results.
+        - generic [ref=e2536]:
+          - generic [ref=e2539]:
+            - heading "Why Choose VideoRemix for Personalized Marketing" [level=3] [ref=e2540]
+            - generic [ref=e2541]:
+              - generic [ref=e2542]:
+                - img [ref=e2544]
+                - heading "Save 15+ Hours Weekly" [level=4] [ref=e2547]
+                - paragraph [ref=e2548]: Reduce video editing time by 90% with our AI-powered tools
+              - generic [ref=e2549]:
+                - img [ref=e2551]
+                - heading "Professional Results" [level=4] [ref=e2553]
+                - paragraph [ref=e2554]: Create studio-quality videos regardless of your experience level
+              - generic [ref=e2555]:
+                - img [ref=e2557]
+                - heading "Grow Your Audience" [level=4] [ref=e2562]
+                - paragraph [ref=e2563]: Consistently publish engaging content that attracts followers
+              - generic [ref=e2564]:
+                - img [ref=e2566]
+                - heading "Export Anywhere" [level=4] [ref=e2569]
+                - paragraph [ref=e2570]: Share directly to all major platforms or download in any format
+              - generic [ref=e2571]:
+                - img [ref=e2573]
+                - heading "Secure & Private" [level=4] [ref=e2575]
+                - paragraph [ref=e2576]: Enterprise-grade security keeps your content safe and private
+            - generic [ref=e2577]:
+              - generic [ref=e2578]:
+                - img [ref=e2580]
+                - generic [ref=e2582]: Unlimited AI-powered video creation
+              - generic [ref=e2583]:
+                - img [ref=e2585]
+                - generic [ref=e2587]: Professional templates and effects
+              - generic [ref=e2588]:
+                - img [ref=e2590]
+                - generic [ref=e2592]: Time-saving automation features
+              - generic [ref=e2593]:
+                - img [ref=e2595]
+                - generic [ref=e2597]: Cloud storage and collaboration tools
+              - generic [ref=e2598]:
+                - img [ref=e2600]
+                - generic [ref=e2602]: Regular feature updates and enhancements
+              - generic [ref=e2603]:
+                - img [ref=e2605]
+                - generic [ref=e2607]: 24/7 customer support
+              - generic [ref=e2608]:
+                - img [ref=e2610]
+                - generic [ref=e2612]: 14-day money-back guarantee
+            - generic [ref=e2613]:
+              - link "Try Free For 14 Days" [ref=e2614] [cursor=pointer]:
+                - /url: "#pricing"
+                - text: Try Free For 14 Days
+                - img [ref=e2616]
+              - link "Watch Demo First" [ref=e2618] [cursor=pointer]:
+                - /url: "#watch-demo"
+                - img [ref=e2621]
+                - text: Watch Demo First
+          - generic [ref=e2623]:
+            - generic [ref=e2625]: PRO PLAN
+            - generic [ref=e2626]:
+              - heading "VideoRemix Pro Plan" [level=3] [ref=e2627]
+              - generic [ref=e2628]:
+                - generic [ref=e2629]: $29
+                - generic [ref=e2630]: /month
+              - generic [ref=e2631]: Full access to all personalized marketing tools
+            - generic [ref=e2632]:
+              - generic [ref=e2633]:
+                - img [ref=e2635]
+                - generic [ref=e2639]: Full Feature Access
+              - paragraph [ref=e2640]: Get unlimited access to 20+ personalized marketing apps and AI-powered features
+            - link "Start with VideoRemix Pro" [ref=e2641] [cursor=pointer]:
+              - /url: "#claim-offer"
+            - paragraph [ref=e2642]: Get started today. No credit card required.
+        - generic [ref=e2643]:
+          - heading "Join Our Community of 10,000+ Video Creators" [level=3] [ref=e2644]
+          - paragraph [ref=e2645]: Don't miss this opportunity to transform your video creation process and start producing professional content that drives real results for your business or brand.
+          - generic [ref=e2646]:
+            - link "Start Free Trial" [ref=e2647] [cursor=pointer]:
+              - /url: "#signup"
+            - link "Have Questions?" [ref=e2648] [cursor=pointer]:
+              - /url: "#questions"
+    - contentinfo [ref=e2649]:
+      - generic [ref=e2650]:
+        - generic [ref=e2651]:
+          - generic [ref=e2652]:
+            - generic [ref=e2653]:
+              - img [ref=e2654]
+              - generic [ref=e2657]: VideoRemix.vip
+            - paragraph [ref=e2658]: AI-powered marketing tools to help you create personalized content, close more sales, and grow your business faster.
+            - generic [ref=e2659]:
+              - link "Facebook" [ref=e2660] [cursor=pointer]:
+                - /url: "#facebook"
+                - img [ref=e2661]
+                - generic [ref=e2663]: Facebook
+              - link "Twitter" [ref=e2664] [cursor=pointer]:
+                - /url: "#twitter"
+                - img [ref=e2665]
+                - generic [ref=e2667]: Twitter
+              - link "Instagram" [ref=e2668] [cursor=pointer]:
+                - /url: "#instagram"
+                - img [ref=e2669]
+                - generic [ref=e2672]: Instagram
+              - link "LinkedIn" [ref=e2673] [cursor=pointer]:
+                - /url: "#linkedin"
+                - img [ref=e2674]
+                - generic [ref=e2678]: LinkedIn
+              - link "YouTube" [ref=e2679] [cursor=pointer]:
+                - /url: "#youtube"
+                - img [ref=e2680]
+                - generic [ref=e2683]: YouTube
+            - generic [ref=e2685]:
+              - img [ref=e2686]
+              - link "hello@videoremix.vip" [ref=e2689] [cursor=pointer]:
+                - /url: mailto:hello@videoremix.vip
+          - generic [ref=e2690]:
+            - heading "Stay up to date" [level=3] [ref=e2691]
+            - paragraph [ref=e2692]: Get the latest news, updates, and tips straight to your inbox.
+            - generic [ref=e2693]:
+              - textbox "Your email" [ref=e2694]
+              - button "Subscribe" [ref=e2695] [cursor=pointer]
+        - generic [ref=e2696]:
+          - generic [ref=e2697]:
+            - heading "Product" [level=3] [ref=e2698]
+            - list [ref=e2699]:
+              - listitem [ref=e2700]:
+                - link "Pricing" [ref=e2701] [cursor=pointer]:
+                  - /url: /pricing
+                  - img [ref=e2702]
+                  - text: Pricing
+              - listitem [ref=e2704]:
+                - link "Tools" [ref=e2705] [cursor=pointer]:
+                  - /url: /tools
+                  - img [ref=e2706]
+                  - text: Tools
+              - listitem [ref=e2708]:
+                - link "Dashboard" [ref=e2709] [cursor=pointer]:
+                  - /url: /dashboard
+                  - img [ref=e2710]
+                  - text: Dashboard
+          - generic [ref=e2712]:
+            - heading "Company" [level=3] [ref=e2713]
+            - list [ref=e2714]:
+              - listitem [ref=e2715]:
+                - link "About Us" [ref=e2716] [cursor=pointer]:
+                  - /url: /about
+                  - img [ref=e2717]
+                  - text: About Us
+              - listitem [ref=e2719]:
+                - link "Blog" [ref=e2720] [cursor=pointer]:
+                  - /url: /blog
+                  - img [ref=e2721]
+                  - text: Blog
+          - generic [ref=e2723]:
+            - heading "AI Marketing Tools" [level=3] [ref=e2724]
+            - list [ref=e2725]:
+              - listitem [ref=e2726]:
+                - link "AI Personalized Content Hub" [ref=e2727] [cursor=pointer]:
+                  - /url: https://ai-personalizedcontent.videoremix.vip
+                  - img [ref=e2728]
+                  - text: AI Personalized Content Hub
+              - listitem [ref=e2730]:
+                - link "FunnelCraft AI" [ref=e2731] [cursor=pointer]:
+                  - /url: https://ai-funnelcraft.videoremix.vip
+                  - img [ref=e2732]
+                  - text: FunnelCraft AI
+              - listitem [ref=e2734]:
+                - link "AI Skills Monetizer" [ref=e2735] [cursor=pointer]:
+                  - /url: https://ai-skills-monetizer.videoremix.vip
+                  - img [ref=e2736]
+                  - text: AI Skills Monetizer
+              - listitem [ref=e2738]:
+                - link "AI Skills & Resume" [ref=e2739] [cursor=pointer]:
+                  - /url: https://ai-skills.videoremix.vip
+                  - img [ref=e2740]
+                  - text: AI Skills & Resume
+              - listitem [ref=e2742]:
+                - link "Sales Page Builder" [ref=e2743] [cursor=pointer]:
+                  - /url: https://ai-salespage.videoremix.vip
+                  - img [ref=e2744]
+                  - text: Sales Page Builder
+              - listitem [ref=e2746]:
+                - link "Sales Assistant Pro" [ref=e2747] [cursor=pointer]:
+                  - /url: https://ai-salesassistant.videoremix.vip
+                  - img [ref=e2748]
+                  - text: Sales Assistant Pro
+              - listitem [ref=e2750]:
+                - link "AI Personalization Studio" [ref=e2751] [cursor=pointer]:
+                  - /url: https://ai-personalizationstudio.videoremix.vip
+                  - img [ref=e2752]
+                  - text: AI Personalization Studio
+              - listitem [ref=e2754]:
+                - link "AI Personalizer" [ref=e2755] [cursor=pointer]:
+                  - /url: https://ai-personalizer.videoremix.vip
+                  - img [ref=e2756]
+                  - text: AI Personalizer
+        - generic [ref=e2758]:
+          - generic [ref=e2759]:
+            - img [ref=e2760]
+            - generic [ref=e2762]: SOC 2 Compliant
+          - generic [ref=e2763]:
+            - img [ref=e2764]
+            - generic [ref=e2766]: GDPR Compliant
+          - generic [ref=e2767]:
+            - img [ref=e2768]
+            - generic [ref=e2771]: Global CDN
+          - generic [ref=e2772]:
+            - img [ref=e2773]
+            - generic [ref=e2775]: 99.9% Uptime
+          - generic [ref=e2776]:
+            - img [ref=e2777]
+            - generic [ref=e2779]: Bank-Level Encryption
+        - generic [ref=e2780]:
+          - generic [ref=e2781]: © 2026 VideoRemix.vip. All rights reserved.
+          - generic [ref=e2782]:
+            - link "Terms of Service" [ref=e2783] [cursor=pointer]:
+              - /url: /terms
+            - link "Privacy Policy" [ref=e2784] [cursor=pointer]:
+              - /url: /privacy
+            - link "Cookie Policy" [ref=e2785] [cursor=pointer]:
+              - /url: /cookies
+        - paragraph [ref=e2787]:
+          - text: VideoRemix.vip uses cookies to ensure you get the best experience on our website. By continuing to browse, you agree to our
+          - link "privacy policy" [ref=e2788] [cursor=pointer]:
+            - /url: /privacy
+          - text: .
