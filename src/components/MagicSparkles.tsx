@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAnimationContext } from "../context/AnimationContext";
 
@@ -58,10 +58,10 @@ const MagicSparkles: React.FC<MagicSparklesProps> = ({
 }) => {
   const { prefersReducedMotion, lowPowerMode } = useAnimationContext();
 
-  // Get a random number of sparkles between min and max
-  const sparkleCount = Math.floor(
+  // Get a random number of sparkles between min and max (memoized to prevent re-renders)
+  const sparkleCount = useMemo(() => Math.floor(
     Math.random() * (maxSparkles - minSparkles + 1) + minSparkles,
-  );
+  ), [minSparkles, maxSparkles]);
 
   // Call all hooks unconditionally (React Rules of Hooks)
   const [sparkles, setSparkles] = useState<Sparkle[]>([]);
@@ -94,8 +94,8 @@ const MagicSparkles: React.FC<MagicSparklesProps> = ({
 
     setSparkles(initialSparkles);
 
-    // Replace sparkles periodically
-    const refreshRate = getAnimationDuration(); // ms
+    // Replace sparkles periodically using setInterval for cleaner code
+    const refreshRate = getAnimationDuration();
 
     const updateSparkles = () => {
       setSparkles((prevSparkles) => {
@@ -110,18 +110,16 @@ const MagicSparkles: React.FC<MagicSparklesProps> = ({
         // Add a new sparkle
         return [...nextSparkles, generateSparkle(colors, minSize, maxSize)];
       });
-
-      // Use window.setTimeout directly and store the numeric ID
-      timeoutRef.current = window.setTimeout(updateSparkles, refreshRate);
     };
 
-    // Start the timer and store the ID
-    timeoutRef.current = window.setTimeout(updateSparkles, refreshRate);
+    // Start the interval
+    timeoutRef.current = window.setInterval(updateSparkles, refreshRate);
 
     // Cleanup function
     return () => {
       if (timeoutRef.current !== null) {
-        window.clearTimeout(timeoutRef.current);
+        window.clearInterval(timeoutRef.current);
+        timeoutRef.current = null;
       }
     };
   }, [
@@ -129,7 +127,6 @@ const MagicSparkles: React.FC<MagicSparklesProps> = ({
     minSize,
     maxSize,
     sparkleCount,
-    getAnimationDuration,
     prefersReducedMotion,
     lowPowerMode,
   ]);
