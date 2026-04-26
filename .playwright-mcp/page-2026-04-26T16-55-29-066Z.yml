@@ -1,0 +1,5100 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "VideoRemix.vip AI MARKETING PLATFORM" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e10]
+        - generic [ref=e13]:
+          - text: VideoRemix.vip
+          - generic [ref=e14]: AI MARKETING PLATFORM
+      - generic [ref=e15]:
+        - button "Search... K" [ref=e16] [cursor=pointer]:
+          - img [ref=e17]
+          - generic [ref=e20]: Search...
+          - generic [ref=e21]:
+            - img [ref=e22]
+            - generic [ref=e24]: K
+        - button "Tools" [ref=e26] [cursor=pointer]:
+          - text: Tools
+          - img [ref=e27]
+        - link "Pricing" [ref=e29] [cursor=pointer]:
+          - /url: /pricing
+        - link "Dashboard" [active] [ref=e30] [cursor=pointer]:
+          - /url: /dashboard
+        - link "FAQ" [ref=e31] [cursor=pointer]:
+          - /url: /faq
+        - generic [ref=e32]:
+          - link "Sign In" [ref=e33] [cursor=pointer]:
+            - /url: /signin
+          - link "Sign Up" [ref=e35] [cursor=pointer]:
+            - /url: /signup
+  - button "Enable sound effects" [ref=e36] [cursor=pointer]:
+    - img [ref=e37]
+  - generic [ref=e40]:
+    - generic [ref=e43]:
+      - img [ref=e44]
+      - generic [ref=e2805]: "567"
+      - text: people online now
+    - generic [ref=e68]: Activity will appear here...
+    - link "View all activity" [ref=e51] [cursor=pointer]:
+      - /url: "#activity"
+      - text: View all activity
+      - img [ref=e52]
+  - generic [ref=e55]:
+    - heading "AI Assistant" [level=3] [ref=e56]
+    - paragraph [ref=e57]: AI assistant component placeholder
+  - generic [ref=e58]:
+    - main [ref=e69]:
+      - generic [ref=e71]:
+        - generic [ref=e72]:
+          - generic [ref=e73]:
+            - generic [ref=e74]:
+              - generic [ref=e75]:
+                - img [ref=e76]
+                - generic [ref=e79]: THE NEW VIDEOREMIX PLATFORM
+              - heading "Welcome to VideoRemix - Your Complete Personalized Marketing Platform" [level=1] [ref=e80]
+              - paragraph [ref=e81]: The professional platform for creating personalized marketing at scale. 20+ AI-powered apps help you deliver the right message to the right audience segment.
+              - generic [ref=e82]:
+                - generic [ref=e83]:
+                  - img [ref=e85]
+                  - paragraph [ref=e88]: AI-powered personalization for marketing content and campaigns
+                - generic [ref=e89]:
+                  - img [ref=e91]
+                  - paragraph [ref=e94]: 20+ marketing personalization apps for marketers and businesses
+                - generic [ref=e95]:
+                  - img [ref=e97]
+                  - paragraph [ref=e100]: Create personalized campaigns in minutes, not hours
+                - generic [ref=e101]:
+                  - img [ref=e103]
+                  - paragraph [ref=e106]: Increase marketing ROI with audience-specific content
+              - generic [ref=e108]:
+                - link "GET STARTED WITH VIDEOREMIX" [ref=e109] [cursor=pointer]:
+                  - /url: /signup
+                  - generic [ref=e110]:
+                    - text: GET STARTED WITH VIDEOREMIX
+                    - img [ref=e111]
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+              - paragraph [ref=e113]: ⚡ Get started now. No credit card required.
+            - generic [ref=e114]:
+              - img [ref=e117]
+              - heading "Create Your First Personalized Marketing Campaign" [level=3] [ref=e120]
+              - paragraph [ref=e121]: Launch your first personalized marketing campaign in minutes with our AI-powered personalization platform.
+              - link "Start Personalizing Content" [ref=e123] [cursor=pointer]:
+                - /url: /help/create-first-video
+                - img [ref=e124]
+                - text: Start Personalizing Content
+                - img [ref=e127]
+          - generic [ref=e129]:
+            - generic [ref=e131]:
+              - img "Personalized Marketing Demo" [ref=e132]
+              - link [ref=e133] [cursor=pointer]:
+                - /url: /signup
+                - generic [ref=e136]:
+                  - img [ref=e138]
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+              - generic [ref=e141]:
+                - img [ref=e142]
+                - generic [ref=e145]: AI-Powered Personalization
+            - generic [ref=e146]:
+              - generic [ref=e2806]:
+                - generic [ref=e2807]:
+                  - img "Sarah Wilson" [ref=e2808]
+                  - generic [ref=e2809]:
+                    - generic [ref=e2810]: Sarah Wilson
+                    - generic [ref=e2811]: Digital Marketing Lead
+                    - generic [ref=e2812]:
+                      - img [ref=e2813]
+                      - img [ref=e2815]
+                      - img [ref=e2817]
+                      - img [ref=e2819]
+                      - img [ref=e2821]
+                - paragraph [ref=e2823]: "\"I create custom marketing content for different audience segments in minutes. My conversion rates have doubled since using VideoRemix.\""
+              - tablist "Testimonials" [ref=e165]:
+                - 'tab "View testimonial 1 of 2: David Chen" [ref=e166] [cursor=pointer]'
+                - 'tab "View testimonial 2 of 2: Sarah Wilson" [selected] [ref=e167] [cursor=pointer]'
+            - generic [ref=e168]:
+              - generic [ref=e169]:
+                - generic [ref=e170]: 12,467+
+                - generic [ref=e171]: Marketing Professionals
+              - generic [ref=e172]:
+                - generic [ref=e173]:
+                  - img [ref=e174]
+                  - img [ref=e176]
+                  - img [ref=e178]
+                  - img [ref=e180]
+                  - img [ref=e182]
+                - generic [ref=e184]: 4.9/5
+                - generic [ref=e185]: Marketing ROI Rating
+        - generic [ref=e186]:
+          - paragraph [ref=e187]: TRUSTED BY MARKETING TEAMS WORLDWIDE
+          - generic [ref=e188]:
+            - img "Microsoft" [ref=e189]
+            - img "Google" [ref=e190]
+            - img "YouTube" [ref=e191]
+            - img "Instagram" [ref=e192]
+            - img "Twitter" [ref=e193]
+        - generic [ref=e194]:
+          - generic [ref=e195]:
+            - img [ref=e197]
+            - generic [ref=e200]: 90% faster marketing creation
+          - generic [ref=e201]:
+            - img [ref=e203]
+            - generic [ref=e205]: Enterprise-grade security
+          - generic [ref=e206]:
+            - img [ref=e208]
+            - generic [ref=e210]: Professional marketing results
+          - generic [ref=e211]:
+            - img [ref=e213]
+            - generic [ref=e216]: 350% higher conversions
+        - generic [ref=e219]:
+          - img [ref=e221]
+          - generic [ref=e224]:
+            - generic [ref=e225]: 9,726
+            - text: marketers using personalization now
+        - generic [ref=e231]:
+          - generic [ref=e233]:
+            - img "Personalized Marketing Video Demo" [ref=e234]
+            - generic [ref=e235]:
+              - img [ref=e236]
+              - generic [ref=e239]: Personalized Marketing
+            - button "Play video preview" [ref=e241] [cursor=pointer]:
+              - img [ref=e244]
+            - generic [ref=e248]: 00:00 / 02:30
+          - generic [ref=e251]: See personalized marketing content in action
+        - button "Scroll to problem section and discover more about marketing personalization" [ref=e257] [cursor=pointer]:
+          - generic [ref=e258]: Discover more
+          - img [ref=e259]
+      - generic [ref=e262]:
+        - generic [ref=e263]:
+          - heading "Are You Still Creating Generic, One-Size-Fits-All Marketing Content?" [level=2] [ref=e264]
+          - paragraph [ref=e265]: In today's hyper-competitive marketing landscape, generic campaigns get ignored. Personalized marketing videos deliver up to 3x higher engagement, 5x better retention, and dramatically improved conversion rates across all your marketing channels.
+        - generic [ref=e266]:
+          - generic [ref=e267]:
+            - generic [ref=e268]: Engagement Crisis
+            - generic [ref=e269]:
+              - img [ref=e271]
+              - generic [ref=e276]:
+                - heading "Generic Marketing Gets Ignored" [level=3] [ref=e277]
+                - paragraph [ref=e278]: 73% of prospects skip generic marketing videos within seconds, while personalized marketing videos have 5x longer watch times and 3x higher completion rates.
+          - generic [ref=e279]:
+            - generic [ref=e280]: Audience Mismatch
+            - generic [ref=e281]:
+              - img [ref=e283]
+              - generic [ref=e287]:
+                - heading "Different Market Segments Have Different Needs" [level=3] [ref=e288]
+                - paragraph [ref=e289]: Your prospects at different buyer journey stages all need different messaging, yet most marketers serve identical content to everyone.
+          - generic [ref=e290]:
+            - generic [ref=e291]: Connection Gap
+            - generic [ref=e292]:
+              - img [ref=e294]
+              - generic [ref=e298]:
+                - heading "Generic Marketing Fails to Connect" [level=3] [ref=e299]
+                - paragraph [ref=e300]: 86% of consumers say personalization impacts their purchasing decisions, but only 12% of marketing videos contain any personalized elements.
+          - generic [ref=e301]:
+            - generic [ref=e302]: Revenue Loss
+            - generic [ref=e303]:
+              - img [ref=e305]
+              - generic [ref=e307]:
+                - heading "Lower Marketing Conversion Rates" [level=3] [ref=e308]
+                - paragraph [ref=e309]: Non-personalized marketing videos convert 3X worse than personalized campaigns, with personalized marketing achieving conversion rates of up to 19% versus 6% for generic videos.
+          - generic [ref=e310]:
+            - generic [ref=e311]: Diminishing Returns
+            - generic [ref=e312]:
+              - img [ref=e314]
+              - generic [ref=e315]:
+                - heading "Declining Marketing Performance Over Time" [level=3] [ref=e316]
+                - paragraph [ref=e317]: The effectiveness gap between personalized and generic marketing is widening every year, with generic marketing performance dropping 18% annually.
+          - generic [ref=e318]:
+            - generic [ref=e319]: Market Threat
+            - generic [ref=e320]:
+              - img [ref=e322]
+              - generic [ref=e324]:
+                - heading "Competitive Disadvantage in Marketing" [level=3] [ref=e325]
+                - paragraph [ref=e326]: 67% of your competitors are already using personalized marketing to connect with your potential customers, creating a widening advantage gap.
+        - generic [ref=e327]:
+          - heading "The True Cost of Missing Marketing Personalization" [level=3] [ref=e328]
+          - generic [ref=e330]:
+            - generic [ref=e331]:
+              - generic [ref=e332]:
+                - generic [ref=e333]:
+                  - img [ref=e335]
+                  - generic [ref=e340]: 215%
+                - generic [ref=e341]: Lost Audience Attention
+              - generic [ref=e342]: Higher engagement with personalized marketing
+              - generic [ref=e343]: Prospects spend 3.2x longer watching personalized marketing videos
+            - generic [ref=e344]:
+              - generic [ref=e345]:
+                - generic [ref=e346]:
+                  - img [ref=e348]
+                  - generic [ref=e353]: 183%
+                - generic [ref=e354]: Lost Conversions
+              - generic [ref=e355]: Higher conversion rates with personalized marketing
+              - generic [ref=e356]: Average ROI increases 2.8x with personalized marketing campaigns
+            - generic [ref=e357]:
+              - generic [ref=e358]:
+                - generic [ref=e359]:
+                  - img [ref=e361]
+                  - generic [ref=e364]: 157%
+                - generic [ref=e365]: Lost Message Delivery
+              - generic [ref=e366]: Longer view time with personalized marketing videos
+              - generic [ref=e367]: Marketing messages are 2.4x more likely to be remembered
+            - generic [ref=e368]:
+              - generic [ref=e369]:
+                - generic [ref=e370]:
+                  - img [ref=e372]
+                  - generic [ref=e378]: 287%
+                - generic [ref=e379]: Lost Organic Reach
+              - generic [ref=e380]: More shares and social amplification of marketing
+              - generic [ref=e381]: Free distribution through increased audience sharing of personalized marketing
+          - generic [ref=e382]:
+            - heading "Industry-Specific Marketing Impact of Generic Content" [level=4] [ref=e383]:
+              - img [ref=e384]
+              - text: Industry-Specific Marketing Impact of Generic Content
+            - generic [ref=e387]:
+              - generic [ref=e388]:
+                - generic [ref=e389]: E-commerce Marketing
+                - generic [ref=e390]: "-42%"
+                - generic [ref=e391]: Product video conversion rate
+              - generic [ref=e392]:
+                - generic [ref=e393]: B2B Marketing
+                - generic [ref=e394]: "-67%"
+                - generic [ref=e395]: Lead qualification rate
+              - generic [ref=e396]:
+                - generic [ref=e397]: Social Media Marketing
+                - generic [ref=e398]: "-53%"
+                - generic [ref=e399]: Audience engagement metrics
+          - generic [ref=e400]:
+            - heading "Marketing ROI Impact" [level=4] [ref=e401]:
+              - img [ref=e402]
+              - text: Marketing ROI Impact
+            - generic [ref=e405]:
+              - generic [ref=e406]:
+                - generic [ref=e407]: Generic Marketing
+                - generic [ref=e408]:
+                  - img [ref=e409]
+                  - generic [ref=e412]: 6%
+                - generic [ref=e413]: Average Conversion Rate
+                - generic [ref=e414]:
+                  - generic [ref=e415]:
+                    - generic [ref=e416]: $10,000 Spent
+                    - generic [ref=e417]: $36,000 Revenue
+                  - generic [ref=e418]: 3.6x ROI
+              - generic [ref=e419]:
+                - generic [ref=e420]: Personalized Marketing
+                - generic [ref=e421]:
+                  - img [ref=e422]
+                  - generic [ref=e425]: 19%
+                - generic [ref=e426]: Average Conversion Rate
+                - generic [ref=e427]:
+                  - generic [ref=e428]:
+                    - generic [ref=e429]: $10,000 Spent
+                    - generic [ref=e430]: $114,000 Revenue
+                  - generic [ref=e431]: 11.4x ROI
+            - generic [ref=e432]: Based on average campaign metrics across 1,000+ marketing campaigns
+          - generic [ref=e433]:
+            - heading "The Compounding Cost of Marketing Without Personalization" [level=4] [ref=e434]:
+              - img [ref=e435]
+              - text: The Compounding Cost of Marketing Without Personalization
+            - generic [ref=e438]:
+              - generic [ref=e441]: Today
+              - generic [ref=e444]: 3 months
+              - generic [ref=e447]: 6 months
+              - generic [ref=e450]: 1 year
+            - generic [ref=e451]: The marketing performance gap between personalized and generic content widens exponentially over time
+          - generic [ref=e452]:
+            - generic [ref=e453]:
+              - img [ref=e454]
+              - heading "Annual Marketing Financial Impact" [level=4] [ref=e460]
+            - generic [ref=e461]:
+              - generic [ref=e462]:
+                - generic [ref=e463]: 10,000 marketing video views
+                - generic [ref=e464]: $42,000 lost revenue
+              - generic [ref=e465]:
+                - generic [ref=e466]: 100,000 marketing video views
+                - generic [ref=e467]: $420,000 lost revenue
+            - generic [ref=e468]: Based on average 13% conversion gap and $250 customer value
+          - generic [ref=e469]:
+            - heading "Market Dominance Impact" [level=4] [ref=e470]:
+              - img [ref=e471]
+              - text: Market Dominance Impact
+            - generic [ref=e474]:
+              - generic [ref=e475]:
+                - generic [ref=e478]:
+                  - text: Your Business
+                  - text: (Generic Marketing)
+                - generic [ref=e481]:
+                  - text: Competitors
+                  - text: (Personalized Marketing)
+              - generic [ref=e482]: Companies using personalized marketing capture 60% more market share on average
+          - generic [ref=e483]:
+            - paragraph [ref=e484]: The longer you delay implementing marketing personalization, the wider the performance gap grows between your campaigns and your competitors' personalized marketing videos.
+            - link "Discover How VideoRemix.vip Personalizes Your Marketing" [ref=e486] [cursor=pointer]:
+              - /url: "#solution"
+              - generic [ref=e487]: Discover How VideoRemix.vip Personalizes Your Marketing
+              - img [ref=e488]
+      - generic [ref=e493]:
+        - generic [ref=e494]:
+          - generic [ref=e496]:
+            - generic [ref=e497]:
+              - img [ref=e498]
+              - text: THE PERSONALIZED MARKETING REVOLUTION
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+          - heading "Introducing VideoRemix.vip Your Complete Personalized Marketing Platform" [level=2] [ref=e501]:
+            - text: Introducing
+            - generic [ref=e502]: VideoRemix.vip
+            - text: Your Complete Personalized Marketing Platform
+          - paragraph [ref=e504]: Create personalized marketing videos that speak directly to each viewer, driving 3X higher engagement and dramatically increasing conversion rates across your marketing campaigns.
+        - generic [ref=e505]:
+          - generic [ref=e506]:
+            - generic [ref=e508]:
+              - img "Personalized Marketing Video Interface" [ref=e509]
+              - generic [ref=e511]:
+                - img [ref=e512]
+                - generic [ref=e517]: "Audience: B2B Decision Makers"
+              - generic [ref=e518]:
+                - img [ref=e519]
+                - generic [ref=e522]: Marketing Personalization Active
+              - generic [ref=e526]:
+                - button [ref=e527] [cursor=pointer]:
+                  - img [ref=e528]
+                - generic [ref=e530]: 01:23 / 02:30
+              - generic [ref=e532]:
+                - img [ref=e533]
+                - generic [ref=e536]: AI marketing personalization applied to this segment
+            - generic [ref=e537]:
+              - generic [ref=e538]: Segmented Audiences
+              - generic [ref=e539]: Dynamic Marketing Content
+              - generic [ref=e540]: Personalized CTAs
+              - generic [ref=e541]: Conversion-Focused Messaging
+          - generic [ref=e542]:
+            - heading "How VideoRemix.vip Transforms Your Marketing With Personalization" [level=3] [ref=e543]
+            - generic [ref=e544]:
+              - generic [ref=e545]:
+                - generic [ref=e546]:
+                  - img [ref=e548]
+                  - generic [ref=e551]: One-size-fits-all marketing for everyone
+                - generic [ref=e552]:
+                  - generic [ref=e553]:
+                    - img [ref=e555]
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                  - generic [ref=e557]: Personalized marketing videos for each audience segment
+              - generic [ref=e558]:
+                - generic [ref=e559]:
+                  - img [ref=e561]
+                  - generic [ref=e564]: Manual customization takes hours per campaign
+                - generic [ref=e565]:
+                  - generic [ref=e566]:
+                    - img [ref=e568]
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                  - generic [ref=e570]: AI personalizes marketing in minutes
+              - generic [ref=e571]:
+                - generic [ref=e572]:
+                  - img [ref=e574]
+                  - generic [ref=e577]: Same messaging regardless of prospect stage
+                - generic [ref=e578]:
+                  - generic [ref=e579]:
+                    - img [ref=e581]
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                  - generic [ref=e583]: Dynamic marketing adapts to each buyer journey stage
+              - generic [ref=e584]:
+                - generic [ref=e585]:
+                  - img [ref=e587]
+                  - generic [ref=e590]: Static templates with limited marketing options
+                - generic [ref=e591]:
+                  - generic [ref=e592]:
+                    - img [ref=e594]
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                    - generic:
+                      - generic:
+                        - img
+                  - generic [ref=e596]: 20+ personalized marketing apps for any campaign
+            - generic [ref=e597]:
+              - generic [ref=e598]:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+                  - generic:
+                    - generic:
+                      - img
+              - heading "What Personalized Marketing Means For Your Business:" [level=3] [ref=e599]
+              - list [ref=e600]:
+                - listitem [ref=e601]:
+                  - img [ref=e603]
+                  - generic [ref=e605]: 215% increase in marketing video engagement rates
+                - listitem [ref=e606]:
+                  - img [ref=e608]
+                  - generic [ref=e610]: 183% higher conversion rates across your marketing funnel
+                - listitem [ref=e611]:
+                  - img [ref=e613]
+                  - generic [ref=e615]: 67% more time spent viewing your marketing videos
+                - listitem [ref=e616]:
+                  - img [ref=e618]
+                  - generic [ref=e620]: 3X more shares and social amplification of your campaigns
+                - listitem [ref=e621]:
+                  - img [ref=e623]
+                  - generic [ref=e625]: Stronger audience connection and measurable marketing ROI
+              - generic [ref=e627]:
+                - link "Explore 20+ Marketing Personalization Tools" [ref=e628] [cursor=pointer]:
+                  - /url: /tools
+                  - generic [ref=e629]: Explore 20+ Marketing Personalization Tools
+                  - img [ref=e631]
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+                - generic:
+                  - generic:
+                    - img
+        - generic [ref=e633]:
+          - generic [ref=e635]:
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+          - heading "Personalized Marketing By The Numbers" [level=3] [ref=e636]
+          - paragraph [ref=e637]: "The data is clear: personalized marketing significantly outperforms generic marketing"
+          - generic [ref=e638]:
+            - generic [ref=e639]:
+              - generic [ref=e640]: 215%
+              - generic [ref=e641]: Higher Engagement
+            - generic [ref=e642]:
+              - generic [ref=e643]: 183%
+              - generic [ref=e644]: Better Conversion
+            - generic [ref=e645]:
+              - generic [ref=e646]: 300%
+              - generic [ref=e647]: Marketing ROI
+          - link "Get Personalized Marketing Access Today" [ref=e648] [cursor=pointer]:
+            - /url: "#pricing"
+            - generic [ref=e649]: Get Personalized Marketing Access Today
+            - img [ref=e651]
+          - generic [ref=e655]:
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+      - generic [ref=e660]:
+        - generic [ref=e661]:
+          - generic [ref=e663]: MARKETING PERSONALIZATION MADE SIMPLE
+          - generic [ref=e664]:
+            - heading "Create Personalized Marketing in Just Minutes" [level=2] [ref=e665]
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+          - paragraph [ref=e666]: Our intuitive workflow makes it easy to create personalized marketing videos and campaigns for every audience segment
+        - generic [ref=e668]:
+          - button "Identify Your" [ref=e2824] [cursor=pointer]:
+            - img [ref=e2825]
+            - generic [ref=e673]: Identify Your
+          - button "2 Personalize Your" [ref=e674] [cursor=pointer]:
+            - generic [ref=e676]: "2"
+            - generic [ref=e677]: Personalize Your
+          - button "3 Set Up" [ref=e678] [cursor=pointer]:
+            - generic [ref=e680]: "3"
+            - generic [ref=e681]: Set Up
+          - button "4 Measure &" [ref=e682] [cursor=pointer]:
+            - generic [ref=e684]: "4"
+            - generic [ref=e685]: Measure &
+        - generic [ref=e686]:
+          - generic [ref=e2827]:
+            - img [ref=e2829]
+            - heading "Personalize Your Marketing Content" [level=3] [ref=e2832]
+            - paragraph [ref=e2833]: Choose from 20+ personalization tools to tailor your marketing videos, images, and copy for each audience segment.
+            - generic [ref=e2834]:
+              - heading "Key Features:" [level=4] [ref=e2835]
+              - generic [ref=e2836]:
+                - generic [ref=e2837]:
+                  - img [ref=e2839]
+                  - paragraph [ref=e2841]: Personalized marketing visuals, text, and audio
+                - generic [ref=e2842]:
+                  - img [ref=e2844]
+                  - paragraph [ref=e2846]: Dynamic content insertion based on prospect data
+                - generic [ref=e2847]:
+                  - img [ref=e2849]
+                  - paragraph [ref=e2851]: AI-powered marketing personalization recommendations
+                - generic [ref=e2852]:
+                  - img [ref=e2854]
+                  - paragraph [ref=e2856]: Custom branding elements for each market segment
+            - generic [ref=e2857]:
+              - img [ref=e2858]
+              - generic [ref=e2861]:
+                - generic [ref=e2862]: 5 min
+                - generic [ref=e2863]: Average personalization time
+          - generic [ref=e2865]:
+            - img "Personalize Your Marketing Content" [ref=e2866]
+            - button [ref=e2869] [cursor=pointer]:
+              - img [ref=e2870]
+            - generic [ref=e2872]: Marketing Step 2 of 4
+            - generic [ref=e2874]:
+              - generic [ref=e2875]:
+                - img [ref=e2876]
+                - heading "Marketing Personalization Preview" [level=4] [ref=e2879]
+              - paragraph [ref=e2880]: "Personalizing marketing for CEO persona: Enterprise value proposition activated"
+              - generic [ref=e2882]: Marketing personalization powered by AI
+        - generic [ref=e745]:
+          - generic [ref=e746]:
+            - generic [ref=e747]:
+              - img [ref=e749]
+              - generic [ref=e753]: 215%
+              - generic [ref=e754]: Higher engagement with marketing personalization
+            - generic [ref=e755]:
+              - img [ref=e757]
+              - generic [ref=e758]: 183%
+              - generic [ref=e759]: Increased marketing conversion rate
+            - generic [ref=e760]:
+              - img [ref=e762]
+              - generic [ref=e765]: 10 min
+              - generic [ref=e766]: Average marketing personalization time
+            - generic [ref=e767]:
+              - img [ref=e769]
+              - generic [ref=e773]: 20+
+              - generic [ref=e774]: Marketing personalization tools available
+          - generic [ref=e775]:
+            - link "Explore All Marketing Personalization Tools" [ref=e777] [cursor=pointer]:
+              - /url: /tools
+              - generic [ref=e778]: Explore All Marketing Personalization Tools
+              - img [ref=e779]
+            - paragraph [ref=e781]: Get started with VideoRemix.vip today. No credit card required.
+      - generic [ref=e786]:
+        - generic [ref=e787]:
+          - generic [ref=e789]: MARKETING PERSONALIZATION TOOLS
+          - generic [ref=e790]:
+            - heading "One Platform. 20+ Marketing Personalization Apps" [level=2] [ref=e791]
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+          - paragraph [ref=e792]: Explore our comprehensive suite of personalized marketing tools designed for every campaign need
+        - generic [ref=e795]:
+          - button "Marketing Content Creation Create personalized marketing videos and images" [ref=e796] [cursor=pointer]:
+            - generic [ref=e797]:
+              - img [ref=e799]
+              - generic [ref=e802]: Marketing Content Creation
+              - generic [ref=e803]: Create personalized marketing videos and images
+          - button "Visual Marketing Apply personalized visual treatments to marketing" [ref=e804] [cursor=pointer]:
+            - generic [ref=e805]:
+              - img [ref=e807]
+              - generic [ref=e813]: Visual Marketing
+              - generic [ref=e814]: Apply personalized visual treatments to marketing
+          - button "Sales & Marketing Tools Close more deals with personalization" [ref=e815] [cursor=pointer]:
+            - generic [ref=e816]:
+              - img [ref=e818]
+              - generic [ref=e822]: Sales & Marketing Tools
+              - generic [ref=e823]: Close more deals with personalization
+          - button "Marketing Communication Personalized marketing outreach tools" [ref=e824] [cursor=pointer]:
+            - generic [ref=e825]:
+              - img [ref=e827]
+              - generic [ref=e829]: Marketing Communication
+              - generic [ref=e830]: Personalized marketing outreach tools
+          - button "Advanced AI Marketing Cutting edge AI marketing personalization" [ref=e831] [cursor=pointer]:
+            - generic [ref=e832]:
+              - img [ref=e834]
+              - generic [ref=e837]: Advanced AI Marketing
+              - generic [ref=e838]: Cutting edge AI marketing personalization
+        - generic [ref=e839]:
+          - heading "Featured Marketing Collections" [level=3] [ref=e840]
+          - generic [ref=e841]:
+            - generic [ref=e843]:
+              - img [ref=e845]
+              - heading "Visual Marketing" [level=4] [ref=e851]
+              - paragraph [ref=e852]: Transform ideas into stunning personalized marketing visuals
+              - generic [ref=e853]:
+                - link "Marketing AI Creative Studio" [ref=e854] [cursor=pointer]:
+                  - /url: https://ai-personalized-content.videoremix.vip
+                  - img [ref=e856]
+                  - generic [ref=e860]: Marketing AI Creative Studio
+                - link "Marketing AI Image Generation" [ref=e861] [cursor=pointer]:
+                  - /url: https://ai-personalized-content.videoremix.vip
+                  - img [ref=e863]
+                  - generic [ref=e870]: Marketing AI Image Generation
+                - link "Marketing Action Figures" [ref=e871] [cursor=pointer]:
+                  - /url: https://ai-personalized-content.videoremix.vip
+                  - img [ref=e873]
+                  - generic [ref=e880]: Marketing Action Figures
+                - link "Marketing Studio Ghibli Style" [ref=e881] [cursor=pointer]:
+                  - /url: https://ai-personalized-content.videoremix.vip
+                  - img [ref=e883]
+                  - generic [ref=e890]: Marketing Studio Ghibli Style
+            - generic [ref=e892]:
+              - img [ref=e894]
+              - heading "Sales Acceleration" [level=4] [ref=e898]
+              - paragraph [ref=e899]: Close more deals with personalized marketing tools
+              - generic [ref=e900]:
+                - link "Marketing Proposal Generator" [ref=e901] [cursor=pointer]:
+                  - /url: https://proposal-ai.videoremix.vip
+                  - img [ref=e903]
+                  - generic [ref=e908]: Marketing Proposal Generator
+                - link "Marketing Audience Research" [ref=e909] [cursor=pointer]:
+                  - /url: https://sales-assistant-ai.videoremix.vip
+                  - img [ref=e911]
+                  - generic [ref=e917]: Marketing Audience Research
+                - link "Marketing Smart Pricing" [ref=e918] [cursor=pointer]:
+                  - /url: https://proposal-ai.videoremix.vip
+                  - img [ref=e920]
+                  - generic [ref=e925]: Marketing Smart Pricing
+                - link "Marketing Objection Handler" [ref=e926] [cursor=pointer]:
+                  - /url: https://sales-assistant-ai.videoremix.vip
+                  - img [ref=e928]
+                  - generic [ref=e931]: Marketing Objection Handler
+            - generic [ref=e933]:
+              - img [ref=e935]
+              - heading "Global Marketing" [level=4] [ref=e938]
+              - paragraph [ref=e939]: Supercharge your international marketing efforts
+              - generic [ref=e940]:
+                - link "Multi-Language Marketing" [ref=e941] [cursor=pointer]:
+                  - /url: https://ai-personalized-content.videoremix.vip
+                  - img [ref=e943]
+                  - generic [ref=e947]: Multi-Language Marketing
+                - link "Real-Time Marketing Translation" [ref=e948] [cursor=pointer]:
+                  - /url: https://ai-personalized-content.videoremix.vip
+                  - img [ref=e950]
+                  - generic [ref=e954]: Real-Time Marketing Translation
+                - link "Marketing Follow-Up Emails" [ref=e955] [cursor=pointer]:
+                  - /url: https://sales-assistant-ai.videoremix.vip
+                  - img [ref=e957]
+                  - generic [ref=e960]: Marketing Follow-Up Emails
+        - generic [ref=e961]:
+          - button "Scroll left" [ref=e962] [cursor=pointer]:
+            - img [ref=e963]
+          - button "Scroll right" [ref=e965] [cursor=pointer]:
+            - img [ref=e966]
+          - heading "Marketing Content Creation Tools" [level=3] [ref=e968]
+          - generic [ref=e970]:
+            - link "Marketing AI Creative Studio POPULAR Marketing Content Creation Create AI-generated marketing content tailored to your audience Try Marketing Tool" [ref=e972] [cursor=pointer]:
+              - /url: https://ai-personalized-content.videoremix.vip
+              - generic [ref=e973]:
+                - img [ref=e975]
+                - generic [ref=e978]:
+                  - generic [ref=e979]:
+                    - heading "Marketing AI Creative Studio" [level=3] [ref=e980]
+                    - generic [ref=e981]: POPULAR
+                  - paragraph [ref=e982]: Marketing Content Creation
+              - paragraph [ref=e983]: Create AI-generated marketing content tailored to your audience
+              - generic [ref=e985]:
+                - text: Try Marketing Tool
+                - img [ref=e986]
+            - link "Marketing Video Generator POPULAR Marketing Content Creation Generate marketing videos based on audience data Try Marketing Tool" [ref=e989] [cursor=pointer]:
+              - /url: https://ai-personalized-content.videoremix.vip
+              - generic [ref=e990]:
+                - img [ref=e992]
+                - generic [ref=e995]:
+                  - generic [ref=e996]:
+                    - heading "Marketing Video Generator" [level=3] [ref=e997]
+                    - generic [ref=e998]: POPULAR
+                  - paragraph [ref=e999]: Marketing Content Creation
+              - paragraph [ref=e1000]: Generate marketing videos based on audience data
+              - generic [ref=e1002]:
+                - text: Try Marketing Tool
+                - img [ref=e1003]
+            - link "Marketing GIF Editor NEW Marketing Content Creation Create and customize animated GIFs for marketing campaigns Try Marketing Tool" [ref=e1006] [cursor=pointer]:
+              - /url: https://ai-personalized-content.videoremix.vip
+              - generic [ref=e1007]:
+                - img [ref=e1009]
+                - generic [ref=e1014]:
+                  - generic [ref=e1015]:
+                    - heading "Marketing GIF Editor" [level=3] [ref=e1016]
+                    - generic [ref=e1017]: NEW
+                  - paragraph [ref=e1018]: Marketing Content Creation
+              - paragraph [ref=e1019]: Create and customize animated GIFs for marketing campaigns
+              - generic [ref=e1021]:
+                - text: Try Marketing Tool
+                - img [ref=e1022]
+            - link "Marketing AI Image Generation POPULAR Marketing Content Creation Generate images for targeted marketing campaigns Try Marketing Tool" [ref=e1025] [cursor=pointer]:
+              - /url: https://ai-personalized-content.videoremix.vip
+              - generic [ref=e1026]:
+                - img [ref=e1028]
+                - generic [ref=e1034]:
+                  - generic [ref=e1035]:
+                    - heading "Marketing AI Image Generation" [level=3] [ref=e1036]
+                    - generic [ref=e1037]: POPULAR
+                  - paragraph [ref=e1038]: Marketing Content Creation
+              - paragraph [ref=e1039]: Generate images for targeted marketing campaigns
+              - generic [ref=e1041]:
+                - text: Try Marketing Tool
+                - img [ref=e1042]
+        - generic [ref=e1045]:
+          - generic [ref=e1046]:
+            - heading "Unlock the Full Power of Marketing Personalization" [level=2] [ref=e1047]
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+          - paragraph [ref=e1048]: Access all our professional marketing personalization tools with a premium subscription
+          - link "Get Premium Access" [ref=e1049] [cursor=pointer]:
+            - /url: /pricing
+            - text: Get Premium Access
+            - img [ref=e1050]
+      - generic [ref=e1056]:
+        - generic [ref=e1057]:
+          - generic [ref=e1059]: MARKETING PERSONALIZATION FEATURES
+          - generic [ref=e1060]:
+            - heading "Comprehensive Marketing Personalization Features" [level=2] [ref=e1061]
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+          - paragraph [ref=e1062]: Explore the powerful personalization capabilities of VideoRemix.vip's marketing platform
+        - generic [ref=e1063]:
+          - generic [ref=e1064]:
+            - heading "Personalized Video Marketing" [level=3] [ref=e1066]
+            - list [ref=e1067]:
+              - listitem [ref=e1068]:
+                - img [ref=e1070]
+                - generic [ref=e1072]: Personalized Marketing from Text/Keywords/Prompts
+              - listitem [ref=e1073]:
+                - img [ref=e1075]
+                - generic [ref=e1077]: Personalized Marketing from User Data
+              - listitem [ref=e1078]:
+                - img [ref=e1080]
+                - generic [ref=e1082]: Personalized Audio/Music for Campaigns
+              - listitem [ref=e1083]:
+                - img [ref=e1085]
+                - generic [ref=e1087]: Personalized Imagery from Various Sources
+              - listitem [ref=e1088]:
+                - img [ref=e1090]
+                - generic [ref=e1092]: Personalized Marketing Campaign Storage
+              - listitem [ref=e1093]:
+                - img [ref=e1095]
+                - generic [ref=e1097]: Personalized Campaign Layer Management
+          - generic [ref=e1098]:
+            - heading "Personalized Marketing Copy" [level=3] [ref=e1100]
+            - list [ref=e1101]:
+              - listitem [ref=e1102]:
+                - img [ref=e1104]
+                - generic [ref=e1106]: Personalized Marketing Text Elements
+              - listitem [ref=e1107]:
+                - img [ref=e1109]
+                - generic [ref=e1111]: Personalized Marketing Text Masking
+              - listitem [ref=e1112]:
+                - img [ref=e1114]
+                - generic [ref=e1116]: Personalized Marketing Copy Based on User Data
+              - listitem [ref=e1117]:
+                - img [ref=e1119]
+                - generic [ref=e1121]: Personalized Marketing for Email Lists
+              - listitem [ref=e1122]:
+                - img [ref=e1124]
+                - generic [ref=e1126]: Personalized Marketing Link™ with Various Email Services
+              - listitem [ref=e1127]:
+                - img [ref=e1129]
+                - generic [ref=e1131]: Personalized Marketing Text Animations
+          - generic [ref=e1132]:
+            - heading "Personalized Marketing Elements" [level=3] [ref=e1134]
+            - list [ref=e1135]:
+              - listitem [ref=e1136]:
+                - img [ref=e1138]
+                - generic [ref=e1140]: Personalized Marketing Animation Elements
+              - listitem [ref=e1141]:
+                - img [ref=e1143]
+                - generic [ref=e1145]: Personalized Marketing Transition Elements
+              - listitem [ref=e1146]:
+                - img [ref=e1148]
+                - generic [ref=e1150]: Personalized Marketing Blend Modes
+              - listitem [ref=e1151]:
+                - img [ref=e1153]
+                - generic [ref=e1155]: Personalized Marketing Pause Elements
+              - listitem [ref=e1156]:
+                - img [ref=e1158]
+                - generic [ref=e1160]: Personalized Marketing Loop Elements
+              - listitem [ref=e1161]:
+                - img [ref=e1163]
+                - generic [ref=e1165]: Personalized Marketing Skip Elements
+          - generic [ref=e1166]:
+            - heading "Personalized Interactive Marketing" [level=3] [ref=e1168]
+            - list [ref=e1169]:
+              - listitem [ref=e1170]:
+                - img [ref=e1172]
+                - generic [ref=e1174]: Personalized Marketing CTA Elements
+              - listitem [ref=e1175]:
+                - img [ref=e1177]
+                - generic [ref=e1179]: Personalized Marketing Connect Form
+              - listitem [ref=e1180]:
+                - img [ref=e1182]
+                - generic [ref=e1184]: Personalized Marketing Google Maps Integration
+              - listitem [ref=e1185]:
+                - img [ref=e1187]
+                - generic [ref=e1189]: Personalized Marketing Screen Recorder
+              - listitem [ref=e1190]:
+                - img [ref=e1192]
+                - generic [ref=e1194]: Personalized Marketing Audio Recorder
+              - listitem [ref=e1195]:
+                - img [ref=e1197]
+                - generic [ref=e1199]: Personalized Marketing Opt-in Form
+          - generic [ref=e1200]:
+            - heading "Personalized Professional Marketing" [level=3] [ref=e1202]
+            - list [ref=e1203]:
+              - listitem [ref=e1204]:
+                - img [ref=e1206]
+                - generic [ref=e1208]: Personalized Marketing Lower Thirds Presets
+              - listitem [ref=e1209]:
+                - img [ref=e1211]
+                - generic [ref=e1213]: Personalized Marketing Custom Lower Thirds
+              - listitem [ref=e1214]:
+                - img [ref=e1216]
+                - generic [ref=e1218]: Personalized Marketing AI Voice Coach
+              - listitem [ref=e1219]:
+                - img [ref=e1221]
+                - generic [ref=e1223]: Personalized Marketing Storyboard AI
+              - listitem [ref=e1224]:
+                - img [ref=e1226]
+                - generic [ref=e1228]: Personalized Marketing AI Script Creator
+              - listitem [ref=e1229]:
+                - img [ref=e1231]
+                - generic [ref=e1233]: Personalized Marketing Template Generator
+          - generic [ref=e1234]:
+            - heading "Personalized Marketing Social & Sharing" [level=3] [ref=e1236]
+            - list [ref=e1237]:
+              - listitem [ref=e1238]:
+                - img [ref=e1240]
+                - generic [ref=e1242]: Personalized Social Campaign Tools
+              - listitem [ref=e1243]:
+                - img [ref=e1245]
+                - generic [ref=e1247]: Personalized Marketing Social Plugin Integration
+              - listitem [ref=e1248]:
+                - img [ref=e1250]
+                - generic [ref=e1252]: Personalized Marketing Facebook/LinkedIn Content
+              - listitem [ref=e1253]:
+                - img [ref=e1255]
+                - generic [ref=e1257]: Personalized Marketing LinkedIn Video Sharing
+              - listitem [ref=e1258]:
+                - img [ref=e1260]
+                - generic [ref=e1262]: Personalized Social Media Marketing Pack
+              - listitem [ref=e1263]:
+                - img [ref=e1265]
+                - generic [ref=e1267]: Personalized Interactive Marketing Video Outros
+          - generic [ref=e1268]:
+            - heading "Personalized Marketing Advanced Tools" [level=3] [ref=e1270]
+            - list [ref=e1271]:
+              - listitem [ref=e1272]:
+                - img [ref=e1274]
+                - generic [ref=e1276]: Personalized Marketing Clip Editor
+              - listitem [ref=e1277]:
+                - img [ref=e1279]
+                - generic [ref=e1281]: Personalized Marketing Thumbnail Generator
+              - listitem [ref=e1282]:
+                - img [ref=e1284]
+                - generic [ref=e1286]: Personalized Marketing AI Background Remover
+              - listitem [ref=e1287]:
+                - img [ref=e1289]
+                - generic [ref=e1291]: Personalized Marketing AI Art Generator
+              - listitem [ref=e1292]:
+                - img [ref=e1294]
+                - generic [ref=e1296]: Personalized Marketing Video Project Thumbnails
+              - listitem [ref=e1297]:
+                - img [ref=e1299]
+                - generic [ref=e1301]: Personalized Marketing Text to Speech
+          - generic [ref=e1302]:
+            - heading "Personalized Marketing Multi-Language" [level=3] [ref=e1304]
+            - list [ref=e1305]:
+              - listitem [ref=e1306]:
+                - img [ref=e1308]
+                - generic [ref=e1310]: Personalized Marketing Automatic Captions
+              - listitem [ref=e1311]:
+                - img [ref=e1313]
+                - generic [ref=e1315]: Personalized Marketing Multi-language Support
+              - listitem [ref=e1316]:
+                - img [ref=e1318]
+                - generic [ref=e1320]: Personalized Marketing Copy Translation
+              - listitem [ref=e1321]:
+                - img [ref=e1323]
+                - generic [ref=e1325]: Personalized Marketing International Formatting
+              - listitem [ref=e1326]:
+                - img [ref=e1328]
+                - generic [ref=e1330]: Personalized Marketing Regional Dialect Recognition
+              - listitem [ref=e1331]:
+                - img [ref=e1333]
+                - generic [ref=e1335]: Personalized Marketing Cultural Context Adaptation
+      - generic [ref=e1368]:
+        - generic [ref=e1369]:
+          - generic [ref=e1371]: MARKETING PERSONALIZATION BENEFITS
+          - generic [ref=e1372]:
+            - heading "Transform Your Marketing Results With Personalization" [level=2] [ref=e1373]
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+          - paragraph [ref=e1374]: Personalization isn't just a nice-to-have feature—it's the difference between marketing that converts and marketing that gets ignored.
+        - generic [ref=e1375]:
+          - generic [ref=e1377]:
+            - generic [ref=e1378]:
+              - img [ref=e1380]
+              - generic [ref=e1383]:
+                - heading "Create Personalized Marketing in Minutes" [level=3] [ref=e1384]
+                - paragraph [ref=e1385]: Our AI tools analyze your audience and automatically personalize marketing content that resonates with each segment.
+            - generic [ref=e1386]:
+              - generic [ref=e1387]:
+                - generic [ref=e1388]: "92"
+                - generic [ref=e1389]: Time saved vs manual marketing personalization
+              - generic [ref=e1390]:
+                - generic [ref=e1391]: "5"
+                - generic [ref=e1392]: Average marketing personalization time
+          - generic [ref=e1394]:
+            - generic [ref=e1395]:
+              - img [ref=e1397]
+              - generic [ref=e1402]:
+                - heading "Segment Your Audience Automatically" [level=3] [ref=e1403]
+                - paragraph [ref=e1404]: Let AI identify and group your prospects into segments for highly targeted personalized marketing.
+            - generic [ref=e1405]:
+              - generic [ref=e1406]:
+                - generic [ref=e1407]: "215"
+                - generic [ref=e1408]: Increase in engagement with segmentation
+              - generic [ref=e1409]:
+                - generic [ref=e1410]: "183"
+                - generic [ref=e1411]: Higher conversion with personalized marketing
+          - generic [ref=e1413]:
+            - generic [ref=e1414]:
+              - img [ref=e1416]
+              - generic [ref=e1418]:
+                - heading "Personalized Marketing That Converts" [level=3] [ref=e1419]
+                - paragraph [ref=e1420]: Customize marketing to each prospect's needs, preferences, and position in the buyer journey.
+            - generic [ref=e1421]:
+              - generic [ref=e1422]:
+                - generic [ref=e1423]: "48"
+                - generic [ref=e1424]: Personalized marketing conversion rate
+              - generic [ref=e1425]:
+                - generic [ref=e1426]: "267"
+                - generic [ref=e1427]: Marketing ROI increase with personalization
+          - generic [ref=e1429]:
+            - generic [ref=e1430]:
+              - img [ref=e1432]
+              - generic [ref=e1434]:
+                - heading "Scale Your Marketing Personalization" [level=3] [ref=e1435]
+                - paragraph [ref=e1436]: Create thousands of personalized marketing video variations without additional work using our automation tools.
+            - generic [ref=e1437]:
+              - generic [ref=e1438]:
+                - generic [ref=e1439]: "100"
+                - generic [ref=e1440]: Marketing variations from one video
+              - generic [ref=e1441]:
+                - generic [ref=e1442]: 0Unlimited
+                - generic [ref=e1443]: Audience segments supported
+        - generic [ref=e1444]:
+          - heading "Success Stories" [level=3] [ref=e1445]
+          - button "Previous testimonial" [ref=e1446] [cursor=pointer]:
+            - img [ref=e1447]
+          - button "Next testimonial" [ref=e1449] [cursor=pointer]:
+            - img [ref=e1450]
+          - generic [ref=e1452]:
+            - generic [ref=e2884]:
+              - generic [ref=e2885]:
+                - img "Sarah Johnson" [ref=e2888]
+                - generic [ref=e2890]:
+                  - img [ref=e2892]
+                  - img [ref=e2895]
+                  - img [ref=e2898]
+                  - img [ref=e2901]
+                  - img [ref=e2904]
+              - generic [ref=e2906]:
+                - paragraph [ref=e2907]: "\"The platform has everything we need for personalized marketing. Templates are professional, the AI features save us hours, and the team collaboration tools work great.\""
+                - generic [ref=e2908]:
+                  - generic [ref=e2909]: Sarah Johnson
+                  - generic [ref=e2910]: Email Marketing Lead, Retail Innovations Inc.
+                - generic [ref=e2911]:
+                  - generic [ref=e2912]:
+                    - generic [ref=e2913]: Time Saver
+                    - generic [ref=e2914]: Conversion
+                  - generic [ref=e2915]:
+                    - generic [ref=e2916]: 20+ Apps
+                    - generic [ref=e2917]: Engagement
+                  - generic [ref=e2918]:
+                    - generic [ref=e2919]: Worth It
+                    - generic [ref=e2920]: Marketing ROI
+            - generic [ref=e1491]:
+              - button "Go to testimonial 1" [ref=e1492] [cursor=pointer]
+              - button "Go to testimonial 2" [ref=e1493] [cursor=pointer]
+              - button "Go to testimonial 3" [ref=e1494] [cursor=pointer]
+              - button "Go to testimonial 4" [ref=e1495] [cursor=pointer]
+              - button "Go to testimonial 5" [ref=e1496] [cursor=pointer]
+              - button "Go to testimonial 6" [ref=e1497] [cursor=pointer]
+              - button "Go to testimonial 7" [ref=e1498] [cursor=pointer]
+              - button "Go to testimonial 8" [ref=e1499] [cursor=pointer]
+              - button "Go to testimonial 9" [ref=e1500] [cursor=pointer]
+              - button "Go to testimonial 10" [ref=e1501] [cursor=pointer]
+        - link "Explore Marketing Personalization Tools" [ref=e1503] [cursor=pointer]:
+          - /url: "#tools"
+          - img [ref=e1504]
+          - generic [ref=e1507]: Explore Marketing Personalization Tools
+          - img [ref=e1509]
+      - generic [ref=e1517]:
+        - generic [ref=e1518]:
+          - generic [ref=e1520]: MARKETING PERSONALIZATION SUCCESS
+          - generic [ref=e1521]:
+            - heading "Real Results From Real Businesses" [level=2] [ref=e1522]
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+          - paragraph [ref=e1523]: See how companies across industries have transformed their marketing performance with personalized content
+        - generic [ref=e1525]:
+          - button "StyleTrend StyleTrend E-Commerce Fashion" [ref=e1526] [cursor=pointer]:
+            - generic [ref=e1527]:
+              - img "StyleTrend" [ref=e1529]
+              - generic [ref=e1530]:
+                - heading "StyleTrend" [level=4] [ref=e1531]
+                - paragraph [ref=e1532]: E-Commerce Fashion
+          - button "CloudSphere Solutions CloudSphere Solutions SaaS / Enterprise Software" [ref=e1533] [cursor=pointer]:
+            - generic [ref=e1534]:
+              - img "CloudSphere Solutions" [ref=e1536]
+              - generic [ref=e1537]:
+                - heading "CloudSphere Solutions" [level=4] [ref=e1538]
+                - paragraph [ref=e1539]: SaaS / Enterprise Software
+          - button "EduVista Learning EduVista Learning Educational Technology" [ref=e1540] [cursor=pointer]:
+            - generic [ref=e1541]:
+              - img "EduVista Learning" [ref=e1543]
+              - generic [ref=e1544]:
+                - heading "EduVista Learning" [level=4] [ref=e1545]
+                - paragraph [ref=e1546]: Educational Technology
+          - button "Meridian Financial Meridian Financial Financial Services" [ref=e1547] [cursor=pointer]:
+            - generic [ref=e1548]:
+              - img "Meridian Financial" [ref=e1550]
+              - generic [ref=e1551]:
+                - heading "Meridian Financial" [level=4] [ref=e1552]
+                - paragraph [ref=e1553]: Financial Services
+          - button "Vitality Health Network Vitality Health Network Healthcare" [ref=e1554] [cursor=pointer]:
+            - generic [ref=e1555]:
+              - img "Vitality Health Network" [ref=e1557]
+              - generic [ref=e1558]:
+                - heading "Vitality Health Network" [level=4] [ref=e1559]
+                - paragraph [ref=e1560]: Healthcare
+        - generic [ref=e1562]:
+          - generic [ref=e1563]:
+            - generic [ref=e1565]:
+              - img [ref=e1567]
+              - generic [ref=e1570]:
+                - heading "StyleTrend" [level=3] [ref=e1571]
+                - paragraph [ref=e1572]: E-Commerce Fashion
+            - generic [ref=e1573]:
+              - generic [ref=e1574]:
+                - heading "The Challenge" [level=4] [ref=e1575]
+                - paragraph [ref=e1576]: StyleTrend was sending the same generic product videos to all customers, resulting in low engagement rates (2.3%) and poor conversion (1.7%). Their marketing team couldn't create personalized content at scale.
+              - generic [ref=e1577]:
+                - heading "The Solution" [level=4] [ref=e1578]
+                - paragraph [ref=e1579]: Implemented audience segmentation by style preference, browsing history, and purchase behavior. Created personalized marketing videos for each segment using VideoRemix.vip's AI personalization tools.
+            - generic [ref=e1581]:
+              - img "Emma Richardson" [ref=e1584]
+              - generic [ref=e1585]:
+                - paragraph [ref=e1586]: "\"The difference in our marketing performance is night and day. We now produce segment-specific fashion videos in minutes that connect with each audience perfectly. Our marketing ROI increased over 5x.\""
+                - generic [ref=e1587]:
+                  - text: Emma Richardson
+                  - generic [ref=e1588]: • Marketing Director
+            - generic [ref=e1589]: "Implementation Timeline: 3 weeks from implementation to first results"
+          - generic [ref=e1590]:
+            - generic [ref=e1592]:
+              - img "StyleTrend implementation" [ref=e1593]
+              - generic [ref=e1595]:
+                - generic [ref=e1596]: VideoRemix.vip Solution
+                - link "Watch Case Study Video" [ref=e1597] [cursor=pointer]:
+                  - /url: https://ai-personalized-content.videoremix.vip
+                  - text: Watch Case Study Video
+                  - img [ref=e1598]
+            - generic [ref=e1600]:
+              - heading "The Results" [level=4] [ref=e1601]
+              - generic [ref=e1602]:
+                - generic [ref=e1604]:
+                  - img [ref=e1606]
+                  - generic [ref=e1607]:
+                    - generic [ref=e1608]: +347%
+                    - generic [ref=e1609]: Engagement
+                - generic [ref=e1611]:
+                  - img [ref=e1613]
+                  - generic [ref=e1616]:
+                    - generic [ref=e1617]: 8.4%
+                    - generic [ref=e1618]: Conversion
+                - generic [ref=e1620]:
+                  - img [ref=e1622]
+                  - generic [ref=e1625]:
+                    - generic [ref=e1626]: "-85%"
+                    - generic [ref=e1627]: Production Time
+                - generic [ref=e1629]:
+                  - img [ref=e1631]
+                  - generic [ref=e1633]:
+                    - generic [ref=e1634]: 518%
+                    - generic [ref=e1635]: ROI
+            - generic [ref=e1636]:
+              - heading "Marketing Performance Transformation" [level=4] [ref=e1637]:
+                - img [ref=e1638]
+                - text: Marketing Performance Transformation
+              - generic [ref=e1641]:
+                - generic [ref=e1642]:
+                  - generic [ref=e1643]: BEFORE
+                  - generic [ref=e1648]:
+                    - generic [ref=e1649]: Generic Marketing
+                    - generic [ref=e1650]: Low Performance
+                - generic [ref=e1651]:
+                  - generic [ref=e1652]: AFTER
+                  - generic [ref=e1657]:
+                    - generic [ref=e1658]: Personalized Marketing
+                    - generic [ref=e1659]: High Performance
+              - link "Explore the complete case study" [ref=e1661] [cursor=pointer]:
+                - /url: https://ai-personalized-content.videoremix.vip
+                - text: Explore the complete case study
+                - img [ref=e1662]
+        - generic [ref=e1665]:
+          - button [ref=e1666] [cursor=pointer]:
+            - img [ref=e1667]
+          - generic [ref=e1669]:
+            - button "Go to case study 1" [ref=e1670] [cursor=pointer]
+            - button "Go to case study 2" [ref=e1671] [cursor=pointer]
+            - button "Go to case study 3" [ref=e1672] [cursor=pointer]
+            - button "Go to case study 4" [ref=e1673] [cursor=pointer]
+            - button "Go to case study 5" [ref=e1674] [cursor=pointer]
+          - button [ref=e1675] [cursor=pointer]:
+            - img [ref=e1676]
+        - generic [ref=e1678]:
+          - generic [ref=e1679]:
+            - heading "Industry-Specific Results" [level=3] [ref=e1680]
+            - generic [ref=e1681]:
+              - button "E-commerce" [ref=e1682] [cursor=pointer]
+              - button "B2B Software" [ref=e1683] [cursor=pointer]
+              - button "Financial Services" [ref=e1684] [cursor=pointer]
+              - button "Healthcare" [ref=e1685] [cursor=pointer]
+          - generic [ref=e1686]:
+            - heading "Marketing Personalization Impact in E-commerce" [level=4] [ref=e1687]:
+              - img [ref=e1688]
+              - text: Marketing Personalization Impact in E-commerce
+            - generic [ref=e1691]:
+              - generic [ref=e1692]:
+                - generic [ref=e1693]: +183%
+                - generic [ref=e1694]: Average Conversion Lift
+              - generic [ref=e1695]:
+                - generic [ref=e1696]: +215%
+                - generic [ref=e1697]: Customer Engagement
+              - generic [ref=e1698]:
+                - generic [ref=e1699]: +47%
+                - generic [ref=e1700]: Return Customer Rate
+            - link "Download the complete E-commerce benchmark report" [ref=e1702] [cursor=pointer]:
+              - /url: https://ai-personalized-content.videoremix.vip
+              - text: Download the complete E-commerce benchmark report
+              - img [ref=e1703]
+        - generic [ref=e1707]:
+          - heading "Ready to Create Your Success Story?" [level=3] [ref=e1708]
+          - paragraph [ref=e1709]: Join these businesses and achieve breakthrough results with personalized marketing videos
+          - link "Start Your Personalization Journey" [ref=e1711] [cursor=pointer]:
+            - /url: https://ai-personalized-content.videoremix.vip
+            - text: Start Your Personalization Journey
+            - img [ref=e1713]
+          - paragraph [ref=e1715]: No credit card required • Start today • Cancel anytime
+      - generic [ref=e1720]:
+        - generic [ref=e1721]:
+          - generic [ref=e1722]:
+            - generic [ref=e1724]:
+              - img [ref=e1725]
+              - text: PERSONALIZED TOOLS COLLECTION
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+          - heading "Create Content That Speaks Directly To Your Audience" [level=2] [ref=e1728]
+          - paragraph [ref=e1729]: VideoRemix.vip offers 50+ personalization tools that help you create highly targeted, engaging content that resonates with each specific viewer segment.
+          - generic [ref=e1730]:
+            - generic [ref=e1731]:
+              - img [ref=e1734]
+              - heading "47% Higher Engagement" [level=3] [ref=e1736]
+              - paragraph [ref=e1737]: Personalized content drives significantly more engagement than generic content
+            - generic [ref=e1738]:
+              - img [ref=e1741]
+              - heading "3.5x More Conversions" [level=3] [ref=e1744]
+              - paragraph [ref=e1745]: Personalized videos convert at rates up to 3.5x higher than standard videos
+            - generic [ref=e1746]:
+              - img [ref=e1749]
+              - heading "92% Message Retention" [level=3] [ref=e1757]
+              - paragraph [ref=e1758]: Viewers remember personalized content longer and more accurately
+            - generic [ref=e1759]:
+              - img [ref=e1762]
+              - heading "Global Audience Ready" [level=3] [ref=e1765]
+              - paragraph [ref=e1766]: Personalize content for different regions, languages, and cultures
+        - generic [ref=e1769]:
+          - button "All AI Tools" [ref=e1770] [cursor=pointer]:
+            - generic [ref=e1771]:
+              - img [ref=e1773]
+              - generic [ref=e1777]: All AI Tools
+          - button "Video Creation" [ref=e1778] [cursor=pointer]:
+            - generic [ref=e1779]:
+              - img [ref=e1781]
+              - generic [ref=e1784]: Video Creation
+          - button "Sales & Marketing" [ref=e1785] [cursor=pointer]:
+            - generic [ref=e1786]:
+              - img [ref=e1788]
+              - generic [ref=e1793]: Sales & Marketing
+          - button "AI Image" [ref=e1794] [cursor=pointer]:
+            - generic [ref=e1795]:
+              - img [ref=e1797]
+              - generic [ref=e1801]: AI Image
+          - button "Branding" [ref=e1802] [cursor=pointer]:
+            - generic [ref=e1803]:
+              - img [ref=e1805]
+              - generic [ref=e1811]: Branding
+          - button "Personalizer" [ref=e1812] [cursor=pointer]:
+            - generic [ref=e1813]:
+              - img [ref=e1815]
+              - generic [ref=e1819]: Personalizer
+          - button "Creative Tools" [ref=e1820] [cursor=pointer]:
+            - generic [ref=e1821]:
+              - img [ref=e1823]
+              - generic [ref=e1827]: Creative Tools
+        - heading "Featured Personalization Tools" [level=3] [ref=e1829]
+        - generic [ref=e1831]:
+          - generic [ref=e1832]:
+            - generic:
+              - img
+            - textbox "Search personalization tools..." [ref=e1833]
+          - generic [ref=e1834]:
+            - generic [ref=e1835]:
+              - generic:
+                - img
+              - combobox [ref=e1836]:
+                - option "Most Popular First" [selected]
+                - option "Newest First"
+                - option "Alphabetical"
+              - generic:
+                - img
+            - generic [ref=e1837]:
+              - button "Grid view" [ref=e1838] [cursor=pointer]:
+                - img [ref=e1839]
+              - button "List view" [ref=e1844] [cursor=pointer]:
+                - img [ref=e1845]
+        - generic [ref=e1847]:
+          - heading "Personalization Tools" [level=3] [ref=e1848]:
+            - img [ref=e1849]
+            - text: Personalization Tools
+          - button "Scroll left" [ref=e1852] [cursor=pointer]:
+            - img [ref=e1853]
+          - button "Scroll right" [ref=e1855] [cursor=pointer]:
+            - img [ref=e1856]
+        - generic [ref=e1860]:
+          - generic [ref=e1861]: No personalization tools found matching your criteria
+          - button "Reset filters" [ref=e1862] [cursor=pointer]
+        - generic [ref=e1863]:
+          - generic [ref=e1864]:
+            - heading "Unlock All Personalization Tools" [level=3] [ref=e1865]
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+          - paragraph [ref=e1866]: Get unlimited access to all 50+ personalization tools and create content that delivers 3x better results than generic videos.
+          - link "Start Personalizing Today" [ref=e1867] [cursor=pointer]:
+            - /url: "#pricing"
+            - generic [ref=e1868]: Start Personalizing Today
+            - img [ref=e1869]
+      - generic [ref=e1876]:
+        - generic [ref=e1877]:
+          - generic [ref=e1879]: SEE HOW SIMPLE IT IS
+          - heading "Create Professional Videos in 3 Simple Steps" [level=2] [ref=e1880]
+          - paragraph [ref=e1881]: VideoRemix.vip makes professional video creation accessible to everyone, regardless of technical skills or experience.
+          - generic [ref=e1882]:
+            - img "VideoRemix.vip Demo" [ref=e1883]
+            - generic [ref=e1884]:
+              - button "Watch Demo" [ref=e1885] [cursor=pointer]:
+                - img [ref=e1888]
+                - generic [ref=e1890]: Watch Demo
+              - generic [ref=e1891]: 2:45
+          - generic [ref=e1892]:
+            - generic [ref=e1893]:
+              - button "1 Template Selection" [ref=e1894] [cursor=pointer]:
+                - generic [ref=e1895]:
+                  - generic [ref=e1896]: "1"
+                  - text: Template Selection
+              - button "2 AI Editing" [ref=e1897] [cursor=pointer]:
+                - generic [ref=e1898]:
+                  - generic [ref=e1899]: "2"
+                  - text: AI Editing
+              - button "3 Export & Share" [ref=e1900] [cursor=pointer]:
+                - generic [ref=e1901]:
+                  - generic [ref=e1902]: "3"
+                  - text: Export & Share
+            - generic [ref=e1905]:
+              - generic [ref=e1906]:
+                - img [ref=e1908]
+                - generic [ref=e1910]: 500+ professionally designed templates
+              - generic [ref=e1911]:
+                - img [ref=e1913]
+                - generic [ref=e1915]: Category filters for any industry or purpose
+              - generic [ref=e1916]:
+                - img [ref=e1918]
+                - generic [ref=e1920]: Preview templates before selection
+              - generic [ref=e1921]:
+                - img [ref=e1923]
+                - generic [ref=e1925]: Customizable to match your brand
+              - generic [ref=e1926]:
+                - img [ref=e1928]
+                - generic [ref=e1930]: Regular updates with new designs
+        - generic [ref=e1931]:
+          - generic [ref=e1932]:
+            - img [ref=e1933]
+            - generic [ref=e1936]: AI-POWERED WORKFLOW
+          - heading "Stop Wasting Time on Manual Video Editing" [level=3] [ref=e1937]
+          - paragraph [ref=e1938]: Our AI technology handles the tedious work so you can focus on creating amazing content that grows your audience and business.
+          - link "Get Access Today" [ref=e1939] [cursor=pointer]:
+            - /url: "#pricing"
+            - generic [ref=e1940]: Get Access Today
+            - img [ref=e1942]
+          - paragraph [ref=e1944]: Join 10,000+ creators and businesses already using VideoRemix.vip
+      - generic [ref=e1950]:
+        - generic [ref=e1951]:
+          - generic [ref=e1953]:
+            - img [ref=e1954]
+            - text: SUCCESS STORIES
+          - generic [ref=e1957]:
+            - heading "Don't Take Our Word For It" [level=2] [ref=e1958]
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+          - paragraph [ref=e1959]: Hear directly from creators and businesses who've transformed their video production with VideoRemix.vip
+        - generic [ref=e1960]:
+          - img "Microsoft" [ref=e1961]
+          - img "Adobe" [ref=e1962]
+          - img "Spotify" [ref=e1963]
+          - img "Shopify" [ref=e1964]
+          - img "Slack" [ref=e1965]
+          - img "Airbnb" [ref=e1966]
+        - generic [ref=e1968]:
+          - button "All Stories" [ref=e1969] [cursor=pointer]
+          - button "Content Creators" [ref=e1970] [cursor=pointer]
+          - button "Marketing" [ref=e1971] [cursor=pointer]
+          - button "Enterprise" [ref=e1972] [cursor=pointer]
+          - button "Small Business" [ref=e1973] [cursor=pointer]
+          - button "Education" [ref=e1974] [cursor=pointer]
+        - generic [ref=e1975]:
+          - button "Previous testimonial" [ref=e1976] [cursor=pointer]:
+            - img [ref=e1977]
+          - button "Next testimonial" [ref=e1979] [cursor=pointer]:
+            - img [ref=e1980]
+          - generic [ref=e1982]:
+            - generic [ref=e2922]:
+              - generic [ref=e2923]:
+                - img "Marcus Chen" [ref=e2926]
+                - generic [ref=e2927]:
+                  - generic [ref=e2928]: Marcus Chen
+                  - generic [ref=e2929]: Content Creator, TechReviews Channel
+                  - generic [ref=e2930]:
+                    - img [ref=e2931]
+                    - generic [ref=e2934]: Verified Customer
+              - generic [ref=e2935]:
+                - generic [ref=e2936]:
+                  - generic [ref=e2937]:
+                    - img [ref=e2938]
+                    - generic [ref=e2941]:
+                      - img [ref=e2943]
+                      - img [ref=e2946]
+                      - img [ref=e2949]
+                      - img [ref=e2952]
+                      - img [ref=e2955]
+                  - paragraph [ref=e2957]: "\"As a YouTuber, editing used to take me days. With VideoRemix.vip, I can edit an entire video in just hours, and the quality is even better. Total game-changer!\""
+                - generic [ref=e2958]:
+                  - generic [ref=e2959]:
+                    - img [ref=e2960]
+                    - generic [ref=e2963]: "Results after using VideoRemix.vip:"
+                  - generic [ref=e2964]:
+                    - generic [ref=e2965]:
+                      - generic [ref=e2966]: +210%
+                      - generic [ref=e2967]: Video Output
+                    - generic [ref=e2968]:
+                      - generic [ref=e2969]: "-75%"
+                      - generic [ref=e2970]: Production Time
+                    - generic [ref=e2971]:
+                      - generic [ref=e2972]: +186%
+                      - generic [ref=e2973]: Engagement
+                - button "Watch video testimonial" [ref=e2975] [cursor=pointer]:
+                  - img [ref=e2976]
+                  - text: Watch video testimonial
+            - generic [ref=e2041]:
+              - button "Go to testimonial 1" [ref=e2042] [cursor=pointer]
+              - button "Go to testimonial 2" [ref=e2043] [cursor=pointer]
+              - button "Go to testimonial 3" [ref=e2044] [cursor=pointer]
+              - button "Go to testimonial 4" [ref=e2045] [cursor=pointer]
+              - button "Go to testimonial 5" [ref=e2046] [cursor=pointer]
+              - button "Go to testimonial 6" [ref=e2047] [cursor=pointer]
+              - button "Go to testimonial 7" [ref=e2048] [cursor=pointer]
+              - button "Go to testimonial 8" [ref=e2049] [cursor=pointer]
+        - generic [ref=e2050]:
+          - generic [ref=e2051]:
+            - img [ref=e2053]
+            - generic [ref=e2056]: 5M+
+            - generic [ref=e2057]: Videos Created
+          - generic [ref=e2058]:
+            - img [ref=e2060]
+            - generic [ref=e2063]: 83%
+            - generic [ref=e2064]: Time Saved
+          - generic [ref=e2065]:
+            - img [ref=e2067]
+            - generic [ref=e2072]: 12K+
+            - generic [ref=e2073]: Active Users
+          - generic [ref=e2074]:
+            - img [ref=e2076]
+            - generic [ref=e2079]: 150+
+            - generic [ref=e2080]: Countries
+        - generic [ref=e2081]:
+          - generic [ref=e2082]:
+            - heading "Success Stories" [level=3] [ref=e2083]
+            - link "View all case studies" [ref=e2084] [cursor=pointer]:
+              - /url: "#case-studies"
+              - text: View all case studies
+              - img [ref=e2085]
+          - generic [ref=e2087]:
+            - generic [ref=e2089]:
+              - generic [ref=e2090]:
+                - img "TechGrowth Marketing" [ref=e2091]
+                - generic [ref=e2092]:
+                  - heading "TechGrowth Marketing" [level=4] [ref=e2093]
+                  - generic [ref=e2094]:
+                    - img [ref=e2095]
+                    - generic [ref=e2098]: Verified Case Study
+              - paragraph [ref=e2099]: TechGrowth scaled their video marketing from 5 to 50 videos per month without hiring additional team members.
+              - generic [ref=e2100]:
+                - generic [ref=e2101]:
+                  - generic [ref=e2102]: +215%
+                  - generic [ref=e2103]: Engagement
+                - generic [ref=e2104]:
+                  - generic [ref=e2105]: 10x
+                  - generic [ref=e2106]: Production
+                - generic [ref=e2107]:
+                  - generic [ref=e2108]: +157%
+                  - generic [ref=e2109]: Conversion
+            - generic [ref=e2111]:
+              - generic [ref=e2112]:
+                - img "Global Learning Academy" [ref=e2113]
+                - generic [ref=e2114]:
+                  - heading "Global Learning Academy" [level=4] [ref=e2115]
+                  - generic [ref=e2116]:
+                    - img [ref=e2117]
+                    - generic [ref=e2120]: Verified Case Study
+              - paragraph [ref=e2121]: This online learning platform increased student engagement by generating personalized educational videos.
+              - generic [ref=e2122]:
+                - generic [ref=e2123]:
+                  - generic [ref=e2124]: +186%
+                  - generic [ref=e2125]: Engagement
+                - generic [ref=e2126]:
+                  - generic [ref=e2127]: 7x
+                  - generic [ref=e2128]: Production
+                - generic [ref=e2129]:
+                  - generic [ref=e2130]: +92%
+                  - generic [ref=e2131]: Conversion
+        - generic [ref=e2132]:
+          - heading "Award-Winning Platform" [level=3] [ref=e2133]
+          - generic [ref=e2134]:
+            - generic [ref=e2135]:
+              - img [ref=e2137]
+              - generic [ref=e2140]: Video Innovation Award 2024
+              - generic [ref=e2141]: Digital Media Alliance
+            - generic [ref=e2142]:
+              - img [ref=e2144]
+              - generic [ref=e2147]: Best AI-Driven Product
+              - generic [ref=e2148]: Tech Innovator Awards
+            - generic [ref=e2149]:
+              - img [ref=e2151]
+              - generic [ref=e2154]: Top Creator Tool
+              - generic [ref=e2155]: Content Creator Summit
+            - generic [ref=e2156]:
+              - img [ref=e2158]
+              - generic [ref=e2161]: Most User-Friendly Video Platform
+              - generic [ref=e2162]: UX Design Awards
+        - generic [ref=e2163]:
+          - heading "Join Thousands of Happy Customers" [level=3] [ref=e2164]
+          - paragraph [ref=e2165]: Experience the platform that creators and businesses trust for their video content
+          - generic [ref=e2166]:
+            - link "Get Started Free" [ref=e2167] [cursor=pointer]:
+              - /url: "#get-started"
+              - text: Get Started Free
+              - img [ref=e2169]
+            - link "View All Testimonials" [ref=e2171] [cursor=pointer]:
+              - /url: "#view-all-testimonials"
+      - generic [ref=e2176]:
+        - generic [ref=e2177]:
+          - generic [ref=e2179]: VIDEOREMIX PLANS
+          - generic [ref=e2180]:
+            - heading "Choose Your VideoRemix Plan" [level=2] [ref=e2181]
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+          - paragraph [ref=e2182]: Select the plan that fits your personalized marketing needs. Flexible options for teams of all sizes.
+          - generic [ref=e2184]:
+            - button "Monthly" [ref=e2185] [cursor=pointer]
+            - button "Yearly Save 20%" [ref=e2186] [cursor=pointer]
+            - button "Lifetime Best Value" [ref=e2187] [cursor=pointer]
+        - generic [ref=e2188]:
+          - generic [ref=e2191]:
+            - generic [ref=e2192]: Free
+            - generic [ref=e2193]: Perfect for trying out the platform
+            - generic [ref=e2194]:
+              - generic [ref=e2195]:
+                - generic [ref=e2196]: Free
+                - generic [ref=e2197]: forever
+              - generic [ref=e2198]: No credit card required
+            - link "Start For Free" [ref=e2199] [cursor=pointer]:
+              - /url: "#signup"
+            - generic [ref=e2200]:
+              - generic [ref=e2201]:
+                - img [ref=e2202]
+                - generic [ref=e2204]: 5 video exports per month
+              - generic [ref=e2205]:
+                - img [ref=e2206]
+                - generic [ref=e2208]: 720p video quality
+              - generic [ref=e2209]:
+                - img [ref=e2210]
+                - generic [ref=e2212]: Basic editing features
+              - generic [ref=e2213]:
+                - img [ref=e2214]
+                - generic [ref=e2216]: 2GB cloud storage
+              - generic [ref=e2217]:
+                - img [ref=e2218]
+                - generic [ref=e2220]: Standard templates
+              - generic [ref=e2221]:
+                - img [ref=e2222]
+                - generic [ref=e2224]: Watermarked videos
+          - generic [ref=e2227]:
+            - generic [ref=e2229]: MOST POPULAR
+            - generic [ref=e2230]:
+              - generic [ref=e2231]:
+                - generic [ref=e2232]: Pro
+                - generic [ref=e2233]: Ideal for content creators and small teams
+                - generic [ref=e2234]:
+                  - generic [ref=e2235]:
+                    - generic [ref=e2236]: $290
+                    - generic [ref=e2237]: /year
+                  - generic [ref=e2238]: Billed annually (effectively $24/mo)
+                - link "GET STARTED NOW" [ref=e2240] [cursor=pointer]:
+                  - /url: "#checkout"
+                - generic [ref=e2242]:
+                  - img [ref=e2243]
+                  - generic [ref=e2245]: Get started today
+              - generic [ref=e2246]:
+                - generic [ref=e2247]:
+                  - generic [ref=e2248]:
+                    - img [ref=e2249]
+                    - generic [ref=e2253]: "INCLUDES:"
+                  - generic [ref=e2254]:
+                    - generic [ref=e2255]:
+                      - generic [ref=e2256]: Priority Support
+                      - paragraph [ref=e2257]: Get help when you need it with our dedicated support team
+                    - generic [ref=e2258]:
+                      - generic [ref=e2259]: Regular Updates
+                      - paragraph [ref=e2260]: Access new features and improvements as they're released
+                    - generic [ref=e2261]:
+                      - generic [ref=e2262]: Training Resources
+                      - paragraph [ref=e2263]: Comprehensive guides and tutorials to master VideoRemix
+                - generic [ref=e2264]:
+                  - generic [ref=e2265]: "Everything in Pro includes:"
+                  - generic [ref=e2266]:
+                    - generic [ref=e2267]:
+                      - img [ref=e2268]
+                      - generic [ref=e2270]: Unlimited video exports
+                    - generic [ref=e2271]:
+                      - img [ref=e2272]
+                      - generic [ref=e2274]: 4K video quality
+                    - generic [ref=e2275]:
+                      - img [ref=e2276]
+                      - generic [ref=e2278]: All editing features
+                    - generic [ref=e2279]:
+                      - img [ref=e2280]
+                      - generic [ref=e2282]: 50GB cloud storage
+                    - generic [ref=e2283]:
+                      - img [ref=e2284]
+                      - generic [ref=e2286]: Premium templates
+                    - generic [ref=e2287]:
+                      - img [ref=e2288]
+                      - generic [ref=e2290]: No watermarks
+                    - generic [ref=e2291]:
+                      - img [ref=e2292]
+                      - generic [ref=e2294]: Basic AI features
+                    - generic [ref=e2295]:
+                      - img [ref=e2296]
+                      - generic [ref=e2298]: Auto subtitle generation
+                    - generic [ref=e2299]:
+                      - img [ref=e2300]
+                      - generic [ref=e2302]: 2 team members
+                    - generic [ref=e2303]:
+                      - img [ref=e2304]
+                      - generic [ref=e2306]: Priority email support
+        - button "Show Full Feature Comparison" [ref=e2308] [cursor=pointer]:
+          - generic [ref=e2309]: Show Full Feature Comparison
+          - img [ref=e2311]
+        - generic [ref=e2314]:
+          - generic [ref=e2315]:
+            - heading "Feature Comparison" [level=3] [ref=e2316]
+            - button "Toggle feature comparison" [ref=e2317] [cursor=pointer]:
+              - generic [ref=e2318]: View all features
+              - img [ref=e2320]
+          - generic [ref=e2323]:
+            - generic [ref=e2324]:
+              - generic [ref=e2325]: Advanced AI effects
+              - img [ref=e2328]
+              - img [ref=e2333]
+            - generic [ref=e2335]:
+              - generic [ref=e2336]: Brand kit integration
+              - img [ref=e2339]
+              - img [ref=e2344]
+            - generic [ref=e2346]:
+              - generic [ref=e2347]: Multi-platform optimization
+              - img [ref=e2350]
+              - img [ref=e2355]
+            - generic [ref=e2357]:
+              - generic [ref=e2358]: Bulk export capabilities
+              - img [ref=e2361]
+              - img [ref=e2366]
+            - generic [ref=e2368]:
+              - generic [ref=e2369]: API access
+              - img [ref=e2372]
+              - img [ref=e2377]
+            - generic [ref=e2379]:
+              - generic [ref=e2380]:
+                - generic [ref=e2381]: Free
+                - link "Sign Up" [ref=e2382] [cursor=pointer]:
+                  - /url: "#signup"
+              - generic [ref=e2383]:
+                - generic [ref=e2384]: Pro Plan
+                - link "Get Access" [ref=e2385] [cursor=pointer]:
+                  - /url: "#checkout"
+        - generic [ref=e2386]:
+          - generic [ref=e2387]:
+            - heading "Frequently Asked Questions" [level=3] [ref=e2388]
+            - paragraph [ref=e2389]: Quick answers to common questions
+          - generic [ref=e2390]:
+            - group [ref=e2392]:
+              - generic "Can I switch between plans?" [ref=e2393] [cursor=pointer]:
+                - generic [ref=e2394]: Can I switch between plans?
+                - img [ref=e2396]
+            - group [ref=e2399]:
+              - generic "What plans are available??" [ref=e2400] [cursor=pointer]:
+                - generic [ref=e2401]: What plans are available??
+                - img [ref=e2403]
+            - group [ref=e2406]:
+              - generic "How does the lifetime plan work?" [ref=e2407] [cursor=pointer]:
+                - generic [ref=e2408]: How does the lifetime plan work?
+                - img [ref=e2410]
+            - group [ref=e2413]:
+              - generic "How do I get started??" [ref=e2414] [cursor=pointer]:
+                - generic [ref=e2415]: How do I get started??
+                - img [ref=e2417]
+          - link "View all FAQs" [ref=e2420] [cursor=pointer]:
+            - /url: "#faq"
+            - text: View all FAQs
+            - img [ref=e2422]
+      - generic [ref=e2432]:
+        - img [ref=e2437]
+        - generic [ref=e2439]:
+          - heading "Risk-Free Trial with Full Platform Support" [level=3] [ref=e2440]
+          - paragraph [ref=e2441]: Start using VideoRemix with confidence. Try our platform with your account. Our dedicated support team is here to help you succeed with personalized marketing.
+          - generic [ref=e2442]:
+            - generic [ref=e2443]:
+              - img [ref=e2445]
+              - generic [ref=e2447]: Free plan available to get started
+            - generic [ref=e2448]:
+              - img [ref=e2450]
+              - generic [ref=e2452]: Comprehensive onboarding and tutorials
+            - generic [ref=e2453]:
+              - img [ref=e2455]
+              - generic [ref=e2457]: Dedicated support team available 24/7
+            - generic [ref=e2458]:
+              - img [ref=e2460]
+              - generic [ref=e2462]: Regular platform updates and new features
+          - link "Try Risk-Free Today" [ref=e2464] [cursor=pointer]:
+            - /url: "#pricing"
+            - generic [ref=e2465]: Try Risk-Free Today
+            - img [ref=e2467]
+      - generic [ref=e2472]:
+        - generic [ref=e2473]:
+          - heading "Frequently Asked Questions" [level=2] [ref=e2474]
+          - paragraph [ref=e2475]: Everything you need to know about our marketing personalization platform
+        - generic [ref=e2476]:
+          - generic [ref=e2477]:
+            - generic [ref=e2478]:
+              - button "What is VideoRemix.vip?" [expanded] [ref=e2479] [cursor=pointer]:
+                - heading "What is VideoRemix.vip?" [level=3] [ref=e2480]
+                - img [ref=e2483]
+              - generic [ref=e2486]: VideoRemix.vip is an AI-powered marketing personalization platform with 37+ tools designed to help solopreneurs, agencies, and businesses create personalized marketing content that drives results. Our platform combines audience segmentation, AI-powered personalization, and integrated marketing tools to help you achieve 3x higher engagement and conversion rates compared to generic marketing approaches.
+            - generic [ref=e2487]:
+              - button "How does VideoRemix.vip work?" [ref=e2488] [cursor=pointer]:
+                - heading "How does VideoRemix.vip work?" [level=3] [ref=e2489]
+                - img [ref=e2492]
+              - generic [ref=e2494]: VideoRemix.vip provides 37+ AI-powered marketing tools across Video, AI Image, Lead Generation, Branding, and Creative categories. Choose the tools you need, define your audience segments, and our AI automatically personalizes content, messaging, and calls-to-action for each segment. You can create personalized marketing campaigns—from videos to landing pages to CRM sequences—in minutes instead of days.
+            - generic [ref=e2495]:
+              - button "Do I need any technical skills to use VideoRemix.vip?" [ref=e2496] [cursor=pointer]:
+                - heading "Do I need any technical skills to use VideoRemix.vip?" [level=3] [ref=e2497]
+                - img [ref=e2500]
+              - generic [ref=e2502]: Not at all! VideoRemix.vip is designed for solopreneurs, marketers, and business owners with no technical background. Our intuitive interface and AI-powered personalization features make it easy for anyone to create professional marketing content, segment audiences, and launch personalized campaigns without technical skills or marketing expertise.
+            - generic [ref=e2503]:
+              - button "What types of marketing content can I create?" [ref=e2504] [cursor=pointer]:
+                - heading "What types of marketing content can I create?" [level=3] [ref=e2505]
+                - img [ref=e2508]
+              - generic [ref=e2510]: You can create personalized videos, landing pages, promotional content, email campaigns, social media posts, lead generation funnels, CRM sequences, branding materials, and more. With 37+ tools including AI Video Creator, Landing Page Creator, Smart CRM Closer, FunnelCraft AI, and Interactive Shopping, you can create virtually any type of personalized marketing content for your business or clients.
+            - generic [ref=e2511]:
+              - button "How much does VideoRemix.vip cost?" [ref=e2512] [cursor=pointer]:
+                - heading "How much does VideoRemix.vip cost?" [level=3] [ref=e2513]
+                - img [ref=e2516]
+              - generic [ref=e2518]: VideoRemix.vip offers a Free plan with basic features (5 video exports per month, 2 audience segments), a Pro plan at $29/month with unlimited access to all tools and segments, and a Business plan at $79/month with advanced features, team collaboration, and white-label options. We also offer annual and lifetime pricing options.
+            - generic [ref=e2519]:
+              - button "Can I use VideoRemix.vip for my agency or multiple clients?" [ref=e2520] [cursor=pointer]:
+                - heading "Can I use VideoRemix.vip for my agency or multiple clients?" [level=3] [ref=e2521]
+                - img [ref=e2524]
+              - generic [ref=e2526]: Absolutely! Business plans support up to 10 team members and allow you to manage multiple client accounts with separate branding, campaigns, and analytics. Many agencies use our platform to offer personalized marketing services that would typically require multiple specialized tools and larger teams.
+          - generic [ref=e2527]:
+            - paragraph [ref=e2528]: Still have questions? Our support team is here to help.
+            - link "Contact Support" [ref=e2529] [cursor=pointer]:
+              - /url: "#contact"
+      - generic [ref=e2531]:
+        - generic [ref=e2534]:
+          - generic [ref=e2535]:
+            - img [ref=e2537]
+            - generic [ref=e2542]: JOIN VIDEOREMIX TODAY
+          - heading "Ready to Start Personalizing Your Marketing?" [level=2] [ref=e2543]
+          - generic [ref=e2545]:
+            - img [ref=e2547]
+            - paragraph [ref=e2550]: "Get Started: Choose from Free, Pro, or Lifetime plans"
+          - paragraph [ref=e2551]: Join thousands of creators and businesses who are transforming their video content and seeing real results.
+        - generic [ref=e2552]:
+          - generic [ref=e2555]:
+            - heading "Why Choose VideoRemix for Personalized Marketing" [level=3] [ref=e2556]
+            - generic [ref=e2557]:
+              - generic [ref=e2558]:
+                - img [ref=e2560]
+                - heading "Save 15+ Hours Weekly" [level=4] [ref=e2563]
+                - paragraph [ref=e2564]: Reduce video editing time by 90% with our AI-powered tools
+              - generic [ref=e2565]:
+                - img [ref=e2567]
+                - heading "Professional Results" [level=4] [ref=e2569]
+                - paragraph [ref=e2570]: Create studio-quality videos regardless of your experience level
+              - generic [ref=e2571]:
+                - img [ref=e2573]
+                - heading "Grow Your Audience" [level=4] [ref=e2578]
+                - paragraph [ref=e2579]: Consistently publish engaging content that attracts followers
+              - generic [ref=e2580]:
+                - img [ref=e2582]
+                - heading "Export Anywhere" [level=4] [ref=e2585]
+                - paragraph [ref=e2586]: Share directly to all major platforms or download in any format
+              - generic [ref=e2587]:
+                - img [ref=e2589]
+                - heading "Secure & Private" [level=4] [ref=e2591]
+                - paragraph [ref=e2592]: Enterprise-grade security keeps your content safe and private
+            - generic [ref=e2593]:
+              - generic [ref=e2594]:
+                - img [ref=e2596]
+                - generic [ref=e2598]: Unlimited AI-powered video creation
+              - generic [ref=e2599]:
+                - img [ref=e2601]
+                - generic [ref=e2603]: Professional templates and effects
+              - generic [ref=e2604]:
+                - img [ref=e2606]
+                - generic [ref=e2608]: Time-saving automation features
+              - generic [ref=e2609]:
+                - img [ref=e2611]
+                - generic [ref=e2613]: Cloud storage and collaboration tools
+              - generic [ref=e2614]:
+                - img [ref=e2616]
+                - generic [ref=e2618]: Regular feature updates and enhancements
+              - generic [ref=e2619]:
+                - img [ref=e2621]
+                - generic [ref=e2623]: 24/7 customer support
+              - generic [ref=e2624]:
+                - img [ref=e2626]
+                - generic [ref=e2628]: 14-day money-back guarantee
+            - generic [ref=e2629]:
+              - link "Try Free For 14 Days" [ref=e2630] [cursor=pointer]:
+                - /url: "#pricing"
+                - text: Try Free For 14 Days
+                - img [ref=e2632]
+              - link "Watch Demo First" [ref=e2634] [cursor=pointer]:
+                - /url: "#watch-demo"
+                - img [ref=e2637]
+                - text: Watch Demo First
+          - generic [ref=e2639]:
+            - generic [ref=e2641]: PRO PLAN
+            - generic [ref=e2642]:
+              - heading "VideoRemix Pro Plan" [level=3] [ref=e2643]
+              - generic [ref=e2644]:
+                - generic [ref=e2645]: $29
+                - generic [ref=e2646]: /month
+              - generic [ref=e2647]: Full access to all personalized marketing tools
+            - generic [ref=e2648]:
+              - generic [ref=e2649]:
+                - img [ref=e2651]
+                - generic [ref=e2655]: Full Feature Access
+              - paragraph [ref=e2656]: Get unlimited access to 20+ personalized marketing apps and AI-powered features
+            - link "Start with VideoRemix Pro" [ref=e2657] [cursor=pointer]:
+              - /url: "#claim-offer"
+            - paragraph [ref=e2658]: Get started today. No credit card required.
+        - generic [ref=e2659]:
+          - heading "Join Our Community of 10,000+ Video Creators" [level=3] [ref=e2660]
+          - paragraph [ref=e2661]: Don't miss this opportunity to transform your video creation process and start producing professional content that drives real results for your business or brand.
+          - generic [ref=e2662]:
+            - link "Start Free Trial" [ref=e2663] [cursor=pointer]:
+              - /url: "#signup"
+            - link "Have Questions?" [ref=e2664] [cursor=pointer]:
+              - /url: "#questions"
+    - contentinfo [ref=e2665]:
+      - generic [ref=e2666]:
+        - generic [ref=e2667]:
+          - generic [ref=e2668]:
+            - generic [ref=e2669]:
+              - img [ref=e2670]
+              - generic [ref=e2673]: VideoRemix.vip
+            - paragraph [ref=e2674]: AI-powered marketing tools to help you create personalized content, close more sales, and grow your business faster.
+            - generic [ref=e2675]:
+              - link "Facebook" [ref=e2676] [cursor=pointer]:
+                - /url: "#facebook"
+                - img [ref=e2677]
+                - generic [ref=e2679]: Facebook
+              - link "Twitter" [ref=e2680] [cursor=pointer]:
+                - /url: "#twitter"
+                - img [ref=e2681]
+                - generic [ref=e2683]: Twitter
+              - link "Instagram" [ref=e2684] [cursor=pointer]:
+                - /url: "#instagram"
+                - img [ref=e2685]
+                - generic [ref=e2688]: Instagram
+              - link "LinkedIn" [ref=e2689] [cursor=pointer]:
+                - /url: "#linkedin"
+                - img [ref=e2690]
+                - generic [ref=e2694]: LinkedIn
+              - link "YouTube" [ref=e2695] [cursor=pointer]:
+                - /url: "#youtube"
+                - img [ref=e2696]
+                - generic [ref=e2699]: YouTube
+            - generic [ref=e2701]:
+              - img [ref=e2702]
+              - link "hello@videoremix.vip" [ref=e2705] [cursor=pointer]:
+                - /url: mailto:hello@videoremix.vip
+          - generic [ref=e2706]:
+            - heading "Stay up to date" [level=3] [ref=e2707]
+            - paragraph [ref=e2708]: Get the latest news, updates, and tips straight to your inbox.
+            - generic [ref=e2709]:
+              - textbox "Your email" [ref=e2710]
+              - button "Subscribe" [ref=e2711] [cursor=pointer]
+        - generic [ref=e2712]:
+          - generic [ref=e2713]:
+            - heading "Product" [level=3] [ref=e2714]
+            - list [ref=e2715]:
+              - listitem [ref=e2716]:
+                - link "Pricing" [ref=e2717] [cursor=pointer]:
+                  - /url: /pricing
+                  - img [ref=e2718]
+                  - text: Pricing
+              - listitem [ref=e2720]:
+                - link "Tools" [ref=e2721] [cursor=pointer]:
+                  - /url: /tools
+                  - img [ref=e2722]
+                  - text: Tools
+              - listitem [ref=e2724]:
+                - link "Dashboard" [ref=e2725] [cursor=pointer]:
+                  - /url: /dashboard
+                  - img [ref=e2726]
+                  - text: Dashboard
+          - generic [ref=e2728]:
+            - heading "Company" [level=3] [ref=e2729]
+            - list [ref=e2730]:
+              - listitem [ref=e2731]:
+                - link "About Us" [ref=e2732] [cursor=pointer]:
+                  - /url: /about
+                  - img [ref=e2733]
+                  - text: About Us
+              - listitem [ref=e2735]:
+                - link "Blog" [ref=e2736] [cursor=pointer]:
+                  - /url: /blog
+                  - img [ref=e2737]
+                  - text: Blog
+          - generic [ref=e2739]:
+            - heading "AI Marketing Tools" [level=3] [ref=e2740]
+            - list [ref=e2741]:
+              - listitem [ref=e2742]:
+                - link "AI Personalized Content Hub" [ref=e2743] [cursor=pointer]:
+                  - /url: https://ai-personalizedcontent.videoremix.vip
+                  - img [ref=e2744]
+                  - text: AI Personalized Content Hub
+              - listitem [ref=e2746]:
+                - link "FunnelCraft AI" [ref=e2747] [cursor=pointer]:
+                  - /url: https://ai-funnelcraft.videoremix.vip
+                  - img [ref=e2748]
+                  - text: FunnelCraft AI
+              - listitem [ref=e2750]:
+                - link "AI Skills Monetizer" [ref=e2751] [cursor=pointer]:
+                  - /url: https://ai-skills-monetizer.videoremix.vip
+                  - img [ref=e2752]
+                  - text: AI Skills Monetizer
+              - listitem [ref=e2754]:
+                - link "AI Skills & Resume" [ref=e2755] [cursor=pointer]:
+                  - /url: https://ai-skills.videoremix.vip
+                  - img [ref=e2756]
+                  - text: AI Skills & Resume
+              - listitem [ref=e2758]:
+                - link "Sales Page Builder" [ref=e2759] [cursor=pointer]:
+                  - /url: https://ai-salespage.videoremix.vip
+                  - img [ref=e2760]
+                  - text: Sales Page Builder
+              - listitem [ref=e2762]:
+                - link "Sales Assistant Pro" [ref=e2763] [cursor=pointer]:
+                  - /url: https://ai-salesassistant.videoremix.vip
+                  - img [ref=e2764]
+                  - text: Sales Assistant Pro
+              - listitem [ref=e2766]:
+                - link "AI Personalization Studio" [ref=e2767] [cursor=pointer]:
+                  - /url: https://ai-personalizationstudio.videoremix.vip
+                  - img [ref=e2768]
+                  - text: AI Personalization Studio
+              - listitem [ref=e2770]:
+                - link "AI Personalizer" [ref=e2771] [cursor=pointer]:
+                  - /url: https://ai-personalizer.videoremix.vip
+                  - img [ref=e2772]
+                  - text: AI Personalizer
+        - generic [ref=e2774]:
+          - generic [ref=e2775]:
+            - img [ref=e2776]
+            - generic [ref=e2778]: SOC 2 Compliant
+          - generic [ref=e2779]:
+            - img [ref=e2780]
+            - generic [ref=e2782]: GDPR Compliant
+          - generic [ref=e2783]:
+            - img [ref=e2784]
+            - generic [ref=e2787]: Global CDN
+          - generic [ref=e2788]:
+            - img [ref=e2789]
+            - generic [ref=e2791]: 99.9% Uptime
+          - generic [ref=e2792]:
+            - img [ref=e2793]
+            - generic [ref=e2795]: Bank-Level Encryption
+        - generic [ref=e2796]:
+          - generic [ref=e2797]: © 2026 VideoRemix.vip. All rights reserved.
+          - generic [ref=e2798]:
+            - link "Terms of Service" [ref=e2799] [cursor=pointer]:
+              - /url: /terms
+            - link "Privacy Policy" [ref=e2800] [cursor=pointer]:
+              - /url: /privacy
+            - link "Cookie Policy" [ref=e2801] [cursor=pointer]:
+              - /url: /cookies
+        - paragraph [ref=e2803]:
+          - text: VideoRemix.vip uses cookies to ensure you get the best experience on our website. By continuing to browse, you agree to our
+          - link "privacy policy" [ref=e2804] [cursor=pointer]:
+            - /url: /privacy
+          - text: .
