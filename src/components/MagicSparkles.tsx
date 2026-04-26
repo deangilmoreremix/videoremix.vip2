@@ -86,8 +86,8 @@ const MagicSparkles: React.FC<MagicSparklesProps> = ({
 
   // Initialize sparkles and set up cleanup
   useEffect(() => {
-    // Skip animations for reduced motion or low power
-    if (prefersReducedMotion || lowPowerMode) {
+    // Skip animations for reduced motion, low power, or when disabled
+    if (prefersReducedMotion || lowPowerMode || animationsDisabled) {
       return;
     }
 
@@ -133,6 +133,7 @@ const MagicSparkles: React.FC<MagicSparklesProps> = ({
     sparkleCount,
     prefersReducedMotion,
     lowPowerMode,
+    animationsDisabled,
   ]);
 
   // Don't render animations for reduced motion, low power, or when disabled
