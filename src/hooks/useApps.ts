@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../utils/supabaseClient";
 import { transformApp, ComponentApp } from "../utils/appTransformers";
 import { appConfig } from "../config/appConfig";
+import { appsData } from "../data/appsData";
 
 // Cache configuration
 const APPS_CACHE_KEY = "videoremix_apps_cache";
@@ -153,9 +154,19 @@ export const useApps = () => {
         setCachedApps(transformedApps, latestModified);
       }
     } catch (err) {
-      console.error("Error fetching apps:", err);
-      setError(err instanceof Error ? err.message : "Unknown error");
-      setApps([]);
+      console.error("Error fetching apps from Supabase:", err);
+      console.log("Falling back to local apps data...");
+
+      // Fall back to local apps data
+      try {
+        const transformedApps = appsData.map(transformApp);
+        setApps(transformedApps);
+        setError(null);
+      } catch (fallbackErr) {
+        console.error("Error loading local apps data:", fallbackErr);
+        setError("Failed to load apps data");
+        setApps([]);
+      }
     } finally {
       setLoading(false);
     }
