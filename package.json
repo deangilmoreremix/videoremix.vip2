@@ -4,18 +4,16 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "validate-env": "node validate-env.mjs",
-    "predev": "npm run validate-env",
-    "prebuild": "npm run validate-env",
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "test:run": "vitest run",
-    "deploy": "npm run build && netlify deploy --prod",
-    "deploy:preview": "npm run build && netlify deploy"
+    "validate-env": "node validate-env.mjs",
+    "prebuild": "npm run validate-env",
+    "predev": "npm run validate-env",
+    "deploy": "bash scripts/deploy.sh",
+    "deploy:netlify": "npm run build && netlify deploy --prod --dir=dist",
+    "deploy:vercel": "npm run build && vercel --prod"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

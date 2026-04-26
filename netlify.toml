@@ -1,31 +1,19 @@
 [build]
-  command = "npm install --include=dev --legacy-peer-deps && npm run build"
+  command = "npm run build"
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "20"
-
-# Context-specific environment (production)
-[context.production.environment]
-  NODE_ENV = "production"
-
-# Context-specific environment (deploy-preview)
-[context.deploy-preview.environment]
-  NODE_ENV = "development"
-
-# Context-specific environment (branch-deploy)
-[context.branch-deploy.environment]
-  NODE_ENV = "development"
+  NODE_VERSION = "18"
+  NPM_VERSION = "9"
 
 [[redirects]]
-  from = "https://videoremix.netlify.app/*"
-  to = "https://videoremix.vip/:splat"
-  status = 301
-  force = true
+  from = "/api/*"
+  to = "https://bzxohkrxcwodllketcpz.supabase.co/:splat"
+  status = 200
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/auth/*"
+  to = "https://bzxohkrxcwodllketcpz.supabase.co/auth/:splat"
   status = 200
 
 [[headers]]
@@ -35,26 +23,15 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://www.paypal.com https://www.paypalobjects.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://api.stripe.com https://api-m.paypal.com https://*.netlify.app wss://*.supabase.co; frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://www.paypal.com; object-src 'none'; base-uri 'self'; form-action 'self'"
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://*.supabase.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://api.stripe.com https://api-m.paypal.com https://*.netlify.app wss://*.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
 
 [[headers]]
-  for = "/assets/*"
+  for = "/_redirects"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
-  for = "/*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/index.html"
+  for = "/sw.js"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
