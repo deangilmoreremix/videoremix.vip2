@@ -12,8 +12,7 @@
     "prebuild": "npm run validate-env",
     "predev": "npm run validate-env",
     "deploy": "bash scripts/deploy.sh",
-    "deploy:netlify": "npm run build && netlify deploy --prod --dir=dist",
-    "deploy:vercel": "npm run build && vercel --prod"
+    "deploy:netlify": "npm run build && netlify deploy --prod --dir=dist"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

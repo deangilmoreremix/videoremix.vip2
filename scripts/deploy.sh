@@ -67,31 +67,16 @@ deploy_netlify() {
     fi
 }
 
-# Deploy to Vercel
-deploy_vercel() {
-    if command -v vercel &> /dev/null; then
-        echo "▲ Deploying to Vercel..."
-        vercel --prod
 
-        if [ $? -eq 0 ]; then
-            echo -e "${GREEN}✅ Vercel deployment completed${NC}"
-        else
-            echo -e "${YELLOW}⚠️  Vercel deployment failed, but continuing...${NC}"
-        fi
-    else
-        echo -e "${YELLOW}⚠️  Vercel CLI not found, skipping Vercel deployment${NC}"
-    fi
-}
 
 # Main deployment process
 main() {
     check_env_vars
     build_app
     deploy_netlify
-    deploy_vercel
 
-    echo -e "${GREEN}🎉 Deployment process completed!${NC}"
-    echo "Check your deployment platforms for the live status."
+    echo -e "${GREEN}🎉 Netlify deployment completed!${NC}"
+    echo "Check your Netlify dashboard for the live status."
 }
 
 # Run main function
