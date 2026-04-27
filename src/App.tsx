@@ -8,7 +8,6 @@ import CustomCursor from "./components/CustomCursor";
 import LiveActivityIndicator from "./components/LiveActivityIndicator";
 import AudioPlayer from "./components/AudioPlayer";
 import ErrorBoundary from "./components/ErrorBoundary";
-import AIAssistant from "./components/AIAssistant";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MobileBottomNav from "./components/MobileBottomNav";
 import { AdminProvider } from "./context/AdminContext";
@@ -136,8 +135,7 @@ function App() {
         {/* Live Activity Indicator - Hidden on admin pages */}
         {!isAdminPage && <LiveActivityIndicator />}
 
-        {/* AI Assistant - Hidden on admin pages */}
-        {!isAdminPage && <AIAssistant />}
+
 
         <Routes>
           {/* Landing Page Route */}
