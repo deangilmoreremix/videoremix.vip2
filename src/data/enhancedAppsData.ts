@@ -802,7 +802,7 @@ export const enhancedAppDetails: Record<string, any> = {
       {
         title: "Profile-Based Marketing",
         description: "Generate copy and content based on prospect profiles and business data.",
-        icon: React.createElement(CircleUser),
+        icon: React.createElement(UserCircle),
       },
     ],
     useCases: [
@@ -1464,7 +1464,7 @@ export const enhancedAppDetails: Record<string, any> = {
       {
         title: "Bio Generation",
         description: "Create compelling bios for LinkedIn, websites, and social media.",
-        icon: React.createElement(CircleUser),
+        icon: React.createElement(UserCircle),
       },
       {
         title: "Positioning Strategy",
