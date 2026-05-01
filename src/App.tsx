@@ -18,7 +18,6 @@ import { NetworkStatusIndicator } from "./components/AsyncStates";
 // Lazy loaded components for better performance
 const LandingPage = lazy(() => import("./pages/LandingPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
-const ToolsHubPage = lazy(() => import("./pages/ToolsHubPage"));
 
 // Generic pages
 const PricingPage = lazy(() => import("./pages/PricingPage"));
@@ -31,6 +30,7 @@ const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
 const AdminSignUp = lazy(() => import("./components/admin/AdminSignUp"));
 const SpecialFooter = lazy(() => import("./components/SpecialFooter"));
+const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 
@@ -153,14 +153,14 @@ function App() {
             }
           />
 
-          {/* Tools Hub Page */}
+          {/* Tools Dashboard Page */}
           <Route
             path="/tools"
             element={
               <ErrorBoundary onError={handleError}>
                 <SparkleBackground>
                   <Suspense fallback={<SectionLoader />}>
-                    <ToolsHubPage />
+                    <DashboardPage />
                     <SpecialFooter />
                   </Suspense>
                 </SparkleBackground>
@@ -274,19 +274,33 @@ function App() {
             }
           />
 
-          {/* Profile Route */}
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <ErrorBoundary onError={handleError}>
-                  <Suspense fallback={<SectionLoader />}>
-                    <ProfilePage />
-                  </Suspense>
-                </ErrorBoundary>
-              </ProtectedRoute>
-            }
-          />
+           {/* Profile Route */}
+           <Route
+             path="/profile"
+             element={
+               <ProtectedRoute>
+                 <ErrorBoundary onError={handleError}>
+                   <Suspense fallback={<SectionLoader />}>
+                     <ProfilePage />
+                   </Suspense>
+                 </ErrorBoundary>
+               </ProtectedRoute>
+             }
+           />
+
+           {/* Settings Route */}
+           <Route
+             path="/settings/api"
+             element={
+               <ProtectedRoute>
+                 <ErrorBoundary onError={handleError}>
+                   <Suspense fallback={<SectionLoader />}>
+                     <SettingsPage />
+                   </Suspense>
+                 </ErrorBoundary>
+               </ProtectedRoute>
+             }
+           />
 
           {/* Auth Routes */}
           <Route
@@ -485,6 +499,10 @@ function App() {
               </div>
             }
           />
+
+  
+
+
         </Routes>
         <Toaster />
         <MobileBottomNav />
