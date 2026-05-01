@@ -1,3 +1,11 @@
+import { generatedThumbnails } from '../data/generatedThumbnails';
+
+// Build a map of AI-generated thumbnail URLs for instant lookup
+const aiThumbnailMap = new Map<string, string>();
+generatedThumbnails.forEach(thumb => {
+  aiThumbnailMap.set(thumb.metadata.appId, thumb.url);
+});
+
 /**
  * Centralized App URL Configuration
  *
@@ -113,9 +121,12 @@ export const APP_URLS: Record<string, string> = {
 
 // =====================================================
 // =====================================================
-// THUMBNAIL URLs for AI Marketing Tools - REALISTIC SCENES
+// THUMBNAIL URLs - AI-Generated thumbnails take priority
 // =====================================================
+// Note: AI-generated thumbnails (from DALL-E) are checked first in getAppThumbnail()
+// These SVG entries serve as fallbacks for apps without AI thumbnails.
 export const APP_THUMBNAILS: Record<string, string> = {
+  // These apps have AI-generated thumbnails (served from Supabase) so these are secondary fallbacks
   "ai-personalized-content": "/app-thumbnails/ai-personalized-content-realistic.svg",
   "funnelcraft-ai": "/app-thumbnails/funnelcraft-ai-realistic.svg",
   "ai-skills-monetizer": "/app-thumbnails/ai-skills-monetizer-realistic.svg",
@@ -134,6 +145,11 @@ export const APP_THUMBNAILS: Record<string, string> = {
   "ai-sales-maximizer": "/app-thumbnails/ai-sales-maximizer-realistic.svg",
   "contentai": "/app-thumbnails/contentai-realistic.svg",
   "product-research-ai": "/app-thumbnails/product-research-ai-realistic.svg",
+
+  // Apps without AI-generated thumbnails (maybe add them later)
+  // "video-creator": ...
+  // "ai-art": ...
+  // etc.
 };
 
 /**
@@ -147,11 +163,25 @@ export const getAppUrl = (appId: string): string => {
 
 /**
  * Get the thumbnail URL for a specific app
+ * Priority: 1) AI-generated DALL-E thumbnail, 2) Local SVG thumbnail, 3) None
  * @param appId - The app identifier
- * @returns The app's thumbnail URL
+ * @returns The app's thumbnail URL (absolute URL for AI-generated, relative path for SVG)
  */
 export const getAppThumbnail = (appId: string): string => {
-  return APP_THUMBNAILS[appId] || "";
+  // Priority 1: AI-generated DALL-E thumbnail (if available)
+  const aiThumbnail = aiThumbnailMap.get(appId);
+  if (aiThumbnail) {
+    return aiThumbnail;
+  }
+  
+  // Priority 2: Local static SVG thumbnail
+  const localThumbnail = APP_THUMBNAILS[appId];
+  if (localThumbnail) {
+    return localThumbnail;
+  }
+  
+  // Priority 3: No thumbnail available
+  return "";
 };
 
 /**

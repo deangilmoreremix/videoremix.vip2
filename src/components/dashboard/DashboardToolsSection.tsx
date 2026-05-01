@@ -38,8 +38,8 @@ import { useApps } from "../../hooks/useApps";
 import LockedAppOverlay from "../LockedAppOverlay";
 import PurchaseModal from "../PurchaseModal";
 import LazyIcon from "../LazyIcon";
-import { SalesDropdown } from '../ui/SalesDropdown';
-import SalesDropdownErrorBoundary from '../ui/SalesDropdownErrorBoundary';
+import ProductDetailModal from "../ProductDetailModal";
+import { extendedSalesCopy } from "../../data/extendedSalesCopy";
 import { appSalesCopy } from '../../data/appSalesCopy';
 
 // Define TrendingUp component
@@ -174,16 +174,13 @@ const DashboardToolsSection: React.FC = () => {
     "popular",
   );
   const [hoveredApp, setHoveredApp] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [purchaseModalOpen, setPurchaseModalOpen] = useState(false);
-  const [selectedAppForPurchase, setSelectedAppForPurchase] =
-    useState<any>(null);
-  const [ref, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  });
+   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+   const containerRef = useRef<HTMLDivElement>(null);
+   const [selectedApp, setSelectedApp] = useState<any>(null);
+   const [ref, inView] = useInView({
+     threshold: 0.1,
+     triggerOnce: true,
+   });
 
   // Image loading error handling state
   const [imageErrors, setImageErrors] = useState<Record<string, number>>({});
@@ -291,14 +288,6 @@ const DashboardToolsSection: React.FC = () => {
 
     // Dispatch custom event for sound effect
     document.dispatchEvent(new Event("sound:click"));
-  };
-
-  // Handle card expansion toggle
-  const toggleCardExpansion = (appId: string) => {
-    setExpandedCards(prev => ({
-      ...prev,
-      [appId]: !prev[appId]
-    }));
   };
 
   // Get featured apps
@@ -497,13 +486,10 @@ const DashboardToolsSection: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {getFeaturedApps().map((app, index) => {
                 const isPurchased = user && hasAccessToApp(app.id);
-                const handleAppClick = (e: React.MouseEvent) => {
-                  if (!isPurchased) {
-                    e.preventDefault();
-                    setSelectedAppForPurchase(app);
-                    setPurchaseModalOpen(true);
-                  }
-                };
+                 const handleAppClick = (e: React.MouseEvent) => {
+                   e.preventDefault();
+                   setSelectedApp(app);
+                 };
 
                 return (
                   <motion.div
@@ -797,13 +783,10 @@ const DashboardToolsSection: React.FC = () => {
                 {filteredApps.slice(0, 8).map((app) => { // Limit carousel to 8 apps
                   const appUrl = getAppUrl(app.id, appsData);
                   const isPurchased = user && hasAccessToApp(app.id);
-                  const handleClick = (e: React.MouseEvent) => {
-                    if (!isPurchased) {
-                      e.preventDefault();
-                      setSelectedAppForPurchase(app);
-                      setPurchaseModalOpen(true);
-                    }
-                  };
+                   const handleClick = (e: React.MouseEvent) => {
+                     e.preventDefault();
+                     setSelectedApp(app);
+                   };
 
                   return (
                     <motion.div
@@ -907,15 +890,10 @@ const DashboardToolsSection: React.FC = () => {
                   const appUrl = getAppUrl(app.id, appsData);
                   const isPurchased =
                     user && hasAccessToApp(app.slug || app.id);
-                  const handleClick = (e: React.MouseEvent) => {
-                    if (!isPurchased) {
-                      e.preventDefault();
-                      setSelectedAppForPurchase(app);
-                      setPurchaseModalOpen(true);
-                    } else {
-                      window.location.href = appUrl;
-                    }
-                  };
+                   const handleClick = (e: React.MouseEvent) => {
+                     e.preventDefault();
+                     setSelectedApp(app);
+                   };
 
                   return (
                     <motion.div
@@ -1017,20 +995,9 @@ const DashboardToolsSection: React.FC = () => {
                             {isPurchased ? "Open App" : "Purchase"}
                             <ArrowRight className="ml-1 h-3 w-3" />
                           </span>
-                        </div>
+                       </div>
 
-                        {/* Sales Dropdown */}
-                        <SalesDropdownErrorBoundary>
-                          <SalesDropdown
-                            salesCopy={appSalesCopy[app.id]}
-                            isExpanded={expandedCards[app.id] || false}
-                            onToggle={() => toggleCardExpansion(app.id)}
-                            appId={app.id}
-                          />
-                        </SalesDropdownErrorBoundary>
-                      </div>
-
-                      {/* Hover effect for grid view */}
+                       {/* Hover effect for grid view */}
                       {viewMode === "grid" && (
                           <div className="absolute inset-0 bg-primary-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center z-20">
                             {isPurchased ? (
@@ -1073,8 +1040,9 @@ const DashboardToolsSection: React.FC = () => {
                               ))}
                             </div>
                           </div>
-                        )}
-                    </motion.div>
+                         )}
+                       </div>
+                     </motion.div>
                   );
                 })}
               </motion.div>
@@ -1130,18 +1098,6 @@ const DashboardToolsSection: React.FC = () => {
         )}
       </div>
 
-      {/* Purchase Modal */}
-      {selectedAppForPurchase && (
-        <PurchaseModal
-          isOpen={purchaseModalOpen}
-          onClose={() => {
-            setPurchaseModalOpen(false);
-            setSelectedAppForPurchase(null);
-          }}
-          app={selectedAppForPurchase}
-        />
-      )}
-
       <style>{`
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
@@ -1157,9 +1113,20 @@ const DashboardToolsSection: React.FC = () => {
           -webkit-box-orient: vertical;
           overflow: hidden;
         }
-      `}</style>
+       `}</style>
+
+      {/* Product Detail Modal */}
+      {selectedApp && (
+        <ProductDetailModal
+          app={selectedApp}
+          salesCopy={extendedSalesCopy[selectedApp.id]}
+          isOpen={true}
+          onClose={() => setSelectedApp(null)}
+        />
+      )}
     </section>
   );
 };
+
 
 export default DashboardToolsSection;
