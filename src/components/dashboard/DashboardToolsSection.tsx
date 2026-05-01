@@ -194,14 +194,8 @@ const DashboardToolsSection: React.FC = () => {
 
     let result = [...appsData];
 
-    // Progressive disclosure: show public apps to everyone, private apps only to authorized users
-    result = result.filter((app) => {
-      // Public apps are visible to everyone
-      if (app.isPublic) return true;
-
-      // Private apps only visible to logged-in users with access
-      return user && hasAccessToApp(app.id);
-    });
+    // Show all apps to everyone - access control is handled in the UI (locked/unlocked state)
+    // No filtering by access here - all apps are visible
 
     // Apply category filter
     if (selectedCategory !== "all") {
@@ -469,8 +463,8 @@ const DashboardToolsSection: React.FC = () => {
           </motion.div>
         )}
 
-        {/* Featured personalization tools - only show if user has purchases */}
-        {(!user || hasAnyPurchases) && (
+        {/* Featured personalization tools - show to all users */}
+        {true && (
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
@@ -612,8 +606,8 @@ const DashboardToolsSection: React.FC = () => {
           </motion.div>
         )}
 
-        {/* Search and filter controls - only show if user has purchases */}
-        {(!user || hasAnyPurchases) && (
+        {/* Search and filter controls - show to all users */}
+        {true && (
           <div className="max-w-6xl mx-auto mb-8">
             <div className="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0">
               <div className="relative md:w-1/3">
@@ -746,8 +740,8 @@ const DashboardToolsSection: React.FC = () => {
           </div>
         )}
 
-        {/* All tools carousel with horizontal scroll - only show if user has purchases */}
-        {(!user || hasAnyPurchases) && (
+        {/* All tools carousel with horizontal scroll - show to all users */}
+        {true && (
           <div className="max-w-6xl mx-auto mb-16 relative" ref={containerRef}>
             <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
               <Wand2 className="h-6 w-6 mr-2 text-primary-400" />
@@ -872,8 +866,8 @@ const DashboardToolsSection: React.FC = () => {
           </div>
         )}
 
-        {/* Main tools grid/list - only show if user has purchases */}
-        {(!user || hasAnyPurchases) && (
+        {/* Main tools grid/list - show to all users */}
+        {true && (
           <div className="max-w-6xl mx-auto mb-16">
             {filteredApps.length > 0 ? (
               <motion.div
