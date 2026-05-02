@@ -1,30 +1,85 @@
+/**
+ * Reasoning Agent Edge Function
+ * Provides both standard and reasoning-mode LLM responses with step-by-step analysis.
+ * Category: Starter AI Agents
+ * Tonality: Steve Jobs + Hemingway — Revolutionary clarity, direct thinking
+ *
+ * This version uses USER-PROVIDED API keys stored in Supabase.
+ * User must have an OpenAI API key saved in their profile.
+ *
+ * Input: { question: string, mode: 'standard' | 'reasoning' | 'compare', model?: string, user_id?: string }
+ * Output: { standardAnswer?, reasoningAnswer?, processingTime, model, mode, timestamp }
+ */
+
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { corsHeaders, jsonResponse, errorResponse } from '../_shared/utils.ts';
 
 import { createClient } from '@supabase/supabase-js';
-import OpenAI from 'npm:openai@4.78.1';;
+import OpenAI from 'npm:openai@4.78.1';
 
-// Initialize Supabase
+// Initialize Supabase (service role for DB access)
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-// Initialize OpenAI
-const openai = new OpenAI({
-  apiKey: Deno.env.get('OPENAI_API_KEY'),
+const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+const supabase = createClient(supabaseUrl, supabaseKey, {
+  auth: { autoRefreshToken: false, persistSession: false },
 });
 
-interface ReasoningInput {
-  question: string;
-  mode: 'standard' | 'reasoning' | 'compare';
-  model?: string;
-  userId?: string;
+// Helper: Verify JWT token and extract user_id
+async function verifyUser(req: Request): Promise<{ user_id: string } | null> {
+  const authHeader = req.headers.get('Authorization');
+  if (!authHeader?.startsWith('Bearer ')) {
+    return null;
+  }
+  const token = authHeader.substring(7);
+  try {
+    // Use service role client to verify token (bypasses RLS)
+    const { data, error } = await supabase.auth.getUser(token);
+    if (error || !data.user) {
+      console.error('JWT verification failed:', error?.message);
+      return null;
+    }
+    return { user_id: data.user.id };
+  } catch (e) {
+    console.error('JWT verification exception:', e);
+    return null;
+  }
 }
 
-interface ReasoningResult {
-  standardAnswer?: string;
-  reasoningAnswer?: string;
-  processingTime: number;
+// Helper: Fetch user's API key from Supabase
+async function getUserApiKey(user_id: string, provider: string = 'openai'): Promise<string | null> {
+  const { data, error } = await supabase
+    .from('user_api_keys')
+    .select('encrypted_api_key')
+    .eq('user_id', user_id)
+    .eq('provider', provider)
+    .single();
+
+  if (error || !data) {
+    return null;
+  }
+  return data.encrypted_api_key;
+}
+
+// Helper: Log API usage (optional analytics)
+async function logApiUsage(
+  user_id: string,
+  app_id: string,
+  provider: string,
+  tokens_used: number = 0,
+  cost_estimate: number = 0.0
+) {
+  try {
+    await supabase.rpc('log_api_usage', {
+      p_user_id: user_id,
+      p_app_id: app_id,
+      p_provider: provider,
+      p_tokens_used: tokens_used,
+      p_cost_estimate: cost_estimate,
+    });
+  } catch (e) {
+    // Non-critical
+    console.error('Failed to log API usage:', e);
+  }
 }
 
 Deno.serve(async (req: Request) => {
@@ -34,65 +89,81 @@ Deno.serve(async (req: Request) => {
   }
 
   if (req.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: { 'Content-Type': 'application/json', ...corsHeaders } });;
+    return errorResponse('Method not allowed', 405);
   }
 
   try {
-    const input: ReasoningInput = await req.json();
-
-    if (!input.question?.trim()) {
-      return new Response(JSON.stringify({ error: 'Question is required' }), { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } });;
+    // 1. Verify authentication
+    const { user_id } = await verifyUser(req);
+    if (!user_id) {
+      return jsonResponse(
+        { success: false, error: 'Unauthorized', message: 'Authentication required' },
+        401
+      );
     }
 
-    const model = input.model || 'gpt-4o-mini';
+    // 2. Get user's OpenAI key
+    const userApiKey = await getUserApiKey(user_id, 'openai');
+    if (!userApiKey) {
+      return jsonResponse(
+        {
+          success: false,
+          error: 'OPENAI_KEY_MISSING',
+          message: 'Please add your OpenAI API key in your profile settings.',
+          provider: 'openai',
+        },
+        403
+      );
+    }
+
+    // 3. Parse input
+    const body = await req.json();
+    const { question, mode = 'standard', model = 'gpt-4o-mini' } = body;
+
+    if (!question?.trim()) {
+      return jsonResponse({ success: false, error: 'Question is required' }, 400);
+    }
+
+    // 4. Initialize OpenAI client with user's key
+    const openai = new OpenAI({ apiKey: userApiKey });
+
     const startTime = Date.now();
+    const result: { standardAnswer?: string; reasoningAnswer?: string; processingTime: number } = {
+      processingTime: 0,
+    };
 
-    const result: ReasoningResult = { processingTime: 0 };
-
-    // Get standard response
-    if (input.mode === 'standard' || input.mode === 'compare') {
+    // 5. Execute agent logic
+    if (mode === 'standard' || mode === 'compare') {
       try {
         const standardResponse = await openai.chat.completions.create({
-          model: model,
-          messages: [
-            {
-              role: 'user',
-              content: input.question
-            }
-          ],
+          model,
+          messages: [{ role: 'user', content: question }],
           temperature: 0.7,
           max_tokens: 1000,
         });
-        result.standardAnswer = standardResponse.choices[0].message.content || '';
+        result.standardAnswer = standardResponse.choices[0]?.message?.content || '';
       } catch (error) {
         console.error('Standard response error:', error);
         result.standardAnswer = 'Error generating standard response';
       }
     }
 
-    // Get reasoning response
-    if (input.mode === 'reasoning' || input.mode === 'compare') {
+    if (mode === 'reasoning' || mode === 'compare') {
       try {
         const reasoningResponse = await openai.chat.completions.create({
-          model: model,
+          model,
           messages: [
             {
               role: 'system',
-              content: `You are an AI assistant with strong reasoning capabilities.
-                When answering questions, especially those involving logic, math, or complex analysis,
-                break down your thinking process step-by-step before giving the final answer.
-                Show your work clearly, explain your reasoning, and then state your conclusion.
-                Be thorough but concise.`
+              content:
+                'You are an AI assistant with strong reasoning capabilities. When answering questions, especially those involving logic, math, or complex analysis, break down your thinking process step-by-step before giving the final answer. Show your work clearly, explain your reasoning, and then state your conclusion. Be thorough but concise.',
             },
-            {
-              role: 'user',
-              content: input.question
-            }
+            { role: 'user', content: question },
           ],
           temperature: 0.7,
           max_tokens: 1500,
         });
-        result.reasoningAnswer = reasoningResponse.choices[0].message.content || '';
+        result.reasoningAnswer = reasoningResponse.choices[0]?.message?.content || '';
       } catch (error) {
         console.error('Reasoning response error:', error);
         result.reasoningAnswer = 'Error generating reasoning response';
@@ -101,40 +172,29 @@ Deno.serve(async (req: Request) => {
 
     result.processingTime = Date.now() - startTime;
 
-    // Save to database
-    const resultId = `reasoning_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const timestamp = new Date().toISOString();
-
+    // 6. Log usage (optional)
     try {
-      await supabase
-        .from('ai_agent_runs')
-        .insert({
-          id: resultId,
-          agent_type: 'reasoning_agent',
-          user_id: input.userId || null,
-          input_data: { question: input.question, mode: input.mode, model },
-          output_data: { ...result, timestamp },
-          status: 'completed',
-          created_at: timestamp
-        });
-    } catch (dbError) {
-      console.error('Database error:', dbError);
-      // Continue without database save
+      const usage = openai.usage; // if available in response
+      if (usage) {
+        await logApiUsage(user_id, 'reasoning-agent', 'openai', usage.total_tokens);
+      }
+    } catch (e) {
+      // ignore
     }
 
-    return new Response(JSON.stringify({
-        ...result,
-        question: input.question,
-        model,
-        mode: input.mode,
-        timestamp
-      }), { status: 200, headers: { 'Content-Type': 'application/json', ...corsHeaders } });;
-
+    // 7. Return result
+    return jsonResponse({
+      ...result,
+      question,
+      model,
+      mode,
+      timestamp: new Date().toISOString(),
+    });
   } catch (error) {
     console.error('Handler error:', error);
-    return new Response(JSON.stringify({
-        error: 'Internal server error',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      }), { status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders } });;
+    return jsonResponse(
+      { success: false, error: error instanceof Error ? error.message : 'Internal server error' },
+      500
+    );
   }
-}
+});
