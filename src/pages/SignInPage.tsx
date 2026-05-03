@@ -17,9 +17,20 @@ import SparkleEffect from "../components/SparkleEffect";
 
 const SignInPage: React.FC = () => {
   const { signIn, user } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const from = (location.state as any)?.from || "/dashboard";
+
+  // Defensive programming for router hooks
+  let navigate: any = null;
+  let location: any = null;
+  let from = "/dashboard";
+
+  try {
+    navigate = useNavigate();
+    location = useLocation();
+    from = location ? (location.state as any)?.from || "/dashboard" : "/dashboard";
+  } catch (error) {
+    console.warn("Router context not available, using fallback navigation");
+    // Fallback navigation will be handled differently
+  }
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -46,7 +57,12 @@ const SignInPage: React.FC = () => {
         // Wait for auth state to stabilize before navigating
         // This prevents race conditions where navigation happens before onAuthStateChange fires
         setTimeout(() => {
-          navigate(from, { replace: true });
+          if (navigate) {
+            navigate(from, { replace: true });
+          } else {
+            // Fallback navigation using window.location
+            window.location.href = from;
+          }
         }, 100); // Small delay to let auth state changes propagate
       }
     } catch (err) {
