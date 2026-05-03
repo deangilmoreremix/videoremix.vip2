@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { CheckCircle, AlertCircle, Video, Loader } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
 import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
 
 const EmailConfirmPage: React.FC = () => {
-  // Defensive programming for router hooks
-  let navigate: any = null;
-  try {
-    navigate = useNavigate();
-  } catch (error) {
-    console.warn("Router context not available in EmailConfirmPage, using fallback navigation");
-  }
+  // Use direct window navigation instead of React Router hooks
+  const handleNavigation = (path: string) => {
+    window.location.href = path;
+  };
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading",
@@ -88,11 +85,7 @@ const EmailConfirmPage: React.FC = () => {
     }
 
     if (status === "success" && countdown === 0) {
-      if (navigate) {
-        navigate("/dashboard");
-      } else {
-        window.location.href = "/dashboard";
-      }
+      handleNavigation("/dashboard");
     }
   }, [status, countdown, navigate]);
 

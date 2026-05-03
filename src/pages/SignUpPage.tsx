@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Eye,
   EyeOff,
@@ -19,13 +19,10 @@ import SparkleEffect from "../components/SparkleEffect";
 const SignUpPage: React.FC = () => {
   const { signUp, user } = useAuth();
 
-  // Defensive programming for router hooks
-  let navigate: any = null;
-  try {
-    navigate = useNavigate();
-  } catch (error) {
-    console.warn("Router context not available in SignUpPage, using fallback navigation");
-  }
+  // Use direct window navigation instead of React Router hooks
+  const handleNavigation = (path: string) => {
+    window.location.href = path;
+  };
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -40,15 +37,11 @@ const SignUpPage: React.FC = () => {
 
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (user) {
-      if (navigate) {
-        navigate("/dashboard");
-      } else {
-        window.location.href = "/dashboard";
-      }
+      handleNavigation("/dashboard");
     }
-  }, [user, navigate]);
+  }, [user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
