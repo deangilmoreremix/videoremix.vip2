@@ -106,6 +106,12 @@ export const appSalesCopy: AppSalesData = {
     howItMakesMoney: 'Subscription model: $99/month for individuals, $199/month for families. Includes unlimited analysis and goal tracking.',
     whyBusinessesNeedIt: '80% of Americans live paycheck to paycheck. This tool gives individuals the same financial planning sophistication that wealthy people get from human advisors—at a fraction of the cost. It democratizes financial health.'
   },
+  'product-launch-intelligence': {
+    tonality: 'Strategic Intelligence',
+    whatItDoes: 'Multi-agent AI system that analyzes competitor product launches, market sentiment, and performance metrics to provide GTM teams with actionable insights for successful product launches.',
+    howItMakesMoney: 'Subscription model: $149/month for GTM teams and product managers. Includes unlimited competitor analysis, sentiment tracking, and launch performance reports.',
+    whyBusinessesNeedIt: '80% of product launches fail due to poor market understanding. This tool provides real-time competitor intelligence, sentiment analysis, and performance metrics to ensure launch success and competitive advantage.'
+  },
   'reasoning-agent': {
     tonality: 'Educational',
     whatItDoes: 'Compares standard AI responses with reasoning-enabled answers to demonstrate the value of step-by-step thinking.',
@@ -783,6 +789,36 @@ export const appSalesCopy: AppSalesData = {
     whatItDoes: 'Creates personalized self-improvement plans with AI goal analysis and tracking.',
     howItMakesMoney: 'Provide coaching programs for $100-300 per month, helping individuals in local communities achieve goals.',
     whyBusinessesNeedIt: 'Self-improvement is hard alone. This stacks massive value with personalized plans that work. Invest $100 monthly, gain skills worth $10,000 in career advancement. The offer is too good to ignore.'
+  },
+  'local-ai-reasoning-agent-py': {
+    tonality: 'Educational',
+    whatItDoes: 'Provides local AI reasoning capabilities for Python applications with advanced logical processing.',
+    howItMakesMoney: 'Subscription model: $49/month for unlimited local reasoning tasks and API access.',
+    whyBusinessesNeedIt: 'Local AI processing ensures data privacy and faster response times for complex reasoning tasks in enterprise environments.'
+  },
+  'local-ai-scrapper-py': {
+    tonality: 'Technical',
+    whatItDoes: 'Scrapes and processes web data locally using AI for Python applications with intelligent parsing.',
+    howItMakesMoney: 'Subscription model: $39/month for unlimited local scraping tasks and data export.',
+    whyBusinessesNeedIt: 'Local processing ensures data privacy and avoids API limitations for comprehensive web scraping needs.'
+  },
+  'local-travel-agent': {
+    tonality: 'Adventurous',
+    whatItDoes: 'Provides local AI-powered travel planning and recommendations with personalized itineraries.',
+    howItMakesMoney: 'Commission-based: Earns from booking referrals and travel packages at 5-10% per booking.',
+    whyBusinessesNeedIt: 'Local AI ensures personalized travel recommendations with data privacy and real-time availability updates.'
+  },
+  'qwen-local-rag': {
+    tonality: 'Innovative',
+    whatItDoes: 'Implements Qwen model for local retrieval-augmented generation tasks with advanced context understanding.',
+    howItMakesMoney: 'Subscription model: $59/month for unlimited local RAG operations and custom integrations.',
+    whyBusinessesNeedIt: 'Local RAG with Qwen provides fast, private AI generation for enterprise applications requiring high accuracy.'
+  },
+  'rag-agent-cohere': {
+    tonality: 'Collaborative',
+    whatItDoes: 'Uses Cohere models for retrieval-augmented generation in agent workflows with team collaboration features.',
+    howItMakesMoney: 'Subscription model: $69/month for unlimited RAG agent tasks and multi-user access.',
+    whyBusinessesNeedIt: 'Cohere-powered RAG agents deliver accurate, context-aware responses for complex collaborative queries.'
   }
 };
 
