@@ -16,11 +16,14 @@ import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
 
 const SignInPage: React.FC = () => {
+  console.log("🔧 SignInPage: Component loaded - no router hooks used");
+
   const { signIn, user } = useAuth();
 
   // Use direct window navigation instead of React Router hooks
   // This avoids the Router context dependency entirely
   const handleNavigation = (path: string) => {
+    console.log("🔧 SignInPage: Navigating to", path);
     window.location.href = path;
   };
 
