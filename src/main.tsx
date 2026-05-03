@@ -1,8 +1,7 @@
 import { StrictMode, Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
-import { AnimationProvider } from "./context/AnimationContext";
+// import { AnimationProvider } from "./context/AnimationContext";
 import { ModalsProvider } from "./components/ModalsProvider";
 
 // Import performance monitoring and error handling
@@ -41,18 +40,12 @@ const mountApp = () => {
             // Could send to error reporting service here
           }}
         >
-          <BrowserRouter
-            future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-          >
-            <HelmetProvider>
-              <AnimationProvider>
-                <ModalsProvider>
-                  <Suspense fallback={<LoadingScreen />}>
-                    <App />
-                  </Suspense>
-                </ModalsProvider>
-              </AnimationProvider>
-            </HelmetProvider>
+          <BrowserRouter>
+            <ModalsProvider>
+              <Suspense fallback={<LoadingScreen />}>
+                <App />
+              </Suspense>
+            </ModalsProvider>
           </BrowserRouter>
         </GlobalErrorBoundary>
       // </StrictMode>,

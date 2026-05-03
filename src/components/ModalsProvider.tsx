@@ -1,34 +1,19 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import CreateFirstVideoCTA from "./CreateFirstVideoCTA";
-import { X } from "lucide-react";
+import React from "react";
 
-// Types of modals we support
-type ModalType =
-  | "createFirstVideo"
-  | "featuredAnnouncement"
-  | "newFeature"
-  | "pricing";
-
-interface ModalsContextType {
-  showModal: (type: ModalType) => void;
-  hideModal: (type: ModalType) => void;
-  hideAllModals: () => void;
-}
-
-const ModalsContext = createContext<ModalsContextType>({
+// Create context using React.createContext to avoid bundling issues
+const ModalsContext = React.createContext<ModalsContextType>({
   showModal: () => {},
   hideModal: () => {},
   hideAllModals: () => {},
 });
 
-const useModals = () => useContext(ModalsContext);
+const useModals = () => React.useContext(ModalsContext);
 
 export const ModalsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   // Track which modals are visible
-  const [visibleModals, setVisibleModals] = useState<
+  const [visibleModals, setVisibleModals] = React.useState<
     Record<ModalType, boolean>
   >({
     createFirstVideo: false,
@@ -64,7 +49,7 @@ export const ModalsProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // Show the create first video modal to new users
-  useEffect(() => {
+  React.useEffect(() => {
     const hasSeenCreateFirstVideo = localStorage.getItem(
       "hasSeenCreateFirstVideo",
     );

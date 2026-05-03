@@ -331,7 +331,12 @@ const AppGallerySection: React.FC = () => {
   };
 
   // Get a fallback image URL based on app ID
-  const getFallbackImage = (appId: string, errorCount: number = 0) => {
+  const getFallbackImage = (appId: string | undefined, errorCount: number = 0) => {
+    // Handle undefined appId
+    if (!appId || typeof appId !== 'string') {
+      return fallbackImages[0]; // Default fallback
+    }
+
     // Start with a deterministic fallback based on app ID
     const index = appId.charCodeAt(0) % fallbackImages.length;
 
