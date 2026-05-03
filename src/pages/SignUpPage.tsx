@@ -18,7 +18,14 @@ import SparkleEffect from "../components/SparkleEffect";
 
 const SignUpPage: React.FC = () => {
   const { signUp, user } = useAuth();
-  const navigate = useNavigate();
+
+  // Defensive programming for router hooks
+  let navigate: any = null;
+  try {
+    navigate = useNavigate();
+  } catch (error) {
+    console.warn("Router context not available in SignUpPage, using fallback navigation");
+  }
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -35,7 +42,11 @@ const SignUpPage: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/dashboard");
+      if (navigate) {
+        navigate("/dashboard");
+      } else {
+        window.location.href = "/dashboard";
+      }
     }
   }, [user, navigate]);
 

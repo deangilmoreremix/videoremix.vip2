@@ -8,7 +8,13 @@ import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
 
 const EmailConfirmPage: React.FC = () => {
-  const navigate = useNavigate();
+  // Defensive programming for router hooks
+  let navigate: any = null;
+  try {
+    navigate = useNavigate();
+  } catch (error) {
+    console.warn("Router context not available in EmailConfirmPage, using fallback navigation");
+  }
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading",
@@ -82,7 +88,11 @@ const EmailConfirmPage: React.FC = () => {
     }
 
     if (status === "success" && countdown === 0) {
-      navigate("/dashboard");
+      if (navigate) {
+        navigate("/dashboard");
+      } else {
+        window.location.href = "/dashboard";
+      }
     }
   }, [status, countdown, navigate]);
 
