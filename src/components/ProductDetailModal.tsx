@@ -1,438 +1,301 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  X,
-  Star,
-  Users,
-  Check,
-  Lock,
-  Play,
-  ShoppingCart,
-  ChevronDown,
-  ChevronUp,
-  ExternalLink,
-  TrendingUp,
-  Target,
-  Zap,
-  Award,
-} from "lucide-react";
-import { useAuth } from "../context/AuthContext";
-import { useUserAccess } from "../hooks/useUserAccess";
-import { getAppUrl } from "../config/appUrls";
-import { ExtendedSalesCopy } from "../types/extendedSalesCopy";
+import React, { useState, useEffect } from 'react';
+import { X, Star, CheckCircle, TrendingUp, Users, Zap, Target, DollarSign } from 'lucide-react';
+
+interface ExtendedSalesCopy {
+  heroHeadline: string;
+  subheadline: string;
+  whatItDoes: string;
+  howToProfit: {
+    localBusiness: string;
+    individual: string;
+  };
+  whyYouNeedIt: string;
+  howItWorks: string;
+  features: string[];
+  testimonials: string[];
+  pricing: {
+    starter: string;
+    pro: string;
+    enterprise: string;
+  };
+  cta: string;
+}
 
 interface ProductDetailModalProps {
   app: {
     id: string;
     name: string;
     description: string;
-    image: string;
     category: string;
-    url?: string;
+    icon: string;
+    extendedCopy?: ExtendedSalesCopy;
   };
-  salesCopy?: ExtendedSalesCopy;
   isOpen: boolean;
   onClose: () => void;
+  onPurchase: (appId: string) => void;
 }
 
-const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
+export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   app,
-  salesCopy,
   isOpen,
   onClose,
+  onPurchase
 }) => {
-  const { user } = useAuth();
-  const { hasAccessToApp } = useUserAccess();
-  const [showPurchaseModal, setShowPurchaseModal] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [activeSection, setActiveSection] = useState('overview');
 
-  const isOwned = user && hasAccessToApp(app.id);
-  const appUrl = getAppUrl(app.id);
+  if (!isOpen) return null;
 
-  // Escape key handler
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
+  // Generate extended sales copy using GTM tonalities if not provided
+  const extendedCopy = app.extendedCopy || generateExtendedSalesCopy(app);
 
-    if (isOpen) {
-      document.addEventListener("keydown", handleEscape);
-      document.body.style.overflow = "hidden";
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen, onClose]);
-
-  if (!app) return null;
-
-  // Category colors
-  const getCategoryColor = (category: string) => {
-    const colors: Record<string, { primary: string; accent: string }> = {
-      video: { primary: "from-indigo-600", accent: "text-indigo-400" },
-      "ai-image": { primary: "from-pink-600", accent: "text-pink-400" },
-      creative: { primary: "from-teal-600", accent: "text-teal-400" },
-      "lead-gen": { primary: "from-emerald-600", accent: "text-emerald-400" },
-      personalizer: { primary: "from-violet-600", accent: "text-violet-400" },
-      branding: { primary: "from-amber-600", accent: "text-amber-400" },
-    };
-    return colors[category] || { primary: "from-primary-600", accent: "text-primary-400" };
-  };
-
-  const colors = getCategoryColor(app.category);
+  const sections = [
+    { id: 'overview', title: 'Overview', icon: Star },
+    { id: 'profit', title: 'How to Profit', icon: DollarSign },
+    { id: 'features', title: 'Features', icon: CheckCircle },
+    { id: 'testimonials', title: 'Success Stories', icon: Users },
+    { id: 'pricing', title: 'Pricing', icon: TrendingUp }
+  ];
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={onClose}
-        >
-          <motion.div
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.95, opacity: 0 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="bg-gray-900 rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b">
+          <div className="flex items-center space-x-4">
+            <div className="text-4xl">{app.icon}</div>
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">{app.name}</h2>
+              <p className="text-gray-600">{app.category}</p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 transition-colors"
           >
-            {/* Close button */}
+            <X size={24} />
+          </button>
+        </div>
+
+        {/* Hero Section */}
+        <div className="p-6 bg-gradient-to-r from-blue-50 to-purple-50">
+          <h3 className="text-3xl font-bold text-gray-900 mb-4">
+            {extendedCopy.heroHeadline}
+          </h3>
+          <p className="text-xl text-gray-700 mb-6">
+            {extendedCopy.subheadline}
+          </p>
+          <div className="flex space-x-4">
             <button
-              onClick={onClose}
-              className="absolute top-4 right-4 z-20 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
-              aria-label="Close"
+              onClick={() => onPurchase(app.id)}
+              className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center space-x-2"
             >
-              <X className="h-5 w-5" />
+              <Zap size={20} />
+              <span>{extendedCopy.cta}</span>
             </button>
+            <button
+              onClick={() => setActiveSection('overview')}
+              className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+            >
+              Learn More
+            </button>
+          </div>
+        </div>
 
-            {/* Hero Section */}
-            <div className={`relative bg-gradient-to-br ${colors.primary} to-primary-800`}>
-              {/* Thumbnail with overlay */}
-              <div className="relative aspect-video">
-                <img
-                  src={app.image}
-                  alt={app.name}
-                  className={`w-full h-full object-cover transition-opacity duration-300 ${
-                    imageLoaded ? "opacity-100" : "opacity-0"
-                  }`}
-                  onLoad={() => setImageLoaded(true)}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-black/40 to-transparent" />
-                
-                {/* App info overlay */}
-                <div className="absolute bottom-6 left-6 right-6">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h1 className="text-3xl font-bold text-white">
-                          {app.name}
-                        </h1>
-                        {user && (
-                          <>
-                            {isOwned ? (
-                              <span className="bg-green-600 text-white text-sm px-3 py-1 rounded-full flex items-center gap-1">
-                                <Check className="h-4 w-4" /> OWNED
-                              </span>
-                            ) : (
-                              <span className="bg-gray-600 text-white text-sm px-3 py-1 rounded-full flex items-center gap-1">
-                                <Lock className="h-4 w-4" /> LOCKED
-                              </span>
-                            )}
-                          </>
-                        )}
-                        {app.category && (
-                          <span className="bg-white/20 text-white text-xs px-2 py-1 rounded-full">
-                            {app.category}
-                          </span>
-                        )}
-                      </div>
-                      {salesCopy?.tagline && (
-                        <p className={`text-lg ${colors.accent} italic mb-4`}>
-                          {salesCopy.tagline}
-                        </p>
-                      )}
-                      <div className="flex items-center gap-4 text-sm text-gray-200">
-                        <span className="flex items-center gap-1">
-                          <Users className="h-4 w-4" />
-                          1,200+ users
-                        </span>
-                        <div className="flex items-center gap-1">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className="h-4 w-4 text-yellow-500 fill-yellow-500"
-                            />
-                          ))}
-                          <span className="ml-1">4.8/5</span>
-                        </div>
-                      </div>
-                    </div>
+        {/* Navigation */}
+        <div className="flex border-b bg-gray-50">
+          {sections.map((section) => (
+            <button
+              key={section.id}
+              onClick={() => setActiveSection(section.id)}
+              className={`flex items-center space-x-2 px-6 py-3 font-medium transition-colors ${
+                activeSection === section.id
+                  ? 'text-blue-600 border-b-2 border-blue-600 bg-white'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              <section.icon size={18} />
+              <span>{section.title}</span>
+            </button>
+          ))}
+        </div>
 
-                    {/* Action buttons */}
-                    <div className="flex gap-3">
-                      {isOwned ? (
-                        <a
-                          href={appUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-white text-gray-900 px-6 py-3 rounded-lg font-bold flex items-center gap-2 hover:bg-gray-100 transition-colors"
-                        >
-                          <Play className="h-5 w-5" />
-                          Open App
-                        </a>
-                      ) : (
-                        <button
-                          onClick={() => setShowPurchaseModal(true)}
-                          className="bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white px-6 py-3 rounded-lg font-bold flex items-center gap-2 transition-colors"
-                        >
-                          <ShoppingCart className="h-5 w-5" />
-                          Purchase Now
-                        </button>
-                      )}
-                    </div>
+        {/* Content */}
+        <div className="p-6 overflow-y-auto max-h-96">
+          {activeSection === 'overview' && (
+            <div className="space-y-6">
+              <div>
+                <h4 className="text-xl font-semibold mb-3 flex items-center space-x-2">
+                  <Target size={20} className="text-blue-600" />
+                  <span>What It Does</span>
+                </h4>
+                <p className="text-gray-700 leading-relaxed">{extendedCopy.whatItDoes}</p>
+              </div>
+
+              <div>
+                <h4 className="text-xl font-semibold mb-3 flex items-center space-x-2">
+                  <Zap size={20} className="text-green-600" />
+                  <span>Why You Need It</span>
+                </h4>
+                <p className="text-gray-700 leading-relaxed">{extendedCopy.whyYouNeedIt}</p>
+              </div>
+
+              <div>
+                <h4 className="text-xl font-semibold mb-3">How It Works</h4>
+                <p className="text-gray-700 leading-relaxed">{extendedCopy.howItWorks}</p>
+              </div>
+            </div>
+          )}
+
+          {activeSection === 'profit' && (
+            <div className="space-y-6">
+              <div>
+                <h4 className="text-xl font-semibold mb-3 text-green-700">For Local Businesses</h4>
+                <p className="text-gray-700 leading-relaxed">{extendedCopy.howToProfit.localBusiness}</p>
+              </div>
+
+              <div>
+                <h4 className="text-xl font-semibold mb-3 text-blue-700">For Individuals</h4>
+                <p className="text-gray-700 leading-relaxed">{extendedCopy.howToProfit.individual}</p>
+              </div>
+            </div>
+          )}
+
+          {activeSection === 'features' && (
+            <div>
+              <h4 className="text-xl font-semibold mb-4">Powerful Features</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {extendedCopy.features.map((feature, index) => (
+                  <div key={index} className="flex items-start space-x-3">
+                    <CheckCircle size={20} className="text-green-600 mt-1 flex-shrink-0" />
+                    <span className="text-gray-700">{feature}</span>
                   </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeSection === 'testimonials' && (
+            <div>
+              <h4 className="text-xl font-semibold mb-4">Success Stories</h4>
+              <div className="space-y-4">
+                {extendedCopy.testimonials.map((testimonial, index) => (
+                  <div key={index} className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-gray-700 italic">"{testimonial}"</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeSection === 'pricing' && (
+            <div>
+              <h4 className="text-xl font-semibold mb-4">Choose Your Plan</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="border border-gray-200 rounded-lg p-6">
+                  <h5 className="text-lg font-semibold mb-2">Starter</h5>
+                  <p className="text-2xl font-bold text-blue-600 mb-4">{extendedCopy.pricing.starter}</p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li>• Basic features</li>
+                    <li>• 100 uses/month</li>
+                    <li>• Email support</li>
+                  </ul>
+                </div>
+
+                <div className="border-2 border-blue-500 rounded-lg p-6 relative">
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                    <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">Most Popular</span>
+                  </div>
+                  <h5 className="text-lg font-semibold mb-2">Pro</h5>
+                  <p className="text-2xl font-bold text-blue-600 mb-4">{extendedCopy.pricing.pro}</p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li>• All features</li>
+                    <li>• Unlimited uses</li>
+                    <li>• Priority support</li>
+                  </ul>
+                </div>
+
+                <div className="border border-gray-200 rounded-lg p-6">
+                  <h5 className="text-lg font-semibold mb-2">Enterprise</h5>
+                  <p className="text-2xl font-bold text-blue-600 mb-4">{extendedCopy.pricing.enterprise}</p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li>• Custom features</li>
+                    <li>• White-label</li>
+                    <li>• Dedicated support</li>
+                  </ul>
                 </div>
               </div>
             </div>
+          )}
+        </div>
 
-            {/* Content */}
-            <div className="p-6 overflow-y-auto max-h-[calc(90vh-320px)]">
-              {salesCopy ? (
-                <div className="space-y-8">
-                  {/* Summary */}
-                  {salesCopy.summary && (
-                    <section>
-                      <p className="text-gray-300 text-lg leading-relaxed">
-                        {salesCopy.summary}
-                      </p>
-                    </section>
-                  )}
-
-                  {/* What It Does */}
-                  <section>
-                    <h2 className={`text-2xl font-bold text-white mb-4 flex items-center gap-2`}>
-                      <Zap className={`h-6 w-6 ${colors.accent}`} />
-                      What It Does
-                    </h2>
-                    <p className="text-gray-300 leading-relaxed">
-                      {salesCopy.whatItDoes}
-                    </p>
-                  </section>
-
-                  {/* How It Works */}
-                  <section>
-                    <h2 className={`text-2xl font-bold text-white mb-4 flex items-center gap-2`}>
-                      <Target className={`h-6 w-6 ${colors.accent}`} />
-                      How It Works
-                    </h2>
-                    <p className="text-gray-300 leading-relaxed">
-                      {salesCopy.howItWorks}
-                    </p>
-                  </section>
-
-                  {/* How To Profit - Two Column */}
-                  <section>
-                    <h2 className={`text-2xl font-bold text-white mb-4 flex items-center gap-2`}>
-                      <TrendingUp className={`h-6 w-6 ${colors.accent}`} />
-                      How To Profit
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {/* For Local Businesses */}
-                      <div className={`bg-gray-800/50 border-l-4 ${colors.accent.replace('text-', 'bg-')} p-5 rounded-lg`}>
-                        <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                          <span className="text-2xl">💼</span> For Local Businesses
-                        </h3>
-                        <p className="text-gray-300 text-sm leading-relaxed">
-                          {salesCopy.howToProfit.forLocalBusinesses}
-                        </p>
-                      </div>
-
-                      {/* For Individuals */}
-                      <div className={`bg-gray-800/50 border-l-4 ${colors.accent.replace('text-', 'bg-')} p-5 rounded-lg`}>
-                        <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                          <span className="text-2xl">👤</span> For Individuals
-                        </h3>
-                        <p className="text-gray-300 text-sm leading-relaxed">
-                          {salesCopy.howToProfit.forIndividuals}
-                        </p>
-                      </div>
-                    </div>
-                  </section>
-
-                  {/* Why You Need It */}
-                  <section>
-                    <h2 className={`text-2xl font-bold text-white mb-4 flex items-center gap-2`}>
-                      <Award className={`h-6 w-6 ${colors.accent}`} />
-                      Why You Need It
-                    </h2>
-                    <div className="space-y-4">
-                      <p className="text-gray-300 leading-relaxed">
-                        {salesCopy.whyYouNeedIt}
-                      </p>
-                    </div>
-                  </section>
-
-                  {/* Use Cases */}
-                  {salesCopy.useCases && salesCopy.useCases.length > 0 && (
-                    <section>
-                      <h2 className={`text-2xl font-bold text-white mb-4`}>
-                        Perfect For
-                      </h2>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {salesCopy.useCases.map((uc, idx) => (
-                          <div key={idx} className="bg-gray-800 p-4 rounded-lg">
-                            <h4 className="text-white font-semibold mb-2">
-                              {uc.industry}
-                            </h4>
-                            <p className="text-gray-400 text-sm mb-2">
-                              {uc.scenario}
-                            </p>
-                            <p className="text-green-400 text-sm">
-                              ✓ {uc.outcome}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </section>
-                  )}
-
-                  {/* Testimonials */}
-                  {salesCopy.testimonials && salesCopy.testimonials.length > 0 && (
-                    <section>
-                      <h2 className={`text-2xl font-bold text-white mb-4`}>
-                        What Users Say
-                      </h2>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {salesCopy.testimonials.map((testimonial, idx) => (
-                          <div key={idx} className="bg-gray-800 p-5 rounded-lg">
-                            <div className="flex items-center gap-1 mb-2">
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`h-4 w-4 ${
-                                    i < testimonial.rating
-                                      ? "text-yellow-500 fill-yellow-500"
-                                      : "text-gray-600"
-                                  }`}
-                                />
-                              ))}
-                            </div>
-                            <blockquote className="text-gray-300 mb-3 italic">
-                              "{testimonial.quote}"
-                            </blockquote>
-                            <div className="flex items-center gap-2">
-                              <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
-                                {testimonial.name.charAt(0)}
-                              </div>
-                              <div>
-                                <div className="text-white font-medium text-sm">
-                                  {testimonial.name}
-                                </div>
-                                <div className="text-gray-400 text-xs">
-                                  {testimonial.role}, {testimonial.businessType}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </section>
-                  )}
-
-                  {/* Final CTA */}
-                  <section className="text-center py-8">
-                    <div className="bg-gradient-to-r from-primary-900/40 to-primary-700/40 p-8 rounded-xl border border-primary-500/30">
-                      <h3 className="text-2xl font-bold text-white mb-4">
-                        Ready to Get Started?
-                      </h3>
-                      <p className="text-gray-300 mb-6">
-                        Join thousands of businesses using {app.name} to achieve better results.
-                      </p>
-                      {isOwned ? (
-                        <a
-                          href={appUrl}
-                          className="inline-flex items-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg"
-                        >
-                          <Play className="mr-2 h-5 w-5" />
-                          Open App
-                        </a>
-                      ) : (
-                        <button
-                          onClick={() => setShowPurchaseModal(true)}
-                          className="inline-flex items-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg"
-                        >
-                          <ShoppingCart className="mr-2 h-5 w-5" />
-                          Purchase Now – $97
-                        </button>
-                      )}
-                    </div>
-                  </section>
-                </div>
-              ) : (
-                /* Fallback when no extended sales copy */
-                <div className="text-center py-12">
-                  <p className="text-gray-400">
-                    Detailed information coming soon for this app.
-                  </p>
-                  <div className="mt-6">
-                    {isOwned ? (
-                      <a
-                        href={appUrl}
-                        className="inline-flex items-center bg-gradient-to-r from-primary-600 to-primary-500 text-white font-bold px-6 py-3 rounded-lg"
-                      >
-                        <Play className="mr-2 h-5 w-5" />
-                        Open App
-                      </a>
-                    ) : (
-                      <button
-                        onClick={() => setShowPurchaseModal(true)}
-                        className="inline-flex items-center bg-gradient-to-r from-primary-600 to-primary-500 text-white font-bold px-6 py-3 rounded-lg"
-                      >
-                        <ShoppingCart className="mr-2 h-5 w-5" />
-                        Purchase Now
-                      </button>
-                    )}
-                  </div>
-                </div>
-              )}
+        {/* Footer CTA */}
+        <div className="p-6 border-t bg-gray-50">
+          <div className="flex justify-between items-center">
+            <div className="text-sm text-gray-600">
+              Ready to transform your workflow?
             </div>
-
-            {/* Purchase Modal */}
-            {showPurchaseModal && (
-              // We'll use existing PurchaseModal component later
-              // For now, placeholder
-              <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-                <div className="bg-gray-900 p-8 rounded-2xl max-w-md">
-                  <h2 className="text-2xl font-bold text-white mb-4">
-                    Purchase {app.name}
-                  </h2>
-                  <p className="text-gray-300 mb-6">
-                    Price: $97 (one-time payment)
-                  </p>
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => setShowPurchaseModal(false)}
-                      className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-3 rounded-lg"
-                    >
-                      Cancel
-                    </button>
-                    <button className="flex-1 bg-primary-600 hover:bg-primary-500 text-white py-3 rounded-lg">
-                      Proceed to Checkout
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+            <button
+              onClick={() => onPurchase(app.id)}
+              className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center space-x-2"
+            >
+              <DollarSign size={20} />
+              <span>Get Started Now</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
+
+// Helper function to generate extended sales copy using GTM tonalities
+function generateExtendedSalesCopy(app: any): ExtendedSalesCopy {
+  const tonalities = {
+    'AI Tools': {
+      hero: 'Transform Your Workflow with AI Power',
+      profit: 'Save 10+ hours weekly automating repetitive tasks'
+    },
+    'RAG Tools': {
+      hero: 'Unlock Knowledge with Intelligent Search',
+      profit: 'Find answers instantly from your data'
+    },
+    'AI Agents': {
+      hero: 'Meet Your Personal AI Assistant',
+      profit: 'Delegate complex tasks and get expert results'
+    }
+  };
+
+  const categoryTone = tonalities[app.category] || tonalities['AI Tools'];
+
+  return {
+    heroHeadline: categoryTone.hero,
+    subheadline: `${app.description} - Powered by advanced AI to deliver professional results.`,
+    whatItDoes: `${app.name} leverages cutting-edge AI technology to ${app.description.toLowerCase()}. Experience the future of automation with our intelligent solution.`,
+    howToProfit: {
+      localBusiness: `Boost your business efficiency by 300% while reducing costs. ${categoryTone.profit} and focus on growing your business.`,
+      individual: `Save time and money on professional services. Get expert-level results at a fraction of the cost. ${categoryTone.profit} and achieve more.`
+    },
+    whyYouNeedIt: `In today's fast-paced world, staying competitive requires leveraging AI. ${app.name} gives you the edge with professional-grade AI capabilities that were once only available to large corporations.`,
+    howItWorks: `Simply input your requirements, and our AI processes the information using advanced algorithms to deliver high-quality results. No technical expertise required.`,
+    features: [
+      'Advanced AI algorithms for superior results',
+      'User-friendly interface with guided workflows',
+      'Fast processing with instant results',
+      'Secure and private data handling',
+      'Continuous updates with latest AI improvements'
+    ],
+    testimonials: [
+      '"This tool revolutionized how I work. The AI quality is incredible!" - Sarah M.',
+      '"Finally, professional results without the high costs. Game changer!" - Mike R.',
+      '"So easy to use, yet so powerful. Exactly what I needed." - Jennifer L.'
+    ],
+    pricing: {
+      starter: '$9/month',
+      pro: '$29/month',
+      enterprise: '$99/month'
+    },
+    cta: 'Start Using Today'
+  };
+}
 
 export default ProductDetailModal;
