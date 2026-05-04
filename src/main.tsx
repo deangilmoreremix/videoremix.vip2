@@ -27,6 +27,7 @@ import App from "./App";
 
 // Mount app immediately
 const initializeApp = () => {
+  console.log('🚀 App initializing...');
   const root = document.getElementById("root");
   if (root) {
     createRoot(root).render(
@@ -44,6 +45,9 @@ const initializeApp = () => {
         </BrowserRouter>
       </GlobalErrorBoundary>
     );
+    console.log('✅ App mounted successfully');
+  } else {
+    console.error('❌ Root element not found');
   }
 };
 

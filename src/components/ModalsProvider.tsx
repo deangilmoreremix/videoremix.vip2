@@ -12,6 +12,8 @@ const useModals = () => React.useContext(ModalsContext);
 export const ModalsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  console.log('✅ ModalsProvider rendering with React.useState');
+  
   // Track which modals are visible
   const [visibleModals, setVisibleModals] = React.useState<
     Record<ModalType, boolean>
