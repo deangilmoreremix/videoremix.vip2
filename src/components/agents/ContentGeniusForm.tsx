@@ -370,4 +370,3 @@ const ContentGeniusForm: React.FC<ContentGeniusFormProps> = ({
 };
 
 export default ContentGeniusForm;
-<parameter name="filePath">src/components/agents/ContentGeniusForm.tsx
