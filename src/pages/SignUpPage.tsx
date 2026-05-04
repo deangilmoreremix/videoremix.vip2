@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+
 import {
   Eye,
   EyeOff,
@@ -140,13 +140,13 @@ const SignUpPage: React.FC = () => {
               transition={{ duration: 0.6 }}
               className="mb-8"
             >
-              <Link
-                to="/"
+              <a
+                href="/"
                 className="inline-flex items-center text-gray-400 hover:text-white transition-colors group"
               >
                 <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
                 Back to home
-              </Link>
+              </a>
             </motion.div>
 
             {/* Logo section */}
@@ -156,8 +156,8 @@ const SignUpPage: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-center mb-8"
             >
-              <Link
-                to="/"
+              <a
+                href="/"
                 className="inline-flex items-center justify-center space-x-2 group mb-6"
               >
                 <div className="relative">
@@ -180,7 +180,7 @@ const SignUpPage: React.FC = () => {
                     Marketing Personalization Platform
                   </div>
                 </div>
-              </Link>
+              </a>
 
               <MagicSparkles minSparkles={3} maxSparkles={6}>
                 <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
@@ -345,19 +345,19 @@ const SignUpPage: React.FC = () => {
 
                 <div className="text-xs text-gray-400 pt-2">
                   By creating an account, you agree to our{" "}
-                  <Link
-                    to="/terms"
+                  <a
+                    href="/terms"
                     className="text-primary-400 hover:text-primary-300"
                   >
                     Terms of Service
-                  </Link>{" "}
+                  </a>{" "}
                   and{" "}
-                  <Link
-                    to="/privacy"
+                  <a
+                    href="/privacy"
                     className="text-primary-400 hover:text-primary-300"
                   >
                     Privacy Policy
-                  </Link>
+                  </a>
                 </div>
 
                 <button
@@ -401,12 +401,12 @@ const SignUpPage: React.FC = () => {
               <div className="mt-8 text-center">
                 <p className="text-gray-400">
                   Already have an account?{" "}
-                  <Link
-                    to="/signin"
+                  <a
+                    href="/signin"
                     className="text-primary-400 hover:text-primary-300 transition-colors font-medium"
                   >
                     Sign in
-                  </Link>
+                  </a>
                 </p>
               </div>
             </motion.div>

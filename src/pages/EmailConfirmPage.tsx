@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { CheckCircle, AlertCircle, Video, Loader } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
 import MagicSparkles from "../components/MagicSparkles";
@@ -120,8 +120,8 @@ const EmailConfirmPage: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-center mb-8"
             >
-              <Link
-                to="/"
+              <a
+                href="/"
                 className="inline-flex items-center justify-center space-x-2 group mb-6"
               >
                 <div className="relative">
@@ -144,7 +144,7 @@ const EmailConfirmPage: React.FC = () => {
                     Marketing Personalization Platform
                   </div>
                 </div>
-              </Link>
+              </a>
 
               <MagicSparkles minSparkles={3} maxSparkles={6}>
                 <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
@@ -195,12 +195,12 @@ const EmailConfirmPage: React.FC = () => {
                     Your account is now active. Redirecting to your dashboard in{" "}
                     {countdown} second{countdown !== 1 ? "s" : ""}...
                   </p>
-                  <Link
-                    to="/dashboard"
+                  <a
+                    href="/dashboard"
                     className="inline-flex items-center justify-center w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white py-3 px-6 rounded-lg font-medium transition-all"
                   >
                     Go to Dashboard Now
-                  </Link>
+                  </a>
                 </motion.div>
               )}
 
@@ -221,18 +221,18 @@ const EmailConfirmPage: React.FC = () => {
                       "Unable to verify your email address. The link may have expired or is invalid."}
                   </p>
                   <div className="space-y-3">
-                    <Link
-                      to="/signin"
+                    <a
+                      href="/signin"
                       className="inline-flex items-center justify-center w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white py-3 px-6 rounded-lg font-medium transition-all"
                     >
                       Go to Sign In
-                    </Link>
-                    <Link
-                      to="/signup"
+                    </a>
+                    <a
+                      href="/signup"
                       className="inline-flex items-center justify-center w-full bg-gray-700 hover:bg-gray-600 text-white py-3 px-6 rounded-lg font-medium transition-colors"
                     >
                       Create New Account
-                    </Link>
+                    </a>
                   </div>
                 </motion.div>
               )}

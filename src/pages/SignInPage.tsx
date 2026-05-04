@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+
 import {
   Eye,
   EyeOff,
@@ -16,14 +16,11 @@ import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
 
 const SignInPage: React.FC = () => {
-  console.log("🔧 SignInPage: Component loaded - no router hooks used");
-
   const { signIn, user } = useAuth();
 
   // Use direct window navigation instead of React Router hooks
   // This avoids the Router context dependency entirely
   const handleNavigation = (path: string) => {
-    console.log("🔧 SignInPage: Navigating to", path);
     window.location.href = path;
   };
 
@@ -102,13 +99,13 @@ const SignInPage: React.FC = () => {
               transition={{ duration: 0.6 }}
               className="mb-8"
             >
-              <Link
-                to="/"
+              <a
+                href="/"
                 className="inline-flex items-center text-gray-400 hover:text-white transition-colors group"
               >
                 <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
                 Back to home
-              </Link>
+              </a>
             </motion.div>
 
             {/* Logo section */}
@@ -118,8 +115,8 @@ const SignInPage: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-center mb-8"
             >
-              <Link
-                to="/"
+              <a
+                href="/"
                 className="inline-flex items-center justify-center space-x-2 group mb-6"
               >
                 <div className="relative">
@@ -141,8 +138,8 @@ const SignInPage: React.FC = () => {
                   <div className="text-xs text-primary-300">
                     Marketing Personalization Platform
                   </div>
-                </div>
-              </Link>
+                 </div>
+               </a>
 
               <MagicSparkles minSparkles={3} maxSparkles={6}>
                 <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
@@ -199,12 +196,12 @@ const SignInPage: React.FC = () => {
                     >
                       Password
                     </label>
-                    <Link
-                      to="/forgot-password"
+                    <a
+                      href="/forgot-password"
                       className="text-sm text-primary-400 hover:text-primary-300 transition-colors"
                     >
                       Forgot password?
-                    </Link>
+                    </a>
                   </div>
                   <div className="relative">
                     <input
@@ -271,12 +268,12 @@ const SignInPage: React.FC = () => {
               <div className="mt-8 text-center space-y-4">
                 <p className="text-gray-400">
                   Don't have an account?{" "}
-                  <Link
-                    to="/signup"
+                  <a
+                    href="/signup"
                     className="text-primary-400 hover:text-primary-300 transition-colors font-medium"
                   >
                     Sign up now
-                  </Link>
+                  </a>
                 </p>
 
               </div>
