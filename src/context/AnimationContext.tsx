@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 interface AnimationContextType {
   prefersReducedMotion: boolean;
@@ -28,9 +28,8 @@ const AnimationContext = createContext<AnimationContextType>({
 });
 
 export const useAnimationContext = () => useContext(AnimationContext);
-const useAnimation = useAnimationContext; // Alias for backward compatibility
 
-export const AnimationProvider: React.FC<{ children: React.ReactNode }> = ({
+export const AnimationProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -145,3 +144,5 @@ export const AnimationProvider: React.FC<{ children: React.ReactNode }> = ({
     </AnimationContext.Provider>
   );
 };
+
+export default AnimationProvider;

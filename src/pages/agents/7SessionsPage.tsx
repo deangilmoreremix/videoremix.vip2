@@ -20,7 +20,7 @@ const Agent7SessionsPage: React.FC = () => {
   const handleSubmit = async (tabKey: string, data: any) => {
     setLoading(tabKey);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/7-sessions`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/tutorial-sessions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...data, mode: tabKey, userId: user?.id })

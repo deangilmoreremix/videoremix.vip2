@@ -37,7 +37,6 @@ const OnboardingProgressTracker = lazy(() => import("../components/dashboard/Onb
 const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
-  console.log("[DashboardPage] Rendering dashboard for user:", user?.id);
   const { stats, loading: statsLoading, error: statsError } = useUserStats();
   const { preferences, setTheme } = useDashboardPreferences();
   const { achievements, getRecentAchievements } = useAchievements();
@@ -47,12 +46,11 @@ const DashboardPage: React.FC = () => {
   const [showApiConfig, setShowApiConfig] = useState(false);
 
   useEffect(() => {
-    console.log("[DashboardPage] Component mounted, user:", user?.id);
     const hour = new Date().getHours();
     if (hour < 12) setGreeting("Good morning");
     else if (hour < 18) setGreeting("Good afternoon");
     else setGreeting("Good evening");
-  }, [user]);
+  }, []);
 
   const timeSavedPercentage = React.useMemo(() =>
     stats.activeDays > 0
@@ -74,8 +72,6 @@ const DashboardPage: React.FC = () => {
     { value: 35 },
     { value: stats.purchasedAppsCount || 0 },
   ], [stats.purchasedAppsCount]);
-  // Debug: Check if we have basic data
-  console.log("[DashboardPage] User:", user, "Stats:", stats, "Preferences:", preferences);
 
   return (
     <>
@@ -87,133 +83,172 @@ const DashboardPage: React.FC = () => {
         />
       </Helmet>
 
-      <main className="pt-32 pb-20 md:pb-8">
-        {/* Dashboard Header */}
-        <section className="py-8 md:py-16 relative overflow-hidden">
+      <main className="pt-24 pb-20 md:pb-8">
+        {/* Dashboard Hero Header */}
+        <section className="relative overflow-hidden">
+          {/* Ambient background */}
           <div className="absolute inset-0">
-            <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary-600/10 rounded-full blur-[100px] -z-10"></div>
-            <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-primary-600/10 rounded-full blur-[100px] -z-10"></div>
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-primary-600/25 to-accent-500/20 rounded-full blur-[120px] -z-10 animate-pulse-slow"></div>
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-accent-500/20 to-primary-600/15 rounded-full blur-[100px] -z-10"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-primary-500/5 via-accent-500/5 to-primary-500/5 rounded-full blur-[80px] -z-10"></div>
           </div>
 
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-7xl mx-auto">
-              {/* Left-Aligned Hero */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="mb-8"
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="py-12 md:py-20"
               >
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
-                  <div>
+                {/* Hero Header Row */}
+                <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12">
+                  {/* Greeting */}
+                  <div className="flex-1">
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.2, duration: 0.6 }}
+                      className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-900/40 border border-primary-500/30 text-primary-300 text-xs font-medium mb-4"
+                    >
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
+                      </span>
+                      Welcome back
+                    </motion.div>
                     <motion.h1
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2"
+                      transition={{ delay: 0.3, duration: 0.6 }}
+                      className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight"
+                      style={{ fontFamily: 'var(--font-display)' }}
                     >
                       {greeting},{" "}
-                      <span className="text-primary-400">{userName}</span>! 👋
+                      <span className="bg-gradient-to-r from-primary-400 via-accent-400 to-primary-300 bg-clip-text text-transparent animate-gradient-shift"
+                        style={{ backgroundSize: '200% auto' }}>
+                        {userName}
+                      </span>
+                      !
                     </motion.h1>
                     <motion.p
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.1 }}
-                      className="text-lg text-gray-300"
+                      transition={{ delay: 0.4, duration: 0.6 }}
+                      className="text-lg md:text-xl text-gray-300 max-w-2xl leading-relaxed"
                     >
-                      Here's what's happening with your projects today
+                      Transform your video content with AI-powered tools. Create, edit, and launch stunning videos in minutes.
                     </motion.p>
                   </div>
 
-                   <div className="flex flex-wrap items-center gap-3">
-                     <motion.button
-                       whileHover={{ scale: 1.05 }}
-                       whileTap={{ scale: 0.95 }}
-                       onClick={() =>
-                         setTheme(
-                           preferences.theme === "dark" ? "light" : "dark",
-                         )
-                       }
-                       className="bg-gray-800 hover:bg-gray-700 text-white p-2 rounded-lg border border-gray-700 transition-colors"
-                       title="Toggle theme"
-                     >
-                       {preferences.theme === "dark" ? (
-                         <Sun className="h-5 w-5" />
-                       ) : (
-                         <Moon className="h-5 w-5" />
-                       )}
-                     </motion.button>
-                     <motion.button
-                       whileHover={{ scale: 1.05 }}
-                       whileTap={{ scale: 0.95 }}
-                       onClick={() => setShowApiConfig(true)}
-                       className="hidden md:flex bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg items-center gap-2 border border-gray-700 transition-colors"
-                       title="API Settings"
-                     >
-                       <Key className="h-5 w-5" />
-                       <span>API Settings</span>
-                     </motion.button>
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => navigate("/settings/api")}
-                        className="hidden md:flex bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg items-center gap-2 border border-gray-700 transition-colors"
-                      >
-                        <Settings className="h-5 w-5" />
-                        <span>Settings</span>
-                      </motion.button>
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={async () => {
-                          if (signingOut) return; // Prevent multiple clicks
-                          setSigningOut(true);
-                          try {
-                            const { error } = await signOut();
-                            if (error) {
-                              toast({
-                                title: "Sign Out Failed",
-                                description: error.message,
-                                variant: "destructive",
-                              });
-                            }
-                          } finally {
-                            setSigningOut(false);
-                          }
-                        }}
-                        disabled={signingOut}
-                        className="hidden md:flex bg-red-600 hover:bg-red-700 disabled:bg-red-800 disabled:opacity-50 text-white px-4 py-2 rounded-lg items-center gap-2 transition-colors"
-                      >
-                        {signingOut ? (
-                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  {/* Action Buttons */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.6 }}
+                    className="flex flex-wrap items-center gap-3"
+                  >
+                    <motion.button
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() =>
+                        setTheme(
+                          preferences.theme === "dark" ? "light" : "dark",
+                        )
+                      }
+                      className="group glass-button px-4 py-3 rounded-xl transition-all duration-300"
+                      title="Toggle theme"
+                    >
+                      <div className="flex items-center gap-2">
+                        {preferences.theme === "dark" ? (
+                          <>
+                            <Sun className="h-5 w-5 text-amber-400 group-hover:rotate-12 transition-transform" />
+                            <span className="text-white text-sm font-medium hidden sm:inline">Light</span>
+                          </>
                         ) : (
-                          <LogOut className="h-5 w-5" />
+                          <>
+                            <Moon className="h-5 w-5 text-indigo-400 group-hover:-rotate-12 transition-transform" />
+                            <span className="text-white text-sm font-medium hidden sm:inline">Dark</span>
+                          </>
                         )}
-                        <span>{signingOut ? "Signing Out..." : "Sign Out"}</span>
-                      </motion.button>
-                  </div>
+                      </div>
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setShowApiConfig(true)}
+                      className="hidden md:flex glass-button px-5 py-3 rounded-xl text-white items-center gap-2 transition-all duration-300"
+                      title="API Settings"
+                    >
+                      <Key className="h-5 w-5 text-emerald-400" />
+                      <span className="font-medium">API Settings</span>
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => navigate("/settings/api")}
+                      className="hidden md:flex glass-button px-5 py-3 rounded-xl text-white items-center gap-2 transition-all duration-300"
+                    >
+                      <Settings className="h-5 w-5 text-blue-400" />
+                      <span className="font-medium">Settings</span>
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.05, y: -2, backgroundColor: 'rgba(239, 68, 68, 0.9)' }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={async () => {
+                        if (signingOut) return;
+                        setSigningOut(true);
+                        try {
+                          await signOut();
+                        } finally {
+                          setSigningOut(false);
+                        }
+                      }}
+                      disabled={signingOut}
+                      className="hidden md:flex bg-red-600 hover:bg-red-700 disabled:bg-red-800/50 disabled:opacity-50 text-white px-5 py-3 rounded-xl items-center gap-2 transition-all duration-300 shadow-lg shadow-red-900/20"
+                    >
+                      {signingOut ? (
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                      ) : (
+                        <LogOut className="h-5 w-5" />
+                      )}
+                      <span className="font-medium">{signingOut ? "Signing Out..." : "Sign Out"}</span>
+                    </motion.button>
+                  </motion.div>
                 </div>
 
-                {/* Recent Achievements Banner */}
+                {/* Achievement Banner */}
                 {recentAchievements.length > 0 && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="bg-gradient-to-r from-yellow-900/30 to-orange-900/30 border border-yellow-500/30 rounded-lg p-4 mb-6"
+                    transition={{ delay: 0.6, duration: 0.5 }}
+                    className="relative overflow-hidden rounded-2xl p-4 mb-12 border border-yellow-500/30"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(234, 179, 8, 0.12) 0%, rgba(245, 158, 11, 0.08) 100%)',
+                      boxShadow: '0 0 40px rgba(234, 179, 8, 0.15) inset, 0 4px 20px rgba(0, 0, 0, 0.3)'
+                    }}
                   >
-                    <div className="flex items-center gap-3">
-                      <Award className="h-6 w-6 text-yellow-400 flex-shrink-0" />
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-500/10 rounded-full blur-2xl"></div>
+                    <div className="flex items-center gap-4 relative z-10">
+                      <div className="p-3 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-xl shadow-lg">
+                        <Award className="h-6 w-6 text-yellow-900" />
+                      </div>
                       <div className="flex-1">
                         <p className="text-sm font-semibold text-white">
-                          Recent Achievement!
+                          Recent Achievement Unlocked!
                         </p>
-                        <p className="text-xs text-gray-300">
+                        <p className="text-xs text-yellow-200/80 mt-0.5">
                           You earned:{" "}
-                          {recentAchievements[0].achievement_type.replace(
-                            "_",
-                            " ",
-                          )}
+                          <span className="text-yellow-100 font-medium uppercase tracking-wider">
+                            {recentAchievements[0].achievement_type.replace("_", " ")}
+                          </span>
                         </p>
+                      </div>
+                      <div className="hidden sm:block">
+                        <div className="p-2 bg-yellow-500/20 rounded-lg">
+                          <span className="text-lg">🎉</span>
+                        </div>
                       </div>
                     </div>
                   </motion.div>

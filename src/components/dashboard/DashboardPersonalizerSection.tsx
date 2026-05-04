@@ -51,37 +51,45 @@ const DashboardPersonalizerSection: React.FC = () => {
   }
 
   return (
-    <section className="py-20 bg-black relative overflow-hidden">
-      <div className="absolute inset-0 opacity-10 bg-grid-pattern"></div>
-      <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/10 rounded-full blur-[100px]"></div>
+    <section className="py-24 bg-gradient-to-b from-[#050505] via-gray-900/20 to-[#050505] relative overflow-hidden">
+      {/* Background ambient effects */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-primary-600/15 rounded-full blur-[100px]"></div>
+        <div className="absolute bottom-0 right-1/4 w-[350px] h-[350px] bg-accent-500/10 rounded-full blur-[90px]"></div>
+        <div className="absolute inset-0 opacity-20 bg-gradient-to-b from-primary-900/10 via-transparent to-accent-900/10"></div>
+      </div>
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-6xl mx-auto mb-12 text-center"
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-6xl mx-auto mb-16 text-center"
         >
-          <MagicSparkles minSparkles={5} maxSparkles={10}>
-            <div className="inline-block mb-4">
-              <div className="bg-gradient-to-r from-primary-600 to-primary-400 text-white font-bold px-6 py-2 rounded-full">
-                <Wand2 className="inline-block mr-2 h-5 w-5" />
-                AI MARKETING TOOLS
+          <MagicSparkles minSparkles={6} maxSparkles={12}>
+            <div className="inline-block mb-5">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-accent-500 rounded-full blur-lg opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                <div className="relative bg-gradient-to-r from-primary-600 to-accent-500 text-white font-bold px-8 py-3 rounded-full flex items-center gap-3 shadow-lg shadow-primary-600/30">
+                  <Wand2 className="h-5 w-5" />
+                  <span className="text-sm tracking-wide uppercase">AI Marketing Tools</span>
+                </div>
               </div>
             </div>
           </MagicSparkles>
 
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-            Your <span className="text-primary-400">AI Marketing</span> Tools
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
+            style={{ fontFamily: 'var(--font-display)' }}>
+            Your <span className="bg-gradient-to-r from-primary-400 via-accent-400 to-primary-300 bg-clip-text text-transparent">AI Arsenal</span>
           </h2>
 
-          <p className="text-xl text-gray-300 mb-8">
-            Powerful AI tools to enhance your marketing and grow your business
+          <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed max-w-3xl mx-auto font-light">
+            Powerful AI tools that transform your marketing, automate workflows, and accelerate growth.
           </p>
         </motion.div>
 
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -92,45 +100,46 @@ const DashboardPersonalizerSection: React.FC = () => {
             {personalizerApps.slice(0, 9).map((app, index) => (
               <motion.div
                 key={app.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-                whileHover={{ y: -10 }}
-                className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-primary-500/50 transition-colors shadow-lg group"
+                transition={{ duration: 0.5, delay: 0.1 * index, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -10, transition: { duration: 0.2 } }}
+                className="group relative bg-gradient-to-br from-gray-900/90 via-gray-800/70 to-gray-900/90 backdrop-blur-xl rounded-2xl overflow-hidden border border-gray-700/40 hover:border-primary-500/60 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-primary-900/20"
               >
-                <a to={`/app/${app.id}`} className="block">
-                  <div className="relative h-[180px]">
+                <a href={`/app/${app.id}`} className="block">
+                  <div className="relative h-[200px] overflow-hidden">
                     <img
                       src={app.image}
                       alt={app.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none"></div>
 
-                    <div className="absolute top-3 left-3 bg-primary-600/80 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full">
+                    <div className="absolute top-3 left-3 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 backdrop-blur-sm shadow-md">
+                      <Sparkles className="h-3 w-3" />
                       AI Tool
                     </div>
 
                     {app.popular && (
-                      <div className="absolute top-3 right-3 bg-yellow-500 text-black text-xs px-2 py-0.5 rounded font-bold">
+                      <div className="absolute top-3 right-3 bg-gradient-to-r from-amber-500 to-yellow-500 text-black text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                         POPULAR
                       </div>
                     )}
 
                     {app.new && (
-                      <div className="absolute top-3 right-3 bg-green-500 text-black text-xs px-2 py-0.5 rounded font-bold">
+                      <div className="absolute top-3 right-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                         NEW
                       </div>
                     )}
                   </div>
 
-                  <div className="p-4">
-                    <h4 className="text-white font-bold text-lg mb-2 group-hover:text-primary-400 transition-colors">
+                  <div className="p-5">
+                    <h4 className="text-white font-bold text-xl mb-2 group-hover:text-primary-400 transition-colors line-clamp-1">
                       {app.name}
                     </h4>
-                    <p className="text-gray-400 text-sm mb-4">
+                    <p className="text-gray-400 text-sm mb-5 leading-relaxed line-clamp-2">
                       {app.description}
                     </p>
 
@@ -138,29 +147,33 @@ const DashboardPersonalizerSection: React.FC = () => {
                       <div className="flex items-center">
                         {React.isValidElement(app.icon) ? (
                           React.cloneElement(app.icon as React.ReactElement, {
-                            className: "h-4 w-4 text-primary-400 mr-1",
+                            className: "h-4 w-4 text-primary-400 mr-2",
                           })
                         ) : (
-                          <Sparkles className="h-4 w-4 text-primary-400 mr-1" />
+                          <Sparkles className="h-4 w-4 text-primary-400 mr-2" />
                         )}
-                        <span className="text-gray-500 text-xs">
-                          AI Marketing Tool
+                        <span className="text-gray-500 text-xs uppercase tracking-wider">
+                          AI Tool
                         </span>
                       </div>
 
-                      <span className="text-primary-400 text-sm font-medium flex items-center">
+                      <span className="text-primary-400 text-sm font-semibold flex items-center group-hover:translate-x-1 transition-transform">
                         Use Tool
-                        <ArrowRight className="h-3 w-3 ml-1" />
+                        <ArrowRight className="h-4 w-4 ml-1.5" />
                       </span>
                     </div>
                   </div>
                 </a>
 
-                <div className="absolute inset-0 bg-primary-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center rounded-xl">
+                {/* Hover overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary-900/30 via-transparent to-accent-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                {/* Hover action button */}
+                <div className="absolute inset-0 bg-primary-950/80 opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex flex-col justify-center items-center rounded-2xl backdrop-blur-sm">
                   <motion.button
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.08 }}
                     whileTap={{ scale: 0.95 }}
-                    className="bg-white text-gray-900 font-bold py-3 px-6 rounded-lg flex items-center"
+                    className="bg-gradient-to-r from-primary-600 to-accent-500 text-white font-bold py-3 px-8 rounded-xl flex items-center shadow-xl shadow-primary-900/50"
                     onClick={(e) => {
                       e.preventDefault();
                       window.location.href = getAppUrl(app.id, appsData);

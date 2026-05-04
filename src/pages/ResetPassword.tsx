@@ -9,7 +9,14 @@ export default function ResetPassword() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const navigate = useNavigate();
+
+  // Defensive programming for router hooks
+  let navigate: any = null;
+  try {
+    navigate = useNavigate();
+  } catch (error) {
+    console.warn("Router context not available in ResetPassword, using fallback navigation");
+  }
 
   const updatePassword = async (e: React.FormEvent) => {
     e.preventDefault();

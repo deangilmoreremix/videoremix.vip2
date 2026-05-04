@@ -165,13 +165,13 @@ const ConsultProAIPage = lazy(() => import("./pages/agents/ConsultProAIPage"));
 const LaunchRocketAIPage = lazy(() => import("./pages/agents/LaunchRocketAIPage"));
 
 // Auth pages
-import SignInPage from "./pages/SignInPage";
-import SignUpPage from "./pages/SignUpPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import ResetPassword from "./pages/ResetPassword";
-import EmailConfirmPage from "./pages/EmailConfirmPage";
-import AuthCallback from "./pages/AuthCallback";
-import MagicLinkPage from "./pages/MagicLinkPage";
+const SignInPage = lazy(() => import("./pages/SignInPage"));
+const SignUpPage = lazy(() => import("./pages/SignUpPage"));
+const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const EmailConfirmPage = lazy(() => import("./pages/EmailConfirmPage"));
+const AuthCallback = lazy(() => import("./pages/AuthCallback"));
+const MagicLinkPage = lazy(() => import("./pages/MagicLinkPage"));
 
 // Agent components map for dynamic routing
 const agentComponents = {
