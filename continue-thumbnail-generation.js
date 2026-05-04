@@ -1,5 +1,5 @@
-import { AIImageGenerator } from './src/utils/aiImageGenerator.js';
-import { appThumbnailSpecs } from './src/data/appThumbnailSpecs.js';
+import { AIImageGenerator } from './src/utils/aiImageGenerator.ts';
+import { appThumbnailSpecs } from './src/data/appThumbnailSpecs.ts';
 import { readFileSync } from 'fs';
 
 // Load environment variables

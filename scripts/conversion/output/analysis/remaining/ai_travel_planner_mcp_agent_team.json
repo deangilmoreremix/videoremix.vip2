@@ -1,0 +1,119 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 4,
+    "numberInput": 2,
+    "fileUpload": 0,
+    "selectBox": 1,
+    "button": 2,
+    "chat": 0,
+    "write": 1
+  },
+  "providers": {
+    "agno": {
+      "count": 2,
+      "imports": 1,
+      "clients": 1,
+      "models": [
+        {
+          "pattern": "gpt-4",
+          "count": 1
+        }
+      ]
+    },
+    "crewai": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": true,
+  "usesAsyncio": true,
+  "linesOfCode": 320,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": false,
+  "hasWebSearch": true,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "openai_api_key",
+      "label": "OpenAI API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "google_maps_api_key",
+      "label": "Google Maps API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "destination",
+      "label": "Destination",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "number_of_days",
+      "label": "Number of Days",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "budget_usd",
+      "label": "Budget (USD)",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "start_date",
+      "label": "Start Date",
+      "type": "date",
+      "required": true
+    },
+    {
+      "name": "describe_your_travel_preferences",
+      "label": "Describe your travel preferences",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "quick_preferences_optional",
+      "label": "Quick Preferences (optional)",
+      "type": "multiselect",
+      "required": true
+    }
+  ],
+  "outputFormat": "image",
+  "primaryProvider": "agno",
+  "filePath": "./awesome-llm-apps/mcp_ai_agents/ai_travel_planner_mcp_agent_team/app.py",
+  "appName": "ai-travel-planner-mcp-agent-team",
+  "category": ".",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 23,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T14:58:47.189Z",
+  "analyzerVersion": "0.1.0"
+}

@@ -1,0 +1,253 @@
+groups:
+  - name: general
+    rules:
+      # High error rate
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          service: application
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value | humanizePercentage }} (>5% threshold)"
+
+      # Slow response time
+      - alert: SlowResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 2
+        for: 10m
+        labels:
+          severity: warning
+          service: application
+        annotations:
+          summary: "High response time (p95)"
+          description: "95th percentile response time is {{ $value }}s (>2s threshold)"
+
+      # Container down
+      - alert: ContainerDown
+        expr: up{job=~".*-exporter"} == 0
+        for: 3m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Container/Exporter is down"
+          description: "{{ $labels.job }} has been down for more than 3 minutes"
+
+      # High CPU usage
+      - alert: HighCPUUsage
+        expr: rate(node_cpu_seconds_total{mode="idle"}[5m]) < 0.2
+        for: 5m
+        labels:
+          severity: warning
+          service: infrastructure
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage is {{ $value | humanizePercentage }} (>80%)"
+
+      # High memory usage
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          service: infrastructure
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is {{ $value | humanizePercentage }} (>85%)"
+
+      # Low disk space
+      - alert: LowDiskSpace
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) < 0.1
+        for: 5m
+        labels:
+          severity: critical
+          service: infrastructure
+        annotations:
+          summary: "Low disk space"
+          description: "Root filesystem has less than 10% free space"
+
+      # Database connection exhaustion
+      - alert: DatabaseConnectionsHigh
+        expr: pg_stat_activity_count > 0.8 * pg_max_connections
+        for: 5m
+        labels:
+          severity: critical
+          service: database
+        annotations:
+          summary: "Database connections near limit"
+          description: "{{ $value }} connections used (limit: {{ $labels.max_connections }})"
+
+  - name: openai
+    rules:
+      # Daily cost warning (80% of threshold)
+      - alert: OpenAIDailyCostWarning
+        expr: openai_daily_cost_usd > (50 * 0.8)
+        for: 1h
+        labels:
+          severity: warning
+          service: openai
+          cost_category: daily
+        annotations:
+          summary: "OpenAI daily cost warning"
+          description: "Daily OpenAI spend is ${{ $value }} (threshold: $40 warning, $50 critical)"
+
+      # Daily cost critical (threshold exceeded)
+      - alert: OpenAIDailyCostCritical
+        expr: openai_daily_cost_usd > 50
+        for: 30m
+        labels:
+          severity: critical
+          service: openai
+          cost_category: daily
+        annotations:
+          summary: "OpenAI daily cost threshold EXCEEDED"
+          description: "Daily OpenAI spend is ${{ $value }} (exceeds $50 limit). ACT IMMEDIATELY."
+
+      # Monthly cost warning
+      - alert: OpenAIMonthlyCostWarning
+        expr: openai_monthly_cost_usd > (1000 * 0.8)
+        for: 1h
+        labels:
+          severity: warning
+          service: openai
+          cost_category: monthly
+        annotations:
+          summary: "OpenAI monthly cost warning"
+          description: "Monthly OpenAI spend is ${{ $value }} (threshold: $800 warning, $1000 critical)"
+
+      # Monthly cost critical
+      - alert: OpenAIMonthlyCostCritical
+        expr: openai_monthly_cost_usd > 1000
+        for: 30m
+        labels:
+          severity: critical
+          service: openai
+          cost_category: monthly
+        annotations:
+          summary: "OpenAI monthly cost threshold EXCEEDED"
+          description: "Monthly OpenAI spend is ${{ $value }} (exceeds $1000 limit). ACT IMMEDIATELY."
+
+      # Cost anomaly detection (spike > 200%)
+      - alert: OpenAISpendAnomaly
+        expr: rate(openai_cost_total[1h]) / avg_over_time(rate(openai_cost_total[1d][1d:1h])) > 3
+        for: 15m
+        labels:
+          severity: warning
+          service: openai
+        annotations:
+          summary: "OpenAI spending anomaly detected"
+          description: "Spending rate is {{ $value | humanizePercentage }} higher than average"
+
+      # API rate limit approaching
+      - alert: OpenAIRateLimitNear
+        expr: openai_requests_per_minute / openai_rate_limit > 0.8
+        for: 10m
+        labels:
+          severity: warning
+          service: openai
+        annotations:
+          summary: "OpenAI rate limit near threshold"
+          description: "Using {{ $value | humanizePercentage }} of rate limit"
+
+      # High API error rate
+      - alert: OpenAIAPIErrorRate
+        expr: rate(openai_requests_total{status=~"5.."}[5m]) / rate(openai_requests_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          service: openai
+        annotations:
+          summary: "OpenAI API high error rate"
+          description: "OpenAI API error rate is {{ $value | humanizePercentage }} (>10%)"
+
+      # Token limit approaching
+      - alert: OpenAITokenLimitNear
+        expr: openai_tokens_per_minute / openai_tokens_per_minute_limit > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          service: openai
+        annotations:
+          summary: "OpenAI token limit near"
+          description: "Using {{ $value | humanizePercentage }} of token per minute limit"
+
+  - name: application
+    rules:
+      # Application down
+      - alert: ApplicationDown
+        expr: up{job="videoremix-app"} == 0
+        for: 3m
+        labels:
+          severity: critical
+          service: application
+        annotations:
+          summary: "Application is down"
+          description: "VideoRemix application has been unreachable for 3 minutes"
+
+      # Health check failures
+      - alert: HealthCheckFailed
+        expr: probe_success{job="health-checker"} == 0
+        for: 5m
+        labels:
+          severity: critical
+          service: application
+        annotations:
+          summary: "Health check failed"
+          description: "Application health endpoint has been failing for 5 minutes"
+
+      # Slow page load
+      - alert: SlowPageLoad
+        expr: browser_page_load_time_seconds{p99} > 3
+        for: 10m
+        labels:
+          severity: warning
+          service: frontend
+        annotations:
+          summary: "Slow page load detected"
+          description: "P99 page load time is {{ $value }}s (>3s)"
+
+      # High bounce rate
+      - alert: HighBounceRate
+        expr: rate(browser_page_views_total[10m]) < 0.5
+        for: 15m
+        labels:
+          severity: info
+          service: frontend
+        annotations:
+          summary: "Low page view rate"
+          description: "Potential high bounce rate detected"
+
+  - name: business
+    rules:
+      # Unusual drop in active users
+      - alert: DropInActiveUsers
+        expr: rate(user_active_total[1h]) / avg_over_time(rate(user_active_total[1d][1d:1h])) < 0.5
+        for: 30m
+        labels:
+          severity: warning
+          service: business
+        annotations:
+          summary: "Significant drop in active users"
+          description: "Current active user rate is {{ $value | humanizePercentage }} of normal"
+
+      # Purchase processing failures
+      - alert: PurchaseProcessingFailures
+        expr: rate(purchase_processing_total{status="error"}[5m]) > 0.1
+        for: 10m
+        labels:
+          severity: critical
+          service: business
+        annotations:
+          summary: "High purchase processing failure rate"
+          description: "{{ $value }} purchase errors per second detected"
+
+      # Webhook delivery failures
+      - alert: WebhookDeliveryFailure
+        expr: rate(webhook_delivery_total{status="failed"}[5m]) / rate(webhook_delivery_total[5m]) > 0.1
+        for: 15m
+        labels:
+          severity: warning
+          service: integrations
+        annotations:
+          summary: "Webhook delivery failures"
+          description: "Webhook failure rate is {{ $value | humanizePercentage }}"

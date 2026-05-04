@@ -1,0 +1,150 @@
+{
+  "hasChatInput": false,
+  "hasForm": true,
+  "hasTabs": true,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 10,
+    "numberInput": 1,
+    "fileUpload": 0,
+    "selectBox": 1,
+    "button": 19,
+    "chat": 0,
+    "write": 31
+  },
+  "providers": {
+    "agno": {
+      "count": 6,
+      "imports": 3,
+      "clients": 3,
+      "models": []
+    },
+    "crewai": {
+      "count": 3,
+      "imports": 3,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 3,
+      "imports": 3,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": true,
+  "usesAsyncio": true,
+  "linesOfCode": 419,
+  "hasMultiAgent": true,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "multi-tab",
+  "inputFields": [
+    {
+      "name": "select_demo_type",
+      "label": "Select Demo Type",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "session_type",
+      "label": "Session Type",
+      "type": "radio",
+      "required": true
+    },
+    {
+      "name": "your_message",
+      "label": "Your message:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "your_message",
+      "label": "Your message:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "your_message",
+      "label": "Your message:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "get_last_n_items",
+      "label": "Get last N items:",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "user_message_to_add",
+      "label": "User message to add:",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "assistant_response_to_add",
+      "label": "Assistant response to add:",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "alice",
+      "label": "Alice",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "bob",
+      "label": "Bob",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "support_question",
+      "label": "Support question:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "sales_inquiry",
+      "label": "Sales inquiry:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "select_agent",
+      "label": "Select Agent:",
+      "type": "radio",
+      "required": true
+    },
+    {
+      "name": "customer_message",
+      "label": "Customer message:",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "agno",
+  "filePath": "./awesome-llm-apps/ai_agent_framework_crash_course/openai_sdk_crash_course/7_sessions/streamlit_sessions_app.py",
+  "appName": "7-sessions",
+  "category": ".",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 23,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T14:59:07.018Z",
+  "analyzerVersion": "0.1.0"
+}

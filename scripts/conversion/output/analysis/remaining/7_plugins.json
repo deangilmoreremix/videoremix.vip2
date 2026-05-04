@@ -1,0 +1,59 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 1,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 1,
+    "button": 2,
+    "chat": 0,
+    "write": 7
+  },
+  "providers": {},
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": true,
+  "linesOfCode": 65,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "choose_a_test_scenario",
+      "label": "Choose a test scenario:",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "or_enter_your_own_message",
+      "label": "Or enter your own message:",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "unknown",
+  "filePath": "./awesome-llm-apps/ai_agent_framework_crash_course/google_adk_crash_course/7_plugins/app.py",
+  "appName": "7-plugins",
+  "category": ".",
+  "complexity": "simple",
+  "requiresApiKey": false,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 2,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T14:58:56.010Z",
+  "analyzerVersion": "0.1.0"
+}

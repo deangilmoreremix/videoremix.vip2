@@ -1,8 +1,9 @@
 # Backend Function Inventory — VideoRemix.vip
 
-**Status:** In Progress  
+**Status:** Migration in Progress  
 **Last Updated:** 2026-05-01  
-**Migration:** Netlify Functions → Supabase Edge Functions
+**Migration:** Netlify Functions → Supabase Edge Functions  
+**AI Provider Migration:** ✅ OpenAI GPT-4o (95%+ of functions) — see [OpenAI Migration Limitations](OPENAI_MIGRATION_LIMITATIONS.md)
 
 ---
 
@@ -24,18 +25,20 @@
 
 These have working TypeScript implementations. Port to Supabase Edge Functions with minimal changes.
 
-| # | Function Name | React Page | Category | Dependencies | APIs | Priority |
+| # | Function Name | React Page | Category | Dependencies | AI Provider | Priority |
 |---|---|---|---|---|---|---|
-| 1 | consultpro-ai | ConsultProAIPage | starter | @supabase/supabase-js, @anthropic-ai/sdk | Anthropic Claude | HIGH |
+| 1 | consultpro-ai | ConsultProAIPage | starter | @supabase/supabase-js, openai | **OpenAI GPT-4o** (migrated) | HIGH |
 | 2 | email-gtm-agent | EmailGTMPage | starter | openai, email validation | OpenAI GPT | HIGH |
-| 3 | finance-agent | FinanceAgentPage | advanced | yfinance, duckduckgo-search, xAI | xAI Grok | MEDIUM |
+| 3 | finance-agent | FinanceAgentPage | advanced | yfinance, duckduckgo-search, xAI | xAI Grok (specialized) | MEDIUM |
 | 4 | financial-coach | FinancialCoachPage | advanced | openai, budgeting libs | OpenAI GPT | MEDIUM |
 | 5 | launchrocket-ai | LaunchRocketAIPage | starter | openai, launch planning | OpenAI GPT | HIGH |
 | 6 | podcastify-ai | PodcastifyAIPage | starter | openai, elevenlabs, agno | OpenAI TTS + ElevenLabs | HIGH |
-| 7 | reasoning-agent | ReasoningAgentPage | starter | openai, numpy, pandas | OpenAI GPT | HIGH |
+| 7 | reasoning-agent | ReasoningAgentPage | starter | openai, numpy, pandas | OpenAI GPT-4o | HIGH |
 | 8 | salesforce-ai | SalesForceAIPage | starter | salesforce API (optional) | Salesforce REST | LOW |
 | 9 | socialbuzz-ai | SocialBuzzAIPage | starter | social media APIs | Content generation | MEDIUM |
 | 10 | web-scraping-agent | WebScrapingAgentPage | starter | playwright, firecrawl-py, scrapegraph | Browser automation | HIGH |
+
+**Note:** consultpro-ai has been migrated from Anthropic Claude to OpenAI GPT-4o. Other functions using xAI or specialized APIs retain their providers.
 
 **Migration strategy:** Copy `.ts` → `supabase/functions/<name>/index.ts`, replace Node/CommonJS imports with Deno-compatible imports, change `process.env` → `Deno.env.get()`, test locally, deploy.
 
@@ -47,24 +50,24 @@ These have working TypeScript implementations. Port to Supabase Edge Functions w
 
 **Rationale:** These are simplest (single LLM call + minimal processing). Build momentum.
 
-| # | App ID (catalog) | React Page | Function Name | Status | Dependencies |
+| # | App ID (catalog) | React Page | Function Name | Status | AI Provider |
 |---|---|---|---|---|---|
-| 1 | ai_blog_to_podcast_agent | AiBlogToPodcastAgentPage | ai-blog-to-podcast-agent | ❌ | openai, firecrawl, agno, elevenlabs |
-| 2 | ai_breakup_recovery_agent | AiBreakupRecoveryAgentPage | ai-breakup-recovery-agent | ❌ | openai, agno, safety guardrails |
-| 3 | ai_data_analysis_agent | AiDataAnalysisAgentPage | ai-data-analysis-agent | ❌ | openai, pandas/Deno DF? |
-| 4 | ai_data_visualisation_agent | AiDataVisualisationAgentPage | ai-data-visualisation-agent | ❌ | matplotlib Deno port? or return JSON for frontend chart |
-| 5 | ai_life_insurance_advisor_agent | AiLifeInsuranceAdvisorAgentPage | ai-life-insurance-advisor-agent | ❌ | openai, e2b-code-interpreter |
-| 6 | ai_medical_imaging_agent | AiMedicalImagingAgentPage | ai-medical-imaging-agent | ❌ | google-generativeai (vision), pillow |
-| 7 | ai_meme_generator_agent_browseruse | AiMemeGeneratorAgentBrowserusePage | ai-meme-generator-agent-browseruse | ❌ | browser-use, playwright, openai, anthropic |
-| 8 | ai_music_generator_agent | AiMusicGeneratorAgentPage | ai-music-generator-agent | ❌ | openai, suno/udio API? or audio synthesis |
-| 9 | ai_reasoning_agent | ReasoningAgentPage | reasoning-agent | ✅ EXISTS | (already done) |
-| 10 | ai_startup_trend_analysis_agent | StartupTrendsAgentPage | ai-startup-trend-analysis-agent | ❌ | agno, duckduckgo-search, newspaper4k |
-| 11 | ai_travel_agent | AiTravelAgentPage | ai-travel-agent | ❌ | openai, google-search-results, icalendar |
-| 12 | mixture_of_agents | MixtureOfAgentsPage | mixture-of-agents | ❌ | asyncio, together.ai |
-| 13 | multimodal_ai_agent | MultimodalAiAgentPage | multimodal-ai-agent | ❌ | agno, google-generativeai |
-| 14 | openai_research_agent | OpenaiResearchAgentPage | openai-research-agent | ❌ | openai-agents, web search |
-| 15 | web_scraping_ai_agent | WebScrapingAiAgentPage | web-scraping-ai-agent | ❌ | playwright, scrapegraphai |
-| 16 | xai_finance_agent | XaiFinanceAgentPage | xai-finance-agent | ❌ | yfinance, xAI Grok |
+| 1 | ai_blog_to_podcast_agent | AiBlogToPodcastAgentPage | ai-blog-to-podcast-agent | ❌ | OpenAI GPT-4o |
+| 2 | ai_breakup_recovery_agent | AiBreakupRecoveryAgentPage | ai-breakup-recovery-agent | ❌ | OpenAI GPT-4o |
+| 3 | ai_data_analysis_agent | AiDataAnalysisAgentPage | ai-data-analysis-agent | ❌ | OpenAI GPT-4o |
+| 4 | ai_data_visualisation_agent | AiDataVisualisationAgentPage | ai-data-visualisation-agent | ❌ | OpenAI GPT-4o |
+| 5 | ai_life_insurance_advisor_agent | AiLifeInsuranceAdvisorAgentPage | ai-life-insurance-advisor-agent | ❌ | OpenAI GPT-4o |
+| 6 | ai_medical_imaging_agent | AiMedicalImagingAgentPage | ai-medical-imaging-agent | ❌ | **Google Gemini Pro** (vision) |
+| 7 | ai_meme_generator_agent_browseruse | AiMemeGeneratorAgentBrowserusePage | ai-meme-generator-agent-browseruse | ❌ | OpenAI GPT-4o |
+| 8 | ai_music_generator_agent | AiMusicGeneratorAgentPage | ai-music-generator-agent | ❌ | OpenAI GPT-4o |
+| 9 | ai_reasoning_agent | ReasoningAgentPage | reasoning-agent | ✅ EXISTS | OpenAI GPT-4o |
+| 10 | ai_startup_trend_analysis_agent | StartupTrendsAgentPage | ai-startup-trend-analysis-agent | ❌ | OpenAI GPT-4o |
+| 11 | ai_travel_agent | AiTravelAgentPage | ai-travel-agent | ❌ | OpenAI GPT-4o |
+| 12 | mixture_of_agents | MixtureOfAgentsPage | mixture-of-agents | ❌ | OpenAI GPT-4o |
+| 13 | multimodal_ai_agent | MultimodalAiAgentPage | multimodal-ai-agent | ❌ | **OpenAI GPT-4o Vision** |
+| 14 | openai_research_agent | OpenaiResearchAgentPage | openai-research-agent | ❌ | OpenAI GPT-4o |
+| 15 | web_scraping_ai_agent | WebScrapingAiAgentPage | web-scraping-ai-agent | ❌ | OpenAI GPT-4o |
+| 16 | xai_finance_agent | XaiFinanceAgentPage | xai-finance-agent | ❌ | xAI Grok (specialized) |
 
 **Completion target:** Week 1 (Sprint 0)
 
@@ -74,47 +77,52 @@ These have working TypeScript implementations. Port to Supabase Edge Functions w
 
 **Prerequisite:** Verify Supabase pgvector extension enabled and `documents` table exists.
 
-| # | App ID | React Page | Function Name | Vector DB | Priority |
+Most RAG apps now use OpenAI text-embedding-ada-002 (1536 dimensions) + GPT-4o for generation.
+Apps marked "Local*" or with other providers are non-migrated special cases.
+
+| # | App ID | React Page | Function Name | Embedding Model | Priority |
 |---|---|---|---|---|---|
-| 1 | agentic_rag_embedding_gemma | AgenticRagEmbeddingGemmaPage | agentic-rag-embedding-gemma | LanceDB/Ollama | HIGH |
-| 2 | agentic_rag_gpt5 | AgenticRagGpt5Page | agentic-rag-gpt5 | pgvector | HIGH |
-| 3 | agentic_rag_math_agent | AgenticRagMathAgentPage? | agentic-rag-math-agent | Qdrant | MEDIUM |
-| 4 | agentic_rag_with_reasoning | AgenticRagWithReasoningPage | agentic-rag-with-reasoning | pgvector | HIGH |
-| 5 | ai_blog_search | AiBlogSearchPage | ai-blog-search | Qdrant | MEDIUM |
-| 6 | autonomous_rag | AutonomousRagPage | autonomous-rag | pgvector | HIGH |
-| 7 | contextualai_rag_agent | ContextualaiRagAgentPage | contextualai-rag-agent | Qdrant | MEDIUM |
-| 8 | corrective_rag | CorrectiveRagPage | corrective-rag | Qdrant/pgvector | HIGH |
-| 9 | deepseek_local_rag_agent | DeepseekLocalRagAgentPage | deepseek-local-rag-agent | Ollama | LOW |
-| 10 | gemini_agentic_rag | GeminiAgenticRagPage | gemini-agentic-rag | Qdrant | MEDIUM |
-| 11 | hybrid_search_rag | HybridSearchRagPage | hybrid-search-rag | Postgres/ES | MEDIUM |
-| 12 | knowledge_graph_rag_citations | KnowledgeGraphRagCitationsPage | knowledge-graph-rag-citations | Neo4j + vector | LOW (Neo4j not in Supabase) |
-| 13 | llama3.1_local_rag | Llama31LocalRagPage | llama3.1-local-rag | Ollama | LOW |
-| 14 | local_hybrid_search_rag | LocalHybridSearchRagPage | local-hybrid-search-rag | SQLite | LOW |
-| 15 | qwen_local_rag | QwenLocalRagPage | qwen-local-rag | Ollama | LOW |
-| 16 | rag-as-a-service | RagAsAServicePage | rag-as-a-service | pgvector | HIGH |
-| 17 | rag_agent_cohere | RagAgentCoherePage | rag-agent-cohere | Qdrant + Cohere | MEDIUM |
-| 18 | rag_chain | RagChainPage | rag-chain | pgvector | HIGH |
-| 19 | rag_database_routing | RagDatabaseRoutingPage | rag-database-routing | multi-source | MEDIUM |
-| 20 | vision_rag | VisionRagPage | vision-rag | pgvector + vision | HIGH |
+| 1 | agentic_rag_embedding_gemma | AgenticRagEmbeddingGemmaPage | agentic-rag-embedding-gemma | **Gemma (local)** — non-migratable | HIGH |
+| 2 | agentic_rag_gpt5 | AgenticRagGpt5Page | agentic-rag-gpt5 | text-embedding-ada-002 | HIGH |
+| 3 | agentic_rag_math_agent | AgenticRagMathAgentPage? | agentic-rag-math-agent | text-embedding-ada-002 | MEDIUM |
+| 4 | agentic_rag_with_reasoning | AgenticRagWithReasoningPage | agentic-rag-with-reasoning | text-embedding-ada-002 | HIGH |
+| 5 | ai_blog_search | AiBlogSearchPage | ai-blog-search | text-embedding-ada-002 | MEDIUM |
+| 6 | autonomous_rag | AutonomousRagPage | autonomous-rag | text-embedding-ada-002 | HIGH |
+| 7 | contextualai_rag_agent | ContextualaiRagAgentPage | contextualai-rag-agent | Contextual AI (vendor-specific) | MEDIUM |
+| 8 | corrective_rag | CorrectiveRagPage | corrective-rag | text-embedding-ada-002 | HIGH |
+| 9 | deepseek_local_rag_agent | DeepseekLocalRagAgentPage | deepseek-local-rag-agent | DeepSeek (Ollama) — non-migratable | LOW |
+| 10 | gemini_agentic_rag | GeminiAgenticRagPage | gemini-agentic-rag | **Google Gemini** — vision RAG | MEDIUM |
+| 11 | hybrid_search_rag | HybridSearchRagPage | hybrid-search-rag | text-embedding-ada-002 (+ optional Cohere) | MEDIUM |
+| 12 | knowledge_graph_rag_citations | KnowledgeGraphRagCitationsPage | knowledge-graph-rag-citations | Neo4j + custom — non-migratable | LOW |
+| 13 | llama3.1_local_rag | Llama31LocalRagPage | llama3.1-local-rag | Llama 3.1 (Ollama) — non-migratable | LOW |
+| 14 | local_hybrid_search_rag | LocalHybridSearchRagPage | local-hybrid-search-rag | SQLite FTS — local only | LOW |
+| 15 | qwen_local_rag | QwenLocalRagPage | qwen-local-rag | Qwen 2 (Ollama) — non-migratable | LOW |
+| 16 | rag-as-a-service | RagAsAServicePage | rag-as-a-service | text-embedding-ada-002 | HIGH |
+| 17 | rag_agent_cohere | RagAgentCoherePage | rag-agent-cohere | Cohere (optional) | MEDIUM |
+| 18 | rag_chain | RagChainPage | rag-chain | text-embedding-ada-002 | HIGH |
+| 19 | rag_database_routing | RagDatabaseRoutingPage | rag-database-routing | multi-source embeddings | MEDIUM |
+| 20 | vision_rag | VisionRagPage | vision-rag | text-embedding-ada-002 + GPT-4o Vision | HIGH |
 
 **Note:** For apps requiring external vector DBs (Qdrant, Neo4j, LanceDB, Ollama), either:
 - A) Deploy those services separately (adds hosting complexity)
 - B) Substitute with Supabase pgvector (may require algorithm adjustments)
 - C) Implement as placeholder "Coming soon" until infra ready
 
-**Recommended:** Use pgvector for all RAG initially (except vision_RAG which needs multimodal embeddings). This keeps everything on Supabase.
+**Recommended:** Use pgvector for all RAG initially. This keeps everything on Supabase.
 
 ---
 
 ### Priority Tier 3: Voice AI Agents (3)
 
+Voice AI applications using speech-to-text and text-to-speech.
+
 | # | App ID | React Page | Function Name | APIs | Special Needs |
 |---|---|---|---|---|---|
-| 1 | ai_audio_tour_agent | AiAudioTourAgentPage | ai-audio-tour-agent | OpenAI TTS + STT | Audio file handling |
-| 2 | customer_support_voice_agent | CustomerSupportVoiceAgentPage | customer-support-voice-agent | OpenAI Realtime? | Streaming or upload-process |
-| 3 | voice_rag_openaisdk | VoiceRagOpenaisdkPage | voice-rag-openaisdk | STT + RAG + TTS | Pipeline |
+| 1 | ai_audio_tour_agent | AiAudioTourAgentPage | ai-audio-tour-agent | **OpenAI TTS + STT** | Audio file handling |
+| 2 | customer_support_voice_agent | CustomerSupportVoiceAgentPage | customer-support-voice-agent | **OpenAI Realtime API** | Streaming or upload-process |
+| 3 | voice_rag_openaisdk | VoiceRagOpenaisdkPage | voice-rag-openaisdk | STT + RAG + TTS (OpenAI) | Pipeline |
 
-**Challenge:** Edge Functions are stateless, request-response. Streaming voice requires WebSocket, which Edge Functions support with `ws` WebSocket standard library. Test feasibility. Non-realtime (upload audio → process → return audio) is safer.
+**Challenge:** Edge Functions are stateless, request-response. Streaming voice requires WebSocket support. Non-realtime (upload audio → process → return audio) is safer to implement first.
 
 ---
 
@@ -153,14 +161,16 @@ Strategy: Implement a generic `agent-orchestrator` Edge Function that can run an
 
 ### Priority Tier 5: Vision & Multimodal (6)
 
-| App ID | React Page | Function Name | APIs |
+| App ID | React Page | Function Name | Vision Provider |
 |---|---|---|---|
-| ai_medical_imaging_agent | AiMedicalImagingAgentPage | ai-medical-imaging-agent | Google Vision + LLM |
-| ai_meme_generator_agent_browseruse | AiMemeGeneratorAgentBrowserusePage | ai-meme-generator-agent-browseruse | DALL-E + browser-use |
-| ai_3dpygame_r1 | Ai3dpygameR1Page | ai-3dpygame-r1 | Game screenshot analysis |
-| multimodal_coding_agent_team | MultimodalCodingAgentTeamPage | multimodal-coding-agent-team | Code + image reasoning |
-| multimodal_design_agent_team | MultimodalDesignAgentTeamPage | multimodal-design-agent-team | Design critique |
-| multimodal_ui_ux_feedback_agent_team | ? | multimodal-ui-ux-feedback-agent-team | UI screenshot → feedback |
+| ai_medical_imaging_agent | AiMedicalImagingAgentPage | ai-medical-imaging-agent | **Google Gemini Pro Vision** (specialized, non-migrated) |
+| ai_meme_generator_agent_browseruse | AiMemeGeneratorAgentBrowserusePage | ai-meme-generator-agent-browseruse | **OpenAI GPT-4o Vision** |
+| ai_3dpygame_r1 | Ai3dpygameR1Page | ai-3dpygame-r1 | **OpenAI GPT-4o Vision** |
+| multimodal_coding_agent_team | MultimodalCodingAgentTeamPage | multimodal-coding-agent-team | **OpenAI GPT-4o Vision** |
+| multimodal_design_agent_team | MultimodalDesignAgentTeamPage | multimodal-design-agent-team | **OpenAI GPT-4o Vision** |
+| multimodal_ui_ux_feedback_agent_team | ? | multimodal-ui-ux-feedback-agent-team | **OpenAI GPT-4o Vision** |
+
+**Note:** Most vision apps successfully migrated to GPT-4o Vision. ai_medical_imaging_agent retains Gemini for specialized radiology capabilities.
 
 ---
 
@@ -230,21 +240,20 @@ To be aggregated from:
 3. `streamlit_metadata.json` (uses_st_secrets, uses_os_getenv fields)
 4. `requirements.txt` / `pyproject.toml` in Streamlit source (API keys in code?)
 
-**List to compile:**
-- `OPENAI_API_KEY` — most functions
-- `ANTHROPIC_API_KEY` — Claude-based
-- `GOOGLE_API_KEY` / `GOOGLE_GENERATIVEAI_API_KEY` — Gemini
-- `ELEVENLABS_API_KEY` — TTS
-- `FIRECRAWL_API_KEY` / `FIRECRAWL_API_URL` — scraping
-- `BROWSERBASE_API_KEY` / `BROWSERBASE_PROJECT_ID` — browser automation
-- `SERPAPI_KEY` / `GOOGLE_SEARCH_API_KEY` / `SERPER_KEY` — search
-- `COHERE_API_KEY` — Cohere embeddings/rerank
-- `TOGETHER_API_KEY` — Together.ai (Llama, etc.)
-- `SUNO_API_KEY` / `UDIO_API_KEY` — music gen
-- `QDRANT_URL` / `QDRANT_API_KEY` — vector DB
-- `NEO4J_URI` / `NEO4J_USER` / `NEO4J_PASSWORD` — graph DB
-- `LANGCHAIN_*` — langchain configs
-- App-specific: `PLAID_CLIENT_ID`, `STRIPE_SECRET`, etc.
+**List to compile (OpenAI-first migration):**
+- `OPENAI_API_KEY` — Primary API key for 95%+ of functions (GPT-4o, embeddings, TTS, STT)
+- `ELEVENLABS_API_KEY` — Voice synthesis (used by podcastify-ai)
+- `FIRECRAWL_API_KEY` / `FIRECRAWL_API_URL` — Web scraping
+- `BROWSERBASE_API_KEY` / `BROWSERBASE_PROJECT_ID` — Browser automation
+- `SERPAPI_KEY` / `GOOGLE_SEARCH_API_KEY` — Web search for research agents
+- `COHERE_API_KEY` — Optional reranker (hybrid_search_rag)
+- `QDRANT_URL` / `QDRANT_API_KEY` — External vector DB (some RAG apps use pgvector instead)
+- `NEO4J_URI` / `NEO4J_USER` / `NEO4J_PASSWORD` — Graph DB (knowledge_graph_rag_citations only)
+- `XAI_API_KEY` — xAI Grok (finance-agent only)
+- `GEMINI_API_KEY` — Google Gemini (specialized: ai_medical_imaging_agent only)
+- App-specific keys: `PLAID_CLIENT_ID`, `STRIPE_SECRET`, `SALESFORCE_CLIENT_ID`, etc.
+
+**Migration note:** Most provider-specific keys (Anthropic, Claude, Google, Llama, Qwen) have been consolidated to `OPENAI_API_KEY`. Only specialized use cases retain alternative providers.
 
 All these go into **Supabase Secrets** (Project Settings → Secrets), accessible via `Deno.env.get('KEY_NAME')`.
 
@@ -256,8 +265,8 @@ We'll create a spreadsheet or markdown table tracking each function's status:
 
 | AppId | FunctionName | Netlify Exists? | Ported? | Deployed? | Tested? | Notes |
 |---|---|---|---|---|---|---|
-| consultpro-ai | consultpro-ai | ✅ | ❌ | ❌ | ❌ | Anthropic, large file |
-| ai_blog_to_podcast_agent | ai-blog-to-podcast-agent | ❌ | ❌ | ❌ | ❌ | Need to build from scratch |
+| consultpro-ai | consultpro-ai | ✅ | ⏳ MIGRATED | ❌ | ❌ | Migrated from Anthropic Claude to OpenAI GPT-4o |
+| ai_blog_to_podcast_agent | ai-blog-to-podcast-agent | ❌ | ❌ | ❌ | ❌ | Build from scratch (OpenAI GPT-4o design) |
 | ... | ... | ... | ... | ... | ... | ... |
 
 ---
@@ -268,12 +277,15 @@ Create `supabase/functions/template/index.ts`:
 
 ```typescript
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-// Import dependencies as needed (OpenAI, Anthropic, etc.)
+// Import OpenAI SDK as primary (anthropic, google, etc. only for specialized apps)
+import { OpenAI } from "https://deno.land/x/openai@v0.4.0/mod.ts";
 
 // Initialize clients outside handler (cold start optimization)
-const OPENAI_KEY = Deno.env.get('OPENAI_API_KEY');
-const ANTHROPIC_KEY = Deno.env.get('ANTHROPIC_API_KEY');
-// ... other clients
+const OPENAI_KEY = Deno.env.get('OPENAI_KEY') || Deno.env.get('OPENAI_API_KEY');
+
+// Optional: Specialized providers (only if app requires)
+// const GOOGLE_API_KEY = Deno.env.get('GOOGLE_API_KEY');  // ai_medical_imaging_agent only
+// const XAI_API_KEY = Deno.env.get('XAI_API_KEY');        // finance-agent only
 
 serve(async (req: Request) => {
   try {
@@ -316,7 +328,7 @@ Order:
 3. `finance-agent` (xAI, but xAI API compatible with OpenAI SDK)
 4. `email-gtm-agent` (OpenAI text gen)
 5. `web-scraping-agent` (Playwright — may be heavy; test limits)
-6. `consultpro-ai` (Anthropic — need Deno Anthropic SDK)
+6. `consultpro-ai` (now uses OpenAI GPT-4o)
 7. `launchrocket-ai` (OpenAI)
 8. `podcastify-ai` (TTS + ElevenLabs)
 9. `socialbuzz-ai` (social APIs)

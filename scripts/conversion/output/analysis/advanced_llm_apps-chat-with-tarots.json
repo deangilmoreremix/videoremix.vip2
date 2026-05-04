@@ -1,0 +1,66 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 1,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 1,
+    "button": 1,
+    "chat": 0,
+    "write": 6
+  },
+  "providers": {
+    "langchain": {
+      "count": 2,
+      "imports": 2,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 139,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "_select_the_number_of_cards_for_your_spread_3_for_a_more_focused_answer_7_for_a_more_general_overview",
+      "label": "🃏 Select the number of cards for your spread (3 for a more focused answer, 7 for a more general overview).)",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "_please_enter_your_context_or_your_question_here_you_can_speak_in_natural_language",
+      "label": "✍️ Please enter your context or your question here. You can speak in natural language.",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "image",
+  "primaryProvider": "langchain",
+  "filePath": "awesome-llm-apps/advanced_llm_apps/chat-with-tarots/app.py",
+  "appName": "chat-with-tarots",
+  "category": "awesome-llm-apps",
+  "complexity": "simple",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 2,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:34.384Z",
+  "analyzerVersion": "0.1.0"
+}

@@ -1,0 +1,100 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 4,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 1,
+    "chat": 0,
+    "write": 17
+  },
+  "providers": {
+    "agno": {
+      "count": 8,
+      "imports": 4,
+      "clients": 4,
+      "models": [
+        {
+          "pattern": "gpt-4",
+          "count": 4
+        }
+      ]
+    },
+    "crewai": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {
+    "composio": {
+      "count": 1,
+      "usage": "integration"
+    }
+  },
+  "usesSessionState": true,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 208,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": false,
+  "hasWebSearch": true,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "enter_your_openai_api_key",
+      "label": "Enter your OpenAI API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_your_composio_api_key",
+      "label": "Enter your Composio API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_your_serpapi_key",
+      "label": "Enter your SerpAPI Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_the_topic_you_want_to_learn_about",
+      "label": "Enter the topic you want to learn about:",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/multi_agent_apps/agent_teams/ai_teaching_agent_team/teaching_agent_team.py",
+  "appName": "ai-teaching-agent-team",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 18,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:35.899Z",
+  "analyzerVersion": "0.1.0"
+}

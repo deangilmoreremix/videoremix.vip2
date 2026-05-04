@@ -1,0 +1,71 @@
+{
+  "hasChatInput": true,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": true,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 3,
+    "numberInput": 0,
+    "fileUpload": 1,
+    "selectBox": 0,
+    "button": 1,
+    "chat": 5,
+    "write": 3
+  },
+  "providers": {},
+  "externalServices": {},
+  "usesSessionState": true,
+  "hasHistory": true,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 258,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "chat",
+  "inputFields": [
+    {
+      "name": "llm_model_path",
+      "label": "LLM Model Path",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "embedder_model_path",
+      "label": "Embedder Model Path",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "database_url",
+      "label": "Database URL",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "upload_pdf_documents",
+      "label": "Upload PDF documents",
+      "type": "file",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "unknown",
+  "filePath": "awesome-llm-apps/rag_tutorials/local_hybrid_search_rag/local_main.py",
+  "appName": "local-hybrid-search-rag",
+  "category": "awesome-llm-apps",
+  "complexity": "file-processing",
+  "requiresApiKey": false,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 2,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:34.057Z",
+  "analyzerVersion": "0.1.0"
+}

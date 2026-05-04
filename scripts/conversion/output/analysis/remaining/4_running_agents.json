@@ -1,0 +1,209 @@
+{
+  "hasChatInput": false,
+  "hasForm": true,
+  "hasTabs": true,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 15,
+    "numberInput": 6,
+    "fileUpload": 0,
+    "selectBox": 2,
+    "button": 15,
+    "chat": 0,
+    "write": 38
+  },
+  "providers": {
+    "agno": {
+      "count": 8,
+      "imports": 4,
+      "clients": 4,
+      "models": [
+        {
+          "pattern": "gpt-4",
+          "count": 2
+        }
+      ]
+    },
+    "crewai": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": true,
+  "usesAsyncio": true,
+  "linesOfCode": 688,
+  "hasMultiAgent": true,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": true,
+  "uiType": "multi-tab",
+  "inputFields": [
+    {
+      "name": "select_demo_type",
+      "label": "Select Demo Type",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "model",
+      "label": "Model",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "temperature",
+      "label": "Temperature",
+      "type": "range",
+      "required": true
+    },
+    {
+      "name": "max_turns",
+      "label": "Max Turns",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "your_message",
+      "label": "Your message:",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "your_message",
+      "label": "Your message:",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "your_message",
+      "label": "Your message:",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "your_message",
+      "label": "Your message:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "your_message",
+      "label": "Your message:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "temperature",
+      "label": "Temperature",
+      "type": "range",
+      "required": true
+    },
+    {
+      "name": "top_p",
+      "label": "Top P",
+      "type": "range",
+      "required": true
+    },
+    {
+      "name": "max_turns",
+      "label": "Max Turns",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "your_message",
+      "label": "Your message:",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "workflow_name",
+      "label": "Workflow Name",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "group_id",
+      "label": "Group ID",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "user_id",
+      "label": "User ID",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "feature",
+      "label": "Feature",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "your_message",
+      "label": "Your message:",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "your_message",
+      "label": "Your message:",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "your_message",
+      "label": "Your message:",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "max_turns_set_low_to_trigger",
+      "label": "Max Turns (set low to trigger)",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "your_message",
+      "label": "Your message:",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "your_message",
+      "label": "Your message:",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "json",
+  "primaryProvider": "agno",
+  "filePath": "./awesome-llm-apps/ai_agent_framework_crash_course/openai_sdk_crash_course/4_running_agents/agent_runner.py",
+  "appName": "4-running-agents",
+  "category": ".",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 23,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T14:59:07.065Z",
+  "analyzerVersion": "0.1.0"
+}

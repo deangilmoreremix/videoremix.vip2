@@ -1,0 +1,1036 @@
+import React, { lazy, Suspense, useState, useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import SparkleBackground from "./components/SparkleBackground";
+import SpecialHeader from "./components/SpecialHeader";
+import ScrollProgressBar from "./components/ScrollProgressBar";
+import CustomCursor from "./components/CustomCursor";
+import LiveActivityIndicator from "./components/LiveActivityIndicator";
+import AudioPlayer from "./components/AudioPlayer";
+import ErrorBoundary from "./components/ErrorBoundary";
+import ProtectedRoute from "./components/ProtectedRoute";
+import MobileBottomNav from "./components/MobileBottomNav";
+import { AdminProvider } from "./context/AdminContext";
+import { AuthProvider } from "./context/AuthContext";
+import { Toaster } from "./components/ui/toast";
+import { NetworkStatusIndicator } from "./components/AsyncStates";
+
+// Lazy loaded components for better performance
+const LandingPage = lazy(() => import("./pages/LandingPage"));
+const AppPage = lazy(() => import("./pages/AppPage"));
+
+
+  const AdvancedLlmAppsToonifyTokenOptimizationPage = lazy(() => import("./pages/agents/AdvancedLlmAppsToonifyTokenOptimizationPage"));
+  const AiDataVisualisationAgentPage = lazy(() => import("./pages/agents/AiDataVisualisationAgentPage"));
+  const StarterAiAgentsAiDataVisualisationAgentPage = lazy(() => import("./pages/agents/StarterAiAgentsAiDataVisualisationAgentPage"));
+  const AdvancedLlmAppsAiArxivAgentMemoryPage = lazy(() => import("./pages/agents/AdvancedLlmAppsAiArxivAgentMemoryPage"));
+  const AdvancedLlmAppsAiTravelAgentMemoryPage = lazy(() => import("./pages/agents/AdvancedLlmAppsAiTravelAgentMemoryPage"));
+  const AdvancedLlmAppsChatWithGmailPage = lazy(() => import("./pages/agents/AdvancedLlmAppsChatWithGmailPage"));
+  const AdvancedLlmAppsChatWithPdfPage = lazy(() => import("./pages/agents/AdvancedLlmAppsChatWithPdfPage"));
+  const AdvancedLlmAppsChatWithSubstackPage = lazy(() => import("./pages/agents/AdvancedLlmAppsChatWithSubstackPage"));
+  const AdvancedLlmAppsChatWithYoutubeVideosPage = lazy(() => import("./pages/agents/AdvancedLlmAppsChatWithYoutubeVideosPage"));
+  const AdvancedLlmAppsLlmAppPersonalizedMemoryPage = lazy(() => import("./pages/agents/AdvancedLlmAppsLlmAppPersonalizedMemoryPage"));
+  const AdvancedLlmAppsLocalChatgptWithMemoryPage = lazy(() => import("./pages/agents/AdvancedLlmAppsLocalChatgptWithMemoryPage"));
+  const AdvancedLlmAppsMultiLlmMemoryPage = lazy(() => import("./pages/agents/AdvancedLlmAppsMultiLlmMemoryPage"));
+  const RagTutorialsAiBlogSearchPage = lazy(() => import("./pages/agents/RagTutorialsAiBlogSearchPage"));
+  const RagTutorialsCorrectiveRagPage = lazy(() => import("./pages/agents/RagTutorialsCorrectiveRagPage"));
+  const RagTutorialsKnowledgeGraphRagCitationsPage = lazy(() => import("./pages/agents/RagTutorialsKnowledgeGraphRagCitationsPage"));
+  const RagTutorialsLlama31LocalRagPage = lazy(() => import("./pages/agents/RagTutorialsLlama31LocalRagPage"));
+  const RagTutorialsRagAgentCoherePage = lazy(() => import("./pages/agents/RagTutorialsRagAgentCoherePage"));
+  const RagTutorialsRagChainPage = lazy(() => import("./pages/agents/RagTutorialsRagChainPage"));
+  const RagTutorialsVisionRagPage = lazy(() => import("./pages/agents/RagTutorialsVisionRagPage"));
+  const AgentPage = lazy(() => import("./pages/agents/AgentPage"));
+  const StarterAiAgentsWebScrapingAiAgentPage = lazy(() => import("./pages/agents/StarterAiAgentsWebScrapingAiAgentPage"));
+  const WebScrapingAiAgentPage = lazy(() => import("./pages/agents/WebScrapingAiAgentPage"));
+  const AdvancedAiAgentsAi3dpygameR1Page = lazy(() => import("./pages/agents/AdvancedAiAgentsAi3dpygameR1Page"));
+  const AdvancedAiAgentsAiAqiAnalysisAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiAqiAnalysisAgentPage"));
+  const AdvancedAiAgentsAiChessAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiChessAgentPage"));
+  const AdvancedAiAgentsAiCompetitorIntelligenceAgentTeamPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiCompetitorIntelligenceAgentTeamPage"));
+  const AdvancedAiAgentsAiCustomerSupportAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiCustomerSupportAgentPage"));
+  const AdvancedAiAgentsAiDeepResearchAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiDeepResearchAgentPage"));
+  const AdvancedAiAgentsAiDomainDeepResearchAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiDomainDeepResearchAgentPage"));
+  const AdvancedAiAgentsAiEmailGtmOutreachAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiEmailGtmOutreachAgentPage"));
+  const AdvancedAiAgentsAiEmailGtmReachoutAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiEmailGtmReachoutAgentPage"));
+  const AdvancedAiAgentsAiFinancialCoachAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiFinancialCoachAgentPage"));
+  const AdvancedAiAgentsAiFraudInvestigationAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiFraudInvestigationAgentPage"));
+  const AdvancedAiAgentsAiGameDesignAgentTeamPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiGameDesignAgentTeamPage"));
+  const AdvancedAiAgentsAiHealthFitnessAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiHealthFitnessAgentPage"));
+  const AdvancedAiAgentsAiJournalistAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiJournalistAgentPage"));
+  const AdvancedAiAgentsAiLegalAgentTeamPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiLegalAgentTeamPage"));
+  const AdvancedAiAgentsAiMeetingAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiMeetingAgentPage"));
+  const AdvancedAiAgentsAiMentalWellbeingAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiMentalWellbeingAgentPage"));
+  const AdvancedAiAgentsAiMovieProductionAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiMovieProductionAgentPage"));
+  const AdvancedAiAgentsAiPersonalFinanceAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiPersonalFinanceAgentPage"));
+  const AdvancedAiAgentsAiRealEstateAgentTeamPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiRealEstateAgentTeamPage"));
+  const AdvancedAiAgentsAiRecipeMealPlanningAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiRecipeMealPlanningAgentPage"));
+  const AdvancedAiAgentsAiRecruitmentAgentTeamPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiRecruitmentAgentTeamPage"));
+  const AdvancedAiAgentsAiServicesAgencyPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiServicesAgencyPage"));
+  const AdvancedAiAgentsAiStartupInsightFire1AgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiStartupInsightFire1AgentPage"));
+  const AdvancedAiAgentsAiSystemArchitectR1Page = lazy(() => import("./pages/agents/AdvancedAiAgentsAiSystemArchitectR1Page"));
+  const AdvancedAiAgentsAiTeachingAgentTeamPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiTeachingAgentTeamPage"));
+  const AdvancedAiAgentsDevpulseAiPage = lazy(() => import("./pages/agents/AdvancedAiAgentsDevpulseAiPage"));
+  const AdvancedAiAgentsLocalAiLegalAgentTeamPage = lazy(() => import("./pages/agents/AdvancedAiAgentsLocalAiLegalAgentTeamPage"));
+  const AdvancedAiAgentsMultiAgentResearcherPage = lazy(() => import("./pages/agents/AdvancedAiAgentsMultiAgentResearcherPage"));
+  const AdvancedAiAgentsMultimodalCodingAgentTeamPage = lazy(() => import("./pages/agents/AdvancedAiAgentsMultimodalCodingAgentTeamPage"));
+  const AdvancedAiAgentsMultimodalDesignAgentTeamPage = lazy(() => import("./pages/agents/AdvancedAiAgentsMultimodalDesignAgentTeamPage"));
+  const AdvancedAiAgentsProductLaunchIntelligenceAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsProductLaunchIntelligenceAgentPage"));
+  const AdvancedLlmAppsChatWithResearchPapersPage = lazy(() => import("./pages/agents/AdvancedLlmAppsChatWithResearchPapersPage"));
+  const AdvancedLlmAppsCursorAiExperimentsPage = lazy(() => import("./pages/agents/AdvancedLlmAppsCursorAiExperimentsPage"));
+  const AiAgentFrameworkCrashCourse1StarterAgentPage = lazy(() => import("./pages/agents/AiAgentFrameworkCrashCourse1StarterAgentPage"));
+  const AiAgentFrameworkCrashCourse4RunningAgentsPage = lazy(() => import("./pages/agents/AiAgentFrameworkCrashCourse4RunningAgentsPage"));
+  const AiAgentFrameworkCrashCourse7SessionsPage = lazy(() => import("./pages/agents/AiAgentFrameworkCrashCourse7SessionsPage"));
+  const AiBlogToPodcastAgentPage = lazy(() => import("./pages/agents/AiBlogToPodcastAgentPage"));
+  const AiBreakupRecoveryAgentPage = lazy(() => import("./pages/agents/AiBreakupRecoveryAgentPage"));
+  const AiDataAnalysisAgentPage = lazy(() => import("./pages/agents/AiDataAnalysisAgentPage"));
+  const AiLifeInsuranceAdvisorAgentPage = lazy(() => import("./pages/agents/AiLifeInsuranceAdvisorAgentPage"));
+  const AiMedicalImagingAgentPage = lazy(() => import("./pages/agents/AiMedicalImagingAgentPage"));
+  const AiMemeGeneratorAgentBrowserusePage = lazy(() => import("./pages/agents/AiMemeGeneratorAgentBrowserusePage"));
+  const AiMusicGeneratorAgentPage = lazy(() => import("./pages/agents/AiMusicGeneratorAgentPage"));
+  const AiStartupTrendAnalysisAgentPage = lazy(() => import("./pages/agents/AiStartupTrendAnalysisAgentPage"));
+  const AiTravelAgentPage = lazy(() => import("./pages/agents/AiTravelAgentPage"));
+  const PodcastAgentPage = lazy(() => import("./pages/agents/PodcastAgentPage"));
+  const SupportVoiceAgentPage = lazy(() => import("./pages/agents/SupportVoiceAgentPage"));
+  const CustomerSupportVoiceAgentPage = lazy(() => import("./pages/agents/CustomerSupportVoiceAgentPage"));
+  const McpAiAgentsAiTravelPlannerMcpAgentTeamPage = lazy(() => import("./pages/agents/McpAiAgentsAiTravelPlannerMcpAgentTeamPage"));
+  const McpAiAgentsBrowserMcpAgentPage = lazy(() => import("./pages/agents/McpAiAgentsBrowserMcpAgentPage"));
+  const McpAiAgentsGithubMcpAgentPage = lazy(() => import("./pages/agents/McpAiAgentsGithubMcpAgentPage"));
+  const McpAiAgentsMultiMcpAgentRouterPage = lazy(() => import("./pages/agents/McpAiAgentsMultiMcpAgentRouterPage"));
+  const MultimodalAiAgentPage = lazy(() => import("./pages/agents/MultimodalAiAgentPage"));
+  const AgentPage = lazy(() => import("./pages/agents/AgentPage"));
+  const OpenaiResearchAgentPage = lazy(() => import("./pages/agents/OpenaiResearchAgentPage"));
+  const RagTutorialsAgenticRagEmbeddingGemmaPage = lazy(() => import("./pages/agents/RagTutorialsAgenticRagEmbeddingGemmaPage"));
+  const RagTutorialsAgenticRagGpt5Page = lazy(() => import("./pages/agents/RagTutorialsAgenticRagGpt5Page"));
+  const RagTutorialsAgenticRagWithReasoningPage = lazy(() => import("./pages/agents/RagTutorialsAgenticRagWithReasoningPage"));
+  const RagTutorialsAutonomousRagPage = lazy(() => import("./pages/agents/RagTutorialsAutonomousRagPage"));
+  const RagTutorialsDeepseekLocalRagAgentPage = lazy(() => import("./pages/agents/RagTutorialsDeepseekLocalRagAgentPage"));
+  const RagTutorialsGeminiAgenticRagPage = lazy(() => import("./pages/agents/RagTutorialsGeminiAgenticRagPage"));
+  const RagTutorialsQwenLocalRagPage = lazy(() => import("./pages/agents/RagTutorialsQwenLocalRagPage"));
+  const RagTutorialsRagDatabaseRoutingPage = lazy(() => import("./pages/agents/RagTutorialsRagDatabaseRoutingPage"));
+  const StarterAiAgentsAiBlogToPodcastAgentPage = lazy(() => import("./pages/agents/StarterAiAgentsAiBlogToPodcastAgentPage"));
+  const StarterAiAgentsAiBreakupRecoveryAgentPage = lazy(() => import("./pages/agents/StarterAiAgentsAiBreakupRecoveryAgentPage"));
+  const StarterAiAgentsAiDataAnalysisAgentPage = lazy(() => import("./pages/agents/StarterAiAgentsAiDataAnalysisAgentPage"));
+  const StarterAiAgentsAiLifeInsuranceAdvisorAgentPage = lazy(() => import("./pages/agents/StarterAiAgentsAiLifeInsuranceAdvisorAgentPage"));
+  const StarterAiAgentsAiMedicalImagingAgentPage = lazy(() => import("./pages/agents/StarterAiAgentsAiMedicalImagingAgentPage"));
+  const StarterAiAgentsAiMemeGeneratorAgentBrowserusePage = lazy(() => import("./pages/agents/StarterAiAgentsAiMemeGeneratorAgentBrowserusePage"));
+  const StarterAiAgentsAiMusicGeneratorAgentPage = lazy(() => import("./pages/agents/StarterAiAgentsAiMusicGeneratorAgentPage"));
+  const StarterAiAgentsAiStartupTrendAnalysisAgentPage = lazy(() => import("./pages/agents/StarterAiAgentsAiStartupTrendAnalysisAgentPage"));
+  const StarterAiAgentsAiTravelAgentPage = lazy(() => import("./pages/agents/StarterAiAgentsAiTravelAgentPage"));
+  const StarterAiAgentsMultimodalAiAgentPage = lazy(() => import("./pages/agents/StarterAiAgentsMultimodalAiAgentPage"));
+  const StarterAiAgentsOpenaiResearchAgentPage = lazy(() => import("./pages/agents/StarterAiAgentsOpenaiResearchAgentPage"));
+  const TrendsAgentPage = lazy(() => import("./pages/agents/TrendsAgentPage"));
+  const AgentPage = lazy(() => import("./pages/agents/AgentPage"));
+  const RagOpenaisdkPage = lazy(() => import("./pages/agents/RagOpenaisdkPage"));
+  const VoiceAiAgentsCustomerSupportVoiceAgentPage = lazy(() => import("./pages/agents/VoiceAiAgentsCustomerSupportVoiceAgentPage"));
+  const VoiceAiAgentsVoiceRagOpenaisdkPage = lazy(() => import("./pages/agents/VoiceAiAgentsVoiceRagOpenaisdkPage"));
+  const VoiceRagOpenaisdkPage = lazy(() => import("./pages/agents/VoiceRagOpenaisdkPage"));
+  const AdvancedAiAgentsAg2AdaptiveResearchTeamPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAg2AdaptiveResearchTeamPage"));
+  const AdvancedAiAgentsAiSpeechTrainerAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiSpeechTrainerAgentPage"));
+  const AdvancedAiAgentsAiTicTacToeAgentPage = lazy(() => import("./pages/agents/AdvancedAiAgentsAiTicTacToeAgentPage"));
+  const AdvancedAiAgentsResearchAgentGeminiInteractionApiPage = lazy(() => import("./pages/agents/AdvancedAiAgentsResearchAgentGeminiInteractionApiPage"));
+  const AdvancedAiAgentsTrustGatedAgentTeamPage = lazy(() => import("./pages/agents/AdvancedAiAgentsTrustGatedAgentTeamPage"));
+  const AdvancedLlmAppsChatWithGithubPage = lazy(() => import("./pages/agents/AdvancedLlmAppsChatWithGithubPage"));
+  const AdvancedLlmAppsChatWithTarotsPage = lazy(() => import("./pages/agents/AdvancedLlmAppsChatWithTarotsPage"));
+  const AdvancedLlmAppsGptOssCritiqueImprovementLoopPage = lazy(() => import("./pages/agents/AdvancedLlmAppsGptOssCritiqueImprovementLoopPage"));
+  const AdvancedLlmAppsLlama3StatefulChatPage = lazy(() => import("./pages/agents/AdvancedLlmAppsLlama3StatefulChatPage"));
+  const AdvancedLlmAppsLlmRouterAppPage = lazy(() => import("./pages/agents/AdvancedLlmAppsLlmRouterAppPage"));
+  const AdvancedLlmAppsLocalChatgptClonePage = lazy(() => import("./pages/agents/AdvancedLlmAppsLocalChatgptClonePage"));
+  const AdvancedLlmAppsResumeJobMatcherPage = lazy(() => import("./pages/agents/AdvancedLlmAppsResumeJobMatcherPage"));
+  const AudioTourAgentPage = lazy(() => import("./pages/agents/AudioTourAgentPage"));
+  const AiAgentFrameworkCrashCourse51InMemoryConversationAgentPage = lazy(() => import("./pages/agents/AiAgentFrameworkCrashCourse51InMemoryConversationAgentPage"));
+  const AiAgentFrameworkCrashCourse52PersistentConversationAgentPage = lazy(() => import("./pages/agents/AiAgentFrameworkCrashCourse52PersistentConversationAgentPage"));
+  const AiAgentFrameworkCrashCourse61AgentLifecycleCallbacksPage = lazy(() => import("./pages/agents/AiAgentFrameworkCrashCourse61AgentLifecycleCallbacksPage"));
+  const AiAgentFrameworkCrashCourse62LlmInteractionCallbacksPage = lazy(() => import("./pages/agents/AiAgentFrameworkCrashCourse62LlmInteractionCallbacksPage"));
+  const AiAgentFrameworkCrashCourse63ToolExecutionCallbacksPage = lazy(() => import("./pages/agents/AiAgentFrameworkCrashCourse63ToolExecutionCallbacksPage"));
+  const AiAgentFrameworkCrashCourse7PluginsPage = lazy(() => import("./pages/agents/AiAgentFrameworkCrashCourse7PluginsPage"));
+  const AiAgentFrameworkCrashCourse91SequentialAgentPage = lazy(() => import("./pages/agents/AiAgentFrameworkCrashCourse91SequentialAgentPage"));
+  const AiAgentFrameworkCrashCourse92LoopAgentPage = lazy(() => import("./pages/agents/AiAgentFrameworkCrashCourse92LoopAgentPage"));
+  const AiAgentFrameworkCrashCourse93ParallelAgentPage = lazy(() => import("./pages/agents/AiAgentFrameworkCrashCourse93ParallelAgentPage"));
+  const AiAudioTourAgentPage = lazy(() => import("./pages/agents/AiAudioTourAgentPage"));
+  const AiReasoningAgentPage = lazy(() => import("./pages/agents/AiReasoningAgentPage"));
+  const AgentsPage = lazy(() => import("./pages/agents/AgentsPage"));
+  const MixtureOfAgentsPage = lazy(() => import("./pages/agents/MixtureOfAgentsPage"));
+  const RagTutorialsAgenticRagMathAgentPage = lazy(() => import("./pages/agents/RagTutorialsAgenticRagMathAgentPage"));
+  const RagTutorialsContextualaiRagAgentPage = lazy(() => import("./pages/agents/RagTutorialsContextualaiRagAgentPage"));
+  const RagTutorialsHybridSearchRagPage = lazy(() => import("./pages/agents/RagTutorialsHybridSearchRagPage"));
+  const RagTutorialsLocalHybridSearchRagPage = lazy(() => import("./pages/agents/RagTutorialsLocalHybridSearchRagPage"));
+  const RagTutorialsRagAsAServicePage = lazy(() => import("./pages/agents/RagTutorialsRagAsAServicePage"));
+  const AgentPage = lazy(() => import("./pages/agents/AgentPage"));
+  const StarterAiAgentsAiReasoningAgentPage = lazy(() => import("./pages/agents/StarterAiAgentsAiReasoningAgentPage"));
+  const StarterAiAgentsMixtureOfAgentsPage = lazy(() => import("./pages/agents/StarterAiAgentsMixtureOfAgentsPage"));
+  const StarterAiAgentsXaiFinanceAgentPage = lazy(() => import("./pages/agents/StarterAiAgentsXaiFinanceAgentPage"));
+  const VoiceAiAgentsAiAudioTourAgentPage = lazy(() => import("./pages/agents/VoiceAiAgentsAiAudioTourAgentPage"));
+  const XaiFinanceAgentPage = lazy(() => import("./pages/agents/XaiFinanceAgentPage"));
+
+const ToolsHubPage = lazy(() => import("./pages/ToolsHubPage"));
+// Agent pages
+const Agent1StarterAgentPage = lazy(() => import("./pages/agents/1StarterAgentPage"));
+const Agent4RunningAgentsPage = lazy(() => import("./pages/agents/4RunningAgentsPage"));
+const Agent51InMemoryConversationAgentPage = lazy(() => import("./pages/agents/51InMemoryConversationAgentPage"));
+const Agent52PersistentConversationAgentPage = lazy(() => import("./pages/agents/52PersistentConversationAgentPage"));
+const Agent61AgentLifecycleCallbacksPage = lazy(() => import("./pages/agents/61AgentLifecycleCallbacksPage"));
+const Agent62LlmInteractionCallbacksPage = lazy(() => import("./pages/agents/62LlmInteractionCallbacksPage"));
+const Agent63ToolExecutionCallbacksPage = lazy(() => import("./pages/agents/63ToolExecutionCallbacksPage"));
+const Agent7PluginsPage = lazy(() => import("./pages/agents/7PluginsPage"));
+const Agent7SessionsPage = lazy(() => import("./pages/agents/7SessionsPage"));
+const Agent91SequentialAgentPage = lazy(() => import("./pages/agents/91SequentialAgentPage"));
+const Agent92LoopAgentPage = lazy(() => import("./pages/agents/92LoopAgentPage"));
+const Agent93ParallelAgentPage = lazy(() => import("./pages/agents/93ParallelAgentPage"));
+const Ag2AdaptiveResearchTeamPage = lazy(() => import("./pages/agents/Ag2AdaptiveResearchTeamPage"));
+const AgenticRagEmbeddingGemmaPage = lazy(() => import("./pages/agents/AgenticRagEmbeddingGemmaPage"));
+const AgenticRagGpt5Page = lazy(() => import("./pages/agents/AgenticRagGpt5Page"));
+const AgenticRagWithReasoningPage = lazy(() => import("./pages/agents/AgenticRagWithReasoningPage"));
+const Ai3dpygameR1Page = lazy(() => import("./pages/agents/Ai3dpygameR1Page"));
+const AiAqiAnalysisAgentPage = lazy(() => import("./pages/agents/AiAqiAnalysisAgentPage"));
+const AiArxivAgentMemoryPage = lazy(() => import("./pages/agents/AiArxivAgentMemoryPage"));
+const AiAudioTourAgentPage = lazy(() => import("./pages/agents/AiAudioTourAgentPage"));
+const AiBlogSearchPage = lazy(() => import("./pages/agents/AiBlogSearchPage"));
+const AiBlogToPodcastAgentPage = lazy(() => import("./pages/agents/AiBlogToPodcastAgentPage"));
+const AiBreakupRecoveryAgentPage = lazy(() => import("./pages/agents/AiBreakupRecoveryAgentPage"));
+const AiChessAgentPage = lazy(() => import("./pages/agents/AiChessAgentPage"));
+const AiCompetitorIntelligenceAgentTeamPage = lazy(() => import("./pages/agents/AiCompetitorIntelligenceAgentTeamPage"));
+const AiCustomerSupportAgentPage = lazy(() => import("./pages/agents/AiCustomerSupportAgentPage"));
+const AiDataAnalysisAgentPage = lazy(() => import("./pages/agents/AiDataAnalysisAgentPage"));
+const AiDataVisualisationAgentPage = lazy(() => import("./pages/agents/AiDataVisualisationAgentPage"));
+const AiDeepResearchAgentPage = lazy(() => import("./pages/agents/AiDeepResearchAgentPage"));
+const AiDomainDeepResearchAgentPage = lazy(() => import("./pages/agents/AiDomainDeepResearchAgentPage"));
+const AiEmailGtmOutreachAgentPage = lazy(() => import("./pages/agents/AiEmailGtmOutreachAgentPage"));
+const AiEmailGtmReachoutAgentPage = lazy(() => import("./pages/agents/AiEmailGtmReachoutAgentPage"));
+const AiFinancialCoachAgentPage = lazy(() => import("./pages/agents/AiFinancialCoachAgentPage"));
+const AiFraudInvestigationAgentPage = lazy(() => import("./pages/agents/AiFraudInvestigationAgentPage"));
+const AiGameDesignAgentTeamPage = lazy(() => import("./pages/agents/AiGameDesignAgentTeamPage"));
+const AiHealthFitnessAgentPage = lazy(() => import("./pages/agents/AiHealthFitnessAgentPage"));
+const AiJournalistAgentPage = lazy(() => import("./pages/agents/AiJournalistAgentPage"));
+const AiLegalAgentTeamPage = lazy(() => import("./pages/agents/AiLegalAgentTeamPage"));
+const AiLifeInsuranceAdvisorAgentPage = lazy(() => import("./pages/agents/AiLifeInsuranceAdvisorAgentPage"));
+const AiMedicalImagingAgentPage = lazy(() => import("./pages/agents/AiMedicalImagingAgentPage"));
+const AiMeetingAgentPage = lazy(() => import("./pages/agents/AiMeetingAgentPage"));
+const AiMemeGeneratorAgentBrowserusePage = lazy(() => import("./pages/agents/AiMemeGeneratorAgentBrowserusePage"));
+const AiMentalWellbeingAgentPage = lazy(() => import("./pages/agents/AiMentalWellbeingAgentPage"));
+const AiMovieProductionAgentPage = lazy(() => import("./pages/agents/AiMovieProductionAgentPage"));
+const AiMusicGeneratorAgentPage = lazy(() => import("./pages/agents/AiMusicGeneratorAgentPage"));
+const AiPersonalFinanceAgentPage = lazy(() => import("./pages/agents/AiPersonalFinanceAgentPage"));
+const AiRealEstateAgentTeamPage = lazy(() => import("./pages/agents/AiRealEstateAgentTeamPage"));
+const AiReasoningAgentPage = lazy(() => import("./pages/agents/AiReasoningAgentPage"));
+const AiRecipeMealPlanningAgentPage = lazy(() => import("./pages/agents/AiRecipeMealPlanningAgentPage"));
+const AiRecruitmentAgentTeamPage = lazy(() => import("./pages/agents/AiRecruitmentAgentTeamPage"));
+const AiServicesAgencyPage = lazy(() => import("./pages/agents/AiServicesAgencyPage"));
+const AiStartupInsightFire1AgentPage = lazy(() => import("./pages/agents/AiStartupInsightFire1AgentPage"));
+const AiStartupTrendAnalysisAgentPage = lazy(() => import("./pages/agents/AiStartupTrendAnalysisAgentPage"));
+const AiSystemArchitectR1Page = lazy(() => import("./pages/agents/AiSystemArchitectR1Page"));
+const AiTeachingAgentTeamPage = lazy(() => import("./pages/agents/AiTeachingAgentTeamPage"));
+const AiTicTacToeAgentPage = lazy(() => import("./pages/agents/AiTicTacToeAgentPage"));
+const AiTravelAgentPage = lazy(() => import("./pages/agents/AiTravelAgentPage"));
+const AiTravelAgentMemoryPage = lazy(() => import("./pages/agents/AiTravelAgentMemoryPage"));
+const AiTravelPlannerMcpAgentTeamPage = lazy(() => import("./pages/agents/AiTravelPlannerMcpAgentTeamPage"));
+const AgentsAppPage = lazy(() => import("./pages/agents/AppPage"));
+const AutonomousRagPage = lazy(() => import("./pages/agents/AutonomousRagPage"));
+const BlogToPodcastAgentPage = lazy(() => import("./pages/agents/BlogToPodcastAgentPage"));
+const BrowserMcpAgentPage = lazy(() => import("./pages/agents/BrowserMcpAgentPage"));
+const ChatWithGithubPage = lazy(() => import("./pages/agents/ChatWithGithubPage"));
+const ChatWithGmailPage = lazy(() => import("./pages/agents/ChatWithGmailPage"));
+const ChatWithPdfPage = lazy(() => import("./pages/agents/ChatWithPdfPage"));
+const ChatWithResearchPapersPage = lazy(() => import("./pages/agents/ChatWithResearchPapersPage"));
+const ChatWithSubstackPage = lazy(() => import("./pages/agents/ChatWithSubstackPage"));
+const ChatWithTarotsPage = lazy(() => import("./pages/agents/ChatWithTarotsPage"));
+const ChatWithYoutubeVideosPage = lazy(() => import("./pages/agents/ChatWithYoutubeVideosPage"));
+const ContextualaiRagAgentPage = lazy(() => import("./pages/agents/ContextualaiRagAgentPage"));
+const CorrectiveRagPage = lazy(() => import("./pages/agents/CorrectiveRagPage"));
+const CursorAiExperimentsPage = lazy(() => import("./pages/agents/CursorAiExperimentsPage"));
+const CustomerSupportVoiceAgentPage = lazy(() => import("./pages/agents/CustomerSupportVoiceAgentPage"));
+const DeepseekLocalRagAgentPage = lazy(() => import("./pages/agents/DeepseekLocalRagAgentPage"));
+const DevpulseAiPage = lazy(() => import("./pages/agents/DevpulseAiPage"));
+const FrontendPage = lazy(() => import("./pages/agents/FrontendPage"));
+const GeminiAgenticRagPage = lazy(() => import("./pages/agents/GeminiAgenticRagPage"));
+const GithubMcpAgentPage = lazy(() => import("./pages/agents/GithubMcpAgentPage"));
+const GptOssCritiqueImprovementLoopPage = lazy(() => import("./pages/agents/GptOssCritiqueImprovementLoopPage"));
+const HybridSearchRagPage = lazy(() => import("./pages/agents/HybridSearchRagPage"));
+const KnowledgeGraphRagCitationsPage = lazy(() => import("./pages/agents/KnowledgeGraphRagCitationsPage"));
+const Llama31LocalRagPage = lazy(() => import("./pages/agents/Llama31LocalRagPage"));
+const Llama3StatefulChatPage = lazy(() => import("./pages/agents/Llama3StatefulChatPage"));
+const LlmAppPersonalizedMemoryPage = lazy(() => import("./pages/agents/LlmAppPersonalizedMemoryPage"));
+const LlmRouterAppPage = lazy(() => import("./pages/agents/LlmRouterAppPage"));
+const LocalAiLegalAgentTeamPage = lazy(() => import("./pages/agents/LocalAiLegalAgentTeamPage"));
+const LocalAiReasoningAgentPyPage = lazy(() => import("./pages/agents/LocalAiReasoningAgentPyPage"));
+const LocalAiScrapperPyPage = lazy(() => import("./pages/agents/LocalAiScrapperPyPage"));
+const LocalChatgptClonePage = lazy(() => import("./pages/agents/LocalChatgptClonePage"));
+const LocalChatgptWithMemoryPage = lazy(() => import("./pages/agents/LocalChatgptWithMemoryPage"));
+const LocalHybridSearchRagPage = lazy(() => import("./pages/agents/LocalHybridSearchRagPage"));
+const LocalTravelAgentPage = lazy(() => import("./pages/agents/LocalTravelAgentPage"));
+const MixtureOfAgentsPage = lazy(() => import("./pages/agents/MixtureOfAgentsPage"));
+const MultiAgentResearcherPage = lazy(() => import("./pages/agents/MultiAgentResearcherPage"));
+const MultiLlmMemoryPage = lazy(() => import("./pages/agents/MultiLlmMemoryPage"));
+const MultiMcpAgentRouterPage = lazy(() => import("./pages/agents/MultiMcpAgentRouterPage"));
+const MultimodalAiAgentPage = lazy(() => import("./pages/agents/MultimodalAiAgentPage"));
+const MultimodalCodingAgentTeamPage = lazy(() => import("./pages/agents/MultimodalCodingAgentTeamPage"));
+const MultimodalDesignAgentTeamPage = lazy(() => import("./pages/agents/MultimodalDesignAgentTeamPage"));
+const MusicGeneratorAgentPyPage = lazy(() => import("./pages/agents/MusicGeneratorAgentPyPage"));
+const OpenaiResearchAgentPage = lazy(() => import("./pages/agents/OpenaiResearchAgentPage"));
+const ProductLaunchIntelligenceAgentPage = lazy(() => import("./pages/agents/ProductLaunchIntelligenceAgentPage"));
+const QwenLocalRagPage = lazy(() => import("./pages/agents/QwenLocalRagPage"));
+const RagAgentCoherePage = lazy(() => import("./pages/agents/RagAgentCoherePage"));
+const RagAsAServicePage = lazy(() => import("./pages/agents/RagAsAServicePage"));
+const RagChainPage = lazy(() => import("./pages/agents/RagChainPage"));
+const RagDatabaseRoutingPage = lazy(() => import("./pages/agents/RagDatabaseRoutingPage"));
+const ResearchAgentGeminiInteractionApiPage = lazy(() => import("./pages/agents/ResearchAgentGeminiInteractionApiPage"));
+const ResumeJobMatcherPage = lazy(() => import("./pages/agents/ResumeJobMatcherPage"));
+const StartupTrendsAgentPage = lazy(() => import("./pages/agents/StartupTrendsAgentPage"));
+const ToonifyTokenOptimizationPage = lazy(() => import("./pages/agents/ToonifyTokenOptimizationPage"));
+const TrustGatedAgentTeamPage = lazy(() => import("./pages/agents/TrustGatedAgentTeamPage"));
+const VisionRagPage = lazy(() => import("./pages/agents/VisionRagPage"));
+const VoiceRagOpenaisdkPage = lazy(() => import("./pages/agents/VoiceRagOpenaisdkPage"));
+const WebScrapingAiAgentPage = lazy(() => import("./pages/agents/WebScrapingAiAgentPage"));
+const XaiFinanceAgentPage = lazy(() => import("./pages/agents/XaiFinanceAgentPage"));
+
+// Generic pages
+const PricingPage = lazy(() => import("./pages/PricingPage"));
+const FAQPage = lazy(() => import("./pages/FAQPage"));
+const AboutUsPage = lazy(() => import("./pages/AboutUsPage"));
+const BlogPage = lazy(() => import("./pages/BlogPage"));
+const BlogPostPage = lazy(() => import("./pages/BlogPostPage"));
+const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
+const AdminSignUp = lazy(() => import("./components/admin/AdminSignUp"));
+const SpecialFooter = lazy(() => import("./components/SpecialFooter"));
+const SettingsPage = lazy(() => import("./pages/SettingsPage"));
+
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+
+// Auth pages
+const SignInPage = lazy(() => import("./pages/SignInPage"));
+const SignUpPage = lazy(() => import("./pages/SignUpPage"));
+const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const EmailConfirmPage = lazy(() => import("./pages/EmailConfirmPage"));
+const AuthCallback = lazy(() => import("./pages/AuthCallback"));
+const MagicLinkPage = lazy(() => import("./pages/MagicLinkPage"));
+
+// Loading fallback component
+const SectionLoader = () => (
+  <div className="flex justify-center items-center py-20 text-white">
+    <div className="relative">
+      <div className="w-16 h-16 border-t-4 border-primary-500 border-solid rounded-full animate-spin"></div>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="text-xs text-primary-500 font-medium">Loading</span>
+      </div>
+    </div>
+  </div>
+);
+
+function App() {
+  const location = useLocation();
+
+  // Detect mobile/tablet
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  // Check if we're on an admin page
+  const isAdminPage = location.pathname.startsWith("/admin");
+
+  useEffect(() => {
+    const checkDevice = () => {
+      setIsMobile(window.innerWidth < 640);
+      setIsTablet(window.innerWidth >= 640 && window.innerWidth < 1024);
+    };
+
+    checkDevice();
+    window.addEventListener("resize", checkDevice);
+
+    return () => window.removeEventListener("resize", checkDevice);
+  }, []);
+  // Update document title with page section
+  useEffect(() => {
+    const updateTitle = () => {
+      const sections = document.querySelectorAll("section[id]");
+      let currentSection = "home";
+
+      for (const section of sections as NodeListOf<HTMLElement>) {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+
+        if (
+          window.scrollY >= sectionTop - 200 &&
+          window.scrollY < sectionTop + sectionHeight - 200
+        ) {
+          currentSection = section.id;
+          break;
+        }
+      }
+
+      document.title = `VideoRemix.vip | ${currentSection.charAt(0).toUpperCase() + currentSection.slice(1)}`;
+    };
+
+    window.addEventListener("scroll", updateTitle);
+    return () => window.removeEventListener("scroll", updateTitle);
+  }, []);
+
+  // Handle errors from error boundaries
+  const handleError = () => {
+    // In a production app, you might send this to an error tracking service
+  };
+
+  return (
+    <AuthProvider>
+      <div className="flex flex-col min-h-screen bg-gray-900 text-white">
+        <Helmet>
+          <title>
+            VideoRemix.vip - AI-Powered Marketing Personalization Platform
+          </title>
+          <meta
+            name="description"
+            content="Create personalized marketing content that converts with AI-powered tools. Transform your campaigns with VideoRemix.vip's marketing personalization platform."
+          />
+        </Helmet>
+
+        {/* Header Navigation - Hidden on admin pages */}
+        {!isAdminPage && <SpecialHeader topOffset={0} />}
+
+        {/* Scroll Progress Indicator - Hidden on admin pages */}
+        {!isAdminPage && <ScrollProgressBar topOffset={0} />}
+
+        {/* Custom Cursor (desktop only) - Hidden on admin pages */}
+        {!isMobile && !isTablet && !isAdminPage && <CustomCursor />}
+
+        {/* Audio Feedback System - Hidden on admin pages */}
+        {!isAdminPage && <AudioPlayer />}
+
+        {/* Live Activity Indicator - Hidden on admin pages */}
+        {!isAdminPage && <LiveActivityIndicator />}
+
+
+
+        <Routes>
+          {/* Landing Page Route */}
+          <Route
+            path="/"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <LandingPage isMobile={isMobile} isTablet={isTablet} />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Tools Hub Page */}
+          <Route
+            path="/tools"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <ToolsHubPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* App Detail Pages */}
+          <Route
+            path="/app/:appId"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AppPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Pricing Page */}
+          <Route
+            path="/pricing"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <PricingPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* FAQ Page */}
+          <Route
+            path="/faq"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <FAQPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* About Us Page */}
+          <Route
+            path="/about"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AboutUsPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Blog Routes */}
+          <Route
+            path="/blog"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <BlogPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/blog/:postId"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <BlogPostPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Dashboard Route */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <SparkleBackground>
+                    <Suspense fallback={<SectionLoader />}>
+                      <DashboardPage />
+                      <SpecialFooter />
+                    </Suspense>
+                  </SparkleBackground>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+
+           {/* Profile Route */}
+           <Route
+             path="/profile"
+             element={
+               <ProtectedRoute>
+                 <ErrorBoundary onError={handleError}>
+                   <Suspense fallback={<SectionLoader />}>
+                     <ProfilePage />
+                   </Suspense>
+                 </ErrorBoundary>
+               </ProtectedRoute>
+             }
+           />
+
+           {/* Settings Route */}
+           <Route
+             path="/settings/api"
+             element={
+               <ProtectedRoute>
+                 <ErrorBoundary onError={handleError}>
+                   <Suspense fallback={<SectionLoader />}>
+                     <SettingsPage />
+                   </Suspense>
+                 </ErrorBoundary>
+               </ProtectedRoute>
+             }
+           />
+
+          {/* Auth Routes */}
+          <Route
+            path="/signin"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <SignInPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/signup"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <SignUpPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/forgot-password"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <ForgotPasswordPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/auth/recovery"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <ForgotPasswordPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/reset-password"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <ResetPassword />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/auth/reset-password"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <ResetPassword />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/auth/confirm"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <EmailConfirmPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/auth/callback"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <AuthCallback />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/auth/magic-link"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <MagicLinkPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Admin Routes */}
+          <Route
+            path="/admin/login"
+            element={
+              <AdminProvider>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AdminLogin />
+                  </Suspense>
+                </ErrorBoundary>
+              </AdminProvider>
+            }
+          />
+          <Route
+            path="/admin/signup"
+            element={
+              <AdminProvider>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AdminSignUp />
+                  </Suspense>
+                </ErrorBoundary>
+              </AdminProvider>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <AdminProvider>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AdminDashboard />
+                    <SpecialFooter />
+                  </Suspense>
+                </ErrorBoundary>
+              </AdminProvider>
+            }
+          />
+
+          {/* Temporary debug route */}
+          <Route
+            path="/debug"
+            element={
+              <div className="min-h-screen bg-gray-900 text-white p-8">
+                <h1 className="text-2xl font-bold mb-4">Auth Debug</h1>
+                <div id="debug-output" className="font-mono text-sm bg-gray-800 p-4 rounded">
+                  Loading debug info...
+                </div>
+                <script dangerouslySetInnerHTML={{
+                  __html: `
+                    console.log('🔍 Browser Storage & Auth Debug Test');
+                    const output = document.getElementById('debug-output');
+                    let log = '';
+
+                    function addLog(message) {
+                      log += message + '\\n';
+                      if (output) output.textContent = log;
+                      console.log(message);
+                    }
+
+                    addLog('📦 localStorage check:');
+                    try {
+                      const keys = Object.keys(localStorage);
+                      addLog(\`   Keys found: \${keys.length}\`);
+                      keys.forEach(key => {
+                        if (key.includes('auth') || key.includes('session') || key.includes('videoremix')) {
+                          const value = localStorage.getItem(key);
+                          addLog(\`   \${key}: \${value?.substring(0, 50)}...\`);
+                        }
+                      });
+                    } catch (error) {
+                      addLog(\`   ❌ localStorage error: \${error}\`);
+                    }
+
+                    addLog('📦 sessionStorage check:');
+                    try {
+                      const keys = Object.keys(sessionStorage);
+                      addLog(\`   Keys found: \${keys.length}\`);
+                      keys.forEach(key => {
+                        if (key.includes('auth') || key.includes('session') || key.includes('videoremix')) {
+                          const value = sessionStorage.getItem(key);
+                          addLog(\`   \${key}: \${value?.substring(0, 50)}...\`);
+                        }
+                      });
+                    } catch (error) {
+                      addLog(\`   ❌ sessionStorage error: \${error}\`);
+                    }
+
+                    addLog('🔧 Testing auth state...');
+                    setTimeout(() => {
+                      addLog('Check browser console for more detailed auth logs');
+                    }, 1000);
+                  `
+                }} />
+              </div>
+            }
+          />
+           {/* Agent Routes */}
+
+          {/* Agent Routes */}
+          <Route path="/agent/1-starter-agent" element={<Agent1StarterAgentPage />} />
+          <Route path="/agent/4-running-agents" element={<Agent4RunningAgentsPage />} />
+          <Route path="/agent/5-1-in-memory-conversation-agent" element={<Agent51InMemoryConversationAgentPage />} />
+          <Route path="/agent/5-2-persistent-conversation-agent" element={<Agent52PersistentConversationAgentPage />} />
+          <Route path="/agent/6-1-agent-lifecycle-callbacks" element={<Agent61AgentLifecycleCallbacksPage />} />
+          <Route path="/agent/6-2-llm-interaction-callbacks" element={<Agent62LlmInteractionCallbacksPage />} />
+          <Route path="/agent/6-3-tool-execution-callbacks" element={<Agent63ToolExecutionCallbacksPage />} />
+          <Route path="/agent/7-plugins" element={<Agent7PluginsPage />} />
+          <Route path="/agent/7-sessions" element={<Agent7SessionsPage />} />
+          <Route path="/agent/9-1-sequential-agent" element={<Agent91SequentialAgentPage />} />
+          <Route path="/agent/9-2-loop-agent" element={<Agent92LoopAgentPage />} />
+          <Route path="/agent/9-3-parallel-agent" element={<Agent93ParallelAgentPage />} />
+          <Route path="/agent/ag2-adaptive-research-team" element={<Ag2AdaptiveResearchTeamPage />} />
+          <Route path="/agent/agentic-rag-embedding-gemma" element={<AgenticRagEmbeddingGemmaPage />} />
+          <Route path="/agent/agentic-rag-gpt5" element={<AgenticRagGpt5Page />} />
+          <Route path="/agent/agentic-rag-with-reasoning" element={<AgenticRagWithReasoningPage />} />
+          <Route path="/agent/ai-3dpygame-r1" element={<Ai3dpygameR1Page />} />
+          <Route path="/agent/ai-aqi-analysis-agent" element={<AiAqiAnalysisAgentPage />} />
+          <Route path="/agent/ai-arxiv-agent-memory" element={<AiArxivAgentMemoryPage />} />
+          <Route path="/agent/ai-audio-tour-agent" element={<AiAudioTourAgentPage />} />
+          <Route path="/agent/ai-blog-search" element={<AiBlogSearchPage />} />
+          <Route path="/agent/ai-blog-to-podcast-agent" element={<AiBlogToPodcastAgentPage />} />
+          <Route path="/agent/ai-breakup-recovery-agent" element={<AiBreakupRecoveryAgentPage />} />
+          <Route path="/agent/ai-chess-agent" element={<AiChessAgentPage />} />
+          <Route path="/agent/ai-competitor-intelligence-agent-team" element={<AiCompetitorIntelligenceAgentTeamPage />} />
+          <Route path="/agent/ai-customer-support-agent" element={<AiCustomerSupportAgentPage />} />
+          <Route path="/agent/ai-data-analysis-agent" element={<AiDataAnalysisAgentPage />} />
+          <Route path="/agent/ai-data-visualisation-agent" element={<AiDataVisualisationAgentPage />} />
+          <Route path="/agent/ai-deep-research-agent" element={<AiDeepResearchAgentPage />} />
+          <Route path="/agent/ai-domain-deep-research-agent" element={<AiDomainDeepResearchAgentPage />} />
+          <Route path="/agent/ai-email-gtm-outreach-agent" element={<AiEmailGtmOutreachAgentPage />} />
+          <Route path="/agent/ai-email-gtm-reachout-agent" element={<AiEmailGtmReachoutAgentPage />} />
+          <Route path="/agent/ai-financial-coach-agent" element={<AiFinancialCoachAgentPage />} />
+          <Route path="/agent/ai-fraud-investigation-agent" element={<AiFraudInvestigationAgentPage />} />
+          <Route path="/agent/ai-game-design-agent-team" element={<AiGameDesignAgentTeamPage />} />
+          <Route path="/agent/ai-health-fitness-agent" element={<AiHealthFitnessAgentPage />} />
+          <Route path="/agent/ai-journalist-agent" element={<AiJournalistAgentPage />} />
+          <Route path="/agent/ai-legal-agent-team" element={<AiLegalAgentTeamPage />} />
+          <Route path="/agent/ai-life-insurance-advisor-agent" element={<AiLifeInsuranceAdvisorAgentPage />} />
+          <Route path="/agent/ai-medical-imaging-agent" element={<AiMedicalImagingAgentPage />} />
+          <Route path="/agent/ai-meeting-agent" element={<AiMeetingAgentPage />} />
+          <Route path="/agent/ai-meme-generator-agent-browseruse" element={<AiMemeGeneratorAgentBrowserusePage />} />
+          <Route path="/agent/ai-mental-wellbeing-agent" element={<AiMentalWellbeingAgentPage />} />
+          <Route path="/agent/ai-movie-production-agent" element={<AiMovieProductionAgentPage />} />
+          <Route path="/agent/ai-music-generator-agent" element={<AiMusicGeneratorAgentPage />} />
+          <Route path="/agent/ai-personal-finance-agent" element={<AiPersonalFinanceAgentPage />} />
+          <Route path="/agent/ai-real-estate-agent-team" element={<AiRealEstateAgentTeamPage />} />
+          <Route path="/agent/ai-reasoning-agent" element={<AiReasoningAgentPage />} />
+          <Route path="/agent/ai-recipe-meal-planning-agent" element={<AiRecipeMealPlanningAgentPage />} />
+          <Route path="/agent/ai-recruitment-agent-team" element={<AiRecruitmentAgentTeamPage />} />
+          <Route path="/agent/ai-services-agency" element={<AiServicesAgencyPage />} />
+          <Route path="/agent/ai-startup-insight-fire1-agent" element={<AiStartupInsightFire1AgentPage />} />
+          <Route path="/agent/ai-startup-trend-analysis-agent" element={<AiStartupTrendAnalysisAgentPage />} />
+          <Route path="/agent/ai-system-architect-r1" element={<AiSystemArchitectR1Page />} />
+          <Route path="/agent/ai-teaching-agent-team" element={<AiTeachingAgentTeamPage />} />
+          <Route path="/agent/ai-tic-tac-toe-agent" element={<AiTicTacToeAgentPage />} />
+          <Route path="/agent/ai-travel-agent" element={<AiTravelAgentPage />} />
+          <Route path="/agent/ai-travel-agent-memory" element={<AiTravelAgentMemoryPage />} />
+          <Route path="/agent/ai-travel-planner-mcp-agent-team" element={<AiTravelPlannerMcpAgentTeamPage />} />
+           <Route path="/agent/app" element={<AgentsAppPage />} />
+          <Route path="/agent/autonomous-rag" element={<AutonomousRagPage />} />
+           <Route path="/agent/blog-to-podcast-agent" element={<BlogToPodcastAgentPage />} />
+          <Route path="/agent/browser-mcp-agent" element={<BrowserMcpAgentPage />} />
+          <Route path="/agent/chat-with-github" element={<ChatWithGithubPage />} />
+          <Route path="/agent/chat-with-gmail" element={<ChatWithGmailPage />} />
+          <Route path="/agent/chat-with-pdf" element={<ChatWithPdfPage />} />
+          <Route path="/agent/chat-with-research-papers" element={<ChatWithResearchPapersPage />} />
+          <Route path="/agent/chat-with-substack" element={<ChatWithSubstackPage />} />
+          <Route path="/agent/chat-with-tarots" element={<ChatWithTarotsPage />} />
+          <Route path="/agent/chat-with-youtube-videos" element={<ChatWithYoutubeVideosPage />} />
+          <Route path="/agent/contextualai-rag-agent" element={<ContextualaiRagAgentPage />} />
+          <Route path="/agent/corrective-rag" element={<CorrectiveRagPage />} />
+          <Route path="/agent/cursor-ai-experiments" element={<CursorAiExperimentsPage />} />
+          <Route path="/agent/customer-support-voice-agent" element={<CustomerSupportVoiceAgentPage />} />
+          <Route path="/agent/deepseek-local-rag-agent" element={<DeepseekLocalRagAgentPage />} />
+          <Route path="/agent/devpulse-ai" element={<DevpulseAiPage />} />
+          <Route path="/agent/frontend" element={<FrontendPage />} />
+          <Route path="/agent/gemini-agentic-rag" element={<GeminiAgenticRagPage />} />
+          <Route path="/agent/github-mcp-agent" element={<GithubMcpAgentPage />} />
+          <Route path="/agent/gpt-oss-critique-improvement-loop" element={<GptOssCritiqueImprovementLoopPage />} />
+          <Route path="/agent/hybrid-search-rag" element={<HybridSearchRagPage />} />
+          <Route path="/agent/knowledge-graph-rag-citations" element={<KnowledgeGraphRagCitationsPage />} />
+          <Route path="/agent/llama3-1-local-rag" element={<Llama31LocalRagPage />} />
+          <Route path="/agent/llama3-stateful-chat" element={<Llama3StatefulChatPage />} />
+          <Route path="/agent/llm-app-personalized-memory" element={<LlmAppPersonalizedMemoryPage />} />
+          <Route path="/agent/llm-router-app" element={<LlmRouterAppPage />} />
+          <Route path="/agent/local-ai-legal-agent-team" element={<LocalAiLegalAgentTeamPage />} />
+          <Route path="/agent/local-ai-reasoning-agent-py" element={<LocalAiReasoningAgentPyPage />} />
+          <Route path="/agent/local-ai-scrapper-py" element={<LocalAiScrapperPyPage />} />
+          <Route path="/agent/local-chatgpt-clone" element={<LocalChatgptClonePage />} />
+          <Route path="/agent/local-chatgpt-with-memory" element={<LocalChatgptWithMemoryPage />} />
+          <Route path="/agent/local-hybrid-search-rag" element={<LocalHybridSearchRagPage />} />
+           <Route path="/agent/local-travel-agent" element={<LocalTravelAgentPage />} />
+           <Route path="/agent/mixture-of-agents" element={<MixtureOfAgentsPage />} />
+          <Route path="/agent/multi-agent-researcher" element={<MultiAgentResearcherPage />} />
+          <Route path="/agent/multi-llm-memory" element={<MultiLlmMemoryPage />} />
+          <Route path="/agent/multi-mcp-agent-router" element={<MultiMcpAgentRouterPage />} />
+          <Route path="/agent/multimodal-ai-agent" element={<MultimodalAiAgentPage />} />
+          <Route path="/agent/multimodal-coding-agent-team" element={<MultimodalCodingAgentTeamPage />} />
+          <Route path="/agent/multimodal-design-agent-team" element={<MultimodalDesignAgentTeamPage />} />
+          <Route path="/agent/music-generator-agent-py" element={<MusicGeneratorAgentPyPage />} />
+          <Route path="/agent/openai-research-agent" element={<OpenaiResearchAgentPage />} />
+          <Route path="/agent/product-launch-intelligence-agent" element={<ProductLaunchIntelligenceAgentPage />} />
+          <Route path="/agent/qwen-local-rag" element={<QwenLocalRagPage />} />
+          <Route path="/agent/rag-agent-cohere" element={<RagAgentCoherePage />} />
+          <Route path="/agent/rag-as-a-service" element={<RagAsAServicePage />} />
+          <Route path="/agent/rag-chain" element={<RagChainPage />} />
+          <Route path="/agent/rag-database-routing" element={<RagDatabaseRoutingPage />} />
+          <Route path="/agent/research-agent-gemini-interaction-api" element={<ResearchAgentGeminiInteractionApiPage />} />
+          <Route path="/agent/resume-job-matcher" element={<ResumeJobMatcherPage />} />
+           <Route path="/agent/startup-trends-agent" element={<StartupTrendsAgentPage />} />
+          <Route path="/agent/toonify-token-optimization" element={<ToonifyTokenOptimizationPage />} />
+          <Route path="/agent/trust-gated-agent-team" element={<TrustGatedAgentTeamPage />} />
+          <Route path="/agent/vision-rag" element={<VisionRagPage />} />
+          <Route path="/agent/voice-rag-openaisdk" element={<VoiceRagOpenaisdkPage />} />
+          <Route path="/agent/web-scraping-ai-agent" element={<WebScrapingAiAgentPage />} />
+          <Route path="/agent/xai-finance-agent" element={<XaiFinanceAgentPage />} />
+  
+
+          <Route path="/agent/toonify-token-optimization" element={<AdvancedLlmAppsToonifyTokenOptimizationPage />} />
+                  <Route path="/agent/ai-data-visualisation-agent" element={<AiDataVisualisationAgentPage />} />
+                  <Route path="/agent/ai-data-visualisation-agent" element={<StarterAiAgentsAiDataVisualisationAgentPage />} />
+                  <Route path="/agent/ai-arxiv-agent-memory" element={<AdvancedLlmAppsAiArxivAgentMemoryPage />} />
+                  <Route path="/agent/ai-travel-agent-memory" element={<AdvancedLlmAppsAiTravelAgentMemoryPage />} />
+                  <Route path="/agent/chat-with-gmail" element={<AdvancedLlmAppsChatWithGmailPage />} />
+                  <Route path="/agent/chat-with-pdf" element={<AdvancedLlmAppsChatWithPdfPage />} />
+                  <Route path="/agent/chat-with-substack" element={<AdvancedLlmAppsChatWithSubstackPage />} />
+                  <Route path="/agent/chat-with-youtube-videos" element={<AdvancedLlmAppsChatWithYoutubeVideosPage />} />
+                  <Route path="/agent/llm-app-personalized-memory" element={<AdvancedLlmAppsLlmAppPersonalizedMemoryPage />} />
+                  <Route path="/agent/local-chatgpt-with-memory" element={<AdvancedLlmAppsLocalChatgptWithMemoryPage />} />
+                  <Route path="/agent/multi-llm-memory" element={<AdvancedLlmAppsMultiLlmMemoryPage />} />
+                  <Route path="/agent/ai-blog-search" element={<RagTutorialsAiBlogSearchPage />} />
+                  <Route path="/agent/corrective-rag" element={<RagTutorialsCorrectiveRagPage />} />
+                  <Route path="/agent/knowledge-graph-rag-citations" element={<RagTutorialsKnowledgeGraphRagCitationsPage />} />
+                  <Route path="/agent/llama3-1-local-rag" element={<RagTutorialsLlama31LocalRagPage />} />
+                  <Route path="/agent/rag-agent-cohere" element={<RagTutorialsRagAgentCoherePage />} />
+                  <Route path="/agent/rag-chain" element={<RagTutorialsRagChainPage />} />
+                  <Route path="/agent/vision-rag" element={<RagTutorialsVisionRagPage />} />
+                  <Route path="/agent/local-ai-scrapper-py" element={<AgentPage />} />
+                  <Route path="/agent/web-scraping-ai-agent" element={<StarterAiAgentsWebScrapingAiAgentPage />} />
+                  <Route path="/agent/web-scraping-ai-agent" element={<WebScrapingAiAgentPage />} />
+                  <Route path="/agent/ai-3dpygame-r1" element={<AdvancedAiAgentsAi3dpygameR1Page />} />
+                  <Route path="/agent/ai-aqi-analysis-agent" element={<AdvancedAiAgentsAiAqiAnalysisAgentPage />} />
+                  <Route path="/agent/ai-chess-agent" element={<AdvancedAiAgentsAiChessAgentPage />} />
+                  <Route path="/agent/ai-competitor-intelligence-agent-team" element={<AdvancedAiAgentsAiCompetitorIntelligenceAgentTeamPage />} />
+                  <Route path="/agent/ai-customer-support-agent" element={<AdvancedAiAgentsAiCustomerSupportAgentPage />} />
+                  <Route path="/agent/ai-deep-research-agent" element={<AdvancedAiAgentsAiDeepResearchAgentPage />} />
+                  <Route path="/agent/ai-domain-deep-research-agent" element={<AdvancedAiAgentsAiDomainDeepResearchAgentPage />} />
+                  <Route path="/agent/ai-email-gtm-outreach-agent" element={<AdvancedAiAgentsAiEmailGtmOutreachAgentPage />} />
+                  <Route path="/agent/ai-email-gtm-reachout-agent" element={<AdvancedAiAgentsAiEmailGtmReachoutAgentPage />} />
+                  <Route path="/agent/ai-financial-coach-agent" element={<AdvancedAiAgentsAiFinancialCoachAgentPage />} />
+                  <Route path="/agent/ai-fraud-investigation-agent" element={<AdvancedAiAgentsAiFraudInvestigationAgentPage />} />
+                  <Route path="/agent/ai-game-design-agent-team" element={<AdvancedAiAgentsAiGameDesignAgentTeamPage />} />
+                  <Route path="/agent/ai-health-fitness-agent" element={<AdvancedAiAgentsAiHealthFitnessAgentPage />} />
+                  <Route path="/agent/ai-journalist-agent" element={<AdvancedAiAgentsAiJournalistAgentPage />} />
+                  <Route path="/agent/ai-legal-agent-team" element={<AdvancedAiAgentsAiLegalAgentTeamPage />} />
+                  <Route path="/agent/ai-meeting-agent" element={<AdvancedAiAgentsAiMeetingAgentPage />} />
+                  <Route path="/agent/ai-mental-wellbeing-agent" element={<AdvancedAiAgentsAiMentalWellbeingAgentPage />} />
+                  <Route path="/agent/ai-movie-production-agent" element={<AdvancedAiAgentsAiMovieProductionAgentPage />} />
+                  <Route path="/agent/ai-personal-finance-agent" element={<AdvancedAiAgentsAiPersonalFinanceAgentPage />} />
+                  <Route path="/agent/ai-real-estate-agent-team" element={<AdvancedAiAgentsAiRealEstateAgentTeamPage />} />
+                  <Route path="/agent/ai-recipe-meal-planning-agent" element={<AdvancedAiAgentsAiRecipeMealPlanningAgentPage />} />
+                  <Route path="/agent/ai-recruitment-agent-team" element={<AdvancedAiAgentsAiRecruitmentAgentTeamPage />} />
+                  <Route path="/agent/ai-services-agency" element={<AdvancedAiAgentsAiServicesAgencyPage />} />
+                  <Route path="/agent/ai-startup-insight-fire1-agent" element={<AdvancedAiAgentsAiStartupInsightFire1AgentPage />} />
+                  <Route path="/agent/ai-system-architect-r1" element={<AdvancedAiAgentsAiSystemArchitectR1Page />} />
+                  <Route path="/agent/ai-teaching-agent-team" element={<AdvancedAiAgentsAiTeachingAgentTeamPage />} />
+                  <Route path="/agent/devpulse-ai" element={<AdvancedAiAgentsDevpulseAiPage />} />
+                  <Route path="/agent/local-ai-legal-agent-team" element={<AdvancedAiAgentsLocalAiLegalAgentTeamPage />} />
+                  <Route path="/agent/multi-agent-researcher" element={<AdvancedAiAgentsMultiAgentResearcherPage />} />
+                  <Route path="/agent/multimodal-coding-agent-team" element={<AdvancedAiAgentsMultimodalCodingAgentTeamPage />} />
+                  <Route path="/agent/multimodal-design-agent-team" element={<AdvancedAiAgentsMultimodalDesignAgentTeamPage />} />
+                  <Route path="/agent/product-launch-intelligence-agent" element={<AdvancedAiAgentsProductLaunchIntelligenceAgentPage />} />
+                  <Route path="/agent/chat-with-research-papers" element={<AdvancedLlmAppsChatWithResearchPapersPage />} />
+                  <Route path="/agent/cursor-ai-experiments" element={<AdvancedLlmAppsCursorAiExperimentsPage />} />
+                  <Route path="/agent/1-starter-agent" element={<AiAgentFrameworkCrashCourse1StarterAgentPage />} />
+                  <Route path="/agent/4-running-agents" element={<AiAgentFrameworkCrashCourse4RunningAgentsPage />} />
+                  <Route path="/agent/7-sessions" element={<AiAgentFrameworkCrashCourse7SessionsPage />} />
+                  <Route path="/agent/ai-blog-to-podcast-agent" element={<AiBlogToPodcastAgentPage />} />
+                  <Route path="/agent/ai-breakup-recovery-agent" element={<AiBreakupRecoveryAgentPage />} />
+                  <Route path="/agent/ai-data-analysis-agent" element={<AiDataAnalysisAgentPage />} />
+                  <Route path="/agent/ai-life-insurance-advisor-agent" element={<AiLifeInsuranceAdvisorAgentPage />} />
+                  <Route path="/agent/ai-medical-imaging-agent" element={<AiMedicalImagingAgentPage />} />
+                  <Route path="/agent/ai-meme-generator-agent-browseruse" element={<AiMemeGeneratorAgentBrowserusePage />} />
+                  <Route path="/agent/ai-music-generator-agent" element={<AiMusicGeneratorAgentPage />} />
+                  <Route path="/agent/ai-startup-trend-analysis-agent" element={<AiStartupTrendAnalysisAgentPage />} />
+                  <Route path="/agent/ai-travel-agent" element={<AiTravelAgentPage />} />
+                  <Route path="/agent/blog-to-podcast-agent-" element={<PodcastAgentPage />} />
+                  <Route path="/agent/customer-support-voice-agent" element={<SupportVoiceAgentPage />} />
+                  <Route path="/agent/customer-support-voice-agent" element={<CustomerSupportVoiceAgentPage />} />
+                  <Route path="/agent/ai-travel-planner-mcp-agent-team" element={<McpAiAgentsAiTravelPlannerMcpAgentTeamPage />} />
+                  <Route path="/agent/browser-mcp-agent" element={<McpAiAgentsBrowserMcpAgentPage />} />
+                  <Route path="/agent/github-mcp-agent" element={<McpAiAgentsGithubMcpAgentPage />} />
+                  <Route path="/agent/multi-mcp-agent-router" element={<McpAiAgentsMultiMcpAgentRouterPage />} />
+                  <Route path="/agent/multimodal-ai-agent" element={<MultimodalAiAgentPage />} />
+                  <Route path="/agent/music-generator-agent-py" element={<AgentPage />} />
+                  <Route path="/agent/openai-research-agent" element={<OpenaiResearchAgentPage />} />
+                  <Route path="/agent/agentic-rag-embedding-gemma" element={<RagTutorialsAgenticRagEmbeddingGemmaPage />} />
+                  <Route path="/agent/agentic-rag-gpt5" element={<RagTutorialsAgenticRagGpt5Page />} />
+                  <Route path="/agent/agentic-rag-with-reasoning" element={<RagTutorialsAgenticRagWithReasoningPage />} />
+                  <Route path="/agent/autonomous-rag" element={<RagTutorialsAutonomousRagPage />} />
+                  <Route path="/agent/deepseek-local-rag-agent" element={<RagTutorialsDeepseekLocalRagAgentPage />} />
+                  <Route path="/agent/gemini-agentic-rag" element={<RagTutorialsGeminiAgenticRagPage />} />
+                  <Route path="/agent/qwen-local-rag" element={<RagTutorialsQwenLocalRagPage />} />
+                  <Route path="/agent/rag-database-routing" element={<RagTutorialsRagDatabaseRoutingPage />} />
+                  <Route path="/agent/ai-blog-to-podcast-agent" element={<StarterAiAgentsAiBlogToPodcastAgentPage />} />
+                  <Route path="/agent/ai-breakup-recovery-agent" element={<StarterAiAgentsAiBreakupRecoveryAgentPage />} />
+                  <Route path="/agent/ai-data-analysis-agent" element={<StarterAiAgentsAiDataAnalysisAgentPage />} />
+                  <Route path="/agent/ai-life-insurance-advisor-agent" element={<StarterAiAgentsAiLifeInsuranceAdvisorAgentPage />} />
+                  <Route path="/agent/ai-medical-imaging-agent" element={<StarterAiAgentsAiMedicalImagingAgentPage />} />
+                  <Route path="/agent/ai-meme-generator-agent-browseruse" element={<StarterAiAgentsAiMemeGeneratorAgentBrowserusePage />} />
+                  <Route path="/agent/ai-music-generator-agent" element={<StarterAiAgentsAiMusicGeneratorAgentPage />} />
+                  <Route path="/agent/ai-startup-trend-analysis-agent" element={<StarterAiAgentsAiStartupTrendAnalysisAgentPage />} />
+                  <Route path="/agent/ai-travel-agent" element={<StarterAiAgentsAiTravelAgentPage />} />
+                  <Route path="/agent/multimodal-ai-agent" element={<StarterAiAgentsMultimodalAiAgentPage />} />
+                  <Route path="/agent/openai-research-agent" element={<StarterAiAgentsOpenaiResearchAgentPage />} />
+                  <Route path="/agent/startup-trends-agent-" element={<TrendsAgentPage />} />
+                  <Route path="/agent/local-travel-agent-" element={<AgentPage />} />
+                  <Route path="/agent/voice-rag-openaisdk" element={<RagOpenaisdkPage />} />
+                  <Route path="/agent/customer-support-voice-agent" element={<VoiceAiAgentsCustomerSupportVoiceAgentPage />} />
+                  <Route path="/agent/voice-rag-openaisdk" element={<VoiceAiAgentsVoiceRagOpenaisdkPage />} />
+                  <Route path="/agent/voice-rag-openaisdk" element={<VoiceRagOpenaisdkPage />} />
+                  <Route path="/agent/ag2-adaptive-research-team" element={<AdvancedAiAgentsAg2AdaptiveResearchTeamPage />} />
+                  <Route path="/agent/frontend" element={<AdvancedAiAgentsAiSpeechTrainerAgentPage />} />
+                  <Route path="/agent/ai-tic-tac-toe-agent" element={<AdvancedAiAgentsAiTicTacToeAgentPage />} />
+                  <Route path="/agent/research-agent-gemini-interaction-api" element={<AdvancedAiAgentsResearchAgentGeminiInteractionApiPage />} />
+                  <Route path="/agent/trust-gated-agent-team" element={<AdvancedAiAgentsTrustGatedAgentTeamPage />} />
+                  <Route path="/agent/chat-with-github" element={<AdvancedLlmAppsChatWithGithubPage />} />
+                  <Route path="/agent/chat-with-tarots" element={<AdvancedLlmAppsChatWithTarotsPage />} />
+                  <Route path="/agent/gpt-oss-critique-improvement-loop" element={<AdvancedLlmAppsGptOssCritiqueImprovementLoopPage />} />
+                  <Route path="/agent/llama3-stateful-chat" element={<AdvancedLlmAppsLlama3StatefulChatPage />} />
+                  <Route path="/agent/llm-router-app" element={<AdvancedLlmAppsLlmRouterAppPage />} />
+                  <Route path="/agent/local-chatgpt-clone" element={<AdvancedLlmAppsLocalChatgptClonePage />} />
+                  <Route path="/agent/resume-job-matcher" element={<AdvancedLlmAppsResumeJobMatcherPage />} />
+                  <Route path="/agent/ai-audio-tour-agent" element={<AudioTourAgentPage />} />
+                  <Route path="/agent/5-1-in-memory-conversation-agent" element={<AiAgentFrameworkCrashCourse51InMemoryConversationAgentPage />} />
+                  <Route path="/agent/5-2-persistent-conversation-agent" element={<AiAgentFrameworkCrashCourse52PersistentConversationAgentPage />} />
+                  <Route path="/agent/6-1-agent-lifecycle-callbacks" element={<AiAgentFrameworkCrashCourse61AgentLifecycleCallbacksPage />} />
+                  <Route path="/agent/6-2-llm-interaction-callbacks" element={<AiAgentFrameworkCrashCourse62LlmInteractionCallbacksPage />} />
+                  <Route path="/agent/6-3-tool-execution-callbacks" element={<AiAgentFrameworkCrashCourse63ToolExecutionCallbacksPage />} />
+                  <Route path="/agent/7-plugins" element={<AiAgentFrameworkCrashCourse7PluginsPage />} />
+                  <Route path="/agent/9-1-sequential-agent" element={<AiAgentFrameworkCrashCourse91SequentialAgentPage />} />
+                  <Route path="/agent/9-2-loop-agent" element={<AiAgentFrameworkCrashCourse92LoopAgentPage />} />
+                  <Route path="/agent/9-3-parallel-agent" element={<AiAgentFrameworkCrashCourse93ParallelAgentPage />} />
+                  <Route path="/agent/ai-audio-tour-agent" element={<AiAudioTourAgentPage />} />
+                  <Route path="/agent/ai-reasoning-agent" element={<AiReasoningAgentPage />} />
+                  <Route path="/agent/mixture-of-agents-" element={<AgentsPage />} />
+                  <Route path="/agent/mixture-of-agents" element={<MixtureOfAgentsPage />} />
+                  <Route path="/agent/app" element={<RagTutorialsAgenticRagMathAgentPage />} />
+                  <Route path="/agent/contextualai-rag-agent" element={<RagTutorialsContextualaiRagAgentPage />} />
+                  <Route path="/agent/hybrid-search-rag" element={<RagTutorialsHybridSearchRagPage />} />
+                  <Route path="/agent/local-hybrid-search-rag" element={<RagTutorialsLocalHybridSearchRagPage />} />
+                  <Route path="/agent/rag-as-a-service" element={<RagTutorialsRagAsAServicePage />} />
+                  <Route path="/agent/local-ai-reasoning-agent-py" element={<AgentPage />} />
+                  <Route path="/agent/ai-reasoning-agent" element={<StarterAiAgentsAiReasoningAgentPage />} />
+                  <Route path="/agent/mixture-of-agents" element={<StarterAiAgentsMixtureOfAgentsPage />} />
+                  <Route path="/agent/xai-finance-agent" element={<StarterAiAgentsXaiFinanceAgentPage />} />
+                  <Route path="/agent/ai-audio-tour-agent" element={<VoiceAiAgentsAiAudioTourAgentPage />} />
+                  <Route path="/agent/xai-finance-agent" element={<XaiFinanceAgentPage />} />
+
+        </Routes>
+        <Toaster />
+        <MobileBottomNav />
+        <NetworkStatusIndicator />
+      </div>
+    </AuthProvider>
+  );
+}
+
+export default App;

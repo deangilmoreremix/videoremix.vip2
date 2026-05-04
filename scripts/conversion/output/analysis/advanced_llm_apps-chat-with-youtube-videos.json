@@ -1,0 +1,65 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 3,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 1,
+    "chat": 0,
+    "write": 7
+  },
+  "providers": {},
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": true,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 243,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": true,
+  "hasWebSearch": true,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "openai_api_key",
+      "label": "OpenAI API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_youtube_video_url",
+      "label": "Enter YouTube Video URL",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "ask_any_question_about_the_youtube_video",
+      "label": "Ask any question about the YouTube Video",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "code",
+  "primaryProvider": "unknown",
+  "filePath": "awesome-llm-apps/advanced_llm_apps/chat_with_X_tutorials/chat_with_youtube_videos/chat_youtube.py",
+  "appName": "chat-with-youtube-videos",
+  "category": "awesome-llm-apps",
+  "complexity": "rag",
+  "requiresApiKey": false,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 8,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:34.611Z",
+  "analyzerVersion": "0.1.0"
+}

@@ -1,0 +1,10 @@
+{
+  "total_agents_expected": 140,
+  "total_routes_registered": 140,
+  "total_components_exist": 140,
+  "build_status": "success",
+  "duplicates": [],
+  "missing_components": [],
+  "build_errors": [],
+  "status": "pass"
+}

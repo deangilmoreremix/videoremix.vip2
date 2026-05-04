@@ -1,0 +1,102 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": true,
+  "hasFileUpload": true,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 4,
+    "numberInput": 0,
+    "fileUpload": 1,
+    "selectBox": 1,
+    "button": 1,
+    "chat": 0,
+    "write": 10
+  },
+  "providers": {
+    "agno": {
+      "count": 6,
+      "imports": 3,
+      "clients": 3,
+      "models": []
+    },
+    "crewai": {
+      "count": 3,
+      "imports": 3,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 3,
+      "imports": 3,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 394,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": true,
+  "hasWebSearch": true,
+  "uiType": "multi-tab",
+  "inputFields": [
+    {
+      "name": "openai_api_key",
+      "label": "OpenAI API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "qdrant_api_key",
+      "label": "Qdrant API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "qdrant_url",
+      "label": "Qdrant URL",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "upload_legal_document",
+      "label": "Upload Legal Document",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "select_analysis_type",
+      "label": "Select Analysis Type",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "enter_your_specific_query",
+      "label": "Enter your specific query:",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/multi_agent_apps/agent_teams/ai_legal_agent_team/legal_agent_team.py",
+  "appName": "ai-legal-agent-team",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 15,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:35.604Z",
+  "analyzerVersion": "0.1.0"
+}

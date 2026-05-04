@@ -1,0 +1,72 @@
+[
+  {
+    "appName": "blog-to-podcast-agent-",
+    "appSlug": "blog-to-podcast-agent-",
+    "componentName": "BlogToPodcastAgentPage",
+    "category": "awesome-llm-apps",
+    "uiType": "form",
+    "complexity": "multi-agent",
+    "template": "form",
+    "outputPath": "scripts/conversion/output/components/BlogToPodcastAgentPage.tsx"
+  },
+  {
+    "appName": "mixture-of-agents-",
+    "appSlug": "mixture-of-agents-",
+    "componentName": "MixtureOfAgentsPage",
+    "category": "awesome-llm-apps",
+    "uiType": "form",
+    "complexity": "simple",
+    "template": "form",
+    "outputPath": "scripts/conversion/output/components/MixtureOfAgentsPage.tsx"
+  },
+  {
+    "appName": "music-generator-agent-py",
+    "appSlug": "music-generator-agent-py",
+    "componentName": "MusicGeneratorAgentPyPage",
+    "category": "awesome-llm-apps",
+    "uiType": "form",
+    "complexity": "multi-agent",
+    "template": "form",
+    "outputPath": "scripts/conversion/output/components/MusicGeneratorAgentPyPage.tsx"
+  },
+  {
+    "appName": "local-ai-reasoning-agent-py",
+    "appSlug": "local-ai-reasoning-agent-py",
+    "componentName": "LocalAiReasoningAgentPyPage",
+    "category": "awesome-llm-apps",
+    "uiType": "chat",
+    "complexity": "simple",
+    "template": "chat",
+    "outputPath": "scripts/conversion/output/components/LocalAiReasoningAgentPyPage.tsx"
+  },
+  {
+    "appName": "local-ai-scrapper-py",
+    "appSlug": "local-ai-scrapper-py",
+    "componentName": "LocalAiScrapperPyPage",
+    "category": "awesome-llm-apps",
+    "uiType": "form",
+    "complexity": "rag",
+    "template": "form",
+    "outputPath": "scripts/conversion/output/components/LocalAiScrapperPyPage.tsx"
+  },
+  {
+    "appName": "startup-trends-agent-",
+    "appSlug": "startup-trends-agent-",
+    "componentName": "StartupTrendsAgentPage",
+    "category": "awesome-llm-apps",
+    "uiType": "form",
+    "complexity": "multi-agent",
+    "template": "form",
+    "outputPath": "scripts/conversion/output/components/StartupTrendsAgentPage.tsx"
+  },
+  {
+    "appName": "local-travel-agent-",
+    "appSlug": "local-travel-agent-",
+    "componentName": "LocalTravelAgentPage",
+    "category": "awesome-llm-apps",
+    "uiType": "form",
+    "complexity": "multi-agent",
+    "template": "form",
+    "outputPath": "scripts/conversion/output/components/LocalTravelAgentPage.tsx"
+  }
+]

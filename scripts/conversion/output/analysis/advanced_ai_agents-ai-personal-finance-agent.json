@@ -1,0 +1,95 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 4,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 1,
+    "chat": 0,
+    "write": 1
+  },
+  "providers": {
+    "agno": {
+      "count": 4,
+      "imports": 2,
+      "clients": 2,
+      "models": [
+        {
+          "pattern": "gpt-4",
+          "count": 2
+        }
+      ]
+    },
+    "crewai": {
+      "count": 2,
+      "imports": 2,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 2,
+      "imports": 2,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 69,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "enter_openai_api_key_to_access_gpt4o",
+      "label": "Enter OpenAI API Key to access GPT-4o",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_serp_api_key_for_search_functionality",
+      "label": "Enter Serp API Key for Search functionality",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "what_are_your_financial_goals",
+      "label": "What are your financial goals?",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "describe_your_current_financial_situation",
+      "label": "Describe your current financial situation",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/single_agent_apps/ai_personal_finance_agent/finance_agent.py",
+  "appName": "ai-personal-finance-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 15,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:36.325Z",
+  "analyzerVersion": "0.1.0"
+}

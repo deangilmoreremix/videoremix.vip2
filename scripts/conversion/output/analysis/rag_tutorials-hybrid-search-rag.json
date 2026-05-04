@@ -1,0 +1,94 @@
+{
+  "hasChatInput": true,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": true,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 4,
+    "numberInput": 0,
+    "fileUpload": 1,
+    "selectBox": 0,
+    "button": 1,
+    "chat": 5,
+    "write": 3
+  },
+  "providers": {
+    "anthropic": {
+      "count": 3,
+      "imports": 2,
+      "clients": 1,
+      "models": [
+        {
+          "pattern": "claude-3-opus",
+          "count": 1
+        },
+        {
+          "pattern": "claude-3-sonnet",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": true,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 215,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "chat",
+  "inputFields": [
+    {
+      "name": "openai_api_key",
+      "label": "OpenAI API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "anthropic_api_key",
+      "label": "Anthropic API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "cohere_api_key",
+      "label": "Cohere API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "database_url",
+      "label": "Database URL",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "upload_pdf_documents",
+      "label": "Upload PDF documents",
+      "type": "file",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "anthropic",
+  "filePath": "awesome-llm-apps/rag_tutorials/hybrid_search_rag/main.py",
+  "appName": "hybrid-search-rag",
+  "category": "awesome-llm-apps",
+  "complexity": "file-processing",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "ANTHROPIC_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 2,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:34.211Z",
+  "analyzerVersion": "0.1.0"
+}

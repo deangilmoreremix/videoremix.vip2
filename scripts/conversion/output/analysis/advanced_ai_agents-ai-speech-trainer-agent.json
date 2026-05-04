@@ -1,0 +1,53 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": true,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 0,
+    "numberInput": 0,
+    "fileUpload": 1,
+    "selectBox": 0,
+    "button": 4,
+    "chat": 0,
+    "write": 3
+  },
+  "providers": {},
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 143,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "file-upload",
+  "inputFields": [
+    {
+      "name": "_upload_video",
+      "label": "📤 Upload Video",
+      "type": "file",
+      "required": true
+    }
+  ],
+  "outputFormat": "video",
+  "primaryProvider": "unknown",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/multi_agent_apps/ai_speech_trainer_agent/frontend/Home.py",
+  "appName": "frontend",
+  "category": "awesome-llm-apps",
+  "complexity": "file-processing",
+  "requiresApiKey": false,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 2,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:35.529Z",
+  "analyzerVersion": "0.1.0"
+}

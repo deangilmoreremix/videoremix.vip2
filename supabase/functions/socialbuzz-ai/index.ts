@@ -1,16 +1,13 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { corsHeaders, jsonResponse, errorResponse } from '../_shared/utils.ts';
+import { corsHeaders, jsonResponse, errorResponse, createSupabaseClient } from '../_shared/utils.ts';
+import { createOptimizedAnthropicClient } from '../_shared/performance-clients.ts';
 
-import { createClient } from '@supabase/supabase-js';
-import Anthropic from 'npm:anthropic@0.39.0';;
-
+// Initialize Supabase
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const anthropic = new Anthropic({
-  apiKey: Deno.env.get('ANTHROPIC_API_KEY')!,
-});
+// --- Types ---
 
 interface SocialBuzzInput {
   topic: string;
@@ -43,10 +40,51 @@ interface SocialBuzzResult {
   error?: string;
 }
 
-// Mock social media data gathering (in production, integrate with real APIs)
+// ============================================================================
+// HELPER FUNCTIONS
+// ============================================================================
+
+/**
+ * Fetch user's API key from Supabase (user-provided keys)
+ */
+async function getUserApiKey(user_id: string, provider: string): Promise<string | null> {
+  const { data, error } = await supabase
+    .from('user_api_keys')
+    .select('encrypted_api_key')
+    .eq('user_id', user_id)
+    .eq('provider', provider)
+    .single();
+
+  if (error || !data) {
+    return null;
+  }
+  return data.encrypted_api_key;
+}
+
+/**
+ * Verify JWT token to get user_id
+ */
+async function verifyUser(req: Request): Promise<{ user_id: string } | null> {
+  const authHeader = req.headers.get('Authorization');
+  if (!authHeader?.startsWith('Bearer ')) {
+    return null;
+  }
+  const token = authHeader.substring(7);
+  try {
+    const { data: { user } } = await supabase.auth.getUser(token);
+    if (!user) return null;
+    return { user_id: user.id };
+  } catch (e) {
+    console.error('JWT verification failed:', e);
+    return null;
+  }
+}
+
+/**
+ * Gather social media data (mock - integrate with real APIs in production)
+ */
 async function gatherSocialData(topic: string, platform: string, timeframe: string): Promise<any[]> {
-  // Simulate gathering social media data
-  // In production, integrate with Twitter API, LinkedIn API, etc.
+  // Mock data - in production, integrate with Twitter API, LinkedIn API, etc.
   const mockData = [
     { platform: 'twitter', content: `Great insights on ${topic}! Really helpful.`, sentiment: 'positive', engagement: 45 },
     { platform: 'linkedin', content: `Interesting discussion about ${topic}. Some concerns about implementation.`, sentiment: 'neutral', engagement: 23 },
@@ -58,7 +96,6 @@ async function gatherSocialData(topic: string, platform: string, timeframe: stri
     { platform: 'linkedin', content: `Concerns about ${topic} adoption in enterprise settings.`, sentiment: 'negative', engagement: 28 },
   ];
 
-  // Filter by platform if specified
   if (platform !== 'all') {
     return mockData.filter(item => item.platform === platform);
   }
@@ -66,18 +103,17 @@ async function gatherSocialData(topic: string, platform: string, timeframe: stri
   return mockData;
 }
 
-async function analyzeSocialSentiment(topic: string, socialData: any[], platform: string, timeframe: string): Promise<{
-  overall: 'positive' | 'negative' | 'neutral';
-  score: number;
-  breakdown: { positive: number; negative: number; neutral: number };
-}> {
+/**
+ * Analyze social sentiment from data
+ */
+async function analyzeSocialSentiment(topic: string, socialData: any[], platform: string, timeframe: string) {
   const sentiments = socialData.map(item => item.sentiment);
   const positive = sentiments.filter(s => s === 'positive').length;
   const negative = sentiments.filter(s => s === 'negative').length;
   const neutral = sentiments.filter(s => s === 'neutral').length;
 
   const total = sentiments.length;
-  const score = (positive - negative) / total; // -1 to 1 scale
+  const score = (positive - negative) / total;
 
   let overall: 'positive' | 'negative' | 'neutral';
   if (score > 0.1) overall = 'positive';
@@ -91,15 +127,12 @@ async function analyzeSocialSentiment(topic: string, socialData: any[], platform
   };
 }
 
-async function extractInsights(topic: string, socialData: any[]): Promise<{
-  trendingTopics: string[];
-  keyInsights: string[];
-  engagementMetrics: {
-    totalMentions: number;
-    peakEngagement: string;
-    topInfluencers: string[];
-  };
-}> {
+/**
+ * Extract insights using optimized Anthropic client
+ * Profile: social media (high temp for creativity, large context)
+ * Cache TTL: 15 minutes (social trends change)
+ */
+async function extractInsights(topic: string, socialData: any[], anthropic: any, cacheKey: string) {
   const prompt = `You are a social media intelligence analyst. Analyze this social media data about "${topic}" and extract key insights.
 
 Social Media Data:
@@ -110,26 +143,26 @@ Provide a JSON response with:
 2. keyInsights: Array of 5-7 key insights from the conversations
 3. engagementMetrics: Object with totalMentions, peakEngagement description, and topInfluencers array
 
-Format as JSON:
-{
-  "trendingTopics": ["topic1", "topic2", "topic3"],
-  "keyInsights": ["insight1", "insight2", "insight3"],
-  "engagementMetrics": {
-    "totalMentions": 25,
-    "peakEngagement": "Morning posts get 2x more engagement",
-    "topInfluencers": ["influencer1", "influencer2"]
-  }
-}`;
+Format as valid JSON only.`;
 
-  const response = await anthropic.messages.create({
-    model: 'claude-3-opus-20240229',
-    max_tokens: 2000,
-    temperature: 0.3,
-    system: 'You are a social media intelligence analyst. Always respond with valid JSON.',
-    messages: [{ role: 'user', content: prompt }]
-  });
+  const messages = [
+    { role: 'system', content: 'You are a social media intelligence analyst. Always respond with valid JSON only.' },
+    { role: 'user', content: prompt }
+  ];
 
-  const content = response.content[0];
+  // Check cache first for identical queries
+  const cached = await anthropic.messages.create(
+    messages,
+    {
+      model: 'claude-3-sonnet-20240229',
+      max_tokens: 2000,
+      temperature: 0.3,
+    },
+    { cacheTtl: 900 } // 15 minutes
+  );
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const content = (cached as any).content[0];
   if (content.type !== 'text') {
     throw new Error('Unexpected response type');
   }
@@ -147,7 +180,12 @@ Format as JSON:
   }
 }
 
-async function generateRecommendations(topic: string, sentiment: any, insights: any): Promise<string[]> {
+/**
+ * Generate recommendations using optimized Anthropic client
+ * Profile: social media/creative (high temp)
+ * Cache TTL: 30 minutes (recommendations less time-sensitive)
+ */
+async function generateRecommendations(topic: string, sentiment: any, insights: any, anthropic: any) {
   const prompt = `You are a social media strategist. Based on the sentiment analysis and insights about "${topic}", provide 5-7 actionable recommendations for social media strategy.
 
 Sentiment: ${sentiment.overall} (score: ${sentiment.score})
@@ -164,11 +202,14 @@ Provide specific, actionable recommendations for:
 Format as a JSON array of strings.`;
 
   const response = await anthropic.messages.create({
-    model: 'claude-3-opus-20240229',
+    model: 'claude-3-sonnet-20240229',
     max_tokens: 1500,
-    temperature: 0.7,
+    temperature: 0.8,   // Social profile: high creativity
+    top_p: 0.95,
     system: 'You are a social media strategist. Always respond with valid JSON array.',
     messages: [{ role: 'user', content: prompt }]
+  }, {
+    cacheTtl: 1800,     // 30 minutes
   });
 
   const content = response.content[0];
@@ -181,6 +222,7 @@ Format as a JSON array of strings.`;
     return Array.isArray(recommendations) ? recommendations : [];
   } catch (error) {
     console.error('Failed to parse recommendations response:', content.text);
+    // Fallback recommendations
     return [
       'Increase positive content creation',
       'Engage more actively with your community',
@@ -191,21 +233,24 @@ Format as a JSON array of strings.`;
   }
 }
 
-async function runSocialBuzz(input: SocialBuzzInput): Promise<SocialBuzzResult> {
+/**
+ * Main social buzz analysis pipeline
+ */
+async function runSocialBuzz(input: SocialBuzzInput, anthropic: any): Promise<SocialBuzzResult> {
   const startTime = Date.now();
 
   try {
-    // Gather social media data
+    // Step 1: Gather social data
     const socialData = await gatherSocialData(input.topic, input.platform || 'all', input.timeframe || 'week');
 
-    // Analyze sentiment
+    // Step 2: Analyze sentiment
     const sentiment = await analyzeSocialSentiment(input.topic, socialData, input.platform || 'all', input.timeframe || 'week');
 
-    // Extract insights
-    const insights = await extractInsights(input.topic, socialData);
+    // Step 3: Extract insights (with caching)
+    const insights = await extractInsights(input.topic, socialData, anthropic, `${input.topic}:${input.platform}`);
 
-    // Generate recommendations
-    const recommendations = await generateRecommendations(input.topic, sentiment, insights);
+    // Step 4: Generate recommendations (with caching)
+    const recommendations = await generateRecommendations(input.topic, sentiment, insights, anthropic);
 
     const processingTime = Date.now() - startTime;
 
@@ -226,6 +271,7 @@ async function runSocialBuzz(input: SocialBuzzInput): Promise<SocialBuzzResult> 
 
   } catch (error) {
     const processingTime = Date.now() - startTime;
+    console.error('SocialBuzz analysis error:', error);
 
     return {
       id: `socialbuzz_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -245,6 +291,10 @@ async function runSocialBuzz(input: SocialBuzzInput): Promise<SocialBuzzResult> 
   }
 }
 
+// ============================================================================
+// MAIN REQUEST HANDLER
+// ============================================================================
+
 Deno.serve(async (req: Request) => {
   // CORS preflight
   if (req.method === 'OPTIONS') {
@@ -252,17 +302,37 @@ Deno.serve(async (req: Request) => {
   }
 
   if (req.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: { 'Content-Type': 'application/json', ...corsHeaders } });;
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
   }
 
   try {
+    // Verify authentication
+    const { user_id } = await verifyUser(req);
+    if (!user_id) {
+      return jsonResponse({ error: 'Unauthorized' }, 401);
+    }
+
+    // Get user's Anthropic API key
+    const userApiKey = await getUserApiKey(user_id, 'anthropic');
+    if (!userApiKey) {
+      return jsonResponse({
+        error: 'API_KEY_MISSING',
+        message: 'Please add your Anthropic API key in your profile.',
+        provider: 'anthropic'
+      }, 403);
+    }
+
+    // Parse input
     const input: SocialBuzzInput = await req.json();
 
     if (!input.topic?.trim()) {
-      return new Response(JSON.stringify({ error: 'Topic is required' }), { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } });;
+      return jsonResponse({ error: 'Topic is required' }, 400);
     }
 
-    // Create result record
+    // Create result ID
     const resultId = `socialbuzz_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const timestamp = new Date().toISOString();
 
@@ -282,24 +352,28 @@ Deno.serve(async (req: Request) => {
     };
 
     // Save initial result to database
-    const { error: dbError } = await supabase
-      .from('ai_agent_runs')
-      .insert({
-        id: resultId,
-        agent_type: 'socialbuzz_ai',
-        user_id: input.userId || null,
-        input_data: input,
-        output_data: initialResult,
-        status: 'processing',
-        created_at: timestamp
-      });
-
-    if (dbError) {
-      console.error('Database error:', dbError);
+    try {
+      await supabase
+        .from('ai_agent_runs')
+        .insert({
+          id: resultId,
+          agent_type: 'socialbuzz_ai',
+          user_id: input.userId || null,
+          input_data: input,
+          output_data: initialResult,
+          status: 'processing',
+          created_at: timestamp
+        });
+    } catch (dbError) {
+      console.error('DB error (non-critical):', dbError);
     }
 
+    // Initialize optimized Anthropic client with social media profile
+    // Includes: caching, rate limiting, circuit breaker, retry
+    const anthropic = await createOptimizedAnthropicClient(userApiKey);
+
     // Run the social media analysis
-    const finalResult = await runSocialBuzz(input);
+    const finalResult = await runSocialBuzz(input, anthropic);
 
     // Update result in database
     await supabase
@@ -311,13 +385,23 @@ Deno.serve(async (req: Request) => {
       })
       .eq('id', resultId);
 
-    return new Response(JSON.stringify(finalResult), { status: 200, headers: { 'Content-Type': 'application/json', ...corsHeaders } });;
+    return jsonResponse(finalResult);
 
-  } catch (error) {
-    console.error('Handler error:', error);
-    return new Response(JSON.stringify({
-        error: 'Internal server error',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      }), { status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders } });;
+  } catch (error: any) {
+    console.error('SocialBuzz handler error:', error);
+
+    // Circuit breaker specific handling
+    if (error.name === 'CircuitBreakerOpenError') {
+      return jsonResponse({
+        error: 'AI service temporarily unavailable',
+        retryAfter: Math.ceil(error.retryAfterMs / 1000) + 's',
+        code: 'SERVICE_UNAVAILABLE'
+      }, 503);
+    }
+
+    return jsonResponse({
+      error: 'Internal server error',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, 500);
   }
-}
+});

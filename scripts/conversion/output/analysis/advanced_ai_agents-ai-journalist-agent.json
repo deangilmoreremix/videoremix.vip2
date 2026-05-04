@@ -1,0 +1,89 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": false,
+  "widgetCounts": {
+    "textInput": 3,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 0,
+    "chat": 0,
+    "write": 1
+  },
+  "providers": {
+    "agno": {
+      "count": 6,
+      "imports": 3,
+      "clients": 3,
+      "models": [
+        {
+          "pattern": "gpt-4",
+          "count": 3
+        }
+      ]
+    },
+    "crewai": {
+      "count": 3,
+      "imports": 3,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 3,
+      "imports": 3,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 91,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "enter_openai_api_key_to_access_gpt4o",
+      "label": "Enter OpenAI API Key to access GPT-4o",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_serp_api_key_for_search_functionality",
+      "label": "Enter Serp API Key for Search functionality",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "what_do_you_want_the_ai_journalist_to_write_an_article_on",
+      "label": "What do you want the AI journalist to write an Article on?",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "image",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/single_agent_apps/ai_journalist_agent/journalist_agent.py",
+  "appName": "ai-journalist-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 15,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:36.455Z",
+  "analyzerVersion": "0.1.0"
+}

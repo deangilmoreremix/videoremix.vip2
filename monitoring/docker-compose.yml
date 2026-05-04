@@ -1,0 +1,213 @@
+version: '3.8'
+
+services:
+  # Prometheus - Metrics collection and alerting
+  prometheus:
+    image: prom/prometheus:v2.50.0
+    container_name: vr-prometheus
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus/
+      - prometheus-data:/prometheus
+    networks:
+      - monitoring
+    labels:
+      org.label-schema.group: "monitoring"
+
+  # Alertmanager - Alert routing and deduplication
+  alertmanager:
+    image: prom/alertmanager:v0.26.0
+    container_name: vr-alertmanager
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+      - '--web.enable-lifecycle'
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alerts:/etc/alertmanager/
+      - alertmanager-data:/alertmanager
+    networks:
+      - monitoring
+
+  # Grafana - Visualization and dashboards
+  grafana:
+    image: grafana/grafana:10.4.2
+    container_name: vr-grafana
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+      - loki
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./dashboards:/var/lib/grafana/dashboards
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_INSTALL_PLUGINS=marcusolsson-csv-datasource,grafana-piechart-panel
+      - GF_FEATURE_TOGGLES_ENABLE=flameGraph
+      - GF_USERS_ALLOW_SIGN_UP=false
+    networks:
+      - monitoring
+
+  # Loki - Log aggregation
+  loki:
+    image: grafana/loki:2.9.4
+    container_name: vr-loki
+    restart: unless-stopped
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./loki:/etc/loki
+      - loki-data:/loki
+    networks:
+      - monitoring
+
+  # Promtail - Log collection agent
+  promtail:
+    image: grafana/promtail:2.9.4
+    container_name: vr-promtail
+    restart: unless-stopped
+    volumes:
+      - /var/log:/var/log
+      - /etc/machine-id:/etc/machine-id:ro
+      - ./promtail:/etc/promtail
+    command: -config.file=/etc/promtail/promtail.yaml
+    networks:
+      - monitoring
+
+  # Node Exporter - Host metrics
+  node-exporter:
+    image: prom/node-exporter:v1.7.0
+    container_name: vr-node-exporter
+    restart: unless-stopped
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    networks:
+      - monitoring
+
+  # cAdvisor - Container metrics
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    container_name: vr-cadvisor
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - monitoring
+
+  # Custom OpenAI Metrics Exporter
+  openai-exporter:
+    build:
+      context: ./exporters
+      dockerfile: Dockerfile.openai
+    container_name: vr-openai-exporter
+    restart: unless-stopped
+    ports:
+      - "9464:9464"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_ORG_ID=${OPENAI_ORG_ID}
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - monitoring
+    depends_on:
+      - prometheus
+
+  # Application Metrics Exporter
+  app-exporter:
+    build:
+      context: ./exporters
+      dockerfile: Dockerfile.app
+    container_name: vr-app-exporter
+    restart: unless-stopped
+    ports:
+      - "9465:9465"
+    environment:
+      - APP_ENV=production
+      - SUPABASE_URL=${VITE_SUPABASE_URL}
+      - SUPABASE_KEY=${VITE_SUPABASE_ANON_KEY}
+    networks:
+      - monitoring
+    depends_on:
+      - prometheus
+
+  # Health Check Server
+  health-checker:
+    build:
+      context: ./scripts
+      dockerfile: Dockerfile.health
+    container_name: vr-health-checker
+    restart: unless-stopped
+    ports:
+      - "9466:9466"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
+      - VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
+    networks:
+      - monitoring
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9466/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Cost Tracker Service
+  cost-tracker:
+    build:
+      context: ./scripts
+      dockerfile: Dockerfile.cost
+    container_name: vr-cost-tracker
+    restart: unless-stopped
+    ports:
+      - "9467:9467"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_ORG_ID=${OPENAI_ORG_ID}
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}
+      - DAILY_THRESHOLD=${COST_ALERT_DAILY_THRESHOLD:-50}
+      - MONTHLY_THRESHOLD=${COST_ALERT_MONTHLY_THRESHOLD:-1000}
+    networks:
+      - monitoring
+    depends_on:
+      - prometheus
+
+volumes:
+  prometheus-data:
+  alertmanager-data:
+  grafana-data:
+  loki-data:
+
+networks:
+  monitoring:
+    driver: bridge
+    name: vr-monitoring

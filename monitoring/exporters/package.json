@@ -1,0 +1,15 @@
+{
+  "name": "openai-metrics-exporter",
+  "version": "1.0.0",
+  "description": "Prometheus exporter for OpenAI API usage and cost metrics",
+  "main": "openai-exporter.js",
+  "scripts": {
+    "start": "node openai-exporter.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "openai": "^4.47.1",
+    "prom-client": "^14.2.0",
+    "node-cron": "^3.0.3"
+  }
+}

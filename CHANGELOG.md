@@ -3,6 +3,12 @@
 ## [Unreleased]
 
 ### Added
+- **OpenAI Migration Documentation Updates** — Comprehensive documentation updates to reflect Phase 3 OpenAI migration completion (2026-05-03):
+  - Updated main READMEs (awesome-llm-apps, awesome-llm-apps-repo) to reflect OpenAI-first architecture (95%+ apps migrated)
+  - Updated backend function inventory with AI provider mappings and migration status
+  - Updated superpowers specification documents (ConsultPro AI, LaunchRocket AI, SalesForce AI) to reflect OpenAI GPT-4o migration
+  - Updated environment configuration examples (.env.example) to prioritize OPENAI_API_KEY
+  - Added migration notes to remaining specialized provider integrations (Gemini Vision, xAI, local LLMs)
 - Comprehensive testing scripts for authentication, superpowers verification, and production validation
   - `browser-user-testing.mjs`: Browser-based user flow testing for authentication pages
   - `count-supabase-users.mjs`: Script to count and verify user registrations in Supabase

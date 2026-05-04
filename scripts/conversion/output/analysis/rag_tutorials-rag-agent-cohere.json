@@ -1,0 +1,83 @@
+{
+  "hasChatInput": true,
+  "hasForm": true,
+  "hasTabs": false,
+  "hasFileUpload": true,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 3,
+    "numberInput": 0,
+    "fileUpload": 1,
+    "selectBox": 0,
+    "button": 4,
+    "chat": 4,
+    "write": 4
+  },
+  "providers": {
+    "langchain": {
+      "count": 10,
+      "imports": 10,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {
+    "qdrant": {
+      "count": 4,
+      "usage": "vector-store"
+    }
+  },
+  "usesSessionState": false,
+  "hasHistory": true,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 320,
+  "hasMultiAgent": false,
+  "hasTools": true,
+  "hasRAG": true,
+  "hasWebSearch": true,
+  "uiType": "chat",
+  "inputFields": [
+    {
+      "name": "cohere_api_key",
+      "label": "Cohere API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "qdrant_api_key",
+      "label": "Qdrant API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "qdrant_url",
+      "label": "Qdrant URL",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "choose_a_pdf_or_image_file",
+      "label": "Choose a PDF or Image File",
+      "type": "file",
+      "required": true
+    }
+  ],
+  "outputFormat": "image",
+  "primaryProvider": "langchain",
+  "filePath": "awesome-llm-apps/rag_tutorials/rag_agent_cohere/rag_agent_cohere.py",
+  "appName": "rag-agent-cohere",
+  "category": "awesome-llm-apps",
+  "complexity": "rag",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 11,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:34.093Z",
+  "analyzerVersion": "0.1.0"
+}

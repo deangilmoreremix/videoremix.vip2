@@ -18,7 +18,7 @@ I have successfully implemented **3 production-ready AI agents** using the Super
 - **Responsive Design**: Mobile-first SaaS interfaces
 
 **Architecture:**
-- **3 Netlify Functions**: Serverless AI processing with Claude integration
+- **3 Supabase Edge Functions with OpenAI GPT-4o (migrated from Claude/Anthropic) integration
 - **Database Schema**: AI agent runs table with RLS policies
 - **Routing Integration**: All agents accessible via dashboard
 - **App Registry**: Complete with sales copy and marketing positioning
@@ -44,7 +44,7 @@ I have successfully implemented **3 production-ready AI agents** using the Super
 ### 🚀 **PRODUCTION READY:**
 
 **To Deploy:**
-1. Add Anthropic API key to `.env` file
+1. OpenAI API key configured in Supabase (Anthropic deprecated) to `.env` file
 2. Run `npx supabase db push` for database migration
 3. Deploy with `npm run deploy:netlify`
 

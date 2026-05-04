@@ -1,0 +1,102 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 3,
+    "numberInput": 1,
+    "fileUpload": 0,
+    "selectBox": 2,
+    "button": 1,
+    "chat": 0,
+    "write": 1
+  },
+  "providers": {
+    "agno": {
+      "count": 4,
+      "imports": 2,
+      "clients": 2,
+      "models": []
+    },
+    "crewai": {
+      "count": 2,
+      "imports": 2,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 2,
+      "imports": 2,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 85,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "enter_google_api_key_to_access_gemini_25_flash",
+      "label": "Enter Google API Key to access Gemini 2.5 Flash",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_serp_api_key_for_search_functionality",
+      "label": "Enter Serp API Key for Search functionality",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "describe_your_movie_idea_in_a_few_sentences",
+      "label": "Describe your movie idea in a few sentences:",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "select_the_movie_genre",
+      "label": "Select the movie genre:",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "select_the_target_audience",
+      "label": "Select the target audience:",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "estimated_runtime_in_minutes",
+      "label": "Estimated runtime (in minutes):",
+      "type": "range",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/single_agent_apps/ai_movie_production_agent/movie_production_agent.py",
+  "appName": "ai-movie-production-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 15,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:36.282Z",
+  "analyzerVersion": "0.1.0"
+}
