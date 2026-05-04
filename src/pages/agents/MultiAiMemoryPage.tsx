@@ -9,9 +9,9 @@ import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Loader2, Sparkles } from "lucide-react";
 
-const MultiLlmMemoryPage: React.FC = () => {
+const MultiAiMemoryPage: React.FC = () => {
   const { user } = useAuth();
-  const [formData, setFormData] = useState({ enter_openai_api_key: "", enter_anthropic_api_key: "", ask_the_llm: "" });
+  const [formData, setFormData] = useState({ enter_openai_api_key: "", enter_anthropic_api_key: "", ask_the_ai: "" });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -21,7 +21,7 @@ const MultiLlmMemoryPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/multi-llm-memory`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/multi-ai-memory`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
@@ -39,14 +39,14 @@ const MultiLlmMemoryPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>MultiLlmMemory - VideoRemix.vip</title>
-        <meta name="description" content="Use multi-llm-memory to automate tasks with AI." />
+        <title>MultiAiMemory - VideoRemix.vip</title>
+        <meta name="description" content="Use multi-ai-memory to automate tasks with AI." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">Multi Llm Memory</h1>
-            <p className="text-xl text-gray-400">AI-powered multi llm memory.</p>
+             <h1 className="text-4xl font-bold mb-4">Multi AI Memory</h1>
+             <p className="text-xl text-gray-400">AI-powered multi AI memory.</p>
           </motion.div>
 
           {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
@@ -85,13 +85,13 @@ const MultiLlmMemoryPage: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="ask_the_llm">Ask the LLM *</Label>
+                <Label htmlFor="ask_the_ai">Ask the AI *</Label>
                 
                 <Input
-                  id="ask_the_llm"
+                  id="ask_the_ai"
                   type="text"
-                  value={formData.ask_the_llm}
-                  onChange={(e) => setFormData({ ...formData, ask_the_llm: e.target.value })}
+                  value={formData.ask_the_ai}
+                  onChange={(e) => setFormData({ ...formData, ask_the_ai: e.target.value })}
                   placeholder=""
                   className="bg-gray-900/50 border-gray-600 text-white"
                 />
@@ -136,4 +136,4 @@ const MultiLlmMemoryPage: React.FC = () => {
   );
 };
 
-export default MultiLlmMemoryPage;
+ export default MultiAiMemoryPage;

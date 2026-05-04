@@ -76,7 +76,7 @@ export const AGENT_KEY_REQUIREMENTS: Record<string, ApiKeyType[]> = {
 
   // Anthropic-based agents
   "rag-as-a-service": ["ANTHROPIC_API_KEY", "RAGIE_API_KEY"],
-  "multi-llm-memory": ["OPENAI_API_KEY", "ANTHROPIC_API_KEY"],
+     "multi-ai-memory": ["OPENAI_API_KEY", "ANTHROPIC_API_KEY"],
   "corrective-rag": ["OPENAI_API_KEY", "ANTHROPIC_API_KEY"],
 
   // Google/Gemini agents

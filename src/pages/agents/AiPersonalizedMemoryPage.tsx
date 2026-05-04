@@ -9,7 +9,7 @@ import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Loader2, Sparkles } from "lucide-react";
 
-const LlmAppPersonalizedMemoryPage: React.FC = () => {
+const AiPersonalizedMemoryPage: React.FC = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({ enter_openai_api_key: "", enter_your_username: "", ask_chatgpt: "" });
   const [loading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ const LlmAppPersonalizedMemoryPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/llm-app-personalized-memory`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-personalized-memory`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
@@ -39,14 +39,14 @@ const LlmAppPersonalizedMemoryPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>LlmAppPersonalizedMemory - VideoRemix.vip</title>
-        <meta name="description" content="Use llm-app-personalized-memory to automate tasks with AI." />
+        <title>AiPersonalizedMemory - VideoRemix.vip</title>
+        <meta name="description" content="Use ai-personalized-memory to automate tasks with AI." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">Llm App Personalized Memory</h1>
-            <p className="text-xl text-gray-400">AI-powered llm app personalized memory.</p>
+             <h1 className="text-4xl font-bold mb-4">AI Personalized Memory</h1>
+             <p className="text-xl text-gray-400">AI-powered AI personalized memory.</p>
           </motion.div>
 
           {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
@@ -136,4 +136,4 @@ const LlmAppPersonalizedMemoryPage: React.FC = () => {
   );
 };
 
-export default LlmAppPersonalizedMemoryPage;
+ export default AiPersonalizedMemoryPage;

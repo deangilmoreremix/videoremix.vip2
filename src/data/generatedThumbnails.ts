@@ -661,11 +661,11 @@ export const generatedThumbnails = [
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/6-2-llm-interaction-callbacks-thumbnail.png",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/6-2-ai-interaction-callbacks-thumbnail.png",
     "alt": "6-2 LLM Interaction Callbacks - Track and manage LLM interaction events",
     "prompt": "Create a realistic, professional software interface thumbnail for '6-2 LLM Interaction Callbacks' - Track and manage LLM interaction events.\n\nKey features to visualize: LLM interaction monitor, callback event log, model performance dashboard, interaction analytics, real-time event tracking\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Analytics-focused interface with performance metrics\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
-      "appId": "6-2-llm-interaction-callbacks",
+      "appId": "6-2-ai-interaction-callbacks",
       "category": "ai-agents",
       "generatedAt": "2026-05-03T12:18:09+00:00",
       "model": "dall-e-3",
@@ -1585,11 +1585,11 @@ export const generatedThumbnails = [
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/llm-app-personalized-memory-thumbnail.png",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-personalized-memory-thumbnail.png",
     "alt": "LLM App Personalized Memory - Memory-enhanced LLM interactions",
     "prompt": "Create a realistic, professional software interface thumbnail for 'LLM App Personalized Memory' - Memory-enhanced LLM interactions.\n\nKey features to visualize: personalized memory dashboard, LLM interaction tools, memory management interface, adaptive learning panel, personalized insights studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Memory-focused interface with LLM personalization\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
-      "appId": "llm-app-personalized-memory",
+      "appId": "ai-personalized-memory",
       "category": "ai-agents",
       "generatedAt": "2026-05-03T12:51:35+00:00",
       "model": "dall-e-3",
@@ -1597,11 +1597,11 @@ export const generatedThumbnails = [
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/llm-router-app-thumbnail.png",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-router-app-thumbnail.png",
     "alt": "LLM Router App - Intelligent routing between multiple LLM models",
     "prompt": "Create a realistic, professional software interface thumbnail for 'LLM Router App' - Intelligent routing between multiple LLM models.\n\nKey features to visualize: LLM routing dashboard, model selection tools, intelligent distribution interface, performance optimization panel, multi-model management studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Router-focused interface with multiple LLM model management\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
-      "appId": "llm-router-app",
+      "appId": "ai-router-app",
       "category": "ai-agents",
       "generatedAt": "2026-05-03T12:51:35+00:00",
       "model": "dall-e-3",
@@ -1729,11 +1729,11 @@ export const generatedThumbnails = [
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/multi-llm-memory-thumbnail.png",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/multi-ai-memory-thumbnail.png",
     "alt": "Multi LLM Memory - Memory management across multiple LLM models",
     "prompt": "Create a realistic, professional software interface thumbnail for 'Multi LLM Memory' - Memory management across multiple LLM models.\n\nKey features to visualize: multi-LLM memory dashboard, cross-model memory tools, unified context interface, memory synchronization panel, intelligent recall studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Multi-LLM memory interface with cross-model capabilities\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
-      "appId": "multi-llm-memory",
+      "appId": "multi-ai-memory",
       "category": "ai-agents",
       "generatedAt": "2026-05-03T12:51:35+00:00",
       "model": "dall-e-3",

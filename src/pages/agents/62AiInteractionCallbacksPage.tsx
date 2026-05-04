@@ -12,7 +12,7 @@ interface Message {
   content: string;
 }
 
-const LlmRouterAppPage: React.FC = () => {
+const Agent62AiInteractionCallbacksPage: React.FC = () => {
   const { user } = useAuth();
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -31,7 +31,7 @@ const LlmRouterAppPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/llm-router-app`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/tutorial-llm-interaction-callbacks`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -55,15 +55,15 @@ const LlmRouterAppPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>LlmRouterApp - VideoRemix.vip</title>
-        <meta name="description" content="Use llm-router-app to automate tasks with AI." />
+        <title>62AiInteractionCallbacks - VideoRemix.vip</title>
+        <meta name="description" content="Use 6-2-llm-interaction-callbacks to automate tasks with AI." />
       </Helmet>
 
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 h-[calc(100vh-8rem)] flex flex-col max-w-4xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-6">
-            <h1 className="text-3xl font-bold mb-2">Llm Router App</h1>
-            <p className="text-gray-400">AI-powered llm router app.</p>
+            <h1 className="text-3xl font-bold mb-2">6 2 AI Interaction Callbacks</h1>
+            <p className="text-gray-400">AI-powered 6 2 AI interaction callbacks.</p>
           </motion.div>
 
           <Card className="flex-1 bg-gray-800/50 border-gray-700 flex flex-col overflow-hidden">
@@ -115,4 +115,4 @@ const LlmRouterAppPage: React.FC = () => {
   );
 };
 
-export default LlmRouterAppPage;
+ export default Agent62AiInteractionCallbacksPage;

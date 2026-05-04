@@ -12,7 +12,7 @@ interface Message {
   content: string;
 }
 
-const Agent62LlmInteractionCallbacksPage: React.FC = () => {
+const AiRouterAppPage: React.FC = () => {
   const { user } = useAuth();
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -31,7 +31,7 @@ const Agent62LlmInteractionCallbacksPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/tutorial-llm-interaction-callbacks`, {
+       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-router-app`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -55,15 +55,15 @@ const Agent62LlmInteractionCallbacksPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>62LlmInteractionCallbacks - VideoRemix.vip</title>
-        <meta name="description" content="Use 6-2-llm-interaction-callbacks to automate tasks with AI." />
+        <title>AiRouterApp - VideoRemix.vip</title>
+        <meta name="description" content="Use ai-router-app to automate tasks with AI." />
       </Helmet>
 
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 h-[calc(100vh-8rem)] flex flex-col max-w-4xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-6">
-            <h1 className="text-3xl font-bold mb-2">6 2 Llm Interaction Callbacks</h1>
-            <p className="text-gray-400">AI-powered 6 2 llm interaction callbacks.</p>
+             <h1 className="text-3xl font-bold mb-2">AI Router App</h1>
+             <p className="text-gray-400">AI-powered AI router app.</p>
           </motion.div>
 
           <Card className="flex-1 bg-gray-800/50 border-gray-700 flex flex-col overflow-hidden">
@@ -115,4 +115,4 @@ const Agent62LlmInteractionCallbacksPage: React.FC = () => {
   );
 };
 
- export default Agent62LlmInteractionCallbacksPage;
+ export default AiRouterAppPage;

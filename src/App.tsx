@@ -113,15 +113,15 @@ const HybridSearchRagPage = lazy(() => import("./pages/agents/HybridSearchRagPag
 const KnowledgeGraphRagCitationsPage = lazy(() => import("./pages/agents/KnowledgeGraphRagCitationsPage"));
 const Llama31LocalRagPage = lazy(() => import("./pages/agents/Llama31LocalRagPage"));
 const Llama3StatefulChatPage = lazy(() => import("./pages/agents/Llama3StatefulChatPage"));
-const LlmAppPersonalizedMemoryPage = lazy(() => import("./pages/agents/LlmAppPersonalizedMemoryPage"));
-const LlmRouterAppPage = lazy(() => import("./pages/agents/LlmRouterAppPage"));
+const AiPersonalizedMemoryPage = lazy(() => import("./pages/agents/AiPersonalizedMemoryPage"));
+const AiRouterAppPage = lazy(() => import("./pages/agents/AiRouterAppPage"));
 const LocalAiLegalAgentTeamPage = lazy(() => import("./pages/agents/LocalAiLegalAgentTeamPage"));
 const LocalChatgptClonePage = lazy(() => import("./pages/agents/LocalChatgptClonePage"));
 const LocalChatgptWithMemoryPage = lazy(() => import("./pages/agents/LocalChatgptWithMemoryPage"));
 const LocalHybridSearchRagPage = lazy(() => import("./pages/agents/LocalHybridSearchRagPage"));
 const MixtureOfAgentsPage = lazy(() => import("./pages/agents/MixtureOfAgentsPage"));
 const MultiAgentResearcherPage = lazy(() => import("./pages/agents/MultiAgentResearcherPage"));
-const MultiLlmMemoryPage = lazy(() => import("./pages/agents/MultiLlmMemoryPage"));
+const MultiAiMemoryPage = lazy(() => import("./pages/agents/MultiAiMemoryPage"));
 const MultiMcpAgentRouterPage = lazy(() => import("./pages/agents/MultiMcpAgentRouterPage"));
 const MultimodalAiAgentPage = lazy(() => import("./pages/agents/MultimodalAiAgentPage"));
 const MultimodalCodingAgentTeamPage = lazy(() => import("./pages/agents/MultimodalCodingAgentTeamPage"));
@@ -150,7 +150,7 @@ const RunningAgentsPage = lazy(() => import("./pages/agents/4RunningAgentsPage")
 const InMemoryConversationAgentPage = lazy(() => import("./pages/agents/51InMemoryConversationAgentPage"));
 const PersistentConversationAgentPage = lazy(() => import("./pages/agents/52PersistentConversationAgentPage"));
 const AgentLifecycleCallbacksPage = lazy(() => import("./pages/agents/61AgentLifecycleCallbacksPage"));
-const LlmInteractionCallbacksPage = lazy(() => import("./pages/agents/62LlmInteractionCallbacksPage"));
+const AiInteractionCallbacksPage = lazy(() => import("./pages/agents/62AiInteractionCallbacksPage"));
 const ToolExecutionCallbacksPage = lazy(() => import("./pages/agents/63ToolExecutionCallbacksPage"));
 const PluginsPage = lazy(() => import("./pages/agents/7PluginsPage"));
 const SessionsPage = lazy(() => import("./pages/agents/7SessionsPage"));
@@ -180,7 +180,7 @@ const agentComponents = {
   '5-1-in-memory-conversation-agent': InMemoryConversationAgentPage,
   '5-2-persistent-conversation-agent': PersistentConversationAgentPage,
   '6-1-agent-lifecycle-callbacks': AgentLifecycleCallbacksPage,
-  '6-2-llm-interaction-callbacks': LlmInteractionCallbacksPage,
+   '6-2-ai-interaction-callbacks': AiInteractionCallbacksPage,
   '6-3-tool-execution-callbacks': ToolExecutionCallbacksPage,
   '7-plugins': PluginsPage,
   '7-sessions': SessionsPage,
@@ -260,8 +260,8 @@ const agentComponents = {
   'knowledge-graph-rag-citations': KnowledgeGraphRagCitationsPage,
   'llama3-1-local-rag': Llama31LocalRagPage,
   'llama3-stateful-chat': Llama3StatefulChatPage,
-  'llm-app-personalized-memory': LlmAppPersonalizedMemoryPage,
-  'llm-router-app': LlmRouterAppPage,
+   'ai-personalized-memory': AiPersonalizedMemoryPage,
+   'ai-router-app': AiRouterAppPage,
   'local-ai-legal-agent-team': LocalAiLegalAgentTeamPage,
   'local-ai-reasoning-agent-py': LocalAiReasoningAgentPyPage,
   'local-ai-scrapper-py': LocalAiScrapperPyPage,
@@ -271,7 +271,7 @@ const agentComponents = {
   'local-travel-agent': LocalTravelAgentPage,
   'mixture-of-agents': MixtureOfAgentsPage,
   'multi-agent-researcher': MultiAgentResearcherPage,
-  'multi-llm-memory': MultiLlmMemoryPage,
+   'multi-ai-memory': MultiAiMemoryPage,
   'multi-mcp-agent-router': MultiMcpAgentRouterPage,
   'multimodal-ai-agent': MultimodalAiAgentPage,
   'multimodal-coding-agent-team': MultimodalCodingAgentTeamPage,
