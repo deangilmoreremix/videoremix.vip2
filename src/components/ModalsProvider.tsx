@@ -1,4 +1,5 @@
 import React from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 // Create context using React.createContext to avoid bundling issues
 const ModalsContext = React.createContext<ModalsContextType>({
