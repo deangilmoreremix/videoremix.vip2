@@ -1,22 +1,33 @@
-import React from "react";
+import { useState, useEffect, createContext, useContext, ReactNode, FC } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { X } from "lucide-react";
+import CreateFirstVideoCTA from "./CreateFirstVideoCTA";
+
+// Types
+type ModalType = 'createFirstVideo' | 'featuredAnnouncement' | 'newFeature' | 'pricing';
+
+interface ModalsContextType {
+  showModal: (type: ModalType) => void;
+  hideModal: (type: ModalType) => void;
+  hideAllModals: () => void;
+}
 
 // Create context using React.createContext to avoid bundling issues
-const ModalsContext = React.createContext<ModalsContextType>({
+const ModalsContext = createContext<ModalsContextType>({
   showModal: () => {},
   hideModal: () => {},
   hideAllModals: () => {},
 });
 
-const useModals = () => React.useContext(ModalsContext);
+const useModals = () => useContext(ModalsContext);
 
-export const ModalsProvider: React.FC<{ children: React.ReactNode }> = ({
+export const ModalsProvider: FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  console.log('✅ ModalsProvider rendering with React.useState');
-  
+  console.log('✅ ModalsProvider rendering with useState');
+
   // Track which modals are visible
-  const [visibleModals, setVisibleModals] = React.useState<
+  const [visibleModals, setVisibleModals] = useState<
     Record<ModalType, boolean>
   >({
     createFirstVideo: false,
@@ -52,7 +63,7 @@ export const ModalsProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // Show the create first video modal to new users
-  React.useEffect(() => {
+  useEffect(() => {
     const hasSeenCreateFirstVideo = localStorage.getItem(
       "hasSeenCreateFirstVideo",
     );
@@ -103,8 +114,8 @@ export const ModalsProvider: React.FC<{ children: React.ReactNode }> = ({
 };
 
 // Helper component for modal overlay
-const ModalOverlay: React.FC<{
-  children: React.ReactNode;
+const ModalOverlay: FC<{
+  children: ReactNode;
   onClose: () => void;
 }> = ({ children, onClose }) => {
   return (
