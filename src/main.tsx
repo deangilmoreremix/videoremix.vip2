@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { ModalsProvider } from "./components/ModalsProvider";
+import { LandingPageProvider } from "./context/LandingPageContext";
 
 // Import performance monitoring and error handling
 import performanceMonitor from "./utils/performanceMonitor";
@@ -37,15 +38,17 @@ const initializeApp = () => {
           console.error('🚨 Global error caught:', error, errorInfo);
         }}
       >
-        <BrowserRouter>
-          <AuthProvider>
-            <ModalsProvider>
-              <Suspense fallback={<LoadingScreen />}>
-                <App />
-              </Suspense>
-            </ModalsProvider>
-          </AuthProvider>
-        </BrowserRouter>
+        <LandingPageProvider>
+          <BrowserRouter>
+            <AuthProvider>
+              <ModalsProvider>
+                <Suspense fallback={<LoadingScreen />}>
+                  <App />
+                </Suspense>
+              </ModalsProvider>
+            </AuthProvider>
+          </BrowserRouter>
+        </LandingPageProvider>
       </GlobalErrorBoundary>
     );
     console.log('✅ App mounted successfully');

@@ -99,3 +99,4 @@ const LandingPageProvider: React.FC<LandingPageProviderProps> = ({
     </LandingPageContext.Provider>
   );
 };
+export { LandingPageProvider };
