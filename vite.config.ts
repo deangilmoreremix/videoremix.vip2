@@ -2,77 +2,75 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { compression } from 'vite-plugin-compression2';
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  // Load env file based on mode
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
-  plugins: [
-    react(),
-  ],
-  optimizeDeps: {
-    include: [
-      'react',
-      'react-dom',
-      'react-router-dom',
-      'lucide-react',
-      'framer-motion',
-      'react-intersection-observer',
-      'react-helmet-async',
-      '@supabase/supabase-js'
+    plugins: [
+      react({
+        jsxRuntime: "automatic"
+      }),
     ],
-  },
-  build: {
-    target: 'esnext',
-    rollupOptions: {
-      output: {
-        // Simplified manualChunks to avoid circular dependencies and duplicate React
-        manualChunks: (id) => {
-          if (id.includes('node_modules')) {
-            // Keep vendor chunks simple, avoid splitting React-related packages
-            if (id.includes('react') || id.includes('react-dom')) {
-              return undefined;
+    optimizeDeps: {
+      include: [
+        'react',
+        'react-dom',
+        'react-router-dom',
+        'lucide-react',
+        'framer-motion',
+        'react-intersection-observer',
+        'react-helmet-async',
+        '@supabase/supabase-js'
+      ],
+    },
+    build: {
+      target: 'esnext',
+      rollupOptions: {
+        output: {
+          manualChunks: (id) => {
+            if (id.includes('node_modules')) {
+              if (id.includes('react') || id.includes('react-dom')) {
+                return undefined;
+              }
+              if (id.includes('framer-motion') || id.includes('lucide-react') || id.includes('@radix-ui')) {
+                return 'vendor-ui';
+              }
+              if (id.includes('@supabase') || id.includes('supabase')) {
+                return 'vendor-db';
+              }
+              return 'vendor';
             }
-            if (id.includes('framer-motion') || id.includes('lucide-react') || id.includes('@radix-ui')) {
-              return 'vendor-ui';
-            }
-            if (id.includes('@supabase') || id.includes('supabase')) {
-              return 'vendor-db';
-            }
-            return 'vendor';
           }
         }
-      }
+      },
+      sourcemap: true,
+      assetsDir: 'assets',
+      manifest: true,
     },
-    sourcemap: true,
-    assetsDir: 'assets',
-    manifest: true,
-  },
-  server: {
-    host: '0.0.0.0',
-    port: 5173,
-    strictPort: true,
-    hmr: false, // Disabled to fix WebSocket issues in GitHub Codespaces
-    allowedHosts: ['.app.github.dev', 'localhost'],
-    watch: {
-      usePolling: false,
-      ignored: ['**/node_modules/**', '**/dist/**', '**/supabase/functions/**'],
+    server: {
+      host: '0.0.0.0',
+      port: 5173,
+      strictPort: true,
+      hmr: false,
+      allowedHosts: ['.app.github.dev', 'localhost'],
+      watch: {
+        usePolling: false,
+        ignored: ['**/node_modules/**', '**/dist/**', '**/supabase/functions/**'],
+      },
     },
-  },
-  resolve: {
-    dedupe: [
-      'react',
-      'react-dom',
-      'react-router-dom',
-      'react-helmet-async',
-      'framer-motion',
-      'lucide-react'
-    ],
-    alias: {
-      '@': '/src',
+    resolve: {
+      dedupe: [
+        'react',
+        'react-dom',
+        'react-router-dom',
+        'react-helmet-async',
+        'framer-motion',
+        'lucide-react'
+      ],
+      alias: {
+        '@': '/src',
+      },
     },
-  },
-  envPrefix: 'VITE_',
+    envPrefix: 'VITE_',
   };
 });

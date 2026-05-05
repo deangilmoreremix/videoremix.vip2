@@ -25,21 +25,56 @@ interface PurchaseModalProps {
     price?: number;
     features?: string[];
   };
+  showBundleOption?: boolean;
 }
 
 const PurchaseModal: React.FC<PurchaseModalProps> = ({
   isOpen,
   onClose,
   app,
+  showBundleOption = true,
 }) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [modalOpenTime, setModalOpenTime] = useState<number | null>(null);
   const [ctaVariant, setCtaVariant] = useState<string>('Get Instant Access Now');
+  const [selectedTier, setSelectedTier] = useState<'single' | 'bundle'>('single');
 
-  const defaultPrice = 97;
-  const price = app.price || defaultPrice;
+  // Pricing tiers
+  const pricingTiers = {
+    single: {
+      name: "Single App Lifetime",
+      price: 37,
+      originalPrice: 97,
+      description: `Lifetime access to ${app.name}`,
+      features: [
+        "Lifetime access to this app",
+        "All future updates included",
+        "Priority customer support",
+        "Commercial usage rights",
+        "Money-back guarantee",
+      ]
+    },
+    bundle: {
+      name: "All Apps Lifetime",
+      price: 597,
+      originalPrice: 138 * 37, // ~138 apps * $37
+      description: "Lifetime access to all apps",
+      features: [
+        "Lifetime access to all apps",
+        "All future updates included",
+        "Priority customer support",
+        "Commercial usage rights",
+        "Money-back guarantee",
+        "Save 85% vs individual purchases"
+      ]
+    }
+  };
+
+  const currentTier = pricingTiers[selectedTier];
+  const savings = currentTier.originalPrice - currentTier.price;
+  const savingsPercent = Math.round((savings / currentTier.originalPrice) * 100);
 
   const defaultFeatures = [
     "Lifetime access to the app",
@@ -77,7 +112,8 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
   const handlePurchase = async () => {
     // Track CTA click with A/B test variant
     Analytics.trackCtaClick(app.id, 'purchase_now', {
-      price,
+      price: currentTier.price,
+      tier: selectedTier,
       user_logged_in: !!user,
       cta_variant: ctaVariant,
       test_id: 'cta_button_text'
@@ -92,7 +128,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
     }
 
     // Track purchase start
-    Analytics.trackPurchaseStart(app.id, price);
+    Analytics.trackPurchaseStart(app.id, currentTier.price, { tier: selectedTier });
 
     setLoading(true);
     setError(null);
@@ -109,9 +145,12 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
           body: JSON.stringify({
             appId: app.id,
             appName: app.name,
-            price: price,
+            price: currentTier.price,
+            tier: selectedTier,
             userId: user.id,
             userEmail: user.email,
+            purchaseType: selectedTier, // 'single' or 'bundle'
+            isBundle: selectedTier === 'bundle',
           }),
         },
       );
@@ -123,8 +162,8 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
       const { url } = await response.json();
 
       if (url) {
-        Analytics.trackPurchaseComplete(app.id, price);
-        ABTestUtils.trackPurchase('cta_button_text', ctaVariant, price);
+        Analytics.trackPurchaseComplete(app.id, currentTier.price, { tier: selectedTier });
+        ABTestUtils.trackPurchase('cta_button_text', ctaVariant, currentTier.price);
         window.location.href = url;
       } else {
         throw new Error("No checkout URL received");
