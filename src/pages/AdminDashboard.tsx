@@ -143,10 +143,10 @@ const TAB_CONFIG: TabConfig[] = [
 
 // Error Boundary Component
 class TabErrorBoundary extends React.Component<
-  { children: React.ReactNode; tabId: string },
+  { children: ReactNode; tabId: string },
   { hasError: boolean; error: Error | null }
 > {
-  constructor(props: { children: React.ReactNode; tabId: string }) {
+  constructor(props: { children: ReactNode; tabId: string }) {
     super(props);
     this.state = { hasError: false, error: null };
   }

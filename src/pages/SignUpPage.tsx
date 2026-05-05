@@ -37,7 +37,7 @@ const SignUpPage: React.FC = () => {
 
   const [loading, setLoading] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (user) {
       handleNavigation("/dashboard");
     }

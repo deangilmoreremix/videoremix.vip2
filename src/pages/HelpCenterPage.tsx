@@ -41,7 +41,7 @@ interface HelpCategory {
   id: string;
   name: string;
   description: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   articles: HelpArticle[];
 }
 

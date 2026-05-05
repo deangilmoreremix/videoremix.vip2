@@ -84,12 +84,12 @@ const EnhancedStatCard: React.FC<EnhancedStatCardProps> = ({
   suffix = "",
   prefix = "",
 }) => {
-  const [displayValue, setDisplayValue] = React.useState(0);
+  const [displayValue, setDisplayValue] = useState(0);
   const TrendIcon = change === undefined || change === 0 ? Minus : change > 0 ? TrendingUp : TrendingDown;
   const trendColor = change === undefined || change === 0 ? "text-gray-400" : change > 0 ? "text-emerald-400" : "text-rose-400";
 
   // Animate number counting
-  React.useEffect(() => {
+  useEffect(() => {
     if (loading || error || typeof value !== 'number') return;
     const start = displayValue;
     const end = Number(value);

@@ -38,7 +38,12 @@
     "launch:monitor:stop": "docker-compose -f monitoring/docker-compose.launch.yml down",
     "launch:health": "node scripts/health-check.js",
     "launch:backup": "bash scripts/create-backup.sh",
-    "launch:analytics": "node scripts/launch-analytics.js"
+    "launch:analytics": "node scripts/launch-analytics.js",
+    "stripe:login": "stripe login",
+    "stripe:listen": "stripe listen --forward-to http://localhost:3000/webhook",
+    "stripe:trigger": "stripe trigger payment_intent.succeeded",
+    "stripe:webhook": "stripe listen --forward-to http://localhost:3000/stripe/webhook",
+    "mcp:stripe": "node .kilo/mcp/stripe-server.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.17.1",

@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import { motion } from "framer-motion";
 import {
   Video,
@@ -16,7 +16,7 @@ interface CreateFirstVideoCTAProps {
   className?: string;
 }
 
-const CreateFirstVideoCTA: React.FC<CreateFirstVideoCTAProps> = ({
+const CreateFirstVideoCTA: FC<CreateFirstVideoCTAProps> = ({
   variant = "inline",
   className = "",
 }) => {

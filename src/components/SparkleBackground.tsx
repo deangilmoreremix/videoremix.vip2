@@ -1,7 +1,7 @@
 import React from "react";
 
 interface SparkleBackgroundProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
   density?: "low" | "medium" | "high";
   interactive?: boolean;
   speed?: "slow" | "medium" | "fast";

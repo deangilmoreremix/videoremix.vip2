@@ -40,7 +40,7 @@ import PurchaseModal from "./PurchaseModal";
 
 // Floating Icon component to add visual interest
 const FloatingIcon: React.FC<{
-  icon: React.ReactNode;
+  icon: ReactNode;
   size?: number;
   color?: string;
   top?: string;

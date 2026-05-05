@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "stripe": {
+      "command": "node",
+      "args": [".kilo/mcp/stripe-server.mjs"],
+      "env": {
+        "STRIPE_SECRET_KEY": "${STRIPE_SECRET_KEY}",
+        "STRIPE_PUBLIC_KEY": "${STRIPE_PUBLIC_KEY}",
+        "STRIPE_WEBHOOK_SECRET": "${STRIPE_WEBHOOK_SECRET}"
+      }
+    }
+  }
+}

@@ -208,7 +208,7 @@ const FeatureAnalyticsDashboard: React.FC = () => {
   const StatCard: React.FC<{
     title: string;
     value: string | number;
-    icon: React.ReactNode;
+    icon: ReactNode;
     change?: number;
     trend?: "up" | "down";
   }> = ({ title, value, icon, change, trend }) => (

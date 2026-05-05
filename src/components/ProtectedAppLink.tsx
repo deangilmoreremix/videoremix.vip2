@@ -7,7 +7,7 @@ interface ProtectedAppLinkProps {
   appId: string;
   appUrl: string;
   appName: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
   className?: string;
   showLockIcon?: boolean;
   onPurchaseRequired?: () => void;

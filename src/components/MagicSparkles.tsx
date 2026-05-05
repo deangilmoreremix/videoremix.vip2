@@ -23,7 +23,7 @@ interface MagicSparklesProps {
   minSize?: number;
   maxSize?: number;
   speed?: "slow" | "medium" | "fast";
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 // Function to generate random sparkles

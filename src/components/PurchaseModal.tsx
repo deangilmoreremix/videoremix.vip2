@@ -21,7 +21,7 @@ interface PurchaseModalProps {
     name: string;
     description: string;
     image: string;
-    icon: React.ReactNode;
+    icon: ReactNode;
     price?: number;
     features?: string[];
   };
@@ -52,7 +52,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
   const features = app.features || defaultFeatures;
 
   // Track modal open/close
-  React.useEffect(() => {
+  useEffect(() => {
     if (isOpen) {
       setModalOpenTime(Date.now());
       const variant = ABTestUtils.getCtaButtonText(user?.id);
@@ -67,7 +67,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
   }, [isOpen, app.id, modalOpenTime, user?.id]);
 
   // Track modal load time
-  React.useEffect(() => {
+  useEffect(() => {
     if (isOpen) {
       const endTracking = PerformanceMonitor.trackModalLoadTime(app.id);
       return endTracking;

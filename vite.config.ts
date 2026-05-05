@@ -27,56 +27,20 @@ export default defineConfig(({ mode }) => {
     target: 'esnext',
     rollupOptions: {
       output: {
+        // Simplified manualChunks to avoid circular dependencies and duplicate React
         manualChunks: (id) => {
-          // Vendor chunks - but let Vite handle React internally to avoid duplicate React instances
           if (id.includes('node_modules')) {
+            // Keep vendor chunks simple, avoid splitting React-related packages
             if (id.includes('react') || id.includes('react-dom')) {
               return undefined;
             }
-            // Don't manually chunk react or react-dom - let Vite optimize them properly
-            if (id.includes('framer-motion')) {
-              return 'framer-motion';
+            if (id.includes('framer-motion') || id.includes('lucide-react') || id.includes('@radix-ui')) {
+              return 'vendor-ui';
             }
-            if (id.includes('lucide-react')) {
-              return 'lucide-icons';
-            }
-            if (id.includes('@radix-ui')) {
-              return 'ui-vendor';
-            }
-            if (id.includes('supabase') || id.includes('@supabase')) {
-              return 'supabase-vendor';
+            if (id.includes('@supabase') || id.includes('supabase')) {
+              return 'vendor-db';
             }
             return 'vendor';
-          }
-
-          // Split dashboard components into smaller chunks
-          if (id.includes('/components/dashboard/DashboardToolsSection')) {
-            return 'dashboard-tools';
-          }
-          if (id.includes('/components/dashboard/DashboardPersonalizerSection')) {
-            return 'dashboard-personalizer';
-          }
-          if (id.includes('/components/dashboard/')) {
-            return 'dashboard-core';
-          }
-
-          // Separate pages
-          if (id.includes('/pages/DashboardPage')) {
-            return 'dashboard-page';
-          }
-          if (id.includes('/pages/LandingPage')) {
-            return 'landing-page';
-          }
-          if (id.includes('/pages/')) {
-            return 'other-pages';
-          }
-
-          // Hooks and utilities
-          if (id.includes('/hooks/')) {
-            return 'hooks';
-          }
-          if (id.includes('/utils/')) {
-            return 'utils';
           }
         }
       }
@@ -89,10 +53,7 @@ export default defineConfig(({ mode }) => {
     host: '0.0.0.0',
     port: 5173,
     strictPort: true,
-    hmr: {
-      clientPort: 443,
-      protocol: 'wss'
-    },
+    hmr: false, // Disabled to fix WebSocket issues in GitHub Codespaces
     allowedHosts: ['.app.github.dev', 'localhost'],
     watch: {
       usePolling: false,
@@ -100,7 +61,14 @@ export default defineConfig(({ mode }) => {
     },
   },
   resolve: {
-    dedupe: ['react', 'react-dom', 'react-router-dom'],
+    dedupe: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      'react-helmet-async',
+      'framer-motion',
+      'lucide-react'
+    ],
     alias: {
       '@': '/src',
     },

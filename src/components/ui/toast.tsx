@@ -18,11 +18,11 @@ export const toast = ({
 };
 
 export const Toaster = () => {
-  const [toasts, setToasts] = React.useState<
+  const [toasts, setToasts] = useState<
     Array<ToastProps & { id: number }>
   >([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleToast = (event: CustomEvent<ToastProps>) => {
       const id = Date.now();
       setToasts((prev) => [...prev, { ...event.detail, id }]);

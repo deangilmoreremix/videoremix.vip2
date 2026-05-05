@@ -338,7 +338,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isAdmin = false
 interface MetricCardProps {
   title: string;
   value: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   trend: string;
   color: 'blue' | 'green' | 'purple' | 'yellow';
 }
