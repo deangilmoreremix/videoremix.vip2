@@ -1,6 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
 import OpenAI from 'openai';
-import Exa from 'exa';
 
 const supabaseUrl = process.env.SUPABASE_URL!;
 const supabaseKey = process.env.SUPABASE_ANON_KEY!;
@@ -10,7 +9,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const exa = new Exa(process.env.EXA_API_KEY!);
+// Exa search is optional - gracefully degrade if not available
+const exaApiKey = process.env.EXA_API_KEY;
 
 interface LeadInfo {
   companyName: string;
@@ -46,22 +46,40 @@ async function researchCompany(lead: LeadInfo): Promise<CompanyResearch> {
     decisionMakerBackground: '',
   };
 
+  // Only use Exa if API key is available
+  if (!exaApiKey) {
+    research.companyDescription = `${lead.companyName} (company research pending - Exa API not configured)`;
+    return research;
+  }
+
+  // Dynamically import Exa only when needed
+  let Exa: any;
+  try {
+    const ExaModule = await import('exa');
+    Exa = ExaModule.default;
+  } catch (error) {
+    console.error('Failed to import Exa:', error);
+    research.companyDescription = `${lead.companyName} (Exa module not available)`;
+    return research;
+  }
+
+  const exa = new Exa(exaApiKey);
+
   // Search company overview using Exa
   try {
     const companySearch = await exa.searchAndContents(
       `${lead.companyName} company overview mission products services`,
-      { 
+      {
         useAutoprompt: true,
         numResults: 3,
         text: { maxCharacters: 2000 }
       }
     );
-    
+
     if (companySearch.results && companySearch.results.length > 0) {
-      research.companyDescription = companySearch.results[0].text?.substring(0, 1000) || 
+      research.companyDescription = companySearch.results[0].text?.substring(0, 1000) ||
         `${lead.companyName} is a technology company.`;
-      
-      // Extract recent news from top results
+
       research.recentNews = companySearch.results
         .slice(0, 3)
         .map(r => r.title || r.url)
@@ -69,7 +87,6 @@ async function researchCompany(lead: LeadInfo): Promise<CompanyResearch> {
     }
   } catch (error) {
     console.error('Exa company search error:', error);
-    research.companyDescription = `${lead.companyName} (no additional data available)`;
   }
 
   // Search for contact person background
@@ -82,18 +99,17 @@ async function researchCompany(lead: LeadInfo): Promise<CompanyResearch> {
         text: { maxCharacters: 1500 }
       }
     );
-    
+
     if (personSearch.results && personSearch.results.length > 0) {
       const backgroundText = personSearch.results
         .map(r => r.text)
         .filter(Boolean)
         .join(' ');
-      research.decisionMakerBackground = backgroundText.substring(0, 500) || 
+      research.decisionMakerBackground = backgroundText.substring(0, 500) ||
         `Leadership at ${lead.companyName}`;
     }
   } catch (error) {
     console.error('Exa person search error:', error);
-    research.decisionMakerBackground = `Decision maker at ${lead.companyName}`;
   }
 
   // Try to find GTM strategy or recent achievement based on department
@@ -107,7 +123,7 @@ async function researchCompany(lead: LeadInfo): Promise<CompanyResearch> {
           text: { maxCharacters: 1000 }
         }
       );
-      
+
       if (gtmSearch.results && gtmSearch.results.length > 0) {
         research.gtmStrategy = gtmSearch.results[0].text?.substring(0, 300);
         research.specificAchievement = gtmSearch.results[0]?.title || "recent initiative";

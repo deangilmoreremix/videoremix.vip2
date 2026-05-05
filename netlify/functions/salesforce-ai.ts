@@ -233,5 +233,5 @@ export async function handler(event: any) {
       })
     };
   }
-}</content>
-<parameter name="filePath">netlify/functions/salesforce-ai.ts
+}
+salesforce-ai.ts

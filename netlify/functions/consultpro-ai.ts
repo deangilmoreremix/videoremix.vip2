@@ -693,5 +693,4 @@ export async function handler(event: any) {
       })
     };
   }
-}</content>
-<parameter name="filePath">netlify/functions/consultpro-ai.ts
+}

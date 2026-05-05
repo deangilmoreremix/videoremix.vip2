@@ -545,5 +545,5 @@ export async function handler(event: any) {
       })
     };
   }
-}</content>
-<parameter name="filePath">netlify/functions/launchrocket-ai.ts
+}
+launchrocket-ai.ts
