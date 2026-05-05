@@ -81,9 +81,14 @@ async function updateAppTsx(apps: GeneratedApp[]) {
 
   let content = fs.readFileSync(appTsxPath, 'utf-8');
 
+  // Filter out apps that are already imported
+  const filteredApps = apps.filter(app => !content.includes(`const ${app.componentName} = lazy`));
+
+  console.log(`📝 Filtered ${apps.length} apps to ${filteredApps.length} new apps`);
+
   // 2. Add lazy import declarations
   // Insert before "// Generic pages" comment or after "const ToolsHubPage"
-  const importBlock = apps.map(app => `  const ${app.componentName} = lazy(() => import("./pages/agents/${app.componentName}"));`).join('\n');
+  const importBlock = filteredApps.map(app => `  const ${app.componentName} = lazy(() => import("./pages/agents/${app.componentName}"));`).join('\n');
   const importInsertRegex = /(\/\/ Generic pages\n|const ToolsHubPage = lazy.*\n)/;
   if (content.match(importInsertRegex)) {
     content = content.replace(importInsertRegex, `${importBlock}\n\n$1`);
@@ -98,8 +103,8 @@ async function updateAppTsx(apps: GeneratedApp[]) {
   // 2. Add route in Routes section
   // Find a good insertion point: after EmailGTMPage (last known agent) or after SocialBuzz page
   const routeInsertRegex = /(\s{2}const EmailGTMPage = lazy.*\n)/;
-  const routeLine = apps.map(app => `  const ${app.componentName} = lazy(() => import("./pages/agents/${app.componentName}"));`).join('\n');
-  
+  const routeLine = filteredApps.map(app => `  const ${app.componentName} = lazy(() => import("./pages/agents/${app.componentName}"));`).join('\n');
+
   if (content.match(routeInsertRegex)) {
     content = content.replace(routeInsertRegex, `$1\n${routeLine}\n`);
   } else {
@@ -110,7 +115,7 @@ async function updateAppTsx(apps: GeneratedApp[]) {
   // Insert before closing </Routes>
   const routesSection = content.match(/<Routes[\s\S]*?<\/Routes>/)?.[0];
   if (routesSection) {
-    const newRoutes = apps.map(app => `        <Route path="/agent/${app.appSlug}" element={<${app.componentName} />} />`).join('\n          ');
+    const newRoutes = filteredApps.map(app => `        <Route path="/agent/${app.appSlug}" element={<${app.componentName} />} />`).join('\n          ');
     // Find last route and insert after
     const lastRouteMatch = content.match(/\s{8}<Route[^>]*>[\s\S]*?<\/Route>\s*$/m);
     if (lastRouteMatch) {
@@ -128,7 +133,7 @@ async function updateAppTsx(apps: GeneratedApp[]) {
   }
 
   fs.writeFileSync(appTsxPath, content);
-  console.log(`✅ Updated App.tsx with ${apps.length} new routes`);
+  console.log(`✅ Updated App.tsx with ${filteredApps.length} new routes`);
   return true;
 }
 

@@ -11,9 +11,10 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MobileBottomNav from "./components/MobileBottomNav";
 import { AdminProvider } from "./context/AdminContext";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import { Toaster } from "./components/ui/toast";
 import { NetworkStatusIndicator } from "./components/AsyncStates";
+import { Analytics } from "./utils/analytics";
 
 // Lazy loaded components for better performance
 const LandingPage = lazy(() => import("./pages/LandingPage"));
@@ -31,6 +32,7 @@ const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
 const AdminSignUp = lazy(() => import("./components/admin/AdminSignUp"));
 const SpecialFooter = lazy(() => import("./components/SpecialFooter"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
+const AnalyticsDashboard = lazy(() => import("./components/AnalyticsDashboard"));
 
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const EmailGTMPage = lazy(() => import("./pages/agents/EmailGTMPage"));
@@ -320,6 +322,7 @@ const SectionLoader = () => (
 
 function App() {
   const location = useLocation();
+  const { user } = useAuth();
 
   // Detect mobile/tablet
   const [isMobile, setIsMobile] = useState(false);
@@ -339,6 +342,11 @@ function App() {
 
     return () => window.removeEventListener("resize", checkDevice);
   }, []);
+
+  // Initialize analytics with user ID
+  useEffect(() => {
+    Analytics.setUserId(user?.id || null);
+  }, [user]);
   // Update document title with page section
   useEffect(() => {
     const updateTitle = () => {
@@ -719,19 +727,33 @@ function App() {
               </AdminProvider>
             }
           />
-          <Route
-            path="/admin"
-            element={
-              <AdminProvider>
-                <ErrorBoundary onError={handleError}>
-                  <Suspense fallback={<SectionLoader />}>
-                    <AdminDashboard />
-                    <SpecialFooter />
-                  </Suspense>
-                </ErrorBoundary>
-              </AdminProvider>
-            }
-          />
+           <Route
+             path="/admin"
+             element={
+               <AdminProvider>
+                 <ErrorBoundary onError={handleError}>
+                   <Suspense fallback={<SectionLoader />}>
+                     <AdminDashboard />
+                     <SpecialFooter />
+                   </Suspense>
+                 </ErrorBoundary>
+               </AdminProvider>
+             }
+           />
+
+           <Route
+             path="/admin/analytics"
+             element={
+               <AdminProvider>
+                 <ErrorBoundary onError={handleError}>
+                   <Suspense fallback={<SectionLoader />}>
+                     <AnalyticsDashboard isAdmin={true} />
+                     <SpecialFooter />
+                   </Suspense>
+                 </ErrorBoundary>
+               </AdminProvider>
+             }
+           />
 
           {/* Temporary debug route */}
           <Route

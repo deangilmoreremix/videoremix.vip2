@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
+import { Analytics, PerformanceMonitor } from "../utils/analytics";
+import { ABTestUtils } from "../utils/abTesting";
 
 interface PurchaseModalProps {
   isOpen: boolean;
@@ -33,6 +35,8 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [modalOpenTime, setModalOpenTime] = useState<number | null>(null);
+  const [ctaVariant, setCtaVariant] = useState<string>('Get Instant Access Now');
 
   const defaultPrice = 97;
   const price = app.price || defaultPrice;
@@ -47,12 +51,48 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
 
   const features = app.features || defaultFeatures;
 
+  // Track modal open/close
+  React.useEffect(() => {
+    if (isOpen) {
+      setModalOpenTime(Date.now());
+      const variant = ABTestUtils.getCtaButtonText(user?.id);
+      setCtaVariant(variant);
+      Analytics.trackModalOpen(app.id, 'purchase');
+      PerformanceMonitor.trackAnimationSmoothness(app.id, 'modal_open');
+    } else if (modalOpenTime) {
+      const duration = Date.now() - modalOpenTime;
+      Analytics.trackModalClose(app.id, 'purchase', duration);
+      setModalOpenTime(null);
+    }
+  }, [isOpen, app.id, modalOpenTime, user?.id]);
+
+  // Track modal load time
+  React.useEffect(() => {
+    if (isOpen) {
+      const endTracking = PerformanceMonitor.trackModalLoadTime(app.id);
+      return endTracking;
+    }
+  }, [isOpen, app.id]);
+
   const handlePurchase = async () => {
+    // Track CTA click with A/B test variant
+    Analytics.trackCtaClick(app.id, 'purchase_now', {
+      price,
+      user_logged_in: !!user,
+      cta_variant: ctaVariant,
+      test_id: 'cta_button_text'
+    });
+    ABTestUtils.trackCtaClick('cta_button_text', ctaVariant);
+
     if (!user) {
+      Analytics.trackEvent('signin_redirect', { from_modal: true, app_id: app.id });
       onClose();
       document.dispatchEvent(new CustomEvent("open-signin-modal"));
       return;
     }
+
+    // Track purchase start
+    Analytics.trackPurchaseStart(app.id, price);
 
     setLoading(true);
     setError(null);
@@ -83,12 +123,15 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
       const { url } = await response.json();
 
       if (url) {
+        Analytics.trackPurchaseComplete(app.id, price);
+        ABTestUtils.trackPurchase('cta_button_text', ctaVariant, price);
         window.location.href = url;
       } else {
         throw new Error("No checkout URL received");
       }
     } catch (err: any) {
       console.error("Error creating checkout session:", err);
+      Analytics.trackError(`Purchase failed: ${err.message}`, 'checkout_error', app.id);
       setError(err.message || "Failed to start checkout. Please try again.");
       setLoading(false);
     }
@@ -186,7 +229,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
                     ) : (
                       <>
                         <Lock className="h-5 w-5" />
-                        <span>Get Instant Access Now</span>
+                        <span>{ctaVariant}</span>
                       </>
                     )}
                   </button>

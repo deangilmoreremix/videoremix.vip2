@@ -31,9 +31,14 @@ const flatPath = './scripts/conversion/output/flat-manifest.json';
 fs.writeFileSync(flatPath, JSON.stringify(allApps, null, 2));
 console.log(`📄 Flat manifest written to ${flatPath}\n`);
 
+// Use deduped manifest if available
+const dedupedPath = './scripts/conversion/output/flat-manifest-deduped.json';
+const usePath = fs.existsSync(dedupedPath) ? dedupedPath : flatPath;
+console.log(`📄 Using manifest: ${usePath}\n`);
+
 // Now run the register script
 console.log('🚀 Starting registration...\n');
-execSync(`npx ts-node scripts/conversion/register-apps.ts ${flatPath}`, { stdio: 'inherit' });
+execSync(`npx ts-node scripts/conversion/register-apps.ts ${usePath}`, { stdio: 'inherit' });
 
 console.log('\n✅ Registration complete!');
 console.log('🔧 Next steps:');

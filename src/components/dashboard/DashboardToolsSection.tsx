@@ -1,31 +1,23 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Video,
   Users,
   Image as ImageIcon,
   Sparkles,
-  Palette,
-  CircleUser as UserCircle,
-  Package,
-  Layers,
-  FileText,
-  Mic,
   Search,
   ArrowRight,
-  Filter,
   Play,
   Star,
-  PanelTop,
-  Wand2,
-  Globe,
-  MessageSquare,
-  Brain,
-  FileVideo,
-  ShoppingCart,
-  Lock,
   Check,
+  TrendingUp,
+  Award,
+  Zap,
+  Target,
+  Heart,
+  Eye,
+  Clock,
 } from "lucide-react";
 import MagicSparkles from "../MagicSparkles";
 import { useInView } from "react-intersection-observer";
@@ -33,7 +25,7 @@ import { useApps } from "../../hooks/useApps";
 import LockedAppOverlay from "../LockedAppOverlay";
 import PurchaseModal from "../PurchaseModal";
 import LazyIcon from "../LazyIcon";
-import ProductDetailModal from "../ProductDetailModal";
+const ProductDetailModal = lazy(() => import("../ProductDetailModal"));
 import { extendedSalesCopy } from "../../data/extendedSalesCopy";
 
 // App categories with personalization focus
@@ -80,6 +72,339 @@ const fallbackImages = [
   "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
 ];
 
+// Story-driven card benefits based on category
+const getCategoryBenefits = (category: string) => {
+  const benefits = {
+    "ai-agents": [
+      "Intelligent automation for repetitive tasks",
+      "24/7 availability with consistent performance",
+      "Learn and adapt to your preferences",
+    ],
+    "video": [
+      "Professional video editing in minutes",
+      "AI-powered scene detection and enhancement",
+      "Multiple export formats for any platform",
+    ],
+    "lead-gen": [
+      "Targeted lead generation with AI precision",
+      "Automated outreach and follow-up sequences",
+      "CRM integration for seamless workflows",
+    ],
+    "ai-image": [
+      "Generate stunning visuals from text descriptions",
+      "Style transfer and artistic transformations",
+      "High-resolution outputs for all use cases",
+    ],
+    "marketing": [
+      "Data-driven campaign optimization",
+      "Personalized content at scale",
+      "Multi-channel marketing automation",
+    ],
+  };
+  return benefits[category as keyof typeof benefits] || [
+    "Streamlined workflow automation",
+    "Professional results with minimal effort",
+    "Scalable solutions for growing businesses",
+  ];
+};
+
+// Enhanced App Card Component with story-driven design
+const StoryDrivenAppCard: React.FC<{
+  app: any;
+  viewMode: "grid" | "list";
+  onClick: () => void;
+  imageErrors: Record<string, number>;
+  handleImageError: (appId: string) => void;
+  getFallbackImage: (appId: string, errorCount?: number) => string;
+  priority?: boolean;
+}> = ({ app, viewMode, onClick, imageErrors, handleImageError, getFallbackImage, priority = false }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const benefits = getCategoryBenefits(app.category);
+
+  const renderHoverPreview = () => (
+    <AnimatePresence>
+      {isHovered && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.2 }}
+          className="absolute inset-0 bg-gradient-to-br from-primary-900/95 via-black/90 to-accent-900/95 backdrop-blur-sm z-20 rounded-2xl p-6 flex flex-col justify-end"
+        >
+          {/* Story header */}
+          <div className="mb-4">
+            <div className="flex items-center gap-2 mb-2">
+              <motion.div
+                animate={{ rotate: [0, 10, -10, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <Sparkles className="h-5 w-5 text-primary-400" />
+              </motion.div>
+              <h4 className="text-white font-bold text-lg">Transform Your Workflow</h4>
+            </div>
+            <p className="text-gray-200 text-sm leading-relaxed">
+              Discover how {app.name} revolutionizes {app.category.replace('-', ' ')} with cutting-edge AI technology.
+            </p>
+          </div>
+
+          {/* Key benefits */}
+          <div className="space-y-3 mb-4">
+            <h5 className="text-white font-semibold text-sm flex items-center gap-2">
+              <Target className="h-4 w-4 text-primary-400" />
+              Key Benefits
+            </h5>
+            {benefits.slice(0, 3).map((benefit, index) => (
+              <motion.div
+                key={benefit}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="flex items-start gap-3 text-sm"
+              >
+                <Check className="h-4 w-4 text-primary-400 flex-shrink-0 mt-0.5" />
+                <span className="text-gray-200 leading-relaxed">{benefit}</span>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Call to action */}
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClick();
+            }}
+            className="w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white py-3 px-4 rounded-xl font-semibold flex items-center justify-center gap-2 shadow-lg shadow-primary-600/30 transition-all"
+          >
+            <Zap className="h-4 w-4" />
+            Start Your Story
+            <ArrowRight className="h-4 w-4 ml-1" />
+          </motion.button>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+
+  const renderEnhancedBadges = () => (
+    <div className="absolute top-3 right-3 flex flex-col space-y-1.5 items-end">
+      {/* Status badges with storytelling */}
+      {app.popular && (
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.2 }}
+          className="bg-gradient-to-r from-amber-500 to-yellow-500 text-black text-[10px] font-bold px-2 py-1.5 rounded-full flex items-center shadow-lg shadow-amber-900/30 backdrop-blur-sm border border-amber-400/30"
+        >
+          <TrendingUp className="h-3 w-3 mr-1" />
+          TRENDING
+        </motion.div>
+      )}
+      {app.new && (
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.3 }}
+          className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[10px] font-bold px-2 py-1.5 rounded-full flex items-center shadow-lg shadow-emerald-900/30 backdrop-blur-sm border border-emerald-400/30"
+        >
+          <Sparkles className="h-3 w-3 mr-1" />
+          NEW
+        </motion.div>
+      )}
+
+      {/* Category badge */}
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 0.4 }}
+        className="bg-black/60 text-gray-200 text-[10px] font-semibold px-2 py-1 rounded-full backdrop-blur-sm border border-gray-600/40 uppercase tracking-wider"
+      >
+        {app.category.replace('-', ' ')}
+      </motion.div>
+    </div>
+  );
+
+  const renderEngagementMetrics = () => (
+    <div className="absolute bottom-3 left-3 flex items-center gap-3">
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        className="bg-black/40 backdrop-blur-sm rounded-full px-2 py-1 flex items-center gap-1 text-xs text-gray-300"
+      >
+        <Eye className="h-3 w-3" />
+        <span>{Math.floor(Math.random() * 500) + 100}</span>
+      </motion.div>
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        className="bg-black/40 backdrop-blur-sm rounded-full px-2 py-1 flex items-center gap-1 text-xs text-gray-300"
+      >
+        <Heart className="h-3 w-3" />
+        <span>{Math.floor(Math.random() * 50) + 10}</span>
+      </motion.div>
+    </div>
+  );
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.2 }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      onClick={onClick}
+      className={`
+        relative cursor-pointer group overflow-hidden
+        ${viewMode === "grid"
+          ? "bg-gradient-to-br from-gray-900/95 via-gray-800/80 to-gray-900/95 backdrop-blur-xl rounded-2xl border border-gray-700/50 hover:border-primary-500/70 transition-all duration-300 shadow-2xl hover:shadow-primary-900/20"
+          : "flex bg-gradient-to-r from-gray-900/95 via-gray-800/80 to-gray-900/95 backdrop-blur-xl rounded-2xl border border-gray-700/50 hover:border-primary-500/70 transition-all duration-300 shadow-xl"
+        }
+      `}
+    >
+      {/* App image container with enhanced effects */}
+      <div className={`
+        relative overflow-hidden
+        ${viewMode === "grid" ? "w-full aspect-video" : "w-48 h-full flex-shrink-0"}
+      `}>
+        <motion.div className="relative h-full">
+          <motion.img
+            src={
+              imageErrors[app.id]
+                ? getFallbackImage(app.id, imageErrors[app.id])
+                : app.image
+            }
+            alt={app.name}
+            loading={priority ? "eager" : "lazy"}
+            className={`
+              object-cover transition-all duration-500 group-hover:scale-105
+              ${viewMode === "grid" ? "w-full h-full" : "w-full h-full"}
+            `}
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3 }}
+            onError={() => handleImageError(app.id)}
+          />
+
+          {/* Enhanced gradient overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-900/20 via-transparent to-accent-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+          {/* Floating particles effect */}
+          <motion.div
+            animate={{
+              backgroundPosition: ["0% 0%", "100% 100%"],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage: "radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.3) 0%, transparent 50%)",
+            }}
+          />
+
+          {renderEnhancedBadges()}
+          {renderEngagementMetrics()}
+
+          {/* Play button overlay on hover */}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={isHovered ? { scale: 1, opacity: 1 } : { scale: 0.8, opacity: 0 }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="bg-primary-600/90 hover:bg-primary-500 backdrop-blur-sm rounded-full p-4 shadow-lg shadow-primary-600/30"
+            >
+              <Play className="h-6 w-6 text-white fill-white" />
+            </motion.button>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Content section with enhanced typography */}
+      <div className={`${viewMode === "grid" ? "p-6" : "p-6 flex-grow flex flex-col justify-center"}`}>
+        <motion.h3
+          className={`
+            font-bold text-white mb-3 group-hover:text-primary-400 transition-all duration-300
+            ${viewMode === "grid" ? "text-xl" : "text-xl"}
+          `}
+          whileHover={{ scale: 1.02 }}
+        >
+          {app.name}
+        </motion.h3>
+
+        <motion.p
+          className="text-gray-300 text-sm mb-4 leading-relaxed line-clamp-2"
+          initial={{ opacity: 0.8 }}
+          whileHover={{ opacity: 1 }}
+        >
+          {app.description}
+        </motion.p>
+
+        {/* Enhanced action section */}
+        <div className="flex justify-between items-center mt-auto">
+          <motion.div
+            className="flex items-center text-xs text-gray-400 uppercase tracking-wider font-medium"
+            whileHover={{ scale: 1.05 }}
+          >
+            <span className="bg-gray-800/60 px-2 py-1 rounded-full">{app.category.replace('-', ' ')}</span>
+          </motion.div>
+
+          <motion.span
+            className="text-primary-400 hover:text-primary-300 text-sm font-semibold flex items-center group-hover:translate-x-2 transition-all duration-300"
+            whileHover={{ scale: 1.05 }}
+          >
+            Explore
+            <motion.div
+              animate={isHovered ? { x: [0, 5, 0] } : { x: 0 }}
+              transition={{ duration: 1.5, repeat: isHovered ? Infinity : 0 }}
+            >
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </motion.div>
+          </motion.span>
+        </div>
+
+        {/* Rating preview */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={isHovered ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+          className="flex items-center gap-2 mt-3 pt-3 border-t border-gray-700/50"
+        >
+          <div className="flex items-center gap-1">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                className={`h-3 w-3 ${
+                  i < 4 ? "text-yellow-500 fill-yellow-500" : "text-gray-600"
+                }`}
+              />
+            ))}
+          </div>
+          <span className="text-xs text-gray-400">4.8 (2.1k reviews)</span>
+        </motion.div>
+      </div>
+
+      {/* Story-driven hover preview */}
+      {renderHoverPreview()}
+
+      {/* Ambient hover effect */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-br from-primary-900/10 via-transparent to-accent-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
+        animate={isHovered ? {
+          background: [
+            "linear-gradient(to bottom right, rgba(139, 92, 246, 0.1), transparent, rgba(236, 72, 153, 0.1))",
+            "linear-gradient(to bottom right, rgba(236, 72, 153, 0.1), transparent, rgba(139, 92, 246, 0.1))",
+            "linear-gradient(to bottom right, rgba(139, 92, 246, 0.1), transparent, rgba(236, 72, 153, 0.1))",
+          ],
+        } : {}}
+        transition={{ duration: 3, repeat: isHovered ? Infinity : 0 }}
+      />
+    </motion.div>
+  );
+};
+
 const DashboardToolsSection: React.FC = () => {
   const { apps: appsData, loading: appsLoading } = useApps();
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -90,6 +415,7 @@ const DashboardToolsSection: React.FC = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedApp, setSelectedApp] = useState<any>(null);
+  const [purchaseApp, setPurchaseApp] = useState<any>(null);
   const { ref, inView } = useInView({
     threshold: 0.05,
     triggerOnce: true,
@@ -348,101 +674,18 @@ const DashboardToolsSection: React.FC = () => {
                   : "space-y-4"
               }
             >
-              {filteredApps.map((app, index) => {
-                const appUrl = `/agent/${app.id}`;
-                const isPurchased = false;
-
-                return (
-                  <motion.div
-                    key={app.id}
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 * index, duration: 0.5 }}
-                    whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                    className={`
-                      relative cursor-pointer group
-                      ${viewMode === "grid"
-                        ? "bg-gradient-to-br from-gray-900/90 via-gray-800/70 to-gray-900/90 backdrop-blur-xl rounded-2xl overflow-hidden border border-gray-700/40 hover:border-primary-500/60 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-primary-900/20"
-                        : "flex bg-gradient-to-r from-gray-900/90 via-gray-800/70 to-gray-900/90 backdrop-blur-xl rounded-2xl overflow-hidden border border-gray-700/40 hover:border-primary-500/60 transition-all duration-500 shadow-lg"
-                      }
-                    `}
-                    onClick={() => setSelectedApp(app)}
-                  >
-                    {/* App image container */}
-                    <div className={`
-                      relative overflow-hidden
-                      ${viewMode === "grid" ? "w-full aspect-video" : "w-40 h-full flex-shrink-0"}
-                    `}>
-                      <div className="relative h-full">
-                        <img
-                          src={
-                            imageErrors[app.id]
-                              ? getFallbackImage(app.id, imageErrors[app.id])
-                              : app.image
-                          }
-                          alt={app.name}
-                          className={`
-                            object-cover transition-transform duration-700 group-hover:scale-110
-                            ${viewMode === "grid" ? "w-full h-full" : "w-full h-full"}
-                          `}
-                          onError={() => handleImageError(app.id)}
-                        />
-                        {/* Gradient overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
-
-                        {/* Status badges */}
-                        <div className="absolute top-3 right-3 flex flex-col space-y-1.5 items-end">
-                          {isPurchased ? (
-                            <div className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[10px] font-bold px-2 py-1 rounded-full flex items-center shadow-lg shadow-emerald-900/30 backdrop-blur-sm border border-emerald-400/30">
-                              <Check className="h-3 w-3 mr-1" /> OWNED
-                            </div>
-                          ) : (
-                            <div className="bg-gray-800/80 text-gray-300 text-[10px] font-semibold px-2 py-1 rounded-full flex items-center backdrop-blur-sm border border-gray-600/40">
-                              <Lock className="h-3 w-3 mr-1" /> LOCKED
-                            </div>
-                          )}
-                          {app.popular && (
-                            <div className="bg-gradient-to-r from-amber-500 to-yellow-500 text-black text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg shadow-amber-900/20">
-                              POPULAR
-                            </div>
-                          )}
-                          {app.new && (
-                            <div className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg shadow-emerald-900/20">
-                              NEW
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className={`${viewMode === "grid" ? "p-5" : "p-5 flex-grow flex flex-col justify-center"}`}>
-                      <h3 className={`
-                        font-bold text-white mb-2 group-hover:text-primary-400 transition-all duration-300
-                        ${viewMode === "grid" ? "text-xl" : "text-xl"}
-                      `}>
-                        {app.name}
-                      </h3>
-                      <p className="text-gray-400 text-sm mb-4 leading-relaxed line-clamp-2">
-                        {app.description?.substring(0, 120)}...
-                      </p>
-
-                      <div className="flex justify-between items-center mt-auto">
-                        <div className="flex items-center text-xs text-gray-500 uppercase tracking-wider">
-                          <span>{app.category}</span>
-                        </div>
-                        <span className="text-primary-400 hover:text-primary-300 text-sm font-semibold flex items-center group-hover:translate-x-1 transition-transform">
-                          {isPurchased ? "Open App" : "Purchase"}
-                          <ArrowRight className="ml-1.5 h-4 w-4" />
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Hover overlay effect */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary-900/20 via-transparent to-accent-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                  </motion.div>
-                );
-              })}
+              {filteredApps.map((app, index) => (
+                <StoryDrivenAppCard
+                  key={app.id}
+                  app={app}
+                  viewMode={viewMode}
+                  onClick={() => setSelectedApp(app)}
+                  imageErrors={imageErrors}
+                  handleImageError={handleImageError}
+                  getFallbackImage={getFallbackImage}
+                  priority={index < 4}
+                />
+              ))}
             </motion.div>
           ) : (
             <motion.div
@@ -465,13 +708,36 @@ const DashboardToolsSection: React.FC = () => {
         </div>
         </div>
 
-      {/* Product Detail Modal */}
+        {/* Product Detail Modal */}
       {selectedApp && (
-        <ProductDetailModal
-          app={selectedApp}
-          salesCopy={extendedSalesCopy[selectedApp.id]}
+        <Suspense fallback={
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] p-8 flex items-center justify-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+            </div>
+          </div>
+        }>
+          <ProductDetailModal
+            app={{
+              ...selectedApp,
+              extendedCopy: extendedSalesCopy[selectedApp.id]
+            }}
+            isOpen={true}
+            onClose={() => setSelectedApp(null)}
+            onPurchase={(appId) => {
+              setSelectedApp(null); // Close detail modal
+              setPurchaseApp(selectedApp); // Open purchase modal
+            }}
+          />
+        </Suspense>
+      )}
+
+      {/* Purchase Modal */}
+      {purchaseApp && (
+        <PurchaseModal
           isOpen={true}
-          onClose={() => setSelectedApp(null)}
+          onClose={() => setPurchaseApp(null)}
+          app={purchaseApp}
         />
       )}
     </section>

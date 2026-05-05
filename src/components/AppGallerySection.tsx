@@ -27,6 +27,7 @@ import { useApps } from "../hooks/useApps";
 import { useAuth } from "../context/AuthContext";
 import { useUserAccess } from "../hooks/useUserAccess";
 import LazyIcon from "./LazyIcon";
+import { Analytics, PerformanceMonitor } from "../utils/analytics";
 
 // Define TrendingUp component before it's used
 const TrendingUp: React.FC<{ className?: string }> = (props) => (
@@ -328,6 +329,9 @@ const AppGallerySection: React.FC = () => {
         [appId]: currentErrorCount + 1,
       };
     });
+
+    // Track image load error
+    Analytics.trackError(`Image load failed for app ${appId}`, 'image_load_error', appId);
   };
 
   // Get a fallback image URL based on app ID
@@ -819,6 +823,8 @@ const AppGallerySection: React.FC = () => {
                     key={app.id}
                     whileHover={{ y: -10 }}
                     className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 w-[280px] flex-shrink-0 group hover:border-primary-500/50 transition-colors"
+                    onMouseEnter={() => Analytics.trackCardHover(app.id, hasAccessToApp(app.id))}
+                    onClick={() => Analytics.trackCardClick(app.id, hasAccessToApp(app.id))}
                   >
                     <a
                       href={appUrl}
@@ -837,6 +843,7 @@ const AppGallerySection: React.FC = () => {
                           alt={app.name}
                           className="w-full h-full object-cover"
                           onError={() => handleImageError(app.id)}
+                          onLoad={() => PerformanceMonitor.trackImageLoad(app.id, app.image)}
                         />
 
                         {/* Overlay with personalization focus */}
@@ -940,6 +947,8 @@ const AppGallerySection: React.FC = () => {
                         ? "group bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-primary-500/50 transition-colors shadow-lg"
                         : "flex bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-primary-500/50 transition-colors shadow-lg"
                     }`}
+                    onMouseEnter={() => Analytics.trackCardHover(app.id, hasAccessToApp(app.id))}
+                    onClick={() => Analytics.trackCardClick(app.id, hasAccessToApp(app.id))}
                   >
                     {/* App image */}
                     <div
@@ -963,6 +972,7 @@ const AppGallerySection: React.FC = () => {
                               : "w-32 h-full"
                           } ${user && !hasAccessToApp(app.id) ? "grayscale opacity-60" : ""}`}
                           onError={() => handleImageError(app.id)}
+                          onLoad={() => PerformanceMonitor.trackImageLoad(app.id, app.image)}
                         />
 
                         {/* Personalization marker */}

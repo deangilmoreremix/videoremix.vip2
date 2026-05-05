@@ -160,6 +160,12 @@ export const appSalesCopy: AppSalesData = {
     howItMakesMoney: 'Charge social media managers and brand marketers $300-1000 per analysis, targeting businesses wanting to understand their social media performance and optimize their online presence.',
     whyBusinessesNeedIt: 'Social media moves too fast for manual analysis. This AI instantly reveals what your audience really thinks, identifies trending conversations, and provides actionable strategies to improve engagement and grow your following.'
   },
+  'contentgenius-ai': {
+    tonality: 'Meeting Intelligence Expert',
+    whatItDoes: 'Transforms meeting transcripts and notes into actionable summaries, key insights, action items with owners, and sentiment analysis to maximize meeting productivity.',
+    howItMakesMoney: 'Charge teams and consultants $200-600 per meeting analysis, targeting organizations wanting to eliminate post-meeting work and ensure no decisions or tasks are forgotten.',
+    whyBusinessesNeedIt: 'Meetings consume 15% of work time but often lack follow-through. This AI extracts every key decision, assigns accountability, and provides instant insights so your team can focus on execution instead of note-taking.'
+  },
   'video-creator': {
     tonality: 'Steve Jobs',
     whatItDoes: 'Transforms simple text prompts and keywords into professional, cinematic videos with AI-powered editing and storytelling.',

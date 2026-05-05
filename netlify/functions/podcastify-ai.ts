@@ -1,12 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
-import Anthropic from '@anthropic-ai/sdk';
+import OpenAI from 'openai';
 
+// Initialize Supabase client
 const supabaseUrl = process.env.SUPABASE_URL!;
 const supabaseKey = process.env.SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY!,
+// Initialize OpenAI client
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY!,
 });
 
 interface PodcastifyInput {
@@ -96,18 +98,17 @@ Format your response as a JSON object with exactly these keys:
   "estimatedDuration": "X minutes"
 }`;
 
-  const response = await anthropic.messages.create({
-    model: 'claude-3-opus-20240229',
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o',
     max_tokens: 4000,
     temperature: 0.7,
-    system: 'You are a professional podcast producer. Always respond with valid JSON.',
-    messages: [{ role: 'user', content: prompt }]
+    messages: [
+      { role: 'system', content: 'You are a professional podcast producer. Always respond with valid JSON.' },
+      { role: 'user', content: prompt }
+    ]
   });
 
-  const content = response.content[0];
-  if (content.type !== 'text') {
-    throw new Error('Unexpected response type');
-  }
+  const content = response.choices[0].message.content;
 
   try {
     const jsonMatch = content.text.match(/\{[\s\S]*\}/);

@@ -8,7 +8,7 @@ set -e
 echo "Starting batch conversion of all Streamlit apps..."
 
 # Find all Streamlit apps
-STREAMLIT_APPS=$(find awesome-llm-apps/apps -name "app.py" -type f | xargs dirname)
+STREAMLIT_APPS=$(find awesome-llm-apps -name "app.py" -type f -exec dirname {} \; | sort | uniq)
 
 TOTAL_APPS=$(echo "$STREAMLIT_APPS" | wc -l)
 echo "Found $TOTAL_APPS Streamlit apps to convert"
@@ -21,7 +21,7 @@ for app_dir in $STREAMLIT_APPS; do
   echo "Converting $app_dir..."
 
   # Step 1: Analyze
-  METADATA=$(node scripts/analyze-streamlit-app.js "$app_dir")
+  METADATA=$(node scripts/analyze-streamlit-app.cjs "$app_dir" 2>/dev/null)
   if [ $? -ne 0 ]; then
     echo "Failed to analyze $app_dir"
     ((FAILURE_COUNT++))
@@ -29,7 +29,7 @@ for app_dir in $STREAMLIT_APPS; do
   fi
 
   # Step 2: Generate Netlify function
-  FUNCTION_NAME=$(echo "$METADATA" | node scripts/generate-netlify-function.ts)
+  FUNCTION_NAME=$(echo "$METADATA" | node scripts/generate-netlify-function.cjs /dev/stdin 2>/dev/null)
   if [ $? -ne 0 ]; then
     echo "Failed to generate function for $app_dir"
     ((FAILURE_COUNT++))
@@ -37,7 +37,7 @@ for app_dir in $STREAMLIT_APPS; do
   fi
 
   # Step 3: Generate React component
-  node scripts/generate-react-component.ts "$METADATA" "$FUNCTION_NAME"
+  echo "$METADATA" | node scripts/generate-react-component.cjs /dev/stdin "$FUNCTION_NAME" 2>/dev/null
   if [ $? -ne 0 ]; then
     echo "Failed to generate component for $app_dir"
     ((FAILURE_COUNT++))
@@ -46,7 +46,7 @@ for app_dir in $STREAMLIT_APPS; do
 
   # Prepare app metadata for registration
   APP_SLUG=$(basename "$app_dir" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g')
-  APP_NAME=$(echo "$METADATA" | jq -r '.appName')
+  APP_NAME=$(echo "$METADATA" | jq -r '.appName' 2>/dev/null || echo "Unknown App")
   COMPONENT_NAME="${APP_NAME//[^a-zA-Z0-9]/}App"
 
   NEW_APPS+=("{\"slug\":\"$APP_SLUG\",\"name\":\"$APP_NAME\",\"component\":\"$COMPONENT_NAME\"}")
@@ -59,8 +59,8 @@ echo "Conversion complete: $SUCCESS_COUNT successful, $FAILURE_COUNT failed"
 
 # Register all new apps
 if [ ${#NEW_APPS[@]} -gt 0 ]; then
-  NEW_APPS_JSON=$(printf '%s\n' "${NEW_APPS[@]}" | jq -s '.')
-  node scripts/register-apps.ts "$NEW_APPS_JSON"
+  NEW_APPS_JSON=$(printf '%s\n' "${NEW_APPS[@]}" | jq -s '.' 2>/dev/null || echo "[]")
+  echo "$NEW_APPS_JSON" | node scripts/register-apps.cjs /dev/stdin 2>/dev/null
   echo "Registered ${#NEW_APPS[@]} new apps"
 fi
 
