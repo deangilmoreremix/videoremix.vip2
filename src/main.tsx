@@ -1,6 +1,7 @@
-import { Suspense, lazy } from "react";
+import { Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import { ModalsProvider } from "./components/ModalsProvider";
 
 // Import performance monitoring and error handling
@@ -37,11 +38,13 @@ const initializeApp = () => {
         }}
       >
         <BrowserRouter>
-          <ModalsProvider>
-            <Suspense fallback={<LoadingScreen />}>
-              <App />
-            </Suspense>
-          </ModalsProvider>
+          <AuthProvider>
+            <ModalsProvider>
+              <Suspense fallback={<LoadingScreen />}>
+                <App />
+              </Suspense>
+            </ModalsProvider>
+          </AuthProvider>
         </BrowserRouter>
       </GlobalErrorBoundary>
     );

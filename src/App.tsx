@@ -11,7 +11,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MobileBottomNav from "./components/MobileBottomNav";
 import { AdminProvider } from "./context/AdminContext";
-import { AuthProvider, useAuth } from "./context/AuthContext";
+import { useAuth } from "./context/AuthContext";
 import { Toaster } from "./components/ui/toast";
 import { NetworkStatusIndicator } from "./components/AsyncStates";
 import { Analytics } from "./utils/analytics";
@@ -379,7 +379,7 @@ function App() {
   };
 
   return (
-    <AuthProvider>
+    <>
       <Helmet>
         <title>
           VideoRemix.vip - AI-Powered Marketing Personalization Platform
@@ -822,7 +822,7 @@ function App() {
         <MobileBottomNav />
         <NetworkStatusIndicator />
       </div>
-    </AuthProvider>
+    </>
   );
 }
 
