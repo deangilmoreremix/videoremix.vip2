@@ -9,7 +9,7 @@ import {
   AlertCircle,
   CheckCircle,
 } from "lucide-react";
-import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "../../utils/supabase";
 
 interface VideoItem {
   id: string;

@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase";
 import { checkAgentKeys, getAgentKeyRequirements, AgentKeyRequirements, AVAILABLE_API_KEYS } from "../utils/agentKeyRequirements";
 import { Loader2, AlertCircle, Settings } from "lucide-react";
 import { Button } from "../components/ui/button";

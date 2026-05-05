@@ -1,5 +1,5 @@
 // Performance monitoring and error reporting utility
-import { supabase } from './supabaseClient';
+import { supabase } from './supabase';
 
 export interface PerformanceMetric {
   name: string;

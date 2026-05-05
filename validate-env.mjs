@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync } from 'fs';
+import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
@@ -15,9 +15,13 @@ const correctUrl = lockFile.match(/LOCKED_SUPABASE_URL=(.+)/)[1];
 
 let currentUrl = process.env.VITE_SUPABASE_URL;
 
-if (!currentUrl && existsSync(envPath)) {
-  const envFile = readFileSync(envPath, 'utf-8');
-  currentUrl = envFile.match(/VITE_SUPABASE_URL=(.+)/)?.[1];
+if (!currentUrl) {
+  try {
+    const envFile = readFileSync(envPath, 'utf-8');
+    currentUrl = envFile.match(/VITE_SUPABASE_URL=(.+)/)?.[1];
+  } catch (error) {
+    // .env file doesn't exist or can't be read, skip
+  }
 }
 
 if (!currentUrl) {

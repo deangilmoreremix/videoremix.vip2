@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getRequiredKeysForAgent, ApiKeyType } from "../utils/agentKeyRequirements";
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase";
 
 export interface ApiKeyStatus {
   keyType: ApiKeyType;

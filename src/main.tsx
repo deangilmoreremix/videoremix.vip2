@@ -1,18 +1,13 @@
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { ModalsProvider } from "./components/ModalsProvider";
 import { LandingPageProvider } from "./context/LandingPageContext";
-
-// Import performance monitoring and error handling
-import performanceMonitor from "./utils/performanceMonitor";
 import GlobalErrorBoundary from "./components/GlobalErrorBoundary";
-
-// Import base styles early to prevent layout shifts
+import App from "./App";
 import "./index.css";
 
-// Simple loading indicator for initial app load
 const LoadingScreen = () => (
   <div className="fixed inset-0 flex items-center justify-center bg-gray-900 text-white">
     <div className="relative">
@@ -24,15 +19,11 @@ const LoadingScreen = () => (
   </div>
 );
 
-// Load the main app
-import App from "./App";
+const root = document.getElementById("root");
 
-// Mount app immediately
-const initializeApp = () => {
-  console.log('🚀 App initializing...');
-  const root = document.getElementById("root");
-  if (root) {
-    createRoot(root).render(
+if (root) {
+  createRoot(root).render(
+    <React.StrictMode>
       <GlobalErrorBoundary
         onError={(error, errorInfo) => {
           console.error('🚨 Global error caught:', error, errorInfo);
@@ -50,16 +41,9 @@ const initializeApp = () => {
           </BrowserRouter>
         </LandingPageProvider>
       </GlobalErrorBoundary>
-    );
-    console.log('✅ App mounted successfully');
-  } else {
-    console.error('❌ Root element not found');
-  }
-};
-
-// Wait for DOM ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeApp);
+    </React.StrictMode>
+  );
+  console.log('✅ App mounted successfully');
 } else {
-  initializeApp();
+  console.error('❌ Root element not found');
 }

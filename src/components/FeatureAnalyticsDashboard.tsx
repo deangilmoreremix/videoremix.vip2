@@ -15,7 +15,7 @@ import {
   ArrowDown,
   Sparkles,
 } from "lucide-react";
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase";
 import { useFeatures } from "../hooks/useFeatures";
 
 interface AnalyticsData {

@@ -4,7 +4,7 @@ import type {
   Video,
   VideoUploadData,
   VideoUpdateData,
-} from "../utils/supabaseClient";
+} from "../utils/supabaseTypes";
 
 export const useVideos = () => {
   const [videos, setVideos] = useState<Video[]>([]);

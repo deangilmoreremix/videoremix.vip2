@@ -1,4 +1,4 @@
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase";
 import { safeMutation, createPurchaseIdempotencyKey, createAppAccessIdempotencyKey } from "../lib/safeMutation";
 
 export interface UserAppAccess {

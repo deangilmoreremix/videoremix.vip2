@@ -9,7 +9,7 @@ import React, {
   useRef,
 } from "react";
 import { User, Session, AuthError, AuthChangeEvent } from "@supabase/supabase-js";
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase";
 
 // Auth state types
 export type AuthState = "idle" | "loading" | "authenticated" | "unauthenticated" | "error";

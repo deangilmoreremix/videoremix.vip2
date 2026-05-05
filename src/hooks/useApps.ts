@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase";
 import { transformApp, ComponentApp } from "../utils/appTransformers";
 import { appConfig } from "../config/appConfig";
 import { appsData } from "../data/appsData";

@@ -12,25 +12,35 @@ export default defineConfig(({ mode }) => {
     react(),
   ],
   optimizeDeps: {
-    include: ['lucide-react', 'framer-motion', 'react-intersection-observer'],
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      'lucide-react',
+      'framer-motion',
+      'react-intersection-observer',
+      'react-helmet-async',
+      '@supabase/supabase-js'
+    ],
   },
   build: {
     target: 'esnext',
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // Vendor chunks
+          // Vendor chunks - but let Vite handle React internally to avoid duplicate React instances
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('scheduler')) {
-              return 'react-vendor';
+            if (id.includes('react') || id.includes('react-dom')) {
+              return undefined;
             }
+            // Don't manually chunk react or react-dom - let Vite optimize them properly
             if (id.includes('framer-motion')) {
               return 'framer-motion';
             }
             if (id.includes('lucide-react')) {
               return 'lucide-icons';
             }
-            if (id.includes('@radix-ui') || id.includes('react-router')) {
+            if (id.includes('@radix-ui')) {
               return 'ui-vendor';
             }
             if (id.includes('supabase') || id.includes('@supabase')) {
@@ -76,16 +86,21 @@ export default defineConfig(({ mode }) => {
     manifest: true,
   },
   server: {
+    host: '0.0.0.0',
+    port: 5173,
+    strictPort: true,
     hmr: {
-      timeout: 120000,
+      clientPort: 443,
+      protocol: 'wss'
     },
+    allowedHosts: ['.app.github.dev', 'localhost'],
     watch: {
       usePolling: false,
       ignored: ['**/node_modules/**', '**/dist/**', '**/supabase/functions/**'],
     },
-    strictPort: false,
   },
   resolve: {
+    dedupe: ['react', 'react-dom', 'react-router-dom'],
     alias: {
       '@': '/src',
     },

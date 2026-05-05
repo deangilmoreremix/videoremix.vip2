@@ -5,14 +5,13 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import {
-  getAllLandingPageContent,
+import type {
   HeroContent,
   BenefitFeature,
   Testimonial,
   FAQ,
   PricingPlan,
-} from "../utils/supabaseClient";
+} from "../utils/supabaseTypes";
 
 interface LandingPageContextType {
   hero: HeroContent | null;
@@ -65,6 +64,8 @@ const LandingPageProvider: React.FC<LandingPageProviderProps> = ({
       setIsLoading(true);
       setError(null);
 
+      // Dynamically import to break circular dependency
+      const { getAllLandingPageContent } = await import("../utils/supabaseClient");
       const data = await getAllLandingPageContent();
 
       setContent({
