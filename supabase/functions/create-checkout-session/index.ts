@@ -87,9 +87,19 @@ Deno.serve(async (req: Request) => {
       httpClient: Stripe.createFetchHttpClient(),
     });
 
-    const { appId, appName, price, userId, userEmail } = await req.json();
+    const {
+      appId,
+      appName,
+      price,
+      userId,
+      userEmail,
+      tier = 'single',
+      allowGuestCheckout = false,
+      purchaseType = 'single',
+      isBundle = false
+    } = await req.json();
 
-    if (!appId || !appName || !price || !userEmail) {
+    if (!appId || !appName || !price) {
       return new Response(
         JSON.stringify({ error: 'Missing required parameters' }),
         {
@@ -99,7 +109,39 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const session = await stripe.checkout.sessions.create({
+    // For guest checkouts, userId might be null
+    if (!allowGuestCheckout && !userId) {
+      return new Response(
+        JSON.stringify({ error: 'User authentication required' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    // Handle bundle purchases
+    const isAllAppsBundle = appId === 'all-apps-bundle';
+    const productDescription = isAllAppsBundle
+      ? `Lifetime access to all ${appName.match(/\d+/)?.[0] || ''} AI agent apps`
+      : `Lifetime access to ${appName}`;
+
+    // Create or retrieve customer (only if we have user details)
+    let customerId = null;
+    if (userEmail && !isAllAppsBundle) {
+      // For regular purchases, create customer for tracking
+      const customer = await stripe.customers.create({
+        email: userEmail,
+        metadata: {
+          user_id: userId || 'guest',
+          purchase_type: isAllAppsBundle ? 'bundle' : 'single',
+          app_id: appId
+        }
+      });
+      customerId = customer.id;
+    }
+
+    const sessionConfig = {
       payment_method_types: ['card'],
       line_items: [
         {
@@ -107,23 +149,32 @@ Deno.serve(async (req: Request) => {
             currency: 'usd',
             product_data: {
               name: appName,
-              description: `Lifetime access to ${appName}`,
+              description: productDescription,
             },
             unit_amount: Math.round(price * 100),
           },
           quantity: 1,
         },
       ],
-      mode: 'payment',
-      success_url: `${req.headers.get('origin')}/dashboard?purchase=success`,
+      mode: 'payment' as const,
+      success_url: `${req.headers.get('origin')}/dashboard?purchase=success&app=${encodeURIComponent(appId)}`,
       cancel_url: `${req.headers.get('origin')}/tools?purchase=cancelled`,
-      customer_email: userEmail,
       metadata: {
         appId,
-        userId: userId || '',
+        userId: userId || 'guest',
         appName,
+        tier,
+        purchaseType,
+        isBundle: isBundle.toString(),
+        allowGuestCheckout: allowGuestCheckout.toString(),
       },
-    });
+      // Only set customer_email for non-bundle purchases to avoid conflicts
+      ...(customerId && !isAllAppsBundle && { customer: customerId }),
+      ...(userEmail && !customerId && { customer_email: userEmail }),
+      allow_promotion_codes: true,
+    };
+
+    const session = await stripe.checkout.sessions.create(sessionConfig);
 
     return new Response(
       JSON.stringify({ url: session.url }),

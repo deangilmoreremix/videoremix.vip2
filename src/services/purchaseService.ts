@@ -90,33 +90,55 @@ export const purchaseService = {
    */
   async getUserPurchasedApps(userId: string): Promise<string[]> {
     try {
-      const { data, error } = await supabase
+      // Get direct app access
+      const { data: directAccess, error: directError } = await supabase
         .from("user_app_access")
         .select("app_slug")
         .eq("user_id", userId)
         .eq("is_active", true);
 
-      if (error) {
-        console.error("Error fetching user purchased apps:", error);
-        return [];
+      if (directError) {
+        console.error("Error fetching user direct app access:", directError);
       }
 
-      if (!data) {
-        return [];
+      // Check for bundle purchases
+      const { data: bundlePurchases, error: bundleError } = await supabase
+        .from("purchases")
+        .select("product_id, metadata")
+        .eq("user_id", userId)
+        .eq("status", "completed")
+        .or("product_id.eq.all-apps-bundle,metadata->>isBundle.eq.true");
+
+      if (bundleError) {
+        console.error("Error fetching bundle purchases:", bundleError);
       }
 
-      const appSlugs = data
-        .filter((access) => {
-          if (access.expires_at) {
-            const expiresAt = new Date(access.expires_at);
-            const now = new Date();
-            return expiresAt > now;
-          }
-          return true;
-        })
-        .map((access) => access.app_slug);
+      let appSlugs = [];
 
-      return appSlugs;
+      // Add directly purchased apps
+      if (directAccess) {
+        const directApps = directAccess
+          .filter((access) => {
+            if (access.expires_at) {
+              const expiresAt = new Date(access.expires_at);
+              const now = new Date();
+              return expiresAt > now;
+            }
+            return true;
+          })
+          .map((access) => access.app_slug);
+        appSlugs.push(...directApps);
+      }
+
+      // Add bundle access - all LLM agent apps
+      if (bundlePurchases && bundlePurchases.length > 0) {
+        // Import the app bundling utility dynamically to avoid circular imports
+        const { CONVERTED_LLM_AGENT_APPS } = await import("../utils/appBundling");
+        appSlugs.push(...CONVERTED_LLM_AGENT_APPS);
+      }
+
+      // Remove duplicates
+      return [...new Set(appSlugs)];
     } catch (error) {
       console.error("Error in getUserPurchasedApps:", error);
       return [];

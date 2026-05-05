@@ -3,6 +3,7 @@ import { X, Star, CheckCircle, TrendingUp, Users, Zap, Target, DollarSign, Lock,
 import { motion, useScroll, useTransform, useMotionValue } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { Analytics } from '../utils/analytics';
+import { isConvertedLlmAgent, getBundlePricing } from '../utils/appBundling';
 
 interface ExtendedSalesCopy {
   heroHeadline: string;
@@ -94,6 +95,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const contentRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
 
+  // Check if this app is an LLM agent (eligible for bundle)
+  const isLlmAgentApp = isConvertedLlmAgent(app.id);
+  const bundleInfo = getBundlePricing();
+
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -118,13 +123,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const handlePurchase = async () => {
     const tier = PRICING[selectedTier];
 
-    if (!user) {
-      Analytics.trackEvent('signin_redirect', { from_modal: true, app_id: app.id, tier: selectedTier });
-      onClose();
-      document.dispatchEvent(new CustomEvent("open-signin-modal"));
-      return;
-    }
-
+    // Allow guest checkout - no sign-in required
     setLoading(true);
     setError(null);
 
@@ -139,11 +138,12 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           },
           body: JSON.stringify({
             appId: selectedTier === 'bundle' ? 'all-apps-bundle' : app.id,
-            appName: selectedTier === 'bundle' ? 'All Apps Bundle' : app.name,
+            appName: selectedTier === 'bundle' ? `All Apps Bundle (${bundleInfo.totalApps} apps)` : app.name,
             price: tier.price,
             tier: selectedTier,
-            userId: user.id,
-            userEmail: user.email,
+            userId: user?.id || 'guest',
+            userEmail: user?.email || '',
+            allowGuestCheckout: true, // Always allow guest checkout
             purchaseType: selectedTier,
             isBundle: selectedTier === 'bundle',
           }),
@@ -157,7 +157,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
       const { url } = await response.json();
 
       if (url) {
-        Analytics.trackPurchaseComplete(selectedTier === 'bundle' ? 'bundle' : app.id, tier.price);
+        Analytics.trackPurchaseStart(app.id, tier.price, { tier: selectedTier, guest: !user });
         window.location.href = url;
       } else {
         throw new Error("No checkout URL received");
@@ -170,7 +170,6 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   };
 
   const currentPricing = PRICING[selectedTier];
-  const savingsPercent = selectedTier === 'bundle' ? Math.round((1 - 597 / (138 * 37)) * 100) : 0;
 
   if (!isOpen) return null;
 
@@ -350,11 +349,13 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
           {activeSection === 'pricing' && (
             <div>
-              <h4 className="text-xl font-semibold mb-4" style={{ color: colors.primary }}>Choose Your Access</h4>
+              <h4 className="text-xl font-semibold mb-4" style={{ color: colors.primary }}>
+                {isLlmAgentApp ? 'Choose Your Access' : 'Purchase Options'}
+              </h4>
 
               {/* Pricing Tier Selection */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                {/* Single App Option */}
+              <div className={`grid gap-6 mb-6 ${isLlmAgentApp ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}`}>
+                {/* Single App Option - ALWAYS shown */}
                 <motion.div
                   whileHover={{ scale: 1.02 }}
                   className={`border-2 rounded-xl p-6 cursor-pointer transition-all ${
@@ -381,39 +382,43 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <p className="text-xs text-gray-400 mt-1">One-time payment • Lifetime access</p>
                 </motion.div>
 
-                {/* All Apps Bundle Option */}
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  className={`border-2 rounded-xl p-6 cursor-pointer transition-all relative ${
-                    selectedTier === 'bundle'
-                      ? 'border-emerald-500 shadow-lg'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                  onClick={() => setSelectedTier('bundle')}
-                  style={selectedTier === 'bundle' ? { borderColor: colors.primary } : {}}
-                >
-                  {savingsPercent > 0 && (
-                    <div className="absolute -top-3 right-4">
-                      <span className="px-3 py-1 rounded-full text-sm text-white" style={{ backgroundColor: colors.secondary }}>
-                        Save {savingsPercent}%
-                      </span>
-                    </div>
-                  )}
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h5 className="text-lg font-semibold text-gray-900">{PRICING.bundle.name}</h5>
-                      <p className="text-sm text-gray-500">{PRICING.bundle.description}</p>
-                    </div>
-                    {selectedTier === 'bundle' && (
-                      <CheckCircle size={20} style={{ color: colors.primary }} />
+                {/* All Apps Bundle Option - ONLY show for LLM agent apps */}
+                {isLlmAgentApp && (
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    className={`border-2 rounded-xl p-6 cursor-pointer transition-all relative ${
+                      selectedTier === 'bundle'
+                        ? 'border-emerald-500 shadow-lg'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                    onClick={() => setSelectedTier('bundle')}
+                    style={selectedTier === 'bundle' ? { borderColor: colors.primary } : {}}
+                  >
+                    {bundleInfo.savingsPercent > 0 && (
+                      <div className="absolute -top-3 right-4">
+                        <span className="px-3 py-1 rounded-full text-sm text-white" style={{ backgroundColor: colors.secondary }}>
+                          Save {bundleInfo.savingsPercent}%
+                        </span>
+                      </div>
                     )}
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-bold" style={{ color: colors.primary }}>${PRICING.bundle.price}</span>
-                    <span className="text-gray-400 line-through text-lg">${138 * 37}</span>
-                  </div>
-                  <p className="text-xs text-gray-400 mt-1">One-time payment • All 138 apps included</p>
-                </motion.div>
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <h5 className="text-lg font-semibold text-gray-900">{PRICING.bundle.name}</h5>
+                        <p className="text-sm text-gray-500">{PRICING.bundle.description}</p>
+                      </div>
+                      {selectedTier === 'bundle' && (
+                        <CheckCircle size={20} style={{ color: colors.primary }} />
+                      )}
+                    </div>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-3xl font-bold" style={{ color: colors.primary }}>${PRICING.bundle.price}</span>
+                      <span className="text-gray-400 line-through text-lg">${bundleInfo.originalTotal}</span>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-1">
+                      One-time payment • {bundleInfo.totalApps} apps included
+                    </p>
+                  </motion.div>
+                )}
               </div>
 
               {/* Purchase Button */}
