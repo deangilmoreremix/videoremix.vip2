@@ -1,6 +1,20 @@
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+import { corsHeaders, jsonResponse } from '../_shared/utils.ts';
+import { OpenAI } from 'openai';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  Deno.env.get('SUPABASE_URL')!,
+  Deno.env.get('SUPABASE_ANON_KEY')!
+);
+
+// Initialize OpenAI client
+function getOpenAIClient(apiKey: string) {
+  return new OpenAI({ apiKey });
+}
 
 // Fetch user's API key from Supabase (user-provided keys)
-async function getUserApiKey(user_id, provider) {
+async function getUserApiKey(user_id: string, provider: string) {
   const { data, error } = await supabase
     .from('user_api_keys')
     .select('encrypted_api_key')
@@ -15,7 +29,7 @@ async function getUserApiKey(user_id, provider) {
 }
 
 // Verify JWT token to get user_id
-async function verifyUser(req) {
+async function verifyUser(req: Request) {
   const authHeader = req.headers.get('Authorization');
   if (!authHeader?.startsWith('Bearer ')) {
     return null;
@@ -31,51 +45,128 @@ async function verifyUser(req) {
   }
 }
 
-/**
- * Edge Function: llama3-1-local-rag
- * RAG Apps — Llama 3.1 Local RAG (uses local Ollama)
- */
+// Get embedding using OpenAI (replaces local Ollama embedding)
+async function getEmbedding(openai: OpenAI, text: string): Promise<number[]> {
+  const response = await openai.embeddings.create({
+    model: 'text-embedding-3-small',
+    input: text
+  });
+  return response.data[0].embedding;
+}
 
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { corsHeaders, jsonResponse } from '../_shared/utils.ts';
+// RAG retrieval using OpenAI embeddings + Supabase vector search
+async function retrieveDocuments(
+  openai: OpenAI,
+  query: string, 
+  collectionName: string,
+  matchThreshold: number = 0.7,
+  matchCount: number = 5
+) {
+  // Get query embedding using OpenAI
+  const queryEmbedding = await getEmbedding(openai, query);
+  
+  // Search in Supabase vector database
+  const { data, error } = await supabase.rpc('match_documents', {
+    query_embedding: queryEmbedding,
+    match_threshold: matchThreshold,
+    match_count: matchCount,
+    collection_name: collectionName
+  });
 
+  if (error) throw error;
+  return data;
+}
 
-  // Verify authentication and get user's API key
-  const { user_id } = await verifyUser(req);
-  if (!user_id) {
-    return jsonResponse({ error: 'Unauthorized' }, 401);
+// Generate response using OpenAI (replaces local Llama)
+async function generateResponse(
+  openai: OpenAI, 
+  context: string, 
+  query: string
+): Promise<string> {
+  const completion = await openai.chat.completions.create({
+    model: 'gpt-4o',
+    messages: [
+      {
+        role: 'system',
+        content: `You are a helpful AI assistant specializing in RAG (Retrieval Augmented Generation). Use the provided context to answer questions accurately. If the answer isn't in the context, say so.\n\nContext:\n${context}`
+      },
+      {
+        role: 'user',
+        content: query
+      }
+    ],
+    temperature: 0.7,
+    max_tokens: 1000
+  });
+
+  return completion.choices[0].message.content || '';
+}
+
+serve(async (req: Request) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { status: 200, headers: corsHeaders });
   }
 
-  // Get user's openai API key
-  const userApiKey = await getUserApiKey(user_id, 'openai');
-  if (!userApiKey) {
-    return jsonResponse({ 
-      error: 'API_KEY_MISSING',
-      message: 'Please add your openai API key in your profile.',
-      provider: 'openai'
-    }, 403);
+  if (req.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
   }
 
-  // Parse body
-  let body;
   try {
-    body = await req.json();
-  } catch (e) {
-    // body remains undefined for non-JSON requests
-  }
-Deno.serve(async (req: Request) => {
-  if (req.method === 'OPTIONS') return new Response(null, { status: 200, headers: corsHeaders });
-  if (req.method !== 'POST') return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    // Verify authentication and get user's API key
+    const { user_id } = await verifyUser(req);
+    if (!user_id) {
+      return jsonResponse({ error: 'Unauthorized' }, 401);
+    }
 
-  try {
+    // Get user's OpenAI API key (replaces Ollama)
+    const userApiKey = await getUserApiKey(user_id, 'openai');
+    if (!userApiKey) {
+      return jsonResponse({ 
+        error: 'API_KEY_MISSING',
+        message: 'Please add your OpenAI API key in your profile.',
+        provider: 'openai'
+      }, 403);
+    }
+
+    const openai = getOpenAIClient(userApiKey);
     const body = await req.json();
+    
+    const { query, collection_name, match_threshold, match_count } = body;
+
+    if (!query) {
+      return jsonResponse({ error: 'Query is required' }, 400);
+    }
+
+    // Retrieve documents using OpenAI embeddings
+    const documents = await retrieveDocuments(
+      openai,
+      query,
+      collection_name || 'default',
+      match_threshold || 0.7,
+      match_count || 5
+    );
+
+    // Generate response with context
+    const context = documents?.map((doc: any) => doc.content || doc.text).join('\n\n') || '';
+    const answer = await generateResponse(openai, context, query);
+
     return jsonResponse({
-      status: 'coming_soon',
-      message: 'Llama 3.1 Local RAG stub: queries local Ollama instance with document embeddings.',
-      agent: 'llama3-1-local-rag',
+      status: 'success',
+      answer,
+      sources: documents,
+      function: 'llama3-1-local-rag',
+      embedding_model: 'text-embedding-3-small',
+      llm_model: 'gpt-4o',
       timestamp: new Date().toISOString(),
     });
-  } catch (e: any) {
-    return new Response(JSON.stringify({ error: e.message, status: 'error' }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+  } catch (error) {
+    console.error('Llama 3.1 RAG agent error:', error);
+    return new Response(
+      JSON.stringify({ error: error.message, status: 'error' }),
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
   }
 });
