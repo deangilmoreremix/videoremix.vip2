@@ -4,7 +4,7 @@ import { ImageGenerationRequest } from './aiImageGenerator';
 export const newAppThumbnailSpecs: ImageGenerationRequest[] = [
   {
     appId: 'ai-personalized-content',
-    appName: 'AI Personalized Content Hub',
+    appName: 'Smart Content Personalizer Hub',
     description: 'Create AI-powered personalized content for marketing campaigns',
     category: 'personalizer',
     keyFeatures: ['content personalization', 'AI-driven customization', 'audience targeting', 'engagement optimization', 'multi-format output'],
@@ -12,7 +12,7 @@ export const newAppThumbnailSpecs: ImageGenerationRequest[] = [
   },
   {
     appId: 'funnelcraft-ai',
-    appName: 'FunnelCraft AI',
+    appName: 'Conversion Funnel Optimizer',
     description: 'Build high-converting sales funnels with AI assistance',
     category: 'lead-gen',
     keyFeatures: ['funnel building', 'conversion optimization', 'A/B testing', 'analytics dashboard', 'automation workflows'],
@@ -20,7 +20,7 @@ export const newAppThumbnailSpecs: ImageGenerationRequest[] = [
   },
   {
     appId: 'ai-skills-monetizer',
-    appName: 'AI Skills Monetizer',
+    appName: 'Expertise Revenue Platform',
     description: 'Turn your skills into profitable online businesses',
     category: 'personalizer',
     keyFeatures: ['skill monetization', 'business modeling', 'revenue optimization', 'market positioning', 'pricing strategies'],
@@ -36,7 +36,7 @@ export const newAppThumbnailSpecs: ImageGenerationRequest[] = [
   },
   {
     appId: 'sales-page-builder',
-    appName: 'Sales Page Builder',
+    appName: 'High-Converting Landing Pages',
     description: 'Build high-converting sales pages in minutes',
     category: 'lead-gen',
     keyFeatures: ['drag-and-drop builder', 'conversion templates', 'copywriting assistance', 'split testing', 'analytics integration'],
@@ -76,7 +76,7 @@ export const newAppThumbnailSpecs: ImageGenerationRequest[] = [
   },
   {
     appId: 'ai-screen-recorder',
-    appName: 'AI Screen Recorder',
+    appName: 'Professional Demo Recorder',
     description: 'Record and enhance screen captures with AI',
     category: 'video',
     keyFeatures: ['screen recording', 'automatic editing', 'annotation tools', 'highlight reels', 'sharing optimization'],
@@ -84,7 +84,7 @@ export const newAppThumbnailSpecs: ImageGenerationRequest[] = [
   },
   {
     appId: 'ai-signature',
-    appName: 'AI Signature',
+    appName: 'Professional Email Signature',
     description: 'Generate professional digital signatures',
     category: 'personalizer',
     keyFeatures: ['signature generation', 'brand integration', 'document signing', 'legal compliance', 'style customization'],
@@ -116,7 +116,7 @@ export const newAppThumbnailSpecs: ImageGenerationRequest[] = [
   },
   {
     appId: 'ai-referral-maximizer-pro',
-    appName: 'AI Referral Maximizer Pro',
+    appName: 'Customer Growth Multiplier Pro',
     description: 'Maximize your referral program with AI',
     category: 'lead-gen',
     keyFeatures: ['referral tracking', 'reward optimization', 'viral loops', 'analytics dashboard', 'multi-channel integration'],
@@ -124,7 +124,7 @@ export const newAppThumbnailSpecs: ImageGenerationRequest[] = [
   },
   {
     appId: 'ai-sales-maximizer',
-    appName: 'AI Sales Maximizer',
+    appName: 'Revenue Acceleration Engine',
     description: 'Boost your sales performance with AI insights',
     category: 'lead-gen',
     keyFeatures: ['sales forecasting', 'lead scoring', 'pipeline optimization', 'conversation intelligence', 'performance coaching'],

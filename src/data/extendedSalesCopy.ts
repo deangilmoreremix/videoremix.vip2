@@ -3,15 +3,15 @@
 export const extendedSalesCopy = {
   "ai-personalizedcontent": {
     "tonality": "Director",
-    "tagline": "Transform Your Video with AI Personalized Content",
-    "summary": "AI Personalized Content revolutionizes video workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Personalized Content leverages advanced AI to streamline video processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Video with Smart Content Personalizer",
+    "summary": "Smart Content Personalizer revolutionizes video workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Smart Content Personalizer leverages advanced AI to streamline video processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Personalized Content services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Smart Content Personalizer services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual video work is time-consuming. AI Personalized Content automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual video work is time-consuming. Smart Content Personalizer automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Content Marketing",
@@ -21,7 +21,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Personalized Content transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Smart Content Personalizer transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -31,15 +31,15 @@ export const extendedSalesCopy = {
   },
   "video-ai-editor": {
     "tonality": "Director",
-    "tagline": "Transform Your Video with Video AI Editor",
-    "summary": "Video AI Editor revolutionizes video workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Video AI Editor leverages advanced AI to streamline video processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Video with Professional Video Studio",
+    "summary": "Professional Video Studio revolutionizes video workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Professional Video Studio leverages advanced AI to streamline video processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Video AI Editor services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Professional Video Studio services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual video work is time-consuming. Video AI Editor automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual video work is time-consuming. Professional Video Studio automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Content Marketing",
@@ -49,7 +49,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Video AI Editor transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Professional Video Studio transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -59,15 +59,15 @@ export const extendedSalesCopy = {
   },
   "ai-video-image": {
     "tonality": "Artist",
-    "tagline": "Transform Your Ai-image with AI Video & Image",
-    "summary": "AI Video & Image revolutionizes ai-image workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Video & Image leverages advanced AI to streamline ai-image processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-image with Expert Video & Image Engine",
+    "summary": "Expert Video & Image Engine revolutionizes ai-image workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Expert Video & Image Engine leverages advanced AI to streamline ai-image processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Video & Image services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Expert Video & Image Engine services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-image work is time-consuming. AI Video & Image automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-image work is time-consuming. Expert Video & Image Engine automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Design",
@@ -77,7 +77,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Video & Image transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Expert Video & Image Engine transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -87,15 +87,15 @@ export const extendedSalesCopy = {
   },
   "ai-referral-maximizer": {
     "tonality": "Growth Hacker",
-    "tagline": "Transform Your Lead-gen with AI Referral Maximizer",
-    "summary": "AI Referral Maximizer revolutionizes lead-gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Referral Maximizer leverages advanced AI to streamline lead-gen processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Lead-gen with Customer Growth Multiplier",
+    "summary": "Customer Growth Multiplier revolutionizes lead-gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Customer Growth Multiplier leverages advanced AI to streamline lead-gen processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Referral Maximizer services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Customer Growth Multiplier services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual lead-gen work is time-consuming. AI Referral Maximizer automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual lead-gen work is time-consuming. Customer Growth Multiplier automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -105,7 +105,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Referral Maximizer transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Customer Growth Multiplier transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -115,15 +115,15 @@ export const extendedSalesCopy = {
   },
   "ai-sales": {
     "tonality": "Growth Hacker",
-    "tagline": "Transform Your Lead-gen with AI Sales Maximizer",
-    "summary": "AI Sales Maximizer revolutionizes lead-gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Sales Maximizer leverages advanced AI to streamline lead-gen processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Lead-gen with Revenue Acceleration Engine",
+    "summary": "Revenue Acceleration Engine revolutionizes lead-gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Revenue Acceleration Engine leverages advanced AI to streamline lead-gen processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Sales Maximizer services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Revenue Acceleration Engine services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual lead-gen work is time-consuming. AI Sales Maximizer automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual lead-gen work is time-consuming. Revenue Acceleration Engine automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -133,7 +133,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Sales Maximizer transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Revenue Acceleration Engine transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -143,15 +143,15 @@ export const extendedSalesCopy = {
   },
   "smart-crm-closer": {
     "tonality": "Growth Hacker",
-    "tagline": "Transform Your Lead-gen with Smart CRM Closer",
-    "summary": "Smart CRM Closer revolutionizes lead-gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Smart CRM Closer leverages advanced AI to streamline lead-gen processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Lead-gen with Deal Closing Intelligence",
+    "summary": "Deal Closing Intelligence revolutionizes lead-gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Deal Closing Intelligence leverages advanced AI to streamline lead-gen processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Smart CRM Closer services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Deal Closing Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual lead-gen work is time-consuming. Smart CRM Closer automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual lead-gen work is time-consuming. Deal Closing Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -161,7 +161,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Smart CRM Closer transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Deal Closing Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -171,15 +171,15 @@ export const extendedSalesCopy = {
   },
   "funnelcraft-ai": {
     "tonality": "Growth Hacker",
-    "tagline": "Transform Your Lead-gen with FunnelCraft AI",
-    "summary": "FunnelCraft AI revolutionizes lead-gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "FunnelCraft AI leverages advanced AI to streamline lead-gen processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Lead-gen with Conversion Funnel Optimizer",
+    "summary": "Conversion Funnel Optimizer revolutionizes lead-gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Conversion Funnel Optimizer leverages advanced AI to streamline lead-gen processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer FunnelCraft AI services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Conversion Funnel Optimizer services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual lead-gen work is time-consuming. FunnelCraft AI automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual lead-gen work is time-consuming. Conversion Funnel Optimizer automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -189,7 +189,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "FunnelCraft AI transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Conversion Funnel Optimizer transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -199,15 +199,15 @@ export const extendedSalesCopy = {
   },
   "ai-proposal": {
     "tonality": "Growth Hacker",
-    "tagline": "Transform Your Lead-gen with AI Proposal",
-    "summary": "AI Proposal revolutionizes lead-gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Proposal leverages advanced AI to streamline lead-gen processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Lead-gen with Professional Proposal Generator",
+    "summary": "Professional Proposal Generator revolutionizes lead-gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Professional Proposal Generator leverages advanced AI to streamline lead-gen processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Proposal services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Professional Proposal Generator services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual lead-gen work is time-consuming. AI Proposal automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual lead-gen work is time-consuming. Professional Proposal Generator automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -217,7 +217,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Proposal transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Professional Proposal Generator transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -227,15 +227,15 @@ export const extendedSalesCopy = {
   },
   "sales-assistant-app": {
     "tonality": "Growth Hacker",
-    "tagline": "Transform Your Lead-gen with Sales Assistant App",
-    "summary": "Sales Assistant App revolutionizes lead-gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Sales Assistant App leverages advanced AI to streamline lead-gen processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Lead-gen with Sales Productivity Suite",
+    "summary": "Sales Productivity Suite revolutionizes lead-gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Sales Productivity Suite leverages advanced AI to streamline lead-gen processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Sales Assistant App services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Sales Productivity Suite services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual lead-gen work is time-consuming. Sales Assistant App automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual lead-gen work is time-consuming. Sales Productivity Suite automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -245,7 +245,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Sales Assistant App transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Sales Productivity Suite transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -255,15 +255,15 @@ export const extendedSalesCopy = {
   },
   "sales-page-builder": {
     "tonality": "Growth Hacker",
-    "tagline": "Transform Your Lead-gen with Sales Page Builder",
-    "summary": "Sales Page Builder revolutionizes lead-gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Sales Page Builder leverages advanced AI to streamline lead-gen processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Lead-gen with High-Converting Landing Pages",
+    "summary": "High-Converting Landing Pages revolutionizes lead-gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "High-Converting Landing Pages leverages advanced AI to streamline lead-gen processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Sales Page Builder services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer High-Converting Landing Pages services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual lead-gen work is time-consuming. Sales Page Builder automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual lead-gen work is time-consuming. High-Converting Landing Pages automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -273,7 +273,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Sales Page Builder transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "High-Converting Landing Pages transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -283,15 +283,15 @@ export const extendedSalesCopy = {
   },
   "personalizer-recorder": {
     "tonality": "Psychologist",
-    "tagline": "Transform Your Personalizer with AI Screen Recorder",
-    "summary": "AI Screen Recorder revolutionizes personalizer workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Screen Recorder leverages advanced AI to streamline personalizer processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Personalizer with Professional Demo Recorder",
+    "summary": "Professional Demo Recorder revolutionizes personalizer workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Professional Demo Recorder leverages advanced AI to streamline personalizer processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Screen Recorder services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Professional Demo Recorder services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual personalizer work is time-consuming. AI Screen Recorder automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual personalizer work is time-consuming. Professional Demo Recorder automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -301,7 +301,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Screen Recorder transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Professional Demo Recorder transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -311,15 +311,15 @@ export const extendedSalesCopy = {
   },
   "ai-skills-monetizer": {
     "tonality": "Psychologist",
-    "tagline": "Transform Your Personalizer with AI Skills Monetizer",
-    "summary": "AI Skills Monetizer revolutionizes personalizer workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Skills Monetizer leverages advanced AI to streamline personalizer processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Personalizer with Expertise Revenue Platform",
+    "summary": "Expertise Revenue Platform revolutionizes personalizer workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Expertise Revenue Platform leverages advanced AI to streamline personalizer processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Skills Monetizer services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Expertise Revenue Platform services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual personalizer work is time-consuming. AI Skills Monetizer automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual personalizer work is time-consuming. Expertise Revenue Platform automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -329,7 +329,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Skills Monetizer transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Expertise Revenue Platform transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -339,15 +339,15 @@ export const extendedSalesCopy = {
   },
   "ai-signature": {
     "tonality": "Psychologist",
-    "tagline": "Transform Your Personalizer with AI Signature",
-    "summary": "AI Signature revolutionizes personalizer workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Signature leverages advanced AI to streamline personalizer processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Personalizer with Professional Email Signature",
+    "summary": "Professional Email Signature revolutionizes personalizer workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Professional Email Signature leverages advanced AI to streamline personalizer processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Signature services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Professional Email Signature services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual personalizer work is time-consuming. AI Signature automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual personalizer work is time-consuming. Professional Email Signature automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -357,7 +357,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Signature transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Professional Email Signature transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -367,15 +367,15 @@ export const extendedSalesCopy = {
   },
   "ai-template-generator": {
     "tonality": "Creative Genius",
-    "tagline": "Transform Your Creative with AI Template Generator",
-    "summary": "AI Template Generator revolutionizes creative workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Template Generator leverages advanced AI to streamline creative processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Creative with Professional Document Studio",
+    "summary": "Professional Document Studio revolutionizes creative workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Professional Document Studio leverages advanced AI to streamline creative processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Template Generator services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Professional Document Studio services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual creative work is time-consuming. AI Template Generator automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual creative work is time-consuming. Professional Document Studio automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -385,7 +385,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Template Generator transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Professional Document Studio transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -395,15 +395,15 @@ export const extendedSalesCopy = {
   },
   "personalizer-profile": {
     "tonality": "Psychologist",
-    "tagline": "Transform Your Personalizer with Personalizer AI Profile Generator",
-    "summary": "Personalizer AI Profile Generator revolutionizes personalizer workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Personalizer AI Profile Generator leverages advanced AI to streamline personalizer processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Personalizer with Personal Branding Studio",
+    "summary": "Personal Branding Studio revolutionizes personalizer workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Personal Branding Studio leverages advanced AI to streamline personalizer processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Personalizer AI Profile Generator services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Personal Branding Studio services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual personalizer work is time-consuming. Personalizer AI Profile Generator automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual personalizer work is time-consuming. Personal Branding Studio automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -413,7 +413,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Personalizer AI Profile Generator transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Personal Branding Studio transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -423,15 +423,15 @@ export const extendedSalesCopy = {
   },
   "personalizer-video-image-transformer": {
     "tonality": "Artist",
-    "tagline": "Transform Your Ai-image with Personalizer AI Video & Image Transformer",
-    "summary": "Personalizer AI Video & Image Transformer revolutionizes ai-image workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Personalizer AI Video & Image Transformer leverages advanced AI to streamline ai-image processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-image with Personalizer Expert Video & Image Engine Transformer",
+    "summary": "Personalizer Expert Video & Image Engine Transformer revolutionizes ai-image workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Personalizer Expert Video & Image Engine Transformer leverages advanced AI to streamline ai-image processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Personalizer AI Video & Image Transformer services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Personalizer Expert Video & Image Engine Transformer services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-image work is time-consuming. Personalizer AI Video & Image Transformer automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-image work is time-consuming. Personalizer Expert Video & Image Engine Transformer automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Design",
@@ -441,7 +441,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Personalizer AI Video & Image Transformer transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Personalizer Expert Video & Image Engine Transformer transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -843,15 +843,15 @@ export const extendedSalesCopy = {
   },
   "agentic-rag-embedding-gemma": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Agentic RAG Embedding Gemma",
-    "summary": "Agentic RAG Embedding Gemma revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Agentic RAG Embedding Gemma leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Strategic Knowledge Navigator",
+    "summary": "Strategic Knowledge Navigator revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Strategic Knowledge Navigator leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Agentic RAG Embedding Gemma services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Strategic Knowledge Navigator services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Agentic RAG Embedding Gemma automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Strategic Knowledge Navigator automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -861,7 +861,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Agentic RAG Embedding Gemma transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Strategic Knowledge Navigator transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -927,15 +927,15 @@ export const extendedSalesCopy = {
   },
   "ai-3dpygame-r1": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI 3dpygame R1",
-    "summary": "AI 3dpygame R1 revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI 3dpygame R1 leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with 3D Game Development Assistant",
+    "summary": "3D Game Development Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "3D Game Development Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI 3dpygame R1 services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer 3D Game Development Assistant services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI 3dpygame R1 automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. 3D Game Development Assistant automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -945,7 +945,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI 3dpygame R1 transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "3D Game Development Assistant transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -955,15 +955,15 @@ export const extendedSalesCopy = {
   },
   "ai-aqi-analysis-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Aqi Analysis Agent",
-    "summary": "AI Aqi Analysis Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Aqi Analysis Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Air Quality Intelligence",
+    "summary": "Air Quality Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Air Quality Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Aqi Analysis Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Air Quality Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Aqi Analysis Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Air Quality Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -973,7 +973,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Aqi Analysis Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Air Quality Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -983,15 +983,15 @@ export const extendedSalesCopy = {
   },
   "ai-arxiv-agent-memory": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Arxiv Agent Memory",
-    "summary": "AI Arxiv Agent Memory revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Arxiv Agent Memory leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Research Memory Intelligence",
+    "summary": "Research Memory Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Research Memory Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Arxiv Agent Memory services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Research Memory Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Arxiv Agent Memory automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Research Memory Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1001,7 +1001,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Arxiv Agent Memory transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Research Memory Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1011,15 +1011,15 @@ export const extendedSalesCopy = {
   },
   "ai-audio-tour-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Audio Tour Agent",
-    "summary": "AI Audio Tour Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Audio Tour Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Audio Experience Intelligence",
+    "summary": "Audio Experience Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Audio Experience Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Audio Tour Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Audio Experience Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Audio Tour Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Audio Experience Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1029,7 +1029,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Audio Tour Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Audio Experience Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1039,15 +1039,15 @@ export const extendedSalesCopy = {
   },
   "ai-blog-search": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Blog Search",
-    "summary": "AI Blog Search revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Blog Search leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Content Discovery Engine",
+    "summary": "Content Discovery Engine revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Content Discovery Engine leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Blog Search services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Content Discovery Engine services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Blog Search automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Content Discovery Engine automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1057,7 +1057,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Blog Search transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Content Discovery Engine transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1067,15 +1067,15 @@ export const extendedSalesCopy = {
   },
   "ai-blog-to-podcast-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Blog To Podcast Agent",
-    "summary": "AI Blog To Podcast Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Blog To Podcast Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Content-to-Audio Converter Pro",
+    "summary": "Content-to-Audio Converter Pro revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Content-to-Audio Converter Pro leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Blog To Podcast Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Content-to-Audio Converter Pro services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Blog To Podcast Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Content-to-Audio Converter Pro automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1085,7 +1085,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Blog To Podcast Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Content-to-Audio Converter Pro transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1095,15 +1095,15 @@ export const extendedSalesCopy = {
   },
   "ai-breakup-recovery-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Breakup Recovery Agent",
-    "summary": "AI Breakup Recovery Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Breakup Recovery Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Emotional Support Intelligence",
+    "summary": "Emotional Support Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Emotional Support Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Breakup Recovery Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Emotional Support Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Breakup Recovery Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Emotional Support Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1113,7 +1113,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Breakup Recovery Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Emotional Support Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1123,15 +1123,15 @@ export const extendedSalesCopy = {
   },
   "ai-chess-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Chess Agent",
-    "summary": "AI Chess Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Chess Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Strategic Chess Master",
+    "summary": "Strategic Chess Master revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Strategic Chess Master leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Chess Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Strategic Chess Master services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Chess Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Strategic Chess Master automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1141,7 +1141,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Chess Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Strategic Chess Master transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1151,15 +1151,15 @@ export const extendedSalesCopy = {
   },
   "ai-competitor-intelligence-agent-team": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Competitor Intelligence Agent Team",
-    "summary": "AI Competitor Intelligence Agent Team revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Competitor Intelligence Agent Team leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Competitive Intelligence Hub",
+    "summary": "Competitive Intelligence Hub revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Competitive Intelligence Hub leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Competitor Intelligence Agent Team services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Competitive Intelligence Hub services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Competitor Intelligence Agent Team automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Competitive Intelligence Hub automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1169,7 +1169,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Competitor Intelligence Agent Team transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Competitive Intelligence Hub transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1179,15 +1179,15 @@ export const extendedSalesCopy = {
   },
   "ai-customer-support-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Customer Support Agent",
-    "summary": "AI Customer Support Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Customer Support Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Customer Experience Intelligence",
+    "summary": "Customer Experience Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Customer Experience Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Customer Support Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Customer Experience Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Customer Support Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Customer Experience Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1197,7 +1197,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Customer Support Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Customer Experience Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1207,15 +1207,15 @@ export const extendedSalesCopy = {
   },
   "ai-data-analysis-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Data Analysis Agent",
-    "summary": "AI Data Analysis Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Data Analysis Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Data Intelligence Analyst",
+    "summary": "Data Intelligence Analyst revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Data Intelligence Analyst leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Data Analysis Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Data Intelligence Analyst services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Data Analysis Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Data Intelligence Analyst automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1225,7 +1225,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Data Analysis Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Data Intelligence Analyst transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1235,15 +1235,15 @@ export const extendedSalesCopy = {
   },
   "ai-data-visualisation-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Data Visualisation Agent",
-    "summary": "AI Data Visualisation Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Data Visualisation Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Visual Data Storyteller",
+    "summary": "Visual Data Storyteller revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Visual Data Storyteller leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Data Visualisation Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Visual Data Storyteller services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Data Visualisation Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Visual Data Storyteller automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1253,7 +1253,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Data Visualisation Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Visual Data Storyteller transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1263,15 +1263,15 @@ export const extendedSalesCopy = {
   },
   "ai-deep-research-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Deep Research Agent",
-    "summary": "AI Deep Research Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Deep Research Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Expert Research Intelligence",
+    "summary": "Expert Research Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Expert Research Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Deep Research Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Expert Research Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Deep Research Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Expert Research Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1281,7 +1281,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Deep Research Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Expert Research Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1291,15 +1291,15 @@ export const extendedSalesCopy = {
   },
   "ai-domain-deep-research-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Domain Deep Research Agent",
-    "summary": "AI Domain Deep Research Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Domain Deep Research Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Industry Intelligence Scanner",
+    "summary": "Industry Intelligence Scanner revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Industry Intelligence Scanner leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Domain Deep Research Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Industry Intelligence Scanner services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Domain Deep Research Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Industry Intelligence Scanner automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1309,7 +1309,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Domain Deep Research Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Industry Intelligence Scanner transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1319,15 +1319,15 @@ export const extendedSalesCopy = {
   },
   "ai-email-gtm-outreach-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Email Gtm Outreach Agent",
-    "summary": "AI Email Gtm Outreach Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Email Gtm Outreach Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Email Outreach Intelligence",
+    "summary": "Email Outreach Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Email Outreach Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Email Gtm Outreach Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Email Outreach Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Email Gtm Outreach Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Email Outreach Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1337,7 +1337,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Email Gtm Outreach Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Email Outreach Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1347,15 +1347,15 @@ export const extendedSalesCopy = {
   },
   "ai-email-gtm-reachout-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Email Gtm Reachout Agent",
-    "summary": "AI Email Gtm Reachout Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Email Gtm Reachout Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Email Reach Intelligence",
+    "summary": "Email Reach Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Email Reach Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Email Gtm Reachout Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Email Reach Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Email Gtm Reachout Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Email Reach Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1365,7 +1365,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Email Gtm Reachout Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Email Reach Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1375,15 +1375,15 @@ export const extendedSalesCopy = {
   },
   "ai-financial-coach-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Financial Coach Agent",
-    "summary": "AI Financial Coach Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Financial Coach Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Financial Intelligence Advisor",
+    "summary": "Financial Intelligence Advisor revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Financial Intelligence Advisor leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Financial Coach Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Financial Intelligence Advisor services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Financial Coach Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Financial Intelligence Advisor automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1393,7 +1393,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Financial Coach Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Financial Intelligence Advisor transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1403,15 +1403,15 @@ export const extendedSalesCopy = {
   },
   "ai-product-launch-intelligence-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Product Launch Intelligence Agent",
-    "summary": "AI Product Launch Intelligence Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Product Launch Intelligence Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Launch Intelligence Advisor",
+    "summary": "Launch Intelligence Advisor revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Launch Intelligence Advisor leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Product Launch Intelligence Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Launch Intelligence Advisor services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Product Launch Intelligence Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Launch Intelligence Advisor automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1421,7 +1421,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Product Launch Intelligence Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Launch Intelligence Advisor transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1431,15 +1431,15 @@ export const extendedSalesCopy = {
   },
   "ai-fraud-investigation-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Fraud Investigation Agent",
-    "summary": "AI Fraud Investigation Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Fraud Investigation Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Risk Detection Intelligence",
+    "summary": "Risk Detection Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Risk Detection Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Fraud Investigation Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Risk Detection Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Fraud Investigation Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Risk Detection Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1449,7 +1449,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Fraud Investigation Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Risk Detection Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1459,15 +1459,15 @@ export const extendedSalesCopy = {
   },
   "ai-game-design-agent-team": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Game Design Agent Team",
-    "summary": "AI Game Design Agent Team revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Game Design Agent Team leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Game Development Intelligence",
+    "summary": "Game Development Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Game Development Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Game Design Agent Team services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Game Development Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Game Design Agent Team automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Game Development Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1477,7 +1477,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Game Design Agent Team transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Game Development Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1487,15 +1487,15 @@ export const extendedSalesCopy = {
   },
   "ai-health-fitness-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Health Fitness Agent",
-    "summary": "AI Health Fitness Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Health Fitness Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Health Intelligence Coach",
+    "summary": "Health Intelligence Coach revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Health Intelligence Coach leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Health Fitness Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Health Intelligence Coach services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Health Fitness Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Health Intelligence Coach automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1505,7 +1505,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Health Fitness Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Health Intelligence Coach transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1515,15 +1515,15 @@ export const extendedSalesCopy = {
   },
   "ai-journalist-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Journalist Agent",
-    "summary": "AI Journalist Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Journalist Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with News Intelligence Reporter",
+    "summary": "News Intelligence Reporter revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "News Intelligence Reporter leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Journalist Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer News Intelligence Reporter services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Journalist Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. News Intelligence Reporter automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1533,7 +1533,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Journalist Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "News Intelligence Reporter transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1543,15 +1543,15 @@ export const extendedSalesCopy = {
   },
   "ai-legal-agent-team": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Legal Agent Team",
-    "summary": "AI Legal Agent Team revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Legal Agent Team leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Legal Intelligence Advisor",
+    "summary": "Legal Intelligence Advisor revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Legal Intelligence Advisor leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Legal Agent Team services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Legal Intelligence Advisor services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Legal Agent Team automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Legal Intelligence Advisor automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1561,7 +1561,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Legal Agent Team transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Legal Intelligence Advisor transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1571,15 +1571,15 @@ export const extendedSalesCopy = {
   },
   "ai-life-insurance-advisor-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Life Insurance Advisor Agent",
-    "summary": "AI Life Insurance Advisor Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Life Insurance Advisor Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Insurance Intelligence Guide",
+    "summary": "Insurance Intelligence Guide revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Insurance Intelligence Guide leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Life Insurance Advisor Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Insurance Intelligence Guide services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Life Insurance Advisor Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Insurance Intelligence Guide automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1589,7 +1589,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Life Insurance Advisor Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Insurance Intelligence Guide transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1599,15 +1599,15 @@ export const extendedSalesCopy = {
   },
   "ai-medical-imaging-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Medical Imaging Agent",
-    "summary": "AI Medical Imaging Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Medical Imaging Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Medical Imaging Intelligence",
+    "summary": "Medical Imaging Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Medical Imaging Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Medical Imaging Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Medical Imaging Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Medical Imaging Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Medical Imaging Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1617,7 +1617,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Medical Imaging Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Medical Imaging Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1627,15 +1627,15 @@ export const extendedSalesCopy = {
   },
   "ai-meeting-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Meeting Agent",
-    "summary": "AI Meeting Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Meeting Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Meeting Intelligence Recorder",
+    "summary": "Meeting Intelligence Recorder revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Meeting Intelligence Recorder leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Meeting Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Meeting Intelligence Recorder services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Meeting Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Meeting Intelligence Recorder automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1645,7 +1645,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Meeting Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Meeting Intelligence Recorder transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1655,15 +1655,15 @@ export const extendedSalesCopy = {
   },
   "ai-meme-generator-agent-browseruse": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Meme Generator Agent Browseruse",
-    "summary": "AI Meme Generator Agent Browseruse revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Meme Generator Agent Browseruse leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Viral Content Creator",
+    "summary": "Viral Content Creator revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Viral Content Creator leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Meme Generator Agent Browseruse services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Viral Content Creator services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Meme Generator Agent Browseruse automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Viral Content Creator automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1673,7 +1673,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Meme Generator Agent Browseruse transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Viral Content Creator transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1683,15 +1683,15 @@ export const extendedSalesCopy = {
   },
   "ai-mental-wellbeing-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Mental Wellbeing Agent",
-    "summary": "AI Mental Wellbeing Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Mental Wellbeing Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Wellness Intelligence Companion",
+    "summary": "Wellness Intelligence Companion revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Wellness Intelligence Companion leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Mental Wellbeing Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Wellness Intelligence Companion services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Mental Wellbeing Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Wellness Intelligence Companion automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1701,7 +1701,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Mental Wellbeing Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Wellness Intelligence Companion transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1711,15 +1711,15 @@ export const extendedSalesCopy = {
   },
   "ai-movie-production-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Movie Production Agent",
-    "summary": "AI Movie Production Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Movie Production Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Film Production Intelligence",
+    "summary": "Film Production Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Film Production Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Movie Production Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Film Production Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Movie Production Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Film Production Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1729,7 +1729,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Movie Production Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Film Production Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1739,15 +1739,15 @@ export const extendedSalesCopy = {
   },
   "ai-music-generator-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Music Generator Agent",
-    "summary": "AI Music Generator Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Music Generator Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Music Creation Intelligence",
+    "summary": "Music Creation Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Music Creation Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Music Generator Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Music Creation Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Music Generator Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Music Creation Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1757,7 +1757,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Music Generator Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Music Creation Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1767,15 +1767,15 @@ export const extendedSalesCopy = {
   },
   "ai-personal-finance-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Personal Finance Agent",
-    "summary": "AI Personal Finance Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Personal Finance Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Financial Planning Intelligence",
+    "summary": "Financial Planning Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Financial Planning Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Personal Finance Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Financial Planning Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Personal Finance Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Financial Planning Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1785,7 +1785,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Personal Finance Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Financial Planning Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1795,15 +1795,15 @@ export const extendedSalesCopy = {
   },
   "ai-real-estate-agent-team": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Real Estate Agent Team",
-    "summary": "AI Real Estate Agent Team revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Real Estate Agent Team leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Real Estate Intelligence Hub",
+    "summary": "Real Estate Intelligence Hub revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Real Estate Intelligence Hub leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Real Estate Agent Team services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Real Estate Intelligence Hub services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Real Estate Agent Team automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Real Estate Intelligence Hub automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1813,7 +1813,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Real Estate Agent Team transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Real Estate Intelligence Hub transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1823,15 +1823,15 @@ export const extendedSalesCopy = {
   },
   "ai-reasoning-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Reasoning Agent",
-    "summary": "AI Reasoning Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Reasoning Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Code Reasoning Intelligence",
+    "summary": "Code Reasoning Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Code Reasoning Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Reasoning Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Code Reasoning Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Reasoning Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Code Reasoning Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1841,7 +1841,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Reasoning Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Code Reasoning Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1851,15 +1851,15 @@ export const extendedSalesCopy = {
   },
   "ai-recipe-meal-planning-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Recipe Meal Planning Agent",
-    "summary": "AI Recipe Meal Planning Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Recipe Meal Planning Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Culinary Intelligence Chef",
+    "summary": "Culinary Intelligence Chef revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Culinary Intelligence Chef leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Recipe Meal Planning Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Culinary Intelligence Chef services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Recipe Meal Planning Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Culinary Intelligence Chef automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1869,7 +1869,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Recipe Meal Planning Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Culinary Intelligence Chef transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1879,15 +1879,15 @@ export const extendedSalesCopy = {
   },
   "ai-recruitment-agent-team": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Recruitment Agent Team",
-    "summary": "AI Recruitment Agent Team revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Recruitment Agent Team leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Recruitment Intelligence Platform",
+    "summary": "Recruitment Intelligence Platform revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Recruitment Intelligence Platform leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Recruitment Agent Team services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Recruitment Intelligence Platform services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Recruitment Agent Team automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Recruitment Intelligence Platform automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1897,7 +1897,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Recruitment Agent Team transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Recruitment Intelligence Platform transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1907,15 +1907,15 @@ export const extendedSalesCopy = {
   },
   "ai-services-agency": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Services Agency",
-    "summary": "AI Services Agency revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Services Agency leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Business Services Intelligence",
+    "summary": "Business Services Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Business Services Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Services Agency services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Business Services Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Services Agency automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Business Services Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1925,7 +1925,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Services Agency transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Business Services Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1935,15 +1935,15 @@ export const extendedSalesCopy = {
   },
   "ai-startup-insight-fire1-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Startup Insight Fire1 Agent",
-    "summary": "AI Startup Insight Fire1 Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Startup Insight Fire1 Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Startup Intelligence Scanner",
+    "summary": "Startup Intelligence Scanner revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Startup Intelligence Scanner leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Startup Insight Fire1 Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Startup Intelligence Scanner services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Startup Insight Fire1 Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Startup Intelligence Scanner automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1953,7 +1953,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Startup Insight Fire1 Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Startup Intelligence Scanner transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1963,15 +1963,15 @@ export const extendedSalesCopy = {
   },
   "ai-startup-trend-analysis-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Startup Trend Analysis Agent",
-    "summary": "AI Startup Trend Analysis Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Startup Trend Analysis Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Market Trend Intelligence",
+    "summary": "Market Trend Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Market Trend Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Startup Trend Analysis Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Market Trend Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Startup Trend Analysis Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Market Trend Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -1981,7 +1981,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Startup Trend Analysis Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Market Trend Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -1991,15 +1991,15 @@ export const extendedSalesCopy = {
   },
   "ai-system-architect-r1": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI System Architect R1",
-    "summary": "AI System Architect R1 revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI System Architect R1 leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Architecture Intelligence",
+    "summary": "Architecture Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Architecture Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI System Architect R1 services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Architecture Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI System Architect R1 automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Architecture Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2009,7 +2009,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI System Architect R1 transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Architecture Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2019,15 +2019,15 @@ export const extendedSalesCopy = {
   },
   "ai-teaching-agent-team": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Teaching Agent Team",
-    "summary": "AI Teaching Agent Team revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Teaching Agent Team leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Educational Intelligence Platform",
+    "summary": "Educational Intelligence Platform revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Educational Intelligence Platform leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Teaching Agent Team services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Educational Intelligence Platform services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Teaching Agent Team automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Educational Intelligence Platform automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2037,7 +2037,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Teaching Agent Team transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Educational Intelligence Platform transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2047,15 +2047,15 @@ export const extendedSalesCopy = {
   },
   "ai-tic-tac-toe-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Tic Tac Toe Agent",
-    "summary": "AI Tic Tac Toe Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Tic Tac Toe Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Game Strategy Intelligence",
+    "summary": "Game Strategy Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Game Strategy Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Tic Tac Toe Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Game Strategy Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Tic Tac Toe Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Game Strategy Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2065,7 +2065,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Tic Tac Toe Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Game Strategy Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2075,15 +2075,15 @@ export const extendedSalesCopy = {
   },
   "ai-travel-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Travel Agent",
-    "summary": "AI Travel Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Travel Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Travel Intelligence",
+    "summary": "Travel Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Travel Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Travel Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Travel Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Travel Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Travel Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2093,7 +2093,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Travel Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Travel Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2103,15 +2103,15 @@ export const extendedSalesCopy = {
   },
   "ai-travel-agent-memory": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Travel Agent Memory",
-    "summary": "AI Travel Agent Memory revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Travel Agent Memory leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Travel Intelligence Memory",
+    "summary": "Travel Intelligence Memory revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Travel Intelligence Memory leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Travel Agent Memory services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Travel Intelligence Memory services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Travel Agent Memory automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Travel Intelligence Memory automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2121,7 +2121,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Travel Agent Memory transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Travel Intelligence Memory transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2131,15 +2131,15 @@ export const extendedSalesCopy = {
   },
   "ai-travel-planner-mcp-agent-team": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with AI Travel Planner MCP Agent Team",
-    "summary": "AI Travel Planner MCP Agent Team revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI Travel Planner MCP Agent Team leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Travel Planning Intelligence Hub",
+    "summary": "Travel Planning Intelligence Hub revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Travel Planning Intelligence Hub leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI Travel Planner MCP Agent Team services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Travel Planning Intelligence Hub services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. AI Travel Planner MCP Agent Team automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Travel Planning Intelligence Hub automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2149,7 +2149,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "AI Travel Planner MCP Agent Team transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Travel Planning Intelligence Hub transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2187,15 +2187,15 @@ export const extendedSalesCopy = {
   },
   "autonomous-rag": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Autonomous RAG",
-    "summary": "Autonomous RAG revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Autonomous RAG leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Self-Learning Research Engine",
+    "summary": "Self-Learning Research Engine revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Self-Learning Research Engine leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Autonomous RAG services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Self-Learning Research Engine services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Autonomous RAG automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Self-Learning Research Engine automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2205,7 +2205,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Autonomous RAG transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Self-Learning Research Engine transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2215,15 +2215,15 @@ export const extendedSalesCopy = {
   },
   "blog-to-podcast-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Blog To Podcast Agent",
-    "summary": "Blog To Podcast Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Blog To Podcast Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Blog-to-Podcast Intelligence",
+    "summary": "Blog-to-Podcast Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Blog-to-Podcast Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Blog To Podcast Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Blog-to-Podcast Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Blog To Podcast Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Blog-to-Podcast Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2233,7 +2233,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Blog To Podcast Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Blog-to-Podcast Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2243,15 +2243,15 @@ export const extendedSalesCopy = {
   },
   "browser-mcp-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Browser MCP Agent",
-    "summary": "Browser MCP Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Browser MCP Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Web Browsing Intelligence",
+    "summary": "Web Browsing Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Web Browsing Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Browser MCP Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Web Browsing Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Browser MCP Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Web Browsing Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2261,7 +2261,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Browser MCP Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Web Browsing Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2271,15 +2271,15 @@ export const extendedSalesCopy = {
   },
   "chat-with-github": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Chat With Github",
-    "summary": "Chat With Github revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Chat With Github leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Code Repository Assistant",
+    "summary": "Code Repository Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Code Repository Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Chat With Github services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Code Repository Assistant services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Chat With Github automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Code Repository Assistant automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2289,7 +2289,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Chat With Github transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Code Repository Assistant transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2299,15 +2299,15 @@ export const extendedSalesCopy = {
   },
   "chat-with-gmail": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Chat With Gmail",
-    "summary": "Chat With Gmail revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Chat With Gmail leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Email Intelligence Assistant",
+    "summary": "Email Intelligence Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Email Intelligence Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Chat With Gmail services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Email Intelligence Assistant services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Chat With Gmail automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Email Intelligence Assistant automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2317,7 +2317,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Chat With Gmail transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Email Intelligence Assistant transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2327,15 +2327,15 @@ export const extendedSalesCopy = {
   },
   "chat-with-pdf": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Chat With Pdf",
-    "summary": "Chat With Pdf revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Chat With Pdf leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Document Intelligence Reader",
+    "summary": "Document Intelligence Reader revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Document Intelligence Reader leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Chat With Pdf services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Document Intelligence Reader services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Chat With Pdf automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Document Intelligence Reader automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2345,7 +2345,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Chat With Pdf transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Document Intelligence Reader transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2355,15 +2355,15 @@ export const extendedSalesCopy = {
   },
   "chat-with-research-papers": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Chat With Research Papers",
-    "summary": "Chat With Research Papers revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Chat With Research Papers leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Research Paper Analyst",
+    "summary": "Research Paper Analyst revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Research Paper Analyst leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Chat With Research Papers services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Research Paper Analyst services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Chat With Research Papers automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Research Paper Analyst automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2373,7 +2373,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Chat With Research Papers transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Research Paper Analyst transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2383,15 +2383,15 @@ export const extendedSalesCopy = {
   },
   "chat-with-substack": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Chat With Substack",
-    "summary": "Chat With Substack revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Chat With Substack leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Newsletter Intelligence Hub",
+    "summary": "Newsletter Intelligence Hub revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Newsletter Intelligence Hub leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Chat With Substack services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Newsletter Intelligence Hub services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Chat With Substack automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Newsletter Intelligence Hub automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2401,7 +2401,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Chat With Substack transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Newsletter Intelligence Hub transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2411,15 +2411,15 @@ export const extendedSalesCopy = {
   },
   "chat-with-tarots": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Chat With Tarots",
-    "summary": "Chat With Tarots revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Chat With Tarots leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Spiritual Guidance Assistant",
+    "summary": "Spiritual Guidance Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Spiritual Guidance Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Chat With Tarots services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Spiritual Guidance Assistant services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Chat With Tarots automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Spiritual Guidance Assistant automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2429,7 +2429,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Chat With Tarots transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Spiritual Guidance Assistant transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2467,15 +2467,15 @@ export const extendedSalesCopy = {
   },
   "contextualai-rag-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Contextualai RAG Agent",
-    "summary": "Contextualai RAG Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Contextualai RAG Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Contextual Intelligence Hub",
+    "summary": "Contextual Intelligence Hub revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Contextual Intelligence Hub leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Contextualai RAG Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Contextual Intelligence Hub services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Contextualai RAG Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Contextual Intelligence Hub automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2485,7 +2485,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Contextualai RAG Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Contextual Intelligence Hub transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2495,15 +2495,15 @@ export const extendedSalesCopy = {
   },
   "corrective-rag": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Corrective RAG",
-    "summary": "Corrective RAG revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Corrective RAG leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Precision Research Corrector",
+    "summary": "Precision Research Corrector revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Precision Research Corrector leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Corrective RAG services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Precision Research Corrector services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Corrective RAG automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Precision Research Corrector automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2513,7 +2513,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Corrective RAG transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Precision Research Corrector transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2551,15 +2551,15 @@ export const extendedSalesCopy = {
   },
   "customer-support-voice-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Customer Support Voice Agent",
-    "summary": "Customer Support Voice Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Customer Support Voice Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Voice Support Intelligence",
+    "summary": "Voice Support Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Voice Support Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Customer Support Voice Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Voice Support Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Customer Support Voice Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Voice Support Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2569,7 +2569,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Customer Support Voice Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Voice Support Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2579,15 +2579,15 @@ export const extendedSalesCopy = {
   },
   "deepseek-local-rag-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Deepseek Local RAG Agent",
-    "summary": "Deepseek Local RAG Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Deepseek Local RAG Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Local Research Intelligence",
+    "summary": "Local Research Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Local Research Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Deepseek Local RAG Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Local Research Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Deepseek Local RAG Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Local Research Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2597,7 +2597,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Deepseek Local RAG Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Local Research Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2663,15 +2663,15 @@ export const extendedSalesCopy = {
   },
   "gemini-agentic-rag": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Gemini Agentic RAG",
-    "summary": "Gemini Agentic RAG revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Gemini Agentic RAG leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Multi-Modal Research Assistant",
+    "summary": "Multi-Modal Research Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Multi-Modal Research Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Gemini Agentic RAG services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Multi-Modal Research Assistant services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Gemini Agentic RAG automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Multi-Modal Research Assistant automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2681,7 +2681,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Gemini Agentic RAG transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Multi-Modal Research Assistant transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2691,15 +2691,15 @@ export const extendedSalesCopy = {
   },
   "github-mcp-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Github MCP Agent",
-    "summary": "Github MCP Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Github MCP Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with GitHub Integration Intelligence",
+    "summary": "GitHub Integration Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "GitHub Integration Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Github MCP Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer GitHub Integration Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Github MCP Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. GitHub Integration Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2709,7 +2709,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Github MCP Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "GitHub Integration Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2747,15 +2747,15 @@ export const extendedSalesCopy = {
   },
   "hybrid-search-rag": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Hybrid Search RAG",
-    "summary": "Hybrid Search RAG revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Hybrid Search RAG leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Advanced Knowledge Discovery",
+    "summary": "Advanced Knowledge Discovery revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Advanced Knowledge Discovery leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Hybrid Search RAG services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Advanced Knowledge Discovery services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Hybrid Search RAG automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Advanced Knowledge Discovery automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2765,7 +2765,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Hybrid Search RAG transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Advanced Knowledge Discovery transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2775,15 +2775,15 @@ export const extendedSalesCopy = {
   },
   "local-ai-reasoning-agent-py": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Local AI Reasoning Agent Py",
-    "summary": "Local AI Reasoning Agent Py revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Local AI Reasoning Agent Py leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Local Code Reasoning Intelligence Py",
+    "summary": "Local Code Reasoning Intelligence Py revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Local Code Reasoning Intelligence Py leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Local AI Reasoning Agent Py services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Local Code Reasoning Intelligence Py services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Local AI Reasoning Agent Py automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Local Code Reasoning Intelligence Py automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2793,7 +2793,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Local AI Reasoning Agent Py transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Local Code Reasoning Intelligence Py transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2859,15 +2859,15 @@ export const extendedSalesCopy = {
   },
   "qwen-local-rag": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Qwen Local RAG",
-    "summary": "Qwen Local RAG revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Qwen Local RAG leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Local Knowledge Intelligence",
+    "summary": "Local Knowledge Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Local Knowledge Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Qwen Local RAG services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Local Knowledge Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Qwen Local RAG automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Local Knowledge Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2877,7 +2877,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Qwen Local RAG transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Local Knowledge Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2887,15 +2887,15 @@ export const extendedSalesCopy = {
   },
   "rag-agent-cohere": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with RAG Agent Cohere",
-    "summary": "RAG Agent Cohere revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "RAG Agent Cohere leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Document Intelligence Hub",
+    "summary": "Document Intelligence Hub revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Document Intelligence Hub leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer RAG Agent Cohere services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Document Intelligence Hub services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. RAG Agent Cohere automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Document Intelligence Hub automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2905,7 +2905,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "RAG Agent Cohere transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Document Intelligence Hub transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2915,15 +2915,15 @@ export const extendedSalesCopy = {
   },
   "blog-to-podcast-agent-": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Blog To Podcast Agent",
-    "summary": "Blog To Podcast Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Blog To Podcast Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Blog-to-Podcast Intelligence",
+    "summary": "Blog-to-Podcast Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Blog-to-Podcast Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Blog To Podcast Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Blog-to-Podcast Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Blog To Podcast Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Blog-to-Podcast Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2933,7 +2933,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Blog To Podcast Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Blog-to-Podcast Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -2943,15 +2943,15 @@ export const extendedSalesCopy = {
   },
   "knowledge-graph-rag-citations": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Knowledge Graph RAG Citations",
-    "summary": "Knowledge Graph RAG Citations revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Knowledge Graph RAG Citations leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Citation Intelligence Network",
+    "summary": "Citation Intelligence Network revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Citation Intelligence Network leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Knowledge Graph RAG Citations services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Citation Intelligence Network services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Knowledge Graph RAG Citations automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Citation Intelligence Network automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -2961,7 +2961,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Knowledge Graph RAG Citations transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Citation Intelligence Network transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -3083,15 +3083,15 @@ export const extendedSalesCopy = {
   },
   "local-ai-legal-agent-team": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Local AI Legal Agent Team",
-    "summary": "Local AI Legal Agent Team revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Local AI Legal Agent Team leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Local Legal Intelligence Advisor",
+    "summary": "Local Legal Intelligence Advisor revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Local Legal Intelligence Advisor leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Local AI Legal Agent Team services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Local Legal Intelligence Advisor services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Local AI Legal Agent Team automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Local Legal Intelligence Advisor automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -3101,7 +3101,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Local AI Legal Agent Team transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Local Legal Intelligence Advisor transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -3167,15 +3167,15 @@ export const extendedSalesCopy = {
   },
   "local-hybrid-search-rag": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Local Hybrid Search RAG",
-    "summary": "Local Hybrid Search RAG revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Local Hybrid Search RAG leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Local Advanced Knowledge Discovery",
+    "summary": "Local Advanced Knowledge Discovery revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Local Advanced Knowledge Discovery leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Local Hybrid Search RAG services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Local Advanced Knowledge Discovery services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Local Hybrid Search RAG automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Local Advanced Knowledge Discovery automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -3185,7 +3185,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Local Hybrid Search RAG transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Local Advanced Knowledge Discovery transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -3279,15 +3279,15 @@ export const extendedSalesCopy = {
   },
   "multi-agent-researcher": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Multi Agent Researcher",
-    "summary": "Multi Agent Researcher revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Multi Agent Researcher leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Multi-Agent Research Intelligence",
+    "summary": "Multi-Agent Research Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Multi-Agent Research Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Multi Agent Researcher services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Multi-Agent Research Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Multi Agent Researcher automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Multi-Agent Research Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -3297,7 +3297,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Multi Agent Researcher transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Multi-Agent Research Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -3307,15 +3307,15 @@ export const extendedSalesCopy = {
   },
   "multi-ai-memory": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Multi AI Memory",
-    "summary": "Multi AI Memory revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Multi AI Memory leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Multi-Memory Intelligence",
+    "summary": "Multi-Memory Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Multi-Memory Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Multi AI Memory services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Multi-Memory Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Multi AI Memory automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Multi-Memory Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -3325,7 +3325,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Multi AI Memory transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Multi-Memory Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -3335,15 +3335,15 @@ export const extendedSalesCopy = {
   },
   "multi-mcp-agent-router": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Multi MCP Agent Router",
-    "summary": "Multi MCP Agent Router revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Multi MCP Agent Router leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Multi-Agent Routing Intelligence",
+    "summary": "Multi-Agent Routing Intelligence revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Multi-Agent Routing Intelligence leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Multi MCP Agent Router services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Multi-Agent Routing Intelligence services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Multi MCP Agent Router automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Multi-Agent Routing Intelligence automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -3353,7 +3353,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Multi MCP Agent Router transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Multi-Agent Routing Intelligence transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -3363,15 +3363,15 @@ export const extendedSalesCopy = {
   },
   "multimodal-ai-agent": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Multimodal AI Agent",
-    "summary": "Multimodal AI Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Multimodal AI Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Multimodal Intelligence Agent",
+    "summary": "Multimodal Intelligence Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Multimodal Intelligence Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Multimodal AI Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Multimodal Intelligence Agent services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Multimodal AI Agent automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Multimodal Intelligence Agent automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -3381,7 +3381,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Multimodal AI Agent transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Multimodal Intelligence Agent transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -3755,15 +3755,15 @@ export const extendedSalesCopy = {
   },
   "vision-rag": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Vision RAG",
-    "summary": "Vision RAG revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Vision RAG leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Visual Intelligence Hub",
+    "summary": "Visual Intelligence Hub revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Visual Intelligence Hub leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Vision RAG services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Visual Intelligence Hub services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Vision RAG automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Visual Intelligence Hub automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -3773,7 +3773,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Vision RAG transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Visual Intelligence Hub transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",
@@ -3783,15 +3783,15 @@ export const extendedSalesCopy = {
   },
   "voice-rag-openaisdk": {
     "tonality": "Steve Jobs",
-    "tagline": "Transform Your Ai-agents with Voice RAG Openaisdk",
-    "summary": "Voice RAG Openaisdk revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Voice RAG Openaisdk leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
+    "tagline": "Transform Your Ai-agents with Voice Intelligence Hub",
+    "summary": "Voice Intelligence Hub revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Voice Intelligence Hub leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially.",
     "howItWorks": "First, input your requirements. The AI processes and optimizes. Finally, export professional results.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Voice RAG Openaisdk services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
+      "forLocalBusinesses": "Offer Voice Intelligence Hub services to local businesses. Charge $300-1,000 per project. Generate $3,000-8,000 monthly.",
       "forIndividuals": "Freelance on platforms. Deliver projects for $50-300 each. Earn $1,000-4,000 monthly."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Voice RAG Openaisdk automates the process, ensuring quality and speed.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming. Voice Intelligence Hub automates the process, ensuring quality and speed.",
     "useCases": [
       {
         "industry": "Business",
@@ -3801,7 +3801,7 @@ export const extendedSalesCopy = {
     ],
     "testimonials": [
       {
-        "quote": "Voice RAG Openaisdk transformed our workflow. We're delivering twice the work in half the time.",
+        "quote": "Voice Intelligence Hub transformed our workflow. We're delivering twice the work in half the time.",
         "name": "Business Owner",
         "role": "Manager",
         "businessType": "Company",

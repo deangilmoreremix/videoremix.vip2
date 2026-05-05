@@ -303,7 +303,7 @@ export const enhancedAppDetails: Record<string, any> = {
       },
       {
         quote:
-          "We've increased our win rate by 38% since implementing Smart CRM Closer. The deal health monitoring alone has saved deals we would have otherwise lost.",
+          "We've increased our win rate by 38% since implementing Deal Closing Intelligence. The deal health monitoring alone has saved deals we would have otherwise lost.",
         name: "Jennifer Park",
         role: "Director of Revenue Operations, GrowthTech",
         avatar:
@@ -779,7 +779,7 @@ export const enhancedAppDetails: Record<string, any> = {
     ],
   },
   "ai-personalized-content": {
-    longDescription: "Create personalized marketing content that feels custom-built for every prospect. AI Personalized Content Hub helps business owners, agencies, and marketers turn ordinary content into highly targeted personalized assets. Instead of sending generic messages, images, or campaigns, users can create content that speaks directly to the individual, business, niche, or audience they want to reach. This app is designed to help users create personalized images, personalized video-style messaging, custom outreach content, sales assets, profile-based marketing copy, and campaign ideas that feel more relevant and engaging. Whether someone is reaching out to local businesses, following up with leads, creating client campaigns, or building a high-converting sales experience, AI Personalized Content Hub gives them a faster way to create content that grabs attention and makes prospects feel like the message was made specifically for them.",
+    longDescription: "Create personalized marketing content that feels custom-built for every prospect. Smart Content Personalizer Hub helps business owners, agencies, and marketers turn ordinary content into highly targeted personalized assets. Instead of sending generic messages, images, or campaigns, users can create content that speaks directly to the individual, business, niche, or audience they want to reach. This app is designed to help users create personalized images, personalized video-style messaging, custom outreach content, sales assets, profile-based marketing copy, and campaign ideas that feel more relevant and engaging. Whether someone is reaching out to local businesses, following up with leads, creating client campaigns, or building a high-converting sales experience, Smart Content Personalizer Hub gives them a faster way to create content that grabs attention and makes prospects feel like the message was made specifically for them.",
     benefits: [
       "Create highly targeted personalized content",
       "Turn generic messages into custom assets",
@@ -835,7 +835,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
   "funnelcraft-ai": {
-    longDescription: "Build smarter funnels faster with AI-powered funnel strategy, structure, and copy. FunnelCraft AI helps users turn ideas, offers, products, and services into organized sales funnels. Instead of trying to figure out every page, section, headline, offer angle, and call to action manually, users can use AI to map out the entire funnel journey from first impression to conversion. This app helps users create funnel concepts, opt-in pages, lead magnets, sales pages, offer stacks, upsell ideas, thank-you pages, email follow-ups, and conversion-focused messaging. It gives entrepreneurs and agencies a faster way to build funnels that are not just attractive, but strategically designed to guide visitors toward taking action.",
+    longDescription: "Build smarter funnels faster with AI-powered funnel strategy, structure, and copy. Conversion Funnel Optimizer helps users turn ideas, offers, products, and services into organized sales funnels. Instead of trying to figure out every page, section, headline, offer angle, and call to action manually, users can use AI to map out the entire funnel journey from first impression to conversion. This app helps users create funnel concepts, opt-in pages, lead magnets, sales pages, offer stacks, upsell ideas, thank-you pages, email follow-ups, and conversion-focused messaging. It gives entrepreneurs and agencies a faster way to build funnels that are not just attractive, but strategically designed to guide visitors toward taking action.",
     benefits: [
       "Build complete sales funnels with AI assistance",
       "Strategic funnel structure and copy",
@@ -875,7 +875,7 @@ export const enhancedAppDetails: Record<string, any> = {
     ],
     testimonials: [
       {
-        quote: "FunnelCraft AI saved us months of work. We launched our course funnel in days instead of months.",
+        quote: "Conversion Funnel Optimizer saved us months of work. We launched our course funnel in days instead of months.",
         name: "Mike Chen",
         role: "Course Creator",
         avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
@@ -891,7 +891,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
   "ai-skills-monetizer": {
-    longDescription: "Turn your knowledge, experience, and skills into income-generating offers. AI Skills Monetizer helps users discover how to turn what they already know into something they can sell. Many people have valuable skills, experience, stories, and knowledge, but they struggle to package those abilities into a clear offer. This app helps solve that problem. Users can identify their strongest skills, uncover profitable service ideas, create offer positioning, build packages, define target audiences, and generate messaging that makes their skills easier to sell. It can help someone move from 'I know how to do this' to 'Here is a service, product, or offer I can monetize.'",
+    longDescription: "Turn your knowledge, experience, and skills into income-generating offers. Expertise Revenue Platform helps users discover how to turn what they already know into something they can sell. Many people have valuable skills, experience, stories, and knowledge, but they struggle to package those abilities into a clear offer. This app helps solve that problem. Users can identify their strongest skills, uncover profitable service ideas, create offer positioning, build packages, define target audiences, and generate messaging that makes their skills easier to sell. It can help someone move from 'I know how to do this' to 'Here is a service, product, or offer I can monetize.'",
     benefits: [
       "Turn skills into profitable offers",
       "Package expertise for maximum value",
@@ -1003,7 +1003,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
   "sales-page-builder": {
-    longDescription: "Create high-converting sales pages without staring at a blank screen. Sales Page Builder helps users create persuasive sales pages for products, services, courses, software, coaching programs, and agency offers. Instead of struggling with headlines, sections, sales copy, benefit bullets, testimonials, bonuses, guarantees, and calls to action, users can generate a structured sales page with AI assistance. This app is built to help users organize their offer into a complete landing page that explains the problem, presents the solution, builds desire, removes objections, and encourages visitors to buy, sign up, register, or book a call.",
+    longDescription: "Create high-converting sales pages without staring at a blank screen. High-Converting Landing Pages helps users create persuasive sales pages for products, services, courses, software, coaching programs, and agency offers. Instead of struggling with headlines, sections, sales copy, benefit bullets, testimonials, bonuses, guarantees, and calls to action, users can generate a structured sales page with AI assistance. This app is built to help users organize their offer into a complete landing page that explains the problem, presents the solution, builds desire, removes objections, and encourages visitors to buy, sign up, register, or book a call.",
     benefits: [
       "High-converting sales page templates",
       "AI-powered copy generation",
@@ -1283,7 +1283,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
   "ai-screen-recorder": {
-    longDescription: "Record tutorials, demos, walkthroughs, and training videos with AI-powered content support. AI Screen Recorder helps users capture their screen and turn that recording into useful business content. It is perfect for product demos, software walkthroughs, training videos, onboarding lessons, course content, support tutorials, and client presentations. The power of this app goes beyond basic recording. With AI positioning, it can help users turn screen recordings into summaries, captions, scripts, descriptions, follow-up content, documentation, and marketing assets.",
+    longDescription: "Record tutorials, demos, walkthroughs, and training videos with AI-powered content support. Professional Demo Recorder helps users capture their screen and turn that recording into useful business content. It is perfect for product demos, software walkthroughs, training videos, onboarding lessons, course content, support tutorials, and client presentations. The power of this app goes beyond basic recording. With AI positioning, it can help users turn screen recordings into summaries, captions, scripts, descriptions, follow-up content, documentation, and marketing assets.",
     benefits: [
       "Professional screen recording",
       "AI-powered content enhancement",
@@ -1339,7 +1339,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
   "ai-signature": {
-    longDescription: "Turn every email into a branded marketing opportunity. AI Signature helps users create professional, modern, and conversion-focused email signatures. Instead of using a plain name and phone number at the bottom of an email, users can create branded signatures that promote their business, offers, booking links, social profiles, videos, and calls to action. This app is ideal for entrepreneurs, agencies, consultants, sales teams, and business owners who want their everyday emails to work harder. A well-designed email signature can build trust, increase clicks, promote offers, and make every message look more professional.",
+    longDescription: "Turn every email into a branded marketing opportunity. Professional Email Signature helps users create professional, modern, and conversion-focused email signatures. Instead of using a plain name and phone number at the bottom of an email, users can create branded signatures that promote their business, offers, booking links, social profiles, videos, and calls to action. This app is ideal for entrepreneurs, agencies, consultants, sales teams, and business owners who want their everyday emails to work harder. A well-designed email signature can build trust, increase clicks, promote offers, and make every message look more professional.",
     benefits: [
       "Professional email branding",
       "Marketing through every email",
@@ -1563,7 +1563,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
   "ai-referral-maximizer-pro": {
-    longDescription: "Turn happy customers into a repeatable referral engine. AI Referral Maximizer Pro helps businesses generate more referrals from the customers, partners, contacts, and advocates they already have. Instead of waiting for word-of-mouth to happen randomly, this app helps users create a structured referral strategy powered by AI. The app can help generate referral campaigns, outreach messages, customer follow-ups, partner referral scripts, incentive ideas, referral request emails, and campaign sequences designed to encourage more introductions and recommendations.",
+    longDescription: "Turn happy customers into a repeatable referral engine. Customer Growth Multiplier Pro helps businesses generate more referrals from the customers, partners, contacts, and advocates they already have. Instead of waiting for word-of-mouth to happen randomly, this app helps users create a structured referral strategy powered by AI. The app can help generate referral campaigns, outreach messages, customer follow-ups, partner referral scripts, incentive ideas, referral request emails, and campaign sequences designed to encourage more introductions and recommendations.",
     benefits: [
       "Structured referral system",
       "AI-powered campaign creation",
@@ -1619,7 +1619,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
   "ai-sales-maximizer": {
-    longDescription: "Find more revenue opportunities inside your sales pipeline. AI Sales Maximizer helps users improve sales performance by analyzing opportunities, improving sales messaging, and identifying ways to increase conversions. Instead of simply tracking contacts and deals, this app helps users think strategically about how to move prospects closer to buying. The app can help with deal analysis, pipeline improvement, objection strategy, follow-up planning, sales forecasting, conversion optimization, and revenue-focused recommendations. For business owners, sales teams, agencies, and SmartCRM users, AI Sales Maximizer acts like a sales intelligence assistant built to help increase close rates and revenue.",
+    longDescription: "Find more revenue opportunities inside your sales pipeline. Revenue Acceleration Engine helps users improve sales performance by analyzing opportunities, improving sales messaging, and identifying ways to increase conversions. Instead of simply tracking contacts and deals, this app helps users think strategically about how to move prospects closer to buying. The app can help with deal analysis, pipeline improvement, objection strategy, follow-up planning, sales forecasting, conversion optimization, and revenue-focused recommendations. For business owners, sales teams, agencies, and SmartCRM users, Revenue Acceleration Engine acts like a sales intelligence assistant built to help increase close rates and revenue.",
     benefits: [
       "AI-powered sales intelligence",
       "Pipeline optimization",
