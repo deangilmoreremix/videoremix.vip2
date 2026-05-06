@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Loader2, AlertCircle, RefreshCw, Inbox } from 'lucide-react';
 import { ClassifiedError } from '../utils/errorHandling';
 
