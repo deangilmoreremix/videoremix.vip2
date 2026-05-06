@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Input, Button, Select, ProgressIndicator } from '../components/ui';
 
-interface 52persistentconversationagentAppProps {}
+interface PersistentConversationAgentAppProps {}
 
-export const 52persistentconversationagentApp: React.FC<52persistentconversationagentAppProps> = () => {
+export const PersistentConversationAgentApp: React.FC<PersistentConversationAgentAppProps> = () => {
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState('');
@@ -52,4 +52,4 @@ export const 52persistentconversationagentApp: React.FC<52persistentconversation
   );
 };
 
-export default 52persistentconversationagentApp;
+export default PersistentConversationAgentApp;

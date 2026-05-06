@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Input, Button, Select, ProgressIndicator } from '../components/ui';
 
-interface 61agentlifecyclecallbacksAppProps {}
+interface AgentLifecycleCallbacksAppProps {}
 
-export const 61agentlifecyclecallbacksApp: React.FC<61agentlifecyclecallbacksAppProps> = () => {
+export const AgentLifecycleCallbacksApp: React.FC<AgentLifecycleCallbacksAppProps> = () => {
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState('');
@@ -52,4 +52,4 @@ export const 61agentlifecyclecallbacksApp: React.FC<61agentlifecyclecallbacksApp
   );
 };
 
-export default 61agentlifecyclecallbacksApp;
+export default AgentLifecycleCallbacksApp;

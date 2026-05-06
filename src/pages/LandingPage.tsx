@@ -49,6 +49,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ isMobile, isTablet }) => {
       <ProblemSection />
       <SolutionSection />
 
+      <FeatureMap
+        title="Comprehensive Marketing Personalization Features"
+        subtitle="Explore the powerful personalization capabilities of VideoRemix.vip's marketing platform"
+      />
+
       {/* New Personalization Workflow Section - showing how simple it is */}
       <Suspense fallback={<SectionLoader />}>
         <PersonalizationWorkflowSection />
@@ -59,48 +64,47 @@ const LandingPage: React.FC<LandingPageProps> = ({ isMobile, isTablet }) => {
         <ToolsCarouselSection />
       </Suspense>
 
-      {/* Feature Map - comprehensive feature overview */}
-      <Suspense fallback={<SectionLoader />}>
-        <FeatureMap
-          title="Comprehensive Marketing Personalization Features"
-          subtitle="Explore the powerful personalization capabilities of VideoRemix.vip's marketing platform"
-        />
-      </Suspense>
-
-      {/* Lazy loaded sections with suspense fallbacks */}
+      {/* Benefits Section */}
       <Suspense fallback={<SectionLoader />}>
         <BenefitsSection />
       </Suspense>
 
-      {/* New Case Studies Section - showcasing customer success stories */}
-      <Suspense fallback={<SectionLoader />}>
-        <CaseStudiesSection />
-      </Suspense>
-
+      {/* App Gallery Section */}
       <Suspense fallback={<SectionLoader />}>
         <AppGallerySection />
       </Suspense>
 
+      {/* Demo Section */}
       <Suspense fallback={<SectionLoader />}>
         <DemoSection />
       </Suspense>
 
+      {/* Case Studies Section */}
+      <Suspense fallback={<SectionLoader />}>
+        <CaseStudiesSection />
+      </Suspense>
+
+      {/* Testimonials Section */}
       <Suspense fallback={<SectionLoader />}>
         <TestimonialsSection />
       </Suspense>
 
+      {/* Pricing Section */}
       <Suspense fallback={<SectionLoader />}>
         <PricingSection />
       </Suspense>
 
+      {/* Guarantee Section */}
       <Suspense fallback={<SectionLoader />}>
         <GuaranteeSection />
       </Suspense>
 
+      {/* FAQ Section */}
       <Suspense fallback={<SectionLoader />}>
         <FAQSection />
       </Suspense>
 
+      {/* Final CTA */}
       <Suspense fallback={<SectionLoader />}>
         <FinalCTA />
       </Suspense>

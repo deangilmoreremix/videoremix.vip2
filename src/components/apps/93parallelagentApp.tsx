@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Input, Button, Select, ProgressIndicator } from '../components/ui';
 
-interface 93parallelagentAppProps {}
+interface ParallelAgentAppProps {}
 
-export const 93parallelagentApp: React.FC<93parallelagentAppProps> = () => {
+export const ParallelAgentApp: React.FC<ParallelAgentAppProps> = () => {
   const [input_1, setinput_1] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState('');
@@ -57,4 +57,4 @@ export const 93parallelagentApp: React.FC<93parallelagentAppProps> = () => {
   );
 };
 
-export default 93parallelagentApp;
+export default ParallelAgentApp;

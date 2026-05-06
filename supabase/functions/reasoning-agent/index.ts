@@ -14,7 +14,7 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { corsHeaders, jsonResponse, errorResponse } from '../_shared/utils.ts';
 
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from 'npm:@supabase/supabase-js@2';
 import OpenAI from 'npm:openai@4.78.1';
 
 // Initialize Supabase (service role for DB access)

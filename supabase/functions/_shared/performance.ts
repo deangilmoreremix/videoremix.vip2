@@ -30,7 +30,7 @@
 
 import { OpenAI } from 'npm:openai@4.78.1';
 import Anthropic from 'npm:anthropic@0.39.0';
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from 'npm:@supabase/supabase-js@2';
 
 // ============================================================================
 // TYPES & INTERFACES

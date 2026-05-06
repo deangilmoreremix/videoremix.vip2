@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Input, Button, Select, ProgressIndicator } from '../components/ui';
 
-interface 7pluginsAppProps {}
+interface PluginsAppProps {}
 
-export const 7pluginsApp: React.FC<7pluginsAppProps> = () => {
+export const PluginsApp: React.FC<PluginsAppProps> = () => {
   const [input_1, setinput_1] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState('');
@@ -57,4 +57,4 @@ export const 7pluginsApp: React.FC<7pluginsAppProps> = () => {
   );
 };
 
-export default 7pluginsApp;
+export default PluginsApp;

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Input, Button, Select, ProgressIndicator } from '../components/ui';
 
-interface 63toolexecutioncallbacksAppProps {}
+interface ToolExecutionCallbacksAppProps {}
 
-export const 63toolexecutioncallbacksApp: React.FC<63toolexecutioncallbacksAppProps> = () => {
+export const ToolExecutionCallbacksApp: React.FC<ToolExecutionCallbacksAppProps> = () => {
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState('');
@@ -52,4 +52,4 @@ export const 63toolexecutioncallbacksApp: React.FC<63toolexecutioncallbacksAppPr
   );
 };
 
-export default 63toolexecutioncallbacksApp;
+export default ToolExecutionCallbacksApp;

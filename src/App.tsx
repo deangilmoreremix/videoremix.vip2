@@ -381,29 +381,19 @@ function App() {
   return (
     <>
       <Helmet>
-        <title>
-          VideoRemix.vip - AI-Powered Marketing Personalization Platform
-        </title>
-        <meta
-          name="description"
-          content="Create personalized marketing content that converts with AI-powered tools. Transform your campaigns with VideoRemix.vip's marketing personalization platform."
-        />
+        <title>VideoRemix.vip - AI-Powered Marketing Personalization Platform</title>
+        <meta name="description" content="Create personalized marketing content that converts with AI-powered tools. Transform your campaigns with VideoRemix.vip's marketing personalization platform." />
       </Helmet>
       <div className="flex flex-col min-h-screen bg-gray-900 text-white">
 
-        {/* Header Navigation - Hidden on admin pages */}
         {!isAdminPage && <SpecialHeader topOffset={0} />}
 
-        {/* Scroll Progress Indicator - Hidden on admin pages */}
         {!isAdminPage && <ScrollProgressBar topOffset={0} />}
 
-        {/* Custom Cursor (desktop only) - Hidden on admin pages */}
         {!isMobile && !isTablet && !isAdminPage && <CustomCursor />}
 
-        {/* Audio Feedback System - Hidden on admin pages */}
         {!isAdminPage && <AudioPlayer />}
 
-        {/* Live Activity Indicator - Hidden on admin pages */}
         {!isAdminPage && <LiveActivityIndicator />}
 
 
