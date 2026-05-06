@@ -17,10 +17,10 @@ interface CreateFirstVideoCTAProps {
   className?: string;
 }
 
-const CreateFirstVideoCTA: FC<CreateFirstVideoCTAProps> = ({
+const CreateFirstVideoCTA = ({
   variant = "inline",
   className = "",
-}) => {
+}: CreateFirstVideoCTAProps) => {
   // Style variations based on placement
   const getContainerClasses = () => {
     switch (variant) {
