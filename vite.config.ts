@@ -1,18 +1,15 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
-  const jsxRuntime = "automatic";
-  console.log('Vite config loaded - jsxRuntime:', jsxRuntime);
+export default defineConfig(() => {
+  const devServerPort = 5173;
+  const codespacesForwardingDomain = process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN;
+  const codespaceName = process.env.CODESPACE_NAME;
+  const isCodespaces = Boolean(codespacesForwardingDomain && codespaceName);
 
   return {
-    plugins: [
-      react({
-        jsxRuntime: "automatic"
-      }),
-    ],
+    plugins: [react({ fastRefresh: false })],
     optimizeDeps: {
       include: [
         'react',
@@ -51,9 +48,14 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       host: '0.0.0.0',
-      port: 5173,
+      port: devServerPort,
       strictPort: true,
-      hmr: false,
+      hmr: isCodespaces
+        ? {
+            protocol: 'wss',
+            clientPort: 443,
+          }
+        : true,
       allowedHosts: ['.app.github.dev', 'localhost'],
       watch: {
         usePolling: false,
