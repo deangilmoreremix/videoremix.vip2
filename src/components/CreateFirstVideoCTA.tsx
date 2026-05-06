@@ -1,5 +1,4 @@
-/** @jsxImportSource react */
-import { FC } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import {
   Video,
@@ -12,15 +11,12 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-interface CreateFirstVideoCTAProps {
-  variant?: "hero" | "sidebar" | "popup" | "inline";
-  className?: string;
-}
+
 
 const CreateFirstVideoCTA = ({
   variant = "inline",
   className = "",
-}: CreateFirstVideoCTAProps) => {
+}) => {
   // Style variations based on placement
   const getContainerClasses = () => {
     switch (variant) {
