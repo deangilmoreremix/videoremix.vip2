@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "validate-env": "node validate-env.mjs",
     "prebuild": "npm run validate-env",
@@ -44,8 +44,7 @@
     "stripe:trigger": "stripe trigger payment_intent.succeeded",
     "stripe:webhook": "stripe listen --forward-to http://localhost:3000/stripe/webhook",
     "mcp:stripe": "node .kilo/mcp/stripe-server.mjs",
-    "lint:file": "eslint --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "lint:all": "eslint --ext ts,tsx --report-unused-disable-directives --max-warnings 0 ."
+    "lint:all": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.17.1",
