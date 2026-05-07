@@ -9,6 +9,10 @@ import {
   CheckCircle,
   Play,
   TrendingUp,
+  Megaphone,
+  Target,
+  BarChart3,
+  Zap,
 } from "lucide-react";
 import MagicSparkles from "./MagicSparkles";
 import { useLandingPageContent } from "../context/LandingPageContext";
@@ -139,7 +143,7 @@ const SpecialHero: React.FC = () => {
               {/* Floating Marketing Icons */}
               <div className="relative h-0">
                 <FloatingIcon
-                  icon={<svg className="h-6 w-6 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>}
+                  icon={<Megaphone className="h-6 w-6 text-primary-400" />}
                   containerClassName="absolute -top-20 -left-10"
                   speed={4}
                   amplitude={20}
@@ -147,7 +151,7 @@ const SpecialHero: React.FC = () => {
                   tooltip="Email Marketing"
                 />
                 <FloatingIcon
-                  icon={<svg className="h-6 w-6 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M11 3.055A9.951 9.951 0 0012 5c4.33 0 8 3.448 8 7.636a5.713 5.713 0 01-.556 2.352L12 21.618l-7.444-11.63A5.713 5.713 0 014 12.636C4 8.448 7.67 5 12 5c.285 0 .564.028.836.055z"/></svg>}
+                  icon={<Target className="h-6 w-6 text-accent-400" />}
                   containerClassName="absolute -top-10 left-1/4"
                   speed={3}
                   amplitude={15}
@@ -155,7 +159,7 @@ const SpecialHero: React.FC = () => {
                   tooltip="Target Audience"
                 />
                 <FloatingIcon
-                  icon={<svg className="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>}
+                  icon={<BarChart3 className="h-6 w-6 text-green-400" />}
                   containerClassName="absolute -top-16 left-1/2 -translate-x-1/2"
                   speed={3.5}
                   amplitude={18}
@@ -163,7 +167,7 @@ const SpecialHero: React.FC = () => {
                   tooltip="Analytics"
                 />
                 <FloatingIcon
-                  icon={<svg className="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>}
+                  icon={<TrendingUp className="h-6 w-6 text-yellow-400" />}
                   containerClassName="absolute -top-10 right-1/4"
                   speed={4.5}
                   amplitude={25}
@@ -171,7 +175,7 @@ const SpecialHero: React.FC = () => {
                   tooltip="ROI Tracking"
                 />
                 <FloatingIcon
-                  icon={<svg className="h-6 w-6 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>}
+                  icon={<Zap className="h-6 w-6 text-pink-400" />}
                   containerClassName="absolute -top-20 -right-10"
                   speed={5}
                   amplitude={20}
