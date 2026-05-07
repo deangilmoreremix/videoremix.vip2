@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -12,7 +13,13 @@ export default defineConfig(({ mode }) => {
       react({
         jsxRuntime: "automatic"
       }),
-    ],
+      // Bundle analyzer (run with: npm run build -- --analyze)
+      mode === 'analyze' && visualizer({
+        filename: './dist/bundle-stats.html',
+        open: true,
+        gzipSize: true,
+      }),
+    ].filter(Boolean),
     optimizeDeps: {
       include: [
         'react',
@@ -30,19 +37,33 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         output: {
           manualChunks: (id) => {
+            // Separate React core
+            if (id.includes('node_modules/react-dom') || id.includes('node_modules/react/')) {
+              return 'react-core';
+            }
+            if (id.includes('node_modules/react-router-dom')) {
+              return 'router';
+            }
+            // UI libraries
+            if (id.includes('framer-motion')) {
+              return 'framer-motion';
+            }
+            if (id.includes('lucide-react')) {
+              return 'lucide';
+            }
+            if (id.includes('@radix-ui')) {
+              return 'radix';
+            }
+            // Supabase
+            if (id.includes('@supabase') || id.includes('supabase')) {
+              return 'supabase';
+            }
+            // AI/API libraries
+            if (id.includes('openai') || id.includes('@anthropic-ai')) {
+              return 'ai-libs';
+            }
+            // All other node_modules go to vendor
             if (id.includes('node_modules')) {
-              // Keep react packages in main vendor chunk
-              if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) {
-                return 'vendor';
-              }
-              // UI libraries in separate chunk
-              if (id.includes('framer-motion') || id.includes('lucide-react') || id.includes('@radix-ui')) {
-                return 'vendor-ui';
-              }
-              // Database/API libraries
-              if (id.includes('@supabase') || id.includes('supabase')) {
-                return 'vendor-db';
-              }
               return 'vendor';
             }
           }
