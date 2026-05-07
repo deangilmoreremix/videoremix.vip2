@@ -5,6 +5,7 @@ import {
   Award,
   Sparkles,
   ArrowRight,
+  Check,
   CheckCircle,
   Play,
   TrendingUp,

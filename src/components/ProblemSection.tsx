@@ -18,6 +18,7 @@ import {
   Presentation as PresentationChart,
   Megaphone,
   CircleDollarSign as CurrencyCircleDollar,
+  ArrowRight,
 } from "lucide-react";
 
 const ProblemSection: React.FC = () => {

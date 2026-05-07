@@ -4,7 +4,7 @@ import { Check, X, Gift, ChevronDown, Shield, FileVideo } from "lucide-react";
 import { useLandingPageContent } from "../context/LandingPageContext";
 import MagicSparkles from "./MagicSparkles";
 
-export const PricingSection: React.FC = () => {
+const PricingSection: React.FC = () => {
   const [billingCycle, setBillingCycle] = useState<
     "monthly" | "yearly" | "lifetime"
   >("yearly");
@@ -427,3 +427,5 @@ export const PricingSection: React.FC = () => {
     </section>
   );
 };
+
+export default PricingSection;

@@ -10,9 +10,12 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import CountUp from "react-countup";
+import CountUpModule from "react-countup";
 import { useLandingPageContent } from "../context/LandingPageContext";
 import MagicSparkles from "./MagicSparkles";
+
+// Handle both CommonJS and ES module exports
+const CountUp = CountUpModule.default || CountUpModule;
 
 const BenefitsSection: React.FC = () => {
   // Get benefits data from context

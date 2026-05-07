@@ -52,8 +52,13 @@ export default defineConfig(({ mode }) => {
     server: {
       host: '0.0.0.0',
       port: 5173,
-      strictPort: true,
-      hmr: false,
+      strictPort: false, // Allow Vite to try next available port if 5173 is in use
+      // Configure HMR for GitHub Codespaces
+      hmr: {
+        // Use the codespace URL for WebSocket connection
+        clientPort: 443,
+        protocol: 'wss',
+      },
       allowedHosts: ['.app.github.dev', 'localhost'],
       watch: {
         usePolling: false,
