@@ -69,6 +69,20 @@ export default defineConfig(({ mode }) => {
         usePolling: false,
         ignored: ['**/node_modules/**', '**/dist/**', '**/supabase/functions/**'],
       },
+      // Proxy all Supabase cloud calls to local instance
+      proxy: {
+        // Redirect any calls to the cloud Supabase project to local instance
+        '^https://bzxohkrxcwodllketcpz.supabase.co': {
+          target: 'http://127.0.0.1:54321',
+          changeOrigin: true,
+          rewrite: (path) => path.replace('^https://bzxohkrxcwodllketcpz.supabase.co', ''),
+        },
+        // Also proxy Supabase functions
+        '^/functions': {
+          target: 'http://127.0.0.1:54321',
+          changeOrigin: true,
+        },
+      },
     },
     resolve: {
       dedupe: [
