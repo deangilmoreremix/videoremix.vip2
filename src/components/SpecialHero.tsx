@@ -141,10 +141,10 @@ const SpecialHero: React.FC = () => {
               </motion.div>
 
               {/* Floating Marketing Icons */}
-              <div className="relative h-0">
+              <div className="relative min-h-[100px]">
                 <FloatingIcon
                   icon={<Megaphone className="h-6 w-6 text-primary-400" />}
-                  containerClassName="absolute -top-20 -left-10"
+                  containerClassName="absolute top-20 left-10"
                   speed={4}
                   amplitude={20}
                   delay={1}
@@ -152,7 +152,7 @@ const SpecialHero: React.FC = () => {
                 />
                 <FloatingIcon
                   icon={<Crosshair className="h-6 w-6 text-accent-400" />}
-                  containerClassName="absolute -top-10 left-1/4"
+                  containerClassName="absolute top-10 left-1/4"
                   speed={3}
                   amplitude={15}
                   delay={1.5}
@@ -160,7 +160,7 @@ const SpecialHero: React.FC = () => {
                 />
                 <FloatingIcon
                   icon={<BarChart className="h-6 w-6 text-green-400" />}
-                  containerClassName="absolute -top-16 left-1/2 -translate-x-1/2"
+                  containerClassName="absolute top-16 left-1/2 -translate-x-1/2"
                   speed={3.5}
                   amplitude={18}
                   delay={2}
@@ -168,7 +168,7 @@ const SpecialHero: React.FC = () => {
                 />
                 <FloatingIcon
                   icon={<TrendingUp className="h-6 w-6 text-yellow-400" />}
-                  containerClassName="absolute -top-10 right-1/4"
+                  containerClassName="absolute top-10 right-1/4"
                   speed={4.5}
                   amplitude={25}
                   delay={2.5}
@@ -176,7 +176,7 @@ const SpecialHero: React.FC = () => {
                 />
                 <FloatingIcon
                   icon={<Zap className="h-6 w-6 text-pink-400" />}
-                  containerClassName="absolute -top-20 -right-10"
+                  containerClassName="absolute top-20 right-10"
                   speed={5}
                   amplitude={20}
                   delay={3}
