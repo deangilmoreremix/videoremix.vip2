@@ -40,7 +40,7 @@ const workflowSteps = [
     id: "content-personalization",
     title: "Personalize Your Marketing Content",
     description:
-      "Choose from 20+ personalization tools to tailor your marketing videos, images, and copy for each audience segment.",
+       "Choose from 20+ personalization tools to tailor your marketing content, images, and copy for each audience segment.",
     benefits: [
       "Personalized marketing visuals, text, and audio",
       "Dynamic content insertion based on prospect data",
@@ -151,7 +151,7 @@ const PersonalizationWorkflowSection: React.FC = () => {
 
           <p className="text-xl text-gray-300 mb-8">
             Our intuitive workflow makes it easy to create personalized
-            marketing videos and campaigns for every audience segment
+             marketing content and campaigns for every audience segment
           </p>
         </motion.div>
 
@@ -316,7 +316,7 @@ const PersonalizationWorkflowSection: React.FC = () => {
                       {activeStep === 1 &&
                         "Personalizing marketing for CEO persona: Enterprise value proposition activated"}
                       {activeStep === 2 &&
-                        "Automation set: Deliver personalized marketing video via email 2 days after website visit"}
+                                                 "Automation set: Deliver personalized marketing content via email 2 days after website visit"}
                       {activeStep === 3 &&
                         "Results: Decision Maker segment showing 247% higher marketing engagement rate"}
                     </p>
@@ -342,17 +342,17 @@ const PersonalizationWorkflowSection: React.FC = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
             {[
               {
-                value: "215%",
+                value: "2.3x",
                 label: "Higher engagement with marketing personalization",
                 icon: <Target className="h-6 w-6 text-primary-400" />,
               },
               {
-                value: "183%",
+                value: "80%",
                 label: "Increased marketing conversion rate",
                 icon: <BarChart className="h-6 w-6 text-primary-400" />,
               },
               {
-                value: "10 min",
+                value: "5 min",
                 label: "Average marketing personalization time",
                 icon: <Clock className="h-6 w-6 text-primary-400" />,
               },

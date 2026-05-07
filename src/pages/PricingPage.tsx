@@ -7,6 +7,12 @@ import { FAQSection } from "../components/FAQSection";
 const PricingPage: React.FC = () => {
   return (
     <main className="w-full">
+      <SEO 
+        title="Pricing"
+        description="Choose the perfect plan for your marketing personalization needs with VideoRemix.vip. From basic to enterprise, we have the right pricing for you."
+        keywords={["pricing", "AI video", "video marketing", "subscription plans"]}
+        url="https://videoremix.vip/pricing"
+      />
       <Helmet>
         <title>Pricing | VideoRemix.vip</title>
         <meta

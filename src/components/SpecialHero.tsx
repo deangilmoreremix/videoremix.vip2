@@ -12,6 +12,11 @@ import {
 } from "lucide-react";
 import MagicSparkles from "./MagicSparkles";
 import { useLandingPageContent } from "../context/LandingPageContext";
+import ParticleBackground from "./premium/ParticleBackground";
+import TypedText from "./premium/TypedText";
+import AnimatedStatsCounter from "./premium/AnimatedStatsCounter";
+import FloatingIcon from "./premium/FloatingIcon";
+import GradientOrb from "./premium/GradientOrb";
 
 const SpecialHero: React.FC = () => {
   const { hero } = useLandingPageContent();
@@ -19,6 +24,8 @@ const SpecialHero: React.FC = () => {
   return (
     <section className="relative pt-32 pb-24 overflow-hidden bg-[#030303]">
       {/* Premium ambient background */}
+      <ParticleBackground className="z-0" particleCount={60} />
+      <GradientOrb size={800} colorFrom="primary-600" colorTo="accent-500" blur={120} mouseFollow={true} />
       <div className="absolute inset-0">
         {/* Animated gradient orbs */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-br from-primary-600/30 via-accent-500/10 to-transparent rounded-full blur-[120px] animate-pulse-slow"></div>
@@ -66,9 +73,9 @@ const SpecialHero: React.FC = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
                 </div>
-                <span className="text-sm font-semibold text-white tracking-wide uppercase">
-                  AI-Powered Video Platform
-                </span>
+                   <span className="text-sm font-semibold text-white tracking-wide uppercase">
+                    AI-Powered Marketing Platform
+                  </span>
               </motion.div>
 
               {/* Hero headline - massive typography */}
@@ -80,7 +87,13 @@ const SpecialHero: React.FC = () => {
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 <span className="block text-gray-100 mb-2">
-                  Create Videos
+                  <TypedText
+                    texts={["Marketing Campaigns", "Email Campaigns", "Ad Campaigns", "Content Campaigns"]}
+                    typingSpeed={80}
+                    deletingSpeed={40}
+                    delayBetweenTexts={2000}
+                    className="inline-block"
+                  />
                 </span>
                 <span className="block text-transparent bg-gradient-to-r from-primary-400 via-accent-400 to-primary-300 bg-clip-text animate-gradient-shift" style={{backgroundSize: '200% auto'}}>
                   That Convert
@@ -97,8 +110,8 @@ const SpecialHero: React.FC = () => {
                 transition={{ delay: 0.4, duration: 0.6 }}
                 className="text-xl md:text-2xl text-gray-300 mb-10 leading-relaxed max-w-2xl font-light border-l-4 border-primary-500/50 pl-6"
               >
-                The world's most advanced AI video platform. Create personalized,
-                high-converting videos in minutes — not hours.
+                The world's most advanced AI marketing platform. Create personalized,
+                high-converting marketing campaigns in minutes — not hours.
               </motion.p>
 
               {/* Benefit pills */}
@@ -123,6 +136,50 @@ const SpecialHero: React.FC = () => {
                 ))}
               </motion.div>
 
+              {/* Floating Marketing Icons */}
+              <div className="relative h-0">
+                <FloatingIcon
+                  icon={<svg className="h-6 w-6 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>}
+                  containerClassName="absolute -top-20 -left-10"
+                  speed={4}
+                  amplitude={20}
+                  delay={1}
+                  tooltip="Email Marketing"
+                />
+                <FloatingIcon
+                  icon={<svg className="h-6 w-6 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M11 3.055A9.951 9.951 0 0012 5c4.33 0 8 3.448 8 7.636a5.713 5.713 0 01-.556 2.352L12 21.618l-7.444-11.63A5.713 5.713 0 014 12.636C4 8.448 7.67 5 12 5c.285 0 .564.028.836.055z"/></svg>}
+                  containerClassName="absolute -top-10 left-1/4"
+                  speed={3}
+                  amplitude={15}
+                  delay={1.5}
+                  tooltip="Target Audience"
+                />
+                <FloatingIcon
+                  icon={<svg className="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>}
+                  containerClassName="absolute -top-16 left-1/2 -translate-x-1/2"
+                  speed={3.5}
+                  amplitude={18}
+                  delay={2}
+                  tooltip="Analytics"
+                />
+                <FloatingIcon
+                  icon={<svg className="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>}
+                  containerClassName="absolute -top-10 right-1/4"
+                  speed={4.5}
+                  amplitude={25}
+                  delay={2.5}
+                  tooltip="ROI Tracking"
+                />
+                <FloatingIcon
+                  icon={<svg className="h-6 w-6 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>}
+                  containerClassName="absolute -top-20 -right-10"
+                  speed={5}
+                  amplitude={20}
+                  delay={3}
+                  tooltip="Fast Campaigns"
+                />
+              </div>
+              
               {/* CTA buttons */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -143,7 +200,7 @@ const SpecialHero: React.FC = () => {
                   {/* Shimmer effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shimmer"></div>
                   <span className="relative z-10 flex items-center">
-                    Start Creating Free
+                    Start Launching Free
                     <motion.span
                       animate={{ x: [0, 6, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
@@ -177,7 +234,7 @@ const SpecialHero: React.FC = () => {
                 className="mt-12 pt-8 border-t border-white/10"
               >
                 <p className="text-sm text-gray-500 mb-4 uppercase tracking-widest">
-                  Trusted by 12,000+ creators & companies
+                  Trusted by 12,000+ marketers & companies
                 </p>
                 <div className="flex flex-wrap gap-6 items-center opacity-60">
                   {[
@@ -225,7 +282,7 @@ const SpecialHero: React.FC = () => {
                       <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
                     </div>
                     <div className="flex-1 text-center">
-                      <span className="text-xs text-gray-500">VideoRemix Studio</span>
+                       <span className="text-xs text-gray-500">VideoRemix Marketing Studio</span>
                     </div>
                   </div>
 
@@ -256,7 +313,7 @@ const SpecialHero: React.FC = () => {
                           hero?.background_image_url ||
                           "https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
                         }
-                        alt="VideoRemix Dashboard"
+                         alt="VideoRemix Marketing Dashboard"
                         className="w-full h-full object-cover opacity-80"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
@@ -290,7 +347,7 @@ const SpecialHero: React.FC = () => {
                         className="absolute bottom-4 right-4 bg-green-500/90 backdrop-blur-sm px-3 py-1.5 rounded-lg flex items-center gap-2 text-white text-sm font-semibold"
                       >
                         <TrendingUp className="h-4 w-4" />
-                        +247% ROI
+                        +5-8x ROI
                       </motion.div>
                     </div>
 
@@ -298,7 +355,7 @@ const SpecialHero: React.FC = () => {
                     <div className="grid grid-cols-3 gap-4 mt-6">
                       <div className="text-center">
                         <div className="text-2xl font-bold text-white">10M+</div>
-                        <div className="text-xs text-gray-500 uppercase tracking-wide">Videos</div>
+                        <div className="text-xs text-gray-500 uppercase tracking-wide">Campaigns</div>
                       </div>
                       <div className="text-center">
                         <div className="text-2xl font-bold text-white">150+</div>
@@ -324,7 +381,7 @@ const SpecialHero: React.FC = () => {
                     <span className="text-xs font-bold text-yellow-200 uppercase tracking-wider">Achievement</span>
                   </div>
                   <p className="text-sm text-white leading-tight">
-                    First video created! 🎉
+                     First campaign launched! 🎉
                   </p>
                 </motion.div>
 
@@ -339,8 +396,8 @@ const SpecialHero: React.FC = () => {
                     <Check className="h-4 w-4 text-green-400" />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-green-400">Video Ready</p>
-                    <p className="text-xs text-gray-300">Your personalized video is ready to export</p>
+                    <p className="text-xs font-semibold text-green-400">Campaign Ready</p>
+                    <p className="text-xs text-gray-300">Your personalized campaign is ready to launch</p>
                   </div>
                 </motion.div>
               </div>

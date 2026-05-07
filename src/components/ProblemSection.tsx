@@ -68,7 +68,7 @@ const ProblemSection: React.FC = () => {
 
           <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             In today's hyper-competitive landscape, generic content gets ignored.
-            Personalized videos deliver <span className="text-red-400 font-semibold">3x higher engagement</span>{" "}
+             Personalized marketing campaigns deliver <span className="text-red-400 font-semibold">3x higher engagement</span>{" "}
             and dramatically better conversion rates.
           </p>
         </motion.div>
@@ -79,7 +79,7 @@ const ProblemSection: React.FC = () => {
             {
               icon: <UserRoundX className="h-8 w-8" />,
               title: "Generic Content Gets Ignored",
-              description: "73% of prospects skip generic videos within seconds",
+              description: "73% of prospects skip generic marketing content within seconds",
               stat: "5x longer watch times",
               color: "red",
             },
@@ -100,7 +100,7 @@ const ProblemSection: React.FC = () => {
             {
               icon: <DollarSign className="h-8 w-8" />,
               title: "Poor Conversion Rates",
-              description: "Generic videos convert 3X worse than personalized",
+              description: "Generic marketing campaigns convert 3X worse than personalized",
               stat: "19% vs 6%",
               color: "green",
             },
@@ -190,7 +190,7 @@ const ProblemSection: React.FC = () => {
                 {[
                   { value: "215%", label: "Higher Engagement" },
                   { value: "183%", label: "Better Conversions" },
-                  { value: "157%", label: "Longer View Time" },
+                  { value: "157%", label: "Longer Engagement Time" },
                   { value: "287%", label: "More Social Shares" },
                 ].map((stat, i) => (
                   <motion.div

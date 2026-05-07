@@ -23,7 +23,7 @@ const toolCategories = [
   {
     id: "content-creation",
     name: "Marketing Content Creation",
-    description: "Create personalized marketing videos and images",
+     description: "Create personalized marketing content and images",
     color: "from-purple-500 to-indigo-600",
     icon: <VideoIcon className="h-5 w-5" />,
   },
@@ -72,9 +72,9 @@ const personalizationTools = [
     new: false,
   },
   {
-    id: "video-generator",
-    name: "Marketing Video Generator",
-    description: "Generate marketing videos based on audience data",
+     id: "campaign-generator",
+     name: "Marketing Campaign Generator",
+     description: "Generate marketing campaigns based on audience data",
     category: "content-creation",
     icon: <VideoIcon className="h-6 w-6" />,
     url: "https://ai-personalized-content.videoremix.vip",

@@ -9,6 +9,23 @@ import GlobalErrorBoundary from "./components/GlobalErrorBoundary";
 import App from "./App";
 import "./index.css";
 
+// Initialize Sentry for error tracking
+import * as Sentry from '@sentry/browser';
+
+if (import.meta.env.VITE_SENTRY_DSN) {
+  Sentry.init({
+    dsn: import.meta.env.VITE_SENTRY_DSN,
+    environment: import.meta.env.MODE,
+    integrations: [
+      Sentry.browserTracingIntegration(),
+      Sentry.replayIntegration(),
+    ],
+    tracesSampleRate: 1.0,
+    replaysSessionSampleRate: 0.1,
+    replaysOnErrorSampleRate: 1.0,
+  });
+}
+
 const LoadingScreen = () => (
   <div className="fixed inset-0 flex items-center justify-center bg-gray-900 text-white">
     <div className="relative">

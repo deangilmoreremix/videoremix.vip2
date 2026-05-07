@@ -29,7 +29,7 @@ import SparkleEffect from "./SparkleEffect";
 const comparisonPoints = [
   {
     traditional: "One-size-fits-all marketing for everyone",
-    videoRemix: "Personalized marketing videos for each audience segment",
+     videoRemix: "Personalized marketing campaigns for each audience segment",
     icon: <Users className="h-5 w-5" />,
   },
   {
@@ -98,9 +98,9 @@ const SolutionSection: React.FC = () => {
             </span>
           </h2>
 
-          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-light">
-            The world's most advanced AI video personalization platform. Create,
-            customize, and launch high-converting videos in minutes — not days.
+          <p className="text-xl md:text-2xl text-gray-300 max-w-5-8xl mx-auto leading-relaxed font-light">
+            The world's most advanced AI marketing personalization platform. Create,
+            customize, and launch high-converting marketing campaigns in minutes — not days.
           </p>
         </motion.div>
 
@@ -136,7 +136,7 @@ const SolutionSection: React.FC = () => {
                 <div className="p-8">
                   {/* Feature badges */}
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {["Personalization Engine", "AI Video Editing", "Analytics Dashboard"].map((badge, i) => (
+                    {["Personalization Engine", "AI Marketing Editing", "Analytics Dashboard"].map((badge, i) => (
                       <span
                         key={i}
                         className="px-3 py-1.5 rounded-lg bg-primary-900/30 border border-primary-500/30 text-primary-300 text-xs font-medium"
@@ -155,7 +155,7 @@ const SolutionSection: React.FC = () => {
                         </div>
                         <div>
                           <div className="text-white font-bold text-lg">Personalization Active</div>
-                          <div className="text-gray-400 text-xs">AI is customizing your video</div>
+                          <div className="text-gray-400 text-xs">AI is customizing your marketing campaign</div>
                         </div>
                       </div>
                       <div className="px-3 py-1 bg-green-500/20 text-green-400 text-xs font-bold rounded-full">
@@ -181,16 +181,16 @@ const SolutionSection: React.FC = () => {
                   {/* Stats */}
                   <div className="grid grid-cols-3 gap-4">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-white">247%</div>
+                      <div className="text-2xl font-bold text-white">5-8x</div>
                       <div className="text-xs text-gray-500">ROI Boost</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-white">3.2x</div>
+                      <div className="text-2xl font-bold text-white">2.5-8x</div>
                       <div className="text-xs text-gray-500">Engagement</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-white">10min</div>
-                      <div className="text-xs text-gray-500">Creation Time</div>
+                      <div className="text-2xl font-bold text-white">5 min</div>
+                      <div className="text-xs text-gray-500">Campaign Time</div>
                     </div>
                   </div>
                 </div>
@@ -209,7 +209,7 @@ const SolutionSection: React.FC = () => {
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
                 <span className="text-[10px] font-bold text-emerald-300 uppercase">Live Result</span>
               </div>
-              <p className="text-sm text-white font-semibold">+247% conversions</p>
+              <p className="text-sm text-white font-semibold">+5-8x conversions</p>
             </motion.div>
           </motion.div>
 
@@ -221,7 +221,7 @@ const SolutionSection: React.FC = () => {
             transition={{ duration: 0.7, delay: 0.4 }}
             className="flex flex-col justify-center"
           >
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-8">
+            <h3 className="text-5-8xl md:text-4xl font-bold text-white mb-8">
               How{" "}
               <span className="text-primary-400">VideoRemix.vip</span>{" "}
               Transforms Your Marketing
@@ -231,12 +231,12 @@ const SolutionSection: React.FC = () => {
             <div className="space-y-5">
               {[
                 {
-                  traditional: "Generic one-size-fits-all videos",
-                  vr: "Personalized videos for each audience segment",
+                  traditional: "Generic one-size-fits-all content",
+                  vr: "Personalized marketing campaigns for each audience segment",
                   icon: <Users />,
                 },
                 {
-                  traditional: "Hours of manual editing per video",
+                  traditional: "Hours of manual work per campaign",
                   vr: "AI-powered personalization in minutes",
                   icon: <Clock />,
                 },
@@ -318,11 +318,11 @@ const SolutionSection: React.FC = () => {
                 <p className="text-gray-400">The data is clear: personalization dramatically outperforms generic content</p>
               </div>
 
-              <div className="grid grid-cols-3 gap-6 max-w-3xl mx-auto">
+              <div className="grid grid-cols-3 gap-6 max-w-5-8xl mx-auto">
                 {[
-                  { value: "215%", label: "Higher Engagement" },
-                  { value: "183%", label: "Better Conversions" },
-                  { value: "3x", label: "Marketing ROI" },
+                  { value: "2.5-8x", label: "Higher Engagement" },
+                  { value: "80%", label: "Better Conversions" },
+                  { value: "5-8x", label: "Marketing ROI" },
                 ].map((stat, i) => (
                   <motion.div
                     key={i}

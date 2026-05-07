@@ -56,8 +56,8 @@ const toolCategories = [
     icon: React.createElement(Layers, { className: "w-4 h-4" }),
   },
   {
-    id: "video",
-    label: "Video Creation",
+    id: "marketing",
+    label: "Marketing Campaigns",
     icon: React.createElement(Video, { className: "w-4 h-4" }),
   },
   {
@@ -201,7 +201,7 @@ const personalizationBenefits = [
   {
     title: "3.5x More Conversions",
     description:
-      "Personalized videos convert at rates up to 3.5x higher than standard videos",
+      "Personalized campaigns convert at rates up to 3.5x higher than standard videos",
     icon: <TrendingUp className="h-5 w-5 text-primary-400" />,
   },
   {
@@ -1141,7 +1141,7 @@ const AppGallerySection: React.FC = () => {
 
           <p className="text-gray-300 mb-8">
             Get unlimited access to all 50+ personalization tools and create
-            content that delivers 3x better results than generic videos.
+            content that delivers 3x better results than generic campaigns.
           </p>
 
           <motion.a
