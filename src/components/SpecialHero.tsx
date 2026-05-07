@@ -10,8 +10,8 @@ import {
   Play,
   TrendingUp,
   Megaphone,
-  Target,
-  BarChart3,
+  Crosshair,
+  BarChart,
   Zap,
 } from "lucide-react";
 import MagicSparkles from "./MagicSparkles";
@@ -151,7 +151,7 @@ const SpecialHero: React.FC = () => {
                   tooltip="Email Marketing"
                 />
                 <FloatingIcon
-                  icon={<Target className="h-6 w-6 text-accent-400" />}
+                  icon={<Crosshair className="h-6 w-6 text-accent-400" />}
                   containerClassName="absolute -top-10 left-1/4"
                   speed={3}
                   amplitude={15}
@@ -159,7 +159,7 @@ const SpecialHero: React.FC = () => {
                   tooltip="Target Audience"
                 />
                 <FloatingIcon
-                  icon={<BarChart3 className="h-6 w-6 text-green-400" />}
+                  icon={<BarChart className="h-6 w-6 text-green-400" />}
                   containerClassName="absolute -top-16 left-1/2 -translate-x-1/2"
                   speed={3.5}
                   amplitude={18}
