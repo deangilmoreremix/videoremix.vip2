@@ -34,37 +34,18 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       target: 'esnext',
+      // No manual chunking - let Vite handle everything automatically
+      // This prevents module loading order issues
       rollupOptions: {
         output: {
+          // Only split very large libraries that are lazy-loaded
           manualChunks: (id) => {
-            // Separate React core
-            if (id.includes('node_modules/react-dom') || id.includes('node_modules/react/')) {
-              return 'react-core';
-            }
-            if (id.includes('node_modules/react-router-dom')) {
-              return 'router';
-            }
-            // UI libraries
-            if (id.includes('framer-motion')) {
-              return 'framer-motion';
-            }
-            if (id.includes('lucide-react')) {
-              return 'lucide';
-            }
-            if (id.includes('@radix-ui')) {
-              return 'radix';
-            }
-            // Supabase
-            if (id.includes('@supabase') || id.includes('supabase')) {
-              return 'supabase';
-            }
-            // AI/API libraries
-            if (id.includes('openai') || id.includes('@anthropic-ai')) {
-              return 'ai-libs';
-            }
-            // All other node_modules go to vendor
+            // Keep React and all core libraries in main bundle
+            // Only split huge libraries that aren't needed immediately
             if (id.includes('node_modules')) {
-              return 'vendor';
+              // These are lazy-loaded via React.lazy(), so they can be separate
+              if (id.includes('framer-motion')) return 'framer-motion';
+              if (id.includes('lucide-react')) return 'lucide';
             }
           }
         }

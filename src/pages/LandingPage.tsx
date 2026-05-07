@@ -25,11 +25,6 @@ const TestimonialsSection = lazy(
 const PricingSection = lazy(() => import("../components/PricingSection"));
 const GuaranteeSection = lazy(() => import("../components/GuaranteeSection"));
 const FAQSection = lazy(() => import("../components/FAQSection"));
-import ExitIntentPopup from "../components/premium/ExitIntentPopup";
-import StickyWidget from "../components/premium/StickyWidget";
-import ProgressIndicator from "../components/premium/ProgressIndicator";
-import BackToTop from "../components/premium/BackToTop";
-
 const FinalCTA = lazy(() => import("../components/FinalCTA"));
 import ROICalculator from "../components/premium/ROICalculator";
 import PersonalizationSimulator from "../components/premium/PersonalizationSimulator";
@@ -189,16 +184,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ isMobile, isTablet }) => {
 
 
         {/* Progress Indicator */}
-        <ProgressIndicator />
-
         {/* Sticky Widget */}
-        <StickyWidget />
-
         {/* Back to Top */}
-        <BackToTop />
-
         {/* Exit Intent Popup */}
-        <ExitIntentPopup />
 
     </main>
   );
