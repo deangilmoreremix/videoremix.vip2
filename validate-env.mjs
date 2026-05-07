@@ -37,9 +37,7 @@ const requiredVars = [
 
 // Optional but recommended
 const optionalVars = [
-  { name: 'VITE_OPENAI_API_KEY', required: false },
-  { name: 'VITE_ANTHROPIC_API_KEY', required: false },
-  { name: 'VITE_SENTRY_DSN', required: false },
+  { name: 'OPENAI_API_KEY', required: false },
 ];
 
 let hasErrors = false;
