@@ -31,12 +31,15 @@ export default defineConfig(({ mode }) => {
         output: {
           manualChunks: (id) => {
             if (id.includes('node_modules')) {
-              if (id.includes('react') || id.includes('react-dom')) {
-                return undefined;
+              // Keep react packages in main vendor chunk
+              if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) {
+                return 'vendor';
               }
+              // UI libraries in separate chunk
               if (id.includes('framer-motion') || id.includes('lucide-react') || id.includes('@radix-ui')) {
                 return 'vendor-ui';
               }
+              // Database/API libraries
               if (id.includes('@supabase') || id.includes('supabase')) {
                 return 'vendor-db';
               }
