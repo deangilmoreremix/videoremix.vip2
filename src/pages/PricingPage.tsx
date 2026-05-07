@@ -1,6 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
-import { PricingSection } from "../components/PricingSection";
+import PricingSection from "../components/PricingSection";
 import { FinalCTA } from "../components/FinalCTA";
 import { FAQSection } from "../components/FAQSection";
 
