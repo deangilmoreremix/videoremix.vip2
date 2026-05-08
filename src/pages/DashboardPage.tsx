@@ -47,11 +47,19 @@ const DashboardPage: React.FC = () => {
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
+    // Check URL param first (from signup)
     const onboardingParam = searchParams.get('onboarding');
     if (onboardingParam === 'true') {
       setShowOnboarding(true);
+      return;
     }
-  }, [searchParams]);
+    
+    // Auto-show if user hasn't completed onboarding
+    const onboardingCompleted = user?.user_metadata?.onboarding_completed;
+    if (!onboardingCompleted && user) {
+      setShowOnboarding(true);
+    }
+  }, [searchParams, user]);
 
   useEffect(() => {
     const hour = new Date().getHours();
