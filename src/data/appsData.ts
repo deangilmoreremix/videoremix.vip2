@@ -315,7 +315,7 @@ const rawAppsData: App[] = [{
   {
     id: "1-starter-agent",
     name: "AI News Content Writer",
-    description: "AI-powered 1 Starter Agent agent application.",
+    description: "Automate news content creation with AI that researches and writes articles.",
     category: "ai-agents",
     group: "content-creation",
     skillSlug: "brainstorming",
@@ -326,7 +326,7 @@ const rawAppsData: App[] = [{
   {
     id: "4-running-agents",
     name: "AI Video Script Producer",
-    description: "AI-powered 4 Running Agents agent application.",
+    description: "Produce professional video scripts with AI-powered storytelling.",
     category: "ai-agents",
     group: "video-audio-voice",
     skillSlug: "brainstorming",
@@ -337,7 +337,7 @@ const rawAppsData: App[] = [{
   {
     id: "5-1-in-memory-conversation-agent",
     name: "AI Music & Jingle Assistant",
-    description: "AI-powered 5 1 In Memory Conversation Agent agent application.",
+    description: "Compose original music and jingles with AI in various styles.",
     category: "ai-agents",
     group: "video-audio-voice",
     skillSlug: "brainstorming",
@@ -348,7 +348,7 @@ const rawAppsData: App[] = [{
   {
     id: "5-2-persistent-conversation-agent",
     name: "AI Film Producer",
-    description: "AI-powered 5 2 Persistent Conversation Agent agent application.",
+    description: "Produce films with AI that manages scripts, scenes, and post-production.",
     category: "ai-agents",
     group: "video-audio-voice",
     skillSlug: "brainstorming",
@@ -359,7 +359,7 @@ const rawAppsData: App[] = [{
   {
     id: "6-1-agent-lifecycle-callbacks",
     name: "Podcast Creator AI",
-    description: "AI-powered 6 1 Agent Lifecycle Callbacks agent application.",
+    description: "Create podcasts from any content with AI-powered audio synthesis.",
     category: "ai-agents",
     group: "content-creation",
     skillSlug: "brainstorming",
@@ -370,7 +370,7 @@ const rawAppsData: App[] = [{
   {
     id: "6-2-ai-interaction-callbacks",
     name: "News-To-Podcast AI",
-    description: "AI-powered 6 2 AI Interaction Callbacks agent application.",
+    description: "Convert news articles into engaging podcast discussions with AI.",
     category: "ai-agents",
     group: "content-creation",
     skillSlug: "brainstorming",
@@ -381,7 +381,7 @@ const rawAppsData: App[] = [{
   {
     id: "6-3-tool-execution-callbacks",
     name: "AI Voice Support Agent",
-    description: "AI-powered 6 3 Tool Execution Callbacks agent application.",
+    description: "Build intelligent voice agents for customer support with AI.",
     category: "ai-agents",
     group: "video-audio-voice",
     skillSlug: "brainstorming",
@@ -392,7 +392,7 @@ const rawAppsData: App[] = [{
   {
     id: "7-plugins",
     name: "Talk To Your Business AI",
-    description: "AI-powered 7 Plugins agent application.",
+    description: "Chat with your business data using natural language with AI.",
     category: "ai-agents",
     group: "finance-business",
     skillSlug: "brainstorming",
@@ -403,7 +403,7 @@ const rawAppsData: App[] = [{
   {
     id: "7-sessions",
     name: "AI Audio Guide Creator",
-    description: "AI-powered 7 Sessions agent application.",
+    description: "Create audio tours and guides for museums, attractions, and locations.",
     category: "ai-agents",
     group: "video-audio-voice",
     skillSlug: "brainstorming",
@@ -414,7 +414,7 @@ const rawAppsData: App[] = [{
   {
     id: "9-1-sequential-agent",
     name: "AI Intake Voice Agent",
-    description: "AI-powered 9 1 Sequential Agent agent application.",
+    description: "Automate insurance claims intake with intelligent voice agents.",
     category: "ai-agents",
     group: "video-audio-voice",
     skillSlug: "brainstorming",
@@ -425,7 +425,7 @@ const rawAppsData: App[] = [{
   {
     id: "9-2-loop-agent",
     name: "AI Dictation Assistant",
-    description: "AI-powered 9 2 Loop Agent agent application.",
+    description: "Convert speech to text with AI-powered transcription accuracy.",
     category: "ai-agents",
     group: "video-audio-voice",
     skillSlug: "brainstorming",
@@ -436,7 +436,7 @@ const rawAppsData: App[] = [{
   {
     id: "9-3-parallel-agent",
     name: "Business Knowledgebase AI",
-    description: "AI-powered 9 3 Parallel Agent agent application.",
+    description: "Deploy RAG capabilities as a service for your organization's knowledge needs.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -447,7 +447,7 @@ const rawAppsData: App[] = [{
   {
     id: "ag2-adaptive-research-team",
     name: "PDF Business Assistant",
-    description: "AI-powered Ag2 Adaptive Research Team agent application.",
+    description: "Extract insights from PDF documents with conversational AI.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -458,7 +458,7 @@ const rawAppsData: App[] = [{
   {
     id: "agentic-rag-embedding-gemma",
     name: "Research Paper Assistant",
-    description: "AI-powered Agentic RAG Embedding Gemma agent application.",
+    description: "Understand and summarize research papers with AI-powered analysis.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -469,7 +469,7 @@ const rawAppsData: App[] = [{
   {
     id: "agentic-rag-gpt5",
     name: "Codebase Chat AI",
-    description: "AI-powered Agentic RAG Gpt5 agent application.",
+    description: "Chat with your GitHub repositories using natural language.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -480,7 +480,7 @@ const rawAppsData: App[] = [{
   {
     id: "agentic-rag-with-reasoning",
     name: "Gmail Intelligence AI",
-    description: "AI-powered Agentic RAG With Reasoning agent application.",
+    description: "Search and analyze your Gmail messages with AI-powered insights.",
     category: "ai-agents",
     group: "productivity-personal",
     skillSlug: "brainstorming",
@@ -491,7 +491,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-3dpygame-r1",
     name: "Video Knowledge Assistant",
-    description: "AI-powered AI 3dpygame R1 agent application.",
+    description: "Extract knowledge from YouTube videos with AI-powered analysis.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -502,7 +502,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-aqi-analysis-agent",
     name: "Blog Knowledge Search AI",
-    description: "AI-powered AI Aqi Analysis Agent agent application.",
+    description: "Search and analyze blog content with AI-powered RAG.",
     category: "ai-agents",
     group: "content-creation",
     skillSlug: "brainstorming",
@@ -513,7 +513,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-arxiv-agent-memory",
     name: "Research Memory Assistant",
-    description: "AI-powered AI Arxiv Agent Memory agent application.",
+    description: "Stay updated on ArXiv papers with AI-powered research memory.",
     category: "ai-agents",
     group: "research-education",
     skillSlug: "brainstorming",
@@ -524,7 +524,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-audio-tour-agent",
     name: "AI Audio Guide Creator",
-    description: "AI-powered AI Audio Tour Agent agent application.",
+    description: "Generate audio guides for attractions and locations with AI.",
     category: "ai-agents",
     group: "video-audio-voice",
     skillSlug: "brainstorming",
@@ -535,7 +535,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-blog-search",
     name: "Blog Knowledge Search AI",
-    description: "AI-powered AI Blog Search agent application.",
+    description: "Search and analyze blog content with AI-powered RAG.",
     category: "ai-agents",
     group: "content-creation",
     skillSlug: "brainstorming",
@@ -546,7 +546,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-blog-to-podcast-agent",
     name: "Blog To Podcast AI",
-    description: "AI-powered AI Blog To Podcast Agent agent application.",
+    description: "Transform blog posts into podcast episodes with AI voice synthesis.",
     category: "ai-agents",
     group: "content-creation",
     skillSlug: "brainstorming",
@@ -557,7 +557,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-breakup-recovery-agent",
     name: "Multimodal Knowledge AI",
-    description: "AI-powered AI Breakup Recovery Agent agent application.",
+    description: "Query and reason across multiple data modalities with AI.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -568,7 +568,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-chess-agent",
     name: "AI Knowledgebase Debugger",
-    description: "AI-powered AI Chess Agent agent application.",
+    description: "Diagnose and fix RAG failures with AI-powered debugging.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -579,7 +579,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-competitor-intelligence-agent-team",
     name: "Competitor Spy AI",
-    description: "AI-powered AI Competitor Intelligence Agent Team agent application.",
+    description: "Monitor and analyze competitors with AI-powered intelligence.",
     category: "ai-agents",
     group: "sales-lead-gen",
     skillSlug: "brainstorming",
@@ -590,7 +590,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-customer-support-agent",
     name: "Home Renovation Visualizer AI",
-    description: "AI-powered AI Customer Support Agent agent application.",
+    description: "Visualize home renovation projects with AI-powered design.",
     category: "ai-agents",
     group: "realestate-local",
     skillSlug: "brainstorming",
@@ -601,7 +601,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-data-analysis-agent",
     name: "Local Business Analytics AI",
-    description: "AI-powered AI Data Analysis Agent agent application.",
+    description: "Analyze local business data with AI-powered insights.",
     category: "ai-agents",
     group: "realestate-local",
     skillSlug: "brainstorming",
@@ -612,7 +612,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-data-visualisation-agent",
     name: "Local Tour Guide AI",
-    description: "AI-powered AI Data Visualisation Agent agent application.",
+    description: "Generate guided tours for local attractions with AI.",
     category: "ai-agents",
     group: "realestate-local",
     skillSlug: "brainstorming",
@@ -623,7 +623,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-deep-research-agent",
     name: "Deep Research Pro",
-    description: "AI-powered AI Deep Research Agent agent application.",
+    description: "Conduct deep research on any topic with AI-powered analysis.",
     category: "ai-agents",
     group: "research-education",
     skillSlug: "brainstorming",
@@ -634,7 +634,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-domain-deep-research-agent",
     name: "Local Business Growth Advisor",
-    description: "AI-powered AI Domain Deep Research Agent agent application.",
+    description: "Get AI-powered consulting for local business growth strategies.",
     category: "ai-agents",
     group: "realestate-local",
     skillSlug: "brainstorming",
@@ -644,8 +644,8 @@ const rawAppsData: App[] = [{
   },
   {
     id: "ai-email-gtm-outreach-agent",
-    name: "Local Business Analytics AI",
-    description: "AI-powered AI Email Gtm Outreach Agent agent application.",
+    name: "Candidate Outreach AI",
+    description: "Draft personalized candidate outreach emails with AI.",
     category: "ai-agents",
     group: "sales-lead-gen",
     skillSlug: "brainstorming",
@@ -655,8 +655,8 @@ const rawAppsData: App[] = [{
   },
   {
     id: "ai-email-gtm-reachout-agent",
-    name: "AI Hiring Assistant",
-    description: "AI-powered AI Email Gtm Reachout Agent agent application.",
+    name: "Candidate Outreach AI",
+    description: "Draft personalized candidate outreach emails with AI.",
     category: "ai-agents",
     group: "hr-recruiting",
     skillSlug: "brainstorming",
@@ -667,7 +667,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-financial-coach-agent",
     name: "Profit Coach AI",
-    description: "AI-powered AI Financial Coach Agent agent application.",
+    description: "Get AI-powered financial coaching for profit optimization.",
     category: "ai-agents",
     group: "finance-business",
     skillSlug: "brainstorming",
@@ -680,7 +680,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-product-launch-intelligence-agent",
     name: "Launch Campaign Builder AI",
-    description: "AI-powered product launch intelligence and competitor analysis agent application.",
+    description: "Plan and execute product launches with AI-powered intelligence.",
     category: "ai-agents",
     group: "sales-lead-gen",
     skillSlug: "brainstorming",
@@ -693,7 +693,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-fraud-investigation-agent",
     name: "Fraud Investigation Assistant",
-    description: "AI-powered AI Fraud Investigation Agent agent application.",
+    description: "Investigate fraud cases with AI-powered analysis and evidence.",
     category: "ai-agents",
     group: "finance-business",
     skillSlug: "brainstorming",
@@ -704,7 +704,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-game-design-agent-team",
     name: "Interview Summary AI",
-    description: "AI-powered AI Game Design Agent Team agent application.",
+    description: "Summarize interviews and meetings with AI-powered transcription.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -715,7 +715,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-health-fitness-agent",
     name: "Hiring Plan Builder",
-    description: "AI-powered AI Health Fitness Agent agent application.",
+    description: "Create hiring plans with AI-powered project planning.",
     category: "ai-agents",
     group: "productivity-personal",
     skillSlug: "brainstorming",
@@ -726,7 +726,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-journalist-agent",
     name: "AI News Content Writer",
-    description: "AI-powered AI Journalist Agent agent application.",
+    description: "Automate news content creation with AI that researches and writes.",
     category: "ai-agents",
     group: "content-creation",
     skillSlug: "brainstorming",
@@ -737,7 +737,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-legal-agent-team",
     name: "Contract Summary AI",
-    description: "AI-powered AI Legal Agent Team agent application.",
+    description: "Analyze and summarize legal contracts with AI precision.",
     category: "ai-agents",
     group: "legal-compliance",
     skillSlug: "brainstorming",
@@ -747,8 +747,8 @@ const rawAppsData: App[] = [{
   },
   {
     id: "ai-life-insurance-advisor-agent",
-    name: "Profit Coach AI",
-    description: "AI-powered AI Life Insurance Advisor Agent agent application.",
+    name: "AI Intake Voice Agent",
+    description: "Automate insurance intake with intelligent voice agents.",
     category: "ai-agents",
     group: "productivity-personal",
     skillSlug: "brainstorming",
@@ -758,8 +758,8 @@ const rawAppsData: App[] = [{
   },
   {
     id: "ai-medical-imaging-agent",
-    name: "Investement Research Assistant",
-    description: "AI-powered AI Medical Imaging Agent agent application.",
+    name: "Investment Research Assistant",
+    description: "Research investments with AI-powered financial analysis.",
     category: "ai-agents",
     group: "finance-business",
     skillSlug: "brainstorming",
@@ -770,7 +770,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-meeting-agent",
     name: "Startup Due Diligence AI",
-    description: "AI-powered AI Meeting Agent agent application.",
+    description: "Conduct startup due diligence with AI-powered analysis.",
     category: "ai-agents",
     group: "productivity-personal",
     skillSlug: "brainstorming",
@@ -781,7 +781,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-meme-generator-agent-browseruse",
     name: "Revenue Data Analyst AI",
-    description: "AI-powered AI Meme Generator Agent Browseruse agent application.",
+    description: "Analyze revenue data with AI-powered business intelligence.",
     category: "ai-agents",
     group: "design-uiux",
     skillSlug: "brainstorming",
@@ -792,7 +792,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-mental-wellbeing-agent",
     name: "Financial Dashboard AI",
-    description: "AI-powered AI Mental Wellbeing Agent agent application.",
+    description: "Create financial dashboards with AI-powered data visualization.",
     category: "ai-agents",
     group: "productivity-personal",
     skillSlug: "brainstorming",
@@ -803,7 +803,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-movie-production-agent",
     name: "AI Video Script Producer",
-    description: "AI-powered AI Movie Production Agent agent application.",
+    description: "Produce professional video content with AI-powered production.",
     category: "ai-agents",
     group: "video-audio-voice",
     skillSlug: "brainstorming",
@@ -814,7 +814,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-music-generator-agent",
     name: "AI Music & Jingle Assistant",
-    description: "AI-powered AI Music Generator Agent agent application.",
+    description: "Create original music and jingles with AI composition.",
     category: "ai-agents",
     group: "video-audio-voice",
     skillSlug: "brainstorming",
@@ -825,7 +825,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-personal-finance-agent",
     name: "Policy & Compliance Assistant",
-    description: "AI-powered AI Personal Finance Agent agent application.",
+    description: "Navigate policy and compliance with AI-powered guidance.",
     category: "ai-agents",
     group: "finance-business",
     skillSlug: "brainstorming",
@@ -836,7 +836,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-real-estate-agent-team",
     name: "Real Estate Marketing AI",
-    description: "AI-powered AI Real Estate Agent Team agent application.",
+    description: "Create real estate marketing content with AI-powered tools.",
     category: "ai-agents",
     group: "realestate-local",
     skillSlug: "brainstorming",
@@ -846,8 +846,8 @@ const rawAppsData: App[] = [{
   },
   {
     id: "ai-reasoning-agent",
-    name: "Fraud Investigation Assistant",
-    description: "AI-powered AI Reasoning Agent agent application.",
+    name: "Risk Decision AI",
+    description: "Make better decisions with AI-powered risk analysis.",
     category: "ai-agents",
     group: "finance-business",
     skillSlug: "brainstorming",
@@ -858,7 +858,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-recipe-meal-planning-agent",
     name: "Risk Decision AI",
-    description: "AI-powered AI Recipe Meal Planning Agent agent application.",
+    description: "Make better decisions with AI-powered risk analysis.",
     category: "ai-agents",
     group: "productivity-personal",
     skillSlug: "brainstorming",
@@ -869,7 +869,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-recruitment-agent-team",
     name: "AI Hiring Assistant",
-    description: "AI-powered AI Recruitment Agent Team agent application.",
+    description: "Streamline recruitment with AI-powered candidate screening.",
     category: "ai-agents",
     group: "hr-recruiting",
     skillSlug: "brainstorming",
@@ -880,7 +880,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-services-agency",
     name: "AI Agency Builder Suite",
-    description: "AI-powered AI Services Agency agent application.",
+    description: "Build your own AI agency with multi-agent orchestration.",
     category: "ai-agents",
     group: "finance-business",
     skillSlug: "brainstorming",
@@ -891,7 +891,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-startup-insight-fire1-agent",
     name: "AI Code Review Pro",
-    description: "AI-powered AI Startup Insight Fire1 Agent agent application.",
+    description: "Review code with AI to find bugs and improve quality.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -902,7 +902,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-startup-trend-analysis-agent",
     name: "AI Bug Fixer",
-    description: "AI-powered AI Startup Trend Analysis Agent agent application.",
+    description: "Debug code and fix bugs with AI-powered analysis.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -913,7 +913,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-system-architect-r1",
     name: "AI Fullstack Builder",
-    description: "AI-powered AI System Architect R1 agent application.",
+    description: "Architect and build fullstack applications with AI guidance.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -924,7 +924,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-teaching-agent-team",
     name: "AI Course Creator Assistant",
-    description: "AI-powered AI Teaching Agent Team agent application.",
+    description: "Create courses and learning materials with AI-powered assistance.",
     category: "ai-agents",
     group: "research-education",
     skillSlug: "brainstorming",
@@ -935,7 +935,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-tic-tac-toe-agent",
     name: "GitHub Repo Assistant",
-    description: "AI-powered AI Tic Tac Toe Agent agent application.",
+    description: "Explore and understand GitHub repositories with AI chat.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -945,8 +945,8 @@ const rawAppsData: App[] = [{
   },
   {
     id: "ai-travel-agent",
-    name: "GitHub Automation Agent",
-    description: "AI-powered AI Travel Agent agent application.",
+    name: "Travel Concierge AI",
+    description: "Plan trips with AI that remembers your preferences and travel style.",
     category: "ai-agents",
     group: "productivity-personal",
     skillSlug: "brainstorming",
@@ -957,7 +957,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-travel-agent-memory",
     name: "Build Plan Generator",
-    description: "AI-powered AI Travel Agent Memory agent application.",
+    description: "Generate project plans with AI-powered planning and scheduling.",
     category: "ai-agents",
     group: "productivity-personal",
     skillSlug: "brainstorming",
@@ -968,7 +968,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-travel-planner-mcp-agent-team",
     name: "Travel Planner AI",
-    description: "AI-powered AI Travel Planner MCP Agent Team agent application.",
+    description: "Plan complex travel itineraries with multi-agent AI collaboration.",
     category: "ai-agents",
     group: "productivity-personal",
     skillSlug: "brainstorming",
@@ -979,7 +979,7 @@ const rawAppsData: App[] = [{
   {
     id: "app",
     name: "AI Design Studio",
-    description: "AI-powered App agent application.",
+    description: "Create stunning designs with AI-powered design agents.",
     category: "ai-agents",
     group: "design-uiux",
     skillSlug: "brainstorming",
@@ -990,7 +990,7 @@ const rawAppsData: App[] = [{
   {
     id: "autonomous-rag",
     name: "Landing Page Critic AI",
-    description: "AI-powered Autonomous RAG agent application.",
+    description: "Get AI feedback on UI/UX with multimodal analysis.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1000,8 +1000,8 @@ const rawAppsData: App[] = [{
   },
   {
     id: "blog-to-podcast-agent",
-    name: "AI UX Designer",
-    description: "AI-powered Blog To Podcast Agent agent application.",
+    name: "Dashboard Designer AI",
+    description: "Design dashboards with AI-powered data visualization.",
     category: "ai-agents",
     group: "content-creation",
     skillSlug: "brainstorming",
@@ -1012,7 +1012,7 @@ const rawAppsData: App[] = [{
   {
     id: "browser-mcp-agent",
     name: "Browser Task Agent",
-    description: "AI-powered Browser MCP Agent agent application.",
+    description: "Automate browser tasks with AI-powered web interaction.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -1022,8 +1022,8 @@ const rawAppsData: App[] = [{
   },
   {
     id: "chat-with-github",
-    name: "Codebase Chat AI",
-    description: "AI-powered Chat With Github agent application.",
+    name: "GitHub Repo Assistant",
+    description: "Explore and understand GitHub repositories with AI chat.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1034,7 +1034,7 @@ const rawAppsData: App[] = [{
   {
     id: "chat-with-gmail",
     name: "Gmail Intelligence AI",
-    description: "AI-powered Chat With Gmail agent application.",
+    description: "Search and analyze your Gmail messages with AI-powered insights.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1045,7 +1045,7 @@ const rawAppsData: App[] = [{
   {
     id: "chat-with-pdf",
     name: "PDF Business Assistant",
-    description: "AI-powered Chat With Pdf agent application.",
+    description: "Extract insights from PDF documents with conversational AI.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1056,7 +1056,7 @@ const rawAppsData: App[] = [{
   {
     id: "chat-with-research-papers",
     name: "Research Paper Assistant",
-    description: "AI-powered Chat With Research Papers agent application.",
+    description: "Understand and summarize research papers with AI-powered analysis.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1067,7 +1067,7 @@ const rawAppsData: App[] = [{
   {
     id: "chat-with-substack",
     name: "Newsletter Repurposer AI",
-    description: "AI-powered Chat With Substack agent application.",
+    description: "Repurpose newsletter content with AI-powered transformation.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1077,8 +1077,8 @@ const rawAppsData: App[] = [{
   },
   {
     id: "chat-with-tarots",
-    name: "AI Course Creator Assistant",
-    description: "AI-powered Chat With Tarots agent application.",
+    name: "Academic Research AI",
+    description: "Conduct academic research with AI-powered analysis tools.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1088,8 +1088,8 @@ const rawAppsData: App[] = [{
   },
   {
     id: "chat-with-youtube-videos",
-    name: "YouTube Repurposer AI",
-    description: "AI-powered Chat With Youtube Videos agent application.",
+    name: "Video Knowledge Assistant",
+    description: "Extract knowledge from YouTube videos with AI-powered analysis.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1100,7 +1100,7 @@ const rawAppsData: App[] = [{
   {
     id: "contextualai-rag-agent",
     name: "Market Research AI",
-    description: "AI-powered Contextualai RAG Agent agent application.",
+    description: "Conduct market research with AI-powered deep analysis.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1111,7 +1111,7 @@ const rawAppsData: App[] = [{
   {
     id: "corrective-rag",
     name: "Fact Check AI",
-    description: "AI-powered Corrective RAG agent application.",
+    description: "Verify facts and detect misinformation with AI-powered analysis.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1121,8 +1121,8 @@ const rawAppsData: App[] = [{
   },
   {
     id: "cursor-ai-experiments",
-    name: "Research Memory Assistant",
-    description: "AI-powered Cursor AI Experiments agent application.",
+    name: "Personal AI Memory Assistant",
+    description: "Your personal AI assistant with memory that learns your preferences.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -1132,8 +1132,8 @@ const rawAppsData: App[] = [{
   },
   {
     id: "customer-support-voice-agent",
-    name: "AI Voice Support Agent",
-    description: "AI-powered Customer Support Voice Agent agent application.",
+    name: "Local Business Voice Assistant",
+    description: "Build voice assistants for local businesses with AI.",
     category: "ai-agents",
     group: "video-audio-voice",
     skillSlug: "brainstorming",
@@ -1144,7 +1144,7 @@ const rawAppsData: App[] = [{
   {
     id: "deepseek-local-rag-agent",
     name: "Multi-AI Memory Hub",
-    description: "AI-powered Deepseek Local RAG Agent agent application.",
+    description: "Connect multiple AI agents with shared memory and context.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1154,8 +1154,8 @@ const rawAppsData: App[] = [{
   },
   {
     id: "devpulse-ai",
-    name: "Private AI Chat With Memory",
-    description: "AI-powered Devpulse AI agent application.",
+    name: "Personal AI Memory Assistant",
+    description: "Your personal AI assistant with memory that learns your preferences.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -1166,7 +1166,7 @@ const rawAppsData: App[] = [{
   {
     id: "frontend",
     name: "Private ChatGPT Clone",
-    description: "AI-powered Frontend agent application.",
+    description: "Deploy a private ChatGPT clone running entirely on your hardware.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -1177,7 +1177,7 @@ const rawAppsData: App[] = [{
   {
     id: "gemini-agentic-rag",
     name: "Multi-Modal Research Assistant",
-    description: "AI-powered Gemini Agentic RAG agent application.",
+    description: "Research across modalities with Google's Gemini-powered AI.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1188,7 +1188,7 @@ const rawAppsData: App[] = [{
   {
     id: "github-mcp-agent",
     name: "GitHub Automation Agent",
-    description: "AI-powered Github MCP Agent agent application.",
+    description: "Automate GitHub workflows with AI-powered MCP integration.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -1199,7 +1199,7 @@ const rawAppsData: App[] = [{
   {
     id: "gpt-oss-critique-improvement-loop",
     name: "Professional GPT Oss Critique Improvement Loop Assistant",
-    description: "AI-powered GPT Oss Critique Improvement Loop agent application.",
+    description: "Iteratively improve GPT outputs with AI-powered critique.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -1210,7 +1210,7 @@ const rawAppsData: App[] = [{
   {
     id: "hybrid-search-rag",
     name: "Smart Search AI",
-    description: "AI-powered Hybrid Search RAG agent application.",
+    description: "Search across multiple data sources with AI-powered hybrid search.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1221,7 +1221,7 @@ const rawAppsData: App[] = [{
   {
     id: "local-ai-reasoning-agent-py",
     name: "Expert Local AI Reasoning Agent Py Studio",
-    description: "AI-powered Local AI Reasoning Agent Py agent application.",
+    description: "Run local AI reasoning with privacy-first Python implementation.",
     category: "ai-agents",
     group: "realestate-local",
     skillSlug: "brainstorming",
@@ -1229,10 +1229,10 @@ const rawAppsData: App[] = [{
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/local-ai-reasoning-agent-py-thumbnail.png",
     url: "/agent/local-ai-reasoning-agent-py",
   },
-  {
+{
     id: "local-ai-scrapper-py",
-    name: "Advanced Local AI Scrapper Py Assistant",
-    description: "AI-powered Local AI Scrapper Py agent application.",
+    name: "Lead Research Scraper AI",
+    description: "Extract and analyze web data at scale with AI-powered local scraping.",
     category: "ai-agents",
     group: "realestate-local",
     skillSlug: "brainstorming",
@@ -1243,7 +1243,7 @@ const rawAppsData: App[] = [{
   {
     id: "local-travel-agent",
     name: "Smart Local Travel Agent Hub",
-    description: "AI-powered Local Travel Agent agent application.",
+    description: "Your intelligent companion for discovering hidden gems and planning seamless local adventures.",
     category: "ai-agents",
     group: "realestate-local",
     skillSlug: "brainstorming",
@@ -1254,7 +1254,7 @@ const rawAppsData: App[] = [{
   {
     id: "qwen-local-rag",
     name: "Research Intelligence Qwen Local RAG",
-    description: "AI-powered Qwen Local RAG agent application.",
+    description: "Advanced local search powered by Qwen for precise, context-aware knowledge retrieval.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1265,7 +1265,7 @@ const rawAppsData: App[] = [{
   {
     id: "rag-agent-cohere",
     name: "Research Intelligence Agent Cohere",
-    description: "AI-powered RAG Agent Cohere agent application.",
+    description: "Cohere-powered RAG for enterprise-grade knowledge search and discovery.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1276,7 +1276,7 @@ const rawAppsData: App[] = [{
   {
     id: "blog-to-podcast-agent-",
     name: "Content Intelligence Blog To Podcast Agent",
-    description: "AI-powered Blog To Podcast Agent agent application.",
+    description: "Transform written blog content into engaging podcast episodes with AI voice synthesis.",
     category: "ai-agents",
     group: "content-creation",
     skillSlug: "brainstorming",
@@ -1287,7 +1287,7 @@ const rawAppsData: App[] = [{
   {
     id: "knowledge-graph-rag-citations",
     name: "Citation Knowledgebase AI",
-    description: "AI-powered Knowledge Graph RAG Citations agent application.",
+    description: "Build interconnected knowledge graphs with automatic citation tracking.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1298,7 +1298,7 @@ const rawAppsData: App[] = [{
   {
     id: "llama3-1-local-rag",
     name: "Research Intelligence Llama3 1 Local RAG",
-    description: "AI-powered Llama3 1 Local RAG agent application.",
+    description: "Privacy-first local RAG powered by Llama 3.1 for secure knowledge management.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1309,7 +1309,7 @@ const rawAppsData: App[] = [{
   {
     id: "llama3-stateful-chat",
     name: "Private AI Chat With Memory",
-    description: "AI-powered Llama3 Stateful Chat agent application.",
+    description: "Have persistent conversations with Llama 3 that remember your context across sessions.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -1320,7 +1320,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-personalized-memory",
     name: "Advanced Personalized Memory Engine",
-    description: "AI-powered AI Personalized Memory agent application.",
+    description: "AI that learns your preferences and maintains personalized context over time.",
     category: "ai-agents",
     group: "productivity-personal",
     skillSlug: "brainstorming",
@@ -1331,7 +1331,7 @@ const rawAppsData: App[] = [{
   {
     id: "ai-router-app",
     name: "Expert Router App Engine",
-    description: "AI-powered AI Router App agent application.",
+    description: "Intelligently route queries to the optimal AI model for each task.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -1342,7 +1342,7 @@ const rawAppsData: App[] = [{
   {
     id: "local-ai-legal-agent-team",
     name: "Professional Local AI Legal Agent Team Studio",
-    description: "AI-powered Local AI Legal Agent Team agent application.",
+    description: "Multi-agent system specialized in legal research and document analysis.",
     category: "ai-agents",
     group: "legal-compliance",
     skillSlug: "brainstorming",
@@ -1353,7 +1353,7 @@ const rawAppsData: App[] = [{
   {
     id: "local-chatgpt-clone",
     name: "Communication Intelligence Local Chatgpt Clone",
-    description: "AI-powered Local Chatgpt Clone agent application.",
+    description: "Deploy a private ChatGPT-style assistant running entirely on your local hardware.",
     category: "ai-agents",
     group: "realestate-local",
     skillSlug: "brainstorming",
@@ -1364,7 +1364,7 @@ const rawAppsData: App[] = [{
   {
     id: "local-chatgpt-with-memory",
     name: "Communication Intelligence Local Chatgpt With Memory",
-    description: "AI-powered Local Chatgpt With Memory agent application.",
+    description: "Your personal ChatGPT clone that remembers your conversations and preferences.",
     category: "ai-agents",
     group: "realestate-local",
     skillSlug: "brainstorming",
@@ -1375,7 +1375,7 @@ const rawAppsData: App[] = [{
   {
     id: "local-hybrid-search-rag",
     name: "Research Intelligence Local Hybrid Search RAG",
-    description: "AI-powered Local Hybrid Search RAG agent application.",
+    description: "Combine keyword and semantic search for comprehensive local knowledge discovery.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1386,7 +1386,7 @@ const rawAppsData: App[] = [{
   {
     id: "local-travel-agent-",
     name: "Smart Local Travel Agent Hub",
-    description: "AI-powered Local Travel Agent agent application.",
+    description: "Your intelligent companion for discovering hidden gems and planning seamless local adventures.",
     category: "ai-agents",
     group: "realestate-local",
     skillSlug: "brainstorming",
@@ -1397,7 +1397,7 @@ const rawAppsData: App[] = [{
   {
     id: "mixture-of-agents",
     name: "Professional Mixture Of Agents Hub",
-    description: "AI-powered Mixture Of Agents agent application.",
+    description: "Combine multiple AI agents for complex reasoning and superior problem-solving.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -1408,7 +1408,7 @@ const rawAppsData: App[] = [{
   {
     id: "mixture-of-agents-",
     name: "Professional Mixture Of Agents Hub",
-    description: "AI-powered Mixture Of Agents agent application.",
+    description: "Combine multiple AI agents for complex reasoning and superior problem-solving.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -1419,7 +1419,7 @@ const rawAppsData: App[] = [{
   {
     id: "multi-agent-researcher",
     name: "Research Intelligence Multi Agent Researcher",
-    description: "AI-powered Multi Agent Researcher agent application.",
+    description: "Deploy multiple research agents that collaborate to gather comprehensive insights.",
     category: "ai-agents",
     group: "research-education",
     skillSlug: "brainstorming",
@@ -1430,7 +1430,7 @@ const rawAppsData: App[] = [{
   {
     id: "multi-ai-memory",
     name: "Smart Multi AI Memory Studio",
-    description: "AI-powered Multi AI Memory agent application.",
+    description: "Centralized memory system that multiple AI agents can access and update.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -1441,7 +1441,7 @@ const rawAppsData: App[] = [{
   {
     id: "multi-mcp-agent-router",
     name: "AI Tool Router",
-    description: "AI-powered Multi MCP Agent Router agent application.",
+    description: "Intelligently route tasks to the best AI tools and services.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -1452,7 +1452,7 @@ const rawAppsData: App[] = [{
   {
     id: "multimodal-ai-agent",
     name: "Multi-Modal Content Creation Suite",
-    description: "AI-powered Multimodal AI Agent agent application.",
+    description: "Create content across text, images, audio, and video with a single AI agent.",
     category: "ai-agents",
     group: "content-creation",
     skillSlug: "brainstorming",
@@ -1463,7 +1463,7 @@ const rawAppsData: App[] = [{
   {
     id: "multimodal-coding-agent-team",
     name: "AI App Builder Assistant",
-    description: "AI-powered Multimodal Coding Agent Team agent application.",
+    description: "Build complete applications with AI that understands code, UI, and architecture.",
     category: "ai-agents",
     group: "coding-developer",
     skillSlug: "brainstorming",
@@ -1474,7 +1474,7 @@ const rawAppsData: App[] = [{
   {
     id: "multimodal-design-agent-team",
     name: "AI Design Studio",
-    description: "AI-powered Multimodal Design Agent Team agent application.",
+    description: "Create stunning designs with AI that understands aesthetics and user experience.",
     category: "ai-agents",
     group: "design-uiux",
     skillSlug: "brainstorming",
@@ -1485,7 +1485,7 @@ const rawAppsData: App[] = [{
   {
     id: "music-generator-agent-py",
     name: "Advanced Music Generator Agent Py Platform",
-    description: "AI-powered Music Generator Agent Py agent application.",
+    description: "Compose original music with AI in various styles and genres.",
     category: "ai-agents",
     group: "video-audio-voice",
     skillSlug: "brainstorming",
@@ -1496,7 +1496,7 @@ const rawAppsData: App[] = [{
   {
     id: "openai-research-agent",
     name: "Research Assistant AI",
-    description: "AI-powered Openai Research Agent agent application.",
+    description: "Deep research powered by OpenAI for comprehensive topic analysis.",
     category: "ai-agents",
     group: "research-education",
     skillSlug: "brainstorming",
@@ -1507,7 +1507,7 @@ const rawAppsData: App[] = [{
   {
     id: "product-launch-intelligence-agent",
     name: "Intelligent Product Launch Intelligence Agent Hub",
-    description: "AI-powered Product Launch Intelligence Agent agent application.",
+    description: "Strategic AI for planning and executing successful product launches.",
     category: "ai-agents",
     group: "sales-lead-gen",
     skillSlug: "brainstorming",
@@ -1518,7 +1518,7 @@ const rawAppsData: App[] = [{
   {
     id: "rag-as-a-service",
     name: "Business Knowledgebase AI",
-    description: "AI-powered RAG As A Service agent application.",
+    description: "Deploy RAG capabilities as a service for your organization's knowledge needs.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1529,7 +1529,7 @@ const rawAppsData: App[] = [{
   {
     id: "rag-chain",
     name: "Research Intelligence Chain",
-    description: "AI-powered RAG Chain agent application.",
+    description: "Chain multiple RAG operations for complex knowledge graph construction.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1540,7 +1540,7 @@ const rawAppsData: App[] = [{
   {
     id: "rag-database-routing",
     name: "Research Intelligence Database Routing",
-    description: "AI-powered RAG Database Routing agent application.",
+    description: "Intelligently route queries across multiple knowledge bases for comprehensive answers.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1551,7 +1551,7 @@ const rawAppsData: App[] = [{
   {
     id: "research-agent-gemini-interaction-api",
     name: "Research Intelligence Research Agent Gemini Interaction API",
-    description: "AI-powered Research Agent Gemini Interaction API agent application.",
+    description: "Deep research capabilities powered by Google's Gemini for complex analysis.",
     category: "ai-agents",
     group: "research-education",
     skillSlug: "brainstorming",
@@ -1562,7 +1562,7 @@ const rawAppsData: App[] = [{
   {
     id: "resume-job-matcher",
     name: "Smart Resume Job Matcher Platform",
-    description: "AI-powered Resume Job Matcher agent application.",
+    description: "AI-powered resume screening that matches candidates to ideal positions.",
     category: "ai-agents",
     group: "hr-recruiting",
     skillSlug: "brainstorming",
@@ -1573,7 +1573,7 @@ const rawAppsData: App[] = [{
   {
     id: "startup-trends-agent-",
     name: "Smart Startup Trends Agent Platform",
-    description: "AI-powered Startup Trends Agent agent application.",
+    description: "Track and analyze emerging startup trends with AI-driven market intelligence.",
     category: "ai-agents",
     group: "finance-business",
     skillSlug: "brainstorming",
@@ -1584,7 +1584,7 @@ const rawAppsData: App[] = [{
   {
     id: "toonify-token-optimization",
     name: "Intelligent Toonify Token Optimization Engine",
-    description: "AI-powered Toonify Token Optimization agent application.",
+    description: "Convert images to stylized cartoon versions with AI-powered optimization.",
     category: "ai-agents",
     group: "design-uiux",
     skillSlug: "brainstorming",
@@ -1595,7 +1595,7 @@ const rawAppsData: App[] = [{
   {
     id: "trust-gated-agent-team",
     name: "Professional Trust Gated Agent Team Hub",
-    description: "AI-powered Trust Gated Agent Team agent application.",
+    description: "Multi-agent team with verified trust mechanisms for secure collaboration.",
     category: "ai-agents",
     group: "legal-compliance",
     skillSlug: "brainstorming",
@@ -1606,7 +1606,7 @@ const rawAppsData: App[] = [{
   {
     id: "vision-rag",
     name: "Visual Document AI",
-    description: "AI-powered Vision RAG agent application.",
+    description: "Extract and query information from images and visual documents with AI.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1617,7 +1617,7 @@ const rawAppsData: App[] = [{
   {
     id: "voice-rag-openaisdk",
     name: "Research Intelligence Voice RAG Openaisdk",
-    description: "AI-powered Voice RAG Openaisdk agent application.",
+    description: "Speak naturally to your knowledge base with voice-enabled RAG search.",
     category: "ai-agents",
     group: "rag-knowledgebase",
     skillSlug: "brainstorming",
@@ -1628,7 +1628,7 @@ const rawAppsData: App[] = [{
   {
     id: "web-scraping-ai-agent",
     name: "Lead Research Scraper AI",
-    description: "AI-powered Web Scraping AI Agent agent application.",
+    description: "Automate lead discovery with AI that finds and verifies contact information.",
     category: "ai-agents",
     group: "sales-lead-gen",
     skillSlug: "brainstorming",
@@ -1639,7 +1639,7 @@ const rawAppsData: App[] = [{
   {
     id: "xai-finance-agent",
     name: "Finance Research AI",
-    description: "AI-powered Xai Finance Agent agent application.",
+    description: "AI-powered financial analysis for investment insights and market research.",
     category: "ai-agents",
     group: "finance-business",
     skillSlug: "brainstorming",
