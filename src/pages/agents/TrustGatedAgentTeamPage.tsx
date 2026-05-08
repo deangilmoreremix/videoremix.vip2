@@ -5,7 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import { Button } from "../../components/ui/button";
 import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2 } from "lucide-react";
+import { Loader2, CheckCircle } from "lucide-react";
 import {
   SmartInput,
   SmartTextarea,
@@ -82,9 +82,10 @@ const TrustGatedAgentTeamPage: React.FC = () => {
                       id="openai_api_key"
                       value={formData.openai_api_key}
                       onChange={(value) => setFormData({ ...formData, openai_api_key: value })}
+                      placeholder="sk-..."
+                      helperText="Your OpenAI API key enables the agent team. Stored locally only."
                       className="bg-gray-900/50 border-gray-600 text-white"
                     />
-                    <p className="text-sm text-gray-400">Enter your OpenAI API key to enable AI-powered processing.</p>
                   </div>
                 </FormSection>
 
@@ -96,67 +97,82 @@ const TrustGatedAgentTeamPage: React.FC = () => {
                       type="number"
                       value={formData.minimum_trust_score}
                       onChange={(e) => setFormData({ ...formData, minimum_trust_score: e.target.value })}
-                      placeholder="0-100, e.g., '75'"
+                      placeholder="0-100, e.g., '75', '80', '90'"
+                      helperText="Agents below this threshold won't be selected. Range: 0-100"
                       className="bg-gray-900/50 border-gray-600 text-white"
                     />
-                    <p className="text-sm text-gray-400">Set the minimum trust score threshold (0-100) for agent selection.</p>
                   </div>
                 </FormSection>
 
                 <FormSection>
                   <div className="space-y-2">
-                    <Label htmlFor="_researcher">🔍 Researcher *</Label>
+                    <Label htmlFor="_researcher">Researcher Agent *</Label>
                     <SelectDropdown
                       id="_researcher"
                       value={formData._researcher}
                       onChange={(value) => setFormData({ ...formData, _researcher: value })}
-                      options={[{ value: "", label: "Select a researcher" }]}
+                      options={[
+                        { value: "researcher-gpt4", label: "GPT-4 Researcher" },
+                        { value: "researcher-claude", label: "Claude Researcher" },
+                        { value: "researcher-gemini", label: "Gemini Researcher" }
+                      ]}
+                      placeholder="Select a researcher agent"
+                      helperText="The researcher gathers information and facts about your topic"
                       className="bg-gray-900/50 border-gray-600 text-white"
                     />
-                    <p className="text-sm text-gray-400">Choose the researcher agent for information gathering.</p>
                   </div>
                 </FormSection>
 
                 <FormSection>
                   <div className="space-y-2">
-                    <Label htmlFor="_analyst">📊 Analyst *</Label>
+                    <Label htmlFor="_analyst">Analyst Agent *</Label>
                     <SelectDropdown
                       id="_analyst"
                       value={formData._analyst}
                       onChange={(value) => setFormData({ ...formData, _analyst: value })}
-                      options={[{ value: "", label: "Select an analyst" }]}
+                      options={[
+                        { value: "analyst-gpt4", label: "GPT-4 Analyst" },
+                        { value: "analyst-claude", label: "Claude Analyst" },
+                        { value: "analyst-gemini", label: "Gemini Analyst" }
+                      ]}
+                      placeholder="Select an analyst agent"
+                      helperText="The analyst evaluates data quality and provides insights"
                       className="bg-gray-900/50 border-gray-600 text-white"
                     />
-                    <p className="text-sm text-gray-400">Choose the analyst agent for data analysis.</p>
                   </div>
                 </FormSection>
 
                 <FormSection>
                   <div className="space-y-2">
-                    <Label htmlFor="_writer">✍️ Writer *</Label>
+                    <Label htmlFor="_writer">Writer Agent *</Label>
                     <SelectDropdown
                       id="_writer"
                       value={formData._writer}
                       onChange={(value) => setFormData({ ...formData, _writer: value })}
-                      options={[{ value: "", label: "Select a writer" }]}
+                      options={[
+                        { value: "writer-gpt4", label: "GPT-4 Writer" },
+                        { value: "writer-claude", label: "Claude Writer" },
+                        { value: "writer-gemini", label: "Gemini Writer" }
+                      ]}
+                      placeholder="Select a writer agent"
+                      helperText="The writer creates the final report from research and analysis"
                       className="bg-gray-900/50 border-gray-600 text-white"
                     />
-                    <p className="text-sm text-gray-400">Choose the writer agent for content creation.</p>
                   </div>
                 </FormSection>
 
                 <FormSection>
                   <div className="space-y-2">
-                    <Label htmlFor="_research_topic">🔎 Research topic *</Label>
+                    <Label htmlFor="_research_topic">Research Topic *</Label>
                     <SmartInput
                       id="_research_topic"
                       type="text"
                       value={formData._research_topic}
                       onChange={(e) => setFormData({ ...formData, _research_topic: e.target.value })}
-                      placeholder="Enter your research topic"
+                      placeholder="e.g., 'Impact of AI on healthcare in 2026' or 'Climate change solutions'"
+                      helperText="The topic the agent team will research, analyze, and report on"
                       className="bg-gray-900/50 border-gray-600 text-white"
                     />
-                    <p className="text-sm text-gray-400">Specify the topic you want the agent team to research.</p>
                   </div>
                 </FormSection>
 
@@ -174,7 +190,16 @@ const TrustGatedAgentTeamPage: React.FC = () => {
           {result && result.status === 'completed' && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <ResultGrid>
-                <ResultCard title="Transcript" content={result.result} />
+                <ResultCard
+                  title="Research Transcript"
+                  description="The complete agent team research output"
+                  icon={<CheckCircle className="h-5 w-5" />}
+                  variant="success"
+                >
+                  <div className="mt-4 p-4 bg-gray-900/50 rounded border border-gray-700">
+                    <p className="whitespace-pre-wrap text-sm text-gray-300">{result.result}</p>
+                  </div>
+                </ResultCard>
               </ResultGrid>
             </motion.div>
           )}
