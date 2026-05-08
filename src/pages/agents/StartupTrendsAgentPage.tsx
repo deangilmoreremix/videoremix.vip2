@@ -144,6 +144,12 @@ const StartupTrendsAgentPage: React.FC = () => {
               title="No Results Yet"
               description="Enter a research topic above and click 'Generate Results' to discover startup trends."
               icon={Sparkles}
+              tips={[
+                "Try 'AI healthcare startups in 2026'",
+                "Explore 'Sustainable energy solutions'",
+                "Research 'Fintech innovations in Southeast Asia'",
+                "Discover 'Climate tech ventures focusing on carbon capture'"
+              ]}
             />
           )}
         </div>
