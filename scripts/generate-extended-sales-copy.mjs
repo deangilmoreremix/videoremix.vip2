@@ -62,6 +62,19 @@ const CATEGORY_TO_TONALITY = {
 };
 
 // ============================================
+// CATEGORY DISPLAY NAMES
+// ============================================
+const CATEGORY_DISPLAY = {
+  'lead-gen': 'Lead Gen',
+  'ai-agents': 'AI Agents',
+  'video': 'Video',
+  'ai-image': 'AI Image',
+  'personalizer': 'Personalizer',
+  'creative': 'Creative',
+  'branding': 'Branding',
+};
+
+// ============================================
 // APP NAME MAPPING
 // ============================================
 const MAPPING_PATH = path.join(__dirname, '../docs/superpowers/plans/app-name-mapping.json');
@@ -180,43 +193,44 @@ Output ONLY valid JSON. No extra text.`;
 // API CALL (Demo Mode)
 // ============================================
 async function callOpenAI(prompt) {
-  const appMatch = prompt.match(/Name: ([^\n]+)/);
-  const categoryMatch = prompt.match(/Category: ([^\n]+)/);
-  const tonalityMatch = prompt.match(/GTM Skills Tonality: ([^\n]+)/);
+const appMatch = prompt.match(/Name: ([^\n]+)/);
+const categoryMatch = prompt.match(/Category: ([^\n]+)/);
+const tonalityMatch = prompt.match(/GTM Skills Tonality: ([^\n]+)/);
 
-  const appName = appMatch ? appMatch[1] : 'App';
-  const category = categoryMatch ? categoryMatch[1] : 'general';
-  const tonality = tonalityMatch ? tonalityMatch[1] : 'Strategic Advisor';
+const appName = appMatch ? appMatch[1] : 'App';
+const category = categoryMatch ? categoryMatch[1] : 'general';
+const displayCategory = CATEGORY_DISPLAY[category] || category;
+const tonality = tonalityMatch ? tonalityMatch[1] : 'Strategic Advisor';
 
-  const tagline = `Transform Your ${category.charAt(0).toUpperCase() + category.slice(1)} with ${appName}`;
-  const summary = `${appName} revolutionizes ${category} workflows with AI-powered automation. Deliver professional results in minutes, not hours.`;
-  const whatItDoes = `${appName} leverages advanced AI to streamline ${category} processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ${category} creation.`;
+  const tagline = `Transform Your ${displayCategory} with ${appName}`;
+  const summary = `${appName} revolutionizes ${displayCategory.toLowerCase()} workflows with AI-powered automation. Deliver professional results in minutes, not hours.`;
+  const whatItDoes = `${appName} leverages advanced AI to streamline ${displayCategory.toLowerCase()} processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ${displayCategory.toLowerCase()} creation.`;
   const howItWorks = `First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.`;
-  const profitLocal = `Offer ${appName} services to local businesses. Charge $300-1,000 per project for ${category} solutions. Target ${getTargetCustomers(category)}. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.`;
-  const profitIndividual = `Freelance on Upwork or Fiverr. Deliver ${category} projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings.`;
-  const whyYouNeedIt = `Manual ${category} work is time-consuming and error-prone. ${appName} automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.`;
+  const profitLocal = `Offer ${appName} services to local businesses. Charge $300-1,000 per project for ${displayCategory.toLowerCase()} solutions. Target ${getTargetCustomers(category)}. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.`;
+  const profitIndividual = `Freelance on Upwork or Fiverr. Deliver ${displayCategory.toLowerCase()} projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings.`;
+  const whyYouNeedIt = `Manual ${displayCategory.toLowerCase()} work is time-consuming and error-prone. ${appName} automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.`;
 
   const useCases = [
     {
       industry: category === 'video' ? 'Content Marketing' : category === 'ai-image' ? 'Design Agencies' : 'Business Services',
-      scenario: `Streamline ${category} production for client campaigns`,
+      scenario: `Streamline ${displayCategory.toLowerCase()} production for client campaigns`,
       outcome: `Reduce production time by 70%, increase client satisfaction by 40%`
     },
     {
       industry: category === 'video' ? 'E-commerce' : category === 'ai-image' ? 'Real Estate' : 'Consulting',
-      scenario: `Scale ${category} output without hiring more staff`,
+      scenario: `Scale ${displayCategory.toLowerCase()} output without hiring more staff`,
       outcome: `Handle 3x more projects, boost revenue by 200%`
     },
     {
       industry: category === 'video' ? 'Education' : category === 'ai-image' ? 'Retail' : 'Professional Services',
-      scenario: `Create professional ${category} content affordably`,
+      scenario: `Create professional ${displayCategory.toLowerCase()} content affordably`,
       outcome: `Save $5,000+ monthly on outsourcing costs`
     }
   ];
 
   const testimonials = [
     {
-      quote: `${appName} transformed our ${category} workflow. We're delivering twice the work in half the time.`,
+      quote: `${appName} transformed our ${displayCategory.toLowerCase()} workflow. We're delivering twice the work in half the time.`,
       name: getRandomName(),
       role: category === 'video' ? 'Content Director' : category === 'ai-image' ? 'Creative Lead' : 'Business Owner',
       businessType: category === 'video' ? 'Marketing Agency' : category === 'ai-image' ? 'Design Studio' : 'Consulting Firm',
