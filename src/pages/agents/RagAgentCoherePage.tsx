@@ -120,7 +120,12 @@ const RagAgentCoherePage: React.FC = () => {
                   icon={Bot}
                   title="Start a conversation"
                   description="Ask questions about your documents and get AI-powered insights"
-                  tips={emptyStateTips}
+                  tips={[
+                    "Upload documents for context-aware answers",
+                    "Ask questions about your uploaded files",
+                    "Get summaries and insights from your documents",
+                    "Try: 'Summarize the main points'"
+                  ]}
                 >
                   <ExamplePrompt suggestions={examplePrompts} onSuggestionClick={setInput} />
                 </EmptyState>

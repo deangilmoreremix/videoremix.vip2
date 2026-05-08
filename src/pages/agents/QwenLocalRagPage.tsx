@@ -103,10 +103,14 @@ const QwenLocalRagPage: React.FC = () => {
                   tips={[
                     "Ask questions about uploaded documents",
                     "Get summaries and key insights",
-                    "Search for specific information"
+                    "Search for specific information",
+                    "Try: 'What are the latest AI developments?'"
                   ]}
                 >
-                  <ExamplePrompt suggestions={examplePrompts} onSuggestionClick={setInput} />
+                  <ExamplePrompt
+                    suggestions={examplePrompts}
+                    onSuggestionClick={setInput}
+                  />
                 </EmptyState>
               )}
 

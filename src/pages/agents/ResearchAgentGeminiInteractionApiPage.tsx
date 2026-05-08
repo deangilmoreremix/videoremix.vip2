@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
 import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { SmartInput, SmartTextarea, ActionButton, ResultCard, ResultGrid, EmptyState, LoadingIndicator, ErrorMessage, FormSection } from "@/components/agent-ui/*";
+import { SmartInput, SmartTextarea, ActionButton, ResultCard, ResultGrid, EmptyState, LoadingIndicator, ErrorMessage, FormSection } from "@/components/agent-ui";
 import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
+import { Sparkles, Search } from "lucide-react";
 
 const STORAGE_KEY = "research-agent-gemini-form";
 
@@ -123,8 +124,10 @@ const ResearchAgentGeminiInteractionApiPage: React.FC = () => {
               <ResultGrid columns={1}>
                 <ResultCard
                   title="Research Results"
-                  content={result.result}
+                  description={result.result}
                   timestamp={new Date().toISOString()}
+                  icon={<Sparkles className="h-5 w-5" />}
+                  variant="success"
                 />
               </ResultGrid>
             </motion.div>
@@ -134,7 +137,13 @@ const ResearchAgentGeminiInteractionApiPage: React.FC = () => {
             <EmptyState
               title="No Results Yet"
               description="Submit the form above to generate research results."
-              icon="search"
+              icon={<Search className="h-12 w-12 text-gray-400" />}
+              tips={[
+                "Enter your Google API key for authentication",
+                "Describe your research goal in detail",
+                "Be specific about what you want to discover",
+                "Include any constraints or parameters"
+              ]}
             />
           )}
         </div>

@@ -374,6 +374,12 @@ const ReasoningAgentPage: React.FC = () => {
                   icon={<Brain className="h-12 w-12 text-purple-400" />}
                   title="No reasoning results yet"
                   description="Enter a logic puzzle, math problem, or analytical question above to see how AI reasoning compares to standard responses."
+                  tips={[
+                    "Try: 'How many r's are in strawberry?'",
+                    "Classic: 'A bat and ball cost $1.10, bat is $1.00 more...'",
+                    "Logic: 'A farmer has 17 sheep, all but 9 die...'",
+                    "Math: 'What is the 17th letter of the alphabet?'"
+                  ]}
                 />
               )}
 

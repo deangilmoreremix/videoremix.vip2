@@ -84,6 +84,8 @@ const ToonifyTokenOptimizationPage: React.FC = () => {
       >
         <SmartTextarea
           id={`${tabKey}_llm_model`}
+          label="LLM Model"
+          name="llm_model"
           value={formData.llm_model}
           onChange={(val) => setFormData(prev => ({ ...prev, llm_model: val }))}
           placeholder="e.g., 'gpt-4', 'claude-3-opus', 'gemini-pro'"
@@ -98,6 +100,8 @@ const ToonifyTokenOptimizationPage: React.FC = () => {
       >
         <SmartTextarea
           id={`${tabKey}_toon_delimiter`}
+          label="TOON Delimiter"
+          name="toon_delimiter"
           value={formData.toon_delimiter}
           onChange={(val) => setFormData(prev => ({ ...prev, toon_delimiter: val }))}
           placeholder="e.g., '||', '---', '[TOON]', '###'"
@@ -112,9 +116,11 @@ const ToonifyTokenOptimizationPage: React.FC = () => {
       >
         <SmartTextarea
           id={`${tabKey}_key_folding`}
+          label="Key Folding"
+          name="key_folding"
           value={formData.key_folding}
           onChange={(val) => setFormData(prev => ({ ...prev, key_folding: val }))}
-          placeholder="e.g., 'lowercase', 'uppercase', 'preserve', ' camelCase'"
+          placeholder="e.g., 'lowercase', 'uppercase', 'preserve', 'camelCase'"
           helperText="How to transform JSON keys: lowercase, uppercase, preserve case, or camelCase"
           className="bg-gray-900/50 border-gray-600"
         />
@@ -126,6 +132,8 @@ const ToonifyTokenOptimizationPage: React.FC = () => {
       >
         <SmartTextarea
           id={`${tabKey}_choose_example_dataset`}
+          label="Example Dataset"
+          name="choose_example_dataset"
           value={formData.choose_example_dataset}
           onChange={(val) => setFormData(prev => ({ ...prev, choose_example_dataset: val }))}
           placeholder="e.g., 'medical', 'legal', 'financial', 'general'"
@@ -140,6 +148,8 @@ const ToonifyTokenOptimizationPage: React.FC = () => {
       >
         <SmartTextarea
           id={`${tabKey}_json_data`}
+          label="JSON Data"
+          name="json_data"
           value={formData.json_data}
           onChange={(val) => setFormData(prev => ({ ...prev, json_data: val }))}
           placeholder='{"name": "John", "age": 30, "city": "NYC"}'
