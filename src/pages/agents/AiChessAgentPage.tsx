@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, Sparkles } from "lucide-react";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard } from "@/components/agent-ui/ResultCard";
+import { Loader2, Chess, Gamepad2 } from "lucide-react";
 
 const AiChessAgentPage: React.FC = () => {
   const { user } = useAuth();
-  const [formData, setFormData] = useState({  });
+  const [formData] = useState({});
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -30,7 +31,7 @@ const AiChessAgentPage: React.FC = () => {
       if (!res.ok) throw new Error(data.error);
       setResult(data);
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || 'An error occurred');
     } finally {
       setLoading(false);
     }
@@ -40,54 +41,72 @@ const AiChessAgentPage: React.FC = () => {
     <>
       <Helmet>
         <title>AiChessAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-chess-agent to automate tasks with AI." />
+        <meta name="description" content="Use ai-chess-agent to play chess with AI." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-4">Ai Chess Agent</h1>
-            <p className="text-xl text-gray-400">AI-powered ai chess agent.</p>
+            <p className="text-xl text-gray-400">Play chess against an AI opponent.</p>
           </motion.div>
 
-          {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
+          {error && <ErrorMessage title="Request Failed" message={error} onRetry={handleSubmit} retryLoading={loading} />}
 
           <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Input</CardTitle></CardHeader>
+            <CardHeader><CardTitle>Start Game</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
+                <p className="text-gray-400 text-center">Click below to start a new chess game against the AI.</p>
 
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Processing...' : 'Generate Results'}
-                </Button>
+                <ActionButton type="submit" loading={loading} disabled={loading} size="lg" className="w-full">
+                  <Chess className="h-4 w-4" />
+                  Start New Game
+                </ActionButton>
               </form>
             </CardContent>
           </Card>
 
           {loading && (
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="py-8 text-center">
-                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-                <p className="text-gray-400">Processing...</p>
-              </CardContent>
-            </Card>
+            <LoadingIndicator 
+              message="Setting up chess game..." 
+              subtext="Preparing the board"
+            />
           )}
 
-           {result && result.status === 'completed' && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     <div className="space-y-2">
-                       <Label>Transcript</Label>
-                       <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
+          {result && result.status === 'completed' && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+              <ResultCard
+                icon={<Chess className="h-5 w-5" />}
+                title="Game Result"
+                description={result.result}
+                variant="success"
+              />
+
+              <EmptyState
+                icon={<Gamepad2 className="h-16 w-16 text-gray-600" />}
+                title="Game Complete"
+                description="Your chess game is ready."
+                action={
+                  <ActionButton onClick={() => { setResult(null); }}>
+                    Play Again
+                  </ActionButton>
+                }
+              />
+            </motion.div>
+          )}
+
+          {!result && !loading && (
+            <EmptyState
+              icon={<Chess className="h-16 w-16 text-gray-600" />}
+              title="Ready to Play"
+              description="Start a new chess game against the AI. Make your moves and enjoy the game."
+              tips={[
+                "Click 'Start New Game' to begin",
+                "The AI will respond to your moves",
+                "Enjoy your game!",
+              ]}
+            />
+          )}
         </div>
       </main>
     </>

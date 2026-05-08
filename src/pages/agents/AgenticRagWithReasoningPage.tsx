@@ -1,23 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, Sparkles } from "lucide-react";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
+import { Loader2, Sparkles, Globe, Key, Link, HelpCircle, FileText } from "lucide-react";
 
 const AgenticRagWithReasoningPage: React.FC = () => {
   const { user } = useAuth();
-  const [formData, setFormData] = useState({ google_api_key: "", openai_api_key: "", add_new_url: "", your_question: "" });
+  const [formData, setFormData] = useState({ 
+    google_api_key: "", 
+    openai_api_key: "", 
+    add_new_url: "", 
+    your_question: "" 
+  });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const saved = localStorage.getItem('agentic-rag-reasoning-state');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setFormData(prev => ({ ...prev, ...parsed }));
+      } catch {}
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('agentic-rag-reasoning-state', JSON.stringify(formData));
+  }, [formData]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.google_api_key.trim() || !formData.openai_api_key.trim() || !formData.add_new_url.trim() || !formData.your_question.trim()) {
+      setError('Please fill in all required fields');
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -29,8 +58,9 @@ const AgenticRagWithReasoningPage: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);
+      localStorage.removeItem('agentic-rag-reasoning-state');
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || 'An error occurred');
     } finally {
       setLoading(false);
     }
@@ -49,100 +79,118 @@ const AgenticRagWithReasoningPage: React.FC = () => {
             <p className="text-xl text-gray-400">AI-powered agentic rag with reasoning.</p>
           </motion.div>
 
-          {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
+          {error && <ErrorMessage title="Request Failed" message={error} onRetry={handleSubmit} retryLoading={loading} />}
 
           <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Input</CardTitle></CardHeader>
+            <CardHeader><CardTitle>Configuration</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
+                <FormSection title="API Keys" description="Enter your API keys to enable AI processing">
+                  <ApiKeyInput
+                    label="Google API Key"
+                    name="google_api_key"
+                    value={formData.google_api_key}
+                    onChange={(val) => setFormData({ ...formData, google_api_key: val })}
+                    placeholder="AIza..."
+                    helperText="Get your API key from Google Cloud Console"
+                    required
+                  />
 
-              <div className="space-y-2">
-                <Label htmlFor="google_api_key">Google API Key *</Label>
-                
-                <Input
-                  id="google_api_key"
-                  type="text"
-                  value={formData.google_api_key}
-                  onChange={(e) => setFormData({ ...formData, google_api_key: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+                  <ApiKeyInput
+                    label="OpenAI API Key"
+                    name="openai_api_key"
+                    value={formData.openai_api_key}
+                    onChange={(val) => setFormData({ ...formData, openai_api_key: val })}
+                    placeholder="sk-..."
+                    helperText="Get your API key from OpenAI Platform"
+                    required
+                  />
+                </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="openai_api_key">OpenAI API Key *</Label>
-                
-                <Input
-                  id="openai_api_key"
-                  type="text"
-                  value={formData.openai_api_key}
-                  onChange={(e) => setFormData({ ...formData, openai_api_key: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+                <FormSection title="Data Source" description="Enter the URL to analyze">
+                  <SmartInput
+                    label="Add new URL"
+                    name="add_new_url"
+                    type="url"
+                    value={formData.add_new_url}
+                    onChange={(val) => setFormData({ ...formData, add_new_url: val })}
+                    placeholder="https://example.com/article"
+                    helperText="Enter a full URL including https://"
+                    required
+                  />
+                </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="add_new_url">Add new URL *</Label>
-                
-                <Input
-                  id="add_new_url"
-                  type="text"
-                  value={formData.add_new_url}
-                  onChange={(e) => setFormData({ ...formData, add_new_url: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+                <FormSection title="Question" description="Ask anything about the content">
+                  <SmartTextarea
+                    label="Your question"
+                    name="your_question"
+                    value={formData.your_question}
+                    onChange={(val) => setFormData({ ...formData, your_question: val })}
+                    placeholder="What are the main topics covered in this article?"
+                    helperText="Be specific for better results"
+                    rows={4}
+                    required
+                  />
 
-              <div className="space-y-2">
-                <Label htmlFor="your_question">Your question: *</Label>
-                
-                <Textarea
-                  id="your_question"
-                  value={formData.your_question}
-                  onChange={(e) => setFormData({ ...formData, your_question: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white min-h-[120px]"
-                />
-                
-              </div>
+                  <ExamplePrompt
+                    examples={[
+                      "What is the main argument of this article?",
+                      "Summarize the key findings",
+                      "What evidence supports the conclusion?",
+                    ]}
+                    onSelect={(q) => setFormData({ ...formData, your_question: q })}
+                  />
+                </FormSection>
 
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Processing...' : 'Generate Results'}
-                </Button>
+                <ActionButton type="submit" loading={loading} disabled={loading} size="lg" className="w-full">
+                  <Sparkles className="h-4 w-4" />
+                  Generate Results
+                </ActionButton>
               </form>
             </CardContent>
           </Card>
 
           {loading && (
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="py-8 text-center">
-                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-                <p className="text-gray-400">Processing...</p>
-              </CardContent>
-            </Card>
+            <LoadingIndicator 
+              message="Processing your request..." 
+              subtext="This may take a few moments"
+            />
           )}
 
-           {result && result.status === 'completed' && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     <div className="space-y-2">
-                       <Label>Transcript</Label>
-                       <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
+          {result && result.status === 'completed' && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+              <ResultCard
+                icon={<FileText className="h-5 w-5" />}
+                title="Analysis Result"
+                description={result.result}
+                variant="success"
+              />
+
+              <EmptyState
+                icon={<Sparkles className="h-16 w-16 text-gray-600" />}
+                title="Analysis Complete"
+                description="Your RAG reasoning analysis is ready above."
+                action={
+                  <ActionButton onClick={() => { setResult(null); setFormData({ google_api_key: "", openai_api_key: "", add_new_url: "", your_question: "" }); }}>
+                    Start New Analysis
+                  </ActionButton>
+                }
+              />
+            </motion.div>
+          )}
+
+          {!result && !loading && (
+            <EmptyState
+              icon={<Globe className="h-16 w-16 text-gray-600" />}
+              title="Ready to Analyze"
+              description="Enter a URL and ask questions to get AI-powered insights from the content."
+              tips={[
+                "Enter a valid URL including https://",
+                "Ask specific questions about the content",
+                "Use the example prompts below for inspiration",
+              ]}
+            />
+          )}
         </div>
       </main>
     </>
