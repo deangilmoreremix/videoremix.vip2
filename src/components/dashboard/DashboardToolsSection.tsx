@@ -27,35 +27,9 @@ import PurchaseModal from "../PurchaseModal";
 import LazyIcon from "../LazyIcon";
 const ProductDetailModal = lazy(() => import("../ProductDetailModal"));
 import { extendedSalesCopy } from "../../data/extendedSalesCopy";
+import { appGroups } from "../../data/appGroups";
 
-// App categories with personalization focus
-const toolCategories = [
-  {
-    id: "all",
-    label: "All Personalization Tools",
-    icon: React.createElement(Layers, { className: "w-4 h-4" }),
-  },
-  {
-    id: "ai-agents",
-    label: "AI Agents",
-    icon: React.createElement(Sparkles, { className: "w-4 h-4" }),
-  },
-  {
-    id: "video",
-    label: "Personalized Video",
-    icon: React.createElement(Video, { className: "w-4 h-4" }),
-  },
-  {
-    id: "lead-gen",
-    label: "Personalized Marketing",
-    icon: React.createElement(Users, { className: "w-4 h-4" }),
-  },
-  {
-    id: "ai-image",
-    label: "Personalized AI Image",
-    icon: React.createElement(ImageIcon, { className: "w-4 h-4" }),
-  },
-];
+
 
 // Featured apps to highlight
 const featuredApps = [
@@ -407,7 +381,7 @@ const StoryDrivenAppCard: React.FC<{
 
 const DashboardToolsSection: React.FC = () => {
   const { apps: appsData, loading: appsLoading } = useApps();
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedGroup, setSelectedGroup] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredApps, setFilteredApps] = useState<any[]>([]);
   const [sortOrder, setSortOrder] = useState<"popular" | "new" | "a-z">("popular");
@@ -428,7 +402,7 @@ const DashboardToolsSection: React.FC = () => {
     console.log('[DashboardToolsSection] useEffect triggered', {
       appsDataLength: appsData?.length || 0,
       appsLoading,
-      selectedCategory,
+      selectedGroup,
       searchQuery,
       sortOrder
     });
@@ -445,8 +419,8 @@ const DashboardToolsSection: React.FC = () => {
     // No filtering by access here - all apps are visible
 
     // Apply category filter
-    if (selectedCategory !== "all") {
-      result = result.filter((app) => app.category === selectedCategory);
+    if (selectedGroup !== "all") {
+      result = result.filter((app) => app.group === selectedGroup);
     }
 
     // Apply search filter
@@ -482,7 +456,7 @@ const DashboardToolsSection: React.FC = () => {
 
     console.log('[DashboardToolsSection] Setting filtered apps:', result.length);
     setFilteredApps(result);
-  }, [selectedCategory, searchQuery, sortOrder, appsData]);
+  }, [selectedGroup, searchQuery, sortOrder, appsData]);
 
   // Handle image load errors
   const handleImageError = (appId: string) => {
@@ -499,9 +473,9 @@ const DashboardToolsSection: React.FC = () => {
     return fallbackImages[adjustedIndex];
   };
 
-  // Handle category change
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
+  // Handle group change
+  const handleGroupChange = (group: string) => {
+    setSelectedGroup(group);
   };
 
   // Get featured apps
@@ -547,37 +521,31 @@ const DashboardToolsSection: React.FC = () => {
         <div className="relative mb-12">
           <div className="flex justify-center overflow-x-auto hide-scrollbar pb-2">
             <div className="flex space-x-3">
-              {toolCategories.map((category, idx) => {
-                const isActive = selectedCategory === category.id;
-                return (
-                  <motion.button
-                    key={category.id}
-                    onClick={() => handleCategoryChange(category.id)}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 0.1 * idx }}
-                    whileHover={{ scale: 1.03, y: -2 }}
-                    whileTap={{ scale: 0.97 }}
-                    className={`
-                      px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-300 min-w-[150px]
-                      ${isActive
-                        ? 'bg-gradient-to-br from-primary-600 to-primary-500 text-white shadow-lg shadow-primary-600/30 border border-primary-400/20'
-                        : 'bg-gray-900/80 text-gray-300 hover:bg-gray-800 border border-gray-700/50 hover:border-gray-600 backdrop-blur-sm'
-                      }
-                    `}
-                  >
-                    <div className="flex flex-col items-center gap-1">
-                      <div className={`
-                        p-2 rounded-full transition-colors
-                        ${isActive ? 'bg-white/15' : 'bg-gray-800'}
-                      `}>
-                        {category.icon}
-                      </div>
-                      <span>{category.label}</span>
-                    </div>
-                  </motion.button>
-                );
-              })}
+              <button
+                key="all"
+                onClick={() => handleGroupChange("all")}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+                  selectedGroup === "all"
+                    ? "bg-primary-600 text-white shadow-lg shadow-primary-600/20"
+                    : "bg-gray-800/50 text-gray-300 hover:bg-gray-700/50"
+                }`}
+              >
+                All Tools
+              </button>
+              {appGroups.map((group) => (
+                <button
+                  key={group.id}
+                  onClick={() => handleGroupChange(group.id)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap flex items-center space-x-2 ${
+                    selectedGroup === group.id
+                      ? "bg-primary-600 text-white shadow-lg shadow-primary-600/20"
+                      : "bg-gray-800/50 text-gray-300 hover:bg-gray-700/50"
+                  }`}
+                >
+                  <span className="w-4 h-4">{group.icon}</span>
+                  <span>{group.label}</span>
+                </button>
+              ))}
             </div>
           </div>
         </div>
@@ -696,7 +664,7 @@ const DashboardToolsSection: React.FC = () => {
               <div className="text-gray-400 text-lg mb-4 font-medium">No tools found matching your criteria</div>
               <button
                 onClick={() => {
-                  setSelectedCategory("all");
+                  setSelectedGroup("all");
                   setSearchQuery("");
                 }}
                 className="text-primary-400 hover:text-primary-300 font-semibold px-4 py-2 rounded-lg bg-primary-900/20 hover:bg-primary-900/30 transition-all"

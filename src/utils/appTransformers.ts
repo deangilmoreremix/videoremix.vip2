@@ -20,6 +20,8 @@ export interface DatabaseApp {
   sort_order: number;
   created_at: string;
   updated_at: string;
+  // New field
+  group?: string;
 }
 
 export interface ComponentApp {
@@ -35,6 +37,8 @@ export interface ComponentApp {
   new?: boolean;
   comingSoon?: boolean;
   url?: string;
+  // New field
+  group: string;
 }
 
 // Fallback images for when no custom thumbnail is available
@@ -101,5 +105,6 @@ export const transformApp = (dbApp: DatabaseApp): ComponentApp => {
     new: dbApp.new || false,
     comingSoon: dbApp.coming_soon || false,
     url: appUrl,
+    group: dbApp.group || "uncategorized",
   };
 };
