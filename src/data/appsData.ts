@@ -439,7 +439,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-arxiv-agent-memory",
-    name: "Visual Document AI",
+    name: "Research Memory Assistant",
     description: "AI-powered AI Arxiv Agent Memory agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -448,7 +448,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-audio-tour-agent",
-    name: "Citation Knowledgebase AI",
+    name: "AI Audio Guide Creator",
     description: "AI-powered AI Audio Tour Agent agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -457,7 +457,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-blog-search",
-    name: "Smart Search AI",
+    name: "Blog Knowledge Search AI",
     description: "AI-powered AI Blog Search agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -466,7 +466,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-blog-to-podcast-agent",
-    name: "Private Company AI Assistant",
+    name: "Blog To Podcast AI",
     description: "AI-powered AI Blog To Podcast Agent agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -493,7 +493,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-competitor-intelligence-agent-team",
-    name: "Real Estate Marketing AI",
+    name: "Competitor Spy AI",
     description: "AI-powered AI Competitor Intelligence Agent Team agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -511,7 +511,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-data-analysis-agent",
-    name: "Travel Planner AI",
+    name: "Local Business Analytics AI",
     description: "AI-powered AI Data Analysis Agent agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -529,7 +529,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-deep-research-agent",
-    name: "Local Business Voice Assistant",
+    name: "Deep Research Pro",
     description: "AI-powered AI Deep Research Agent agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -565,7 +565,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-financial-coach-agent",
-    name: "Resume Analyzer AI",
+    name: "Profit Coach AI",
     description: "AI-powered AI Financial Coach Agent agent application.",
     category: "ai-agents",
     icon: React.createElement(Wallet),
@@ -576,7 +576,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-product-launch-intelligence-agent",
-    name: "Candidate Decision AI",
+    name: "Launch Campaign Builder AI",
     description: "AI-powered product launch intelligence and competitor analysis agent application.",
     category: "ai-agents",
     icon: React.createElement(Rocket),
@@ -587,7 +587,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-fraud-investigation-agent",
-    name: "Candidate Outreach AI",
+    name: "Fraud Investigation Assistant",
     description: "AI-powered AI Fraud Investigation Agent agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -614,7 +614,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-journalist-agent",
-    name: "Finance Research AI",
+    name: "AI News Content Writer",
     description: "AI-powered AI Journalist Agent agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -623,7 +623,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-legal-agent-team",
-    name: "Business Finance AI Team",
+    name: "Contract Summary AI",
     description: "AI-powered AI Legal Agent Team agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -677,7 +677,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-movie-production-agent",
-    name: "Contract Summary AI",
+    name: "AI Video Script Producer",
     description: "AI-powered AI Movie Production Agent agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -686,7 +686,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-music-generator-agent",
-    name: "Legal PDF Explainer",
+    name: "AI Music & Jingle Assistant",
     description: "AI-powered AI Music Generator Agent agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -704,7 +704,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-real-estate-agent-team",
-    name: "Claim Checker AI",
+    name: "Real Estate Marketing AI",
     description: "AI-powered AI Real Estate Agent Team agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -731,7 +731,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-recruitment-agent-team",
-    name: "AI App Builder Assistant",
+    name: "AI Hiring Assistant",
     description: "AI-powered AI Recruitment Agent Team agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -740,7 +740,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-services-agency",
-    name: "AI SaaS Architect",
+    name: "AI Agency Builder Suite",
     description: "AI-powered AI Services Agency agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -776,7 +776,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-teaching-agent-team",
-    name: "Python Fixer AI",
+    name: "AI Course Creator Assistant",
     description: "AI-powered AI Teaching Agent Team agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -812,7 +812,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "ai-travel-planner-mcp-agent-team",
-    name: "Sprint Planner AI",
+    name: "Travel Planner AI",
     description: "AI-powered AI Travel Planner MCP Agent Team agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -848,7 +848,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "browser-mcp-agent",
-    name: "Dashboard Designer AI",
+    name: "Browser Task Agent",
     description: "AI-powered Browser MCP Agent agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -857,7 +857,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "chat-with-github",
-    name: "Landing Page Copy AI",
+    name: "Codebase Chat AI",
     description: "AI-powered Chat With Github agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -866,7 +866,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "chat-with-gmail",
-    name: "Conversion Copy Editor",
+    name: "Gmail Intelligence AI",
     description: "AI-powered Chat With Gmail agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -875,7 +875,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "chat-with-pdf",
-    name: "Research Assistant AI",
+    name: "PDF Business Assistant",
     description: "AI-powered Chat With Pdf agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -884,7 +884,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "chat-with-research-papers",
-    name: "Deep Research Pro",
+    name: "Research Paper Assistant",
     description: "AI-powered Chat With Research Papers agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -893,7 +893,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "chat-with-substack",
-    name: "Research Planner AI",
+    name: "Newsletter Repurposer AI",
     description: "AI-powered Chat With Substack agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -911,7 +911,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "chat-with-youtube-videos",
-    name: "Academic Research AI",
+    name: "YouTube Repurposer AI",
     description: "AI-powered Chat With Youtube Videos agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -947,7 +947,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "customer-support-voice-agent",
-    name: "Personal AI Memory Assistant",
+    name: "AI Voice Support Agent",
     description: "AI-powered Customer Support Voice Agent agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -992,7 +992,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "github-mcp-agent",
-    name: "Professional Github MCP Agent Assistant",
+    name: "GitHub Automation Agent",
     description: "AI-powered Github MCP Agent agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -1010,7 +1010,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "hybrid-search-rag",
-    name: "Advanced Knowledge Discovery",
+    name: "Smart Search AI",
     description: "AI-powered Hybrid Search RAG agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -1073,7 +1073,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "knowledge-graph-rag-citations",
-    name: "Citation Intelligence Network",
+    name: "Citation Knowledgebase AI",
     description: "AI-powered Knowledge Graph RAG Citations agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -1091,7 +1091,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "llama3-stateful-chat",
-    name: "Communication Intelligence Llama3 Stateful Chat",
+    name: "Private AI Chat With Memory",
     description: "AI-powered Llama3 Stateful Chat agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -1199,7 +1199,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "multi-mcp-agent-router",
-    name: "Professional Multi MCP Agent Router Hub",
+    name: "AI Tool Router",
     description: "AI-powered Multi MCP Agent Router agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -1217,7 +1217,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "multimodal-coding-agent-team",
-    name: "AI-Powered Development Collaboration Platform",
+    name: "AI App Builder Assistant",
     description: "AI-powered Multimodal Coding Agent Team agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -1226,7 +1226,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "multimodal-design-agent-team",
-    name: "Creative Design Collaboration Studio",
+    name: "AI Design Studio",
     description: "AI-powered Multimodal Design Agent Team agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -1244,7 +1244,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "openai-research-agent",
-    name: "Research Intelligence Openai Research Agent",
+    name: "Research Assistant AI",
     description: "AI-powered Openai Research Agent agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -1262,7 +1262,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "rag-as-a-service",
-    name: "Research Intelligence As A Service",
+    name: "Business Knowledgebase AI",
     description: "AI-powered RAG As A Service agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -1334,7 +1334,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "vision-rag",
-    name: "Research Intelligence Vision RAG",
+    name: "Visual Document AI",
     description: "AI-powered Vision RAG agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -1352,7 +1352,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "web-scraping-ai-agent",
-    name: "Intelligent Web Scraping AI Agent Engine",
+    name: "Lead Research Scraper AI",
     description: "AI-powered Web Scraping AI Agent agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
@@ -1361,7 +1361,7 @@ const rawAppsData: App[] = [
   },
   {
     id: "xai-finance-agent",
-    name: "Advanced Xai Finance Agent Assistant",
+    name: "Finance Research AI",
     description: "AI-powered Xai Finance Agent agent application.",
     category: "ai-agents",
     icon: React.createElement(Wand2),
