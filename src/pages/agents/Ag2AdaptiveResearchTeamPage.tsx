@@ -1,12 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Loader2, Upload, FileText } from "lucide-react";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { FileUploadZone } from "@/components/agent-ui/FileUploadZone";
+import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
 
 const Ag2AdaptiveResearchTeamPage: React.FC = () => {
   const { user } = useAuth();
@@ -17,13 +20,34 @@ const Ag2AdaptiveResearchTeamPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    const saved = localStorage.getItem('ag2-research-form-data');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setTextValues(parsed.textValues || {});
+      } catch {}
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('ag2-research-form-data', JSON.stringify({ textValues }));
+  }, [textValues]);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) setFile(e.target.files[0]);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file) return;
+    if (!file) {
+      setError('Please upload a file');
+      return;
+    }
+    if (!textValues.research_question?.trim()) {
+      setError('Please enter a research question');
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -40,6 +64,7 @@ const Ag2AdaptiveResearchTeamPage: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);
+      localStorage.removeItem('ag2-research-form-data');
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -47,11 +72,13 @@ const Ag2AdaptiveResearchTeamPage: React.FC = () => {
     }
   };
 
+  const isFormValid = file && textValues.research_question?.trim();
+
   return (
     <>
       <Helmet>
-        <title>Ag2AdaptiveResearchTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use ag2-adaptive-research-team to automate tasks with AI." />
+        <title>AG2 Adaptive Research Team - VideoRemix.vip</title>
+        <meta name="description" content="Multi-agent research team that adapts to your research questions." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
@@ -59,99 +86,122 @@ const Ag2AdaptiveResearchTeamPage: React.FC = () => {
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-purple-500 rounded-3xl mb-6">
               <Upload className="h-10 w-10 text-white" />
             </div>
-            <h1 className="text-4xl font-bold mb-4">Ag2 Adaptive Research Team</h1>
-            <p className="text-xl text-gray-400">AI-powered ag2 adaptive research team.</p>
+            <h1 className="text-4xl font-bold mb-4">AG2 Adaptive Research Team</h1>
+            <p className="text-xl text-gray-400">AI-powered multi-agent research with adaptive reasoning</p>
           </motion.div>
 
           <Card className="bg-gray-800/50 border-gray-700 mb-8">
             <CardHeader><CardTitle>Upload & Configure</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
+                
                 <div className="space-y-2">
-                  <Label htmlFor="file">Upload File *</Label>
-                  <div
-                    className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-blue-500 cursor-pointer"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    <FileText className="h-12 w-12 mx-auto mb-4 text-gray-500" />
-                    <p className="text-gray-300">Click to select a file</p>
-                    {file && <p className="text-sm text-blue-400 mt-2">{file.name}</p>}
-                  </div>
-                  <input ref={fileInputRef} type="file" onChange={handleFileChange} className="hidden" />
+                  <label htmlFor="file" className="text-sm font-medium text-gray-200">
+                    Upload File <span className="text-red-500">*</span>
+                  </label>
+                  <FileUploadZone
+                    accept=".pdf,.txt,.docx"
+                    maxSize={10 * 1024 * 1024}
+                    onFileSelect={setFile}
+                    selectedFile={file}
+                    helperText="Upload research materials (PDF, TXT, or DOCX up to 10MB)"
+                  />
                 </div>
 
-
                 <div className="space-y-2">
-                  <Label htmlFor="openai_api_key">OpenAI API Key *</Label>
-                  <Input
-                    id="openai_api_key"
+                  <ApiKeyInput
+                    label="OpenAI API Key"
                     value={textValues.openai_api_key || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, openai_api_key: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
+                    onChange={(val) => setTextValues(prev => ({ ...prev, openai_api_key: val }))}
+                    helperText="Your API key is stored locally and never sent to our servers"
+                    required={false}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="model">Model *</Label>
-                  <Input
-                    id="model"
+                  <SmartInput
+                    label="Model"
+                    name="model"
+                    type="text"
                     value={textValues.model || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, model: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
+                    onChange={(val) => setTextValues(prev => ({ ...prev, model: val }))}
+                    placeholder="gpt-4o, gpt-4-turbo, gpt-3.5-turbo"
+                    helperText="OpenAI model to use for analysis (defaults to gpt-4o)"
+                    required={false}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="upload_pdfs_or_text_files">Upload PDFs or text files *</Label>
-                  <Input
-                    id="upload_pdfs_or_text_files"
-                    value={textValues.upload_pdfs_or_text_files || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, upload_pdfs_or_text_files: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="research_question">Research question *</Label>
-                  <Input
-                    id="research_question"
+                  <SmartTextarea
+                    label="Research question"
+                    name="research_question"
                     value={textValues.research_question || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, research_question: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
+                    onChange={(val) => setTextValues(prev => ({ ...prev, research_question: val }))}
+                    placeholder="What specific insights are you looking for from this research material? e.g., 'Identify the main论点 and supporting evidence for the author's claims about AI safety'"
+                    helperText="Be specific about what you want to learn from the uploaded materials"
+                    rows={4}
+                    required
                   />
                 </div>
 
-
-                <Button type="submit" disabled={loading || !file} className="w-full">
+                <ActionButton 
+                  type="submit" 
+                  onClick={handleSubmit}
+                  loading={loading}
+                  disabled={!isFormValid}
+                  className="w-full"
+                  size="lg"
+                >
+                  <FileText className="h-4 w-4" />
                   {loading ? 'Processing...' : 'Process File'}
-                </Button>
+                </ActionButton>
               </form>
             </CardContent>
           </Card>
 
-          {error && <Card className="border-red-500/50 bg-red-500/10 mb-8"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
+          {error && (
+            <Card className="border-red-500/50 bg-red-500/10 mb-8">
+              <CardContent className="pt-6">
+                <p className="text-red-300">{error}</p>
+              </CardContent>
+            </Card>
+          )}
+
+           {loading && (
+             <Card className="bg-gray-800/50 border-gray-700">
+               <CardContent className="py-8 text-center">
+                 <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2 text-blue-500" />
+                 <p className="text-gray-400">Adaptive research team analyzing your materials...</p>
+               </CardContent>
+             </Card>
+           )}
 
            {result && (
              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
                <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Result</CardTitle></CardHeader>
+                 <CardHeader><CardTitle>Research Results</CardTitle></CardHeader>
                  <CardContent>
-                   <div className="space-y-4">
-                     
-                     {result.result && (
-                       <div className="space-y-2">
-                         <Label>Transcript</Label>
-                         <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(result, null, 2)}</pre>
-                       </div>
-                     )}
+                   <div className="bg-gray-900/50 rounded-lg p-4">
+                     <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">
+                       {typeof result.result === 'string' ? result.result : JSON.stringify(result, null, 2)}
+                     </p>
                    </div>
                  </CardContent>
                </Card>
              </motion.div>
+           )}
+
+           {!result && !loading && (
+             <EmptyState
+               icon={<FileText className="h-16 w-16 text-gray-600" />}
+               title="Ready to research"
+               description="Upload your research materials and enter a question to get AI-powered multi-agent analysis"
+               tips={[
+                 "Upload PDF, TXT, or DOCX files for analysis",
+                 "Be specific in your research question",
+                 "The adaptive team will reason through multiple angles"
+             ]}
+             />
            )}
         </div>
       </main>
