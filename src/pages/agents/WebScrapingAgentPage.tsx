@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
@@ -15,6 +15,17 @@ import {
   Settings,
   HelpCircle
 } from "lucide-react";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
+import { FormSection } from "@/components/agent-ui/FormSection";
+
+const STORAGE_KEY = "web-scraping-agent-form";
 
 interface ScrapeResult {
   url: string;
@@ -27,13 +38,35 @@ interface ScrapeResult {
 
 const WebScrapingAgentPage: React.FC = () => {
   const { user } = useAuth();
-  const [url, setUrl] = useState("");
-  const [prompt, setPrompt] = useState("");
+  const [url, setUrl] = useState(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved).url || "" : "";
+  });
+  const [prompt, setPrompt] = useState(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved).prompt || "" : "";
+  });
   const [mode, setMode] = useState<"extract" | "summarize" | "qa" | "list">("extract");
   const [isProcessing, setIsProcessing] = useState(false);
   const [result, setResult] = useState<ScrapeResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.url) setUrl(parsed.url);
+        if (parsed.prompt) setPrompt(parsed.prompt);
+        if (parsed.mode) setMode(parsed.mode);
+      } catch {}
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ url, prompt, mode }));
+  }, [url, prompt, mode]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,6 +98,8 @@ const WebScrapingAgentPage: React.FC = () => {
         ...data,
         timestamp: new Date().toISOString()
       });
+
+      localStorage.removeItem(STORAGE_KEY);
 
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred');
@@ -175,19 +210,22 @@ const WebScrapingAgentPage: React.FC = () => {
                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
-                  {/* URL Input */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Website URL
-                    </label>
-                    <input
+                  <FormSection
+                    title="Website Configuration"
+                    description="Enter the URL and extraction parameters"
+                  >
+                    <SmartInput
+                      id="website-url"
+                      label="Website URL"
+                      name="url"
                       type="url"
                       value={url}
-                      onChange={(e) => setUrl(e.target.value)}
-                      placeholder="https://example.com"
-                      className="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 font-mono text-sm"
+                      onChange={setUrl}
+                      placeholder="https://example.com or https://example.com/products"
+                      helperText="Enter the full URL including https://. The page must be publicly accessible."
+                      required
                     />
-                  </div>
+                  </FormSection>
 
                   {/* Mode Selection */}
                   <div>
@@ -218,49 +256,40 @@ const WebScrapingAgentPage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Prompt Input */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      What to Extract / Ask
-                    </label>
-                    <textarea
-                      value={prompt}
-                      onChange={(e) => setPrompt(e.target.value)}
-                      placeholder="Describe what you want to extract from the page..."
-                      className="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 min-h-[100px] resize-none"
-                    />
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      <span className="text-xs text-gray-500">Examples:</span>
-                      {examplePrompts[mode].map((ex, i) => (
-                        <button
-                          key={i}
-                          type="button"
-                          onClick={() => setPrompt(ex)}
-                          className="text-xs bg-gray-700/50 hover:bg-gray-700 text-gray-300 px-2 py-1 rounded"
-                        >
-                          {ex}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isProcessing || !url.trim() || !prompt.trim()}
-                    className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-500 hover:to-red-500 disabled:from-gray-600 disabled:to-gray-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all flex items-center justify-center gap-2 disabled:cursor-not-allowed"
+                  <FormSection
+                    title="Extraction Prompt"
+                    description="Describe what data you want to extract from the page"
                   >
-                    {isProcessing ? (
-                      <>
-                        <Loader2 className="h-5 w-5 animate-spin" />
-                        Scraping & Analyzing...
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="h-5 w-5" />
-                        Start Scraping
-                      </>
-                    )}
-                  </button>
+                    <SmartTextarea
+                      id="extraction-prompt"
+                      label="What to Extract / Ask"
+                      name="prompt"
+                      value={prompt}
+                      onChange={setPrompt}
+                      placeholder="e.g., 'Extract all product names, prices, and descriptions from this page'"
+                      helperText="Be specific about what data you need. Include field names when possible."
+                      rows={4}
+                      required
+                    />
+
+                    <div className="mt-3">
+                      <ExamplePrompt
+                        examples={examplePrompts[mode]}
+                        onSelect={setPrompt}
+                      />
+                    </div>
+                  </FormSection>
+
+                  <ActionButton
+                    type="submit"
+                    loading={isProcessing}
+                    disabled={isProcessing || !url.trim() || !prompt.trim()}
+                    loadingText="Scraping & Analyzing..."
+                    icon={<Sparkles className="h-4 w-4" />}
+                    className="w-full"
+                  >
+                    Start Scraping
+                  </ActionButton>
                 </form>
               </motion.div>
 
