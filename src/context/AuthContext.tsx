@@ -48,6 +48,9 @@ interface AuthContextType {
   updateProfile: (
     updates: Record<string, unknown>
   ) => Promise<{ user: User | null; error: AuthError | null }>;
+  updateOnboardingAnswers: (
+    answers: Record<string, unknown>
+  ) => Promise<{ user: User | null; error: AuthError | null }>;
   refreshSession: () => Promise<boolean>;
 
   // Utility
@@ -721,6 +724,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     [clearError, handleAuthError, supabase]
   );
 
+  const updateOnboardingAnswers = useCallback(
+    async (answers: Record<string, unknown>) => {
+      try {
+        const { data, error } = await supabase.auth.updateUser({
+          data: answers,
+        });
+        return { user: data.user, error };
+      } catch (err) {
+        return { user: null, error: err as AuthError };
+      }
+    },
+    []
+  );
+
   const value: AuthContextType = useMemo(
     () => ({
       // Core state
@@ -741,6 +758,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       signOut,
       resetPassword,
       updateProfile,
+      updateOnboardingAnswers,
       refreshSession,
 
       // Utility
@@ -760,6 +778,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       signOut,
       resetPassword,
       updateProfile,
+      updateOnboardingAnswers,
       refreshSession,
       clearError,
     ]
