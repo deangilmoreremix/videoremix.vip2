@@ -14,6 +14,7 @@ import { EmptyState } from "../../components/agent-ui/EmptyState";
 import { LoadingIndicator } from "../../components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "../../components/agent-ui/ErrorMessage";
 import { FormSection } from "../../components/agent-ui/FormSection";
+import { Sparkles, FileText, CheckCircle } from "lucide-react";
 
 const STORAGE_KEY = 'toonify_token_optimization_form';
 
@@ -77,58 +78,79 @@ const ToonifyTokenOptimizationPage: React.FC = () => {
 
   const renderForm = (tabKey: string, formData: FormData, setFormData: React.Dispatch<React.SetStateAction<FormData>>) => (
     <form onSubmit={(e) => { e.preventDefault(); handleSubmit(tabKey, formData); }} className="space-y-6">
-      <FormSection title="LLM Model">
+      <FormSection
+        title="LLM Model"
+        description="Enter the language model to use for token optimization"
+      >
         <SmartTextarea
           id={`${tabKey}_llm_model`}
           value={formData.llm_model}
           onChange={(val) => setFormData(prev => ({ ...prev, llm_model: val }))}
-          placeholder="e.g., 'gpt-4', 'claude-3', 'gemini-pro'"
+          placeholder="e.g., 'gpt-4', 'claude-3-opus', 'gemini-pro'"
+          helperText="Specify the model name. Examples: gpt-4, claude-3, gemini-pro"
           className="bg-gray-900/50 border-gray-600"
         />
       </FormSection>
 
-      <FormSection title="TOON Delimiter">
+      <FormSection
+        title="TOON Delimiter"
+        description="Define the delimiter for token separation"
+      >
         <SmartTextarea
           id={`${tabKey}_toon_delimiter`}
           value={formData.toon_delimiter}
           onChange={(val) => setFormData(prev => ({ ...prev, toon_delimiter: val }))}
-          placeholder="e.g., '||', '---', '[TOON]'"
+          placeholder="e.g., '||', '---', '[TOON]', '###'"
+          helperText="Choose a delimiter that won't appear in your data. Examples: ||, ---, [TOON]"
           className="bg-gray-900/50 border-gray-600"
         />
       </FormSection>
 
-      <FormSection title="Key Folding">
+      <FormSection
+        title="Key Folding"
+        description="Configure how keys are handled"
+      >
         <SmartTextarea
           id={`${tabKey}_key_folding`}
           value={formData.key_folding}
           onChange={(val) => setFormData(prev => ({ ...prev, key_folding: val }))}
-          placeholder="e.g., 'lowercase', 'uppercase', 'preserve'"
+          placeholder="e.g., 'lowercase', 'uppercase', 'preserve', ' camelCase'"
+          helperText="How to transform JSON keys: lowercase, uppercase, preserve case, or camelCase"
           className="bg-gray-900/50 border-gray-600"
         />
       </FormSection>
 
-      <FormSection title="Choose example dataset">
+      <FormSection
+        title="Example Dataset"
+        description="Select or define a sample dataset type"
+      >
         <SmartTextarea
           id={`${tabKey}_choose_example_dataset`}
           value={formData.choose_example_dataset}
           onChange={(val) => setFormData(prev => ({ ...prev, choose_example_dataset: val }))}
-          placeholder="e.g., 'medical', 'legal', 'financial'"
+          placeholder="e.g., 'medical', 'legal', 'financial', 'general'"
+          helperText="Choose a dataset type for testing. Examples: medical, legal, financial"
           className="bg-gray-900/50 border-gray-600"
         />
       </FormSection>
 
-      <FormSection title="JSON Data">
+      <FormSection
+        title="JSON Data"
+        description="Paste your JSON data for token optimization"
+      >
         <SmartTextarea
           id={`${tabKey}_json_data`}
           value={formData.json_data}
           onChange={(val) => setFormData(prev => ({ ...prev, json_data: val }))}
-          placeholder='{"key": "value"} example JSON data'
+          placeholder='{"name": "John", "age": 30, "city": "NYC"}'
+          helperText="Enter valid JSON. The agent will optimize token usage while preserving meaning."
+          example='{"key": "value", "nested": {"key": "value"}}'
           className="bg-gray-900/50 border-gray-600"
         />
       </FormSection>
 
       <ActionButton type="submit" loading={loading === tabKey}>
-        {loading === tabKey ? 'Processing...' : 'Run'}
+        {loading === tabKey ? 'Processing...' : 'Run Optimization'}
       </ActionButton>
     </form>
   );
@@ -138,13 +160,43 @@ const ToonifyTokenOptimizationPage: React.FC = () => {
       return <ErrorMessage message={errors[tabKey]} />;
     }
     if (!results[tabKey]) {
-      return <EmptyState message="No results yet. Run the form to see results." />;
+      return <EmptyState
+        icon={<Sparkles className="h-12 w-12 text-gray-400" />}
+        title="No results yet"
+        description="Run the form to see token optimization results"
+        tips={[
+          "Select an LLM model from the dropdown",
+          "Choose a delimiter for token separation",
+          "Add your JSON data for processing"
+        ]}
+      />;
     }
+    const result = results[tabKey];
     return (
-      <ResultGrid>
-        <ResultCard title="Optimization Result">
-          <pre className="whitespace-pre-wrap text-sm font-sans">{JSON.stringify(results[tabKey], null, 2)}</pre>
-        </ResultCard>
+      <ResultGrid columns={result.optimizations ? 2 : 1}>
+        {result.optimizations ? (
+          <>
+            <ResultCard
+              title="Token Savings"
+              value={`${result.tokenSavings || 0}%`}
+              description="Reduction in token usage"
+              icon={<Sparkles className="h-5 w-5" />}
+              variant="success"
+            />
+            <ResultCard
+              title="Original Tokens"
+              value={String(result.originalTokens || 0)}
+              description="Tokens in original format"
+              icon={<FileText className="h-5 w-5" />}
+            />
+          </>
+        ) : null}
+        <ResultCard
+          title="Optimization Result"
+          description={result.message || "Processing complete"}
+          icon={<CheckCircle className="h-5 w-5" />}
+          variant={result.success ? "success" : "default"}
+        />
       </ResultGrid>
     );
   };
