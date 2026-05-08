@@ -1,355 +1,382 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2 } from "lucide-react";
+import { Sparkles, Home } from "lucide-react";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { ResultCard } from "@/components/agent-ui/ResultCard";
+import { ResultGrid } from "@/components/agent-ui/ResultGrid";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
+
+const STORAGE_KEY = 'ai-real-estate-agent-team-form';
+
+const PROPERTY_TYPE_OPTIONS = [
+  { value: "single_family", label: "Single Family Home" },
+  { value: "condo", label: "Condominium" },
+  { value: "townhouse", label: "Townhouse" },
+  { value: "multi_family", label: "Multi-Family" },
+  { value: "apartment", label: "Apartment" },
+  { value: "land", label: "Land/Lot" },
+  { value: "commercial", label: "Commercial" },
+  { value: "industrial", label: "Industrial" },
+];
+
+const URGENCY_OPTIONS = [
+  { value: "immediate", label: "Immediately - Ready to buy/rent now" },
+  { value: "1_3_months", label: "Within 1-3 months" },
+  { value: "3_6_months", label: "Within 3-6 months" },
+  { value: "6_12_months", label: "Within 6-12 months" },
+  { value: "exploring", label: "Just exploring options" },
+];
+
+const TIMELINE_OPTIONS = [
+  { value: "1_3_months", label: "1-3 months" },
+  { value: "3_6_months", label: "3-6 months" },
+  { value: "6_12_months", label: "6-12 months" },
+  { value: "over_1_year", label: "Over 1 year" },
+];
 
 const AiRealEstateAgentTeamPage: React.FC = () => {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState("main");
-  const [loading, setLoading] = useState<string | null>(null);
-  const [results, setResults] = useState<Record<string, any>>({});
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [formData, setFormData] = useState({
+    firecrawl_api_key: "",
+    _city: "",
+    _stateprovince_optional: "",
+    _minimum_price_: "",
+    _maximum_price_: "",
+    _property_type: "",
+    _bedrooms: "",
+    _bathrooms: "",
+    _minimum_square_feet: "",
+    _timeline: "",
+    _urgency: "",
+    _special_features__requirements: ""
+  });
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (tabKey: string, data: any) => {
-    setLoading(tabKey);
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        setFormData(JSON.parse(saved));
+      } catch (e) {
+        console.warn('Failed to parse saved form data');
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  }, [formData]);
+
+  const updateField = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData._city.trim()) {
+      setError("Please enter a city");
+      return;
+    }
+    setLoading(true);
+    setError(null);
     try {
       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-real-estate-agent-team`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, mode: tabKey, userId: user?.id })
+        body: JSON.stringify({ ...formData, userId: user?.id })
       });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.error || 'Failed');
-      setResults(prev => ({ ...prev, [tabKey]: result }));
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Request failed');
+      setResult(data);
+      localStorage.removeItem(STORAGE_KEY);
     } catch (err: any) {
-      setErrors(prev => ({ ...prev, [tabKey]: err.message }));
+      setError(err.message || 'An unexpected error occurred');
     } finally {
-      setLoading(null);
+      setLoading(false);
     }
   };
+
+  const handleReset = () => {
+    setFormData({
+      firecrawl_api_key: "",
+      _city: "",
+      _stateprovince_optional: "",
+      _minimum_price_: "",
+      _maximum_price_: "",
+      _property_type: "",
+      _bedrooms: "",
+      _bathrooms: "",
+      _minimum_square_feet: "",
+      _timeline: "",
+      _urgency: "",
+      _special_features__requirements: ""
+    });
+    setResult(null);
+    setError(null);
+  };
+
+  if (loading) {
+    return (
+      <div className="pt-24 pb-20">
+        <LoadingIndicator message="Searching real estate listings..." subtext="Analysing properties in your target area" />
+      </div>
+    );
+  }
+
+  if (result && result.status === 'completed') {
+    return (
+      <>
+        <Helmet>
+          <title>Search Results - AiRealEstateAgentTeam</title>
+        </Helmet>
+        <main className="pt-24 pb-20">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-emerald-600 to-teal-500 rounded-3xl mb-6">
+                <Home className="h-10 w-10 text-white" />
+              </div>
+              <h1 className="text-4xl font-bold mb-4">Real Estate Search Complete</h1>
+              <p className="text-xl text-gray-400">Properties matching your criteria in {formData._city}</p>
+            </motion.div>
+
+            <ResultGrid columns={3}>
+              <ResultCard
+                icon={<Home />}
+                title="City"
+                value={formData._city || "—"}
+                variant="info"
+              />
+              <ResultCard
+                icon={<Sparkles />}
+                title="Properties Found"
+                value={result.count || result.properties?.length || "—"}
+                variant="success"
+              />
+              <ResultCard
+                icon={<Sparkles />}
+                title="Status"
+                value="Completed"
+                variant="success"
+              />
+            </ResultGrid>
+
+            <div className="mt-6 bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+              <h3 className="text-lg font-medium text-white mb-4">Property Results</h3>
+              <div className="prose prose-invert max-w-none">
+                <p className="text-gray-300 whitespace-pre-wrap">{result.result || JSON.stringify(result, null, 2)}</p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-center">
+              <ActionButton onClick={handleReset} variant="secondary">
+                New Search
+              </ActionButton>
+            </div>
+          </div>
+        </main>
+      </>
+    );
+  }
 
   return (
     <>
       <Helmet>
         <title>AiRealEstateAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-real-estate-agent-team to automate tasks with AI." />
+        <meta name="description" content="AI-powered real estate agent team for property search and analysis." />
       </Helmet>
-
       <main className="pt-24 pb-20">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">Ai Real Estate Agent Team</h1>
-            <p className="text-xl text-gray-400">AI-powered ai real estate agent team.</p>
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-emerald-600 to-teal-500 rounded-3xl mb-6">
+              <Home className="h-10 w-10 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold mb-4">AI Real Estate Agent Team</h1>
+            <p className="text-xl text-gray-400">Find your dream property with AI-powered search</p>
           </motion.div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="max-w-4xl mx-auto">
-            <TabsList className="grid grid-cols-2 mb-8">
-              
-              <TabsTrigger value="main">Main</TabsTrigger>
-                            
-              <TabsTrigger value="advanced">Advanced</TabsTrigger>
-              
-            </TabsList>
+          <Card className="bg-gray-800/50 border-gray-700 mb-8">
+            <CardHeader><CardTitle>Property Search Configuration</CardTitle></CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <FormSection title="API Configuration" description="Enter your Firecrawl API key to enable property search">
+                  <SmartInput
+                    label="Firecrawl API Key"
+                    name="firecrawl_api_key"
+                    value={formData.firecrawl_api_key}
+                    onChange={(v) => updateField('firecrawl_api_key', v)}
+                    type="password"
+                    placeholder="fc-... (required for property search)"
+                    helperText="Firecrawl enables comprehensive property listing search. Get one at firecrawl.dev"
+                    required
+                  />
+                </FormSection>
 
-            
-            <TabsContent value="main">
-              <Card className="bg-gray-800/50 border-gray-700">
-                <CardHeader><CardTitle>Main</CardTitle></CardHeader>
-                <CardContent>
-                  <form onSubmit={(e) => { e.preventDefault(); handleSubmit('main', { firecrawl_api_key, _city, _stateprovince_optional, _minimum_price_, _maximum_price_, _property_type, _bedrooms, _bathrooms, _minimum_square_feet, _timeline, _urgency, _special_features__requirements }); }} className="space-y-6">
+                <FormSection title="Location" description="Where are you looking for property?">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <SmartInput
+                      label="City"
+                      name="_city"
+                      value={formData._city}
+                      onChange={(v) => updateField('_city', v)}
+                      placeholder="e.g., Chicago, Los Angeles, New York"
+                      helperText="Enter the city where you want to search for properties"
+                      required
+                    />
 
-                    <div className="space-y-2">
-                      <Label htmlFor="firecrawl_api_key">Firecrawl API Key</Label>
-                      <Textarea
-                        id="firecrawl_api_key"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+                    <SmartInput
+                      label="State/Province (optional)"
+                      name="_stateprovince_optional"
+                      value={formData._stateprovince_optional}
+                      onChange={(v) => updateField('_stateprovince_optional', v)}
+                      placeholder="e.g., IL, CA, NY"
+                      helperText="Optional - specify state or province for more accurate results"
+                    />
+                  </div>
+                </FormSection>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="_city">🏙️ City</Label>
-                      <Textarea
-                        id="_city"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+                <FormSection title="Budget & Property Type" description="Define your price range and property type">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <SmartInput
+                      label="Minimum Price ($)"
+                      name="_minimum_price_"
+                      value={formData._minimum_price_}
+                      onChange={(v) => updateField('_minimum_price_', v)}
+                      type="number"
+                      placeholder="e.g., 200000"
+                      helperText="Minimum price in USD"
+                    />
 
-                    <div className="space-y-2">
-                      <Label htmlFor="_stateprovince_optional">🗺️ State/Province (optional)</Label>
-                      <Textarea
-                        id="_stateprovince_optional"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+                    <SmartInput
+                      label="Maximum Price ($)"
+                      name="_maximum_price_"
+                      value={formData._maximum_price_}
+                      onChange={(v) => updateField('_maximum_price_', v)}
+                      type="number"
+                      placeholder="e.g., 500000"
+                      helperText="Maximum price in USD"
+                    />
+                  </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="_minimum_price_">💰 Minimum Price ($)</Label>
-                      <Textarea
-                        id="_minimum_price_"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <SelectDropdown
+                      label="Property Type"
+                      name="_property_type"
+                      value={formData._property_type}
+                      onValueChange={(v) => updateField('_property_type', v)}
+                      options={PROPERTY_TYPE_OPTIONS}
+                      placeholder="Select property type"
+                      helperText="What type of property are you looking for?"
+                    />
 
-                    <div className="space-y-2">
-                      <Label htmlFor="_maximum_price_">💰 Maximum Price ($)</Label>
-                      <Textarea
-                        id="_maximum_price_"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+                    <SmartInput
+                      label="Minimum Square Feet"
+                      name="_minimum_square_feet"
+                      value={formData._minimum_square_feet}
+                      onChange={(v) => updateField('_minimum_square_feet', v)}
+                      type="number"
+                      placeholder="e.g., 1500"
+                      helperText="Minimum living space in sq ft"
+                    />
+                  </div>
+                </FormSection>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="_property_type">🏠 Property Type</Label>
-                      <Textarea
-                        id="_property_type"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+                <FormSection title="Bedrooms & Bathrooms" description="Define minimum bedroom and bathroom requirements">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <SmartInput
+                      label="Bedrooms (minimum)"
+                      name="_bedrooms"
+                      value={formData._bedrooms}
+                      onChange={(v) => updateField('_bedrooms', v)}
+                      type="number"
+                      placeholder="e.g., 3"
+                      helperText="Minimum number of bedrooms"
+                    />
 
-                    <div className="space-y-2">
-                      <Label htmlFor="_bedrooms">🛏️ Bedrooms</Label>
-                      <Textarea
-                        id="_bedrooms"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+                    <SmartInput
+                      label="Bathrooms (minimum)"
+                      name="_bathrooms"
+                      value={formData._bathrooms}
+                      onChange={(v) => updateField('_bathrooms', v)}
+                      type="number"
+                      placeholder="e.g., 2"
+                      helperText="Minimum number of bathrooms"
+                    />
+                  </div>
+                </FormSection>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="_bathrooms">🚿 Bathrooms</Label>
-                      <Textarea
-                        id="_bathrooms"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+                <FormSection title="Timeline & Urgency" description="When are you looking to buy or rent?">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <SelectDropdown
+                      label="Timeline"
+                      name="_timeline"
+                      value={formData._timeline}
+                      onValueChange={(v) => updateField('_timeline', v)}
+                      options={TIMELINE_OPTIONS}
+                      placeholder="Select timeline"
+                      helperText="When are you looking to make a decision?"
+                    />
 
-                    <div className="space-y-2">
-                      <Label htmlFor="_minimum_square_feet">📏 Minimum Square Feet</Label>
-                      <Textarea
-                        id="_minimum_square_feet"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+                    <SelectDropdown
+                      label="Urgency"
+                      name="_urgency"
+                      value={formData._urgency}
+                      onValueChange={(v) => updateField('_urgency', v)}
+                      options={URGENCY_OPTIONS}
+                      placeholder="Select urgency"
+                      helperText="How urgently do you need to find a property?"
+                    />
+                  </div>
+                </FormSection>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="_timeline">⏰ Timeline</Label>
-                      <Textarea
-                        id="_timeline"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+                <FormSection title="Special Requirements" description="Any special features or requirements?">
+                  <SmartTextarea
+                    label="Special Features & Requirements"
+                    name="_special_features__requirements"
+                    value={formData._special_features__requirements}
+                    onChange={(v) => updateField('_special_features__requirements', v)}
+                    placeholder="e.g., garage, pool, good schools nearby, pet-friendly, near public transit"
+                    helperText="List any special features, amenities, or requirements"
+                    rows={3}
+                  />
+                </FormSection>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="_urgency">🚨 Urgency</Label>
-                      <Textarea
-                        id="_urgency"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+                {error && <ErrorMessage message={error} onRetry={handleSubmit} retryLoading={loading} />}
 
-                    <div className="space-y-2">
-                      <Label htmlFor="_special_features__requirements">🎯 Special Features & Requirements</Label>
-                      <Textarea
-                        id="_special_features__requirements"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+                <div className="flex gap-3">
+                  <ActionButton type="submit" loading={loading} size="lg" className="flex-1" disabled={loading || !formData._city.trim()}>
+                    <Home className="h-4 w-4" />
+                    Search Properties
+                  </ActionButton>
+                  <ActionButton variant="ghost" onClick={handleReset}>
+                    Clear
+                  </ActionButton>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
 
-                    <Button type="submit" disabled={loading === 'main'}>
-                      {loading === 'main' ? 'Processing...' : 'Run'}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-
-              {results['main'] && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6">
-                  <Card className="bg-gray-800/50 border-gray-700">
-                    <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                    <CardContent>
-                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(results['main'], null, 2)}</pre>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              )}
-            </TabsContent>
-            
-            <TabsContent value="advanced">
-              <Card className="bg-gray-800/50 border-gray-700">
-                <CardHeader><CardTitle>Advanced</CardTitle></CardHeader>
-                <CardContent>
-                  <form onSubmit={(e) => { e.preventDefault(); handleSubmit('advanced', { firecrawl_api_key, _city, _stateprovince_optional, _minimum_price_, _maximum_price_, _property_type, _bedrooms, _bathrooms, _minimum_square_feet, _timeline, _urgency, _special_features__requirements }); }} className="space-y-6">
-
-                    <div className="space-y-2">
-                      <Label htmlFor="firecrawl_api_key">Firecrawl API Key</Label>
-                      <Textarea
-                        id="firecrawl_api_key"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="_city">🏙️ City</Label>
-                      <Textarea
-                        id="_city"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="_stateprovince_optional">🗺️ State/Province (optional)</Label>
-                      <Textarea
-                        id="_stateprovince_optional"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="_minimum_price_">💰 Minimum Price ($)</Label>
-                      <Textarea
-                        id="_minimum_price_"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="_maximum_price_">💰 Maximum Price ($)</Label>
-                      <Textarea
-                        id="_maximum_price_"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="_property_type">🏠 Property Type</Label>
-                      <Textarea
-                        id="_property_type"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="_bedrooms">🛏️ Bedrooms</Label>
-                      <Textarea
-                        id="_bedrooms"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="_bathrooms">🚿 Bathrooms</Label>
-                      <Textarea
-                        id="_bathrooms"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="_minimum_square_feet">📏 Minimum Square Feet</Label>
-                      <Textarea
-                        id="_minimum_square_feet"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="_timeline">⏰ Timeline</Label>
-                      <Textarea
-                        id="_timeline"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="_urgency">🚨 Urgency</Label>
-                      <Textarea
-                        id="_urgency"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="_special_features__requirements">🎯 Special Features & Requirements</Label>
-                      <Textarea
-                        id="_special_features__requirements"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <Button type="submit" disabled={loading === 'advanced'}>
-                      {loading === 'advanced' ? 'Processing...' : 'Run'}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-
-              {results['advanced'] && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6">
-                  <Card className="bg-gray-800/50 border-gray-700">
-                    <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                    <CardContent>
-                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(results['advanced'], null, 2)}</pre>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              )}
-            </TabsContent>
-            
-          </Tabs>
+          <EmptyState
+            icon={<Home className="h-16 w-16 text-gray-600" />}
+            title="Ready to find your dream property"
+            description="Configure your property search criteria and let our AI agents find the best matches for you"
+            tips={[
+              "Start with your target city",
+              "Set a realistic budget range",
+              "Specify minimum bedrooms and bathrooms",
+              "Include any special features you must have"
+            ]}
+          />
         </div>
       </main>
     </>
