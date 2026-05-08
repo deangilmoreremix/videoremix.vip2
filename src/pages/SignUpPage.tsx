@@ -41,7 +41,7 @@ const SignUpPage: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-      handleNavigation("/dashboard");
+      handleNavigation("/dashboard?onboarding=true");
     }
   }, [user]);
 
@@ -73,26 +73,7 @@ const SignUpPage: React.FC = () => {
       if (error) {
         setError(error.message);
       } else {
-        // Grant profile completion achievement for new users
-        if (user) {
-          try {
-            await supabase.from("user_achievements").insert({
-              user_id: user.id,
-              achievement_type: "profile_completed",
-              metadata: {
-                completed_via: "signup",
-                first_name: formData.firstName,
-                last_name: formData.lastName,
-              },
-            });
-          } catch (achievementError) {
-            // Don't fail signup if achievement granting fails
-            console.warn(
-              "Failed to grant profile completion achievement:",
-              achievementError,
-            );
-          }
-        }
+
         setSuccess(
           "Account created successfully! Redirecting to your dashboard...",
         );
