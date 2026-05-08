@@ -1,5 +1,5 @@
 // Auto-generated extended sales copy for all apps
-// Generated: 2026-05-08T14:34:48.773Z
+// Generated: 2026-05-08T15:38:28.637Z
 // Total: 138 / 138
 
 import type { ExtendedSalesCopy } from './appSalesCopy';
@@ -35,14 +35,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Sales Intelligence Pro transformed our video workflow. We're delivering twice the work in half the time.",
-        "name": "James Wilson",
+        "name": "Emily Rodriguez",
         "role": "Content Director",
         "businessType": "Marketing Agency",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "Sarah Johnson",
         "role": "Video Producer",
         "businessType": "Production Company",
         "rating": 5
@@ -79,7 +79,7 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Lead Research Scraper AI transformed our video workflow. We're delivering twice the work in half the time.",
-        "name": "Anna Martinez",
+        "name": "Robert Kim",
         "role": "Content Director",
         "businessType": "Marketing Agency",
         "rating": 5
@@ -123,14 +123,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Business Growth Consultant transformed our ai-image workflow. We're delivering twice the work in half the time.",
-        "name": "Mike Chen",
+        "name": "David Park",
         "role": "Creative Lead",
         "businessType": "Design Studio",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Lisa Thompson",
+        "name": "Emily Rodriguez",
         "role": "Graphic Designer",
         "businessType": "Creative Agency",
         "rating": 5
@@ -167,7 +167,7 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Strategy Advisor transformed our lead-gen workflow. We're delivering twice the work in half the time.",
-        "name": "Anna Martinez",
+        "name": "James Wilson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -211,14 +211,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Sales Email Writer transformed our lead-gen workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "name": "Robert Kim",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -262,7 +262,7 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Mike Chen",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -299,14 +299,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Launch Campaign Builder AI transformed our lead-gen workflow. We're delivering twice the work in half the time.",
-        "name": "James Wilson",
+        "name": "Emily Rodriguez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Lisa Thompson",
+        "name": "Sarah Johnson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -343,14 +343,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Competitor Spy AI transformed our lead-gen workflow. We're delivering twice the work in half the time.",
-        "name": "Sarah Johnson",
+        "name": "Lisa Thompson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "Lisa Thompson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -387,14 +387,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Agency Builder Suite transformed our lead-gen workflow. We're delivering twice the work in half the time.",
-        "name": "Anna Martinez",
+        "name": "Robert Kim",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Lisa Thompson",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -431,7 +431,7 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Sales Call Follow-Up AI transformed our lead-gen workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "name": "James Wilson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -475,14 +475,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Blog To Podcast AI transformed our personalizer workflow. We're delivering twice the work in half the time.",
-        "name": "James Wilson",
+        "name": "Anna Martinez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -519,7 +519,7 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Daily Content Engine AI transformed our personalizer workflow. We're delivering twice the work in half the time.",
-        "name": "Emily Rodriguez",
+        "name": "James Wilson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -563,14 +563,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Content Creator Pro transformed our personalizer workflow. We're delivering twice the work in half the time.",
-        "name": "Mike Chen",
+        "name": "Anna Martinez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "James Wilson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -607,14 +607,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Content Editor transformed our creative workflow. We're delivering twice the work in half the time.",
-        "name": "Robert Kim",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -658,7 +658,7 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "Mike Chen",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -695,14 +695,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "YouTube Repurposer AI transformed our ai-image workflow. We're delivering twice the work in half the time.",
-        "name": "Robert Kim",
+        "name": "Sarah Johnson",
         "role": "Creative Lead",
         "businessType": "Design Studio",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Mike Chen",
+        "name": "Robert Kim",
         "role": "Graphic Designer",
         "businessType": "Creative Agency",
         "rating": 5
@@ -739,7 +739,7 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Newsletter Repurposer AI transformed our video workflow. We're delivering twice the work in half the time.",
-        "name": "Mike Chen",
+        "name": "Anna Martinez",
         "role": "Content Director",
         "businessType": "Marketing Agency",
         "rating": 5
@@ -783,14 +783,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI News Content Writer transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "James Wilson",
+        "name": "Sarah Johnson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "David Park",
+        "name": "Lisa Thompson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -827,14 +827,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Video Script Producer transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Robert Kim",
+        "name": "Lisa Thompson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "Sarah Johnson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -871,7 +871,7 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Music & Jingle Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Emily Rodriguez",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -915,14 +915,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Film Producer transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "name": "Anna Martinez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "Lisa Thompson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -959,14 +959,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Podcast Creator AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Anna Martinez",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "Mike Chen",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1003,14 +1003,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "News-To-Podcast AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Sarah Johnson",
+        "name": "Anna Martinez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Lisa Thompson",
+        "name": "Mike Chen",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1047,14 +1047,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Voice Support Agent transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Anna Martinez",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "Robert Kim",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1098,7 +1098,7 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "Anna Martinez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1135,14 +1135,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Audio Guide Creator transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Anna Martinez",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "David Park",
+        "name": "Sarah Johnson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1179,14 +1179,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Intake Voice Agent transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Emily Rodriguez",
+        "name": "Robert Kim",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "Robert Kim",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1267,7 +1267,7 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Business Knowledgebase AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -1311,14 +1311,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "PDF Business Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "name": "Anna Martinez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Robert Kim",
+        "name": "David Park",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1362,7 +1362,7 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1399,14 +1399,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Codebase Chat AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Mike Chen",
+        "name": "Lisa Thompson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Robert Kim",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1443,14 +1443,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Gmail Intelligence AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "David Park",
+        "name": "Robert Kim",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "David Park",
+        "name": "Robert Kim",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1487,14 +1487,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Video Knowledge Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Robert Kim",
+        "name": "Mike Chen",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1531,14 +1531,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Blog Knowledge Search AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Anna Martinez",
+        "name": "Lisa Thompson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "Lisa Thompson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1546,15 +1546,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "ai-arxiv-agent-memory": {
-    "tagline": "Transform Your Ai-agents with Visual Document AI",
-    "summary": "Visual Document AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Visual Document AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Research Memory Assistant",
+    "summary": "Research Memory Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Research Memory Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Visual Document AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Research Memory Assistant services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Visual Document AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Research Memory Assistant automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -1574,52 +1574,8 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Visual Document AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "quote": "Research Memory Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
         "name": "Sarah Johnson",
-        "role": "Business Owner",
-        "businessType": "Consulting Firm",
-        "rating": 5
-      },
-      {
-        "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
-        "role": "Service Provider",
-        "businessType": "Business Services",
-        "rating": 5
-      }
-    ]
-  },
-  "ai-audio-tour-agent": {
-    "tagline": "Transform Your Ai-agents with Citation Knowledgebase AI",
-    "summary": "Citation Knowledgebase AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Citation Knowledgebase AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
-    "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
-    "howToProfit": {
-      "forLocalBusinesses": "Offer Citation Knowledgebase AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
-      "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
-    },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Citation Knowledgebase AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
-    "useCases": [
-      {
-        "industry": "Business Services",
-        "scenario": "Streamline ai-agents production for client campaigns",
-        "outcome": "Reduce production time by 70%, increase client satisfaction by 40%"
-      },
-      {
-        "industry": "Consulting",
-        "scenario": "Scale ai-agents output without hiring more staff",
-        "outcome": "Handle 3x more projects, boost revenue by 200%"
-      },
-      {
-        "industry": "Professional Services",
-        "scenario": "Create professional ai-agents content affordably",
-        "outcome": "Save $5,000+ monthly on outsourcing costs"
-      }
-    ],
-    "testimonials": [
-      {
-        "quote": "Citation Knowledgebase AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Anna Martinez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -1633,16 +1589,16 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-blog-search": {
-    "tagline": "Transform Your Ai-agents with Smart Search AI",
-    "summary": "Smart Search AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Smart Search AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+  "ai-audio-tour-agent": {
+    "tagline": "Transform Your Ai-agents with AI Audio Guide Creator",
+    "summary": "AI Audio Guide Creator revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "AI Audio Guide Creator leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Smart Search AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer AI Audio Guide Creator services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Smart Search AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. AI Audio Guide Creator automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -1662,15 +1618,59 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Smart Search AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Sarah Johnson",
+        "quote": "AI Audio Guide Creator transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Emily Rodriguez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Mike Chen",
+        "name": "Sarah Johnson",
+        "role": "Service Provider",
+        "businessType": "Business Services",
+        "rating": 5
+      }
+    ]
+  },
+  "ai-blog-search": {
+    "tagline": "Transform Your Ai-agents with Blog Knowledge Search AI",
+    "summary": "Blog Knowledge Search AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Blog Knowledge Search AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
+    "howToProfit": {
+      "forLocalBusinesses": "Offer Blog Knowledge Search AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
+    },
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Blog Knowledge Search AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "useCases": [
+      {
+        "industry": "Business Services",
+        "scenario": "Streamline ai-agents production for client campaigns",
+        "outcome": "Reduce production time by 70%, increase client satisfaction by 40%"
+      },
+      {
+        "industry": "Consulting",
+        "scenario": "Scale ai-agents output without hiring more staff",
+        "outcome": "Handle 3x more projects, boost revenue by 200%"
+      },
+      {
+        "industry": "Professional Services",
+        "scenario": "Create professional ai-agents content affordably",
+        "outcome": "Save $5,000+ monthly on outsourcing costs"
+      }
+    ],
+    "testimonials": [
+      {
+        "quote": "Blog Knowledge Search AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Emily Rodriguez",
+        "role": "Business Owner",
+        "businessType": "Consulting Firm",
+        "rating": 5
+      },
+      {
+        "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
+        "name": "James Wilson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1678,15 +1678,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "ai-blog-to-podcast-agent": {
-    "tagline": "Transform Your Ai-agents with Private Company AI Assistant",
-    "summary": "Private Company AI Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Private Company AI Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Blog To Podcast AI",
+    "summary": "Blog To Podcast AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Blog To Podcast AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Private Company AI Assistant services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Blog To Podcast AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Private Company AI Assistant automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Blog To Podcast AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -1706,7 +1706,7 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Private Company AI Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "quote": "Blog To Podcast AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
         "name": "Mike Chen",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
@@ -1714,7 +1714,7 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Mike Chen",
+        "name": "Anna Martinez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1751,7 +1751,7 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Multimodal Knowledge AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "James Wilson",
+        "name": "Emily Rodriguez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -1795,14 +1795,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Knowledgebase Debugger transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Robert Kim",
+        "name": "Mike Chen",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Mike Chen",
+        "name": "Anna Martinez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1810,15 +1810,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "ai-competitor-intelligence-agent-team": {
-    "tagline": "Transform Your Ai-agents with Real Estate Marketing AI",
-    "summary": "Real Estate Marketing AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Real Estate Marketing AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Competitor Spy AI",
+    "summary": "Competitor Spy AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Competitor Spy AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Real Estate Marketing AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Competitor Spy AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Real Estate Marketing AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Competitor Spy AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -1838,15 +1838,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Real Estate Marketing AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Emily Rodriguez",
+        "quote": "Competitor Spy AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Robert Kim",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "David Park",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1883,14 +1883,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Home Renovation Visualizer AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Robert Kim",
+        "name": "Anna Martinez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1898,15 +1898,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "ai-data-analysis-agent": {
-    "tagline": "Transform Your Ai-agents with Travel Planner AI",
-    "summary": "Travel Planner AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Travel Planner AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Local Business Analytics AI",
+    "summary": "Local Business Analytics AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Local Business Analytics AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Travel Planner AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Local Business Analytics AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Travel Planner AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Local Business Analytics AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -1926,15 +1926,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Travel Planner AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Sarah Johnson",
+        "quote": "Local Business Analytics AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Emily Rodriguez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Lisa Thompson",
+        "name": "Anna Martinez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1971,14 +1971,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Local Tour Guide AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "David Park",
+        "name": "Mike Chen",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "Mike Chen",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -1986,15 +1986,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "ai-deep-research-agent": {
-    "tagline": "Transform Your Ai-agents with Local Business Voice Assistant",
-    "summary": "Local Business Voice Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Local Business Voice Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Deep Research Pro",
+    "summary": "Deep Research Pro revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Deep Research Pro leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Local Business Voice Assistant services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Deep Research Pro services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Local Business Voice Assistant automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Deep Research Pro automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -2014,15 +2014,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Local Business Voice Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Sarah Johnson",
+        "quote": "Deep Research Pro transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "Robert Kim",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2059,14 +2059,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Local Business Growth Advisor transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Emily Rodriguez",
+        "name": "Sarah Johnson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "James Wilson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2103,14 +2103,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Local Business Analytics AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "name": "Mike Chen",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "James Wilson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2154,7 +2154,7 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Robert Kim",
+        "name": "Anna Martinez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2162,15 +2162,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "ai-financial-coach-agent": {
-    "tagline": "Transform Your Ai-agents with Resume Analyzer AI",
-    "summary": "Resume Analyzer AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Resume Analyzer AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Profit Coach AI",
+    "summary": "Profit Coach AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Profit Coach AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Resume Analyzer AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Profit Coach AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Resume Analyzer AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Profit Coach AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -2190,8 +2190,8 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Resume Analyzer AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "quote": "Profit Coach AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Robert Kim",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -2206,15 +2206,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "ai-product-launch-intelligence-agent": {
-    "tagline": "Transform Your Ai-agents with Candidate Decision AI",
-    "summary": "Candidate Decision AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Candidate Decision AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Launch Campaign Builder AI",
+    "summary": "Launch Campaign Builder AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Launch Campaign Builder AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Candidate Decision AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Launch Campaign Builder AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Candidate Decision AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Launch Campaign Builder AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -2234,15 +2234,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Candidate Decision AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "James Wilson",
+        "quote": "Launch Campaign Builder AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Emily Rodriguez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "Robert Kim",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2250,15 +2250,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "ai-fraud-investigation-agent": {
-    "tagline": "Transform Your Ai-agents with Candidate Outreach AI",
-    "summary": "Candidate Outreach AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Candidate Outreach AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Fraud Investigation Assistant",
+    "summary": "Fraud Investigation Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Fraud Investigation Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Candidate Outreach AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Fraud Investigation Assistant services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Candidate Outreach AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Fraud Investigation Assistant automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -2278,7 +2278,7 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Candidate Outreach AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "quote": "Fraud Investigation Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
         "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
@@ -2286,7 +2286,7 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Mike Chen",
+        "name": "David Park",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2323,14 +2323,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Interview Summary AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "Robert Kim",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2367,14 +2367,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Hiring Plan Builder transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Emily Rodriguez",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Lisa Thompson",
+        "name": "James Wilson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2382,15 +2382,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "ai-journalist-agent": {
-    "tagline": "Transform Your Ai-agents with Finance Research AI",
-    "summary": "Finance Research AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Finance Research AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with AI News Content Writer",
+    "summary": "AI News Content Writer revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "AI News Content Writer leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Finance Research AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer AI News Content Writer services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Finance Research AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. AI News Content Writer automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -2410,15 +2410,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Finance Research AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Mike Chen",
+        "quote": "AI News Content Writer transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Sarah Johnson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Robert Kim",
+        "name": "James Wilson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2426,15 +2426,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "ai-legal-agent-team": {
-    "tagline": "Transform Your Ai-agents with Business Finance AI Team",
-    "summary": "Business Finance AI Team revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Business Finance AI Team leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Contract Summary AI",
+    "summary": "Contract Summary AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Contract Summary AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Business Finance AI Team services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Contract Summary AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Business Finance AI Team automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Contract Summary AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -2454,15 +2454,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Business Finance AI Team transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Mike Chen",
+        "quote": "Contract Summary AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "James Wilson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "Anna Martinez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2499,14 +2499,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Profit Coach AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Sarah Johnson",
+        "name": "James Wilson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Lisa Thompson",
+        "name": "Sarah Johnson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2543,14 +2543,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Investement Research Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Sarah Johnson",
+        "name": "Mike Chen",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Robert Kim",
+        "name": "Anna Martinez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2594,7 +2594,7 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2631,14 +2631,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Revenue Data Analyst AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Emily Rodriguez",
+        "name": "Lisa Thompson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "David Park",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2675,14 +2675,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Financial Dashboard AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "name": "Mike Chen",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "Robert Kim",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2690,15 +2690,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "ai-movie-production-agent": {
-    "tagline": "Transform Your Ai-agents with Contract Summary AI",
-    "summary": "Contract Summary AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Contract Summary AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with AI Video Script Producer",
+    "summary": "AI Video Script Producer revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "AI Video Script Producer leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Contract Summary AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer AI Video Script Producer services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Contract Summary AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. AI Video Script Producer automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -2718,52 +2718,8 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Contract Summary AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
-        "role": "Business Owner",
-        "businessType": "Consulting Firm",
-        "rating": 5
-      },
-      {
-        "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
-        "role": "Service Provider",
-        "businessType": "Business Services",
-        "rating": 5
-      }
-    ]
-  },
-  "ai-music-generator-agent": {
-    "tagline": "Transform Your Ai-agents with Legal PDF Explainer",
-    "summary": "Legal PDF Explainer revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Legal PDF Explainer leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
-    "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
-    "howToProfit": {
-      "forLocalBusinesses": "Offer Legal PDF Explainer services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
-      "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
-    },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Legal PDF Explainer automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
-    "useCases": [
-      {
-        "industry": "Business Services",
-        "scenario": "Streamline ai-agents production for client campaigns",
-        "outcome": "Reduce production time by 70%, increase client satisfaction by 40%"
-      },
-      {
-        "industry": "Consulting",
-        "scenario": "Scale ai-agents output without hiring more staff",
-        "outcome": "Handle 3x more projects, boost revenue by 200%"
-      },
-      {
-        "industry": "Professional Services",
-        "scenario": "Create professional ai-agents content affordably",
-        "outcome": "Save $5,000+ monthly on outsourcing costs"
-      }
-    ],
-    "testimonials": [
-      {
-        "quote": "Legal PDF Explainer transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Emily Rodriguez",
+        "quote": "AI Video Script Producer transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Robert Kim",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -2771,6 +2727,50 @@ export const extendedSalesCopy: Record<string, any> = {
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
         "name": "Anna Martinez",
+        "role": "Service Provider",
+        "businessType": "Business Services",
+        "rating": 5
+      }
+    ]
+  },
+  "ai-music-generator-agent": {
+    "tagline": "Transform Your Ai-agents with AI Music & Jingle Assistant",
+    "summary": "AI Music & Jingle Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "AI Music & Jingle Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
+    "howToProfit": {
+      "forLocalBusinesses": "Offer AI Music & Jingle Assistant services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
+    },
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. AI Music & Jingle Assistant automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "useCases": [
+      {
+        "industry": "Business Services",
+        "scenario": "Streamline ai-agents production for client campaigns",
+        "outcome": "Reduce production time by 70%, increase client satisfaction by 40%"
+      },
+      {
+        "industry": "Consulting",
+        "scenario": "Scale ai-agents output without hiring more staff",
+        "outcome": "Handle 3x more projects, boost revenue by 200%"
+      },
+      {
+        "industry": "Professional Services",
+        "scenario": "Create professional ai-agents content affordably",
+        "outcome": "Save $5,000+ monthly on outsourcing costs"
+      }
+    ],
+    "testimonials": [
+      {
+        "quote": "AI Music & Jingle Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "James Wilson",
+        "role": "Business Owner",
+        "businessType": "Consulting Firm",
+        "rating": 5
+      },
+      {
+        "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
+        "name": "Mike Chen",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2807,14 +2807,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Policy & Compliance Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Anna Martinez",
+        "name": "James Wilson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Robert Kim",
+        "name": "James Wilson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2822,15 +2822,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "ai-real-estate-agent-team": {
-    "tagline": "Transform Your Ai-agents with Claim Checker AI",
-    "summary": "Claim Checker AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Claim Checker AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Real Estate Marketing AI",
+    "summary": "Real Estate Marketing AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Real Estate Marketing AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Claim Checker AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Real Estate Marketing AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Claim Checker AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Real Estate Marketing AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -2850,15 +2850,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Claim Checker AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Robert Kim",
+        "quote": "Real Estate Marketing AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Sarah Johnson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Anna Martinez",
+        "name": "Mike Chen",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2895,7 +2895,7 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Fraud Investigation Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "James Wilson",
+        "name": "Lisa Thompson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -2946,7 +2946,7 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "Anna Martinez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -2954,15 +2954,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "ai-recruitment-agent-team": {
-    "tagline": "Transform Your Ai-agents with AI App Builder Assistant",
-    "summary": "AI App Builder Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI App Builder Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with AI Hiring Assistant",
+    "summary": "AI Hiring Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "AI Hiring Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI App Builder Assistant services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer AI Hiring Assistant services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. AI App Builder Assistant automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. AI Hiring Assistant automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -2982,51 +2982,7 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "AI App Builder Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Mike Chen",
-        "role": "Business Owner",
-        "businessType": "Consulting Firm",
-        "rating": 5
-      },
-      {
-        "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Mike Chen",
-        "role": "Service Provider",
-        "businessType": "Business Services",
-        "rating": 5
-      }
-    ]
-  },
-  "ai-services-agency": {
-    "tagline": "Transform Your Ai-agents with AI SaaS Architect",
-    "summary": "AI SaaS Architect revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI SaaS Architect leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
-    "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
-    "howToProfit": {
-      "forLocalBusinesses": "Offer AI SaaS Architect services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
-      "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
-    },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. AI SaaS Architect automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
-    "useCases": [
-      {
-        "industry": "Business Services",
-        "scenario": "Streamline ai-agents production for client campaigns",
-        "outcome": "Reduce production time by 70%, increase client satisfaction by 40%"
-      },
-      {
-        "industry": "Consulting",
-        "scenario": "Scale ai-agents output without hiring more staff",
-        "outcome": "Handle 3x more projects, boost revenue by 200%"
-      },
-      {
-        "industry": "Professional Services",
-        "scenario": "Create professional ai-agents content affordably",
-        "outcome": "Save $5,000+ monthly on outsourcing costs"
-      }
-    ],
-    "testimonials": [
-      {
-        "quote": "AI SaaS Architect transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "quote": "AI Hiring Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
         "name": "James Wilson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
@@ -3034,7 +2990,51 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
+        "name": "David Park",
+        "role": "Service Provider",
+        "businessType": "Business Services",
+        "rating": 5
+      }
+    ]
+  },
+  "ai-services-agency": {
+    "tagline": "Transform Your Ai-agents with AI Agency Builder Suite",
+    "summary": "AI Agency Builder Suite revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "AI Agency Builder Suite leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
+    "howToProfit": {
+      "forLocalBusinesses": "Offer AI Agency Builder Suite services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
+    },
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. AI Agency Builder Suite automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "useCases": [
+      {
+        "industry": "Business Services",
+        "scenario": "Streamline ai-agents production for client campaigns",
+        "outcome": "Reduce production time by 70%, increase client satisfaction by 40%"
+      },
+      {
+        "industry": "Consulting",
+        "scenario": "Scale ai-agents output without hiring more staff",
+        "outcome": "Handle 3x more projects, boost revenue by 200%"
+      },
+      {
+        "industry": "Professional Services",
+        "scenario": "Create professional ai-agents content affordably",
+        "outcome": "Save $5,000+ monthly on outsourcing costs"
+      }
+    ],
+    "testimonials": [
+      {
+        "quote": "AI Agency Builder Suite transformed our ai-agents workflow. We're delivering twice the work in half the time.",
         "name": "Lisa Thompson",
+        "role": "Business Owner",
+        "businessType": "Consulting Firm",
+        "rating": 5
+      },
+      {
+        "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
+        "name": "Anna Martinez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -3071,14 +3071,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Code Review Pro transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "name": "Sarah Johnson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Robert Kim",
+        "name": "Anna Martinez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -3115,14 +3115,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Bug Fixer transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Anna Martinez",
+        "name": "Robert Kim",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Robert Kim",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -3159,14 +3159,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Fullstack Builder transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Mike Chen",
+        "name": "Sarah Johnson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Robert Kim",
+        "name": "Mike Chen",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -3174,15 +3174,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "ai-teaching-agent-team": {
-    "tagline": "Transform Your Ai-agents with Python Fixer AI",
-    "summary": "Python Fixer AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Python Fixer AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with AI Course Creator Assistant",
+    "summary": "AI Course Creator Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "AI Course Creator Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Python Fixer AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer AI Course Creator Assistant services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Python Fixer AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. AI Course Creator Assistant automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -3202,15 +3202,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Python Fixer AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "David Park",
+        "quote": "AI Course Creator Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Sarah Johnson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Lisa Thompson",
+        "name": "Sarah Johnson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -3247,14 +3247,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "GitHub Repo Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "name": "Anna Martinez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "David Park",
+        "name": "Anna Martinez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -3291,14 +3291,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "GitHub Automation Agent transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Emily Rodriguez",
+        "name": "Lisa Thompson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Robert Kim",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -3335,14 +3335,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Build Plan Generator transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Emily Rodriguez",
+        "name": "Lisa Thompson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "Lisa Thompson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -3350,15 +3350,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "ai-travel-planner-mcp-agent-team": {
-    "tagline": "Transform Your Ai-agents with Sprint Planner AI",
-    "summary": "Sprint Planner AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Sprint Planner AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Travel Planner AI",
+    "summary": "Travel Planner AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Travel Planner AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Sprint Planner AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Travel Planner AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Sprint Planner AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Travel Planner AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -3378,8 +3378,8 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Sprint Planner AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Emily Rodriguez",
+        "quote": "Travel Planner AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Anna Martinez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -3430,7 +3430,7 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Anna Martinez",
+        "name": "Lisa Thompson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -3467,14 +3467,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Landing Page Critic AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Robert Kim",
+        "name": "Emily Rodriguez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "David Park",
+        "name": "Lisa Thompson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -3511,14 +3511,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI UX Designer transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Mike Chen",
+        "name": "Robert Kim",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "Mike Chen",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -3526,15 +3526,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "browser-mcp-agent": {
-    "tagline": "Transform Your Ai-agents with Dashboard Designer AI",
-    "summary": "Dashboard Designer AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Dashboard Designer AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Browser Task Agent",
+    "summary": "Browser Task Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Browser Task Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Dashboard Designer AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Browser Task Agent services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Dashboard Designer AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Browser Task Agent automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -3554,8 +3554,8 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Dashboard Designer AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Sarah Johnson",
+        "quote": "Browser Task Agent transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Robert Kim",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -3570,15 +3570,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "chat-with-github": {
-    "tagline": "Transform Your Ai-agents with Landing Page Copy AI",
-    "summary": "Landing Page Copy AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Landing Page Copy AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Codebase Chat AI",
+    "summary": "Codebase Chat AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Codebase Chat AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Landing Page Copy AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Codebase Chat AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Landing Page Copy AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Codebase Chat AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -3598,8 +3598,8 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Landing Page Copy AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "quote": "Codebase Chat AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -3614,15 +3614,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "chat-with-gmail": {
-    "tagline": "Transform Your Ai-agents with Conversion Copy Editor",
-    "summary": "Conversion Copy Editor revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Conversion Copy Editor leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Gmail Intelligence AI",
+    "summary": "Gmail Intelligence AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Gmail Intelligence AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Conversion Copy Editor services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Gmail Intelligence AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Conversion Copy Editor automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Gmail Intelligence AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -3642,15 +3642,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Conversion Copy Editor transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Anna Martinez",
+        "quote": "Gmail Intelligence AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Mike Chen",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Anna Martinez",
+        "name": "Mike Chen",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -3658,15 +3658,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "chat-with-pdf": {
-    "tagline": "Transform Your Ai-agents with Research Assistant AI",
-    "summary": "Research Assistant AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Research Assistant AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with PDF Business Assistant",
+    "summary": "PDF Business Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "PDF Business Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Research Assistant AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer PDF Business Assistant services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Research Assistant AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. PDF Business Assistant automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -3686,51 +3686,7 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Research Assistant AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Mike Chen",
-        "role": "Business Owner",
-        "businessType": "Consulting Firm",
-        "rating": 5
-      },
-      {
-        "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
-        "role": "Service Provider",
-        "businessType": "Business Services",
-        "rating": 5
-      }
-    ]
-  },
-  "chat-with-research-papers": {
-    "tagline": "Transform Your Ai-agents with Deep Research Pro",
-    "summary": "Deep Research Pro revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Deep Research Pro leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
-    "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
-    "howToProfit": {
-      "forLocalBusinesses": "Offer Deep Research Pro services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
-      "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
-    },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Deep Research Pro automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
-    "useCases": [
-      {
-        "industry": "Business Services",
-        "scenario": "Streamline ai-agents production for client campaigns",
-        "outcome": "Reduce production time by 70%, increase client satisfaction by 40%"
-      },
-      {
-        "industry": "Consulting",
-        "scenario": "Scale ai-agents output without hiring more staff",
-        "outcome": "Handle 3x more projects, boost revenue by 200%"
-      },
-      {
-        "industry": "Professional Services",
-        "scenario": "Create professional ai-agents content affordably",
-        "outcome": "Save $5,000+ monthly on outsourcing costs"
-      }
-    ],
-    "testimonials": [
-      {
-        "quote": "Deep Research Pro transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "quote": "PDF Business Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
         "name": "Lisa Thompson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
@@ -3738,23 +3694,23 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Mike Chen",
+        "name": "David Park",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
       }
     ]
   },
-  "chat-with-substack": {
-    "tagline": "Transform Your Ai-agents with Research Planner AI",
-    "summary": "Research Planner AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Research Planner AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+  "chat-with-research-papers": {
+    "tagline": "Transform Your Ai-agents with Research Paper Assistant",
+    "summary": "Research Paper Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Research Paper Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Research Planner AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Research Paper Assistant services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Research Planner AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Research Paper Assistant automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -3774,15 +3730,59 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Research Planner AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "James Wilson",
+        "quote": "Research Paper Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Lisa Thompson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "David Park",
+        "name": "James Wilson",
+        "role": "Service Provider",
+        "businessType": "Business Services",
+        "rating": 5
+      }
+    ]
+  },
+  "chat-with-substack": {
+    "tagline": "Transform Your Ai-agents with Newsletter Repurposer AI",
+    "summary": "Newsletter Repurposer AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Newsletter Repurposer AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
+    "howToProfit": {
+      "forLocalBusinesses": "Offer Newsletter Repurposer AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
+    },
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Newsletter Repurposer AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "useCases": [
+      {
+        "industry": "Business Services",
+        "scenario": "Streamline ai-agents production for client campaigns",
+        "outcome": "Reduce production time by 70%, increase client satisfaction by 40%"
+      },
+      {
+        "industry": "Consulting",
+        "scenario": "Scale ai-agents output without hiring more staff",
+        "outcome": "Handle 3x more projects, boost revenue by 200%"
+      },
+      {
+        "industry": "Professional Services",
+        "scenario": "Create professional ai-agents content affordably",
+        "outcome": "Save $5,000+ monthly on outsourcing costs"
+      }
+    ],
+    "testimonials": [
+      {
+        "quote": "Newsletter Repurposer AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Emily Rodriguez",
+        "role": "Business Owner",
+        "businessType": "Consulting Firm",
+        "rating": 5
+      },
+      {
+        "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
+        "name": "Mike Chen",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -3819,7 +3819,7 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "AI Course Creator Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "James Wilson",
+        "name": "Emily Rodriguez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -3834,15 +3834,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "chat-with-youtube-videos": {
-    "tagline": "Transform Your Ai-agents with Academic Research AI",
-    "summary": "Academic Research AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Academic Research AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with YouTube Repurposer AI",
+    "summary": "YouTube Repurposer AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "YouTube Repurposer AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Academic Research AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer YouTube Repurposer AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Academic Research AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. YouTube Repurposer AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -3862,8 +3862,8 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Academic Research AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "James Wilson",
+        "quote": "YouTube Repurposer AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Lisa Thompson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -3907,14 +3907,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Market Research AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Robert Kim",
+        "name": "Emily Rodriguez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "David Park",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -3995,14 +3995,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Research Memory Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "James Wilson",
+        "name": "Mike Chen",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "David Park",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4010,15 +4010,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "customer-support-voice-agent": {
-    "tagline": "Transform Your Ai-agents with Personal AI Memory Assistant",
-    "summary": "Personal AI Memory Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Personal AI Memory Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with AI Voice Support Agent",
+    "summary": "AI Voice Support Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "AI Voice Support Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Personal AI Memory Assistant services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer AI Voice Support Agent services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Personal AI Memory Assistant automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. AI Voice Support Agent automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -4038,15 +4038,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Personal AI Memory Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "quote": "AI Voice Support Agent transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Mike Chen",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Robert Kim",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4083,14 +4083,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Multi-AI Memory Hub transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "name": "Emily Rodriguez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "Sarah Johnson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4127,14 +4127,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Private AI Chat With Memory transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "James Wilson",
+        "name": "Anna Martinez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4171,14 +4171,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Private ChatGPT Clone transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Anna Martinez",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "David Park",
+        "name": "Mike Chen",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4215,14 +4215,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Multi-Modal Research Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Sarah Johnson",
+        "name": "Anna Martinez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Lisa Thompson",
+        "name": "James Wilson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4230,15 +4230,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "github-mcp-agent": {
-    "tagline": "Transform Your Ai-agents with Professional Github MCP Agent Assistant",
-    "summary": "Professional Github MCP Agent Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Professional Github MCP Agent Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with GitHub Automation Agent",
+    "summary": "GitHub Automation Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "GitHub Automation Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Professional Github MCP Agent Assistant services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer GitHub Automation Agent services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Professional Github MCP Agent Assistant automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. GitHub Automation Agent automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -4258,15 +4258,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Professional Github MCP Agent Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Robert Kim",
+        "quote": "GitHub Automation Agent transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Emily Rodriguez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Robert Kim",
+        "name": "Anna Martinez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4303,14 +4303,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Professional GPT Oss Critique Improvement Loop Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "name": "Robert Kim",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "David Park",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4318,15 +4318,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "hybrid-search-rag": {
-    "tagline": "Transform Your Ai-agents with Advanced Knowledge Discovery",
-    "summary": "Advanced Knowledge Discovery revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Advanced Knowledge Discovery leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Smart Search AI",
+    "summary": "Smart Search AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Smart Search AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Advanced Knowledge Discovery services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Smart Search AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Advanced Knowledge Discovery automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Smart Search AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -4346,15 +4346,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Advanced Knowledge Discovery transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Sarah Johnson",
+        "quote": "Smart Search AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Lisa Thompson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "Mike Chen",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4398,7 +4398,7 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Robert Kim",
+        "name": "Lisa Thompson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4435,14 +4435,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Advanced Local AI Scrapper Py Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Emily Rodriguez",
+        "name": "Mike Chen",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "David Park",
+        "name": "Robert Kim",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4479,14 +4479,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Smart Local Travel Agent Hub transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "James Wilson",
+        "name": "Lisa Thompson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Robert Kim",
+        "name": "Anna Martinez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4523,14 +4523,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Research Intelligence Qwen Local RAG transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "David Park",
+        "name": "Emily Rodriguez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Anna Martinez",
+        "name": "Mike Chen",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4567,14 +4567,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Research Intelligence Agent Cohere transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Anna Martinez",
+        "name": "Emily Rodriguez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "Robert Kim",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4611,14 +4611,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Content Intelligence Blog To Podcast Agent transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Mike Chen",
+        "name": "Anna Martinez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "David Park",
+        "name": "James Wilson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4626,15 +4626,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "knowledge-graph-rag-citations": {
-    "tagline": "Transform Your Ai-agents with Citation Intelligence Network",
-    "summary": "Citation Intelligence Network revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Citation Intelligence Network leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Citation Knowledgebase AI",
+    "summary": "Citation Knowledgebase AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Citation Knowledgebase AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Citation Intelligence Network services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Citation Knowledgebase AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Citation Intelligence Network automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Citation Knowledgebase AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -4654,7 +4654,7 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Citation Intelligence Network transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "quote": "Citation Knowledgebase AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
         "name": "Anna Martinez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
@@ -4662,7 +4662,7 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "Mike Chen",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4699,14 +4699,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Research Intelligence Llama3 1 Local RAG transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Robert Kim",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "David Park",
+        "name": "Anna Martinez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4714,15 +4714,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "llama3-stateful-chat": {
-    "tagline": "Transform Your Ai-agents with Communication Intelligence Llama3 Stateful Chat",
-    "summary": "Communication Intelligence Llama3 Stateful Chat revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Communication Intelligence Llama3 Stateful Chat leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Private AI Chat With Memory",
+    "summary": "Private AI Chat With Memory revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Private AI Chat With Memory leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Communication Intelligence Llama3 Stateful Chat services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Private AI Chat With Memory services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Communication Intelligence Llama3 Stateful Chat automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Private AI Chat With Memory automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -4742,15 +4742,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Communication Intelligence Llama3 Stateful Chat transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Anna Martinez",
+        "quote": "Private AI Chat With Memory transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Emily Rodriguez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Anna Martinez",
+        "name": "Sarah Johnson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4787,7 +4787,7 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Advanced Personalized Memory Engine transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Emily Rodriguez",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -4831,14 +4831,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Expert Router App Engine transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Emily Rodriguez",
+        "name": "Mike Chen",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "Lisa Thompson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4875,14 +4875,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Professional Local AI Legal Agent Team Studio transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "name": "James Wilson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Lisa Thompson",
+        "name": "Robert Kim",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4926,7 +4926,7 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Anna Martinez",
+        "name": "Sarah Johnson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -4963,14 +4963,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Communication Intelligence Local Chatgpt With Memory transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Mike Chen",
+        "name": "James Wilson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "Lisa Thompson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5007,14 +5007,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Research Intelligence Local Hybrid Search RAG transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Anna Martinez",
+        "name": "Mike Chen",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "Lisa Thompson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5051,14 +5051,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Smart Local Travel Agent Hub transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "name": "Robert Kim",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "David Park",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5095,14 +5095,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Professional Mixture Of Agents Hub transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Robert Kim",
+        "name": "James Wilson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "Sarah Johnson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5139,14 +5139,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Professional Mixture Of Agents Hub transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Sarah Johnson",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "Sarah Johnson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5183,14 +5183,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Research Intelligence Multi Agent Researcher transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Emily Rodriguez",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "David Park",
+        "name": "Lisa Thompson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5227,7 +5227,7 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Smart Multi AI Memory Studio transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Sarah Johnson",
+        "name": "Anna Martinez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
@@ -5242,15 +5242,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "multi-mcp-agent-router": {
-    "tagline": "Transform Your Ai-agents with Professional Multi MCP Agent Router Hub",
-    "summary": "Professional Multi MCP Agent Router Hub revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Professional Multi MCP Agent Router Hub leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with AI Tool Router",
+    "summary": "AI Tool Router revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "AI Tool Router leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Professional Multi MCP Agent Router Hub services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer AI Tool Router services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Professional Multi MCP Agent Router Hub automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. AI Tool Router automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -5270,15 +5270,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Professional Multi MCP Agent Router Hub transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "David Park",
+        "quote": "AI Tool Router transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Mike Chen",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "David Park",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5322,7 +5322,7 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Robert Kim",
+        "name": "Anna Martinez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5330,15 +5330,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "multimodal-coding-agent-team": {
-    "tagline": "Transform Your Ai-agents with AI-Powered Development Collaboration Platform",
-    "summary": "AI-Powered Development Collaboration Platform revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "AI-Powered Development Collaboration Platform leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with AI App Builder Assistant",
+    "summary": "AI App Builder Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "AI App Builder Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer AI-Powered Development Collaboration Platform services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer AI App Builder Assistant services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. AI-Powered Development Collaboration Platform automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. AI App Builder Assistant automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -5358,15 +5358,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "AI-Powered Development Collaboration Platform transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "James Wilson",
+        "quote": "AI App Builder Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Emily Rodriguez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "David Park",
+        "name": "Lisa Thompson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5374,15 +5374,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "multimodal-design-agent-team": {
-    "tagline": "Transform Your Ai-agents with Creative Design Collaboration Studio",
-    "summary": "Creative Design Collaboration Studio revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Creative Design Collaboration Studio leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with AI Design Studio",
+    "summary": "AI Design Studio revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "AI Design Studio leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Creative Design Collaboration Studio services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer AI Design Studio services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Creative Design Collaboration Studio automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. AI Design Studio automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -5402,15 +5402,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Creative Design Collaboration Studio transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "quote": "AI Design Studio transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Robert Kim",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5447,14 +5447,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Advanced Music Generator Agent Py Platform transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Robert Kim",
+        "name": "Sarah Johnson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5462,15 +5462,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "openai-research-agent": {
-    "tagline": "Transform Your Ai-agents with Research Intelligence Openai Research Agent",
-    "summary": "Research Intelligence Openai Research Agent revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Research Intelligence Openai Research Agent leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Research Assistant AI",
+    "summary": "Research Assistant AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Research Assistant AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Research Intelligence Openai Research Agent services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Research Assistant AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Research Intelligence Openai Research Agent automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Research Assistant AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -5490,15 +5490,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Research Intelligence Openai Research Agent transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "quote": "Research Assistant AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Mike Chen",
+        "name": "Lisa Thompson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5535,14 +5535,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Intelligent Product Launch Intelligence Agent Hub transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Mike Chen",
+        "name": "James Wilson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Mike Chen",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5550,15 +5550,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "rag-as-a-service": {
-    "tagline": "Transform Your Ai-agents with Research Intelligence As A Service",
-    "summary": "Research Intelligence As A Service revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Research Intelligence As A Service leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Business Knowledgebase AI",
+    "summary": "Business Knowledgebase AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Business Knowledgebase AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Research Intelligence As A Service services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Business Knowledgebase AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Research Intelligence As A Service automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Business Knowledgebase AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -5578,7 +5578,7 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Research Intelligence As A Service transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "quote": "Business Knowledgebase AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
         "name": "Mike Chen",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
@@ -5586,7 +5586,7 @@ export const extendedSalesCopy: Record<string, any> = {
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "Emily Rodriguez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5623,14 +5623,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Research Intelligence Chain transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Sarah Johnson",
+        "name": "James Wilson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "Robert Kim",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5667,14 +5667,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Research Intelligence Database Routing transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "David Park",
+        "name": "James Wilson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Mike Chen",
+        "name": "David Park",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5711,14 +5711,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Research Intelligence Research Agent Gemini Interaction API transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "James Wilson",
+        "name": "Anna Martinez",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "Sarah Johnson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5755,14 +5755,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Smart Resume Job Matcher Platform transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "David Park",
+        "name": "Mike Chen",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Emily Rodriguez",
+        "name": "James Wilson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5799,14 +5799,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Smart Startup Trends Agent Platform transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Robert Kim",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Sarah Johnson",
+        "name": "Anna Martinez",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5843,14 +5843,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Intelligent Toonify Token Optimization Engine transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Anna Martinez",
+        "name": "Robert Kim",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5887,14 +5887,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Professional Trust Gated Agent Team Hub transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Mike Chen",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "Robert Kim",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5902,15 +5902,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "vision-rag": {
-    "tagline": "Transform Your Ai-agents with Research Intelligence Vision RAG",
-    "summary": "Research Intelligence Vision RAG revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Research Intelligence Vision RAG leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Visual Document AI",
+    "summary": "Visual Document AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Visual Document AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Research Intelligence Vision RAG services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Visual Document AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Research Intelligence Vision RAG automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Visual Document AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -5930,15 +5930,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Research Intelligence Vision RAG transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Mike Chen",
+        "quote": "Visual Document AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Robert Kim",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "Sarah Johnson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5975,14 +5975,14 @@ export const extendedSalesCopy: Record<string, any> = {
     "testimonials": [
       {
         "quote": "Research Intelligence Voice RAG Openaisdk transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Lisa Thompson",
+        "name": "Robert Kim",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "Anna Martinez",
+        "name": "Sarah Johnson",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -5990,15 +5990,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "web-scraping-ai-agent": {
-    "tagline": "Transform Your Ai-agents with Intelligent Web Scraping AI Agent Engine",
-    "summary": "Intelligent Web Scraping AI Agent Engine revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Intelligent Web Scraping AI Agent Engine leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Lead Research Scraper AI",
+    "summary": "Lead Research Scraper AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Lead Research Scraper AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Intelligent Web Scraping AI Agent Engine services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Lead Research Scraper AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Intelligent Web Scraping AI Agent Engine automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Lead Research Scraper AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -6018,15 +6018,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Intelligent Web Scraping AI Agent Engine transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Emily Rodriguez",
+        "quote": "Lead Research Scraper AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "David Park",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
       },
       {
         "quote": "The AI quality is incredible. Our clients can't tell the difference from manual work.",
-        "name": "James Wilson",
+        "name": "David Park",
         "role": "Service Provider",
         "businessType": "Business Services",
         "rating": 5
@@ -6034,15 +6034,15 @@ export const extendedSalesCopy: Record<string, any> = {
     ]
   },
   "xai-finance-agent": {
-    "tagline": "Transform Your Ai-agents with Advanced Xai Finance Agent Assistant",
-    "summary": "Advanced Xai Finance Agent Assistant revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
-    "whatItDoes": "Advanced Xai Finance Agent Assistant leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
+    "tagline": "Transform Your Ai-agents with Finance Research AI",
+    "summary": "Finance Research AI revolutionizes ai-agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
+    "whatItDoes": "Finance Research AI leverages advanced AI to streamline ai-agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai-agents creation.",
     "howItWorks": "First, input your requirements and preferences. The AI analyzes your needs and generates optimized content. Then, review and customize the results. Finally, export professional deliverables ready for use.",
     "howToProfit": {
-      "forLocalBusinesses": "Offer Advanced Xai Finance Agent Assistant services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
+      "forLocalBusinesses": "Offer Finance Research AI services to local businesses. Charge $300-1,000 per project for ai-agents solutions. Target businesses, consultants, developers. With 5-10 clients monthly, generate $3,000-8,000 in recurring revenue.",
       "forIndividuals": "Freelance on Upwork or Fiverr. Deliver ai-agents projects for $50-300 each. Spend 10-20 hours weekly. Earn $1,000-4,000 monthly with 4-5 star ratings."
     },
-    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Advanced Xai Finance Agent Assistant automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
+    "whyYouNeedIt": "Manual ai-agents work is time-consuming and error-prone. Finance Research AI automates the heavy lifting, ensuring consistent quality and faster delivery. In today's competitive market, this AI advantage is essential for staying ahead.",
     "useCases": [
       {
         "industry": "Business Services",
@@ -6062,8 +6062,8 @@ export const extendedSalesCopy: Record<string, any> = {
     ],
     "testimonials": [
       {
-        "quote": "Advanced Xai Finance Agent Assistant transformed our ai-agents workflow. We're delivering twice the work in half the time.",
-        "name": "Mike Chen",
+        "quote": "Finance Research AI transformed our ai-agents workflow. We're delivering twice the work in half the time.",
+        "name": "Lisa Thompson",
         "role": "Business Owner",
         "businessType": "Consulting Firm",
         "rating": 5
