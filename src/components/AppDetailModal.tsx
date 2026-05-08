@@ -18,6 +18,7 @@ import { useUserAccess } from "../hooks/useUserAccess";
 import { getEnhancedAppData } from "../data/enhancedAppsData";
 import PurchaseModal from "./PurchaseModal";
 import PersonalizerDialog from "./personalizer/PersonalizerDialog";
+import { Button } from "./ui/button";
 
 interface AppDetailModalProps {
   app: any;
@@ -160,12 +161,12 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
                           Purchase Now
                         </button>
                       )}
-                      <button
+                      <Button
                         onClick={() => setShowPersonalizer(true)}
-                        className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-bold flex items-center gap-2 transition-colors"
+                        className="bg-primary-600 hover:bg-primary-700 text-white"
                       >
                         Personalize This
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>

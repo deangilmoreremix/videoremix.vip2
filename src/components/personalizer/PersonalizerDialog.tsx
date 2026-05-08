@@ -418,7 +418,7 @@ export default function PersonalizerDialog({
               </div>
 
               {/* Disclaimer */}
-              <div className="mt-8 p-3 bg-gray-800/30 border border-gray-700/50 rounded-lg">
+              <div className="mt-8 p-3 glass-effect bg-opacity-30 border border-white/10 rounded-lg">
                 <p className="text-xs text-gray-400 font-body">
                   *This tool uses public or user-provided information to help generate business-relevant personalization. Results may include possible matches and should be reviewed before use. Do not use this tool for harassment, surveillance, sensitive profiling, or unlawful purposes.
                 </p>
