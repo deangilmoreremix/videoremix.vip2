@@ -52,19 +52,28 @@ for (const { name } of requiredVars) {
     console.error(`❌ ERROR: ${name} is not set`);
     hasErrors = true;
   } else if (name === 'VITE_SUPABASE_URL') {
-    // Validate Supabase URL format
-    if (!value.includes('supabase.co')) {
+    // Check if this is a local Supabase instance
+    const isLocal = value.includes('localhost') || value.includes('127.0.0.1') || value.includes('::1');
+    
+    // Validate Supabase URL format - accept both production and local URLs
+    if (!value.includes('supabase.co') && !isLocal) {
       console.error(`❌ ERROR: ${name} does not appear to be a valid Supabase URL`);
       console.error(`   Got: ${value}`);
+      console.error(`   Expected: https://<project-id>.supabase.co or http://localhost:54321`);
       hasErrors = true;
     }
     
-    // Check against locked project ID if available
-    if (correctProjectId && !value.includes(correctProjectId)) {
+    // Check against locked project ID only for production URLs
+    if (!isLocal && correctProjectId && !value.includes(correctProjectId)) {
       console.error(`❌ ERROR: Project ID mismatch in ${name}`);
       console.error(`   Expected: ${correctProjectId}`);
       console.error(`   URL: ${value}`);
       hasErrors = true;
+    }
+    
+    // For local URLs, warn but don't error
+    if (isLocal) {
+      console.log(`ℹ️  Using local Supabase instance: ${value}`);
     }
   } else if (name === 'VITE_SUPABASE_ANON_KEY') {
     // Validate anon key format (should start with eyJ)
@@ -96,7 +105,8 @@ if (hasErrors) {
   // Show non-sensitive info
   if (envVars.VITE_SUPABASE_URL || process.env.VITE_SUPABASE_URL) {
     const url = process.env.VITE_SUPABASE_URL || envVars.VITE_SUPABASE_URL;
-    const projectId = url.match(/https:\/\/([^.]+)/)?.[1] || 'unknown';
+    const isLocal = url.includes('localhost') || url.includes('127.0.0.1') || url.includes('::1');
+    const projectId = isLocal ? 'local' : (url.match(/https:\/\/([^.]+)/)?.[1] || 'unknown');
     console.log(`   Project: ${projectId}`);
     console.log(`   URL: ${url}`);
   }

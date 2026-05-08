@@ -281,7 +281,7 @@ const DashboardPage: React.FC = () => {
                     icon={Zap}
                     sparklineData={sparklineData}
                     loading={statsLoading}
-                    error={statsError}
+                    error={!!statsError}
                     change={15}
                     changeLabel="vs last month"
                     color="#6366f1"
@@ -299,7 +299,7 @@ const DashboardPage: React.FC = () => {
                     value={stats.videosCreated}
                     icon={Video}
                     loading={statsLoading}
-                    error={statsError}
+                    error={!!statsError}
                     change={stats.videosCreated > 0 ? 25 : 0}
                     changeLabel="vs last month"
                     color="#8b5cf6"
@@ -318,7 +318,7 @@ const DashboardPage: React.FC = () => {
                     suffix="%"
                     icon={Award}
                     loading={statsLoading}
-                    error={statsError}
+                    error={!!statsError}
                     change={timeSavedPercentage > 0 ? 10 : 0}
                     changeLabel="vs last month"
                     color="#10b981"

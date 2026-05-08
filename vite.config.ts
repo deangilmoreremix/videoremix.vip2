@@ -56,8 +56,8 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       host: '0.0.0.0',
-      port: 5173,
-      strictPort: false, // Allow Vite to try next available port if 5173 is in use
+      port: 8080,
+      strictPort: true, // Use fixed port for easier Codespaces port forwarding
       // Configure HMR for GitHub Codespaces
       hmr: {
         // Use the codespace URL for WebSocket connection

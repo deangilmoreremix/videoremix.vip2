@@ -5,6 +5,7 @@ import ProblemSection from "../components/ProblemSection";
 import SolutionSection from "../components/SolutionSection";
 import FeatureMap from "../components/FeatureMap";
 import SEO from "../components/SEO";
+import BusinessAIAppLibrarySection from "../components/BusinessAIAppLibrarySection";
 
 // Lazy loaded components for better performance
 const BenefitsSection = lazy(() => import("../components/BenefitsSection"));
@@ -91,6 +92,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ isMobile, isTablet }) => {
       {/* App Gallery Section */}
       <Suspense fallback={<SectionLoader />}>
         <AppGallerySection />
+      </Suspense>
+
+      {/* VideoRemix VIP Business AI App Library Section */}
+      <Suspense fallback={<SectionLoader />}>
+        <BusinessAIAppLibrarySection />
       </Suspense>
 
       {/* Demo Section */}

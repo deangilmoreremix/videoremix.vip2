@@ -140,18 +140,24 @@ export const useApps = () => {
         throw supabaseError;
       }
 
-      if (data) {
+      if (data && data.length > 0) {
         const transformedApps = data.map(transformApp);
         setApps(transformedApps);
-
+ 
         // Get the latest modification timestamp for caching
         const latestModified = data.reduce(
           (latest, app) => (app.updated_at > latest ? app.updated_at : latest),
           data[0]?.updated_at || new Date().toISOString(),
         );
-
+ 
         // Cache the transformed data with modification timestamp
         setCachedApps(transformedApps, latestModified);
+      } else {
+        // Empty result - fall back to local data
+        console.log("[useApps] No data from Supabase, falling back to local data...");
+        const transformedApps = appsData.map(transformApp);
+        setApps(transformedApps);
+        setError(null);
       }
     } catch (err) {
       console.error("Error fetching apps from Supabase:", err);
