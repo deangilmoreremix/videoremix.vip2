@@ -143,7 +143,7 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                             {group.label}
                           </div>
                           <div className="grid grid-cols-2 gap-2">
-                            {group.tools.map((tool: any) => (
+                             {group.tools.map((tool: Record<string, unknown>) => (
                               <a
                                 key={tool.id}
                                 href={`https://${tool.id}.videoremix.vip`}

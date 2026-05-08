@@ -1,90 +1,121 @@
-import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Video,
-  Users,
-  Image as ImageIcon,
-  Sparkles,
   Search,
   ArrowRight,
   Play,
-  Star,
   Check,
   TrendingUp,
-  Award,
   Zap,
   Target,
-  Heart,
-  Eye,
-  Clock,
+  Sparkles,
 } from "lucide-react";
-import MagicSparkles from "../MagicSparkles";
 import { useInView } from "react-intersection-observer";
 import { useApps } from "../../hooks/useApps";
-import LockedAppOverlay from "../LockedAppOverlay";
 import PurchaseModal from "../PurchaseModal";
-import LazyIcon from "../LazyIcon";
 const ProductDetailModal = lazy(() => import("../ProductDetailModal"));
 import { extendedSalesCopy } from "../../data/extendedSalesCopy";
 import { appGroups } from "../../data/appGroups";
 
 
 
-// Featured apps to highlight
-const featuredApps = [
-  "video-creator",
-  "landing-page",
-  "thumbnail-generator",
-  "ai-art",
-  "storyboard",
-  "rebrander-ai",
-];
+// Helper to get group label from group ID
+const getGroupLabel = (groupId: string) => {
+  const group = appGroups.find(g => g.id === groupId);
+  return group ? group.label : groupId.replace('-', ' ');
+};
+
 
 // Fallback image URLs
 const fallbackImages = [
   "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
 ];
 
-// Story-driven card benefits based on category
-const getCategoryBenefits = (category: string) => {
+// Story-driven card benefits based on group
+const getGroupBenefits = (group: string) => {
   const benefits = {
-    "ai-agents": [
-      "Intelligent automation for repetitive tasks",
-      "24/7 availability with consistent performance",
-      "Learn and adapt to your preferences",
-    ],
-    "video": [
-      "Professional video editing in minutes",
-      "AI-powered scene detection and enhancement",
-      "Multiple export formats for any platform",
-    ],
-    "lead-gen": [
-      "Targeted lead generation with AI precision",
-      "Automated outreach and follow-up sequences",
+    "sales-lead-gen": [
+      "AI-powered sales intelligence and lead generation",
+      "Personalized outreach and follow-up campaigns",
       "CRM integration for seamless workflows",
     ],
-    "ai-image": [
-      "Generate stunning visuals from text descriptions",
-      "Style transfer and artistic transformations",
-      "High-resolution outputs for all use cases",
+    "content-creation": [
+      "Transform content across multiple formats",
+      "AI-powered content generation at scale",
+      "Multi-channel publishing automation",
     ],
-    "marketing": [
-      "Data-driven campaign optimization",
-      "Personalized content at scale",
-      "Multi-channel marketing automation",
+    "video-audio-voice": [
+      "Professional video and audio editing in minutes",
+      "AI-powered voice agents and transformations",
+      "Multiple export formats for any platform",
+    ],
+    "rag-knowledgebase": [
+      "Private AI assistant trained on your docs",
+      "Instant answers from your knowledge base",
+      "Secure document chat with RAG technology",
+    ],
+    "realestate-local": [
+      "AI tools for local business growth",
+      "Real estate marketing and client engagement",
+      "Local market analysis and insights",
+    ],
+    "hr-recruiting": [
+      "Streamlined hiring and recruitment workflows",
+      "AI-powered candidate matching and scoring",
+      "Automated interview scheduling and follow-up",
+    ],
+    "finance-business": [
+      "AI-driven financial analysis and forecasting",
+      "Business planning and investment insights",
+      "Data-driven decision making tools",
+    ],
+    "legal-compliance": [
+      "Plain-English contract summaries",
+      "Risk assessment and compliance checking",
+      "Legal document analysis and insights",
+    ],
+    "coding-developer": [
+      "AI-powered code generation and debugging",
+      "Architecture planning and best practices",
+      "Automated testing and documentation",
+    ],
+    "design-uiux": [
+      "AI-powered design feedback and optimization",
+      "Conversion-focused UI/UX improvements",
+      "Rapid prototyping and wireframing",
+    ],
+    "research-education": [
+      "Deep research with AI-powered synthesis",
+      "Educational content generation and curation",
+      "Data-driven insights and analysis",
+    ],
+    "productivity-personal": [
+      "AI personal assistant for daily workflows",
+      "Smart task management and prioritization",
+      "Automated follow-ups and reminders",
     ],
   };
-  return benefits[category as keyof typeof benefits] || [
+  return benefits[group as keyof typeof benefits] || [
     "Streamlined workflow automation",
     "Professional results with minimal effort",
     "Scalable solutions for growing businesses",
   ];
 };
 
+// Minimal App type for component props
+type AppForCard = {
+  id: string;
+  name: string;
+  description: string;
+  group: string;
+  popular?: boolean;
+  new?: boolean;
+  image: string;
+};
+
 // Enhanced App Card Component with story-driven design
 const StoryDrivenAppCard: React.FC<{
-  app: any;
+  app: AppForCard;
   viewMode: "grid" | "list";
   onClick: () => void;
   imageErrors: Record<string, number>;
@@ -93,7 +124,7 @@ const StoryDrivenAppCard: React.FC<{
   priority?: boolean;
 }> = ({ app, viewMode, onClick, imageErrors, handleImageError, getFallbackImage, priority = false }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const benefits = getCategoryBenefits(app.category);
+  const benefits = getGroupBenefits(app.group);
 
   const renderHoverPreview = () => (
     <AnimatePresence>
@@ -117,7 +148,7 @@ const StoryDrivenAppCard: React.FC<{
               <h4 className="text-white font-bold text-lg">Transform Your Workflow</h4>
             </div>
             <p className="text-gray-200 text-sm leading-relaxed">
-              Discover how {app.name} revolutionizes {app.category.replace('-', ' ')} with cutting-edge AI technology.
+                            Discover how {app.name} revolutionizes {getGroupLabel(app.group)} with cutting-edge AI technology.
             </p>
           </div>
 
@@ -193,7 +224,7 @@ const StoryDrivenAppCard: React.FC<{
         transition={{ delay: 0.4 }}
         className="bg-black/60 text-gray-200 text-[10px] font-semibold px-2 py-1 rounded-full backdrop-blur-sm border border-gray-600/40 uppercase tracking-wider"
       >
-        {app.category.replace('-', ' ')}
+        {getGroupLabel(app.group)}
       </motion.div>
     </div>
   );
@@ -323,7 +354,7 @@ const StoryDrivenAppCard: React.FC<{
             className="flex items-center text-xs text-gray-400 uppercase tracking-wider font-medium"
             whileHover={{ scale: 1.05 }}
           >
-            <span className="bg-gray-800/60 px-2 py-1 rounded-full">{app.category.replace('-', ' ')}</span>
+            <span className="bg-gray-800/60 px-2 py-1 rounded-full">{getGroupLabel(app.group)}</span>
           </motion.div>
 
           <motion.span
@@ -383,13 +414,11 @@ const DashboardToolsSection: React.FC = () => {
   const { apps: appsData, loading: appsLoading } = useApps();
   const [selectedGroup, setSelectedGroup] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredApps, setFilteredApps] = useState<any[]>([]);
+  const [filteredApps, setFilteredApps] = useState<AppForCard[]>([]);
   const [sortOrder, setSortOrder] = useState<"popular" | "new" | "a-z">("popular");
-  const [hoveredApp, setHoveredApp] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [selectedApp, setSelectedApp] = useState<any>(null);
-  const [purchaseApp, setPurchaseApp] = useState<any>(null);
+  const [selectedApp, setSelectedApp] = useState<AppForCard | null>(null);
+  const [purchaseApp, setPurchaseApp] = useState<AppForCard | null>(null);
   const { ref, inView } = useInView({
     threshold: 0.05,
     triggerOnce: true,
@@ -456,7 +485,7 @@ const DashboardToolsSection: React.FC = () => {
 
     console.log('[DashboardToolsSection] Setting filtered apps:', result.length);
     setFilteredApps(result);
-  }, [selectedGroup, searchQuery, sortOrder, appsData]);
+  }, [selectedGroup, searchQuery, sortOrder, appsData, appsLoading]);
 
   // Handle image load errors
   const handleImageError = (appId: string) => {
@@ -476,14 +505,6 @@ const DashboardToolsSection: React.FC = () => {
   // Handle group change
   const handleGroupChange = (group: string) => {
     setSelectedGroup(group);
-  };
-
-  // Get featured apps
-  const getFeaturedApps = () => {
-    if (!appsData || appsData.length === 0) {
-      return [];
-    }
-    return appsData.filter((app) => featuredApps.includes(app.id));
   };
 
   console.log('[DashboardToolsSection] About to render, filteredApps:', filteredApps.length);
@@ -692,7 +713,7 @@ const DashboardToolsSection: React.FC = () => {
             }}
             isOpen={true}
             onClose={() => setSelectedApp(null)}
-            onPurchase={(appId) => {
+            onPurchase={(_appId) => {
               setSelectedApp(null); // Close detail modal
               setPurchaseApp(selectedApp); // Open purchase modal
             }}
