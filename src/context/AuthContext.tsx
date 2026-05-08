@@ -697,17 +697,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return { user: data?.user, error: updateError };
       }
 
-      // Also save to profiles table for extended profile data with tenant support
-      if (data?.user) {
-        const profileData = {
-          user_id: data.user.id,
-          email: data.user.email,
-          full_name: `${updates.first_name || ''} ${updates.last_name || ''}`.trim(),
-          avatar_url: updates.avatar_url || '',
-          bio: updates.bio || '',
-          company: updates.company || '',
-          website: updates.website || '',
-        };
+        // Also save to profiles table for extended profile data with tenant support
+        if (data?.user) {
+          const profileData = {
+            user_id: data.user.id,
+            email: data.user.email,
+            full_name: `${updates.first_name || ''} ${updates.last_name || ''}`.trim(),
+            avatar_url: updates.avatar_url || '',
+            bio: updates.bio || '',
+            company: updates.company || '',
+            website: updates.website || '',
+            // Add onboarding fields
+            onboarding_answers: updates.onboarding || null,
+            onboarding_completed_at: updates.onboarding_completed ? new Date().toISOString() : null,
+          };
 
         // Try to upsert into profiles table
         const { error: profileError } = await supabase
