@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronRight, ChevronLeft, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
@@ -212,37 +215,44 @@ export default function PersonalizerDialog({
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="bg-gray-900 rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden shadow-2xl border border-purple-500/30"
+          className="bg-gray-900 rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden shadow-2xl border border-white/10 glass-effect"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-purple-500/20">
+          <div className="flex items-center justify-between p-6 border-b border-white/10">
             <div>
-              <h2 className="text-2xl font-bold text-white">AI Creative Personalizer</h2>
-              <p className="text-sm text-gray-400">Step {currentStep} of 8 • {STEPS[currentStep - 1].name}</p>
+              <h2 className="text-2xl font-bold text-white font-display tracking-tight">
+                <span className="text-gradient">AI Creative</span> Personalizer
+              </h2>
+              <p className="text-sm text-gray-400 font-body">Step {currentStep} of 8 • {STEPS[currentStep - 1].name}</p>
             </div>
-            <button onClick={onClose} className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+              className="bg-black/50 hover:bg-black/70 text-white rounded-full"
+            >
               <X className="h-5 w-5" />
-            </button>
+            </Button>
           </div>
 
           <div className="flex h-[calc(90vh-80px)]">
             {/* Left Sidebar */}
-            <div className="w-64 bg-gray-800/50 border-r border-purple-500/20 p-4 overflow-y-auto">
+            <div className="w-64 bg-[#1a1a1a] bg-opacity-50 backdrop-blur-md border-r border-white/10 p-4 overflow-y-auto">
               <div className="mb-6">
-                <h3 className="text-purple-300 font-semibold text-sm">AI Creative Personalizer</h3>
-                <p className="text-xs text-gray-400 mt-1">App: {APPS.find(a => a.id === appId)?.label || appId}</p>
-                <p className="text-xs text-gray-400">Mode: {MODES.find(m => m.id === mode)?.label || mode}</p>
+                <h3 className="text-accent-secondary font-semibold text-sm font-display">AI Creative Personalizer</h3>
+                <p className="text-xs text-gray-400 mt-1 font-body">App: {APPS.find(a => a.id === appId)?.label || appId}</p>
+                <p className="text-xs text-gray-400 font-body">Mode: {MODES.find(m => m.id === mode)?.label || mode}</p>
               </div>
               <div className="space-y-2">
                 {STEPS.map((step) => (
                   <div
                     key={step.id}
-                    className={`p-2 rounded-lg text-sm ${
+                    className={`p-2 rounded-lg text-sm font-body ${
                       currentStep === step.id
-                        ? 'bg-purple-600/30 text-purple-200 border border-purple-500/50'
+                        ? 'bg-primary-600/30 text-primary-200 border border-primary-500/50'
                         : currentStep > step.id
-                        ? 'bg-emerald-600/20 text-emerald-200'
+                        ? 'bg-success/20 text-success-200'
                         : 'bg-gray-700/30 text-gray-400'
                     }`}
                   >
@@ -250,14 +260,14 @@ export default function PersonalizerDialog({
                   </div>
                 ))}
               </div>
-              <div className="mt-6 pt-4 border-t border-purple-500/20">
-                <p className="text-xs text-gray-400">Scan: {project?.scan_id ? 'Complete' : 'Not run'}</p>
-                <p className="text-xs text-gray-400">Project: {project?.id ? 'Active' : 'New'}</p>
+              <div className="mt-6 pt-4 border-t border-white/10">
+                <p className="text-xs text-gray-400 font-body">Scan: {project?.scan_id ? 'Complete' : 'Not run'}</p>
+                <p className="text-xs text-gray-400 font-body">Project: {project?.id ? 'Active' : 'New'}</p>
               </div>
             </div>
 
             {/* Main Panel */}
-            <div className="flex-1 p-6 overflow-y-auto">
+            <div className="flex-1 p-6 overflow-y-auto font-body">
               {error && (
                 <div className="mb-4 p-3 bg-red-900/50 border border-red-500/50 rounded-lg text-red-200 text-sm flex items-center gap-2">
                   <AlertCircle className="h-4 w-4" />
@@ -269,11 +279,11 @@ export default function PersonalizerDialog({
               {currentStep === 1 && (
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm text-gray-300 mb-1">App</label>
+                    <label className="block text-sm text-gray-300 mb-1 font-body">App</label>
                     <select
                       value={appId}
                       onChange={(e) => setAppId(e.target.value)}
-                      className="w-full bg-gray-800/50 border border-purple-500/30 rounded-lg p-2 text-white"
+                      className="w-full bg-gray-900/50 border border-white/10 rounded-lg p-2 text-white font-body focus:border-primary-500 focus:outline-none"
                     >
                       {APPS.map(app => (
                         <option key={app.id} value={app.id}>{app.label}</option>
@@ -281,11 +291,11 @@ export default function PersonalizerDialog({
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-300 mb-1">Mode</label>
+                    <label className="block text-sm text-gray-300 mb-1 font-body">Mode</label>
                     <select
                       value={mode}
                       onChange={(e) => setMode(e.target.value)}
-                      className="w-full bg-gray-800/50 border border-purple-500/30 rounded-lg p-2 text-white"
+                      className="w-full bg-gray-900/50 border border-white/10 rounded-lg p-2 text-white font-body focus:border-primary-500 focus:outline-none"
                     >
                       {MODES.map(m => (
                         <option key={m.id} value={m.id}>{m.label}</option>
@@ -299,20 +309,20 @@ export default function PersonalizerDialog({
               {currentStep === 2 && (
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm text-gray-300 mb-1">Target Name</label>
-                    <input
+                    <label className="block text-sm text-gray-300 mb-1 font-body">Target Name</label>
+                    <Input
                       value={targetName}
                       onChange={(e) => setTargetName(e.target.value)}
-                      className="w-full bg-gray-800/50 border border-purple-500/30 rounded-lg p-2 text-white"
+                      className="bg-gray-900/50 border-white/10 text-white placeholder-gray-400 focus:border-primary-500"
                       placeholder="John Doe"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-300 mb-1">Target Company</label>
-                    <input
+                    <label className="block text-sm text-gray-300 mb-1 font-body">Target Company</label>
+                    <Input
                       value={targetCompany}
                       onChange={(e) => setTargetCompany(e.target.value)}
-                      className="w-full bg-gray-800/50 border border-purple-500/30 rounded-lg p-2 text-white"
+                      className="bg-gray-900/50 border-white/10 text-white placeholder-gray-400 focus:border-primary-500"
                       placeholder="Acme Inc."
                     />
                   </div>
@@ -322,27 +332,27 @@ export default function PersonalizerDialog({
               {/* Step 3: Public Scan */}
               {currentStep === 3 && (
                 <div className="space-y-4">
-                  <p className="text-gray-300">Optional: Scan public profiles for {targetName}</p>
-                  <button
+                  <p className="text-gray-300 font-body">Optional: Scan public profiles for {targetName}</p>
+                  <Button
                     onClick={handleScan}
                     disabled={isScanning || !targetName}
-                    className="px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 rounded-lg text-white flex items-center gap-2"
+                    className="bg-primary-600 hover:bg-primary-700 disabled:bg-gray-600 text-white"
                   >
-                    {isScanning ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                    {isScanning ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                     {isScanning ? 'Scanning...' : 'Run Public Scan'}
-                  </button>
-                  <p className="text-xs text-gray-400">Uses GitHub API only. LinkedIn/Twitter checks coming soon.</p>
+                  </Button>
+                  <p className="text-xs text-gray-400 font-body">Uses GitHub API only. LinkedIn/Twitter checks coming soon.</p>
                 </div>
               )}
 
               {/* Step 4: Manual Notes */}
               {currentStep === 4 && (
                 <div className="space-y-4">
-                  <label className="block text-sm text-gray-300 mb-1">Manual Notes</label>
-                  <textarea
+                  <label className="block text-sm text-gray-300 mb-1 font-body">Manual Notes</label>
+                  <Textarea
                     value={manualNotes}
                     onChange={(e) => setManualNotes(e.target.value)}
-                    className="w-full h-32 bg-gray-800/50 border border-purple-500/30 rounded-lg p-2 text-white"
+                    className="bg-gray-900/50 border-white/10 text-white placeholder-gray-400 focus:border-primary-500"
                     placeholder="Add any additional context about the target..."
                   />
                 </div>
@@ -351,86 +361,96 @@ export default function PersonalizerDialog({
               {/* Step 5: Generate */}
               {currentStep === 5 && (
                 <div className="space-y-4">
-                  <h3 className="text-lg text-white">Ready to Generate</h3>
-                  <div className="bg-gray-800/50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-300">Target: {targetName}</p>
-                    <p className="text-sm text-gray-300">Mode: {MODES.find(m => m.id === mode)?.label}</p>
-                    <p className="text-sm text-gray-300">Tone: {defaultTone}</p>
+                  <h3 className="text-lg text-white font-display">Ready to Generate</h3>
+                  <div className="bg-[#1a1a1a] bg-opacity-50 p-4 rounded-lg border border-white/10">
+                    <p className="text-sm text-gray-300 font-body">Target: {targetName}</p>
+                    <p className="text-sm text-gray-300 font-body">Mode: {MODES.find(m => m.id === mode)?.label}</p>
+                    <p className="text-sm text-gray-300 font-body">Tone: {defaultTone}</p>
                   </div>
-                  <button
+                  <Button
                     onClick={handleGenerate}
                     disabled={isGenerating || !targetName}
-                    className="px-6 py-3 bg-cyan-600 hover:bg-cyan-700 disabled:bg-gray-600 rounded-lg text-white font-semibold flex items-center gap-2"
+                    className="bg-gradient-to-r from-primary-600 to-primary-800 hover:from-primary-500 hover:to-primary-700 disabled:bg-gray-600 text-white font-semibold"
                   >
-                    {isGenerating ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                    {isGenerating ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                     {isGenerating ? 'Generating...' : 'Generate Content'}
-                  </button>
+                  </Button>
                 </div>
               )}
 
               {/* Step 6: Output */}
               {currentStep === 6 && output && (
                 <div className="space-y-4">
-                  <h3 className="text-lg text-white">Generated Output</h3>
-                  <div className="bg-gray-800/50 p-4 rounded-lg max-h-96 overflow-y-auto">
-                    <pre className="text-sm text-gray-200 whitespace-pre-wrap">{JSON.stringify(output, null, 2)}</pre>
+                  <h3 className="text-lg text-white font-display">Generated Output</h3>
+                  <div className="bg-[#1a1a1a] bg-opacity-50 p-4 rounded-lg max-h-96 overflow-y-auto border border-white/10">
+                    <pre className="text-sm text-gray-200 whitespace-pre-wrap font-body">{JSON.stringify(output, null, 2)}</pre>
                   </div>
-                  <button
+                  <Button
                     onClick={handleSave}
-                    className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 rounded-lg text-white flex items-center gap-2"
+                    className="bg-success hover:bg-success/90 text-white"
                   >
-                    <CheckCircle className="h-4 w-4" />
+                    <CheckCircle className="h-4 w-4 mr-2" />
                     Save Output
-                  </button>
+                  </Button>
                 </div>
               )}
 
               {/* Navigation */}
               <div className="flex justify-between mt-6">
-                <button
+                <Button
                   onClick={handleBack}
                   disabled={currentStep === 1}
-                  className="px-4 py-2 bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 rounded-lg text-white flex items-center gap-2"
+                  variant="secondary"
+                  className="bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 text-white"
                 >
-                  <ChevronLeft className="h-4 w-4" />
+                  <ChevronLeft className="h-4 w-4 mr-2" />
                   Back
-                </button>
+                </Button>
                 {currentStep < 6 && (
-                  <button
+                  <Button
                     onClick={handleNext}
-                    className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-white flex items-center gap-2"
+                    className="bg-primary-600 hover:bg-primary-700 text-white"
                   >
                     Next
-                    <ChevronRight className="h-4 w-4" />
-                  </button>
+                    <ChevronRight className="h-4 w-4 ml-2" />
+                  </Button>
                 )}
               </div>
 
               {/* Disclaimer */}
               <div className="mt-8 p-3 bg-gray-800/30 border border-gray-700/50 rounded-lg">
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-gray-400 font-body">
                   *This tool uses public or user-provided information to help generate business-relevant personalization. Results may include possible matches and should be reviewed before use. Do not use this tool for harassment, surveillance, sensitive profiling, or unlawful purposes.
                 </p>
               </div>
             </div>
 
             {/* Right Panel */}
-            <div className="w-72 bg-gray-800/50 border-l border-purple-500/20 p-4 overflow-y-auto">
-              <h3 className="text-purple-300 font-semibold mb-4">AI Suggestions</h3>
+            <div className="w-72 bg-[#1a1a1a] bg-opacity-50 backdrop-blur-md border-l border-white/10 p-4 overflow-y-auto">
+              <h3 className="text-accent-secondary font-semibold mb-4 text-sm font-display">AI Suggestions</h3>
               <div className="space-y-3">
-                <button className="w-full p-2 bg-purple-600/20 hover:bg-purple-600/30 rounded-lg text-sm text-purple-200">
+                <Button
+                  variant="ghost"
+                  className="w-full p-2 bg-primary-600/20 hover:bg-primary-600/30 text-sm text-primary-200 justify-start"
+                >
                   Refine Tone
-                </button>
-                <button className="w-full p-2 bg-purple-600/20 hover:bg-purple-600/30 rounded-lg text-sm text-purple-200">
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="w-full p-2 bg-primary-600/20 hover:bg-primary-600/30 text-sm text-primary-200 justify-start"
+                >
                   Add Offer
-                </button>
+                </Button>
               </div>
               {output && (
-                <div className="mt-6 pt-4 border-t border-purple-500/20">
-                  <h4 className="text-sm text-gray-300 mb-2">Send to App</h4>
-                  <button className="w-full p-2 bg-cyan-600/30 hover:bg-cyan-600/40 rounded-lg text-sm text-cyan-200">
+                <div className="mt-6 pt-4 border-t border-white/10">
+                  <h4 className="text-sm text-gray-300 mb-2 font-body">Send to App</h4>
+                  <Button
+                    variant="ghost"
+                    className="w-full p-2 bg-accent/30 hover:bg-accent/40 text-sm text-accent-200 justify-start"
+                  >
                     Copy to Clipboard
-                  </button>
+                  </Button>
                 </div>
               )}
             </div>
