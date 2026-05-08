@@ -20,7 +20,7 @@ function checkRateLimit(ip) {
   return true;
 }
 
-// GitHub API profile check
+// GitHub API profile check (fallback)
 async function checkGitHub(username) {
   try {
     const res = await fetch(`https://api.github.com/users/${username}`);
@@ -37,6 +37,43 @@ async function checkGitHub(username) {
   } catch {
     return null;
   }
+}
+
+// Maigret worker integration
+async function runMaigretScan(targetName) {
+  const workerUrl = process.env.MAIGRET_WORKER_URL;
+  const workerSecret = process.env.MAIGRET_WORKER_SECRET;
+  
+  // Try Maigret worker if configured
+  if (workerUrl && workerSecret) {
+    try {
+      const res = await fetch(`${workerUrl}/scan`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-Key': workerSecret
+        },
+        body: JSON.stringify({ username: targetName })
+      });
+      if (!res.ok) throw new Error(`Worker returned ${res.status}`);
+      const data = await res.json();
+      return {
+        summary: data.summary || `Public presence suggests activity on ${data.platforms?.length || 0} platforms`,
+        platforms: data.platforms || [],
+        confidence: data.confidence || 0.0
+      };
+    } catch (err) {
+      console.error('Maigret worker failed, falling back to GitHub:', err.message);
+    }
+  }
+  
+  // Fallback to simple GitHub check
+  const github = await checkGitHub(targetName);
+  return {
+    summary: github ? `Public presence suggests professional activity on GitHub (${github.public_repos} repos)` : 'Public presence suggests professional activity in relevant industry',
+    platforms: github ? [github] : [],
+    confidence: github ? 0.8 : 0.0
+  };
 }
 
 export async function handler(event, context) {
@@ -65,12 +102,7 @@ export async function handler(event, context) {
       const { targetName } = body;
       if (!targetName) throw new Error('targetName required');
 
-      const github = await checkGitHub(targetName);
-      const scanData = {
-        summary: github ? `Public presence suggests professional activity on GitHub (${github.public_repos} repos)` : 'Public presence suggests professional activity in relevant industry',
-        platforms: github ? [github] : [],
-        confidence: github ? 0.8 : 0.0
-      };
+      const scanData = await runMaigretScan(targetName);
 
       const { data: scan } = await supabase
         .from('profile_scan_results')
