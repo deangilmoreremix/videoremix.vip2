@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
 import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, Sparkles } from "lucide-react";
+import { SmartInput, SmartTextarea, ActionButton, ResultCard, ResultGrid, EmptyState, LoadingIndicator, ErrorMessage, FormSection } from "@/components/agent-ui/*";
+import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
+
+const STORAGE_KEY = "research-agent-gemini-form";
 
 const ResearchAgentGeminiInteractionApiPage: React.FC = () => {
   const { user } = useAuth();
@@ -15,6 +15,20 @@ const ResearchAgentGeminiInteractionApiPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setFormData(parsed);
+      } catch {}
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  }, [formData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,72 +63,80 @@ const ResearchAgentGeminiInteractionApiPage: React.FC = () => {
             <p className="text-xl text-gray-400">AI-powered research agent gemini interaction api.</p>
           </motion.div>
 
-          {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
+          {error && (
+            <ErrorMessage
+              message={error}
+              onRetry={() => {
+                setError(null);
+                handleSubmit(new Event('submit') as any);
+              }}
+            />
+          )}
 
           <Card className="bg-gray-800/50 border-gray-700 mb-8">
             <CardHeader><CardTitle>Input</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
+                <FormSection title="API Configuration" description="Enter your Google API key for authentication">
+                  <div className="space-y-2">
+                    <Label htmlFor="_google_api_key">Google API Key *</Label>
+                    <ApiKeyInput
+                      id="_google_api_key"
+                      value={formData._google_api_key}
+                      onChange={(e) => setFormData({ ...formData, _google_api_key: e.target.value })}
+                      placeholder="Enter your Google API key"
+                    />
+                    <p className="text-sm text-gray-400">Your Google API key is stored locally and never sent to our servers.</p>
+                  </div>
+                </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="_google_api_key">🔑 Google API Key *</Label>
-                
-                <Input
-                  id="_google_api_key"
-                  type="text"
-                  value={formData._google_api_key}
-                  onChange={(e) => setFormData({ ...formData, _google_api_key: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+                <FormSection title="Research Parameters" description="Define what you want to research">
+                  <div className="space-y-2">
+                    <Label htmlFor="_research_goal">Research Goal *</Label>
+                    <SmartTextarea
+                      id="_research_goal"
+                      value={formData._research_goal}
+                      onChange={(e) => setFormData({ ...formData, _research_goal: e.target.value })}
+                      placeholder="e.g., 'Research the latest developments in quantum computing and their market implications'"
+                      className="min-h-[120px]"
+                    />
+                    <p className="text-sm text-gray-400">Describe your research objective in detail for best results.</p>
+                  </div>
+                </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="_research_goal">📝 Research Goal *</Label>
-                
-                <Textarea
-                  id="_research_goal"
-                  value={formData._research_goal}
-                  onChange={(e) => setFormData({ ...formData, _research_goal: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white min-h-[120px]"
-                />
-                
-              </div>
-
-                <Button type="submit" disabled={loading} className="w-full">
+                <ActionButton
+                  type="submit"
+                  loading={loading}
+                  disabled={loading || !formData._google_api_key || !formData._research_goal}
+                  className="w-full"
+                >
                   {loading ? 'Processing...' : 'Generate Results'}
-                </Button>
+                </ActionButton>
               </form>
             </CardContent>
           </Card>
 
-          {loading && (
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="py-8 text-center">
-                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-                <p className="text-gray-400">Processing...</p>
-              </CardContent>
-            </Card>
+          {loading && <LoadingIndicator text="Processing your research request..." />}
+
+          {result && result.status === 'completed' && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <ResultGrid columns={1}>
+                <ResultCard
+                  title="Research Results"
+                  content={result.result}
+                  timestamp={new Date().toISOString()}
+                />
+              </ResultGrid>
+            </motion.div>
           )}
 
-           {result && result.status === 'completed' && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     <div className="space-y-2">
-                       <Label>Transcript</Label>
-                       <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
+          {!loading && !result && !error && (
+            <EmptyState
+              title="No Results Yet"
+              description="Submit the form above to generate research results."
+              icon="search"
+            />
+          )}
         </div>
       </main>
     </>
