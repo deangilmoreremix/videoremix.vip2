@@ -60,6 +60,12 @@ export const ACHIEVEMENT_DEFINITIONS: Record<string, AchievementDefinition> = {
     icon: "🏆",
     color: "from-orange-500 to-orange-600",
   },
+  onboarding_completed: {
+    title: "Onboarding Complete",
+    description: "Finished the onboarding wizard",
+    icon: "🎯",
+    category: "milestone",
+  },
 };
 
 export const useAchievements = () => {
