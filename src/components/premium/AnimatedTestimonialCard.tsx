@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star, Quote } from 'lucide-react';
+import Star from 'lucide-react/dist/esm/icons/star.js';
+import Quote from 'lucide-react/dist/esm/icons/quote.js';
 
 interface Testimonial {
   quote: string;

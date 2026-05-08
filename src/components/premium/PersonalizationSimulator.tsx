@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Monitor, Smartphone, Tablet } from 'lucide-react';
+import Monitor from 'lucide-react/dist/esm/icons/monitor.js';
+import Smartphone from 'lucide-react/dist/esm/icons/smartphone.js';
+import Tablet from 'lucide-react/dist/esm/icons/tablet.js';
 
 interface SimulatorProps {
   className?: string;

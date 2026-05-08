@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import {
-  TrendingUp,
-  Users,
-  Eye,
-  MousePointer,
-  ShoppingCart,
-  DollarSign,
-  Clock,
-  AlertTriangle,
-  CheckCircle,
-  XCircle,
-  BarChart3,
-  PieChart,
-  Activity,
-} from 'lucide-react';
+import TrendingUp from 'lucide-react/dist/esm/icons/trending-up.js';
+import Users from 'lucide-react/dist/esm/icons/users.js';
+import Eye from 'lucide-react/dist/esm/icons/eye.js';
+import MousePointer from 'lucide-react/dist/esm/icons/mouse-pointer.js';
+import ShoppingCart from 'lucide-react/dist/esm/icons/shopping-cart.js';
+import DollarSign from 'lucide-react/dist/esm/icons/dollar-sign.js';
+import Clock from 'lucide-react/dist/esm/icons/clock.js';
+import AlertTriangle from 'lucide-react/dist/esm/icons/alert-triangle.js';
+import CheckCircle from 'lucide-react/dist/esm/icons/check-circle.js';
+import XCircle from 'lucide-react/dist/esm/icons/x-circle.js';
+import BarChart3 from 'lucide-react/dist/esm/icons/bar-chart-3.js';
+import PieChart from 'lucide-react/dist/esm/icons/pie-chart.js';
+import Activity from 'lucide-react/dist/esm/icons/activity.js';
 
 // Analytics data types
 interface AnalyticsSummary {

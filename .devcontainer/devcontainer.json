@@ -1,9 +1,9 @@
 {
   "name": "VideoRemix Development",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
-  "forwardPorts": [3000, 54321, 54323],
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "forwardPorts": [8080, 54321, 54323],
   "portsAttributes": {
-    "3000": {
+    "8080": {
       "label": "Vite Dev Server",
       "visibility": "public"
     },

@@ -1,11 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import {
-  TrendingUp,
-  DollarSign,
-  BarChart3,
-  Target,
-} from 'lucide-react';
+import TrendingUp from 'lucide-react/dist/esm/icons/trending-up.js';
+import DollarSign from 'lucide-react/dist/esm/icons/dollar-sign.js';
+import BarChart3 from 'lucide-react/dist/esm/icons/bar-chart-3.js';
+import Target from 'lucide-react/dist/esm/icons/target.js';
 
 interface ROICalculatorProps {
   className?: string;

@@ -1,5 +1,7 @@
 import React, { Component, ReactNode } from 'react';
-import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import AlertTriangle from 'lucide-react/dist/esm/icons/alert-triangle.js';
+import RefreshCw from 'lucide-react/dist/esm/icons/refresh-cw.js';
+import Home from 'lucide-react/dist/esm/icons/home.js';
 import performanceMonitor from '../utils/performanceMonitor';
 
 interface Props {
