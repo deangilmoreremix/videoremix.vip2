@@ -13,10 +13,13 @@ import {
   CheckCircle,
   AlertTriangle,
   Target,
-  Clock
+  Clock,
+  TrendingUpIcon
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import SocialBuzzForm from "../../components/agents/SocialBuzzForm";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ResultGrid } from "@/components/agent-ui/ResultCard";
 
 interface SocialBuzzResult {
   id: string;
@@ -84,9 +87,8 @@ const SocialBuzzAIPage: React.FC = () => {
 
       setResult(data);
 
-      // Simulate progress through stages
       for (let i = 1; i <= 4; i++) {
-        setTimeout(() => setCurrentStage(i), i * 12000); // 12 seconds per stage
+        setTimeout(() => setCurrentStage(i), i * 12000);
       }
 
     } catch (err) {
@@ -95,7 +97,7 @@ const SocialBuzzAIPage: React.FC = () => {
     } finally {
       setTimeout(() => {
         setIsProcessing(false);
-      }, 50000); // Complete after all stages
+      }, 50000);
     }
   };
 
@@ -139,7 +141,6 @@ const SocialBuzzAIPage: React.FC = () => {
             error={error || undefined}
           />
 
-          {/* Results Display */}
           {result && result.status === 'completed' && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -147,7 +148,6 @@ const SocialBuzzAIPage: React.FC = () => {
               className="mt-12 max-w-6xl mx-auto"
             >
               <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden">
-                {/* Header */}
                 <div className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border-b border-gray-700 p-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
@@ -170,7 +170,6 @@ const SocialBuzzAIPage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Action Buttons */}
                   <div className="flex items-center space-x-3 mt-4">
                     <button className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-colors">
                       <Download className="h-4 w-4 mr-2" />
@@ -183,102 +182,57 @@ const SocialBuzzAIPage: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Tab Navigation */}
-                <div className="border-b border-gray-700">
-                  <div className="flex overflow-x-auto">
-                    {[
-                      { id: 'overview', label: 'Overview', icon: BarChart3 },
-                      { id: 'sentiment', label: 'Sentiment Analysis', icon: Users },
-                      { id: 'insights', label: 'Key Insights', icon: Target },
-                      { id: 'recommendations', label: 'Recommendations', icon: CheckCircle }
-                    ].map((tab) => (
-                      <button
-                        key={tab.id}
-                        className="flex items-center px-6 py-4 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white hover:bg-gray-700/30 transition-colors"
-                      >
-                        <tab.icon className="h-4 w-4 mr-2" />
-                        {tab.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Content */}
                 <div className="p-6 space-y-8">
-                  {/* Overview Tab (Default) */}
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    {/* Sentiment Overview */}
-                    <div className="bg-gray-900/50 rounded-lg p-6">
-                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
+                  <ResultGrid columns={3}>
+                    <div className="bg-gray-900/50 rounded-lg p-4">
+                      <div className="flex items-center mb-3">
                         <Users className="h-5 w-5 mr-2 text-blue-400" />
-                        Sentiment Overview
-                      </h4>
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <span className="text-gray-400">Overall:</span>
-                          <span className={`font-semibold capitalize ${getSentimentColor(result.sentiment.overall)}`}>
-                            {result.sentiment.overall}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-gray-400">Score:</span>
-                          <span className="text-white font-semibold">
-                            {(result.sentiment.score * 100).toFixed(1)}%
-                          </span>
-                        </div>
-                        <div className="space-y-2">
-                          <div className="flex justify-between text-sm">
-                            <span className="text-green-400">Positive:</span>
-                            <span className="text-green-400">{result.sentiment.breakdown.positive}</span>
-                          </div>
-                          <div className="flex justify-between text-sm">
-                            <span className="text-gray-400">Neutral:</span>
-                            <span className="text-gray-400">{result.sentiment.breakdown.neutral}</span>
-                          </div>
-                          <div className="flex justify-between text-sm">
-                            <span className="text-red-400">Negative:</span>
-                            <span className="text-red-400">{result.sentiment.breakdown.negative}</span>
-                          </div>
-                        </div>
+                        <span className="text-blue-300 font-medium">Sentiment</span>
                       </div>
-                    </div>
-
-                    {/* Engagement Metrics */}
-                    <div className="bg-gray-900/50 rounded-lg p-6">
-                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                        <BarChart3 className="h-5 w-5 mr-2 text-purple-400" />
-                        Engagement Metrics
-                      </h4>
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <span className="text-gray-400">Total Mentions:</span>
-                          <span className="text-white font-semibold">{result.engagementMetrics.totalMentions}</span>
-                        </div>
-                        <div>
-                          <div className="text-gray-400 text-sm mb-1">Peak Engagement:</div>
-                          <div className="text-white text-sm">{result.engagementMetrics.peakEngagement}</div>
-                        </div>
-                        <div>
-                          <div className="text-gray-400 text-sm mb-2">Top Influencers:</div>
-                          <div className="flex flex-wrap gap-1">
-                            {result.engagementMetrics.topInfluencers.slice(0, 3).map((influencer, index) => (
-                              <span key={index} className="bg-purple-500/20 text-purple-300 px-2 py-1 rounded text-xs">
-                                {influencer}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Trending Topics */}
-                    <div className="bg-gray-900/50 rounded-lg p-6">
-                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                        <TrendingUp className="h-5 w-5 mr-2 text-cyan-400" />
-                        Trending Topics
-                      </h4>
                       <div className="space-y-2">
-                        {result.trendingTopics.slice(0, 5).map((topic, index) => (
+                        <div className="flex justify-between text-sm">
+                          <span className="text-gray-400">Score:</span>
+                          <span className="text-white font-semibold">{(result.sentiment.score * 100).toFixed(1)}%</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-green-400">Positive:</span>
+                          <span className="text-green-400">{result.sentiment.breakdown.positive}%</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-gray-400">Neutral:</span>
+                          <span className="text-gray-400">{result.sentiment.breakdown.neutral}%</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-red-400">Negative:</span>
+                          <span className="text-red-400">{result.sentiment.breakdown.negative}%</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-900/50 rounded-lg p-4">
+                      <div className="flex items-center mb-3">
+                        <BarChart3 className="h-5 w-5 mr-2 text-purple-400" />
+                        <span className="text-purple-300 font-medium">Engagement</span>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span className="text-gray-400">Total Mentions:</span>
+                          <span className="text-white font-semibold">{result.engagementMetrics.totalMentions.toLocaleString()}</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-gray-400">Peak:</span>
+                          <span className="text-white">{result.engagementMetrics.peakEngagement}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-900/50 rounded-lg p-4">
+                      <div className="flex items-center mb-3">
+                        <TrendingUpIcon className="h-5 w-5 mr-2 text-cyan-400" />
+                        <span className="text-cyan-300 font-medium">Trending</span>
+                      </div>
+                      <div className="space-y-1">
+                        {result.trendingTopics.slice(0, 3).map((topic, index) => (
                           <div key={index} className="flex items-center text-sm">
                             <span className="text-cyan-400 mr-2">#{index + 1}</span>
                             <span className="text-gray-300">{topic}</span>
@@ -286,13 +240,12 @@ const SocialBuzzAIPage: React.FC = () => {
                         ))}
                       </div>
                     </div>
-                  </div>
+                  </ResultGrid>
 
-                  {/* Key Insights */}
                   <div className="bg-gray-900/50 rounded-lg p-6">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                       <Target className="h-5 w-5 mr-2 text-green-400" />
-                      Key Insights from Social Media
+                      Key Insights
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {result.keyInsights.map((insight, index) => (
@@ -306,7 +259,6 @@ const SocialBuzzAIPage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Strategic Recommendations */}
                   <div className="bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/20 rounded-lg p-6">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                       <CheckCircle className="h-5 w-5 mr-2 text-purple-400" />
@@ -324,7 +276,6 @@ const SocialBuzzAIPage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Metadata */}
                   <div className="bg-gray-900/50 rounded-lg p-4">
                     <div className="flex items-center justify-between">
                       <div className="text-sm text-gray-400">
@@ -338,6 +289,19 @@ const SocialBuzzAIPage: React.FC = () => {
                 </div>
               </div>
             </motion.div>
+          )}
+
+          {!result && !isProcessing && !error && (
+            <EmptyState
+              icon={<TrendingUpIcon className="h-16 w-16 text-gray-600" />}
+              title="Ready to analyze"
+              description="Enter a topic to analyze social media sentiment, trends, and engagement across platforms"
+              tips={[
+                "Enter a topic, keyword, or hashtag to analyze",
+                "Choose a platform or analyze all",
+                "Select a timeframe for the analysis"
+              ]}
+            />
           )}
         </div>
       </main>
