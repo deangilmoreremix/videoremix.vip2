@@ -3,7 +3,11 @@ import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Upload, Image as ImageIcon } from "lucide-react";
+import {
+  Upload,
+  Image as ImageIcon,
+  CheckCircle
+} from "lucide-react";
 import {
   SmartInput,
   SmartTextarea,
@@ -212,31 +216,42 @@ const VisionRagPage: React.FC = () => {
                   <CardTitle>Results</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  {result.result ? (
-                    <ResultGrid columns={1}>
-                      <ResultCard
-                        title="Analysis Result"
-                        description="Vision model response"
-                        icon="info"
-                        variant="info"
-                      >
-                        <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans mt-2">
-                          {JSON.stringify(result, null, 2)}
-                        </pre>
-                      </ResultCard>
-                    </ResultGrid>
-                  ) : (
-                    <ResultGrid columns={2}>
-                      {Object.entries(result).map(([key, value]) => (
-                        <ResultCard
-                          key={key}
-                          title={key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}
-                          value={typeof value === "object" ? JSON.stringify(value) : String(value)}
-                          variant="default"
-                        />
-                      ))}
-                    </ResultGrid>
-                  )}
+                  <ResultGrid columns={1}>
+                    <ResultCard
+                      title="Analysis Result"
+                      description="Vision model response"
+                      icon={<CheckCircle className="h-5 w-5" />}
+                      variant="success"
+                    >
+                      <div className="space-y-4 mt-4">
+                        {result.answer && (
+                          <div>
+                            <p className="text-sm font-medium text-gray-300 mb-1">Answer</p>
+                            <p className="text-white whitespace-pre-wrap">{result.answer}</p>
+                          </div>
+                        )}
+                        {result.confidence !== undefined && (
+                          <div>
+                            <p className="text-sm font-medium text-gray-300 mb-1">Confidence</p>
+                            <p className="text-green-400 font-semibold">{(result.confidence * 100).toFixed(0)}%</p>
+                          </div>
+                        )}
+                        {result.metadata && (
+                          <div>
+                            <p className="text-sm font-medium text-gray-300 mb-1">Metadata</p>
+                            <div className="text-xs text-gray-400 space-y-1">
+                              {Object.entries(result.metadata).map(([key, val]) => (
+                                <div key={key} className="flex justify-between">
+                                  <span>{key}:</span>
+                                  <span>{String(val)}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </ResultCard>
+                  </ResultGrid>
                 </CardContent>
               </Card>
             </motion.div>
