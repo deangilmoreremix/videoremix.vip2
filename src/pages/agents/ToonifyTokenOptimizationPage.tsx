@@ -1,14 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
 import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
 import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2 } from "lucide-react";
+import { SmartInput } from "../../components/agent-ui/SmartInput";
+import { SmartTextarea } from "../../components/agent-ui/SmartTextarea";
+import { ActionButton } from "../../components/agent-ui/ActionButton";
+import { ResultCard, ResultGrid } from "../../components/agent-ui/ResultCard";
+import { EmptyState } from "../../components/agent-ui/EmptyState";
+import { LoadingIndicator } from "../../components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "../../components/agent-ui/ErrorMessage";
+import { FormSection } from "../../components/agent-ui/FormSection";
+
+const STORAGE_KEY = 'toonify_token_optimization_form';
+
+interface FormData {
+  llm_model: string;
+  toon_delimiter: string;
+  key_folding: string;
+  choose_example_dataset: string;
+  json_data: string;
+}
+
+const defaultFormData: FormData = {
+  llm_model: '',
+  toon_delimiter: '',
+  key_folding: '',
+  choose_example_dataset: '',
+  json_data: '',
+};
 
 const ToonifyTokenOptimizationPage: React.FC = () => {
   const { user } = useAuth();
@@ -16,9 +39,26 @@ const ToonifyTokenOptimizationPage: React.FC = () => {
   const [loading, setLoading] = useState<string | null>(null);
   const [results, setResults] = useState<Record<string, any>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [mainFormData, setMainFormData] = useState<FormData>(() => {
+    const stored = localStorage.getItem(`${STORAGE_KEY}_main`);
+    return stored ? JSON.parse(stored) : defaultFormData;
+  });
+  const [advancedFormData, setAdvancedFormData] = useState<FormData>(() => {
+    const stored = localStorage.getItem(`${STORAGE_KEY}_advanced`);
+    return stored ? JSON.parse(stored) : defaultFormData;
+  });
 
-  const handleSubmit = async (tabKey: string, data: any) => {
+  useEffect(() => {
+    localStorage.setItem(`${STORAGE_KEY}_main`, JSON.stringify(mainFormData));
+  }, [mainFormData]);
+
+  useEffect(() => {
+    localStorage.setItem(`${STORAGE_KEY}_advanced`, JSON.stringify(advancedFormData));
+  }, [advancedFormData]);
+
+  const handleSubmit = async (tabKey: string, data: FormData) => {
     setLoading(tabKey);
+    setErrors(prev => ({ ...prev, [tabKey]: '' }));
     try {
       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/toonify-token-optimization`, {
         method: 'POST',
@@ -33,6 +73,80 @@ const ToonifyTokenOptimizationPage: React.FC = () => {
     } finally {
       setLoading(null);
     }
+  };
+
+  const renderForm = (tabKey: string, formData: FormData, setFormData: React.Dispatch<React.SetStateAction<FormData>>) => (
+    <form onSubmit={(e) => { e.preventDefault(); handleSubmit(tabKey, formData); }} className="space-y-6">
+      <FormSection title="LLM Model">
+        <SmartTextarea
+          id={`${tabKey}_llm_model`}
+          value={formData.llm_model}
+          onChange={(val) => setFormData(prev => ({ ...prev, llm_model: val }))}
+          placeholder="e.g., 'gpt-4', 'claude-3', 'gemini-pro'"
+          className="bg-gray-900/50 border-gray-600"
+        />
+      </FormSection>
+
+      <FormSection title="TOON Delimiter">
+        <SmartTextarea
+          id={`${tabKey}_toon_delimiter`}
+          value={formData.toon_delimiter}
+          onChange={(val) => setFormData(prev => ({ ...prev, toon_delimiter: val }))}
+          placeholder="e.g., '||', '---', '[TOON]'"
+          className="bg-gray-900/50 border-gray-600"
+        />
+      </FormSection>
+
+      <FormSection title="Key Folding">
+        <SmartTextarea
+          id={`${tabKey}_key_folding`}
+          value={formData.key_folding}
+          onChange={(val) => setFormData(prev => ({ ...prev, key_folding: val }))}
+          placeholder="e.g., 'lowercase', 'uppercase', 'preserve'"
+          className="bg-gray-900/50 border-gray-600"
+        />
+      </FormSection>
+
+      <FormSection title="Choose example dataset">
+        <SmartTextarea
+          id={`${tabKey}_choose_example_dataset`}
+          value={formData.choose_example_dataset}
+          onChange={(val) => setFormData(prev => ({ ...prev, choose_example_dataset: val }))}
+          placeholder="e.g., 'medical', 'legal', 'financial'"
+          className="bg-gray-900/50 border-gray-600"
+        />
+      </FormSection>
+
+      <FormSection title="JSON Data">
+        <SmartTextarea
+          id={`${tabKey}_json_data`}
+          value={formData.json_data}
+          onChange={(val) => setFormData(prev => ({ ...prev, json_data: val }))}
+          placeholder='{"key": "value"} example JSON data'
+          className="bg-gray-900/50 border-gray-600"
+        />
+      </FormSection>
+
+      <ActionButton type="submit" loading={loading === tabKey}>
+        {loading === tabKey ? 'Processing...' : 'Run'}
+      </ActionButton>
+    </form>
+  );
+
+  const renderResults = (tabKey: string) => {
+    if (errors[tabKey]) {
+      return <ErrorMessage message={errors[tabKey]} />;
+    }
+    if (!results[tabKey]) {
+      return <EmptyState message="No results yet. Run the form to see results." />;
+    }
+    return (
+      <ResultGrid>
+        <ResultCard title="Optimization Result">
+          <pre className="whitespace-pre-wrap text-sm font-sans">{JSON.stringify(results[tabKey], null, 2)}</pre>
+        </ResultCard>
+      </ResultGrid>
+    );
   };
 
   return (
@@ -51,85 +165,22 @@ const ToonifyTokenOptimizationPage: React.FC = () => {
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="max-w-4xl mx-auto">
             <TabsList className="grid grid-cols-2 mb-8">
-              
               <TabsTrigger value="main">Main</TabsTrigger>
-                            
               <TabsTrigger value="advanced">Advanced</TabsTrigger>
-              
             </TabsList>
 
-            
             <TabsContent value="main">
               <Card className="bg-gray-800/50 border-gray-700">
                 <CardHeader><CardTitle>Main</CardTitle></CardHeader>
                 <CardContent>
-                  <form onSubmit={(e) => { e.preventDefault(); handleSubmit('main', { llm_model, toon_delimiter, key_folding, choose_example_dataset, json_data }); }} className="space-y-6">
-
-                    <div className="space-y-2">
-                      <Label htmlFor="llm_model">LLM Model</Label>
-                      <Textarea
-                        id="llm_model"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="toon_delimiter">TOON Delimiter</Label>
-                      <Textarea
-                        id="toon_delimiter"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="key_folding">Key Folding</Label>
-                      <Textarea
-                        id="key_folding"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="choose_example_dataset">Choose example dataset</Label>
-                      <Textarea
-                        id="choose_example_dataset"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="json_data">JSON Data</Label>
-                      <Textarea
-                        id="json_data"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <Button type="submit" disabled={loading === 'main'}>
-                      {loading === 'main' ? 'Processing...' : 'Run'}
-                    </Button>
-                  </form>
+                  {renderForm('main', mainFormData, setMainFormData)}
                 </CardContent>
               </Card>
-
-              {results['main'] && (
+              {loading === 'main' ? (
+                <LoadingIndicator />
+              ) : (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6">
-                  <Card className="bg-gray-800/50 border-gray-700">
-                    <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                    <CardContent>
-                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(results['main'], null, 2)}</pre>
-                    </CardContent>
-                  </Card>
+                  {renderResults('main')}
                 </motion.div>
               )}
             </TabsContent>
@@ -138,73 +189,14 @@ const ToonifyTokenOptimizationPage: React.FC = () => {
               <Card className="bg-gray-800/50 border-gray-700">
                 <CardHeader><CardTitle>Advanced</CardTitle></CardHeader>
                 <CardContent>
-                  <form onSubmit={(e) => { e.preventDefault(); handleSubmit('advanced', { llm_model, toon_delimiter, key_folding, choose_example_dataset, json_data }); }} className="space-y-6">
-
-                    <div className="space-y-2">
-                      <Label htmlFor="llm_model">LLM Model</Label>
-                      <Textarea
-                        id="llm_model"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="toon_delimiter">TOON Delimiter</Label>
-                      <Textarea
-                        id="toon_delimiter"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="key_folding">Key Folding</Label>
-                      <Textarea
-                        id="key_folding"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="choose_example_dataset">Choose example dataset</Label>
-                      <Textarea
-                        id="choose_example_dataset"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="json_data">JSON Data</Label>
-                      <Textarea
-                        id="json_data"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <Button type="submit" disabled={loading === 'advanced'}>
-                      {loading === 'advanced' ? 'Processing...' : 'Run'}
-                    </Button>
-                  </form>
+                  {renderForm('advanced', advancedFormData, setAdvancedFormData)}
                 </CardContent>
               </Card>
-
-              {results['advanced'] && (
+              {loading === 'advanced' ? (
+                <LoadingIndicator />
+              ) : (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6">
-                  <Card className="bg-gray-800/50 border-gray-700">
-                    <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                    <CardContent>
-                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(results['advanced'], null, 2)}</pre>
-                    </CardContent>
-                  </Card>
+                  {renderResults('advanced')}
                 </motion.div>
               )}
             </TabsContent>
