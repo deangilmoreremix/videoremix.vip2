@@ -17,6 +17,7 @@ import { useAuth } from "../context/AuthContext";
 import { useUserAccess } from "../hooks/useUserAccess";
 import { getEnhancedAppData } from "../data/enhancedAppsData";
 import PurchaseModal from "./PurchaseModal";
+import PersonalizerDialog from "./personalizer/PersonalizerDialog";
 
 interface AppDetailModalProps {
   app: any;
@@ -32,6 +33,7 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
   const { user } = useAuth();
   const { hasAccessToApp } = useUserAccess();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
+  const [showPersonalizer, setShowPersonalizer] = useState(false);
   const [activeTab, setActiveTab] = useState<
     "overview" | "features" | "use-cases" | "testimonials"
   >("overview");
@@ -158,10 +160,23 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
                           Purchase Now
                         </button>
                       )}
+                      <button
+                        onClick={() => setShowPersonalizer(true)}
+                        className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-bold flex items-center gap-2 transition-colors"
+                      >
+                        Personalize This
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
+
+              {/* Personalizer Dialog */}
+              <PersonalizerDialog
+                open={showPersonalizer}
+                onClose={() => setShowPersonalizer(false)}
+                appId={app?.id}
+              />
 
               {/* Content */}
               <div className="p-6">

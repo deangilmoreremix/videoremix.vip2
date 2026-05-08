@@ -91,6 +91,7 @@ const AiTravelAgentPage = lazy(() => import("./pages/agents/AiTravelAgentPage"))
 const AiTravelPlannerMcpAgentTeamPage = lazy(() => import("./pages/agents/AiTravelPlannerMcpAgentTeamPage"));
   const AgentAppPage = lazy(() => import("./pages/agents/AppPage"));
 const AutonomousRagPage = lazy(() => import("./pages/agents/AutonomousRagPage"));
+const PersonalizerPage = lazy(() => import("./pages/PersonalizerPage"));
 const BlogToPodcastAgentPage = lazy(() => import("./pages/agents/BlogToPodcastAgentPage"));
 const BrowserMcpAgentPage = lazy(() => import("./pages/agents/BrowserMcpAgentPage"));
 const ChatWithGithubPage = lazy(() => import("./pages/agents/ChatWithGithubPage"));
@@ -541,6 +542,18 @@ function App() {
                   </Suspense>
                 </ErrorBoundary>
               </ProtectedRoute>
+            }
+          />
+
+          {/* Personalizer Deep Link */}
+          <Route
+            path="/new"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <PersonalizerPage />
+                </Suspense>
+              </ErrorBoundary>
             }
           />
 
