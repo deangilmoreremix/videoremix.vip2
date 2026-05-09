@@ -1,0 +1,602 @@
+, 
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-royal-portrait-ai-thumbnail-1776705000018.png",
+,     "alt": "AI Royal Portrait - Museum-quality royal paintings",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Royal Portrait\" - Museum-quality royal paintings.\n\nKey features to visualize: royal style transformation, historical painting effects, portrait enhancement, custom royal themes, artistic composition\n\nStyle requirements:\n- digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-royal-portrait",
+,       "category": "ai-image",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-logo-ai-thumbnail-1776705000019.png",
+,     "alt": "AI Logo - Brand identity generator",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Logo\" - Brand identity generator.\n\nKey features to visualize: logo design automation, brand color selection, typography integration, vector output, brand guidelines\n\nStyle requirements:\n- digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-logo",
+,       "category": "ai-image",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/oldphoto-ai-thumbnail-1776705000020.png",
+,     "alt": "OldPhoto - Photo restoration",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"OldPhoto\" - Photo restoration.\n\nKey features to visualize: photo restoration, damage repair, color correction, enhancement tools, vintage effects\n\nStyle requirements:\n- digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "oldphoto",
+,       "category": "ai-image",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/aitryon-ai-thumbnail-1776705000021.png",
+,     "alt": "AITryOn - Virtual fitting room",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AITryOn\" - Virtual fitting room.\n\nKey features to visualize: virtual clothing try-on, body scanning, fashion visualization, size recommendations, style suggestions\n\nStyle requirements:\n- digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "aitryon",
+,       "category": "ai-image",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-age-transformation-ai-thumbnail-1776705000022.png",
+,     "alt": "AI Age Transformation - Age visualization",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Age Transformation\" - Age visualization.\n\nKey features to visualize: age progression, facial aging effects, youth restoration, time-lapse visualization, personal evolution\n\nStyle requirements:\n- digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-age-transformation",
+,       "category": "ai-image",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-professional-makeup-generator-ai-thumbnail-1776705000023.png",
+,     "alt": "AI Professional Makeup Generator - Virtual makeup",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Professional Makeup Generator\" - Virtual makeup.\n\nKey features to visualize: makeup application, style recommendations, virtual try-on, beauty enhancement, professional results\n\nStyle requirements:\n- digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-professional-makeup-generator",
+,       "category": "ai-image",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-tattoo-try-on-ai-thumbnail-1776705000024.png",
+,     "alt": "AI Tattoo Try-On - Tattoo preview",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Tattoo Try-On\" - Tattoo preview.\n\nKey features to visualize: tattoo design preview, skin simulation, placement visualization, style options, removal effects\n\nStyle requirements:\n- digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-tattoo-try-on",
+,       "category": "ai-image",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-hair-style-simulator-ai-thumbnail-1776705000025.png",
+,     "alt": "AI Hair Style Simulator - Hair styling preview",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Hair Style Simulator\" - Hair styling preview.\n\nKey features to visualize: hair style changes, color simulation, cut visualization, hair type analysis, styling recommendations\n\nStyle requirements:\n- digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-hair-style-simulator",
+,       "category": "ai-image",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-kids-to-adult-prediction-ai-thumbnail-1776705000026.png",
+,     "alt": "AI Kids-to-Adult Prediction - Age prediction",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Kids-to-Adult Prediction\" - Age prediction.\n\nKey features to visualize: facial aging prediction, growth visualization, future appearance, age milestones, family resemblance\n\nStyle requirements:\n- digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-kids-to-adult-prediction",
+,       "category": "ai-image",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-room-declutter-ai-thumbnail-1776705000027.png",
+,     "alt": "AI Room Declutter - Interior cleanup",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Room Declutter\" - Interior cleanup.\n\nKey features to visualize: space optimization, clutter removal, interior design, layout suggestions, virtual staging\n\nStyle requirements:\n- digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-room-declutter",
+,       "category": "ai-image",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-fitness-body-simulator-ai-thumbnail-1776705000028.png",
+,     "alt": "AI Fitness Body Simulator - Fitness visualization",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Fitness Body Simulator\" - Fitness visualization.\n\nKey features to visualize: body transformation, fitness progress, muscle development, weight visualization, goal tracking\n\nStyle requirements:\n- digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-fitness-body-simulator",
+,       "category": "ai-image",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-pet-portrait-ai-thumbnail-1776705000029.png",
+,     "alt": "AI Pet Portrait - Pet artwork",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Pet Portrait\" - Pet artwork.\n\nKey features to visualize: pet photography, artistic portraits, breed recognition, custom styles, memory preservation\n\nStyle requirements:\n- digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-pet-portrait",
+,       "category": "ai-image",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-wedding-photo-ai-thumbnail-1776705000030.png",
+,     "alt": "AI Wedding Photo - Wedding enhancement",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Wedding Photo\" - Wedding enhancement.\n\nKey features to visualize: wedding photo editing, couple enhancement, background effects, special moments, album creation\n\nStyle requirements:\n- digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-wedding-photo",
+,       "category": "ai-image",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/magicself-ai-ai-thumbnail-1776705000031.png",
+,     "alt": "MagicSelf AI - Avatar generation",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"MagicSelf AI\" - Avatar generation.\n\nKey features to visualize: personal avatars, character creation, style customization, animation support, social profiles\n\nStyle requirements:\n- digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "magicself-ai",
+,       "category": "ai-image",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-meme-ai-thumbnail-1776705000032.png",
+,     "alt": "AI MEME - Viral content generation",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI MEME\" - Viral content generation.\n\nKey features to visualize: meme creation, viral trends, humor generation, social sharing, engagement optimization\n\nStyle requirements:\n- creative workspace with design tools, artistic composition, innovative interface\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-meme",
+,       "category": "creative",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-flash-cards-ai-thumbnail-1776705000033.png",
+,     "alt": "AI Flash Cards - Learning flashcards",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Flash Cards\" - Learning flashcards.\n\nKey features to visualize: educational content, flashcard generation, study aids, knowledge retention, interactive learning\n\nStyle requirements:\n- creative workspace with design tools, artistic composition, innovative interface\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-flash-cards",
+,       "category": "creative",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-group-photo-ai-thumbnail-1776705000034.png",
+,     "alt": "AI Group Photo - Photo composition",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Group Photo\" - Photo composition.\n\nKey features to visualize: group photo editing, people arrangement, background integration, pose optimization, event memories\n\nStyle requirements:\n- creative workspace with design tools, artistic composition, innovative interface\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-group-photo",
+,       "category": "creative",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-character-studio-ai-thumbnail-1776705000035.png",
+,     "alt": "AI Character Studio - Character creation",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Character Studio\" - Character creation.\n\nKey features to visualize: character design, personality traits, visual customization, story integration, animation tools\n\nStyle requirements:\n- creative workspace with design tools, artistic composition, innovative interface\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-character-studio",
+,       "category": "creative",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/luxury-hair-studio-ai-thumbnail-1776705000036.png",
+,     "alt": "Luxury Hair Studio - Hair visualization",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"Luxury Hair Studio\" - Hair visualization.\n\nKey features to visualize: luxury hair styles, salon visualization, beauty trends, personal styling, professional consultation\n\nStyle requirements:\n- creative workspace with design tools, artistic composition, innovative interface\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "luxury-hair-studio",
+,       "category": "creative",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-travel-studio-ai-thumbnail-1776705000037.png",
+,     "alt": "AI Travel Studio - Travel content",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Travel Studio\" - Travel content.\n\nKey features to visualize: travel planning, destination visualization, itinerary creation, photo enhancement, experience sharing\n\nStyle requirements:\n- creative workspace with design tools, artistic composition, innovative interface\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-travel-studio",
+,       "category": "creative",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/social-post-ai-thumbnail-1776705000038.png",
+,     "alt": "Social Post - Social media content",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"Social Post\" - Social media content.\n\nKey features to visualize: post creation, social media optimization, content scheduling, engagement tools, multi-platform support\n\nStyle requirements:\n- creative workspace with design tools, artistic composition, innovative interface\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "social-post",
+,       "category": "creative",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/plantvision-ai-ai-thumbnail-1776705000039.png",
+,     "alt": "PlantVision AI - Plant identification",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"PlantVision AI\" - Plant identification.\n\nKey features to visualize: plant recognition, care instructions, health diagnosis, growth tracking, gardening tips\n\nStyle requirements:\n- user profile customization interface, personalized dashboard, modern UX design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "plantvision-ai",
+,       "category": "personalizer",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-resume-builder-ai-thumbnail-1776705000040.png",
+,     "alt": "AI Resume Builder - Career optimization",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Resume Builder\" - Career optimization.\n\nKey features to visualize: resume creation, skill highlighting, job matching, career advice, professional formatting\n\nStyle requirements:\n- user profile customization interface, personalized dashboard, modern UX design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-resume-builder",
+,       "category": "personalizer",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/geo-checker-ai-thumbnail-1776705000041.png",
+,     "alt": "GEO Checker - Location validation",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"GEO Checker\" - Location validation.\n\nKey features to visualize: location verification, geographic data, address validation, mapping tools, regional information\n\nStyle requirements:\n- user profile customization interface, personalized dashboard, modern UX design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "geo-checker",
+,       "category": "personalizer",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/solace-ai-ai-thumbnail-1776705000042.png",
+,     "alt": "Solace AI - Mental wellness",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"Solace AI\" - Mental wellness.\n\nKey features to visualize: mental health support, stress management, mindfulness exercises, emotional tracking, wellness coaching\n\nStyle requirements:\n- user profile customization interface, personalized dashboard, modern UX design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "solace-ai",
+,       "category": "personalizer",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/relive-ai-ai-thumbnail-1776705000043.png",
+,     "alt": "ReLive AI - Memory visualization",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"ReLive AI\" - Memory visualization.\n\nKey features to visualize: memory enhancement, past events, photo restoration, storytelling, emotional recall\n\nStyle requirements:\n- user profile customization interface, personalized dashboard, modern UX design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "relive-ai",
+,       "category": "personalizer",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-chiropractic-service-ai-thumbnail-1776705000044.png",
+,     "alt": "AI Chiropractic Service - Posture analysis",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Chiropractic Service\" - Posture analysis.\n\nKey features to visualize: posture assessment, spinal alignment, pain relief tips, exercise recommendations, health monitoring\n\nStyle requirements:\n- user profile customization interface, personalized dashboard, modern UX design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-chiropractic-service",
+,       "category": "personalizer",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/velora-yoga-ai-ai-thumbnail-1776705000045.png",
+,     "alt": "Velora - Yoga AI - Yoga assistant",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"Velora - Yoga AI\" - Yoga assistant.\n\nKey features to visualize: yoga poses, personalized routines, progress tracking, injury prevention, meditation guidance\n\nStyle requirements:\n- user profile customization interface, personalized dashboard, modern UX design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "velora-yoga-ai",
+,       "category": "personalizer",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-kissing-video-generator-ai-thumbnail-1776705000046.png",
+,     "alt": "AI Kissing Video Generator - Video generation",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Kissing Video Generator\" - Video generation.\n\nKey features to visualize: romantic video creation, couple animations, emotional storytelling, custom scenes, special effects\n\nStyle requirements:\n- professional video editing software interface, cinematic lighting, modern UI design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-kissing-video-generator",
+,       "category": "video",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/user-account-registration-form-ai-thumbnail-1776705000047.png",
+,     "alt": "User Account Registration Form - Onboarding",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"User Account Registration Form\" - Onboarding.\n\nKey features to visualize: user registration, form customization, data collection, verification processes, user management\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "user-account-registration-form",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/counselmate-ai-thumbnail-1776705000048.png",
+,     "alt": "CounselMate - Legal assistant",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"CounselMate\" - Legal assistant.\n\nKey features to visualize: legal advice, document review, case preparation, compliance checking, client management\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "counselmate",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/intelligent-real-estate-agent-ai-thumbnail-1776705000049.png",
+,     "alt": "Intelligent Real Estate Agent - Property matching",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"Intelligent Real Estate Agent\" - Property matching.\n\nKey features to visualize: property search, market analysis, buyer matching, negotiation support, transaction management\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "intelligent-real-estate-agent",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/fixera-ai-thumbnail-1776705000050.png",
+,     "alt": "Fixera - Home repair coordination",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"Fixera\" - Home repair coordination.\n\nKey features to visualize: repair scheduling, service providers, cost estimation, quality assurance, project management\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "fixera",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/proflow-plumbing-ai-thumbnail-1776705000051.png",
+,     "alt": "ProFlow Plumbing - Service management",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"ProFlow Plumbing\" - Service management.\n\nKey features to visualize: plumbing services, emergency repairs, maintenance scheduling, customer support, quality control\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "proflow-plumbing",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/turboglow-auto-spa-ai-thumbnail-1776705000052.png",
+,     "alt": "TurboGlow Auto Spa - Auto detailing booking",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"TurboGlow Auto Spa\" - Auto detailing booking.\n\nKey features to visualize: car detailing, appointment booking, service packages, quality assurance, customer satisfaction\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "turboglow-auto-spa",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/paws-pals-ai-thumbnail-1776705000053.png",
+,     "alt": "Paws & Pals - Pet care coordination",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"Paws & Pals\" - Pet care coordination.\n\nKey features to visualize: pet care services, veterinary coordination, grooming appointments, pet sitting, emergency care\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "paws-pals",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/towmate-ai-thumbnail-1776705000054.png",
+,     "alt": "TowMate - Roadside assistance",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"TowMate\" - Roadside assistance.\n\nKey features to visualize: towing services, emergency response, vehicle recovery, roadside repair, customer support\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "towmate",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/swiftlink-logistics-ai-thumbnail-1776705000055.png",
+,     "alt": "SwiftLink Logistics - Route optimization",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"SwiftLink Logistics\" - Route optimization.\n\nKey features to visualize: logistics management, route planning, delivery tracking, supply chain optimization, cost reduction\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "swiftlink-logistics",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/lumea-residence-ai-thumbnail-1776705000056.png",
+,     "alt": "Lumea Residence - Property management",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"Lumea Residence\" - Property management.\n\nKey features to visualize: property management, tenant screening, maintenance coordination, rental marketing, financial reporting\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "lumea-residence",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/opulent-drive-ai-thumbnail-1776705000057.png",
+,     "alt": "Opulent Drive - Luxury car rental",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"Opulent Drive\" - Luxury car rental.\n\nKey features to visualize: luxury vehicle rental, premium service, concierge support, flexible booking, high-end experiences\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "opulent-drive",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/profix-auto-ai-thumbnail-1776705000058.png",
+,     "alt": "ProFix Auto - Vehicle diagnostics",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"ProFix Auto\" - Vehicle diagnostics.\n\nKey features to visualize: automotive diagnostics, repair scheduling, maintenance reminders, parts ordering, service history\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "profix-auto",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/nova-assuranceai-ai-thumbnail-1776705000059.png",
+,     "alt": "Nova AssuranceAI - Insurance automation",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"Nova AssuranceAI\" - Insurance automation.\n\nKey features to visualize: insurance processing, claim automation, risk assessment, policy management, customer service\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "nova-assuranceai",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/nova-care-clinic-ai-thumbnail-1776705000060.png",
+,     "alt": "Nova Care Clinic - Healthcare management",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"Nova Care Clinic\" - Healthcare management.\n\nKey features to visualize: healthcare services, appointment scheduling, patient management, medical records, telemedicine support\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "nova-care-clinic",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/tabla-reserveai-ai-thumbnail-1776705000061.png",
+,     "alt": "Tabla - ReserveAI - Restaurant reservations",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"Tabla - ReserveAI\" - Restaurant reservations.\n\nKey features to visualize: restaurant booking, table management, customer preferences, waitlist handling, dining experience\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "tabla-reserveai",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-content-creator-ai-thumbnail-1776705000062.png",
+,     "alt": "AI Content Creator - Content generation",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Content Creator\" - Content generation.\n\nKey features to visualize: content generation, topic research, writing assistance, multimedia support, engagement optimization\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-content-creator",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-seo-optimizer-ai-thumbnail-1776705000063.png",
+,     "alt": "AI SEO Optimizer - Search optimization",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI SEO Optimizer\" - Search optimization.\n\nKey features to visualize: keyword research, content optimization, ranking improvement, analytics integration, performance tracking\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-seo-optimizer",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-ad-generator-ai-thumbnail-1776705000064.png",
+,     "alt": "AI Ad Generator - Advertising creation",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Ad Generator\" - Advertising creation.\n\nKey features to visualize: ad creation, target audience analysis, campaign optimization, creative design, conversion tracking\n\nStyle requirements:\n- sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-ad-generator",
+,       "category": "lead-gen",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-real-estate-stager-ai-thumbnail-1776705000065.png",
+,     "alt": "AI Real Estate Stager - Property staging",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"AI Real Estate Stager\" - Property staging.\n\nKey features to visualize: virtual staging, property enhancement, marketing visuals, buyer attraction, sales acceleration\n\nStyle requirements:\n- brand identity design workspace, clean and professional, corporate design tools\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "ai-real-estate-stager",
+,       "category": "branding",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/prompt-architect-ai-thumbnail-1776705000066.png",
+,     "alt": "Prompt Architect - Prompt optimization",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"Prompt Architect\" - Prompt optimization.\n\nKey features to visualize: prompt engineering, AI optimization, content generation, efficiency improvement, creative assistance\n\nStyle requirements:\n- brand identity design workspace, clean and professional, corporate design tools\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "prompt-architect",
+,       "category": "branding",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   },
+,   {
+,     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/clearmark-ai-ai-thumbnail-1776705000067.png",
+,     "alt": "ClearMark AI - Watermark removal",
+,     "prompt": "Create a realistic, professional software interface thumbnail for \"ClearMark AI\" - Watermark removal.\n\nKey features to visualize: watermark detection, content cleaning, image restoration, copyright management, media optimization\n\nStyle requirements:\n- brand identity design workspace, clean and professional, corporate design tools\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+,     "metadata": {
+,       "appId": "clearmark-ai",
+,       "category": "branding",
+,       "generatedAt": "2026-04-21T05:39:59+00:00",
+,       "model": "dall-e-3",
+,       "quality": "hd"
+,     }
+,   }
+, 
