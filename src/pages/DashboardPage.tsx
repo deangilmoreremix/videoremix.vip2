@@ -47,19 +47,13 @@ const DashboardPage: React.FC = () => {
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
-    // Check URL param first (from signup)
-    const onboardingParam = searchParams.get('onboarding');
-    if (onboardingParam === 'true') {
-      setShowOnboarding(true);
-      return;
-    }
-    
-    // Auto-show if user hasn't completed onboarding
+    // Show wizard for any user who hasn't completed onboarding yet
+    // This triggers on every sign-in for users who haven't finished the wizard
     const onboardingCompleted = user?.user_metadata?.onboarding_completed;
     if (!onboardingCompleted && user) {
       setShowOnboarding(true);
     }
-  }, [searchParams, user]);
+  }, [user]);
 
   useEffect(() => {
     const hour = new Date().getHours();

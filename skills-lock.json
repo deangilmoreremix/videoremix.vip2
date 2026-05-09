@@ -6,6 +6,18 @@
       "sourceType": "github",
       "skillPath": ".agents/skills/impeccable/SKILL.md",
       "computedHash": "29382b043f8d2588041d64c1a656468165a9c056a40d20f7925cb5757a94b8f2"
+    },
+    "awesome-design-md": {
+      "source": "deangilmoreremix/awesome-design-md",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/awesome-design-md",
+      "computedHash": "placeholder-hash-awesome-design-md"
+    },
+    "hyperframes": {
+      "source": "deangilmoreremix/hyperframes",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/hyperframes",
+      "computedHash": "placeholder-hash-hyperframes"
     }
   }
 }

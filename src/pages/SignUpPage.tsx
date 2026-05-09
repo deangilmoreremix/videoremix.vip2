@@ -41,7 +41,7 @@ const SignUpPage: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-      handleNavigation("/dashboard?onboarding=true");
+      handleNavigation("/dashboard");
     }
   }, [user]);
 
