@@ -125,16 +125,17 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ onComplete }) => {
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-[#030303]">
       {/* Premium ambient background matching landing page */}
-      <ParticleBackground className="z-0" particleCount={60} />
-      <GradientOrb size={800} colorFrom="primary-600" colorTo="accent-500" blur={120} mouseFollow={true} />
-      
-      <div className="absolute inset-0">
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-br from-primary-600/30 via-accent-500/10 to-transparent rounded-full blur-[120px] animate-pulse-slow"></div>
-        <div className="absolute bottom-0 left-0 w-[700px] h-[700px] bg-gradient-to-tr from-accent-500/20 via-primary-600/10 to-transparent rounded-full blur-[100px]"></div>
+        <ParticleBackground className="z-0" particleCount={60} />
+        <GradientOrb size={800} colorFrom="#cc785c" colorTo="#e6dfd8" blur={120} mouseFollow={true} />
         
-        {/* Mesh gradient overlay */}
-        <div className="absolute inset-0 opacity-30 bg-gradient-to-b from-primary-900/20 via-transparent to-accent-900/20"></div>
-      </div>
+        <div className="absolute inset-0">
+          {/* Animated gradient orbs with Claude coral tones */}
+          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-br from-[#cc785c]/30 via-[#cc785c]/10 to-transparent rounded-full blur-[120px] animate-pulse-slow"></div>
+          <div className="absolute bottom-0 left-0 w-[700px] h-[700px] bg-gradient-to-tr from-[#cc785c]/20 via-[#faf9f5]/10 to-transparent rounded-full blur-[100px]"></div>
+          
+          {/* Mesh gradient overlay with Claude ink/dark surfaces */}
+          <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#141413_1px,transparent_1px),linear-gradient(to_bottom,#141413_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+        </div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
         <motion.div
