@@ -286,25 +286,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     // Set up periodic session check
     sessionCheckIntervalRef.current = setInterval(async () => {
-      if (!mounted) return;
-      
-      // Get current session directly - avoids stale closure
-      const { data: { session: currentSession } } = await supabase.auth.getSession();
-      
-      if (!currentSession) return;
+      if (!mounted || !session) return;
 
-      // Check if session needs refresh
-      const expiresAt = currentSession.expires_at;
-      if (expiresAt) {
-        const expiresAtMs = expiresAt * 1000;
-        const now = Date.now();
-        const timeUntilExpiry = expiresAtMs - now;
+      try {
+        // Check if session needs refresh
+        const expiresAt = session.expires_at;
+        if (expiresAt) {
+          const expiresAtMs = expiresAt * 1000;
+          const now = Date.now();
+          const timeUntilExpiry = expiresAtMs - now;
 
-        // Refresh if expiring within threshold
-        if (timeUntilExpiry < SESSION_REFRESH_THRESHOLD_MS && timeUntilExpiry > 0) {
-          console.log("[Auth] Session expiring soon, refreshing...");
-          await refreshSession();
+          // Refresh if expiring within threshold
+          if (timeUntilExpiry < SESSION_REFRESH_THRESHOLD_MS && timeUntilExpiry > 0) {
+            console.log("[Auth] Session expiring soon, refreshing...");
+            await refreshSession();
+          }
         }
+      } catch (err) {
+        // Silently handle refresh errors - they are already logged in refreshSession
+        console.debug("[Auth] Session refresh check failed", err);
       }
     }, SESSION_CHECK_INTERVAL_MS);
 
@@ -358,7 +358,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Handle online/offline events
     const handleOnline = () => {
       console.log("[Auth] Network back online, refreshing session...");
-      refreshSession();
+      refreshSession().catch(err => {
+        console.debug("[Auth] Session refresh on online failed", err);
+      });
     };
 
     const handleOffline = () => {
@@ -402,8 +404,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         options: {
           data: metadata,
           emailRedirectTo: `${siteUrl}/auth/confirm`,
-          // SUPERPOWERS: Disable email confirmation requirement
-          emailConfirm: false
         },
       });
 

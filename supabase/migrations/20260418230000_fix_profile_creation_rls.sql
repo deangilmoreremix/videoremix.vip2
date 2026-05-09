@@ -65,7 +65,8 @@ SELECT
   '00000000-0000-0000-0000-000000000001'
 FROM auth.users au
 LEFT JOIN profiles p ON au.id = p.user_id
-WHERE p.user_id IS NULL;
+WHERE p.user_id IS NULL
+ON CONFLICT (user_id) DO NOTHING;
 
 -- Re-enable RLS
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;

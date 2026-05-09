@@ -48,8 +48,8 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
       return;
     }
 
-    if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters");
+    if (formData.password.length < 8) {
+      setError("Password must be at least 8 characters");
       return;
     }
 
@@ -65,7 +65,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
         setError(error.message);
       } else {
         setSuccess(
-          "Account created successfully! Please check your email to verify your account.",
+          "Account created successfully! You can now sign in with your credentials.",
         );
       }
     } catch (err) {

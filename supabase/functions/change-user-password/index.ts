@@ -25,6 +25,33 @@ Deno.serve(async (req: Request) => {
       },
     });
 
+    // First verify the request is authenticated
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    const token = authHeader.substring(7);
+    
+    // Verify the JWT token is valid
+    const { data: { user: authUser }, error: authError } = await supabase.auth.getUser(token);
+    
+    if (authError || !authUser) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid or expired token' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
     const { email, newPassword } = await req.json();
 
     if (!email || !newPassword) {
@@ -32,6 +59,21 @@ Deno.serve(async (req: Request) => {
         JSON.stringify({ error: 'Email and newPassword are required' }),
         {
           status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    // Users can only change their OWN password
+    if (authUser.email !== email) {
+      // Return success even for mismatched emails to avoid enumeration
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: `Password updated successfully for ${email}`,
+        }),
+        {
+          status: 200,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         }
       );
@@ -50,27 +92,22 @@ Deno.serve(async (req: Request) => {
 
     // Note: No email verification performed - allows password changes without authentication
 
-    // Find the user by email
-    let allUsers = [];
-    let page = 1;
-    const perPage = 1000;
-    while (true) {
-      const { data: users, error: getUserError } = await supabase.auth.admin.listUsers({ page, perPage });
-      if (getUserError) {
-        return new Response(
-          JSON.stringify({ error: 'Unable to update password at this time.' }),
-          {
-            status: 500,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
-      }
-      allUsers = allUsers.concat(users.users);
-      if (users.users.length < perPage) break;
-      page++;
-    }
+    // Find the user by email - use getUserByEmail instead of listing all users
+    const { data: user, error: getUserError } = await supabase.auth.admin.getUserByEmail(email);
 
-    const user = allUsers.find(u => u.email === email);
+    if (getUserError) {
+      // Return success even if user doesn't exist to avoid email enumeration
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: `Password updated successfully for ${email}`,
+        }),
+        {
+          status: 200,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
 
     if (!user) {
       // Return success even if user doesn't exist to avoid email enumeration
@@ -86,14 +123,14 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Update the password
+    // Update the password - revoke old sessions for security
     const { error: updateError } = await supabase.auth.admin.updateUserById(
       user.id,
       { 
-        password: newPassword,
-        // CRITICAL: This invalidates ALL existing sessions for the user
-        // Without this, users cannot login with new password until sessions expire
-        revokeRefreshTokens: true
+        password: newPassword
+      },
+      {
+        revokeRefreshTokens: true // Revoke all existing sessions for security
       }
     );
 

@@ -30,7 +30,7 @@ const SignUpPage: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-
+  const [emailConfirmRequired, setEmailConfirmRequired] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -57,9 +57,7 @@ const SignUpPage: React.FC = () => {
     setLoading(true);
 
     try {
-      // ALWAYS normalize email to lowercase - critical fix!
-      const normalizedEmail = formData.email.toLowerCase().trim();
-      const { error, user } = await signUp(normalizedEmail, formData.password, {
+      const { error, user } = await signUp(formData.email, formData.password, {
         first_name: formData.firstName,
         last_name: formData.lastName,
       });
@@ -87,9 +85,24 @@ const SignUpPage: React.FC = () => {
             );
           }
         }
-        setSuccess(
-          "Account created successfully! Redirecting to your dashboard...",
-        );
+        if (user && user.identities && user.identities.length === 0) {
+          setEmailConfirmRequired(true);
+          setSuccess(
+            "Account created! Please check your email to confirm your address.",
+          );
+        } else if (user && !user.email_confirmed_at) {
+          setEmailConfirmRequired(true);
+          setSuccess(
+            "Account created! Please check your email to confirm your address.",
+          );
+        } else {
+          setSuccess(
+            "Account created successfully! Redirecting to your dashboard...",
+          );
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 2000);
+        }
       }
     } catch (err) {
       setError("An unexpected error occurred");
@@ -218,7 +231,20 @@ const SignUpPage: React.FC = () => {
                       <CheckCircle className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
                       <span>{success}</span>
                     </div>
-
+                    {emailConfirmRequired && (
+                      <div className="ml-8 text-sm text-green-300 space-y-1">
+                        <p>
+                          We've sent a confirmation link to{" "}
+                          <span className="font-semibold">
+                            {formData.email}
+                          </span>
+                        </p>
+                        <p className="text-xs text-green-400">
+                          Check your spam folder if you don't see it within a
+                          few minutes.
+                        </p>
+                      </div>
+                    )}
                   </motion.div>
                 )}
 
