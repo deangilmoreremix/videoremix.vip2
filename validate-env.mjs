@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
@@ -13,12 +13,21 @@ const correctUrl = lockFile.match(/LOCKED_SUPABASE_URL=(.+)/)[1];
 
 // Read environment variables from either .env file or process.env
 let currentUrl;
-try {
+if (existsSync(join(__dirname, '.env'))) {
+  // Local development - read from .env file
   const envFile = readFileSync(join(__dirname, '.env'), 'utf-8');
   currentUrl = envFile.match(/VITE_SUPABASE_URL=(.+)/)?.[1];
-} catch (error) {
-  // .env file doesn't exist, check process.env (for production deployments)
+} else {
+  // Production deployment - read from environment variables
   currentUrl = process.env.VITE_SUPABASE_URL;
+}
+
+// Validate
+if (!currentUrl) {
+  console.error('❌ ERROR: VITE_SUPABASE_URL not found in .env file or environment variables');
+  console.error('   For local development: create .env file with VITE_SUPABASE_URL');
+  console.error('   For production: set VITE_SUPABASE_URL environment variable in Netlify');
+  process.exit(1);
 }
 
 // Validate
