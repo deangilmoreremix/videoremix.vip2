@@ -13,25 +13,28 @@ export default defineConfig(({ mode }) => {
   optimizeDeps: {
     exclude: ['lucide-react', 'framer-motion'],
   },
-  build: {
-    target: 'esnext',
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: [
-            'react', 
-            'react-dom', 
-            'framer-motion', 
-            'react-intersection-observer'
-          ],
-          animations: [
-            'react-type-animation'
-          ],
-          ui: [
-            'lucide-react',
-            'react-countup'
-          ],
-        }
+   build: {
+   target: 'esnext',
+   rollupOptions: {
+     output: {
+       manualChunks: (id) => {
+         if (id.includes('node_modules')) {
+           if (id.includes('react') || id.includes('react-dom') || 
+               id.includes('framer-motion') || id.includes('react-intersection-observer')) {
+             return 'vendor';
+           }
+           if (id.includes('react-type-animation')) {
+             return 'animations';
+           }
+           if (id.includes('lucide-react') || id.includes('react-countup')) {
+             return 'ui';
+           }
+         }
+         return undefined;
+       }
+     }
+   }
+ }
       }
     }
   },
