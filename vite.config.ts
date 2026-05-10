@@ -7,49 +7,43 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
-  plugins: [
-    react(),
-  ],
-  optimizeDeps: {
-    exclude: ['lucide-react', 'framer-motion'],
-  },
-   build: {
-     target: 'esnext',
-     rollupOptions: {
-       output: {
-         manualChunks: (id) => {
-           if (id.includes('node_modules')) {
-             if (id.includes('react') || id.includes('react-dom') || 
-                 id.includes('framer-motion') || id.includes('react-intersection-observer')) {
-               return 'vendor';
-             }
-             if (id.includes('react-type-animation')) {
-               return 'animations';
-             }
-             if (id.includes('lucide-react') || id.includes('react-countup')) {
-               return 'ui';
-             }
-           }
-           return undefined;
-         }
-       }
-     }
-   },
-   server: {
-     hmr: {
-       timeout: 120000,
-     },
-     watch: {
-       usePolling: false,
-       ignored: ['**/node_modules/**', '**/dist/**', '**/supabase/functions/**'],
-     },
-     strictPort: false,
-   },
-   resolve: {
-     alias: {
-       '@': '/src',
-     },
-   },
-   envPrefix: 'VITE_',
-   };
+    plugins: [
+      react(),
+    ],
+    optimizeDeps: {
+      exclude: ['lucide-react', 'framer-motion'],
+    },
+    build: {
+      target: 'esnext',
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('react') || id.includes('framer-motion')) {
+              return 'vendor';
+            }
+            if (id.includes('lucide-react') || id.includes('react-countup')) {
+              return 'ui';
+            }
+            return undefined;
+          }
+        }
+      }
+    },
+    server: {
+      hmr: {
+        timeout: 120000,
+      },
+      watch: {
+        usePolling: false,
+        ignored: ['**/node_modules/**', '**/dist/**', '**/supabase/functions/**'],
+      },
+      strictPort: false,
+    },
+    resolve: {
+      alias: {
+        '@': '/src',
+      },
+    },
+    envPrefix: 'VITE_',
+  };
 });

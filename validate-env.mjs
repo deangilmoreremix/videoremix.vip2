@@ -11,13 +11,21 @@ const lockFile = readFileSync(join(__dirname, '.env.lock'), 'utf-8');
 const correctProjectId = lockFile.match(/LOCKED_PROJECT_ID=(.+)/)[1];
 const correctUrl = lockFile.match(/LOCKED_SUPABASE_URL=(.+)/)[1];
 
-// Read the .env file
-const envFile = readFileSync(join(__dirname, '.env'), 'utf-8');
-const currentUrl = envFile.match(/VITE_SUPABASE_URL=(.+)/)?.[1];
+// Read environment variables from either .env file or process.env
+let currentUrl;
+try {
+  const envFile = readFileSync(join(__dirname, '.env'), 'utf-8');
+  currentUrl = envFile.match(/VITE_SUPABASE_URL=(.+)/)?.[1];
+} catch (error) {
+  // .env file doesn't exist, check process.env (for production deployments)
+  currentUrl = process.env.VITE_SUPABASE_URL;
+}
 
 // Validate
 if (!currentUrl) {
-  console.error('❌ ERROR: VITE_SUPABASE_URL not found in .env file');
+  console.error('❌ ERROR: VITE_SUPABASE_URL not found in .env file or environment variables');
+  console.error('   For local development: copy .env.example to .env');
+  console.error('   For production: set VITE_SUPABASE_URL environment variable');
   process.exit(1);
 }
 
