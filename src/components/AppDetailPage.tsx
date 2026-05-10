@@ -29,6 +29,7 @@ import {
   Mail,
   Gift,
   ExternalLink,
+  Lock,
 } from "lucide-react";
 import MagicSparkles from "./MagicSparkles";
 import { useApps } from "../hooks/useApps";
@@ -37,6 +38,7 @@ import { useUserAccess } from "../hooks/useUserAccess";
 import { getEnhancedAppData } from "../data/enhancedAppsData";
 import { getAppUrl, isExternalUrl } from "../config/appUrls";
 import PurchaseModal from "./PurchaseModal";
+import PersonalizerDialog from "./personalizer/PersonalizerDialog";
 
 // Floating Icon component to add visual interest
 const FloatingIcon: React.FC<{
@@ -139,6 +141,7 @@ const AppDetailPage: React.FC = () => {
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
+  const [showPersonalizer, setShowPersonalizer] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -454,6 +457,31 @@ const AppDetailPage: React.FC = () => {
                       <Play className="mr-2 h-5 w-5" />
                     </motion.div>
                     Watch Demo
+                  </motion.button>
+
+                  {/* Personalize This Button */}
+                  <motion.button
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: "0 10px 25px -5px rgba(236, 72, 153, 0.4)",
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    className="inline-flex items-center justify-center bg-gradient-to-r from-accent to-pink-500 hover:from-accent/90 hover:to-pink-500/90 text-white font-bold px-8 py-4 rounded-lg shadow-lg relative overflow-hidden"
+                    onClick={() => setShowPersonalizer(true)}
+                  >
+                    <motion.div
+                      animate={{
+                        rotate: [0, 15, 0, -15, 0],
+                      }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 2,
+                        repeatDelay: 3,
+                      }}
+                    >
+                      <Sparkles className="h-5 w-5 mr-2" />
+                    </motion.div>
+                    <span className="relative z-10">Personalize This</span>
                   </motion.button>
                 </div>
 
@@ -2350,6 +2378,14 @@ const AppDetailPage: React.FC = () => {
           app={app}
         />
       )}
+
+      {/* Personalizer Dialog */}
+      <PersonalizerDialog
+        open={showPersonalizer}
+        onClose={() => setShowPersonalizer(false)}
+        appId={app?.id}
+        userId={user?.id}
+      />
     </div>
   );
 };

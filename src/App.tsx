@@ -67,6 +67,9 @@ const EmailConfirmPage = lazy(() => import("./pages/EmailConfirmPage"));
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
 const MagicLinkPage = lazy(() => import("./pages/MagicLinkPage"));
 
+// Personalizer page
+const PersonalizerPage = lazy(() => import("./pages/PersonalizerPage"));
+
 // Loading fallback component
 const SectionLoader = () => (
   <div className="flex justify-center items-center py-20 text-white">
@@ -582,6 +585,18 @@ function App() {
                 <ErrorBoundary onError={handleError}>
                   <Suspense fallback={<SectionLoader />}>
                     <AdminDashboard />
+                  </Suspense>
+                </ErrorBoundary>
+              }
+            />
+
+            {/* Personalizer Page */}
+            <Route
+              path="/new"
+              element={
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <PersonalizerPage />
                   </Suspense>
                 </ErrorBoundary>
               }

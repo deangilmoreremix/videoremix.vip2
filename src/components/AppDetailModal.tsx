@@ -12,11 +12,13 @@ import {
   Target,
   Zap,
   ShoppingCart,
+  Sparkles,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useUserAccess } from "../hooks/useUserAccess";
 import { getEnhancedAppData } from "../data/enhancedAppsData";
 import PurchaseModal from "./PurchaseModal";
+import PersonalizerDialog from "./personalizer/PersonalizerDialog";
 
 interface AppDetailModalProps {
   app: any;
@@ -32,6 +34,7 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
   const { user } = useAuth();
   const { hasAccessToApp } = useUserAccess();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
+  const [showPersonalizer, setShowPersonalizer] = useState(false);
   const [activeTab, setActiveTab] = useState<
     "overview" | "features" | "use-cases" | "testimonials"
   >("overview");
@@ -158,6 +161,13 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
                           Purchase Now
                         </button>
                       )}
+                      <button
+                        onClick={() => setShowPersonalizer(true)}
+                        className="bg-gradient-to-r from-accent to-pink-500 hover:from-accent/90 hover:to-pink-500/90 text-white px-6 py-3 rounded-lg font-bold flex items-center gap-2 transition-colors"
+                      >
+                        <Sparkles className="h-5 w-5" />
+                        Personalize This
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -377,6 +387,14 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
           icon: app.icon,
           price: enhancedApp.price || 97,
         }}
+      />
+
+      {/* Personalizer Dialog */}
+      <PersonalizerDialog
+        open={showPersonalizer}
+        onClose={() => setShowPersonalizer(false)}
+        appId={app.id}
+        userId={user?.id}
       />
     </>
   );
