@@ -6,10 +6,20 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Read the lock file
-const lockFile = readFileSync(join(__dirname, '.env.lock'), 'utf-8');
-const correctProjectId = lockFile.match(/LOCKED_PROJECT_ID=(.+)/)[1];
-const correctUrl = lockFile.match(/LOCKED_SUPABASE_URL=(.+)/)[1];
+// Read the lock file if it exists (for local development)
+let correctProjectId = null;
+let correctUrl = null;
+
+if (existsSync(join(__dirname, '.env.lock'))) {
+  const lockFile = readFileSync(join(__dirname, '.env.lock'), 'utf-8');
+  correctProjectId = lockFile.match(/LOCKED_PROJECT_ID=(.+)/)?.[1];
+  correctUrl = lockFile.match(/LOCKED_SUPABASE_URL=(.+)/)?.[1];
+} else {
+  // In production, we skip the validation since we don't have the lock file
+  console.log('⚠️  Skipping Supabase URL validation (no .env.lock file found)');
+  console.log('   This is normal for production deployments');
+  process.exit(0);
+}
 
 // Read environment variables from either .env file or process.env
 let currentUrl;
