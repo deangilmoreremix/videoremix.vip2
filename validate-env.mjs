@@ -30,14 +30,6 @@ if (!currentUrl) {
   process.exit(1);
 }
 
-// Validate
-if (!currentUrl) {
-  console.error('❌ ERROR: VITE_SUPABASE_URL not found in .env file or environment variables');
-  console.error('   For local development: copy .env.example to .env');
-  console.error('   For production: set VITE_SUPABASE_URL environment variable');
-  process.exit(1);
-}
-
 if (currentUrl !== correctUrl) {
   console.error('❌ ERROR: Incorrect Supabase URL detected!');
   console.error(`   Current:  ${currentUrl}`);
