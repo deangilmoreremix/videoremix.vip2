@@ -14,45 +14,42 @@ export default defineConfig(({ mode }) => {
     exclude: ['lucide-react', 'framer-motion'],
   },
    build: {
-   target: 'esnext',
-   rollupOptions: {
-     output: {
-       manualChunks: (id) => {
-         if (id.includes('node_modules')) {
-           if (id.includes('react') || id.includes('react-dom') || 
-               id.includes('framer-motion') || id.includes('react-intersection-observer')) {
-             return 'vendor';
+     target: 'esnext',
+     rollupOptions: {
+       output: {
+         manualChunks: (id) => {
+           if (id.includes('node_modules')) {
+             if (id.includes('react') || id.includes('react-dom') || 
+                 id.includes('framer-motion') || id.includes('react-intersection-observer')) {
+               return 'vendor';
+             }
+             if (id.includes('react-type-animation')) {
+               return 'animations';
+             }
+             if (id.includes('lucide-react') || id.includes('react-countup')) {
+               return 'ui';
+             }
            }
-           if (id.includes('react-type-animation')) {
-             return 'animations';
-           }
-           if (id.includes('lucide-react') || id.includes('react-countup')) {
-             return 'ui';
-           }
+           return undefined;
          }
-         return undefined;
        }
      }
-   }
- }
-      }
-    }
-  },
-  server: {
-    hmr: {
-      timeout: 120000,
-    },
-    watch: {
-      usePolling: false,
-      ignored: ['**/node_modules/**', '**/dist/**', '**/supabase/functions/**'],
-    },
-    strictPort: false,
-  },
-  resolve: {
-    alias: {
-      '@': '/src',
-    },
-  },
-  envPrefix: 'VITE_',
-  };
+   },
+   server: {
+     hmr: {
+       timeout: 120000,
+     },
+     watch: {
+       usePolling: false,
+       ignored: ['**/node_modules/**', '**/dist/**', '**/supabase/functions/**'],
+     },
+     strictPort: false,
+   },
+   resolve: {
+     alias: {
+       '@': '/src',
+     },
+   },
+   envPrefix: 'VITE_',
+   };
 });
