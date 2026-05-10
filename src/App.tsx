@@ -32,6 +32,7 @@ const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
 const AdminSignUp = lazy(() => import("./components/admin/AdminSignUp"));
 const SpecialFooter = lazy(() => import("./components/SpecialFooter"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
+const CoursesPage = lazy(() => import("./pages/CoursesPage"));
 const AnalyticsDashboard = lazy(() => import("./components/AnalyticsDashboard"));
 
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
@@ -820,7 +821,21 @@ function App() {
   
 
 
-        </Routes>
+          {/* Courses Page */}
+          <Route
+            path="/courses"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <CoursesPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+         </Routes>
         <Toaster />
         <MobileBottomNav />
         <NetworkStatusIndicator />

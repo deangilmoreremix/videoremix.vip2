@@ -23,7 +23,7 @@ const CoursesPage: React.FC = () => {
             AI Agent Courses
           </h1>
           <p className="text-gray-400 mb-12 text-lg">
-            Free crash courses and tutorials to master AI agent frameworks. Original content by {' '}
+            Free crash courses and tutorials to master AI agent frameworks. Original content by {" "}
             <a 
               href="https://www.theunwindai.com" 
               target="_blank" 

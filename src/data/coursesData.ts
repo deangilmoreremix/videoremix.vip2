@@ -14,7 +14,7 @@ export const coursesData: Course[] = [
   {
     id: "google-adk-crash-course",
     title: "Google ADK Crash Course",
-    description: "Deep-dive tutorial on Google's Agent Development Kit. Covers starter agent, model-agnostic development, structured outputs with Pydantic, tools integration (built-in, function, third-party, MCP), memory management, callbacks, plugins, and multi-agent patterns.",
+    description: "Deep-dive tutorial on Google's Agent Development Kit. Covers starter agent, model-agnostic development, structured outputs with Pydantic, tools integration (built-in, function, third-party; MCP), memory management, callbacks, plugins, and multi-agent patterns.",
     icon: React.createElement(BookOpen),
     url: "https://www.theunwindai.com/p/google-s-open-source-sdk-for-building-production-ai-apps",
     category: "crash-course"
@@ -29,8 +29,8 @@ export const coursesData: Course[] = [
   },
   {
     id: "gemini-3-fine-tuning",
-    title: "Gemma 3 Fine-tuning Tutorial",
-    description: "End-to-end fine-tuning recipe for Gemma 3 model. Learn how to adapt pre-trained models for specific tasks with custom datasets.",
+    title: "Gemini 3 Fine-tuning Tutorial",
+    description: "End-to-end fine-tuning recipe for Gemini 3 model. Learn how to adapt pre-trained models for specific tasks with custom datasets.",
     icon: React.createElement(Settings),
     url: "https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/advanced_llm_apps/llm_finetuning_tutorials/gemma3_finetuning",
     category: "fine-tuning"
