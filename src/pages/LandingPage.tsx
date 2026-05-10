@@ -70,21 +70,25 @@ const useIntersectionObserver = (options?: IntersectionObserverInit) => {
 
 // Error boundary for lazy sections
 class LazySectionErrorBoundary extends React.Component<
-  { children: React.ReactNode; fallback?: React.ReactNode },
+  { children: React.ReactNode; fallback?: React.ReactNode; componentName?: string },
   { hasError: boolean }
 > {
-  constructor(props: { children: React.ReactNode; fallback?: React.ReactNode }) {
+  constructor(props: { children: React.ReactNode; fallback?: React.ReactNode; componentName?: string }) {
     super(props);
     this.state = { hasError: false };
   }
 
   static getDerivedStateFromError(error: Error) {
-    console.warn('LazySection error caught:', error.message);
+    console.warn(`LazySection error caught in ${this.props.componentName || 'unknown component'}:`, error.message);
     return { hasError: true };
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.warn('LazySection error details:', error, errorInfo);
+    console.warn(`LazySection error details for ${this.props.componentName || 'unknown component'}:`, {
+      error: error.message,
+      stack: error.stack,
+      componentStack: errorInfo.componentStack
+    });
   }
 
   render() {
