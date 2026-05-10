@@ -7,7 +7,6 @@ import FeatureMap from "../components/FeatureMap";
 // Direct imports for critical sections to avoid lazy loading issues
 import PersonalizationWorkflowSection from "../components/PersonalizationWorkflowSection";
 import ToolsCarouselSection from "../components/ToolsCarouselSection";
-import FeatureMap from "../components/FeatureMap";
 
 // Lazy loaded components for better performance
 const BenefitsSection = lazy(() => import("../components/BenefitsSection"));
