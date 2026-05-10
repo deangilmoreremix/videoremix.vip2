@@ -404,6 +404,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         options: {
           data: metadata,
           emailRedirectTo: `${siteUrl}/auth/confirm`,
+          emailConfirm: false,
         },
       });
 

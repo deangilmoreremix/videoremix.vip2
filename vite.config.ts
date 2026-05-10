@@ -7,49 +7,43 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
-  plugins: [
-    react(),
-  ],
-  optimizeDeps: {
-    exclude: ['lucide-react', 'framer-motion'],
-  },
-  build: {
-    target: 'esnext',
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: [
-            'react', 
-            'react-dom', 
-            'framer-motion', 
-            'react-intersection-observer'
-          ],
-          animations: [
-            'react-type-animation'
-          ],
-          ui: [
-            'lucide-react',
-            'react-countup'
-          ],
+    plugins: [
+      react(),
+    ],
+    optimizeDeps: {
+      exclude: ['lucide-react', 'framer-motion'],
+    },
+    build: {
+      target: 'esnext',
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('react') || id.includes('framer-motion')) {
+              return 'vendor';
+            }
+            if (id.includes('lucide-react') || id.includes('react-countup')) {
+              return 'ui';
+            }
+            return undefined;
+          }
         }
       }
-    }
-  },
-  server: {
-    hmr: {
-      timeout: 120000,
     },
-    watch: {
-      usePolling: false,
-      ignored: ['**/node_modules/**', '**/dist/**', '**/supabase/functions/**'],
+    server: {
+      hmr: {
+        timeout: 120000,
+      },
+      watch: {
+        usePolling: false,
+        ignored: ['**/node_modules/**', '**/dist/**', '**/supabase/functions/**'],
+      },
+      strictPort: false,
     },
-    strictPort: false,
-  },
-  resolve: {
-    alias: {
-      '@': '/src',
+    resolve: {
+      alias: {
+        '@': '/src',
+      },
     },
-  },
-  envPrefix: 'VITE_',
+    envPrefix: 'VITE_',
   };
 });
