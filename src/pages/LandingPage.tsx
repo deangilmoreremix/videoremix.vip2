@@ -4,14 +4,13 @@ import ProblemSection from "../components/ProblemSection";
 import SolutionSection from "../components/SolutionSection";
 import FeatureMap from "../components/FeatureMap";
 
+// Direct imports for critical sections to avoid lazy loading issues
+import PersonalizationWorkflowSection from "../components/PersonalizationWorkflowSection";
+import ToolsCarouselSection from "../components/ToolsCarouselSection";
+import FeatureMap from "../components/FeatureMap";
+
 // Lazy loaded components for better performance
 const BenefitsSection = lazy(() => import("../components/BenefitsSection"));
-const ToolsCarouselSection = lazy(
-  () => import("../components/ToolsCarouselSection"),
-);
-const PersonalizationWorkflowSection = lazy(
-  () => import("../components/PersonalizationWorkflowSection"),
-);
 const AppGallerySection = lazy(() => import("../components/AppGallerySection"));
 const DemoSection = lazy(() => import("../components/DemoSection"));
 const CaseStudiesSection = lazy(
@@ -106,7 +105,8 @@ const LazySection: React.FC<{
   priority?: 'high' | 'medium' | 'low';
   preloadDistance?: number;
   skeletonHeight?: string;
-}> = ({ children, priority = 'medium', preloadDistance = 200, skeletonHeight = "400px" }) => {
+  componentName?: string;
+}> = ({ children, priority = 'medium', preloadDistance = 200, skeletonHeight = "400px", componentName }) => {
   const [ref, hasIntersected] = useIntersectionObserver({
     rootMargin: `${preloadDistance}px`
   });
@@ -116,7 +116,7 @@ const LazySection: React.FC<{
 
   return (
     <div ref={ref}>
-      <LazySectionErrorBoundary>
+      <LazySectionErrorBoundary componentName={componentName}>
         <Suspense fallback={<SectionLoader height={skeletonHeight} />}>
           {shouldLoad ? children : null}
         </Suspense>
@@ -194,57 +194,51 @@ const LandingPage: React.FC<LandingPageProps> = ({ isMobile, isTablet }) => {
       <ProblemSection />
       <SolutionSection />
 
-      {/* High priority sections - load soon with intersection observer */}
-      <LazySection priority="high" skeletonHeight="600px">
-        <PersonalizationWorkflowSection />
-      </LazySection>
+      {/* Critical sections - load immediately */}
+      <PersonalizationWorkflowSection />
 
-      <LazySection priority="high" skeletonHeight="500px">
-        <ToolsCarouselSection />
-      </LazySection>
+      <ToolsCarouselSection />
 
-      <LazySection priority="high" skeletonHeight="400px">
-        <FeatureMap
-          title="Comprehensive Marketing Personalization Features"
-          subtitle="Explore the powerful personalization capabilities of VideoRemix.vip's marketing platform"
-        />
-      </LazySection>
+      <FeatureMap
+        title="Comprehensive Marketing Personalization Features"
+        subtitle="Explore the powerful personalization capabilities of VideoRemix.vip's marketing platform"
+      />
 
       {/* Medium priority sections - load when near viewport */}
-      <LazySection priority="medium" skeletonHeight="500px">
+      <LazySection priority="medium" skeletonHeight="500px" componentName="BenefitsSection">
         <BenefitsSection />
       </LazySection>
 
-      <LazySection priority="medium" skeletonHeight="600px">
+      <LazySection priority="medium" skeletonHeight="600px" componentName="CaseStudiesSection">
         <CaseStudiesSection />
       </LazySection>
 
-      <LazySection priority="medium" skeletonHeight="800px">
+      <LazySection priority="medium" skeletonHeight="800px" componentName="AppGallerySection">
         <AppGallerySection />
       </LazySection>
 
-      <LazySection priority="medium" skeletonHeight="400px">
+      <LazySection priority="medium" skeletonHeight="400px" componentName="DemoSection">
         <DemoSection />
       </LazySection>
 
-      <LazySection priority="medium" skeletonHeight="500px">
+      <LazySection priority="medium" skeletonHeight="500px" componentName="TestimonialsSection">
         <TestimonialsSection />
       </LazySection>
 
       {/* Low priority sections - load when closer to viewport */}
-      <LazySection priority="low" skeletonHeight="400px" preloadDistance={300}>
+      <LazySection priority="low" skeletonHeight="400px" preloadDistance={300} componentName="PricingSection">
         <PricingSection />
       </LazySection>
 
-      <LazySection priority="low" skeletonHeight="300px" preloadDistance={300}>
+      <LazySection priority="low" skeletonHeight="300px" preloadDistance={300} componentName="GuaranteeSection">
         <GuaranteeSection />
       </LazySection>
 
-      <LazySection priority="low" skeletonHeight="600px" preloadDistance={300}>
+      <LazySection priority="low" skeletonHeight="600px" preloadDistance={300} componentName="FAQSection">
         <FAQSection />
       </LazySection>
 
-      <LazySection priority="low" skeletonHeight="400px" preloadDistance={300}>
+      <LazySection priority="low" skeletonHeight="400px" preloadDistance={300} componentName="FinalCTA">
         <FinalCTA />
       </LazySection>
     </main>
