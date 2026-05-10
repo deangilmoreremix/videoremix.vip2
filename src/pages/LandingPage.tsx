@@ -68,7 +68,35 @@ const useIntersectionObserver = (options?: IntersectionObserverInit) => {
   return [ref, hasIntersected] as const;
 };
 
-// Progressive loading component with prefetch
+// Error boundary for lazy sections
+class LazySectionErrorBoundary extends React.Component<
+  { children: React.ReactNode; fallback?: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode; fallback?: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    console.warn('LazySection error caught:', error.message);
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.warn('LazySection error details:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback || <SectionLoader height="400px" />;
+    }
+
+    return this.props.children;
+  }
+}
+
+// Progressive loading component with error boundary
 const LazySection: React.FC<{
   children: React.ReactNode;
   priority?: 'high' | 'medium' | 'low';
@@ -84,9 +112,11 @@ const LazySection: React.FC<{
 
   return (
     <div ref={ref}>
-      <Suspense fallback={<SectionLoader height={skeletonHeight} />}>
-        {shouldLoad ? children : null}
-      </Suspense>
+      <LazySectionErrorBoundary>
+        <Suspense fallback={<SectionLoader height={skeletonHeight} />}>
+          {shouldLoad ? children : null}
+        </Suspense>
+      </LazySectionErrorBoundary>
     </div>
   );
 };

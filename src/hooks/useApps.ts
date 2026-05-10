@@ -42,9 +42,38 @@ const setCachedApps = (apps: ComponentApp[], lastModified: string): void => {
       timestamp: Date.now(),
       lastModified,
     };
-    localStorage.setItem(APPS_CACHE_KEY, JSON.stringify(cacheData));
+
+    const cacheString = JSON.stringify(cacheData);
+
+    // Check if the data is too large for localStorage (typically ~5-10MB limit)
+    if (cacheString.length > 4 * 1024 * 1024) { // 4MB limit
+      console.warn("Apps data too large for localStorage, skipping cache");
+      return;
+    }
+
+    localStorage.setItem(APPS_CACHE_KEY, cacheString);
   } catch (error) {
-    console.warn("Error caching apps data:", error);
+    // Handle QuotaExceededError and other storage errors gracefully
+    if (error instanceof DOMException && error.name === 'QuotaExceededError') {
+      console.warn("Storage quota exceeded, clearing old cache and retrying");
+
+      // Try clearing some space and retry once
+      try {
+        localStorage.removeItem(APPS_CACHE_KEY);
+        // Clear other potential caches if they exist
+        const keysToRemove = Object.keys(localStorage).filter(key =>
+          key.includes('videoremix') || key.includes('cache')
+        );
+        keysToRemove.forEach(key => localStorage.removeItem(key));
+
+        // Retry with smaller data or skip caching
+        console.warn("Cache cleared, skipping apps data caching to prevent quota issues");
+      } catch (clearError) {
+        console.warn("Failed to clear cache:", clearError);
+      }
+    } else {
+      console.warn("Error caching apps data:", error);
+    }
   }
 };
 

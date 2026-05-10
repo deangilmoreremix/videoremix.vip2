@@ -46,6 +46,12 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(event.request.url);
 
+  // Skip non-HTTP/HTTPS requests (chrome-extension, etc.)
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
+
+  // Skip external domains - only cache same-origin requests
+  if (url.origin !== self.location.origin) return;
+
   // Cache static assets
   if (STATIC_ASSETS.some(asset => url.pathname === asset)) {
     event.respondWith(
@@ -65,26 +71,6 @@ self.addEventListener('fetch', (event) => {
             }
             return response;
           });
-        })
-    );
-  } else {
-    // For other requests, try cache first, then network
-    event.respondWith(
-      caches.match(event.request)
-        .then((cachedResponse) => {
-          const fetchPromise = fetch(event.request).then((networkResponse) => {
-            // Cache successful responses
-            if (networkResponse.status === 200) {
-              const responseClone = networkResponse.clone();
-              caches.open(CACHE_NAME).then((cache) => {
-                cache.put(event.request, responseClone);
-              });
-            }
-            return networkResponse;
-          });
-
-          // Return cached version immediately if available, otherwise wait for network
-          return cachedResponse || fetchPromise;
         })
     );
   }

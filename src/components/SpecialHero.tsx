@@ -319,21 +319,15 @@ const SpecialHero: React.FC = () => {
           <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
             {["Microsoft", "Google", "YouTube", "Instagram", "Twitter"].map(
               (brand, i) => (
-                <motion.img
+                <motion.div
                   key={i}
                   whileHover={{ scale: 1.05, filter: "brightness(1.2)" }}
-                  src={
-                    [
-                      "https://cdn.pixabay.com/photo/2013/02/12/09/07/microsoft-80658_960_720.png",
-                      "https://cdn.pixabay.com/photo/2015/12/11/11/43/google-1088003_960_720.png",
-                      "https://cdn.pixabay.com/photo/2017/03/30/17/42/youtube-2189041_960_720.png",
-                      "https://cdn.pixabay.com/photo/2018/06/05/13/24/instagram-3456027_960_720.png",
-                      "https://cdn.pixabay.com/photo/2017/06/22/14/23/twitter-2430933_960_720.png",
-                    ][i]
-                  }
-                  alt={brand}
-                  className="h-8 sm:h-10 brightness-[2]"
-                />
+                  className="h-8 sm:h-10 flex items-center justify-center bg-white/10 backdrop-blur-sm rounded px-3 py-1 border border-white/20"
+                >
+                  <span className="text-white font-semibold text-sm sm:text-base">
+                    {brand}
+                  </span>
+                </motion.div>
               ),
             )}
           </div>
