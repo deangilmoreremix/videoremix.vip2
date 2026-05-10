@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronRight, ChevronLeft, Loader2, CheckCircle, AlertCircle, Search, Download, Table2, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -68,7 +68,39 @@ const REPORT_FORMATS = [
   { id: 'csv', label: 'CSV Report', extension: '.csv', mime: 'text/csv' },
 ];
 
-export default function PersonalizerDialog({ open, onClose, appId: initialAppId, mode: initialMode, userId, projectId, defaultOffer, defaultGoal, defaultTone = 'professional', defaultCTA, initialTarget, onComplete, onSave, theme }: PersonalizerDialogProps) {
+// User-friendly error messages
+const ERROR_MESSAGES: Record<string, string> = {
+  'Rate limit exceeded': 'Too many requests. Please wait a minute and try again.',
+  'Unauthorized': 'Please sign in to continue.',
+  'Invalid or expired token': 'Your session has expired. Please sign in again.',
+  'targetName required': 'Please enter a target name.',
+  'Scan failed': 'Unable to scan profiles. Please try again.',
+  'Generation failed': 'Unable to generate content. Please try again.',
+  'Save failed': 'Unable to save. Please try again.',
+  'default': 'Something went wrong. Please try again.'
+};
+
+function getErrorMessage(error: string): string {
+  for (const [key, message] of Object.entries(ERROR_MESSAGES)) {
+    if (error.includes(key)) return message;
+  }
+  return ERROR_MESSAGES['default'];
+}
+
+// Input validation
+function validateTargetName(value: string): string | null {
+  if (!value || typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  if (trimmed.length === 0 || trimmed.length > 500) return null;
+  // Allow letters, numbers, underscores, hyphens, spaces, commas for multiple usernames
+  if (!/^[a-zA-Z0-9_\-\s,]+$/.test(trimmed)) return null;
+  return trimmed;
+}
+
+export default function PersonalizerDialog({
+  open, onClose, appId: initialAppId, mode: initialMode, userId, projectId,
+  defaultOffer, defaultGoal, defaultTone = 'professional', defaultCTA, initialTarget, onComplete, onSave, theme
+}: PersonalizerDialogProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [appId, setAppId] = useState(initialAppId || 'videoremix-vip');
   const [mode, setMode] = useState(initialMode || 'cold-email');
@@ -91,11 +123,34 @@ export default function PersonalizerDialog({ open, onClose, appId: initialAppId,
   const [withDomains, setWithDomains] = useState(false);
   const [scanProgress, setScanProgress] = useState(0);
 
-  useEffect(() => { if (open && projectId) loadProject(projectId); }, [open, projectId]);
+  // AbortControllers for cancelling requests
+  const scanAbortRef = useRef<AbortController | null>(null);
+  const generateAbortRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    if (open && projectId) loadProject(projectId);
+    // Cleanup on unmount or close
+    return () => {
+      scanAbortRef.current?.abort();
+      generateAbortRef.current?.abort();
+    };
+  }, [open, projectId]);
 
   const loadProject = async (id: string) => {
-    const { data } = await supabase.from('personalization_projects').select('*').eq('id', id).single();
-    if (data) { setProject(data); setAppId(data.app_id); setMode(data.mode); setTargetName(data.target_name); setTargetCompany(data.target_company || ''); setManualNotes(data.manual_notes || ''); }
+    try {
+      const { data, error } = await supabase.from('personalization_projects').select('*').eq('id', id).single();
+      if (error) throw error;
+      if (data) {
+        setProject(data);
+        setAppId(data.app_id);
+        setMode(data.mode);
+        setTargetName(data.target_name);
+        setTargetCompany(data.target_company || '');
+        setManualNotes(data.manual_notes || '');
+      }
+    } catch (err: any) {
+      setError(getErrorMessage(err.message || 'default'));
+    }
   };
 
   const downloadReport = (format: string) => {
@@ -106,65 +161,178 @@ export default function PersonalizerDialog({ open, onClose, appId: initialAppId,
     let mimeType = 'text/plain';
 
     switch (format) {
-      case 'json': content = JSON.stringify(scanResults, null, 2); filename += '.json'; mimeType = 'application/json'; break;
-      case 'csv':
+      case 'json':
+        content = JSON.stringify(scanResults, null, 2);
+        filename += '.json';
+        mimeType = 'application/json';
+        break;
+      case 'csv': {
         const headers = ['Platform', 'URL', 'Status', 'Rank', 'HTTP Status'];
         const rows = platforms.map((p: any) => [p.platform || '', p.url || '', p.exists ? 'Found' : 'Not Found', p.rank || '', p.http_status || '']);
-        content = [headers, ...rows].map(r => r.map(c => `"${c}"`).join(',')).join('\n'); filename += '.csv'; mimeType = 'text/csv'; break;
+        content = [headers, ...rows].map(r => r.map((c: string) => `"${c}"`).join(',')).join('\n');
+        filename += '.csv';
+        mimeType = 'text/csv';
+        break;
+      }
       case 'html':
         content = `<!DOCTYPE html><html><head><title>Maigret Report - ${targetName}</title>
 <style>body{font-family:system-ui;max-width:1200px;margin:0 auto;padding:20px;background:#0a0a0a;color:#e0e0e0}h1{color:#6366f1}table{width:100%;border-collapse:collapse;margin:20px 0}th,td{padding:12px;text-align:left;border-bottom:1px solid #333}th{background:#1a1a1a;color:#8b5cf6}tr:hover{background:#111}.summary{background:#1a1a1a;padding:20px;border-radius:8px;margin:20px 0}.badge{display:inline-block;padding:4px 8px;border-radius:4px;font-size:12px}.badge-success{background:#10b981;color:white}.badge-warning{background:#f59e0b;color:white}</style></head>
 <body><h1>Maigret Report: ${targetName}</h1><div class="summary"><p>${scanResults.summary || 'No summary'}</p><p>Confidence: ${Math.round((scanResults.confidence || 0) * 100)}% | Platforms: ${platforms.length}</p></div><h2>Results</h2><table><thead><tr><th>Platform</th><th>URL</th><th>Status</th><th>Rank</th><th>HTTP</th></tr></thead><tbody>${platforms.map((p: any) => `<tr><td>${p.platform || 'Unknown'}</td><td>${p.url ? `<a href="${p.url}">${p.url}</a>` : 'N/A'}</td><td><span class="badge ${p.exists ? 'badge-success' : 'badge-warning'}">${p.exists ? 'Found' : 'Not Found'}</span></td><td>${p.rank || 'N/A'}</td><td>${p.http_status || 'N/A'}</td></tr>`).join('')}</tbody></table><footer style="margin-top:40px;color:#666">Generated by Maigret - https://github.com/soxoj/maigret</footer></body></html>`;
-        filename += '.html'; mimeType = 'text/html'; break;
+        filename += '.html';
+        mimeType = 'text/html';
+        break;
       case 'markdown':
         content = `# Maigret Report: ${targetName}\n\nGenerated: ${new Date().toLocaleString()}\n\n## Summary\n${scanResults.summary || 'No summary'}\n\n- **Confidence:** ${Math.round((scanResults.confidence || 0) * 100)}%\n- **Platforms Found:** ${platforms.length}\n\n## Results\n\n| Platform | URL | Status | Rank | HTTP |\n|----------|-----|--------|------|------|\n${platforms.map((p: any) => `| ${p.platform || 'Unknown'} | ${p.url || 'N/A'} | ${p.exists ? 'Found' : 'Not Found'} | ${p.rank || 'N/A'} | ${p.http_status || 'N/A'} |`).join('\n')}\n\n---\nGenerated by Maigret - https://github.com/soxoj/maigret`;
-        filename += '.md'; mimeType = 'text/markdown'; break;
+        filename += '.md';
+        mimeType = 'text/markdown';
+        break;
     }
     const blob = new Blob([content], { type: mimeType });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = filename;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   const handleScan = async () => {
-    setIsScanning(true); setError(''); setScanProgress(0);
+    const validatedName = validateTargetName(targetName);
+    if (!validatedName) {
+      setError('Please enter a valid target name (letters, numbers, spaces, commas only, max 500 chars)');
+      return;
+    }
+
+    scanAbortRef.current = new AbortController();
+    setIsScanning(true);
+    setError('');
+    setScanProgress(0);
     const interval = setInterval(() => setScanProgress(prev => Math.min(prev + 5, 95)), 200);
+
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch('/api/personalizer/scan', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session?.access_token}` }, body: JSON.stringify({ targetName, targetCompany, options: { topSites, tags: selectedTags, excludedTags, enablePermutations, disableRecursive, disableParsing, withDomains } }) });
+      if (!session) throw new Error('Unauthorized');
+
+      const res = await fetch('/api/personalizer/scan', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({
+          targetName: validatedName,
+          targetCompany,
+          options: { topSites, tags: selectedTags, excludedTags, enablePermutations, disableRecursive, disableParsing, withDomains }
+        }),
+        signal: scanAbortRef.current.signal
+      });
+
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Scan failed');
-      setScanResults(data.scanData); setProject((prev: any) => ({ ...prev, scan_id: data.scanId })); setScanProgress(100);
-    } catch (err: any) { setError(err.message); }
-    finally { clearInterval(interval); setIsScanning(false); }
+
+      setScanResults(data.scanData);
+      setProject((prev: any) => ({ ...prev, scan_id: data.scanId }));
+      setScanProgress(100);
+    } catch (err: any) {
+      if (err.name !== 'AbortError') {
+        setError(getErrorMessage(err.message || 'default'));
+      }
+    } finally {
+      clearInterval(interval);
+      setIsScanning(false);
+      scanAbortRef.current = null;
+    }
   };
 
   const handleGenerate = async () => {
-    setIsGenerating(true); setError('');
+    const validatedName = validateTargetName(targetName);
+    if (!validatedName) {
+      setError('Please enter a valid target name');
+      return;
+    }
+
+    generateAbortRef.current = new AbortController();
+    setIsGenerating(true);
+    setError('');
+
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch('/api/personalizer/generate', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session?.access_token}` }, body: JSON.stringify({ appId, mode, targetName, targetCompany, manualNotes, offer: defaultOffer, goal: defaultGoal, tone: defaultTone, cta: defaultCTA, scanResults }) });
+      if (!session) throw new Error('Unauthorized');
+
+      const res = await fetch('/api/personalizer/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({
+          appId, mode, targetName: validatedName, targetCompany,
+          manualNotes, offer: defaultOffer, goal: defaultGoal,
+          tone: defaultTone, cta: defaultCTA, scanResults
+        }),
+        signal: generateAbortRef.current.signal
+      });
+
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Generation failed');
-      setOutput(data.output); setProject(data.project); setCurrentStep(6);
-    } catch (err: any) { setError(err.message); }
-    finally { setIsGenerating(false); }
+
+      setOutput(data.output);
+      setProject(data.project);
+      setCurrentStep(6);
+      onComplete?.(data.output);
+    } catch (err: any) {
+      if (err.name !== 'AbortError') {
+        setError(getErrorMessage(err.message || 'default'));
+      }
+    } finally {
+      setIsGenerating(false);
+      generateAbortRef.current = null;
+    }
   };
 
   const handleSave = async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch('/api/personalizer/save', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session?.access_token}` }, body: JSON.stringify({ projectId: project?.id, output }) });
+      if (!session) throw new Error('Unauthorized');
+
+      const res = await fetch('/api/personalizer/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({ projectId: project?.id, output })
+      });
+
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Save failed');
-      onSave?.(project?.id); setCurrentStep(7);
-    } catch (err: any) { setError(err.message); }
+
+      onSave?.(project?.id);
+      setCurrentStep(7);
+    } catch (err: any) {
+      setError(getErrorMessage(err.message || 'default'));
+    }
   };
 
   const handleTagClick = (tagId: string) => {
-    if (selectedTags.includes(tagId)) { setSelectedTags(selectedTags.filter(t => t !== tagId)); setExcludedTags([...excludedTags, tagId]); }
-    else if (excludedTags.includes(tagId)) { setExcludedTags(excludedTags.filter(t => t !== tagId)); }
-    else { setSelectedTags([...selectedTags, tagId]); }
+    if (selectedTags.includes(tagId)) {
+      setSelectedTags(selectedTags.filter(t => t !== tagId));
+      setExcludedTags([...excludedTags, tagId]);
+    } else if (excludedTags.includes(tagId)) {
+      setExcludedTags(excludedTags.filter(t => t !== tagId));
+    } else {
+      setSelectedTags([...selectedTags, tagId]);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentStep < 8) setCurrentStep(currentStep + 1);
+  };
+
+  const handleBack = () => {
+    if (currentStep > 1) setCurrentStep(currentStep - 1);
   };
 
   if (!open) return null;
@@ -185,6 +353,7 @@ export default function PersonalizerDialog({ open, onClose, appId: initialAppId,
             </div>
             <div className="flex-1 p-6 overflow-y-auto font-body">
               {error && (<div className="mb-4 p-3 bg-red-900/50 border border-red-500/50 rounded-lg text-red-200 text-sm flex items-center gap-2"><AlertCircle className="h-4 w-4" />{error}</div>)}
+
               {currentStep === 1 && (<div className="space-y-4"><div><label className="block text-sm text-gray-300 mb-1">App</label><select value={appId} onChange={(e) => setAppId(e.target.value)} className="w-full bg-gray-900/50 border border-white/10 rounded-lg p-2 text-white font-body focus:border-primary-500 focus:outline-none">{APPS.map(app => (<option key={app.id} value={app.id}>{app.label}</option>))}</select></div><div><label className="block text-sm text-gray-300 mb-1">Mode</label><select value={mode} onChange={(e) => setMode(e.target.value)} className="w-full bg-gray-900/50 border border-white/10 rounded-lg p-2 text-white font-body focus:border-primary-500 focus:outline-none">{MODES.map(m => (<option key={m.id} value={m.id}>{m.label}</option>))}</select></div></div>)}
               {currentStep === 2 && (<div className="space-y-4"><div><label className="block text-sm text-gray-300 mb-1">Target Name(s)</label><Textarea value={targetName} onChange={(e) => setTargetName(e.target.value)} className="bg-gray-900/50 border-white/10 text-white placeholder-gray-400 focus:border-primary-500" placeholder="Enter one or more usernames (separated by spaces or commas)..." /><p className="text-xs text-gray-400 mt-1">Multiple usernames will be scanned recursively</p></div><div><label className="block text-sm text-gray-300 mb-1">Target Company</label><Input value={targetCompany} onChange={(e) => setTargetCompany(e.target.value)} className="bg-gray-900/50 border-white/10 text-white placeholder-gray-400 focus:border-primary-500" placeholder="Acme Inc." /></div></div>)}
               {currentStep === 3 && (
@@ -192,7 +361,7 @@ export default function PersonalizerDialog({ open, onClose, appId: initialAppId,
                   <p className="text-gray-300 font-body">Public profile scan using Maigret engine</p>
                   <div className="bg-[#1a1a1a] bg-opacity-50 p-4 rounded-lg border border-white/10">
                     <div className="grid grid-cols-2 gap-4 mb-4">
-                      <div><label className="block text-sm text-gray-300 mb-1">Number of Sites</label><Input type="number" value={topSites} onChange={(e) => setTopSites(parseInt(e.target.value) || 500)} className="bg-gray-900/50 border-white/10 text-white" min={1} max={10000} /></div>
+                      <div><label className="block text-sm text-gray-300 mb-1">Number of Sites</label><Input type="number" value={topSites} onChange={(e) => setTopSites(Math.min(parseInt(e.target.value) || 500, 10000))} className="bg-gray-900/50 border-white/10 text-white" min={1} max={10000} /></div>
                       <div><label className="block text-sm text-gray-300 mb-1">Timeout (seconds)</label><Input type="number" defaultValue={30} className="bg-gray-900/50 border-white/10 text-white" /></div>
                     </div>
                     <div className="space-y-2">
@@ -210,7 +379,7 @@ export default function PersonalizerDialog({ open, onClose, appId: initialAppId,
                         <div className="flex items-center justify-between mb-4"><h4 className="text-white font-semibold font-display">Scan Results</h4><div className="flex gap-2"><Button variant={showResultsView === 'table' ? 'default' : 'ghost'} size="sm" onClick={() => setShowResultsView('table')} className="text-xs"><Table2 className="h-3 w-3 mr-1" /> Table</Button><Button variant={showResultsView === 'graph' ? 'default' : 'ghost'} size="sm" onClick={() => setShowResultsView('graph')} className="text-xs"><BarChart3 className="h-3 w-3 mr-1" /> Graph</Button></div></div>
                         <div className="grid grid-cols-3 gap-4 mb-4"><div className="bg-gray-800/50 p-3 rounded-lg"><p className="text-xs text-gray-400">Platforms Found</p><p className="text-2xl font-bold text-primary-400">{scanResults.platforms.length}</p></div><div className="bg-gray-800/50 p-3 rounded-lg"><p className="text-xs text-gray-400">Confidence</p><p className="text-2xl font-bold text-accent-400">{Math.round((scanResults.confidence || 0) * 100)}%</p></div><div className="bg-gray-800/50 p-3 rounded-lg"><p className="text-xs text-gray-400">Summary</p><p className="text-sm text-gray-300 line-clamp-2">{scanResults.summary}</p></div></div>
                         {showResultsView === 'table' && (<div className="overflow-x-auto"><table className="w-full text-sm"><thead><tr className="border-b border-white/10"><th className="text-left p-2 text-gray-400">Platform</th><th className="text-left p-2 text-gray-400">URL</th><th className="text-left p-2 text-gray-400">Status</th><th className="text-left p-2 text-gray-400">Rank</th><th className="text-left p-2 text-gray-400">HTTP</th></tr></thead><tbody>{scanResults.platforms.map((p: any, i: number) => (<tr key={i} className="border-b border-white/5 hover:bg-white/5"><td className="p-2 text-white">{p.platform || 'Unknown'}</td><td className="p-2 text-primary-400">{p.url ? <a href={p.url} target="_blank" rel="noopener" className="hover:underline">{p.url}</a> : 'N/A'}</td><td className="p-2"><span className={`px-2 py-1 rounded text-xs ${p.exists ? 'bg-success/20 text-success' : 'bg-warning/20 text-warning'}`}>{p.exists ? 'Found' : 'Not Found'}</span></td><td className="p-2 text-gray-400">{p.rank || 'N/A'}</td><td className="p-2 text-gray-400">{p.http_status || 'N/A'}</td></tr>))}</tbody></table></div>)}
-                        {showResultsView === 'graph' && (<div className="bg-gray-800/50 p-4 rounded-lg min-h-64"><div className="flex flex-wrap gap-4 justify-center"><div className="flex flex-col items-center"><div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-sm">@{targetName}</div><p className="text-xs text-gray-400 mt-1">Target</p></div>{scanResults.platforms.slice(0, 12).map((p: any, i: number) => (<div key={i} className="flex flex-col items-center"><div className={`w-12 h-12 rounded-full flex items-center justify-center text-white text-xs ${p.exists ? 'bg-success' : 'bg-warning'}`}>{p.platform?.charAt(0) || '?'}</div><p className="text-xs text-gray-400 mt-1 truncate max-w-16">{p.platform || 'Unknown'}</p></div>))}</div>{scanResults.platforms.length > 12 && <p className="text-xs text-gray-500 text-center mt-4">+{scanResults.platforms.length - 12} more platforms</p>}</div>)}
+                        {showResultsView === 'graph' && (<div className="bg-gray-800/50 p-4 rounded-lg min-h-64"><div className="flex flex-wrap gap-4 justify-center"><div className="flex flex-col items-center"><div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-sm">@{targetName.split(',')[0]}</div><p className="text-xs text-gray-400 mt-1">Target</p></div>{scanResults.platforms.slice(0, 12).map((p: any, i: number) => (<div key={i} className="flex flex-col items-center"><div className={`w-12 h-12 rounded-full flex items-center justify-center text-white text-xs ${p.exists ? 'bg-success' : 'bg-warning'}`}>{p.platform?.charAt(0) || '?'}</div><p className="text-xs text-gray-400 mt-1 truncate max-w-16">{p.platform || 'Unknown'}</p></div>))}</div>{scanResults.platforms.length > 12 && <p className="text-xs text-gray-500 text-center mt-4">+{scanResults.platforms.length - 12} more platforms</p>}</div>)}
                         <div className="mt-4 pt-4 border-t border-white/10"><h5 className="text-sm text-gray-300 mb-2 font-display flex items-center gap-2"><Download className="h-4 w-4" /> Download Reports</h5><div className="flex flex-wrap gap-2">{REPORT_FORMATS.map((format) => (<Button key={format.id} variant="outline" size="sm" onClick={() => downloadReport(format.id)} className="text-xs">{format.label}</Button>))}</div></div>
                       </div>
                     </div>
