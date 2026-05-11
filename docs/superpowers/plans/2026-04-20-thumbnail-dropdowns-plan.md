@@ -2,180 +2,204 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add expandable sales copy dropdowns to all 27 existing app thumbnails using GTM Skills tonalities
+**Goal:** Add clickable expandable dropdowns to each of the 27 AI-generated app thumbnails that reveal structured sales copy explaining app functionality and monetization strategies for local businesses.
 
-**Architecture:** React components with Framer Motion animations, comprehensive sales copy data structure, and accessibility support
+**Architecture:** Extend the existing DashboardToolsSection component with expandable card functionality. Pre-generate sales copy using GTM Skills tonalities matched to app categories. Use Framer Motion for smooth animations and maintain existing thumbnail loading infrastructure.
 
-**Tech Stack:** React, TypeScript, Framer Motion, Tailwind CSS
+**Tech Stack:** React, TypeScript, Framer Motion, existing dashboard components, GTM Skills tonalities, Supabase for data storage.
 
 ---
 
 ## File Structure
 
-**Files to Create:**
-- `src/data/appSalesCopy.ts` - Sales copy data for all 27 apps with GTM tonalities
-- `src/components/ui/SalesDropdown.tsx` - Reusable dropdown component with animations
-- `src/components/ui/SalesContent.tsx` - Lazy-loaded content component (NEW)
-- `src/components/dashboard/__tests__/DashboardToolsSection.test.tsx` - Unit tests (NEW)
-- `src/data/__tests__/appSalesCopy.test.ts` - Data validation tests (NEW)
+**Modified Files:**
+- `src/data/appsData.ts` - Add sales copy data structure and content
+- `src/components/dashboard/DashboardToolsSection.tsx` - Add expandable card functionality
+- `src/components/dashboard/AppCard.tsx` (if exists) or inline expansion logic
 
-**Files to Modify:**
-- `src/data/appSalesCopy.ts` - Add 27 app sales copy entries
-- `src/components/ui/SalesDropdown.tsx` - Add lazy loading, skeleton states (MODIFIED)
-- `src/components/dashboard/DashboardToolsSection.tsx` - Integrate dropdowns with apps data
-- `src/styles/sales-dropdown.css` - Component styling
+**New Files:**
+- `src/data/appSalesCopy.ts` - Generated sales copy for all 27 apps
+- `src/components/ui/SalesDropdown.tsx` - Reusable dropdown component
+- `src/components/ui/SalesDropdownErrorBoundary.tsx` - Error boundary for dropdown failures
+
+**Test Files:**
+- `src/components/dashboard/__tests__/DashboardToolsSection.test.tsx` - Component tests
+- `src/data/__tests__/appSalesCopy.test.ts` - Data validation tests
 
 ---
 
-### Task 1: Sales Copy Data Structure
+### Task 1: Generate Sales Copy Data Structure
 
-**Files:** `src/data/appSalesCopy.ts`
+**Files:**
+- Create: `src/data/appSalesCopy.ts`
+- Modify: `src/data/appsData.ts` (add sales copy import and interface)
 
-- [x] **Step 1: Define data structure**
+- [ ] **Step 1: Create sales copy interface**
+
 ```typescript
-interface SalesCopy {
-  tonality: 'professional' | 'casual' | 'enthusiastic' | 'authoritative' | 'friendly';
+// src/data/appSalesCopy.ts
+export interface SalesCopy {
+  tonality: string;
   whatItDoes: string;
   howItMakesMoney: string;
   whyBusinessesNeedIt: string;
 }
+
+export interface AppSalesData {
+  [appId: string]: SalesCopy;
+}
 ```
 
-Expected: Interface defined with 4 required fields
+- [ ] **Step 2: Add interface to appsData.ts**
 
-- [x] **Step 2: Create 27 app entries template**
 ```typescript
-export const appSalesCopy: Record<string, SalesCopy> = {
-  // 27 apps...
+// src/data/appsData.ts
+import { SalesCopy } from '../data/appSalesCopy';
+
+// Add to App interface
+interface App {
+  // ... existing fields
+  salesCopy?: SalesCopy;
+}
+```
+
+- [ ] **Step 3: Create placeholder data structure**
+
+```typescript
+// src/data/appSalesCopy.ts
+export const appSalesCopy: AppSalesData = {
+  // Will be populated with generated content
+};
+
+export const validateSalesCopy = (copy: SalesCopy): boolean => {
+  return !!(copy.tonality && copy.whatItDoes && copy.howItMakesMoney && copy.whyBusinessesNeedIt);
 };
 ```
 
-Expected: Object structure ready for 27 app entries
-
-- [x] **Step 3: Commit data structure**
+- [ ] **Step 4: Commit initial data structure**
 
 ```bash
-git add src/data/appSalesCopy.ts
+git add src/data/appSalesCopy.ts src/data/appsData.ts
 git commit -m "feat: add sales copy data structure for thumbnail dropdowns"
 ```
-
-Expected: Commit created successfully
-
-- [x] **Step 4: Verify data structure**
-```bash
-npm run typecheck
-```
-
-Expected: No TypeScript errors
 
 ---
 
 ### Task 2: Generate Sales Copy Content
 
-**Files:** `src/data/appSalesCopy.ts`
+**Files:**
+- Modify: `src/data/appSalesCopy.ts`
 
-- [x] **Step 1: Assign GTM Skills tonalities**
-- video-creator → professional
-- promo-generator → enthusiastic
-- text-to-speech → professional
-- niche-script → authoritative
-- ai-image-tools → friendly
-- bg-remover → professional
-- (All 27 apps assigned)
+- [ ] **Step 1: Assign tonalities to app categories**
 
-Expected: Each app has a GTM tonality
+Based on GTM Skills tonalities matched to app categories:
+- Video: Steve Jobs, Hemingway
+- Lead-gen: Challenger Sale, Value-Based
+- Creative: Seth Godin, Cormac McCarthy
+- Branding: Jeff Bezos, Trusted Advisor
+- Personalizer: Chris Voss, Pain Point Research
 
-- [x] **Step 2: Generate copy for 27 apps**
-Write compelling sales copy with:
-- whatItDoes: 1-2 sentences on core functionality
-- howItMakesMoney: Subscription, pay-per-use, or licensing model
-- whyBusinessesNeedIt: 1-2 sentences on business value
+- [ ] **Step 2: Create sales copy generation script**
 
-Expected: All 27 apps have complete sales copy
+```typescript
+// scripts/generate-sales-copy.ts
+const generateSalesCopy = async (app: App, tonality: string) => {
+  const prompt = `Write sales copy for ${app.name} using ${tonality} tonality. Structure as:
+  - What it does: [clear functionality description]
+  - How it makes money: [specific local business monetization strategies]
+  - Why businesses need it: [compelling value proposition in ${tonality} style]
 
-- [x] **Step 3: Commit sales copy content**
+  App details: ${JSON.stringify(app)}`;
+
+  // Use AI service to generate content
+  return await generateWithAI(prompt);
+};
+```
+
+- [ ] **Step 3: Generate sales copy for all 27 apps**
+
+Create content for apps using assigned tonalities, ensuring each covers the required sections.
+
+- [ ] **Step 3: Add content to appSalesCopy object**
+
+```typescript
+export const appSalesCopy: AppSalesData = {
+  'video-creator': {
+    tonality: 'Steve Jobs',
+    whatItDoes: 'Creates professional videos from text prompts and keywords...',
+    howItMakesMoney: 'Local businesses can charge premium rates for custom video content...',
+    whyBusinessesNeedIt: 'In a visual economy, your competitors are already using video...'
+  },
+  // ... continue for all apps
+};
+```
+
+- [ ] **Step 4: Validate content completeness**
+
+Ensure all 27 apps have sales copy with proper tonality adherence.
+
+- [ ] **Step 5: Commit sales copy content**
 
 ```bash
 git add src/data/appSalesCopy.ts
-git commit -m "feat: generate sales copy for 27 apps with assigned GTM tonalities"
+git commit -m "feat: add sales copy content for all 27 apps using GTM Skills tonalities"
 ```
-
-Expected: Commit created successfully
-
-- [x] **Step 4: Validate copy completeness**
-
-```bash
-node -e "const c = require('./src/data/appSalesCopy.ts'); console.log(Object.keys(c.appSalesCopy).length)"
-```
-
-Expected: Outputs "27"
 
 ---
 
 ### Task 3: Integrate Sales Copy with App Data
 
-**Files:** `src/data/appsData.ts`
+**Files:**
+- Modify: `src/data/appsData.ts`
 
-- [x] **Step 1: Import sales copy**
+- [ ] **Step 1: Import sales copy data**
+
 ```typescript
-import { appSalesCopy } from '../data/appSalesCopy';
+import { appSalesCopy } from './appSalesCopy';
 ```
 
-Expected: Import added to appsData.ts
+- [ ] **Step 2: Update raw apps data to include sales copy**
 
-- [x] **Step 2: Add salesCopy field to app objects**
 ```typescript
 const rawAppsData: App[] = [
   {
     id: "video-creator",
     // ... existing fields
-    salesCopy: appSalesCopy['video-creator'],
+    salesCopy: appSalesCopy['video-creator']
   },
-  // ... 26 more apps
+  // ... update all apps
 ];
 ```
 
-Expected: All 27 apps have salesCopy field
+- [ ] **Step 3: Verify data integration**
 
-- [x] **Step 3: Commit integration**
+Check that all apps have sales copy attached and thumbnailMapper handles it correctly.
+
+- [ ] **Step 4: Commit data integration**
 
 ```bash
 git add src/data/appsData.ts
 git commit -m "feat: integrate sales copy data with app data structure"
 ```
 
-Expected: Commit created successfully
-
-- [x] **Step 4: Verify integration**
-
-```bash
-npm run build
-```
-
-Expected: Build succeeds with sales copy available
-
 ---
 
-### Task 4: Create SalesDropdown Component
+### Task 4: Create Sales Dropdown Component
 
-**Files:** `src/components/ui/SalesDropdown.tsx`, `src/components/ui/SalesContent.tsx`
+**Files:**
+- Create: `src/components/ui/SalesDropdown.tsx`
 
-- [x] **Step 1: Create component with animations**
+- [ ] **Step 1: Create dropdown component interface**
 
 ```typescript
-export const SalesDropdown: React.FC<SalesDropdownProps> = ({
-  salesCopy,
-  isExpanded,
-  onToggle,
-  appId
-}) => {
-  // Framer Motion animations
-};
+interface SalesDropdownProps {
+  salesCopy: SalesCopy;
+  isExpanded: boolean;
+  onToggle: () => void;
+}
 ```
 
-Expected: Component renders with expand/collapse animations
-
-- [x] **Step 2: Implement expandable content structure**
+- [ ] **Step 2: Implement expandable content structure**
 
 ```typescript
 const SalesDropdown: React.FC<SalesDropdownProps> = ({
@@ -199,20 +223,19 @@ const SalesDropdown: React.FC<SalesDropdownProps> = ({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
+            className="sales-content"
           >
-            <div className="sales-content">
-              <div className="content-section">
-                <h4>What It Does</h4>
-                <p>{salesCopy.whatItDoes}</p>
-              </div>
-              <div className="content-section">
-                <h4>How It Makes Money</h4>
-                <p>{salesCopy.howItMakesMoney}</p>
-              </div>
-              <div className="content-section">
-                <h4>Why Businesses Need It</h4>
-                <p>{salesCopy.whyBusinessesNeedIt}</p>
-              </div>
+            <div className="content-section">
+              <h4>What It Does</h4>
+              <p>{salesCopy.whatItDoes}</p>
+            </div>
+            <div className="content-section">
+              <h4>How It Makes Money</h4>
+              <p>{salesCopy.howItMakesMoney}</p>
+            </div>
+            <div className="content-section">
+              <h4>Why Businesses Need It</h4>
+              <p>{salesCopy.whyBusinessesNeedIt}</p>
             </div>
           </motion.div>
         )}
@@ -222,7 +245,7 @@ const SalesDropdown: React.FC<SalesDropdownProps> = ({
 };
 ```
 
-- [x] **Step 3: Add responsive styling**
+- [ ] **Step 3: Add responsive styling**
 
 ```css
 .sales-dropdown {
@@ -261,7 +284,7 @@ const SalesDropdown: React.FC<SalesDropdownProps> = ({
 }
 ```
 
-- [x] **Step 4: Commit dropdown component**
+- [ ] **Step 4: Commit dropdown component**
 
 ```bash
 git add src/components/ui/SalesDropdown.tsx
@@ -272,102 +295,116 @@ git commit -m "feat: create reusable SalesDropdown component with animations"
 
 ### Task 5: Integrate Dropdown into Dashboard
 
-**Files:** `src/components/dashboard/DashboardToolsSection.tsx`
+**Files:**
+- Modify: `src/components/dashboard/DashboardToolsSection.tsx`
 
-- [x] **Step 1: Import and use component**
+- [ ] **Step 1: Import SalesDropdown component**
 
 ```typescript
-import { SalesDropdown } from '@/components/ui/SalesDropdown';
+import SalesDropdown from '../ui/SalesDropdown';
 ```
 
-Expected: Import added
-
-- [x] **Step 2: Add state management**
+- [ ] **Step 2: Add expansion state management**
 
 ```typescript
-const [expandedApp, setExpandedApp] = useState<string | null>(null);
-const handleToggle = (appId: string) => {
-  setExpandedApp(expandedApp === appId ? null : appId);
+const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
+
+const toggleCardExpansion = (appId: string) => {
+  setExpandedCards(prev => ({
+    ...prev,
+    [appId]: !prev[appId]
+  }));
 };
 ```
 
-Expected: State tracks which app is expanded
+- [ ] **Step 3: Update card rendering to include dropdown**
 
-- [x] **Step 3: Render dropdown per app**
+Find the app card rendering section and add:
 
 ```typescript
-{apps.map(app => (
-  <div key={app.id}>
-    {/* Existing app card */}
-    <SalesDropdown
-      salesCopy={app.salesCopy}
-      isExpanded={expandedApp === app.id}
-      onToggle={() => handleToggle(app.id)}
-      appId={app.id}
-    />
-  </div>
-))}
+{/* Add after existing app content */}
+<SalesDropdown
+  salesCopy={app.salesCopy}
+  isExpanded={expandedCards[app.id] || false}
+  onToggle={() => toggleCardExpansion(app.id)}
+/>
 ```
 
-Expected: Each app card has dropdown below it
+- [ ] **Step 4: Add accordion behavior (optional single expansion)**
 
-- [x] **Step 4: Commit integration**
+```typescript
+const toggleCardExpansion = (appId: string) => {
+  setExpandedCards(prev => {
+    const newState = { ...prev };
+    // Close all other cards (accordion behavior)
+    Object.keys(newState).forEach(key => {
+      if (key !== appId) newState[key] = false;
+    });
+    newState[appId] = !prev[appId];
+    return newState;
+  });
+};
+```
+
+- [ ] **Step 5: Test component integration**
+
+Run development server and verify dropdowns appear and function correctly.
+
+- [ ] **Step 6: Commit dashboard integration**
 
 ```bash
 git add src/components/dashboard/DashboardToolsSection.tsx
 git commit -m "feat: integrate SalesDropdown component into dashboard with expansion state"
 ```
 
-- [x] **Step 5: Verify visual integration**
-
-```bash
-npm run dev
-# Visit dashboard, click "Learn More" on each app
-```
-
-Expected: Dropdowns expand/collapse with smooth animations
-
 ---
 
-### Task 6: Accessibility & Error Handling
+### Task 6: Add Accessibility and Error Handling
 
-**Files:** `src/components/ui/SalesDropdown.tsx`, `src/components/ui/SalesDropdownErrorBoundary.tsx`
+**Files:**
+- Modify: `src/components/ui/SalesDropdown.tsx`
+- Modify: `src/components/dashboard/DashboardToolsSection.tsx`
 
-- [x] **Step 1: Add ARIA attributes**
+- [ ] **Step 1: Add ARIA attributes and keyboard support**
 
 ```typescript
+// In SalesDropdown
 <button
   onClick={onToggle}
-  onKeyDown={handleKeyDown}
+  onKeyDown={(e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onToggle();
+    }
+  }}
   aria-expanded={isExpanded}
   aria-controls={`sales-content-${appId}`}
+  role="button"
   tabIndex={0}
 >
 ```
 
-Expected: Button has proper ARIA attributes
-
-- [x] **Step 2: Add keyboard navigation**
+- [ ] **Step 2: Add error boundary for missing sales copy**
 
 ```typescript
-const handleKeyDown = (e: React.KeyboardEvent) => {
-  if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault();
-    onToggle();
-  }
-};
+// In SalesDropdown
+if (!salesCopy) {
+  return (
+    <div className="sales-error">
+      Sales information not available
+    </div>
+  );
+}
 ```
 
-Expected: Enter and Space toggle dropdown
-
-- [x] **Step 3: Add animation fallbacks for older browsers**
+- [ ] **Step 3: Add animation fallbacks for older browsers**
 
 ```typescript
 // Use CSS transitions as fallback
 const contentStyle = isExpanded ? { maxHeight: '1000px' } : { maxHeight: '0' };
 ```
 
-- [x] **Step 4: Create error boundary component**
+- [ ] **Step 4: Create error boundary component**
 
 ```typescript
 // src/components/ui/SalesDropdownErrorBoundary.tsx
@@ -401,7 +438,7 @@ class SalesDropdownErrorBoundary extends React.Component<
 }
 ```
 
-- [x] **Step 5: Commit accessibility improvements**
+- [ ] **Step 5: Commit accessibility improvements**
 
 ```bash
 git add src/components/ui/SalesDropdown.tsx src/components/ui/SalesDropdownErrorBoundary.tsx src/components/dashboard/DashboardToolsSection.tsx
@@ -416,7 +453,7 @@ git commit -m "feat: add accessibility features, error boundary, and error handl
 - Create: `src/components/dashboard/__tests__/DashboardToolsSection.test.tsx`
 - Create: `src/data/__tests__/appSalesCopy.test.ts`
 
-- [x] **Step 1: Create unit tests for SalesDropdown**
+- [ ] **Step 1: Create unit tests for SalesDropdown**
 
 ```typescript
 describe('SalesDropdown', () => {
@@ -438,12 +475,12 @@ describe('SalesDropdown', () => {
 });
 ```
 
-- [x] **Step 2: Create data validation tests**
+- [ ] **Step 2: Create data validation tests**
 
 ```typescript
 describe('appSalesCopy', () => {
-  it('has sales copy for all 104 apps', () => {
-    expect(Object.keys(appSalesCopy)).toHaveLength(104);
+  it('has sales copy for all 27 apps', () => {
+    expect(Object.keys(appSalesCopy)).toHaveLength(27);
   });
 
   it('each app has required fields', () => {
@@ -457,19 +494,17 @@ describe('appSalesCopy', () => {
 });
 ```
 
-- [x] **Step 3: Run tests and verify functionality**
+- [ ] **Step 3: Run tests and verify functionality**
 
 ```bash
-npx vitest run --reporter=verbose src/components/dashboard/__tests__/DashboardToolsSection.test.tsx src/data/__tests__/appSalesCopy.test.ts
+npm test -- --testPathPattern="SalesDropdown|appSalesCopy"
 ```
 
-Expected: All tests pass
-
-- [x] **Step 4: Test accessibility with screen reader**
+- [ ] **Step 4: Test accessibility with screen reader**
 
 Verify keyboard navigation and ARIA announcements work correctly.
 
-- [x] **Step 5: Commit tests**
+- [ ] **Step 5: Commit tests**
 
 ```bash
 git add src/components/dashboard/__tests__/DashboardToolsSection.test.tsx src/data/__tests__/appSalesCopy.test.ts
@@ -482,10 +517,9 @@ git commit -m "feat: add comprehensive tests for sales dropdown functionality an
 
 **Files:**
 - Modify: `src/components/ui/SalesDropdown.tsx`
-- Modify: `src/components/ui/SalesContent.tsx` (NEW)
 - Modify: `src/components/dashboard/DashboardToolsSection.tsx`
 
-- [x] **Step 1: Optimize animations for low-end devices**
+- [ ] **Step 1: Optimize animations for low-end devices**
 
 ```typescript
 // Add reduced motion support
@@ -495,7 +529,7 @@ const animationConfig = prefersReducedMotion
   : { duration: 0.3, ease: 'easeInOut' };
 ```
 
-- [x] **Step 2: Add lazy loading for expanded content**
+- [ ] **Step 2: Add lazy loading for expanded content**
 
 ```typescript
 // Use React.lazy and Suspense for code splitting
@@ -509,33 +543,21 @@ const SalesContent = lazy(() => import('./SalesContent'));
 )}
 ```
 
-- [x] **Step 3: Add loading states for dynamic content**
+- [ ] **Step 3: Add loading states for dynamic content**
 
 ```typescript
+// Add skeleton loading for content
 const [isLoading, setIsLoading] = useState(false);
-
-// In component
-{isExpanded && (
-  <Suspense fallback={
-    <div className="px-4 py-4 space-y-3">
-      <div className="skeleton h-4 w-24 bg-white/10 rounded"></div>
-      <div className="skeleton h-3 w-full bg-white/10 rounded"></div>
-      <div className="skeleton h-3 w-3/4 bg-white/10 rounded"></div>
-    </div>
-  }>
-    <SalesContent salesCopy={salesCopy} isLoading={isLoading} />
-  </Suspense>
-)}
 ```
 
-- [x] **Step 4: Final visual polish and responsive design**
+- [ ] **Step 4: Final visual polish and responsive design**
 
 Ensure dropdowns work perfectly on mobile with touch interactions.
 
-- [x] **Step 5: Commit final optimizations**
+- [ ] **Step 5: Commit final optimizations**
 
 ```bash
-git add src/components/ui/SalesDropdown.tsx src/components/ui/SalesContent.tsx src/components/dashboard/DashboardToolsSection.tsx
+git add src/components/ui/SalesDropdown.tsx src/components/dashboard/DashboardToolsSection.tsx
 git commit -m "feat: add performance optimizations and final polish to sales dropdowns"
 ```
 
@@ -543,24 +565,22 @@ git commit -m "feat: add performance optimizations and final polish to sales dro
 
 ## Success Criteria
 
-- [x] All 104 apps have functional dropdowns with unique sales copy
-- [x] Different GTM Skills tonality used for each app category
-- [x] Smooth Framer Motion animations on expand/collapse
-- [x] Mobile-responsive touch interactions
-- [x] Keyboard accessibility with proper ARIA attributes
-- [x] Error handling for missing content
-- [x] Comprehensive test coverage
-- [x] Performance optimized for all devices
-
----
+- ✅ All 27 apps have functional dropdowns with unique sales copy
+- ✅ Different GTM Skills tonality used for each app category
+- ✅ Smooth Framer Motion animations on expand/collapse
+- ✅ Mobile-responsive touch interactions
+- ✅ Keyboard accessibility with proper ARIA attributes
+- ✅ Error handling for missing content
+- ✅ Comprehensive test coverage
+- ✅ Performance optimized for all devices
 
 ## Testing Checklist
 
-- [x] Visual regression tests pass
-- [x] Accessibility audit passes (WCAG AA)
-- [x] Mobile touch interactions work
-- [x] All 104 apps display sales copy correctly
-- [x] Content follows assigned tonality guidelines
-- [x] Animations perform smoothly on low-end devices
-- [x] Error states display appropriately
-- [x] Keyboard navigation works end-to-end
+- [ ] Visual regression tests pass
+- [ ] Accessibility audit passes (WCAG AA)
+- [ ] Mobile touch interactions work
+- [ ] All 27 apps display sales copy correctly
+- [ ] Content follows assigned tonality guidelines
+- [ ] Animations perform smoothly on low-end devices
+- [ ] Error states display appropriately
+- [ ] Keyboard navigation works end-to-end

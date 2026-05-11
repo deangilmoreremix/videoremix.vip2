@@ -175,33 +175,32 @@ Verify that new app thumbnails load correctly in the dashboard.
 ---
 
 ### Task 5: Test Complete Integration
- 
+
 **Files:**
 - Test: Dashboard functionality with new apps
- 
-- [x] **Step 1: Build and run application**
- 
+
+- [ ] **Step 1: Build and run application**
+
 ```bash
 npm run build
 npm run dev
 ```
- 
-- [x] **Step 2: Test dashboard display**
- 
-Verify all 17 new apps appear with correct thumbnails and information.
- 
-- [x] **Step 3: Test dropdown functionality**
- 
-Click each new app's thumbnail to verify sales copy dropdowns work properly.
- 
-- [x] **Step 4: Test accessibility**
- 
-Ensure keyboard navigation and screen reader support work for new apps.
- 
-- [x] **Step 5: Performance validation**
- 
-Check that adding 17 new apps doesn't impact loading performance.
 
+- [ ] **Step 2: Test dashboard display**
+
+Verify all 17 new apps appear with correct thumbnails and information.
+
+- [ ] **Step 3: Test dropdown functionality**
+
+Click each new app's thumbnail to verify sales copy dropdowns work properly.
+
+- [ ] **Step 4: Test accessibility**
+
+Ensure keyboard navigation and screen reader support work for new apps.
+
+- [ ] **Step 5: Performance validation**
+
+Check that adding 17 new apps doesn't impact loading performance.
 
 ---
 
