@@ -8,6 +8,10 @@ import { ModalsProvider } from "./components/ModalsProvider";
 // Import base styles early to prevent layout shifts
 import "./index.css";
 
+console.log("[DEBUG] main.tsx: Starting app initialization");
+console.log("[DEBUG] main.tsx: Environment:", import.meta.env.MODE);
+console.log("[DEBUG] main.tsx: Base URL:", import.meta.env.BASE_URL);
+
 // Simple loading indicator for initial app load
 const LoadingScreen = () => (
   <div className="fixed inset-0 flex items-center justify-center bg-gray-900 text-white">
@@ -25,25 +29,34 @@ import App from "./App";
 
 // Only mount the app after the DOM is fully loaded
 const mountApp = () => {
+  console.log("[DEBUG] mountApp: Attempting to mount app");
   const root = document.getElementById("root");
   if (root) {
-    createRoot(root).render(
-      <StrictMode>
-        <BrowserRouter
-          future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-        >
-          <HelmetProvider>
-            <AnimationProvider>
-              <ModalsProvider>
-                <Suspense fallback={<LoadingScreen />}>
-                  <App />
-                </Suspense>
-              </ModalsProvider>
-            </AnimationProvider>
-          </HelmetProvider>
-        </BrowserRouter>
-      </StrictMode>,
-    );
+    console.log("[DEBUG] mountApp: Root element found, creating React root");
+    try {
+      createRoot(root).render(
+        <StrictMode>
+          <BrowserRouter
+            future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+          >
+            <HelmetProvider>
+              <AnimationProvider>
+                <ModalsProvider>
+                  <Suspense fallback={<LoadingScreen />}>
+                    <App />
+                  </Suspense>
+                </ModalsProvider>
+              </AnimationProvider>
+            </HelmetProvider>
+          </BrowserRouter>
+        </StrictMode>,
+      );
+      console.log("[DEBUG] mountApp: App mounted successfully");
+    } catch (error) {
+      console.error("[DEBUG] mountApp: Error mounting app:", error);
+    }
+  } else {
+    console.error("[DEBUG] mountApp: Root element NOT found!");
   }
 };
 
@@ -56,4 +69,5 @@ const runWhenIdle = (cb: () => void) => {
   }
 };
 
+console.log("[DEBUG] main.tsx: Calling runWhenIdle to mount app");
 runWhenIdle(mountApp);

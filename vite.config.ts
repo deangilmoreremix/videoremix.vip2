@@ -46,18 +46,16 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         output: {
           manualChunks(id) {
-            if (id.includes('react') || id.includes('framer-motion')) {
-              return 'vendor';
-            }
-            if (id.includes('lucide-react') || id.includes('react-countup')) {
-              return 'ui';
+            if (id.includes('node_modules')) {
+              if (id.includes('react') || id.includes('framer-motion')) {
+                return 'vendor';
+              }
+              if (id.includes('lucide-react') || id.includes('react-countup')) {
+                return 'ui';
+              }
             }
             return undefined;
           }
-        },
-        // Handle missing imports in lucide-react
-        treeshake: {
-          moduleSideEffects: false,
         },
       },
       commonjsOptions: {

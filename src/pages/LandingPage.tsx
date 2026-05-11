@@ -174,16 +174,23 @@ interface LandingPageProps {
 }
 
 const LandingPage: React.FC<LandingPageProps> = ({ isMobile, isTablet }) => {
+  console.log("[DEBUG] LandingPage: Component rendering", { isMobile, isTablet });
+  
   // Enable resource hints for better loading
   useResourceHints();
 
   // Preload critical resources on mount
   useEffect(() => {
+    console.log("[DEBUG] LandingPage: Component mounted");
     const timer = setTimeout(() => {
+      console.log("[DEBUG] LandingPage: Preloading critical resources");
       preloadCriticalResources();
     }, 50); // Small delay to allow initial render
 
-    return () => clearTimeout(timer);
+    return () => {
+      console.log("[DEBUG] LandingPage: Component unmounting");
+      clearTimeout(timer);
+    };
   }, []);
 
   return (

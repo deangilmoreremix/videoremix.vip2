@@ -1,13 +1,10 @@
 // Service Worker for caching static assets
-const CACHE_NAME = 'videoremix-v1';
-const STATIC_CACHE_NAME = 'videoremix-static-v1';
+const CACHE_NAME = 'videoremix-v2';
+const STATIC_CACHE_NAME = 'videoremix-static-v2';
 
 // Assets to cache immediately
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
   '/favicon.svg',
-  '/src/main.tsx',
 ];
 
 // Install event - cache static assets
@@ -39,7 +36,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - serve from cache when possible
+// Fetch event - network first strategy for HTML, cache first for assets
 self.addEventListener('fetch', (event) => {
   // Only handle GET requests
   if (event.request.method !== 'GET') return;
@@ -52,8 +49,30 @@ self.addEventListener('fetch', (event) => {
   // Skip external domains - only cache same-origin requests
   if (url.origin !== self.location.origin) return;
 
-  // Cache static assets
-  if (STATIC_ASSETS.some(asset => url.pathname === asset)) {
+  // Network first strategy for HTML pages (including root and index.html)
+  if (url.pathname === '/' || url.pathname === '/index.html' || url.pathname.endsWith('.html')) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          // Cache the new response
+          if (response.status === 200) {
+            const responseClone = response.clone();
+            caches.open(STATIC_CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseClone);
+            });
+          }
+          return response;
+        })
+        .catch(() => {
+          // Fall back to cache if network fails
+          return caches.match(event.request);
+        })
+    );
+    return;
+  }
+
+  // Cache first strategy for static assets
+  if (STATIC_ASSETS.some(asset => url.pathname === asset) || url.pathname.startsWith('/assets/')) {
     event.respondWith(
       caches.match(event.request)
         .then((cachedResponse) => {
