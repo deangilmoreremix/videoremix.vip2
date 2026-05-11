@@ -1,6 +1,6 @@
 // Service Worker for caching static assets
-const CACHE_NAME = 'videoremix-v2';
-const STATIC_CACHE_NAME = 'videoremix-static-v2';
+const CACHE_NAME = 'videoremix-v3';
+const STATIC_CACHE_NAME = 'videoremix-static-v3';
 
 // Assets to cache immediately
 const STATIC_ASSETS = [
@@ -49,27 +49,7 @@ self.addEventListener('fetch', (event) => {
   // Skip external domains - only cache same-origin requests
   if (url.origin !== self.location.origin) return;
 
-  // Network first strategy for HTML pages (including root and index.html)
-  if (url.pathname === '/' || url.pathname === '/index.html' || url.pathname.endsWith('.html')) {
-    event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          // Cache the new response
-          if (response.status === 200) {
-            const responseClone = response.clone();
-            caches.open(STATIC_CACHE_NAME).then((cache) => {
-              cache.put(event.request, responseClone);
-            });
-          }
-          return response;
-        })
-        .catch(() => {
-          // Fall back to cache if network fails
-          return caches.match(event.request);
-        })
-    );
-    return;
-  }
+
 
   // Cache first strategy for static assets
   if (STATIC_ASSETS.some(asset => url.pathname === asset) || url.pathname.startsWith('/assets/')) {

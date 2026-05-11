@@ -22,40 +22,7 @@
   </head>
   <body>
     <div id="root"></div>
-    
-    <!-- Service Worker Registration with forced update -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/sw.js').then(function(registration) {
-            console.log('Service Worker registered with scope:', registration.scope);
-            
-            // Check for updates
-            registration.update();
-            
-            // When new service worker is waiting, reload the page
-            registration.addEventListener('updatefound', function() {
-              const newWorker = registration.installing;
-              newWorker.addEventListener('statechange', function() {
-                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  console.log('New service worker installed, reloading...');
-                  window.location.reload();
-                }
-              });
-            });
-          }).catch(function(error) {
-            console.log('Service Worker registration failed:', error);
-          });
-          
-          // Listen for the new service worker to take control
-          navigator.serviceWorker.addEventListener('controllerchange', function() {
-            console.log('New service worker took control, reloading...');
-            window.location.reload();
-          });
-        });
-      }
-    </script>
-    
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

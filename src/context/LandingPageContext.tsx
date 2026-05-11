@@ -39,13 +39,19 @@ const defaultContext: LandingPageContextType = {
 const LandingPageContext =
   createContext<LandingPageContextType>(defaultContext);
 
-export const useLandingPageContent = () => useContext(LandingPageContext);
+export const useLandingPageContent = () => {
+  const context = useContext(LandingPageContext);
+  if (context === defaultContext) {
+    throw new Error("useLandingPageContent must be used within a LandingPageProvider");
+  }
+  return context;
+};
 
 interface LandingPageProviderProps {
   children: ReactNode;
 }
 
-const LandingPageProvider: React.FC<LandingPageProviderProps> = ({
+export const LandingPageProvider: React.FC<LandingPageProviderProps> = ({
   children,
 }) => {
   const [content, setContent] = useState<

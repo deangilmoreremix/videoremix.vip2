@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import MobileBottomNav from "./components/MobileBottomNav";
 import { AdminProvider } from "./context/AdminContext";
 import { AuthProvider } from "./context/AuthContext";
+import { LandingPageProvider } from "./context/LandingPageContext";
 import { Toaster } from "./components/ui/toast";
 import { NetworkStatusIndicator } from "./components/AsyncStates";
 
@@ -174,7 +175,9 @@ function App() {
                 <ErrorBoundary onError={handleError}>
                   <SparkleBackground>
                     <Suspense fallback={<SectionLoader />}>
-                      <LandingPage isMobile={isMobile} isTablet={isTablet} />
+                      <LandingPageProvider>
+                        <LandingPage isMobile={isMobile} isTablet={isTablet} />
+                      </LandingPageProvider>
                       <SpecialFooter />
                     </Suspense>
                   </SparkleBackground>

@@ -71,3 +71,54 @@ const runWhenIdle = (cb: () => void) => {
 
 console.log("[DEBUG] main.tsx: Calling runWhenIdle to mount app");
 runWhenIdle(mountApp);
+
+// Service Worker Registration - Production only
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+      console.log('Service Worker registered with scope:', registration.scope);
+
+      // Check for updates
+      registration.update();
+
+      // When new service worker is waiting, reload the page
+      registration.addEventListener('updatefound', function() {
+        const newWorker = registration.installing;
+        newWorker.addEventListener('statechange', function() {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            console.log('New service worker installed, reloading...');
+            window.location.reload();
+          }
+        });
+      });
+    }).catch(function(error) {
+      console.log('Service Worker registration failed:', error);
+    });
+
+    // Listen for the new service worker to take control
+    navigator.serviceWorker.addEventListener('controllerchange', function() {
+      console.log('New service worker took control, reloading...');
+      window.location.reload();
+    });
+  });
+} else if (!import.meta.env.PROD && 'serviceWorker' in navigator) {
+  // Non-production cleanup: unregister existing service workers and clear caches
+  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    for (let registration of registrations) {
+      registration.unregister().then(function(boolean) {
+        console.log('Service Worker unregistered:', boolean);
+      });
+    }
+  });
+
+  // Clear caches
+  if ('caches' in window) {
+    caches.keys().then(function(names) {
+      for (let name of names) {
+        caches.delete(name).then(function() {
+          console.log('Cache deleted:', name);
+        });
+      }
+    });
+  }
+}
