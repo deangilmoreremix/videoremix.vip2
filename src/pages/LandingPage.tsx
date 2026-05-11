@@ -1,15 +1,19 @@
-import React, { lazy, Suspense, useState, useEffect, useRef, useCallback } from "react";
+import React, { lazy, Suspense } from "react";
+import { Helmet } from "react-helmet-async";
 import SpecialHero from "../components/SpecialHero";
 import ProblemSection from "../components/ProblemSection";
 import SolutionSection from "../components/SolutionSection";
 import FeatureMap from "../components/FeatureMap";
-
-// Direct imports for critical sections to avoid lazy loading issues
-import PersonalizationWorkflowSection from "../components/PersonalizationWorkflowSection";
-import ToolsCarouselSection from "../components/ToolsCarouselSection";
+import SEO from "../components/SEO";
 
 // Lazy loaded components for better performance
 const BenefitsSection = lazy(() => import("../components/BenefitsSection"));
+const ToolsCarouselSection = lazy(
+  () => import("../components/ToolsCarouselSection"),
+);
+const PersonalizationWorkflowSection = lazy(
+  () => import("../components/PersonalizationWorkflowSection"),
+);
 const AppGallerySection = lazy(() => import("../components/AppGallerySection"));
 const DemoSection = lazy(() => import("../components/DemoSection"));
 const CaseStudiesSection = lazy(
@@ -22,151 +26,28 @@ const PricingSection = lazy(() => import("../components/PricingSection"));
 const GuaranteeSection = lazy(() => import("../components/GuaranteeSection"));
 const FAQSection = lazy(() => import("../components/FAQSection"));
 const FinalCTA = lazy(() => import("../components/FinalCTA"));
+import ROICalculator from "../components/premium/ROICalculator";
+import PersonalizationSimulator from "../components/premium/PersonalizationSimulator";
+import InteractiveComparisonTable from "../components/premium/InteractiveComparisonTable";
+import AnimatedTestimonialCard from "../components/premium/AnimatedTestimonialCard";
+import LiveActivityFeed from "../components/premium/LiveActivityFeed";
+import LogoWall from "../components/premium/LogoWall";
+import ParticleBackground from "../components/premium/ParticleBackground";
+import ParallaxSection from "../components/premium/ParallaxSection";
+import AnimatedBorderGradient from "../components/premium/AnimatedBorderGradient";
 
-// Optimized loading fallback component with skeleton
-const SectionLoader = ({ height = "400px" }: { height?: string }) => (
-  <div className="flex justify-center items-center py-20 text-white" style={{ minHeight: height }}>
+
+// Loading fallback component
+const SectionLoader = () => (
+  <div className="flex justify-center items-center py-20 text-white">
     <div className="relative">
-      <div className="w-6 h-6 border-2 border-primary-500/30 border-t-primary-500 border-solid rounded-full animate-spin"></div>
+      <div className="w-16 h-16 border-t-4 border-primary-500 border-solid rounded-full animate-spin"></div>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="text-xs text-primary-500 font-medium">Loading</span>
+      </div>
     </div>
   </div>
 );
-
-// Intersection Observer Hook for viewport-based loading
-const useIntersectionObserver = (options?: IntersectionObserverInit) => {
-  const [isIntersecting, setIsIntersecting] = useState(false);
-  const [hasIntersected, setHasIntersected] = useState(false);
-  const ref = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasIntersected) {
-          setIsIntersecting(true);
-          setHasIntersected(true);
-        }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: '100px', // Load 100px before entering viewport
-        ...options
-      }
-    );
-
-    observer.observe(element);
-
-    return () => {
-      observer.unobserve(element);
-    };
-  }, [hasIntersected, options]);
-
-  return [ref, hasIntersected] as const;
-};
-
-// Error boundary for lazy sections
-class LazySectionErrorBoundary extends React.Component<
-  { children: React.ReactNode; fallback?: React.ReactNode; componentName?: string },
-  { hasError: boolean }
-> {
-  constructor(props: { children: React.ReactNode; fallback?: React.ReactNode; componentName?: string }) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error: Error) {
-    console.warn(`LazySection error caught in ${this.props.componentName || 'unknown component'}:`, error.message);
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.warn(`LazySection error details for ${this.props.componentName || 'unknown component'}:`, {
-      error: error.message,
-      stack: error.stack,
-      componentStack: errorInfo.componentStack
-    });
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback || <SectionLoader height="400px" />;
-    }
-
-    return this.props.children;
-  }
-}
-
-// Progressive loading component with error boundary
-const LazySection: React.FC<{
-  children: React.ReactNode;
-  priority?: 'high' | 'medium' | 'low';
-  preloadDistance?: number;
-  skeletonHeight?: string;
-  componentName?: string;
-}> = ({ children, priority = 'medium', preloadDistance = 200, skeletonHeight = "400px", componentName }) => {
-  const [ref, hasIntersected] = useIntersectionObserver({
-    rootMargin: `${preloadDistance}px`
-  });
-
-  // Load high priority sections immediately, others on intersection
-  const shouldLoad = priority === 'high' || hasIntersected;
-
-  return (
-    <div ref={ref}>
-      <LazySectionErrorBoundary componentName={componentName}>
-        <Suspense fallback={<SectionLoader height={skeletonHeight} />}>
-          {shouldLoad ? children : null}
-        </Suspense>
-      </LazySectionErrorBoundary>
-    </div>
-  );
-};
-
-// Preload critical sections and prefetch resources
-const preloadCriticalResources = () => {
-  // Preload high-priority sections immediately
-  const criticalPromises = [
-    import("../components/PersonalizationWorkflowSection"),
-    import("../components/ToolsCarouselSection"),
-  ];
-
-  // Preload medium-priority sections after a delay
-  setTimeout(() => {
-    import("../components/FeatureMap");
-    import("../components/BenefitsSection");
-  }, 200);
-
-  return criticalPromises;
-};
-
-// Resource hints for browser optimization
-const useResourceHints = () => {
-  useEffect(() => {
-    // Prefetch critical components
-    const prefetchLinks = [
-      '/src/components/PersonalizationWorkflowSection.tsx',
-      '/src/components/ToolsCarouselSection.tsx',
-      '/src/components/FeatureMap.tsx',
-    ];
-
-    prefetchLinks.forEach(href => {
-      const link = document.createElement('link');
-      link.rel = 'prefetch';
-      link.href = href;
-      document.head.appendChild(link);
-    });
-
-    return () => {
-      // Cleanup prefetch links on unmount
-      prefetchLinks.forEach(href => {
-        const link = document.querySelector(`link[href="${href}"]`);
-        if (link) link.remove();
-      });
-    };
-  }, []);
-};
 
 interface LandingPageProps {
   isMobile: boolean;
@@ -174,79 +55,139 @@ interface LandingPageProps {
 }
 
 const LandingPage: React.FC<LandingPageProps> = ({ isMobile, isTablet }) => {
-  console.log("[DEBUG] LandingPage: Component rendering", { isMobile, isTablet });
-  
-  // Enable resource hints for better loading
-  useResourceHints();
-
-  // Preload critical resources on mount
-  useEffect(() => {
-    console.log("[DEBUG] LandingPage: Component mounted");
-    const timer = setTimeout(() => {
-      console.log("[DEBUG] LandingPage: Preloading critical resources");
-      preloadCriticalResources();
-    }, 50); // Small delay to allow initial render
-
-    return () => {
-      console.log("[DEBUG] LandingPage: Component unmounting");
-      clearTimeout(timer);
-    };
-  }, []);
-
   return (
-    <main>
-      {/* Critical sections - load immediately (no lazy loading) */}
+    <main className="bg-[#050505]">
+      <SEO 
+        title="VideoRemix.vip - AI-Powered Video Personalization Platform"
+        description="Transform your video marketing with AI-powered personalization. Create engaging, personalized videos at scale with our comprehensive AI agent ecosystem."
+        keywords={["AI video", "video personalization", "marketing automation", "AI agents", "video creation"]}
+        image="https://videoremix.vip/og-image.jpg"
+        url="https://videoremix.vip"
+      />
       <SpecialHero />
       <ProblemSection />
       <SolutionSection />
-
-      {/* Critical sections - load immediately */}
-      <PersonalizationWorkflowSection />
-
-      <ToolsCarouselSection />
 
       <FeatureMap
         title="Comprehensive Marketing Personalization Features"
         subtitle="Explore the powerful personalization capabilities of VideoRemix.vip's marketing platform"
       />
 
-      {/* Medium priority sections - load when near viewport */}
-      <LazySection priority="medium" skeletonHeight="500px" componentName="BenefitsSection">
+      {/* New Personalization Workflow Section - showing how simple it is */}
+      <Suspense fallback={<SectionLoader />}>
+        <PersonalizationWorkflowSection />
+      </Suspense>
+
+      {/* Tools Carousel Section - showcasing personalization tools */}
+      <Suspense fallback={<SectionLoader />}>
+        <ToolsCarouselSection />
+      </Suspense>
+
+      {/* Benefits Section */}
+      <Suspense fallback={<SectionLoader />}>
         <BenefitsSection />
-      </LazySection>
+      </Suspense>
 
-      <LazySection priority="medium" skeletonHeight="600px" componentName="CaseStudiesSection">
-        <CaseStudiesSection />
-      </LazySection>
-
-      <LazySection priority="medium" skeletonHeight="800px" componentName="AppGallerySection">
+      {/* App Gallery Section */}
+      <Suspense fallback={<SectionLoader />}>
         <AppGallerySection />
-      </LazySection>
+      </Suspense>
 
-      <LazySection priority="medium" skeletonHeight="400px" componentName="DemoSection">
+      {/* Demo Section */}
+      <Suspense fallback={<SectionLoader />}>
         <DemoSection />
-      </LazySection>
+      </Suspense>
 
-      <LazySection priority="medium" skeletonHeight="500px" componentName="TestimonialsSection">
+      {/* Case Studies Section */}
+      <Suspense fallback={<SectionLoader />}>
+        <CaseStudiesSection />
+      </Suspense>
+
+      {/* Testimonials Section */}
+      <Suspense fallback={<SectionLoader />}>
         <TestimonialsSection />
-      </LazySection>
+      </Suspense>
 
-      {/* Low priority sections - load when closer to viewport */}
-      <LazySection priority="low" skeletonHeight="400px" preloadDistance={300} componentName="PricingSection">
+      {/* Pricing Section */}
+      <Suspense fallback={<SectionLoader />}>
         <PricingSection />
-      </LazySection>
+      </Suspense>
 
-      <LazySection priority="low" skeletonHeight="300px" preloadDistance={300} componentName="GuaranteeSection">
+      {/* Guarantee Section */}
+      <Suspense fallback={<SectionLoader />}>
         <GuaranteeSection />
-      </LazySection>
+      </Suspense>
 
-      <LazySection priority="low" skeletonHeight="600px" preloadDistance={300} componentName="FAQSection">
+      {/* FAQ Section */}
+      <Suspense fallback={<SectionLoader />}>
         <FAQSection />
-      </LazySection>
+      </Suspense>
 
-      <LazySection priority="low" skeletonHeight="400px" preloadDistance={300} componentName="FinalCTA">
+      {/* Final CTA */}
+      <Suspense fallback={<SectionLoader />}>
         <FinalCTA />
-      </LazySection>
+      </Suspense>
+
+        {/* ROI Calculator Section */}
+        <section className="py-20 bg-[#050505] relative">
+          <ParticleBackground particleCount={30} className="opacity-30" />
+          <div className="container mx-auto px-4 relative z-10">
+            <ROICalculator />
+          </div>
+        </section>
+
+        {/* Personalization Simulator Section */}
+        <ParallaxSection speed={0.3}>
+          <section className="py-20 bg-black relative">
+            <div className="container mx-auto px-4">
+              <PersonalizationSimulator />
+            </div>
+          </section>
+        </ParallaxSection>
+
+        {/* Interactive Comparison Table */}
+        <section className="py-20 bg-[#050505]">
+          <div className="container mx-auto px-4">
+            <InteractiveComparisonTable
+              title="Generic vs. Personalized Marketing"
+              rows={[
+                { feature: "Engagement Rate", generic: "2.3%", personalized: "5.3%", lift: "2.3x" },
+                { feature: "Conversion Rate", generic: "2.23%", personalized: "6-8%", lift: "80%" },
+                { feature: "ROI", generic: "Standard", personalized: true, lift: "5-8x" },
+                { feature: "Customer Retention", generic: "38%", personalized: "64%", lift: "68%" },
+                { feature: "Time to Convert", generic: "14 days", personalized: "5 days", lift: "64%" },
+              ]}
+            />
+          </div>
+        </section>
+
+        {/* Live Activity Feed */}
+        <section className="fixed bottom-4 right-4 z-50 w-80 hidden md:block">
+          <LiveActivityFeed />
+        </section>
+
+        {/* Logo Wall */}
+        <section className="py-20 bg-black">
+          <div className="container mx-auto px-4">
+            <LogoWall
+              logos={[
+                { name: "Netflix", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png" },
+                { name: "Adobe", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Adobe_Acrobat_DC_logo_2023.svg/512px-Adobe_Acrobat_DC_logo_2023.svg.png" },
+                { name: "Spotify", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/512px-Spotify_logo_without_text.svg.png" },
+                { name: "Airbnb", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_B%C3%A9lo.svg/512px-Airbnb_Logo_B%C3%A9lo.svg.png" },
+                { name: "Meta", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Meta_Platform_logo.svg/512px-Meta_Platform_logo.svg.png" },
+                { name: "Stripe", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/512px-Stripe_Logo%2C_revised_2016.svg.png" },
+              ]}
+            />
+          </div>
+        </section>
+
+
+        {/* Progress Indicator */}
+        {/* Sticky Widget */}
+        {/* Back to Top */}
+        {/* Exit Intent Popup */}
+
     </main>
   );
 };
