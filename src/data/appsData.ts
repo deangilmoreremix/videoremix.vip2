@@ -1157,6 +1157,26 @@ const rawAppsData: App[] = [
     new: true,
     salesCopy: appSalesCopy['dental-reserveai'],
   },
+  {
+    id: "vertex-tax-strategy",
+    name: "Vertex Tax Strategy",
+    description: "AI-powered tax strategy and optimization",
+    category: "lead-gen",
+    icon: React.createElement(FileText),
+    image: "https://images.unsplash.com/photo-1554220215905-6cfc4ba02b19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    new: true,
+    salesCopy: appSalesCopy['vertex-tax-strategy'],
+  },
+  {
+    id: "ledgersync",
+    name: "LedgerSync",
+    description: "Automated ledger synchronization and reconciliation",
+    category: "lead-gen",
+    icon: React.createElement(Database),
+    image: "https://images.unsplash.com/photo-1554220215905-6cfc4ba02b19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    new: true,
+    salesCopy: appSalesCopy['ledgersync'],
+  },
 ];
 
 // Export apps data with AI-generated thumbnails where available
