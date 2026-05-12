@@ -103,22 +103,22 @@ if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   });
 } else if (!import.meta.env.PROD && 'serviceWorker' in navigator) {
   // Non-production cleanup: unregister existing service workers and clear caches
-  navigator.serviceWorker.getRegistrations().then(function(registrations) {
-    for (let registration of registrations) {
-      registration.unregister().then(function(boolean) {
-        console.log('Service Worker unregistered:', boolean);
-      });
-    }
-  });
+   navigator.serviceWorker.getRegistrations().then(function(registrations) {
+     for (const registration of registrations) {
+       registration.unregister().then(function(boolean) {
+         console.log('Service Worker unregistered:', boolean);
+       });
+     }
+   });
 
   // Clear caches
-  if ('caches' in window) {
-    caches.keys().then(function(names) {
-      for (let name of names) {
-        caches.delete(name).then(function() {
-          console.log('Cache deleted:', name);
-        });
-      }
-    });
-  }
+   if ('caches' in window) {
+     caches.keys().then(function(names) {
+       for (const name of names) {
+         caches.delete(name).then(function() {
+           console.log('Cache deleted:', name);
+         });
+       }
+     });
+   }
 }
