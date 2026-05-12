@@ -56,7 +56,7 @@ export const useOnboarding = (): UseOnboardingReturn => {
       });
       
       // Award onboarding achievement via Supabase
-      const { supabase } = await import('../utils/supabase');
+      const { supabase } = await import('../utils/supabaseClient');
       await supabase.rpc('award_achievement', {
         p_achievement_type: 'onboarding_completed',
         p_metadata: { completed_at: new Date().toISOString() },
