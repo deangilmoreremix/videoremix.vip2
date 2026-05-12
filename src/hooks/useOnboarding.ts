@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { supabase } from '../utils/supabaseClient';
 import { Goal, Niche, OnboardingAnswers } from '../types/onboarding';
 
 export type WizardStep = 1 | 2 | 3 | 4 | 5;
@@ -56,7 +57,6 @@ export const useOnboarding = (): UseOnboardingReturn => {
       });
       
       // Award onboarding achievement via Supabase
-      const { supabase } = await import('../utils/supabaseClient');
       await supabase.rpc('award_achievement', {
         p_achievement_type: 'onboarding_completed',
         p_metadata: { completed_at: new Date().toISOString() },
