@@ -497,22 +497,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return { user: data?.user, error: updateError };
       }
 
-      // Also save to profiles table for extended profile data with tenant support
-      if (data?.user) {
-        const profileData = {
-          user_id: data.user.id,
-          email: data.user.email,
-          full_name: `${updates.first_name || ''} ${updates.last_name || ''}`.trim(),
-          avatar_url: updates.avatar_url || '',
-          bio: updates.bio || '',
-          company: updates.company || '',
-          website: updates.website || '',
-        };
-
-        // Try to upsert into profiles table
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .upsert(profileData, { onConflict: 'user_id' });
+        // Also save to profiles table for extended profile data with tenant support
+        if (data?.user) {
+          const profileData: Record<string, unknown> = {
+            user_id: data.user.id,
+            email: data.user.email,
+            full_name: `${updates.first_name || ''} ${updates.last_name || ''}`.trim(),
+            avatar_url: updates.avatar_url || '',
+            bio: updates.bio || '',
+            company: updates.company || '',
+            website: updates.website || '',
+          };
+          
+          // Add onboarding data if present
+          if (updates.onboarding !== undefined) {
+            profileData.onboarding = updates.onboarding;
+          }
+          if (updates.onboarding_completed !== undefined) {
+            profileData.onboarding_completed = updates.onboarding_completed;
+          }
+          
+          // Try to upsert into profiles table
+          const { error: profileError } = await supabase
+            .from('profiles')
+            .upsert(profileData, { onConflict: 'user_id' });
 
         if (profileError) {
           console.warn('Failed to update profiles table:', profileError);

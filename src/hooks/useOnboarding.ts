@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { supabase } from '../utils/supabaseClient';
 import { Goal, Niche, OnboardingAnswers } from '../types/onboarding';
 
-export type WizardStep = 1 | 2 | 3 | 4 | 5;
+export type WizardStep = 1 | 2 | 3 | 4;
 
 export interface UseOnboardingReturn {
   step: WizardStep;
@@ -40,7 +40,7 @@ export const useOnboarding = (): UseOnboardingReturn => {
   }, []);
 
   const nextStep = useCallback(() => {
-    setStep(prev => Math.min(5, (prev + 1) as WizardStep));
+    setStep(prev => Math.min(4, (prev + 1) as WizardStep));
   }, []);
 
   const prevStep = useCallback(() => {
@@ -58,6 +58,7 @@ export const useOnboarding = (): UseOnboardingReturn => {
       
       // Award onboarding achievement via Supabase
       await supabase.rpc('award_achievement', {
+        p_user_id: user.id,
         p_achievement_type: 'onboarding_completed',
         p_metadata: { completed_at: new Date().toISOString() },
       });
