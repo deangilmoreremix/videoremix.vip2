@@ -30,6 +30,14 @@ import {
   Gift,
   ExternalLink,
   Lock,
+  BarChart2,
+  Database,
+  Home,
+  UserCheck,
+  DollarSign,
+  Shield,
+  Settings,
+  Search,
 } from "lucide-react";
 import MagicSparkles from "./MagicSparkles";
 import { useApps } from "../hooks/useApps";
@@ -614,7 +622,31 @@ const AppDetailPage: React.FC = () => {
                   transition={{ delay: 0.5 }}
                 >
                   {/* Icons based on app category - add animation to each */}
-                  {app.category === "video" && (
+                  {app.category === "sales-lead-gen" && (
+                    <motion.div
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 2,
+                        repeatDelay: 2,
+                      }}
+                    >
+                      <BarChart2 className="h-4 w-4 text-primary-400" />
+                    </motion.div>
+                  )}
+                  {app.category === "content-marketing" && (
+                    <motion.div
+                      animate={{ y: [0, -3, 0] }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 1.5,
+                        repeatDelay: 1,
+                      }}
+                    >
+                      <FileText className="h-4 w-4 text-primary-400" />
+                    </motion.div>
+                  )}
+                  {app.category === "video-audio-voice" && (
                     <motion.div
                       animate={{ scale: [1, 1.2, 1] }}
                       transition={{
@@ -626,7 +658,7 @@ const AppDetailPage: React.FC = () => {
                       <Video className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {app.category === "ai-image" && (
+                  {app.category === "rag-knowledgebase" && (
                     <motion.div
                       animate={{ rotate: [0, 15, 0, -15, 0] }}
                       transition={{
@@ -635,10 +667,10 @@ const AppDetailPage: React.FC = () => {
                         repeatDelay: 1,
                       }}
                     >
-                      <Sparkles className="h-4 w-4 text-primary-400" />
+                      <Database className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {app.category === "lead-gen" && (
+                  {app.category === "realestate-local" && (
                     <motion.div
                       animate={{ y: [0, -3, 0] }}
                       transition={{
@@ -647,22 +679,10 @@ const AppDetailPage: React.FC = () => {
                         repeatDelay: 1,
                       }}
                     >
-                      <Users className="h-4 w-4 text-primary-400" />
+                      <Home className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {app.category === "branding" && (
-                    <motion.div
-                      animate={{ rotateY: [0, 180, 0] }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 2.5,
-                        repeatDelay: 3,
-                      }}
-                    >
-                      <PenTool className="h-4 w-4 text-primary-400" />
-                    </motion.div>
-                  )}
-                  {app.category === "personalizer" && (
+                  {app.category === "hr-hiring" && (
                     <motion.div
                       animate={{ scale: [1, 1.3, 1] }}
                       transition={{
@@ -671,10 +691,22 @@ const AppDetailPage: React.FC = () => {
                         repeatDelay: 2,
                       }}
                     >
-                      <MousePointer className="h-4 w-4 text-primary-400" />
+                      <UserCheck className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {app.category === "creative" && (
+                  {app.category === "finance-business" && (
+                    <motion.div
+                      animate={{ rotateY: [0, 180, 0] }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 2.5,
+                        repeatDelay: 3,
+                      }}
+                    >
+                      <DollarSign className="h-4 w-4 text-primary-400" />
+                    </motion.div>
+                  )}
+                  {app.category === "legal-compliance" && (
                     <motion.div
                       animate={{ rotate: [0, 360] }}
                       transition={{
@@ -683,7 +715,55 @@ const AppDetailPage: React.FC = () => {
                         ease: "linear",
                       }}
                     >
-                      <Layers className="h-4 w-4 text-primary-400" />
+                      <Shield className="h-4 w-4 text-primary-400" />
+                    </motion.div>
+                  )}
+                  {app.category === "coding-developer" && (
+                    <motion.div
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 2,
+                        repeatDelay: 2,
+                      }}
+                    >
+                      <Settings className="h-4 w-4 text-primary-400" />
+                    </motion.div>
+                  )}
+                  {app.category === "design-uiux" && (
+                    <motion.div
+                      animate={{ rotate: [0, 15, 0, -15, 0] }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 3,
+                        repeatDelay: 1,
+                      }}
+                    >
+                      <Palette className="h-4 w-4 text-primary-400" />
+                    </motion.div>
+                  )}
+                  {app.category === "research-education" && (
+                    <motion.div
+                      animate={{ y: [0, -3, 0] }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 1.5,
+                        repeatDelay: 1,
+                      }}
+                    >
+                      <Search className="h-4 w-4 text-primary-400" />
+                    </motion.div>
+                  )}
+                  {app.category === "productivity-personal" && (
+                    <motion.div
+                      animate={{ scale: [1, 1.3, 1] }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 1.8,
+                        repeatDelay: 2,
+                      }}
+                    >
+                      <UserCircle className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
                 </motion.div>

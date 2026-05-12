@@ -18,12 +18,18 @@ import { AppGridSkeleton } from "./LoadingSkeleton";
 // Available categories for filtering
 const categories = [
   { id: "all", name: "All Categories", icon: "layers" },
-  { id: "video", name: "Video", icon: "video" },
-  { id: "ai-image", name: "AI Image", icon: "image" },
-  { id: "personalizer", name: "Personalization", icon: "user-circle" },
-  { id: "marketing", name: "Marketing", icon: "users" },
-  { id: "branding", name: "Branding", icon: "palette" },
-  { id: "creative", name: "Creative", icon: "package" },
+  { id: "sales-lead-gen", name: "Sales & Lead Gen", icon: "bar-chart-2" },
+  { id: "content-marketing", name: "Content & Marketing", icon: "file-text" },
+  { id: "video-audio-voice", name: "Video, Audio & Voice", icon: "video" },
+  { id: "rag-knowledgebase", name: "RAG & Knowledgebase", icon: "database" },
+  { id: "realestate-local", name: "Real Estate & Local", icon: "home" },
+  { id: "hr-hiring", name: "HR & Hiring", icon: "user-check" },
+  { id: "finance-business", name: "Finance & Business", icon: "dollar-sign" },
+  { id: "legal-compliance", name: "Legal & Compliance", icon: "shield" },
+  { id: "coding-developer", name: "Coding & SaaS", icon: "settings" },
+  { id: "design-uiux", name: "Design & UI/UX", icon: "palette" },
+  { id: "research-education", name: "Research & Training", icon: "search" },
+  { id: "productivity-personal", name: "Productivity & Personal", icon: "user-circle" },
 ];
 
 const PublicAppSearch: React.FC = () => {
@@ -341,7 +347,7 @@ const PublicAppSearch: React.FC = () => {
                         </Link>
                       ) : (
                         <Link
-                          to="/sign-in"
+                          to="/signin"
                           className="inline-flex items-center px-3 py-2 text-sm font-medium text-primary-400 bg-primary-500/10 hover:bg-primary-500/20 border border-primary-500/30 rounded-lg transition-colors"
                         >
                           <Lock className="mr-1.5 h-4 w-4" />

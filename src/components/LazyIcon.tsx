@@ -4,7 +4,21 @@ import { Sparkles } from "lucide-react";
 // Icon mapping with lazy loading
 const iconMap: Record<string, () => Promise<{ default: ComponentType<any> }>> =
   {
-    // Categories
+    // Categories - New 12 categories
+    "sales-lead-gen": () => import("lucide-react").then((m) => ({ default: m.BarChart2 })),
+    "content-marketing": () => import("lucide-react").then((m) => ({ default: m.FileText })),
+    "video-audio-voice": () => import("lucide-react").then((m) => ({ default: m.Video })),
+    "rag-knowledgebase": () => import("lucide-react").then((m) => ({ default: m.Database })),
+    "realestate-local": () => import("lucide-react").then((m) => ({ default: m.Home })),
+    "hr-hiring": () => import("lucide-react").then((m) => ({ default: m.UserCheck })),
+    "finance-business": () => import("lucide-react").then((m) => ({ default: m.DollarSign })),
+    "legal-compliance": () => import("lucide-react").then((m) => ({ default: m.Shield })),
+    "coding-developer": () => import("lucide-react").then((m) => ({ default: m.Settings })),
+    "design-uiux": () => import("lucide-react").then((m) => ({ default: m.Palette })),
+    "research-education": () => import("lucide-react").then((m) => ({ default: m.Search })),
+    "productivity-personal": () => import("lucide-react").then((m) => ({ default: m.UserCircle })),
+    
+    // Legacy categories (kept for backward compatibility)
     video: () => import("lucide-react").then((m) => ({ default: m.Video })),
     "lead-gen": () =>
       import("lucide-react").then((m) => ({ default: m.Users })),

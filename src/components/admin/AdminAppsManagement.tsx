@@ -71,6 +71,18 @@ const AdminAppsManagement: React.FC = () => {
     show: boolean;
     app: App | null;
   }>({ show: false, app: null });
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [createFormData, setCreateFormData] = useState({
+    name: '',
+    slug: '',
+    description: '',
+    category: '',
+    icon_url: '',
+    netlify_url: '',
+    custom_domain: '',
+    price: '',
+    sort_order: '0'
+  });
   const [operationLoading, setOperationLoading] = useState<{
     [key: string]: boolean;
   }>({});
@@ -327,6 +339,81 @@ const AdminAppsManagement: React.FC = () => {
     setShowDeleteModal({ show: true, app });
   }, []);
 
+  const createApp = useCallback(async () => {
+    if (!createFormData.name || !createFormData.slug || !createFormData.category) {
+      addNotification('error', 'Name, slug, and category are required');
+      return;
+    }
+
+    setOperationLoading((prev) => ({ ...prev, create: true }));
+
+    try {
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
+
+      if (sessionError || !session) {
+        addNotification('error', 'Authentication required. Please log in again.');
+        return;
+      }
+
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-apps`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: createFormData.name,
+            slug: createFormData.slug,
+            description: createFormData.description,
+            category: createFormData.category,
+            icon_url: createFormData.icon_url || null,
+            netlify_url: createFormData.netlify_url || null,
+            custom_domain: createFormData.custom_domain || null,
+            price: createFormData.price ? parseFloat(createFormData.price) : null,
+            sort_order: parseInt(createFormData.sort_order) || 0,
+            is_active: true,
+            is_featured: false,
+            is_public: false,
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        setAllApps((prevApps) => [...prevApps, data.data]);
+        addNotification('success', 'App created successfully');
+        setShowCreateModal(false);
+        setCreateFormData({
+          name: '',
+          slug: '',
+          description: '',
+          category: '',
+          icon_url: '',
+          netlify_url: '',
+          custom_domain: '',
+          price: '',
+          sort_order: '0'
+        });
+      } else {
+        addNotification('error', data.error || 'Failed to create app');
+      }
+    } catch (error) {
+      console.error('Error creating app:', error);
+      addNotification('error', 'Failed to create app. Please try again.');
+    } finally {
+      setOperationLoading((prev) => ({ ...prev, create: false }));
+    }
+  }, [createFormData, addNotification]);
+
   if (loading) {
     return (
       <div className="flex justify-center items-center py-20">
@@ -449,7 +536,10 @@ const AdminAppsManagement: React.FC = () => {
             )}
           </div>
 
-          <button className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors">
+          <button
+            onClick={() => setShowCreateModal(true)}
+            className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors"
+          >
             <Plus className="h-4 w-4 mr-2" />
             Add App
           </button>
@@ -730,6 +820,151 @@ const AdminAppsManagement: React.FC = () => {
               Next
             </button>
           </div>
+        </div>
+      )}
+
+      {/* Create App Modal */}
+      {showCreateModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-gray-800 rounded-lg p-6 max-w-md mx-4 border border-gray-700 w-full max-w-lg"
+          >
+            <div className="flex items-center mb-4">
+              <Plus className="h-6 w-6 text-blue-400 mr-3" />
+              <h3 className="text-lg font-semibold text-white">Create New App</h3>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Name *</label>
+                <input
+                  type="text"
+                  value={createFormData.name}
+                  onChange={(e) => setCreateFormData(prev => ({ ...prev, name: e.target.value }))}
+                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="App name"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Slug *</label>
+                <input
+                  type="text"
+                  value={createFormData.slug}
+                  onChange={(e) => setCreateFormData(prev => ({ ...prev, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-') }))}
+                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="app-slug"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Category *</label>
+                <select
+                  value={createFormData.category}
+                  onChange={(e) => setCreateFormData(prev => ({ ...prev, category: e.target.value }))}
+                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="">Select category</option>
+                  <option value="sales-lead-gen">Sales & Lead Gen</option>
+                  <option value="content-marketing">Content & Marketing</option>
+                  <option value="video-audio-voice">Video, Audio & Voice</option>
+                  <option value="rag-knowledgebase">RAG & Knowledgebase</option>
+                  <option value="realestate-local">Real Estate & Local</option>
+                  <option value="hr-hiring">HR & Hiring</option>
+                  <option value="finance-business">Finance & Business</option>
+                  <option value="legal-compliance">Legal & Compliance</option>
+                  <option value="coding-developer">Coding & SaaS</option>
+                  <option value="design-uiux">Design & UI/UX</option>
+                  <option value="research-education">Research & Training</option>
+                  <option value="productivity-personal">Productivity & Personal</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Description</label>
+                <textarea
+                  value={createFormData.description}
+                  onChange={(e) => setCreateFormData(prev => ({ ...prev, description: e.target.value }))}
+                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent h-20 resize-none"
+                  placeholder="App description"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Icon URL</label>
+                <input
+                  type="url"
+                  value={createFormData.icon_url}
+                  onChange={(e) => setCreateFormData(prev => ({ ...prev, icon_url: e.target.value }))}
+                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="https://..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Netlify URL</label>
+                <input
+                  type="url"
+                  value={createFormData.netlify_url}
+                  onChange={(e) => setCreateFormData(prev => ({ ...prev, netlify_url: e.target.value }))}
+                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="https://app.netlify.app"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Custom Domain</label>
+                <input
+                  type="url"
+                  value={createFormData.custom_domain}
+                  onChange={(e) => setCreateFormData(prev => ({ ...prev, custom_domain: e.target.value }))}
+                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="https://app.example.com"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Price (USD)</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={createFormData.price}
+                  onChange={(e) => setCreateFormData(prev => ({ ...prev, price: e.target.value }))}
+                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="19.99"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Sort Order</label>
+                <input
+                  type="number"
+                  value={createFormData.sort_order}
+                  onChange={(e) => setCreateFormData(prev => ({ ...prev, sort_order: e.target.value }))}
+                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="0"
+                />
+              </div>
+            </div>
+
+            <div className="flex space-x-3 mt-6">
+              <button
+                onClick={() => setShowCreateModal(false)}
+                className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={createApp}
+                disabled={operationLoading.create}
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {operationLoading.create ? 'Creating...' : 'Create App'}
+              </button>
+            </div>
+          </motion.div>
         </div>
       )}
 
