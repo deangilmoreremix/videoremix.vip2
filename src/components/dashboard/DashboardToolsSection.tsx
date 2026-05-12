@@ -70,6 +70,9 @@ import LazyIcon from "../LazyIcon";
 import { SalesDropdown } from '../ui/SalesDropdown';
 import SalesDropdownErrorBoundary from '../ui/SalesDropdownErrorBoundary';
 import { appSalesCopy } from '../../data/appSalesCopy';
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Card, CardContent } from "../ui/card";
 
 // Define TrendingUp component
 const TrendingUp: React.FC<{ className?: string }> = (props) => (
@@ -369,26 +372,24 @@ const DashboardToolsSection: React.FC = () => {
           <div className="flex justify-center overflow-x-auto hide-scrollbar">
             <div className="flex space-x-3">
               {toolCategories.map((category) => (
-                <motion.button
+                <Button
                   key={category.id}
-                  whileHover={{ y: -3 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 min-w-[140px] ${
+                  variant={selectedCategory === category.id ? "default" : "secondary"}
+                  size="sm"
+                  className={`min-w-[140px] h-auto py-3 px-4 ${
                     selectedCategory === category.id
-                      ? `bg-gradient-to-r from-primary-600 to-primary-500 text-white shadow-md`
-                      : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                      ? "bg-gradient-to-r from-primary-600 to-primary-500 text-white shadow-md"
+                      : ""
                   }`}
                   onClick={() => setSelectedCategory(category.id)}
                 >
                   <div className="flex flex-col items-center">
-                    <div
-                      className={`p-2 rounded-full ${selectedCategory === category.id ? "bg-white/20" : "bg-gray-700"} mb-1`}
-                    >
+                    <div className="mb-1">
                       {category.icon}
                     </div>
-                    <span>{category.label}</span>
+                    <span className="text-xs">{category.label}</span>
                   </div>
-                </motion.button>
+                </Button>
               ))}
             </div>
           </div>
@@ -398,36 +399,34 @@ const DashboardToolsSection: React.FC = () => {
         <div className="max-w-6xl mx-auto mb-8">
           <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0">
             <div className="relative md:w-1/3">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
                 type="text"
                 placeholder="Search tools..."
-                className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="pl-10 pr-10"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
               {searchQuery && (
-                <button
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="absolute right-1 top-1/2 transform -translate-y-1/2 h-7 w-7 p-0"
                   onClick={() => setSearchQuery("")}
                 >
-                  <span className="text-gray-400 hover:text-white">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </span>
-                </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </Button>
               )}
             </div>
           </div>
@@ -492,80 +491,82 @@ const DashboardToolsSection: React.FC = () => {
                         animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                         transition={{ duration: 0.5, delay: 0.1 + index * 0.05 }}
                         whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                        className="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden group border border-gray-700 shadow-lg hover:border-primary-500/50 transition-colors cursor-pointer"
+                        className="cursor-pointer"
                         onClick={handleAppClick}
                       >
-                        {/* App image */}
-                        <div className="w-full aspect-video relative">
-                          <img
-                            src={imageErrors[app.id] ? getFallbackImage(app.id, imageErrors[app.id]) : app.image}
-                            alt={app.name}
-                            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out"
-                            onError={() => handleImageError(app.id)}
-                          />
+                        <Card className="relative overflow-hidden group hover:border-primary-500/50 transition-colors">
+                          {/* App image */}
+                          <div className="w-full aspect-video relative">
+                            <img
+                              src={imageErrors[app.id] ? getFallbackImage(app.id, imageErrors[app.id]) : app.image}
+                              alt={app.name}
+                              className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out"
+                              onError={() => handleImageError(app.id)}
+                            />
 
-                          {/* Status badges */}
-                          <div className="absolute top-3 right-3 flex flex-col space-y-1 items-end">
-                            {isPurchased ? (
-                              <span className="bg-green-500 text-white text-xs px-2 py-0.5 rounded font-bold flex items-center">
-                                <Check className="h-3 w-3 mr-1" /> OWNED
-                              </span>
-                            ) : (
-                              <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded font-bold flex items-center">
-                                <Lock className="h-3 w-3 mr-1" /> LOCKED
-                              </span>
-                            )}
-                            {app.popular && (
-                              <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded font-bold">
-                                POPULAR
-                              </span>
-                            )}
-                            {app.new && (
-                              <span className="bg-primary-500 text-white text-xs px-2 py-0.5 rounded font-bold">
-                                NEW
-                              </span>
-                            )}
-                          </div>
-
-                          {/* Gradient overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
-                        </div>
-
-                        <div className="p-4">
-                          <h4 className="text-white font-bold text-lg group-hover:text-primary-400 transition-colors mb-2">
-                            {app.name}
-                          </h4>
-                          <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                            {app.description}
-                          </p>
-
-                          <div className="flex justify-between items-center">
-                            <div className="flex items-center text-gray-500 text-xs">
-                              <LazyIcon name={app.iconName} className="w-4 h-4 text-primary-400 mr-1" />
-                              <span>{category.label}</span>
+                            {/* Status badges */}
+                            <div className="absolute top-3 right-3 flex flex-col space-y-1 items-end">
+                              {isPurchased ? (
+                                <span className="bg-green-500 text-white text-xs px-2 py-0.5 rounded font-bold flex items-center">
+                                  <Check className="h-3 w-3 mr-1" /> OWNED
+                                </span>
+                              ) : (
+                                <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded font-bold flex items-center">
+                                  <Lock className="h-3 w-3 mr-1" /> LOCKED
+                                </span>
+                              )}
+                              {app.popular && (
+                                <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded font-bold">
+                                  POPULAR
+                                </span>
+                              )}
+                              {app.new && (
+                                <span className="bg-primary-500 text-white text-xs px-2 py-0.5 rounded font-bold">
+                                  NEW
+                                </span>
+                              )}
                             </div>
 
-                            <span className="text-primary-400 text-sm font-medium flex items-center">
-                              {isPurchased ? "Open" : "Purchase"}
-                              <ArrowRight className="ml-1 h-3 w-3" />
-                            </span>
+                            {/* Gradient overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
                           </div>
-                        </div>
 
-                        {/* Hover overlay */}
-                        {!isPurchased && (
-                          <div className="absolute inset-0 bg-primary-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
-                            <motion.button
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              className="bg-white text-gray-900 px-6 py-3 rounded-lg font-bold flex items-center"
-                              onClick={handleAppClick}
-                            >
-                              <ShoppingCart className="mr-2 h-5 w-5" />
-                              Purchase Now
-                            </motion.button>
-                          </div>
-                        )}
+                          <CardContent className="p-4">
+                            <h4 className="text-white font-bold text-lg group-hover:text-primary-400 transition-colors mb-2">
+                              {app.name}
+                            </h4>
+                            <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+                              {app.description}
+                            </p>
+
+                            <div className="flex justify-between items-center">
+                              <div className="flex items-center text-gray-500 text-xs">
+                                <LazyIcon name={app.iconName} className="w-4 h-4 text-primary-400 mr-1" />
+                                <span>{category.label}</span>
+                              </div>
+
+                              <span className="text-primary-400 text-sm font-medium flex items-center">
+                                {isPurchased ? "Open" : "Purchase"}
+                                <ArrowRight className="ml-1 h-3 w-3" />
+                              </span>
+                            </div>
+                          </CardContent>
+
+                          {/* Hover overlay */}
+                          {!isPurchased && (
+                            <div className="absolute inset-0 bg-primary-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
+                              <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="bg-white text-gray-900 px-6 py-3 rounded-lg font-bold flex items-center"
+                                onClick={handleAppClick}
+                              >
+                                <ShoppingCart className="mr-2 h-5 w-5" />
+                                Purchase Now
+                              </motion.button>
+                            </div>
+                          )}
+                        </Card>
                       </motion.div>
                     );
                   })}
@@ -573,15 +574,17 @@ const DashboardToolsSection: React.FC = () => {
 
                 {categoryApps.length > 8 && (
                   <div className="text-center mt-6">
-                    <button
-                      className="text-primary-400 hover:text-primary-300 text-sm font-medium"
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-primary-400 hover:text-primary-300"
                       onClick={() => {
                         // Could implement "show more" functionality
                         console.log(`Show more ${category.label} apps`);
                       }}
                     >
                       View all {categoryApps.length} {category.label.toLowerCase()} tools →
-                    </button>
+                    </Button>
                   </div>
                 )}
               </motion.div>
