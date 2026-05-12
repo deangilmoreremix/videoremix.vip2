@@ -26,6 +26,7 @@ import DashboardContactSection from "../components/dashboard/DashboardContactSec
 import EnhancedStatCard from "../components/dashboard/EnhancedStatCard";
 import OnboardingProgressTracker from "../components/dashboard/OnboardingProgressTracker";
 import MagicSparkles from "../components/MagicSparkles";
+import OnboardingWizard from "../components/onboarding/OnboardingWizard";
 
 const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
@@ -36,6 +37,15 @@ const DashboardPage: React.FC = () => {
   const [greeting, setGreeting] = useState("");
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  useEffect(() => {
+    // Show wizard for any user who hasn't completed onboarding yet
+    const onboardingCompleted = user?.user_metadata?.onboarding_completed;
+    if (!onboardingCompleted && user) {
+      setShowOnboarding(true);
+    }
+  }, [user]);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -261,6 +271,15 @@ const DashboardPage: React.FC = () => {
 
         {/* Dashboard Contact Section */}
         <DashboardContactSection />
+
+        {showOnboarding && (
+          <OnboardingWizard
+            onComplete={() => {
+              setShowOnboarding(false);
+              window.history.replaceState({}, '', '/dashboard');
+            }}
+          />
+        )}
       </main>
     </>
   );
