@@ -34,6 +34,11 @@ import LiveActivityFeed from "../components/premium/LiveActivityFeed";
 import LogoWall from "../components/premium/LogoWall";
 import ParticleBackground from "../components/premium/ParticleBackground";
 import ParallaxSection from "../components/premium/ParallaxSection";
+import ProgressIndicator from "../components/premium/ProgressIndicator";
+import StickyWidget from "../components/premium/StickyWidget";
+import BackToTop from "../components/premium/BackToTop";
+import ExitIntentPopup from "../components/premium/ExitIntentPopup";
+import GradientOrb from "../components/premium/GradientOrb";
 import AnimatedBorderGradient from "../components/premium/AnimatedBorderGradient";
 
 
@@ -184,9 +189,16 @@ const LandingPage: React.FC<LandingPageProps> = ({ isMobile, isTablet }) => {
 
 
         {/* Progress Indicator */}
+        <ProgressIndicator />
+
         {/* Sticky Widget */}
+        <StickyWidget />
+
         {/* Back to Top */}
+        <BackToTop />
+
         {/* Exit Intent Popup */}
+        <ExitIntentPopup />
 
     </main>
   );

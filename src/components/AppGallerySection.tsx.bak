@@ -46,72 +46,42 @@ const TrendingUp: React.FC<{ className?: string }> = (props) => (
   </svg>
 );
 
-// App categories
+// App categories with personalization focus
 const toolCategories = [
   {
     id: "all",
-    label: "All Apps",
+    label: "All Personalization Tools",
     icon: React.createElement(Layers, { className: "w-4 h-4" }),
   },
   {
-    id: "sales-lead-gen",
-    label: "Sales & Lead Gen",
-    icon: React.createElement(TrendingUp, { className: "w-4 h-4" }),
-  },
-  {
-    id: "content-marketing",
-    label: "Content & Marketing",
-    icon: React.createElement(FileText, { className: "w-4 h-4" }),
-  },
-  {
-    id: "video-audio-voice",
-    label: "Video, Audio & Voice",
+    id: "video",
+    label: "Personalized Video",
     icon: React.createElement(Video, { className: "w-4 h-4" }),
   },
   {
-    id: "rag-knowledgebase",
-    label: "RAG & Knowledgebase",
-    icon: React.createElement(Database, { className: "w-4 h-4" }),
+    id: "lead-gen",
+    label: "Personalized Marketing",
+    icon: React.createElement(Users, { className: "w-4 h-4" }),
   },
   {
-    id: "realestate-local",
-    label: "Real Estate & Local",
-    icon: React.createElement(Home, { className: "w-4 h-4" }),
+    id: "ai-image",
+    label: "Personalized AI Image",
+    icon: React.createElement(ImageIcon, { className: "w-4 h-4" }),
   },
   {
-    id: "hr-hiring",
-    label: "HR & Hiring",
-    icon: React.createElement(UserCheck, { className: "w-4 h-4" }),
-  },
-  {
-    id: "finance-business",
-    label: "Finance & Business",
-    icon: React.createElement(DollarSign, { className: "w-4 h-4" }),
-  },
-  {
-    id: "legal-compliance",
-    label: "Legal & Compliance",
-    icon: React.createElement(Shield, { className: "w-4 h-4" }),
-  },
-  {
-    id: "coding-developer",
-    label: "Coding & SaaS",
-    icon: React.createElement(Settings, { className: "w-4 h-4" }),
-  },
-  {
-    id: "design-uiux",
-    label: "Design & UI/UX",
+    id: "branding",
+    label: "Personalized Branding",
     icon: React.createElement(Palette, { className: "w-4 h-4" }),
   },
   {
-    id: "research-education",
-    label: "Research & Training",
-    icon: React.createElement(Search, { className: "w-4 h-4" }),
+    id: "personalizer",
+    label: "Content Personalizer",
+    icon: React.createElement(UserCircle, { className: "w-4 h-4" }),
   },
   {
-    id: "productivity-personal",
-    label: "Productivity & Personal",
-    icon: React.createElement(UserCircle, { className: "w-4 h-4" }),
+    id: "creative",
+    label: "Personalized Creative",
+    icon: React.createElement(Package, { className: "w-4 h-4" }),
   },
 ];
 
@@ -340,6 +310,32 @@ const AppGallerySection: React.FC = () => {
     return url.startsWith("http://") || url.startsWith("https://");
   };
 
+  // Access-aware launch handler
+  const handleAppLaunch = (app: any, event?: React.MouseEvent) => {
+    if (event) {
+      event.preventDefault();
+    }
+
+    if (!user) {
+      // Redirect to sign in
+      window.location.href = '/signin';
+      return;
+    }
+
+    if (!hasAccessToApp(app.id)) {
+      // Redirect to app detail page for purchase
+      window.location.href = `/app/${app.id}`;
+      return;
+    }
+
+    // User has access, launch the app
+    if (shouldOpenInNewTab(app.url)) {
+      window.open(app.url, '_blank', 'noopener,noreferrer');
+    } else {
+      window.location.href = app.url;
+    }
+  };
+
   return (
     <section id="tools" className="py-20 bg-black relative overflow-hidden">
       {/* Background decorations */}
@@ -505,7 +501,7 @@ const AppGallerySection: React.FC = () => {
                         : app.image
                     }
                     alt={app.name}
-                    className={`w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-in-out ${user && !hasAccessToApp(app.id) ? "grayscale opacity-60" : ""}`}
+                    className={`w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out ${user && !hasAccessToApp(app.id) ? "grayscale opacity-60" : ""}`}
                     onError={() => handleImageError(app.id)}
                   />
 
@@ -526,32 +522,16 @@ const AppGallerySection: React.FC = () => {
                 )}
 
                 {/* Hover overlay with action button */}
-                <div
-                  className={`absolute inset-0 bg-primary-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center ${user && !hasAccessToApp(app.id) ? "pointer-events-none" : ""}`}
-                >
-                  {app.url && shouldOpenInNewTab(app.url) ? (
-                    <motion.a
-                      href={app.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="bg-white text-gray-900 px-6 py-3 rounded-lg font-bold flex items-center"
-                    >
-                      <Wand2 className="mr-2 h-5 w-5" />
-                      Personalize Now
-                    </motion.a>
-                  ) : (
-                    <motion.a
-                      href={app.url || `/app/${app.id}`}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="bg-white text-gray-900 px-6 py-3 rounded-lg font-bold flex items-center"
-                    >
-                      <Wand2 className="mr-2 h-5 w-5" />
-                      Personalize Now
-                    </motion.a>
-                  )}
+                <div className="absolute inset-0 bg-primary-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <motion.button
+                    onClick={() => handleAppLaunch(app)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-white text-gray-900 px-6 py-3 rounded-lg font-bold flex items-center"
+                  >
+                    <Wand2 className="mr-2 h-5 w-5" />
+                    {user && hasAccessToApp(app.id) ? 'Personalize Now' : 'Get Access'}
+                  </motion.button>
                 </div>
 
                 {/* Bottom info */}
@@ -753,15 +733,9 @@ const AppGallerySection: React.FC = () => {
                   <motion.div
                     key={app.id}
                     whileHover={{ y: -10 }}
-                    className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 w-[280px] flex-shrink-0 group hover:border-primary-500/50 transition-colors"
+                    className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 w-[280px] flex-shrink-0 group hover:border-primary-500/50 transition-colors cursor-pointer"
+                    onClick={() => handleAppLaunch(app)}
                   >
-                    <a
-                      href={appUrl}
-                      className="block"
-                      {...(isExternal
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : {})}
-                    >
                       <div className="relative h-[160px]">
                         <img
                           src={
@@ -770,7 +744,7 @@ const AppGallerySection: React.FC = () => {
                               : app.image
                           }
                           alt={app.name}
-                          className="w-full h-full object-cover object-center"
+                          className="w-full h-full object-cover"
                           onError={() => handleImageError(app.id)}
                         />
 
@@ -887,7 +861,7 @@ const AppGallerySection: React.FC = () => {
                               : app.image
                           }
                           alt={app.name}
-                          className={`object-cover object-center ${
+                          className={`object-cover ${
                             viewMode === "grid"
                               ? "w-full h-full"
                               : "w-32 h-full"
@@ -956,16 +930,13 @@ const AppGallerySection: React.FC = () => {
                           </span>
                         </div>
 
-                        <a
-                          href={appUrl}
+                        <button
+                          onClick={() => handleAppLaunch(app)}
                           className="text-primary-400 hover:text-primary-300 text-sm font-medium flex items-center"
-                          {...(isExternal
-                            ? { target: "_blank", rel: "noopener noreferrer" }
-                            : {})}
                         >
-                          Try Personalization
+                          {user && hasAccessToApp(app.id) ? 'Try Personalization' : 'Get Access'}
                           <ArrowRight className="ml-1 h-3 w-3" />
-                        </a>
+                        </button>
                       </div>
 
                       {/* Lock overlay for unpurchased apps */}
@@ -987,16 +958,13 @@ const AppGallerySection: React.FC = () => {
                         <div
                           className={`absolute inset-0 bg-primary-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center ${user && !hasAccessToApp(app.id) ? "pointer-events-none" : ""}`}
                         >
-                          <a
-                            href={appUrl}
+                          <button
+                            onClick={() => handleAppLaunch(app)}
                             className="bg-white text-gray-900 font-bold py-2 px-6 rounded-lg flex items-center"
-                            {...(isExternal
-                              ? { target: "_blank", rel: "noopener noreferrer" }
-                              : {})}
                           >
                             <Wand2 className="h-5 w-5 mr-2" />
-                            Personalize Now
-                          </a>
+                            {user && hasAccessToApp(app.id) ? 'Personalize Now' : 'Get Access'}
+                          </button>
 
                           {/* User count for popular apps */}
                           {app.popular && (

@@ -43,6 +43,32 @@ export const getIconNameForApp = (app: DatabaseApp): string => {
   return app.slug || app.category || "ai";
 };
 
+// Validate that an active app has a verified launch target
+export const validateAppLaunchTarget = (dbApp: DatabaseApp): boolean => {
+  if (!dbApp.is_active) {
+    return true; // Inactive apps don't need validation
+  }
+
+  // Check URL priority order
+  if (dbApp.custom_domain) {
+    return true; // Custom domain is verified by admin
+  }
+
+  if (dbApp.netlify_url) {
+    return true; // Netlify URL is verified by admin
+  }
+
+  // Check centralized config
+  const centralizedUrl = getCentralizedAppUrl(dbApp.slug);
+  if (centralizedUrl !== `/app/${dbApp.slug}`) {
+    return true; // Has a centralized mapping
+  }
+
+  // No valid launch target found
+  console.warn(`Active app "${dbApp.name}" (slug: ${dbApp.slug}) has no verified launch target`);
+  return false;
+};
+
 // Transform database app to component app (pure data transformation)
 export const transformApp = (dbApp: DatabaseApp): ComponentApp => {
   // URL Priority Order:

@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useAdmin } from "../context/AdminContext";
 import { redisCache, cacheKeys, CACHE_TTL } from "../utils/redisCache";
+import { supabase } from "../utils/supabaseClient";
 import AdminAppsManagement from "../components/admin/AdminAppsManagement";
 import AdminFeaturesManagement from "../components/admin/AdminFeaturesManagement";
 import AdminUsersManagement from "../components/admin/AdminUsersManagement";
@@ -228,8 +229,12 @@ const useDashboardData = () => {
         }
       }
 
-      const token = localStorage.getItem("admin_token");
-      if (!token) {
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
+
+      if (sessionError || !session?.access_token) {
         setError("Authentication required. Please log in.");
         setLoading(false);
         return;
@@ -239,7 +244,7 @@ const useDashboardData = () => {
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-dashboard-stats`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${session.access_token}`,
           },
         },
       );

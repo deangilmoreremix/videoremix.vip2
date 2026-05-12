@@ -131,13 +131,13 @@ const PublicAppGallery: React.FC = () => {
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   ) : (
-                    <Link
-                      to="/sign-in"
-                      className="inline-flex items-center px-4 py-2 text-sm font-medium text-primary-400 bg-primary-500/10 hover:bg-primary-500/20 border border-primary-500/30 rounded-lg transition-colors"
-                    >
-                      <Lock className="mr-2 h-4 w-4" />
-                      Sign In to Access
-                    </Link>
+                     <Link
+                       to="/signin"
+                       className="inline-flex items-center px-4 py-2 text-sm font-medium text-primary-400 bg-primary-500/10 hover:bg-primary-500/20 border border-primary-500/30 rounded-lg transition-colors"
+                     >
+                       <Lock className="mr-2 h-4 w-4" />
+                       Sign In to Access
+                     </Link>
                   )}
                 </div>
               </div>
@@ -165,13 +165,13 @@ const PublicAppGallery: React.FC = () => {
               AI-powered content creation.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/sign-up"
-                className="inline-flex items-center px-8 py-3 text-lg font-semibold text-white bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:shadow-primary-500/25"
-              >
-                Get Started Free
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
+               <Link
+                 to="/signup"
+                 className="inline-flex items-center px-8 py-3 text-lg font-semibold text-white bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:shadow-primary-500/25"
+               >
+                 Get Started Free
+                 <ArrowRight className="ml-2 h-5 w-5" />
+               </Link>
               <Link
                 to="/pricing"
                 className="inline-flex items-center px-8 py-3 text-lg font-semibold text-gray-300 bg-gray-800/50 hover:bg-gray-800/70 border border-gray-600 rounded-xl transition-colors"

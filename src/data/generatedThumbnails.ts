@@ -599,5 +599,353 @@ export const generatedThumbnails = [
       "model": "dall-e-3",
       "quality": "hd"
     }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/social-pack-ai-thumbnail-1778528415.jpg",
+    "alt": "Social Media Pack - Everything you need for social media success",
+    "prompt": "Free AI-generated stock image from Pexels showing social media app icons on smartphone screen, suitable for social media pack app thumbnail",
+    "metadata": {
+      "appId": "social-pack",
+      "category": "creative",
+      "generatedAt": "2026-05-11T15:36:33-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/business-brander-ai-thumbnail-1778528416.jpg",
+    "alt": "Business Brander Enterprise - Comprehensive branding solution for enterprises",
+    "prompt": "Free AI-generated stock image from Pexels showing YouTube channel interface, adapted for business branding app thumbnail",
+    "metadata": {
+      "appId": "business-brander",
+      "category": "branding",
+      "generatedAt": "2026-05-11T15:36:34-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/video-ai-editor-ai-thumbnail-1778528417.jpg",
+    "alt": "Video AI Editor - Advanced AI-powered video editing with smart automation",
+    "prompt": "Free AI-generated stock image from Pexels showing smartphone displaying YouTube channel interface, adapted for video AI editor app thumbnail",
+    "metadata": {
+      "appId": "video-ai-editor",
+      "category": "video",
+      "generatedAt": "2026-05-11T16:26:57-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/promo-generator-ai-thumbnail-1778528418.jpg",
+    "alt": "Promo Generator - Generate promotional videos for your products and services",
+    "prompt": "Free AI-generated stock image from Pexels showing MacBook Pro with video editing software interface, adapted for promo generator app thumbnail",
+    "metadata": {
+      "appId": "promo-generator",
+      "category": "video",
+      "generatedAt": "2026-05-11T18:26:58-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/landing-page-ai-thumbnail-1778528419.jpg",
+    "alt": "Landing Page Creator - Create full-blown landing pages in 60 seconds",
+    "prompt": "Free AI-generated stock image from Pexels showing AI-generated graphic interface, adapted for landing page creator app thumbnail",
+    "metadata": {
+      "appId": "landing-page",
+      "category": "lead-gen",
+      "generatedAt": "2026-05-11T18:26:59-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/storyboard-ai-thumbnail-1778528498.jpg",
+    "alt": "Storyboard AI - Create professional storyboards with AI assistance",
+    "prompt": "Free AI-generated stock image from Pexels showing tablet with blank mockup screen, adapted for storyboard app thumbnail",
+    "metadata": {
+      "appId": "storyboard",
+      "category": "creative",
+      "generatedAt": "2026-05-11T18:38:18-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/smart-presentations-ai-thumbnail-1778528499.jpg",
+    "alt": "Smart Presentations - Create engaging presentations with minimal effort",
+    "prompt": "Free AI-generated stock image from Pexels showing laptop displaying AI conversation interface, adapted for smart presentations app thumbnail",
+    "metadata": {
+      "appId": "smart-presentations",
+      "category": "creative",
+      "generatedAt": "2026-05-11T18:38:19-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/interactive-shopping-ai-thumbnail-1778528500.jpg",
+    "alt": "Interactive Shopping - Create engaging interactive shopping experiences",
+    "prompt": "Free AI-generated stock image from Pexels showing OpenAI website with ChatGPT interface, adapted for interactive shopping app thumbnail",
+    "metadata": {
+      "appId": "interactive-shopping",
+      "category": "creative",
+      "generatedAt": "2026-05-11T18:38:20-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/sales-monetizer-ai-thumbnail-1778528520.webp",
+    "alt": "AI Sales Monetizer - Convert leads into sales with AI strategies",
+    "prompt": "Free AI-generated image from Flux showing minimalist home workspace with laptop displaying online business dashboard and growth charts, adapted for sales monetizer app thumbnail",
+    "metadata": {
+      "appId": "sales-monetizer",
+      "category": "lead-gen",
+      "generatedAt": "2026-05-11T19:15:20-04:00",
+      "model": "flux-ai",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-referral-maximizer-ai-thumbnail-1778528521.webp",
+    "alt": "AI Referral Maximizer - Maximize your referral program with AI optimization",
+    "prompt": "Free AI-generated image from Flux showing marketing agency with large screens displaying dashboards and loyalty rewards icons, adapted for AI referral maximizer app thumbnail",
+    "metadata": {
+      "appId": "ai-referral-maximizer",
+      "category": "lead-gen",
+      "generatedAt": "2026-05-11T19:15:21-04:00",
+      "model": "flux-ai",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/smart-crm-closer-ai-thumbnail-1778528522.jpg",
+    "alt": "Smart CRM Closer - Close more deals with intelligent CRM automation",
+    "prompt": "Free AI-generated image from Flux showing modern business analytics dashboard on iMac screen in stylish office, adapted for smart CRM closer app thumbnail",
+    "metadata": {
+      "appId": "smart-crm-closer",
+      "category": "lead-gen",
+      "generatedAt": "2026-05-11T19:15:22-04:00",
+      "model": "flux-ai",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/funnelcraft-ai-ai-thumbnail-1778528713.jpg",
+    "alt": "FunnelCraft AI - Build high-converting sales funnels with AI assistance",
+    "prompt": "Free AI-generated image from Flux showing innovative customer support software dashboard with colorful graphs, adapted for FunnelCraft AI app thumbnail",
+    "metadata": {
+      "appId": "funnelcraft-ai",
+      "category": "lead-gen",
+      "generatedAt": "2026-05-11T19:25:13-04:00",
+      "model": "flux-ai",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/sales-assistant-app-ai-thumbnail-1778528714.webp",
+    "alt": "Sales Assistant App - Your complete AI-powered sales assistant",
+    "prompt": "Free AI-generated image from Flux showing high-tech real-time dashboard with colorful graphs for analyzing campaign performance, adapted for sales assistant app thumbnail",
+    "metadata": {
+      "appId": "sales-assistant-app",
+      "category": "lead-gen",
+      "generatedAt": "2026-05-11T19:25:14-04:00",
+      "model": "flux-ai",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/mailwise-ai-thumbnail-1778528760.webp",
+    "alt": "MailWise - AI-powered email assistant for communication",
+    "prompt": "Free AI-generated image from Flux showing modern digital marketing agency with screens displaying engagement dashboards, adapted for MailWise app thumbnail",
+    "metadata": {
+      "appId": "mailwise",
+      "category": "lead-gen",
+      "generatedAt": "2026-05-11T19:26:00-04:00",
+      "model": "flux-ai",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-outbound-ai-thumbnail-1778528761.webp",
+    "alt": "AI Outbound - Sales automation for personalized outreach",
+    "prompt": "Free AI-generated image from Pixexid showing holographic marketing dashboard in darkness, adapted for AI Outbound app thumbnail",
+    "metadata": {
+      "appId": "ai-outbound",
+      "category": "lead-gen",
+      "generatedAt": "2026-05-11T19:26:01-04:00",
+      "model": "pixexid-ai",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/voice-coach-ai-thumbnail-1778528770.jpg",
+    "alt": "AI Voice Coach Pro - Perfect your speaking skills with AI feedback",
+    "prompt": "Free AI-generated image from Pexels showing AI interface on screen, adapted for voice coach app thumbnail",
+    "metadata": {
+      "appId": "voice-coach",
+      "category": "personalizer",
+      "generatedAt": "2026-05-11T19:26:10-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-recorder-ai-thumbnail-1778528780.jpg",
+    "alt": "AI Screen Recorder - Record and enhance screen captures automatically",
+    "prompt": "Free AI-generated image from Pexels showing software panel, adapted for personalizer recorder app thumbnail",
+    "metadata": {
+      "appId": "personalizer-recorder",
+      "category": "personalizer",
+      "generatedAt": "2026-05-11T19:26:20-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/thumbnail-generator-ai-thumbnail-1778528860.jpg",
+    "alt": "AI Thumbnail Generator - Create eye-catching thumbnails that drive clicks",
+    "prompt": "Free AI-generated image from Pexels showing hand holding smartphone with AI apps, adapted for thumbnail generator app thumbnail",
+    "metadata": {
+      "appId": "thumbnail-generator",
+      "category": "personalizer",
+      "generatedAt": "2026-05-11T19:27:40-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-profile-ai-thumbnail-1778528861.jpg",
+    "alt": "AI Profile Generator - Create optimized profiles for any platform",
+    "prompt": "Free AI-generated image from Pexels showing smartphone displaying AI interface, adapted for personalizer profile app thumbnail",
+    "metadata": {
+      "appId": "personalizer-profile",
+      "category": "personalizer",
+      "generatedAt": "2026-05-11T19:27:41-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-signature-ai-thumbnail-1778529000.jpg",
+    "alt": "AI Signature - Generate professional digital signatures with AI",
+    "prompt": "Free AI-generated image from Pexels showing webpage of AI chatbot on smartphone, adapted for AI signature app thumbnail",
+    "metadata": {
+      "appId": "ai-signature",
+      "category": "personalizer",
+      "generatedAt": "2026-05-11T19:30:00-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-skills-monetizer-ai-thumbnail-1778529001.jpg",
+    "alt": "AI Skills Monetizer - Turn your skills into profitable online businesses",
+    "prompt": "Free AI-generated image from Pexels showing modern app interface, adapted for AI skills monetizer app thumbnail",
+    "metadata": {
+      "appId": "ai-skills-monetizer",
+      "category": "personalizer",
+      "generatedAt": "2026-05-11T19:30:01-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-image-tools-ai-thumbnail-1778529020.jpg",
+    "alt": "AI Image Tools Collection - Access our impressive collection of AI image creation tools",
+    "prompt": "Free AI-generated image from Pexels showing close-up of DeepSeek AI interface on screen, adapted for AI image tools app thumbnail",
+    "metadata": {
+      "appId": "ai-image-tools",
+      "category": "ai-image",
+      "generatedAt": "2026-05-11T19:30:20-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-art-ai-thumbnail-1778529021.jpg",
+    "alt": "AI Art Generator - Create stunning artwork with artificial intelligence",
+    "prompt": "Free AI-generated image from Pexels showing laptop screen displaying AI interface at night, adapted for AI art generator app thumbnail",
+    "metadata": {
+      "appId": "ai-art",
+      "category": "ai-image",
+      "generatedAt": "2026-05-11T19:30:21-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/bg-remover-ai-thumbnail-1778529200.jpg",
+    "alt": "AI Background Remover - Remove backgrounds with a single click",
+    "prompt": "Free AI-generated image from Pexels showing webpage of ChatGPT on smartphone, adapted for background remover app thumbnail",
+    "metadata": {
+      "appId": "bg-remover",
+      "category": "ai-image",
+      "generatedAt": "2026-05-11T19:33:20-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-text-ai-editor-ai-thumbnail-1778529397.jpg",
+    "alt": "Personalizer Text AI Editor - Edit and personalize text content with AI assistance",
+    "prompt": "Free AI-generated image from Pexels showing digital interface, adapted for personalizer text AI editor app thumbnail",
+    "metadata": {
+      "appId": "personalizer-text-ai-editor",
+      "category": "personalizer",
+      "generatedAt": "2026-05-11T19:36:37-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-advanced-text-video-editor-ai-thumbnail-1778529398.jpg",
+    "alt": "Personalizer Advanced Text-Video AI Editor - Advanced AI-powered text and video editing combined",
+    "prompt": "Free AI-generated image from Pexels showing futuristic interface, adapted for personalizer advanced text-video AI editor app thumbnail",
+    "metadata": {
+      "appId": "personalizer-advanced-text-video-editor",
+      "category": "personalizer",
+      "generatedAt": "2026-05-11T19:36:38-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-video-image-ai-thumbnail-1778529470.jpg",
+    "alt": "AI Video & Image - Transform videos and images with AI enhancement",
+    "prompt": "Free AI-generated image from Pexels showing MacBook with DeepSeek AI interface, adapted for AI video image app thumbnail",
+    "metadata": {
+      "appId": "ai-video-image",
+      "category": "ai-image",
+      "generatedAt": "2026-05-11T19:37:50-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-writing-toolkit-ai-thumbnail-1778529471.jpg",
+    "alt": "Personalizer AI Writing Toolkit - Complete toolkit for AI-powered personalized writing",
+    "prompt": "Free AI-generated image from Pexels showing smartphone with AI apps, adapted for personalizer writing toolkit app thumbnail",
+    "metadata": {
+      "appId": "personalizer-writing-toolkit",
+      "category": "personalizer",
+      "generatedAt": "2026-05-11T19:37:51-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-headshot-studio-ai-thumbnail-1778529472.jpg",
+    "alt": "AI Headshot Studio - Complete, monetization-ready platform for AI-powered photography business",
+    "prompt": "Free AI-generated image from Pexels showing app screen, adapted for AI headshot studio app thumbnail",
+    "metadata": {
+      "appId": "ai-headshot-studio",
+      "category": "personalizer",
+      "generatedAt": "2026-05-11T19:37:52-04:00",
+      "model": "pexels-stock",
+      "quality": "hd"
+    }
   }
 ];
