@@ -7,23 +7,60 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Check if we're in a production build environment
-// Always skip validation in production to prevent build failures
-const isProduction = true; // Force skip validation in all environments
-// const isProduction = process.env.NODE_ENV === 'production' ||
-//                       process.env.CONTEXT === 'production' ||
-//                       process.env.BRANCH === 'main' ||
-//                       !existsSync(join(__dirname, '.env.lock'));
+const isProduction = process.env.NODE_ENV === 'production' ||
+                      process.env.CONTEXT === 'production' ||
+                      process.env.BRANCH === 'main' ||
+                      !existsSync(join(__dirname, '.env.lock'));
+
+// Always validate environment configuration
+console.log('🔍 Validating environment configuration...');
 
 if (isProduction) {
-  console.log('⚠️  Skipping environment validation - allowing build to continue');
-  console.log('   Environment variables should be set in Netlify dashboard');
-  // Don't exit - let the build continue even if validation fails
-  // This prevents the build from failing due to missing .env file
-  // We can't use return at top level in ESM, so we just don't exit
+  // Production validation - check environment variables
+  let supabaseUrl = process.env.VITE_SUPABASE_URL;
+  let supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
+
+  // In local production builds, also check .env file
+  if (!supabaseUrl || !supabaseAnonKey) {
+    try {
+      const envPath = join(__dirname, '.env');
+      if (existsSync(envPath)) {
+        const envFile = readFileSync(envPath, 'utf-8');
+        supabaseUrl = supabaseUrl || envFile.match(/VITE_SUPABASE_URL=(.+)/)?.[1];
+        supabaseAnonKey = supabaseAnonKey || envFile.match(/VITE_SUPABASE_ANON_KEY=(.+)/)?.[1];
+      }
+    } catch (error) {
+      // Ignore errors reading .env file
+    }
+  }
+
+  if (!supabaseUrl) {
+    console.error('❌ ERROR: VITE_SUPABASE_URL environment variable not set');
+    console.error('   Set VITE_SUPABASE_URL in your environment or .env file');
+    process.exit(1);
+  }
+
+  if (!supabaseAnonKey) {
+    console.error('❌ ERROR: VITE_SUPABASE_ANON_KEY environment variable not set');
+    console.error('   Set VITE_SUPABASE_ANON_KEY in your environment or .env file');
+    process.exit(1);
+  }
+
+  // Additional validation for production
+  if (!supabaseUrl.startsWith('https://')) {
+    console.error('❌ ERROR: VITE_SUPABASE_URL must use HTTPS in production');
+    process.exit(1);
+  }
+
+  if (supabaseUrl.includes('localhost') || supabaseUrl.includes('127.0.0.1')) {
+    console.error('❌ ERROR: VITE_SUPABASE_URL cannot point to localhost in production');
+    process.exit(1);
+  }
+
+  console.log('✅ Production environment validation passed');
+  console.log(`   Supabase URL: ${supabaseUrl}`);
 } else {
   // Local development validation
-  console.log('🔍 Validating environment configuration...');
-
   // Read the lock file
   const lockFile = readFileSync(join(__dirname, '.env.lock'), 'utf-8');
   const correctProjectId = lockFile.match(/LOCKED_PROJECT_ID=(.+)/)?.[1];
@@ -44,8 +81,9 @@ if (isProduction) {
 
   const envFile = readFileSync(envPath, 'utf-8');
   const currentUrl = envFile.match(/VITE_SUPABASE_URL=(.+)/)?.[1];
+  const currentAnonKey = envFile.match(/VITE_SUPABASE_ANON_KEY=(.+)/)?.[1];
 
-  // Validate
+  // Validate URL
   if (!currentUrl) {
     console.error('❌ ERROR: VITE_SUPABASE_URL not found in .env file');
     console.error('   Add VITE_SUPABASE_URL to your .env file');
@@ -67,6 +105,13 @@ if (isProduction) {
     console.error('❌ ERROR: Project ID mismatch!');
     console.error(`   URL contains wrong project ID`);
     console.error(`   Expected: ${correctProjectId}`);
+    process.exit(1);
+  }
+
+  // Validate anon key
+  if (!currentAnonKey) {
+    console.error('❌ ERROR: VITE_SUPABASE_ANON_KEY not found in .env file');
+    console.error('   Add VITE_SUPABASE_ANON_KEY to your .env file');
     process.exit(1);
   }
 
