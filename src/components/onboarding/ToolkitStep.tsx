@@ -36,9 +36,20 @@ const ToolkitStep: React.FC<ToolkitStepProps> = ({
   const hasAnyPurchases = purchasedApps.length > 0;
 
   const recommendedApps = useMemo(() => {
-    return appsData.filter(app => 
-      selectedCategories.includes(app.category)
-    ).slice(0, 12);
+    if (!selectedCategories.length) return [];
+    
+    return appsData.filter(app => {
+      // Check if app.category is in selectedCategories
+      // App may have businessCategory array or single category string
+      const appCats = (app as any).businessCategory || [];
+      const singleCat = app.category || '';
+      
+      // Check if any of app's categories match selected ones
+      if (appCats.length > 0) {
+        return appCats.some((cat: string) => selectedCategories.includes(cat));
+      }
+      return selectedCategories.includes(singleCat);
+    }).slice(0, 12);
   }, [selectedCategories]);
 
   const categories = useMemo(() => 
@@ -89,12 +100,32 @@ const ToolkitStep: React.FC<ToolkitStepProps> = ({
   const totalTasks = setupTasks.length;
 
   const handleOpenApp = useCallback((appId: string) => {
-    window.open(`/app/${appId}`, '_blank');
+    if (!appId) {
+      console.error('Invalid app ID');
+      return;
+    }
+    try {
+      window.open(`/app/${appId}`, '_blank');
+    } catch (error) {
+      console.error('Failed to open app:', error);
+    }
   }, []);
 
   const handlePurchaseApp = useCallback(() => {
-    window.location.href = '/#pricing';
+    try {
+      window.location.href = '/#pricing';
+    } catch (error) {
+      console.error('Failed to navigate to pricing:', error);
+    }
   }, []);
+
+  const handleComplete = useCallback(() => {
+    if (!user) {
+      console.error('No user found');
+      return;
+    }
+    onComplete();
+  }, [user, onComplete]);
 
   return (
     <motion.div
@@ -113,7 +144,14 @@ const ToolkitStep: React.FC<ToolkitStepProps> = ({
       </div>
 
       {categories.map(category => {
-        const categoryApps = recommendedApps.filter(app => app.category === category.id);
+        const categoryApps = recommendedApps.filter(app => {
+          const appCats = (app as any).businessCategory || [];
+          const singleCat = app.category || '';
+          if (appCats.length > 0) {
+            return appCats.includes(category.id);
+          }
+          return singleCat === category.id;
+        });
         
         if (categoryApps.length === 0) return null;
         
@@ -254,7 +292,7 @@ const ToolkitStep: React.FC<ToolkitStepProps> = ({
           ← Back
         </button>
         <button
-          onClick={onComplete}
+          onClick={handleComplete}
           className="px-6 py-3 rounded-lg font-semibold bg-[#cc785c] hover:bg-[#cc785c]/80 text-white transition-all"
         >
           Complete Onboarding
