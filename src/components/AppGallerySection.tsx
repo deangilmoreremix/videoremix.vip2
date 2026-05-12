@@ -19,6 +19,13 @@ import {
   Brain,
   Check,
   Lock,
+  FileText,
+  Database,
+  Home,
+  UserCheck,
+  DollarSign,
+  Shield,
+  Settings,
 } from "lucide-react";
 import MagicSparkles from "./MagicSparkles";
 import { useInView } from "react-intersection-observer";

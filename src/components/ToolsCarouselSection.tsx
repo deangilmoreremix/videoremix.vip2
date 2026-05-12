@@ -14,6 +14,12 @@ import {
   Globe,
   Bot,
   Wand2,
+  FileText,
+  Database,
+  Home,
+  BarChart,
+  Shield,
+  BookOpen,
 } from "lucide-react";
 
 import MagicSparkles from "./MagicSparkles";
