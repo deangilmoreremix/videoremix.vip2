@@ -2,31 +2,7 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 
-// Vite plugin to handle missing lucide-react modules
-function fixLucideReact() {
-  return {
-    name: 'fix-lucide-react',
-    resolveId(id) {
-      // Handle missing alarm-clock-minus icon
-      if (id.includes('alarm-clock-minus') || id.includes('alarm-clock-minus')) {
-        // Return a virtual module ID
-        return '\0lucide-react-missing-icon';
-      }
-    },
-    load(id) {
-      if (id === '\0lucide-react-missing-icon') {
-        return `
-import React from 'react';
-const AlarmClockMinus = React.forwardRef((props, ref) => 
-  React.createElement('svg', { ...props, ref, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2 })
-);
-AlarmClockMinus.displayName = 'AlarmClockMinus';
-export { AlarmClockMinus };
-`;
-      }
-    }
-  };
-}
+// Removed custom lucide-react fix plugin - using standard lucide-react
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -36,7 +12,6 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       react(),
-      fixLucideReact(),
     ],
     optimizeDeps: {
       exclude: ['lucide-react', 'framer-motion'],
@@ -75,8 +50,6 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': resolve(__dirname, 'src'),
-        // Force using CJS build instead of broken ESM build
-        'lucide-react': resolve(__dirname, 'node_modules/lucide-react/dist/cjs/lucide-react.js'),
       },
     },
     envPrefix: 'VITE_',
