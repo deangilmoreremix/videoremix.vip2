@@ -233,7 +233,12 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
 
       if (roleError) {
         console.error("AdminContext - Error fetching role:", roleError);
-        // Don't sign out on error, just set loading to false and keep existing user
+        // If role fetch fails due to permissions, assume user is not admin
+        // Don't sign out, just set as regular user
+        if (roleError.code === 'PGRST116' || roleError.message?.includes('permission denied')) {
+          console.log("AdminContext - Role access denied, treating as regular user");
+          setUser(null);
+        }
         setIsLoading(false);
         isVerifyingRef.current = false;
         return;

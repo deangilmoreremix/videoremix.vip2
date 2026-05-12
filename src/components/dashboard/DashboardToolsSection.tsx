@@ -58,6 +58,9 @@ import {
   Globe,
   MapPin,
   X,
+  Brain,
+  Check,
+  Lock,
 } from "lucide-react";
 import MagicSparkles from "../MagicSparkles";
 import { useInView } from "react-intersection-observer";
