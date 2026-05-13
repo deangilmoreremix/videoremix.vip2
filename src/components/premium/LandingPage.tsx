@@ -22,8 +22,6 @@ import FloatingIcon from './FloatingIcon';
 import { Sparkles, Award, Clock, Shield, Star, CheckCircle, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-import './premium-landing.css';
-
 /**
  * LandingPage component for the premium section of VideoRemix.vip.
  *
