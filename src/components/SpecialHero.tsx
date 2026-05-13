@@ -87,60 +87,61 @@ const SpecialHero: React.FC = () => {
                 </span>
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-none md:leading-tight relative">
-                Welcome to <span className="text-primary-400">VideoRemix</span>{" "}
-                - Your Complete Personalized Marketing Platform
-              </h1>
+               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-none md:leading-tight relative">
+                 {hero?.title ? hero.title : (
+                   <>Welcome to <span className="text-primary-400">VideoRemix</span> - Your Complete Personalized Marketing Platform</>
+                 )}
+               </h1>
 
-              <p className="text-xl md:text-2xl text-gray-300 mb-8">
-                The professional platform for creating personalized marketing at
-                scale. 50+ AI-powered tools help you deliver the right message
-                to the right audience segment.
-              </p>
+               <p className="text-xl md:text-2xl text-gray-300 mb-8">
+                 {hero?.subtitle ? hero.subtitle : (
+                   "The professional platform for creating personalized marketing at scale. 50+ AI-powered tools help you deliver the right message to the right audience segment."
+                 )}
+               </p>
 
-              <div className="space-y-4 mb-8">
-                {[
-                  "AI-powered personalization for marketing content and campaigns",
-                  "50+ marketing personalization tools for marketers and businesses",
-                  "Create personalized campaigns in minutes, not hours",
-                  "Increase marketing ROI with audience-specific content",
-                ].map((benefit, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
-                    className="flex items-center"
-                  >
-                    <div className="mr-3 text-primary-400">
-                      <CheckCircle className="w-6 h-6" />
-                    </div>
-                    <p className="text-white text-lg">{benefit}</p>
-                  </motion.div>
-                ))}
-              </div>
+               <div className="space-y-4 mb-8">
+                 {(hero?.description ? hero.description.split('\n').filter(Boolean) : [
+                   "AI-powered personalization for marketing content and campaigns",
+                   "50+ marketing personalization tools for marketers and businesses",
+                   "Create personalized campaigns in minutes, not hours",
+                   "Increase marketing ROI with audience-specific content",
+                 ]).map((benefit, index) => (
+                   <motion.div
+                     key={index}
+                     initial={{ opacity: 0, x: -20 }}
+                     animate={{ opacity: 1, x: 0 }}
+                     transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
+                     className="flex items-center"
+                   >
+                     <div className="mr-3 text-primary-400">
+                       <CheckCircle className="w-6 h-6" />
+                     </div>
+                     <p className="text-white text-lg">{benefit}</p>
+                   </motion.div>
+                 ))}
+               </div>
 
               <motion.div
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 className="mb-6"
               >
-                <MagicSparkles
-                  minSparkles={2}
-                  maxSparkles={5}
-                  minSize={5}
-                  maxSize={10}
-                >
-                  <a
-                    href="/signup"
-                    className="block w-full md:w-auto md:inline-block text-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold text-xl px-8 py-5 rounded-lg shadow-lg"
-                  >
-                    <span className="flex items-center justify-center">
-                      GET STARTED WITH VIDEOREMIX
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </span>
-                  </a>
-                </MagicSparkles>
+                 <MagicSparkles
+                   minSparkles={2}
+                   maxSparkles={5}
+                   minSize={5}
+                   maxSize={10}
+                 >
+                   <a
+                     href={hero?.primary_button_url || "/signup"}
+                     className="block w-full md:w-auto md:inline-block text-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold text-xl px-8 py-5 rounded-lg shadow-lg"
+                   >
+                     <span className="flex items-center justify-center">
+                       {hero?.primary_button_text || "GET STARTED WITH VIDEOREMIX"}
+                       <ArrowRight className="ml-2 h-5 w-5" />
+                     </span>
+                   </a>
+                 </MagicSparkles>
               </motion.div>
 
               <p className="text-gray-400 text-sm">

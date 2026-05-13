@@ -173,3 +173,27 @@ class RedisCache {
 
 // Export singleton instance
 export const redisCache = new RedisCache();
+
+// Cache key generators
+export const cacheKeys = {
+  userAnalytics: (userId: string) => `admin:analytics:${userId}`,
+  dashboardStats: () => "admin:dashboard:stats",
+  announcements: () => "admin:announcements",
+  userList: (page: number, limit: number) => `admin:users:${page}:${limit}`,
+  appAccess: (userId: string) => `user:app_access:${userId}`,
+};
+
+// Cache TTL values (in seconds)
+export const CACHE_TTL = {
+  USER_ANALYTICS: 5 * 60, // 5 minutes
+  DASHBOARD_STATS: 2 * 60, // 2 minutes
+  ANNOUNCEMENTS: 10 * 60, // 10 minutes
+  USER_LIST: 1 * 60, // 1 minute
+  APP_ACCESS: 5 * 60, // 5 minutes
+};
+
+// Export types for external use
+export type { CacheEntry, RedisCacheClient };
+
+// Export the class for instantiation if needed
+export { RedisCache };

@@ -6,14 +6,58 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Check if we're in CI environment
+const isCI = process.env.CI === 'true' || 
+             process.env.GITHUB_ACTIONS === 'true' ||
+             process.env.NETLIFY === 'true' ||
+             process.env.CI_ENVIRONMENT === 'true';
+
 // Check if we're in a production build environment
 const isProduction = process.env.NODE_ENV === 'production' ||
                       process.env.CONTEXT === 'production' ||
                       process.env.BRANCH === 'main' ||
-                      !existsSync(join(__dirname, '.env.lock'));
+                      (!isCI && !existsSync(join(__dirname, '.env.lock')));
 
 // Always validate environment configuration
 console.log('🔍 Validating environment configuration...');
+console.log(`   Environment: ${isCI ? 'CI' : isProduction ? 'Production' : 'Development'}`);
+
+if (isCI) {
+  // CI validation - only check environment variables, no .env file required
+  console.log('🚀 Running in CI mode - validating environment variables only...');
+  
+  let supabaseUrl = process.env.VITE_SUPABASE_URL;
+  let supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl) {
+    console.error('❌ ERROR: VITE_SUPABASE_URL environment variable not set');
+    console.error('   Please add VITE_SUPABASE_URL to your CI environment variables');
+    process.exit(1);
+  }
+
+  if (!supabaseAnonKey) {
+    console.error('❌ ERROR: VITE_SUPABASE_ANON_KEY environment variable not set');
+    console.error('   Please add VITE_SUPABASE_ANON_KEY to your CI environment variables');
+    process.exit(1);
+  }
+
+  // Additional validation for production
+  if (isProduction) {
+    if (!supabaseUrl.startsWith('https://')) {
+      console.error('❌ ERROR: VITE_SUPABASE_URL must use HTTPS in production');
+      process.exit(1);
+    }
+
+    if (supabaseUrl.includes('localhost') || supabaseUrl.includes('127.0.0.1')) {
+      console.error('❌ ERROR: VITE_SUPABASE_URL cannot point to localhost in production');
+      process.exit(1);
+    }
+  }
+
+  console.log('✅ CI environment validation passed');
+  console.log(`   Supabase URL: ${supabaseUrl}`);
+  process.exit(0);
+}
 
 if (isProduction) {
   // Production validation - check environment variables

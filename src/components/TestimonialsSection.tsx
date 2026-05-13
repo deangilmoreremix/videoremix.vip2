@@ -18,7 +18,7 @@ import { testimonialsData as staticTestimonials } from "../data/testimonialsData
 import MagicSparkles from "./MagicSparkles";
 
 const TestimonialsSection: React.FC = () => {
-  const { testimonials: dbTestimonials, isLoading } = useLandingPageContent();
+  const { testimonials: dbTestimonials, isLoading, error } = useLandingPageContent();
   const [activeIndex, setActiveIndex] = useState(0);
   const [videoModal, setVideoModal] = useState<{ open: boolean; url: string }>({
     open: false,
@@ -26,11 +26,69 @@ const TestimonialsSection: React.FC = () => {
   });
   const [activeFilter, setActiveFilter] = useState("all");
 
-  // Use DB testimonials if available, otherwise fallback to static data
-  const allTestimonials =
-    !isLoading && dbTestimonials && dbTestimonials.length > 0
-      ? dbTestimonials
-      : staticTestimonials;
+  // Determine if we're in production
+  const isProduction = typeof window !== 'undefined' && 
+                       window.location.hostname !== 'localhost' && 
+                       window.location.hostname !== '127.0.0.1' &&
+                       !window.location.hostname.includes('preview');
+
+  // Log telemetry when falling back in production
+  if (isProduction && 
+      (!dbTestimonials || dbTestimonials.length === 0) &&
+      !isLoading) {
+    console.warn('[TestimonialsSection] Falling back to static content in production. CMS data unavailable.', {
+      hasError: !!error,
+      error: error,
+      testimonialsCount: dbTestimonials?.length || 0,
+    });
+  }
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <section id="testimonials" className="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="flex justify-center items-center min-h-[400px]">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Show error state if there's an error and no data
+  if (error && (!dbTestimonials || dbTestimonials.length === 0)) {
+    return (
+      <section id="testimonials" className="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-6">
+              <h3 className="text-xl font-bold text-white mb-2">Unable to Load Testimonials</h3>
+              <p className="text-gray-300">{error}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Use DB testimonials if available, otherwise fallback based on environment
+  const allTestimonials = dbTestimonials && dbTestimonials.length > 0
+    ? dbTestimonials
+    : (isProduction ? [] : staticTestimonials);
+
+  // If in production and no testimonials, show empty state
+  if (isProduction && (!allTestimonials || allTestimonials.length === 0)) {
+    return (
+      <section id="testimonials" className="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <p className="text-gray-400">Testimonials are currently unavailable.</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   // Filter testimonials based on active filter
   const testimonials =
