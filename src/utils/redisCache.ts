@@ -1,6 +1,7 @@
 // Redis-based caching utility for admin dashboard
-import { safeParseInt } from "../utils/safeParse";
 // Provides caching for frequently accessed data with TTL support
+
+import { safeParseInt } from "./safeParse";
 
 interface CacheEntry<T> {
   data: T;
@@ -53,7 +54,7 @@ class RedisCache {
 
       this.client = await createClient({
         hostname: new URL(redisUrl).hostname,
-        port: safeParseInt(new URL(redisUrl).port, 6379)
+        port: safeParseInt(new URL(redisUrl).port, 6379),
         password: new URL(redisUrl).password,
       });
 
@@ -79,7 +80,7 @@ class RedisCache {
       }
     }
     if (cleaned > 0) {
-      console.debug(`RedisCache: Cleaned up ${cleaned} expired entries`);
+      console.log(`RedisCache: Cleaned up ${cleaned} expired entries`);
     }
   }
 
@@ -105,23 +106,29 @@ class RedisCache {
   }
 
   async set<T>(key: string, value: T, ttlSeconds: number = 300): Promise<void> {
-    const entry: CacheEntry<T> = {
-      data: value,
-      timestamp: Date.now(),
-      ttl: ttlSeconds * 1000,
-    };
-
+    // Set in Redis if connected
     if (this.isConnected && this.client) {
       try {
-        await this.client.set(key, JSON.stringify(value), { ex: ttlSeconds });
+        await this.client.set(key, JSON.stringify(value), {
+          ex: ttlSeconds,
+        });
         return;
       } catch (error) {
-        console.error("Redis cache set error:", error);
+        console.warn("Redis cache set failed, using in-memory:", error.message);
       }
     }
 
     // Fallback to in-memory cache
-    this.inMemoryCache.set(key, entry);
+    this.inMemoryCache.set(key, {
+      data: value,
+      timestamp: Date.now(),
+      ttl: ttlSeconds * 1000,
+    });
+
+    // Cleanup old entries if cache gets too large
+    if (this.inMemoryCache.size > 100) {
+      this.cleanup();
+    }
   }
 
   async delete(key: string): Promise<void> {
@@ -133,33 +140,7 @@ class RedisCache {
       }
     }
 
-    // Also remove from in-memory cache
     this.inMemoryCache.delete(key);
-  }
-
-  async exists(key: string): Promise<boolean> {
-    if (this.isConnected && this.client) {
-      try {
-        const result = await this.client.exists(key);
-        return result === 1;
-      } catch (error) {
-        console.error("Redis cache exists error:", error);
-      }
-    }
-
-    // Check in-memory cache
-    const entry = this.inMemoryCache.get(key);
-    return entry && Date.now() < entry.timestamp + entry.ttl;
-  }
-
-  async clear(): Promise<void> {
-    if (this.isConnected && this.client) {
-      // Note: This would require a pattern-based deletion in Redis
-      // For simplicity, we'll skip Redis clearing in this implementation
-    }
-
-    // Clear in-memory cache
-    this.inMemoryCache.clear();
   }
 
   getStats(): { redisConnected: boolean; inMemoryEntries: number } {
@@ -170,39 +151,25 @@ class RedisCache {
   }
 
   async disconnect(): Promise<void> {
-    if (this.client && typeof this.client.quit === "function") {
-      try {
-        await this.client.quit();
-      } catch (error) {
-        console.error("Error disconnecting Redis cache client:", error);
-      }
-    }
-    this.isConnected = false;
-
     if (this.cleanupInterval) {
       clearInterval(this.cleanupInterval);
       this.cleanupInterval = null;
     }
+
+    if (this.isConnected && this.client) {
+      try {
+        if (typeof (this.client as any).quit === "function") {
+          await (this.client as any).quit();
+        }
+      } catch (error) {
+        console.error("Error disconnecting Redis cache:", error);
+      }
+      this.isConnected = false;
+    }
+
+    this.inMemoryCache.clear();
   }
 }
 
-// Global cache instance
+// Export singleton instance
 export const redisCache = new RedisCache();
-
-// Cache key generators
-export const cacheKeys = {
-  userAnalytics: (userId: string) => `admin:analytics:${userId}`,
-  dashboardStats: () => "admin:dashboard:stats",
-  announcements: () => "admin:announcements",
-  userList: (page: number, limit: number) => `admin:users:${page}:${limit}`,
-  appAccess: (userId: string) => `user:app_access:${userId}`,
-};
-
-// Cache TTL values (in seconds)
-export const CACHE_TTL = {
-  USER_ANALYTICS: 5 * 60, // 5 minutes
-  DASHBOARD_STATS: 2 * 60, // 2 minutes
-  ANNOUNCEMENTS: 10 * 60, // 10 minutes
-  USER_LIST: 1 * 60, // 1 minute
-  APP_ACCESS: 5 * 60, // 5 minutes
-} as const;
