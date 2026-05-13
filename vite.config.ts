@@ -21,7 +21,6 @@ export default defineConfig(({ mode }) => {
     build: {
       target: 'esnext',
       rollupOptions: {
-        external: ['@supabase/phoenix'],
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {
