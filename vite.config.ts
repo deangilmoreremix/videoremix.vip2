@@ -15,10 +15,13 @@ export default defineConfig(({ mode }) => {
     ],
     optimizeDeps: {
       exclude: ['lucide-react', 'framer-motion'],
+      include: ['@supabase/phoenix'],
+      force: true,
     },
     build: {
       target: 'esnext',
       rollupOptions: {
+        external: ['@supabase/phoenix'],
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {
