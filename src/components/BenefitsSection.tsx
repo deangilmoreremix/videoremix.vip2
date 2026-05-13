@@ -13,6 +13,7 @@ import {
 import CountUp from "react-countup";
 import { useLandingPageContent } from "../context/LandingPageContext";
 import MagicSparkles from "./MagicSparkles";
+import { safeParseInt } from "../utils/safeParse";
 
 const BenefitsSection: React.FC = () => {
   // Get benefits data from context
@@ -364,10 +365,10 @@ const BenefitsSection: React.FC = () => {
                           transition={{ duration: 0.2 }}
                         >
                           <CountUp
-                            end={parseInt(stat.value) || 0}
-                            suffix={
-                              isNaN(parseInt(stat.value)) ? stat.value : ""
-                            }
+                            end={safeParseInt(stat.value, 0)}
+                             suffix={
+                               safeParseInt(stat.value, -1) === -1 ? stat.value : ""
+                             }
                             duration={2}
                           />
                         </motion.div>

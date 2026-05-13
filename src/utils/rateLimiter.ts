@@ -2,6 +2,7 @@
 // Falls back to in-memory storage when Redis is not available
 
 import { appConfig } from "../config/appConfig";
+import { safeParseInt } from "../utils/safeParse";
 
 // Redis client interface for Deno
 interface RedisClient {
@@ -42,7 +43,7 @@ class RedisClientFactory {
 
       this.client = await createClient({
         hostname: new URL(redisUrl).hostname,
-        port: parseInt(new URL(redisUrl).port) || 6379,
+        port: safeParseInt(new URL(redisUrl).port, 6379)
         password: new URL(redisUrl).password,
       });
 
@@ -283,8 +284,8 @@ class RateLimiter {
         this.redisClient.get(resetKey),
       ]);
 
-      const currentCount = countStr ? parseInt(countStr) : 0;
-      const resetTime = resetStr ? parseInt(resetStr) : 0;
+      const currentCount = safeParseInt(countStr, 0);
+      const resetTime = safeParseInt(resetStr, 0);
 
       if (!countStr || now > resetTime) {
         // First request or window expired

@@ -11,6 +11,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import AIAssistant from "./components/AIAssistant";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MobileBottomNav from "./components/MobileBottomNav";
+import GlobalPersonalizerButton from "./components/personalizer/GlobalPersonalizerButton";
 import { AdminProvider } from "./context/AdminContext";
 import { AuthProvider } from "./context/AuthContext";
 import { LandingPageProvider } from "./context/LandingPageContext";
@@ -21,7 +22,7 @@ import { NetworkStatusIndicator } from "./components/AsyncStates";
 const LandingPage = lazy(() => import("./pages/LandingPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
 const ToolsHubPage = lazy(() => import("./pages/ToolsHubPage")); // New Tools Hub Page
-
+const ApplicationsPage = lazy(() => import("./pages/ApplicationsPage"));
 // Feature pages
 const AIVideoCreatorPage = lazy(
   () => import("./pages/features/AIVideoCreatorPage"),
@@ -167,6 +168,9 @@ function App() {
           {/* AI Assistant - Hidden on admin pages */}
           {!isAdminPage && <AIAssistant />}
 
+          {/* Global Personalizer Button - Hidden on admin pages */}
+          {!isAdminPage && <GlobalPersonalizerButton />}
+
           <Routes>
             {/* Landing Page Route */}
             <Route
@@ -193,6 +197,20 @@ function App() {
                   <SparkleBackground>
                     <Suspense fallback={<SectionLoader />}>
                       <ToolsHubPage />
+                      <SpecialFooter />
+                    </Suspense>
+                  </SparkleBackground>
+                </ErrorBoundary>
+              }
+            />
+            {/* Applications Page */}
+            <Route
+              path="/apps"
+              element={
+                <ErrorBoundary onError={handleError}>
+                  <SparkleBackground>
+                    <Suspense fallback={<SectionLoader />}>
+                      <ApplicationsPage />
                       <SpecialFooter />
                     </Suspense>
                   </SparkleBackground>

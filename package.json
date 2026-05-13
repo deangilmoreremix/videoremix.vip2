@@ -14,8 +14,12 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
+    "setup-netlify": "./setup-netlify.sh",
     "deploy": "npm run build && netlify deploy --prod",
-    "deploy:preview": "npm run build && netlify deploy"
+    "deploy:preview": "npm run build && netlify deploy",
+    "deploy:auto": "./deploy-netlify.sh production",
+    "deploy:auto:preview": "./deploy-netlify.sh preview",
+    "deploy:auto:dry-run": "./deploy-netlify.sh production true"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -37,6 +41,7 @@
     "drizzle-zod": "^0.5.1",
     "framer-motion": "^10.16.4",
     "lucide-react": "0.460.0",
+    "pg": "^8.20.0",
     "react": "^18.3.1",
     "react-countup": "^6.5.0",
     "react-dom": "^18.3.1",

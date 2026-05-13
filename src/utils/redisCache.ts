@@ -1,4 +1,5 @@
 // Redis-based caching utility for admin dashboard
+import { safeParseInt } from "../utils/safeParse";
 // Provides caching for frequently accessed data with TTL support
 
 interface CacheEntry<T> {
@@ -52,7 +53,7 @@ class RedisCache {
 
       this.client = await createClient({
         hostname: new URL(redisUrl).hostname,
-        port: parseInt(new URL(redisUrl).port) || 6379,
+        port: safeParseInt(new URL(redisUrl).port, 6379)
         password: new URL(redisUrl).password,
       });
 

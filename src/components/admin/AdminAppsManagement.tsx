@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { supabase } from "../../utils/supabaseClient";
 import { appConfig } from "../../config/appConfig";
+import { safeParseFloat, safeParseInt } from "../../utils/safeParse";
 
 interface App {
   id: string;
@@ -374,8 +375,8 @@ const AdminAppsManagement: React.FC = () => {
             icon_url: createFormData.icon_url || null,
             netlify_url: createFormData.netlify_url || null,
             custom_domain: createFormData.custom_domain || null,
-            price: createFormData.price ? parseFloat(createFormData.price) : null,
-            sort_order: parseInt(createFormData.sort_order) || 0,
+            price: createFormData.price ? safeParseFloat(createFormData.price) : null,
+            sort_order: safeParseInt(createFormData.sort_order, 0),
             is_active: true,
             is_featured: false,
             is_public: false,

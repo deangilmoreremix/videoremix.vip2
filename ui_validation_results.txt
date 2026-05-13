@@ -1,0 +1,234 @@
+Results for https://adorable-arithmetic-675d28.netlify.app/:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://ai-funnelcraft.videoremix.vip:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://ai-personalizationstudio.videoremix.vip:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://ai-personalizedcontent.videoremix.vip:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+❌ FAILED: Cannot connect to https://ai-personalizer.videoremix.vip
+Results for https://ai-proposal.videoremix.vip:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://ai-salesassistant.videoremix.vip:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://ai-salespage.videoremix.vip:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://ai-screenrecorder.videoremix.vip:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://ai-signature.videoremix.vip:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+❌ FAILED: Cannot connect to https://ai-skills-monetizer.videoremix.vip
+Results for https://ai-skills.videoremix.vip:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+❌ FAILED: Cannot connect to https://ai-thumbnail-generator.videoremix.vip
+❌ FAILED: Cannot connect to https://ai-video-transformer.videoremix.vip
+Results for https://capable-mermaid-3c73fa.netlify.app/:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://cute-khapse-4e62cb.netlify.app/:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://eloquent-kleicha-7e3a3e.netlify.app:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://endearing-churros-2ce8c6.netlify.app/:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://gentle-frangipane-ceed17.netlify.app:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://heroic-seahorse-296f32.netlify.app/:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://kaleidoscopic-tarsier-3d0a6c.netlify.app/:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://keen-pastelito-6b9074.netlify.app:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://magnificent-lamington-619374.netlify.app/:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://prismatic-starship-c0b4c2.netlify.app:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://roaring-mochi-39a60a.netlify.app:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ✅
+❌ FAIL: Poor UI/UX detected (1/7 criteria)
+
+Results for https://stupendous-twilight-64389a.netlify.app/:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ❌
+❌ FAIL: Poor UI/UX detected (0/7 criteria)
+
+Results for https://thriving-mochi-ecd815.netlify.app/:
+  Streamlit detected: ❌
+  Sidebar present: ❌
+  Main content area: ❌
+  API key input: ❌
+  App selector: ❌
+  Error boundary: ❌
+  HTML structure: ❌
+❌ FAIL: Poor UI/UX detected (0/7 criteria)
+

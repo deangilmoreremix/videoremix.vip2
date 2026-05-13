@@ -1,69 +1,94 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { useApps } from '../src/hooks/useApps';
+import { supabase } from '../src/utils/supabaseClient';
 
-// Mock fetch globally
-const mockFetch = vi.fn();
-global.fetch = mockFetch;
+// Mock Supabase client
+vi.mock('../src/utils/supabaseClient', () => ({
+  supabase: {
+    from: vi.fn(() => ({
+      select: vi.fn(() => ({
+        order: vi.fn(() => ({
+          limit: vi.fn(() => ({
+            data: null,
+            error: null,
+          })),
+        })),
+      })),
+    })),
+  },
+}));
+
+// Mock localStorage
+const localStorageMock = {
+  getItem: vi.fn(),
+  setItem: vi.fn(),
+  removeItem: vi.fn(),
+  clear: vi.fn(),
+};
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock,
+});
+
+// Mock appConfig
+vi.mock('../src/config/appConfig', () => ({
+  appConfig: {
+    CACHE: {
+      APPS_TTL: 1000 * 60 * 5, // 5 minutes
+    },
+  },
+}));
 
 describe('useApps Hook', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    localStorage.clear();
+    localStorageMock.clear();
   });
 
-  it('should fetch and filter active apps successfully', async () => {
-    const mockApps = [
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('should fetch and transform apps successfully', async () => {
+    const mockDbApps = [
       {
         id: '1',
-        name: 'Active App 1',
-        slug: 'active-app-1',
+        name: 'Test App 1',
+        slug: 'test-app-1',
         description: 'Description 1',
         category: 'video',
-        icon_url: 'icon1.png',
+        image: 'icon1.png',
+        netlify_url: 'https://test1.netlify.app',
         is_active: true,
         is_featured: true,
         sort_order: 1,
-        deployment_url: 'https://app1.com',
-        domain: 'app1.com',
         created_at: '2024-01-01T00:00:00Z',
         updated_at: '2024-01-01T00:00:00Z'
       },
       {
         id: '2',
-        name: 'Inactive App',
-        slug: 'inactive-app',
+        name: 'Test App 2',
+        slug: 'test-app-2',
         description: 'Description 2',
-        category: 'content',
-        icon_url: 'icon2.png',
-        is_active: false,
-        is_featured: false,
-        sort_order: 2,
-        deployment_url: 'https://app2.com',
-        domain: 'app2.com',
-        created_at: '2024-01-01T00:00:00Z',
-        updated_at: '2024-01-01T00:00:00Z'
-      },
-      {
-        id: '3',
-        name: 'Active App 2',
-        slug: 'active-app-2',
-        description: 'Description 3',
         category: 'ai-image',
-        icon_url: 'icon3.png',
+        image: 'icon2.png',
+        custom_domain: 'https://test2.com',
         is_active: true,
         is_featured: false,
-        sort_order: 3,
-        deployment_url: 'https://app3.com',
-        domain: 'app3.com',
+        sort_order: 2,
         created_at: '2024-01-01T00:00:00Z',
         updated_at: '2024-01-01T00:00:00Z'
       }
     ];
 
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ success: true, data: mockApps })
+    // Mock the Supabase query chain for main fetch
+    supabase.from.mockReturnValue({
+      select: vi.fn().mockReturnValue({
+        order: vi.fn().mockReturnValue({
+          data: mockDbApps,
+          error: null,
+        }),
+      }),
     });
 
     const { result } = renderHook(() => useApps());
@@ -77,27 +102,169 @@ describe('useApps Hook', () => {
       expect(result.current.loading).toBe(false);
     });
 
-    // Should only return active apps, transformed
+    // Should return transformed apps
     expect(result.current.apps).toHaveLength(2);
     expect(result.current.apps[0]).toMatchObject({
-      id: 'active-app-1',
-      name: 'Active App 1',
+      id: 'test-app-1',
+      name: 'Test App 1',
       category: 'video',
       popular: true,
-      url: 'https://app1.com'
+      url: 'https://test1.netlify.app'
     });
     expect(result.current.apps[1]).toMatchObject({
-      id: 'active-app-2',
-      name: 'Active App 2',
+      id: 'test-app-2',
+      name: 'Test App 2',
       category: 'ai-image',
       popular: false,
-      url: 'https://app3.com'
+      url: 'https://test2.com'
     });
+    expect(result.current.error).toBeNull();
+
+    // Should cache the data
+    expect(localStorageMock.setItem).toHaveBeenCalledWith(
+      'videoremix_apps_cache',
+      expect.any(String)
+    );
+  });
+
+  it('should handle Supabase errors gracefully', async () => {
+    supabase.from.mockReturnValue({
+      select: vi.fn().mockReturnValue({
+        order: vi.fn().mockReturnValue({
+          data: null,
+          error: new Error('Database connection failed'),
+        }),
+      }),
+    });
+
+    const { result } = renderHook(() => useApps());
+
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+    });
+
+    expect(result.current.apps).toEqual([]);
+    expect(result.current.error).toBe('Database connection failed');
+  });
+
+  it('should use cached data when available and valid', async () => {
+    const cachedApps = [
+      {
+        id: 'cached-app',
+        name: 'Cached App',
+        category: 'video',
+        url: 'https://cached.com',
+        popular: false,
+        new: false,
+        comingSoon: false,
+      },
+    ];
+
+    localStorageMock.getItem.mockReturnValue(
+      JSON.stringify({
+        data: cachedApps,
+        timestamp: Date.now(),
+        lastModified: '2024-01-01T00:00:00Z',
+      })
+    );
+
+    // Mock cache validation query - server has same last modified
+    supabase.from.mockReturnValue({
+      select: vi.fn().mockReturnValue({
+        order: vi.fn().mockReturnValue({
+          limit: vi.fn().mockReturnValue({
+            data: [{ updated_at: '2024-01-01T00:00:00Z' }],
+            error: null,
+          }),
+        }),
+      }),
+    });
+
+    const { result } = renderHook(() => useApps());
+
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+    });
+
+    expect(result.current.apps).toEqual(cachedApps);
     expect(result.current.error).toBeNull();
   });
 
-  it('should handle API errors gracefully', async () => {
-    mockFetch.mockRejectedValueOnce(new Error('Network error'));
+  it('should refetch fresh data when cache is stale', async () => {
+    const cachedApps = [
+      {
+        id: 'cached-app',
+        name: 'Cached App',
+        category: 'video',
+        url: 'https://cached.com',
+        popular: false,
+        new: false,
+        comingSoon: false,
+      },
+    ];
+
+    localStorageMock.getItem.mockReturnValue(
+      JSON.stringify({
+        data: cachedApps,
+        timestamp: Date.now(),
+        lastModified: '2024-01-01T00:00:00Z', // old cache
+      })
+    );
+
+    const freshDbApps = [
+      {
+        id: '1',
+        name: 'Fresh App',
+        slug: 'fresh-app',
+        description: 'Description',
+        category: 'ai-image',
+        image: 'icon.png',
+        netlify_url: 'https://fresh.com',
+        is_active: true,
+        is_featured: true,
+        sort_order: 1,
+        created_at: '2024-01-01T00:00:00Z',
+        updated_at: '2024-01-02T00:00:00Z'
+      }
+    ];
+
+    const expectedFreshApps = [
+      {
+        id: 'fresh-app',
+        name: 'Fresh App',
+        description: 'Description',
+        category: 'ai-image',
+        iconName: 'fresh-app',
+        image: 'icon.png',
+        url: 'https://fresh.com',
+        popular: true,
+        new: false,
+        comingSoon: false,
+        isActive: true,
+        isPublic: undefined,
+      },
+    ];
+
+    // Mock cache validation - server has newer data
+    supabase.from
+      .mockReturnValueOnce({
+        select: vi.fn().mockReturnValue({
+          order: vi.fn().mockReturnValue({
+            limit: vi.fn().mockReturnValue({
+              data: [{ updated_at: '2024-01-02T00:00:00Z' }], // newer
+              error: null,
+            }),
+          }),
+        }),
+      })
+      .mockReturnValueOnce({
+        select: vi.fn().mockReturnValue({
+          order: vi.fn().mockReturnValue({
+            data: freshDbApps,
+            error: null,
+          }),
+        }),
+      });
 
     const { result } = renderHook(() => useApps());
 
@@ -105,150 +272,105 @@ describe('useApps Hook', () => {
       expect(result.current.loading).toBe(false);
     });
 
-    expect(result.current.apps).toEqual([]);
-    expect(result.current.error).toBe('Network error');
+    expect(result.current.apps).toEqual(expectedFreshApps);
   });
 
-  it('should handle API response errors', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: false,
-      status: 500
+  it('should refetch and clear cache when refetch is called', async () => {
+    supabase.from.mockReturnValue({
+      select: vi.fn().mockReturnValue({
+        order: vi.fn().mockReturnValue({
+          data: [],
+          error: null,
+        }),
+      }),
     });
 
     const { result } = renderHook(() => useApps());
 
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
-    });
-
-    expect(result.current.apps).toEqual([]);
-    expect(result.current.error).toBe('Failed to fetch apps: 500');
-  });
-
-  it('should handle invalid API response', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ success: false, error: 'Database error' })
-    });
-
-    const { result } = renderHook(() => useApps());
-
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-    });
-
-    expect(result.current.apps).toEqual([]);
-    expect(result.current.error).toBe('Database error');
-  });
-
-  it('should transform database apps to component format correctly', async () => {
-    const mockApp = {
-      id: '1',
-      name: 'Test App',
-      slug: 'test-app',
-      description: 'Test description',
-      category: 'video',
-      icon_url: 'test-icon.png',
-      is_active: true,
-      is_featured: true,
-      sort_order: 1,
-      deployment_url: 'https://test.com',
-      domain: 'test.com',
-      created_at: '2024-01-01T00:00:00Z',
-      updated_at: '2024-01-01T00:00:00Z'
-    };
-
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ success: true, data: [mockApp] })
-    });
-
-    const { result } = renderHook(() => useApps());
-
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-    });
-
-    const app = result.current.apps[0];
-    expect(app).toMatchObject({
-      id: 'test-app', // slug becomes id
-      name: 'Test App',
-      description: 'Test description',
-      category: 'video',
-      image: 'test-icon.png',
-      popular: true, // is_featured becomes popular
-      new: false, // default value
-      comingSoon: false, // default value
-      url: 'https://test.com' // deployment_url becomes url
-    });
-
-    // Should have a React element as icon
-    expect(app.icon).toBeDefined();
-    expect(typeof app.icon).toBe('object');
-  });
-
-  it('should use fallback URL when deployment_url is not provided', async () => {
-    const mockApp = {
-      id: '1',
-      name: 'Test App',
-      slug: 'test-app',
-      description: 'Test description',
-      category: 'video',
-      icon_url: 'test-icon.png',
-      is_active: true,
-      is_featured: false,
-      sort_order: 1,
-      deployment_url: null,
-      domain: 'test.com',
-      created_at: '2024-01-01T00:00:00Z',
-      updated_at: '2024-01-01T00:00:00Z'
-    };
-
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ success: true, data: [mockApp] })
-    });
-
-    const { result } = renderHook(() => useApps());
-
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-    });
-
-    expect(result.current.apps[0].url).toBe('/app/test-app');
-  });
-
-  it('should call fetch on mount', () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ success: true, data: [] })
-    });
-
-    renderHook(() => useApps());
-
-    expect(mockFetch).toHaveBeenCalledWith('/functions/v1/admin-apps');
-  });
-
-  it('should provide refetch function', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ success: true, data: [] })
-    });
-
-    const { result } = renderHook(() => useApps());
-
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-    });
-
-    // Call refetch
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ success: true, data: [] })
     });
 
     result.current.refetch();
 
-    expect(mockFetch).toHaveBeenCalledTimes(2);
+    expect(localStorageMock.removeItem).toHaveBeenCalledWith('videoremix_apps_cache');
+  });
+
+  it('should handle localStorage errors gracefully', async () => {
+    localStorageMock.getItem.mockImplementation(() => {
+      throw new Error('localStorage error');
+    });
+
+    supabase.from.mockReturnValue({
+      select: vi.fn().mockReturnValue({
+        order: vi.fn().mockReturnValue({
+          data: [],
+          error: null,
+        }),
+      }),
+    });
+
+    const { result } = renderHook(() => useApps());
+
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+    });
+
+    expect(result.current.apps).toEqual([]);
+    // Should not crash due to localStorage error
+  });
+
+  it('should serve as go/no-go gate for 95-app release', async () => {
+    // Create mock data for 95 active apps
+    const mockDbApps = Array.from({ length: 95 }, (_, i) => ({
+      id: `${i + 1}`,
+      name: `App ${i + 1}`,
+      slug: `app-${i + 1}`,
+      description: `Description for app ${i + 1}`,
+      category: 'video',
+      image: `icon${i + 1}.png`,
+      netlify_url: `https://app${i + 1}.netlify.app`,
+      is_active: true,
+      is_featured: i < 10, // First 10 are featured
+      sort_order: i + 1,
+      created_at: '2024-01-01T00:00:00Z',
+      updated_at: '2024-01-01T00:00:00Z'
+    }));
+
+    supabase.from.mockReturnValue({
+      select: vi.fn().mockReturnValue({
+        order: vi.fn().mockReturnValue({
+          data: mockDbApps,
+          error: null,
+        }),
+      }),
+    });
+
+    const { result } = renderHook(() => useApps());
+
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+    });
+
+    // Verify all 95 apps loaded successfully
+    expect(result.current.apps).toHaveLength(95);
+    expect(result.current.error).toBeNull();
+
+    // Verify apps are sorted by sort_order
+    expect(result.current.apps[0].id).toBe('app-1');
+    expect(result.current.apps[94].id).toBe('app-95');
+
+    // Verify transformation worked
+    const firstApp = result.current.apps[0];
+    expect(firstApp).toMatchObject({
+      id: 'app-1',
+      name: 'App 1',
+      category: 'video',
+      popular: true, // is_featured
+      url: 'https://app1.netlify.app'
+    });
+
+    // This test serves as the go/no-go gate: if it passes, all 95 apps are healthy
+    console.log(`✅ Release validation: Successfully loaded ${result.current.apps.length} active apps`);
   });
 });

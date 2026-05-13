@@ -211,20 +211,94 @@ Deno.serve(async (req: Request) => {
       );
     }
 
+    if (req.method === "POST" && action === "toggle-public") {
+      const { data: app, error: fetchError } = await supabase
+        .from("apps")
+        .select("is_public")
+        .eq("id", appId)
+        .maybeSingle();
+
+      if (fetchError || !app) {
+        return new Response(
+          JSON.stringify({ success: false, error: "App not found" }),
+          {
+            status: 404,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
+
+      const { error: updateError } = await supabase
+        .from("apps")
+        .update({ is_public: !app.is_public })
+        .eq("id", appId);
+
+      if (updateError) {
+        return new Response(
+          JSON.stringify({ success: false, error: updateError.message }),
+          {
+            status: 500,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
+
+      return new Response(
+        JSON.stringify({ success: true, data: { is_public: !app.is_public } }),
+        {
+          status: 200,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
     if (req.method === "POST" && !action) {
       const body = await req.json();
 
+      // Validate required fields for collection creation
+      if (!body.name || !body.slug || !body.category) {
+        return new Response(
+          JSON.stringify({ success: false, error: "Missing required fields: name, slug, category" }),
+          {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
+
+      // Check if slug already exists
+      const { data: existingApp } = await supabase
+        .from("apps")
+        .select("id")
+        .eq("slug", body.slug)
+        .maybeSingle();
+
+      if (existingApp) {
+        return new Response(
+          JSON.stringify({ success: false, error: "App with this slug already exists" }),
+          {
+            status: 409,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
+
+      // Implement real collection creation handling
       const { data: newApp, error: insertError } = await supabase
         .from("apps")
         .insert([{
           name: body.name,
           slug: body.slug,
-          description: body.description,
+          description: body.description || "",
           category: body.category,
-          icon_url: body.icon_url,
+          icon_url: body.icon_url || null,
+          netlify_url: body.netlify_url || null,
+          custom_domain: body.custom_domain || null,
           is_active: body.is_active ?? true,
           is_featured: body.is_featured ?? false,
+          is_public: body.is_public ?? false,
           sort_order: body.sort_order ?? 0,
+          price: body.price || null,
         }])
         .select()
         .maybeSingle();

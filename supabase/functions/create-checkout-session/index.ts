@@ -30,11 +30,70 @@ Deno.serve(async (req: Request) => {
       httpClient: Stripe.createFetchHttpClient(),
     });
 
+    // Extract and validate authorization header
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new Response(
+        JSON.stringify({ error: 'Authorization required' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+
+    // Resolve authenticated caller
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    if (authError || !user) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid authorization' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
     const { appId, appName, price, userId, userEmail } = await req.json();
 
-    if (!appId || !appName || !price || !userEmail) {
+    // Reject client-supplied userId, userEmail, and price - get from authenticated user and backend
+    if (!appId || !appName) {
       return new Response(
-        JSON.stringify({ error: 'Missing required parameters' }),
+        JSON.stringify({ error: 'Missing required parameters: appId and appName' }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    // Load app and price data from trusted backend catalog
+    const { data: app, error: appError } = await supabase
+      .from('apps')
+      .select('id, name, is_active, price')
+      .eq('slug', appId)
+      .eq('is_active', true)
+      .maybeSingle();
+
+    if (appError || !app) {
+      return new Response(
+        JSON.stringify({ error: 'App not found or inactive' }),
+        {
+          status: 404,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    // Use backend data exclusively
+    const backendAppName = app.name;
+    const backendPrice = app.price;
+
+    if (!backendPrice || backendPrice <= 0) {
+      return new Response(
+        JSON.stringify({ error: 'App pricing not configured' }),
         {
           status: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -49,10 +108,10 @@ Deno.serve(async (req: Request) => {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: appName,
-              description: `Lifetime access to ${appName}`,
+              name: backendAppName,
+              description: `Lifetime access to ${backendAppName}`,
             },
-            unit_amount: Math.round(price * 100),
+            unit_amount: Math.round(backendPrice * 100),
           },
           quantity: 1,
         },
@@ -60,11 +119,11 @@ Deno.serve(async (req: Request) => {
       mode: 'payment',
       success_url: `${req.headers.get('origin')}/dashboard?purchase=success`,
       cancel_url: `${req.headers.get('origin')}/tools?purchase=cancelled`,
-      customer_email: userEmail,
+      customer_email: user.email,
       metadata: {
         appId,
-        userId: userId || '',
-        appName,
+        userId: user.id,
+        appName: backendAppName,
       },
     });
 

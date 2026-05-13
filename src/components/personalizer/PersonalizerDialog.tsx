@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { createClient } from '@supabase/supabase-js';
+import { safeParseInt } from "../../utils/safeParse";
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
 
@@ -361,7 +362,7 @@ export default function PersonalizerDialog({
                   <p className="text-gray-300 font-body">Public profile scan using Maigret engine</p>
                   <div className="bg-[#1a1a1a] bg-opacity-50 p-4 rounded-lg border border-white/10">
                     <div className="grid grid-cols-2 gap-4 mb-4">
-                      <div><label className="block text-sm text-gray-300 mb-1">Number of Sites</label><Input type="number" value={topSites} onChange={(e) => setTopSites(Math.min(parseInt(e.target.value) || 500, 10000))} className="bg-gray-900/50 border-white/10 text-white" min={1} max={10000} /></div>
+                      <div><label className="block text-sm text-gray-300 mb-1">Number of Sites</label><Input type="number" value={topSites} onChange={(e) => setTopSites(Math.min(safeParseInt(e.target.value, 500), 10000))} className="bg-gray-900/50 border-white/10 text-white" min={1} max={10000} /></div>
                       <div><label className="block text-sm text-gray-300 mb-1">Timeout (seconds)</label><Input type="number" defaultValue={30} className="bg-gray-900/50 border-white/10 text-white" /></div>
                     </div>
                     <div className="space-y-2">
