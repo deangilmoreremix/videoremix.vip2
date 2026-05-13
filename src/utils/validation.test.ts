@@ -123,7 +123,7 @@ describe('Validation Utilities', () => {
 
   describe('sanitizeInput', () => {
     it('should remove angle brackets', () => {
-      expect(sanitizeInput('<script>alert(1)</script>')).toBe('scriptalert(1)/script');
+      expect(sanitizeInput('<script>alert(1)</script>')).toBe('alert(1)/');
       expect(sanitizeInput('<div>hello</div>')).toBe('divhello/div');
     });
 

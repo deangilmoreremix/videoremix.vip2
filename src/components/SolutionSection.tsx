@@ -51,18 +51,9 @@ const comparisonPoints = [
 
 const SolutionSection: React.FC = () => {
   return (
-    <section id="solution" className="py-20 bg-black relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/20 rounded-full blur-[100px]"></div>
-      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-primary-600/20 rounded-full blur-[100px]"></div>
-
-      {/* Enhanced sparkle effects */}
-      <SparkleEffect
-        count={30}
-        colors={["#ffffff", "#c7d2fe", "#a5b4fc", "#818cf8"]}
-        minSize={2}
-        maxSize={5}
-      />
+    <section id="solution" className="py-20 bg-[#0f0d2b] relative overflow-hidden">
+      <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/10 rounded-full blur-[100px]"></div>
+      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-primary-600/10 rounded-full blur-[100px]"></div>
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
@@ -121,22 +112,22 @@ const SolutionSection: React.FC = () => {
               transition: { duration: 0.3 },
             }}
           >
-            <motion.div
-              className="bg-gradient-to-br from-primary-500/20 to-primary-700/20 p-1.5 rounded-xl overflow-hidden"
-              animate={{
-                boxShadow: [
-                  "0 0 0 rgba(99, 102, 241, 0.1)",
-                  "0 0 20px rgba(99, 102, 241, 0.3)",
-                  "0 0 0 rgba(99, 102, 241, 0.1)",
-                ],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                repeatType: "reverse",
-              }}
-            >
-              <div className="bg-black rounded-lg overflow-hidden aspect-video relative">
+<motion.div
+            className="bg-gradient-to-br from-primary-500/10 to-primary-700/10 p-1.5 rounded-xl overflow-hidden"
+            animate={{
+              boxShadow: [
+                "0 0 0 rgba(99, 102, 241, 0.1)",
+                "0 0 20px rgba(99, 102, 241, 0.2)",
+                "0 0 0 rgba(99, 102, 241, 0.1)",
+              ],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
+          >
+              <div className="bg-[#0f0d2b] rounded-lg overflow-hidden aspect-video relative">
                 <img
                   src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
                   alt="Personalized Marketing Video Interface"
@@ -472,36 +463,37 @@ const SolutionSection: React.FC = () => {
             generic marketing
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-            {[
-              { value: "215%", label: "Higher Engagement" },
-              { value: "183%", label: "Better Conversion" },
-              { value: "300%", label: "Marketing ROI" },
-            ].map((stat, i) => (
-              <motion.div
-                key={i}
-                className="bg-black/30 p-3 rounded-lg"
-                whileHover={{
-                  scale: 1.05,
-                  y: -5,
-                  backgroundColor: "rgba(0, 0, 0, 0.4)",
-                  transition: { duration: 0.2 },
-                }}
-              >
+<div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+              {[
+                { value: "215%", label: "Higher Engagement", desc: "Personalized vs generic marketing videos" },
+                { value: "183%", label: "Better Conversion", desc: "Average ROI increase with personalization" },
+                { value: "300%", label: "Marketing ROI", desc: "Performance multiplier for personalized campaigns" },
+              ].map((stat, i) => (
                 <motion.div
-                  className="text-2xl md:text-3xl font-bold text-primary-400 mb-1"
+                  key={i}
+                  className="bg-[#0f0d2b] p-3 rounded-lg border border-gray-700"
                   whileHover={{
-                    scale: 1.1,
-                    rotate: [0, 3, -3, 0],
-                    transition: { duration: 0.5 },
+                    scale: 1.05,
+                    y: -5,
+                    borderColor: "rgba(99, 102, 241, 0.4)",
+                    transition: { duration: 0.2 },
                   }}
                 >
-                  {stat.value}
+                  <motion.div
+                    className="text-2xl md:text-3xl font-bold text-primary-400 mb-1"
+                    whileHover={{
+                      scale: 1.1,
+                      rotate: [0, 3, -3, 0],
+                      transition: { duration: 0.5 },
+                    }}
+                  >
+                    {stat.value}
+                  </motion.div>
+                  <div className="text-gray-300 text-sm">{stat.label}</div>
+                  <div className="text-xs text-gray-400 mt-1">{stat.desc}</div>
                 </motion.div>
-                <div className="text-gray-300 text-sm">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
+              ))}
+            </div>
 
           <motion.a
             href="#pricing"

@@ -1,0 +1,153 @@
+:root {
+  --primary-600: #2563eb;
+  --primary-400: #60a5fa;
+  --primary-900: #1e40af;
+  --accent-600: #dc2626;
+  --gray-950: #0a0a0a;
+  --gray-900: #111111;
+  --gray-800: #1a1a1a;
+  --gray-700: #2a2a2a;
+  --gray-600: #4a4a4a;
+  --gray-400: #9a9a9a;
+  --gray-300: #c5c5c5;
+  --gray-200: #e0e0e0;
+  --gray-100: #f0f0f0;
+  --gray-50: #fafafa;
+}
+
+.bg-gradient-to-br {
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.15), rgba(220, 38, 38, 0.15));
+}
+
+.text-primary-600 {
+  color: var(--primary-400);
+}
+
+.text-primary-400 {
+  color: var(--primary-400);
+}
+
+.text-gray-900 {
+  color: var(--gray-200);
+}
+
+.text-gray-900\/40 {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.text-white\/80 {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.bg-gray-900\/50 {
+  background-color: rgba(26, 26, 26, 0.5);
+}
+
+.border-gray-600 {
+  border-color: var(--gray-600);
+}
+
+.border-primary-600 {
+  border-color: var(--primary-600);
+}
+
+.from-primary-600 {
+  --tw-gradient-from: var(--primary-600);
+  --tw-gradient-stop: var(--primary-600);
+}
+
+.to-accent-600 {
+  --tw-gradient-to: var(--accent-600);
+  --tw-gradient-stops: var(--accent-600);
+}
+
+.from-primary-900\/20 {
+  --tw-gradient-from: rgba(30, 64, 175, 0.2);
+  --tw-gradient-stop: rgba(30, 64, 175, 0.2);
+}
+
+.to-accent-900\/20 {
+  --tw-gradient-to: rgba(220, 38, 38, 0.2);
+  --tw-gradient-stops: rgba(220, 38, 38, 0.2);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 50%; }
+  100% { background-position: -200% 50%; }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 12s linear infinite;
+}
+
+.animate-gradient {
+  background: linear-gradient(-45deg, rgba(30, 64, 175, 0.3), rgba(220, 38, 38, 0.3), rgba(139, 92, 246, 0.3), rgba(30, 64, 175, 0.3));
+  background-size: 400% 400%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+.prose-h1 {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.prose-h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.prose-h3 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.prose-body {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  max-width: 65ch;
+}
+
+.gap-responsive {
+  gap: clamp(1rem, 3vw, 2rem);
+}
+
+.grid-responsive {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(1.5rem, 4vw, 3rem);
+}
+
+.section-padding {
+  padding: clamp(4rem, 10vw, 8rem) 1rem;
+}
+
+.hero-padding {
+  padding: clamp(6rem, 15vw, 12rem) 1rem;
+}
+
+.container-max {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}

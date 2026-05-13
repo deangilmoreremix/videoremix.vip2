@@ -16,6 +16,7 @@ import {
 import { useLandingPageContent } from "../context/LandingPageContext";
 import { testimonialsData as staticTestimonials } from "../data/testimonialsData";
 import MagicSparkles from "./MagicSparkles";
+import AnimatedStatsCounter from "./premium/AnimatedStatsCounter";
 
 const TestimonialsSection: React.FC = () => {
   const { testimonials: dbTestimonials, isLoading, error } = useLandingPageContent();

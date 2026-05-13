@@ -69,85 +69,90 @@ const SpecialHero: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative pt-32 pb-16 overflow-hidden bg-gradient-to-b from-black to-gray-900">
+    <section className="relative pt-32 pb-16 overflow-hidden bg-gradient-to-b from-[#0f0d2b] to-[#050510]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
           {/* Main Content - Left Side */}
           <div className="lg:col-span-3">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-left mb-6"
-            >
-              <div className="mb-4 inline-flex items-center rounded-full bg-primary-600 px-3 py-1">
-                <Award className="h-4 w-4 text-white mr-2" />
-                <span className="text-sm font-medium text-white">
-                  THE NEW VIDEOREMIX PLATFORM
-                </span>
-              </div>
+<motion.div
+               initial={{ opacity: 0, y: 20 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ duration: 0.6 }}
+               className="text-left mb-6"
+             >
+               <motion.div
+                 initial={{ opacity: 0, scale: 0.9 }}
+                 animate={{ opacity: 1, scale: 1 }}
+                 transition={{ duration: 0.4, delay: 0.2 }}
+                 className="mb-4 inline-flex items-center rounded-full bg-gradient-to-r from-primary-600 to-violet-500 px-3 py-1 shadow-lg shadow-primary-600/25"
+               >
+                 <Award className="h-4 w-4 text-white mr-2" />
+                 <span className="text-sm font-semibold text-white tracking-wide">
+                   THE NEW VIDEOREMIX PLATFORM
+                 </span>
+               </motion.div>
 
-               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-none md:leading-tight relative">
+               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight md:leading-tight relative max-w-4xl">
                  {hero?.title ? hero.title : (
-                   <>Welcome to <span className="text-primary-400">VideoRemix</span> - Your Complete Personalized Marketing Platform</>
+                   <>Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-violet-400">VideoRemix</span> - Your Complete Personalized Marketing Platform</>
                  )}
                </h1>
 
-               <p className="text-xl md:text-2xl text-gray-300 mb-8">
+               <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl leading-relaxed">
                  {hero?.subtitle ? hero.subtitle : (
-                   "The professional platform for creating personalized marketing at scale. 50+ AI-powered tools help you deliver the right message to the right audience segment."
+                   "Transform your marketing with AI-powered personalization. Create engaging, personalized videos at scale with our comprehensive AI agent ecosystem."
                  )}
                </p>
 
-               <div className="space-y-4 mb-8">
-                 {(hero?.description ? hero.description.split('\n').filter(Boolean) : [
-                   "AI-powered personalization for marketing content and campaigns",
-                   "50+ marketing personalization tools for marketers and businesses",
-                   "Create personalized campaigns in minutes, not hours",
-                   "Increase marketing ROI with audience-specific content",
-                 ]).map((benefit, index) => (
-                   <motion.div
-                     key={index}
-                     initial={{ opacity: 0, x: -20 }}
-                     animate={{ opacity: 1, x: 0 }}
-                     transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
-                     className="flex items-center"
-                   >
-                     <div className="mr-3 text-primary-400">
-                       <CheckCircle className="w-6 h-6" />
-                     </div>
-                     <p className="text-white text-lg">{benefit}</p>
-                   </motion.div>
-                 ))}
-               </div>
+<div className="space-y-4 mb-8">
+                  {(hero?.description ? hero.description.split('\n').filter(Boolean) : [
+                    "AI-powered personalization for marketing content and campaigns",
+                    "50+ marketing personalization tools for marketers and businesses",
+                    "Create personalized campaigns in minutes, not hours",
+                    "Increase marketing ROI with audience-specific content",
+                  ]).map((benefit, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
+                      className="flex items-center group"
+                    >
+                      <div className="mr-3 text-primary-400 group-hover:text-violet-400 transition-colors">
+                        <CheckCircle className="w-6 h-6" />
+                      </div>
+                      <p className="text-white text-lg group-hover:text-gray-100 transition-colors">{benefit}</p>
+                    </motion.div>
+                  ))}
+                </div>
 
-              <motion.div
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="mb-6"
-              >
-                 <MagicSparkles
-                   minSparkles={2}
-                   maxSparkles={5}
-                   minSize={5}
-                   maxSize={10}
-                 >
-                   <a
-                     href={hero?.primary_button_url || "/signup"}
-                     className="block w-full md:w-auto md:inline-block text-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold text-xl px-8 py-5 rounded-lg shadow-lg"
-                   >
-                     <span className="flex items-center justify-center">
-                       {hero?.primary_button_text || "GET STARTED WITH VIDEOREMIX"}
-                       <ArrowRight className="ml-2 h-5 w-5" />
-                     </span>
-                   </a>
-                 </MagicSparkles>
-              </motion.div>
+<motion.div
+                 whileHover={{ scale: 1.03 }}
+                 whileTap={{ scale: 0.97 }}
+                 className="mb-6"
+               >
+                  <MagicSparkles
+                    minSparkles={2}
+                    maxSparkles={5}
+                    minSize={5}
+                    maxSize={10}
+                  >
+                    <a
+                      href={hero?.primary_button_url || "/signup"}
+                      className="block w-full md:w-auto md:inline-block text-center bg-gradient-to-r from-primary-600 via-violet-500 to-primary-500 hover:from-primary-500 hover:via-violet-400 hover:to-primary-400 text-white font-bold text-xl px-8 py-5 rounded-lg shadow-lg shadow-primary-600/30 transition-all duration-300"
+                    >
+                      <span className="flex items-center justify-center">
+                        {hero?.primary_button_text || "GET STARTED WITH VIDEOREMIX"}
+                        <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                      </span>
+                    </a>
+                  </MagicSparkles>
+               </motion.div>
 
-              <p className="text-gray-400 text-sm">
-                <span className="text-yellow-400">⚡</span> Get started now. No
-                credit card required.
-              </p>
+               <p className="text-gray-400 text-sm flex items-center">
+                 <span className="text-yellow-400 mr-1">⚡</span> Get started now. No
+                 credit card required.
+               </p>
             </motion.div>
 
             {/* Create First Personalized Video banner */}
@@ -308,31 +313,31 @@ const SpecialHero: React.FC = () => {
         </div>
 
         {/* Trust badges */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-12 pt-6 border-t border-white/10"
-        >
-          <p className="text-center text-gray-400 text-sm mb-4">
-            TRUSTED BY MARKETING TEAMS WORLDWIDE
-          </p>
-          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-            {["Microsoft", "Google", "YouTube", "Instagram", "Twitter"].map(
-              (brand, i) => (
-                <motion.div
-                  key={i}
-                  whileHover={{ scale: 1.05, filter: "brightness(1.2)" }}
-                  className="h-8 sm:h-10 flex items-center justify-center bg-white/10 backdrop-blur-sm rounded px-3 py-1 border border-white/20"
-                >
-                  <span className="text-white font-semibold text-sm sm:text-base">
-                    {brand}
-                  </span>
-                </motion.div>
-              ),
-            )}
-          </div>
-        </motion.div>
+<motion.div
+           initial={{ opacity: 0, y: 20 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ duration: 0.6, delay: 0.8 }}
+           className="mt-12 pt-6 border-t border-white/10"
+         >
+           <p className="text-center text-gray-400 text-sm mb-4 tracking-wider">
+             TRUSTED BY MARKETING TEAMS WORLDWIDE
+           </p>
+           <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
+             {["Microsoft", "Google", "YouTube", "Instagram", "Twitter"].map(
+               (brand, i) => (
+                 <motion.div
+                   key={i}
+                   whileHover={{ scale: 1.05, filter: "brightness(1.2)" }}
+                   className="h-8 sm:h-10 flex items-center justify-center bg-white/5 backdrop-blur-sm rounded-lg px-3 py-1 border border-white/10 transition-all duration-300"
+                 >
+                   <span className="text-white font-semibold text-sm sm:text-base tracking-wide">
+                     {brand}
+                   </span>
+                 </motion.div>
+               ),
+             )}
+           </div>
+         </motion.div>
 
         {/* Key benefits icons */}
         <KeyBenefits />

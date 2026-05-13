@@ -3,9 +3,10 @@
 ## Colors
 
 **Brand Colors (OKLCH):**
-- Primary: `#4f46e5` (Indigo-600, OKLCH: 0.46 0.15 280)
-- Secondary: `#ec4899` (Pink-500, OKLCH: 0.62 0.21 350)
-- Accent: `#8b5cf6` (Violet-400)
+- Primary: `#4f46e5` (Indigo-600, OKLCH: 0.46 0.15 280) - Marketing primary
+- Secondary: `#ec4899` (Pink-500, OKLCH: 0.62 0.21 350) - Accent for highlights
+- Accent: `#8b5cf6` (Violet-400) - AI/technical elements
+- Success: `#10b981` (Emerald-500) - Results/metrics
 
 **Neutrals (tinted toward indigo):**
 - Gray-50: `#f8f7ff` (tinted with 0.01 chroma indigo)
@@ -15,7 +16,7 @@
 - Gray-900: `#0f0d2b`
 - Black: `#050510` (never pure #000)
 
-**Strategy:** Committed — indigo/violet carries 40% of surfaces, with pink as action color.
+**Strategy:** Committed — indigo/violet carries 40% of surfaces, with pink as action color for marketing emphasis.
 
 ## Typography
 
@@ -94,3 +95,31 @@ border: 1px solid rgba(255, 255, 255, 0.2);
 **Grid:** Asymmetric when possible, not centered stacks
 **Container:** `max-w-7xl mx-auto` with responsive padding
 **Breakpoints:** sm: 640px, md: 768px, lg: 1024px, xl: 1280px
+
+## Marketing-Specific Elements
+
+**Hero Section:**
+- Headline focused on marketing outcomes (engagement, conversions, ROI)
+- Subheadline emphasizing AI-powered personalization
+- Dual CTAs: Primary (Get Started) and Secondary (Watch Demo)
+- Trust signals: customer logos, ratings, user count
+
+**Problem/Solution:**
+- Highlight generic vs. personalized marketing contrast
+- Use before/after visualizations
+- Emphasize scale and automation benefits
+
+**Features:**
+- Icon grid with marketing-specific capabilities
+- Focus on personalization, automation, analytics
+- Show integration capabilities
+
+**Social Proof:**
+- Customer testimonials with marketing metrics
+- Case study results (engagement lift, ROI, conversions)
+- Trust badges and partner logos
+
+**CTA Sections:**
+- Multiple strategic CTAs throughout
+- Emphasize "no credit card required"
+- Include guarantee messaging

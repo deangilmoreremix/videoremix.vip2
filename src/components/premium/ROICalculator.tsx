@@ -24,7 +24,7 @@ const ROICalculator: React.FC<ROICalculatorProps> = ({ className = '' }) => {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className={`bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-8 border border-gray-700 ${className}`}
+      className={`bg-[#1e1b4a] rounded-2xl p-8 border border-gray-700 ${className}`}
     >
       <div className="flex items-center gap-3 mb-6">
         <div className="p-2 bg-primary-900/40 rounded-lg">
@@ -122,7 +122,7 @@ const ROICalculator: React.FC<ROICalculatorProps> = ({ className = '' }) => {
 
         {/* Results Section */}
         <div className="space-y-4">
-          <div className="bg-black/20 rounded-lg p-4">
+          <div className="bg-[#0f0d2b] rounded-lg p-4">
             <div className="flex items-center gap-2 mb-2">
               <TrendingUp className="h-4 w-4 text-green-400" />
               <span className="text-sm text-gray-300">Additional Monthly Revenue</span>
@@ -132,7 +132,7 @@ const ROICalculator: React.FC<ROICalculatorProps> = ({ className = '' }) => {
             </div>
           </div>
 
-          <div className="bg-black/20 rounded-lg p-4">
+          <div className="bg-[#0f0d2b] rounded-lg p-4">
             <div className="flex items-center gap-2 mb-2">
               <BarChart3 className="h-4 w-4 text-blue-400" />
               <span className="text-sm text-gray-300">ROI</span>
@@ -142,7 +142,7 @@ const ROICalculator: React.FC<ROICalculatorProps> = ({ className = '' }) => {
             </div>
           </div>
 
-          <div className="bg-black/20 rounded-lg p-4">
+          <div className="bg-[#0f0d2b] rounded-lg p-4">
             <div className="flex items-center gap-2 mb-2">
               <Users className="h-4 w-4 text-purple-400" />
               <span className="text-sm text-gray-300">Additional Conversions</span>
@@ -152,7 +152,7 @@ const ROICalculator: React.FC<ROICalculatorProps> = ({ className = '' }) => {
             </div>
           </div>
 
-          <div className="bg-black/20 rounded-lg p-4">
+          <div className="bg-[#0f0d2b] rounded-lg p-4">
             <div className="flex items-center gap-2 mb-2">
               <DollarSign className="h-4 w-4 text-yellow-400" />
               <span className="text-sm text-gray-300">Cost of Personalization</span>
@@ -170,7 +170,7 @@ const ROICalculator: React.FC<ROICalculatorProps> = ({ className = '' }) => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className="mt-6 bg-gradient-to-r from-green-900/40 to-blue-900/40 rounded-lg p-4 border border-green-500/20"
+            className="mt-6 bg-[#1e1b4a] rounded-lg p-4 border border-green-500/20"
           >
             <div className="flex items-center gap-2 mb-2">
               <TrendingUp className="h-5 w-5 text-green-400" />

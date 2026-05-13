@@ -2,8 +2,6 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 
-// Removed custom lucide-react fix plugin - using standard lucide-react
-
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   // Load env file based on mode
@@ -14,9 +12,7 @@ export default defineConfig(({ mode }) => {
       react(),
     ],
     optimizeDeps: {
-      exclude: ['lucide-react', 'framer-motion'],
-      include: ['@supabase/phoenix'],
-      force: true,
+      include: ['lucide-react', 'framer-motion'],
     },
     build: {
       target: 'esnext',
