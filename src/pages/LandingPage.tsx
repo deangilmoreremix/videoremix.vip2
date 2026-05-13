@@ -1,12 +1,11 @@
 import React, { lazy, Suspense } from "react";
-import { Helmet } from "react-helmet-async";
+import { motion } from "framer-motion";
 import SpecialHero from "../components/SpecialHero";
 import ProblemSection from "../components/ProblemSection";
 import SolutionSection from "../components/SolutionSection";
 import FeatureMap from "../components/FeatureMap";
 import SEO from "../components/SEO";
 
-// Lazy loaded components for better performance
 const BenefitsSection = lazy(() => import("../components/BenefitsSection"));
 const ToolsCarouselSection = lazy(
   () => import("../components/ToolsCarouselSection"),
@@ -16,9 +15,7 @@ const PersonalizationWorkflowSection = lazy(
 );
 const AppGallerySection = lazy(() => import("../components/AppGallerySection"));
 const DemoSection = lazy(() => import("../components/DemoSection"));
-const CaseStudiesSection = lazy(
-  () => import("../components/CaseStudiesSection"),
-);
+const CaseStudiesSection = lazy(() => import("../components/CaseStudiesSection"));
 const TestimonialsSection = lazy(
   () => import("../components/TestimonialsSection"),
 );
@@ -27,19 +24,25 @@ const GuaranteeSection = lazy(() => import("../components/GuaranteeSection"));
 const FAQSection = lazy(() => import("../components/FAQSection"));
 const FinalCTA = lazy(() => import("../components/FinalCTA"));
 import ROICalculator from "../components/premium/ROICalculator";
-import PersonalizationSimulator from "../components/premium/PersonalizationSimulator";
 import InteractiveComparisonTable from "../components/premium/InteractiveComparisonTable";
-import AnimatedTestimonialCard from "../components/premium/AnimatedTestimonialCard";
-import LiveActivityFeed from "../components/premium/LiveActivityFeed";
 import LogoWall from "../components/premium/LogoWall";
 import ParticleBackground from "../components/premium/ParticleBackground";
-import ParallaxSection from "../components/premium/ParallaxSection";
 import ProgressIndicator from "../components/premium/ProgressIndicator";
 import StickyWidget from "../components/premium/StickyWidget";
 import BackToTop from "../components/premium/BackToTop";
 import ExitIntentPopup from "../components/premium/ExitIntentPopup";
+import AnimatedStatsCounter from "../components/premium/AnimatedStatsCounter";
+import InteractiveCard from "../components/premium/InteractiveCard";
+import FloatingIcon from "../components/premium/FloatingIcon";
 import GradientOrb from "../components/premium/GradientOrb";
+import TextReveal from "../components/premium/TextReveal";
+import TypedText from "../components/premium/TypedText";
+import PersonalizationSimulator from "../components/premium/PersonalizationSimulator";
 import AnimatedBorderGradient from "../components/premium/AnimatedBorderGradient";
+import AnimatedTestimonialCard from "../components/premium/AnimatedTestimonialCard";
+import LiveActivityFeed from "../components/premium/LiveActivityFeed";
+import ParallaxSection from "../components/premium/ParallaxSection";
+import { BarChart3, Users, DollarSign, TrendingUp } from "lucide-react";
 
 
 // Loading fallback component
@@ -61,7 +64,7 @@ interface LandingPageProps {
 
 const LandingPage: React.FC<LandingPageProps> = ({ isMobile, isTablet }) => {
   return (
-    <main className="bg-[#050505]">
+    <main className="bg-[#050510]">
       <SEO 
         title="VideoRemix.vip - AI-Powered Video Personalization Platform"
         description="Transform your video marketing with AI-powered personalization. Create engaging, personalized videos at scale with our comprehensive AI agent ecosystem."
@@ -133,73 +136,195 @@ const LandingPage: React.FC<LandingPageProps> = ({ isMobile, isTablet }) => {
         <FinalCTA />
       </Suspense>
 
-        {/* ROI Calculator Section */}
-        <section className="py-20 bg-[#050505] relative">
-          <ParticleBackground particleCount={30} className="opacity-30" />
-          <div className="container mx-auto px-4 relative z-10">
-            <ROICalculator />
+{/* ROI Calculator Section */}
+      <section className="py-20 bg-[#0f0d2b] relative overflow-hidden">
+        <GradientOrb className="absolute top-20 right-20 w-64 h-64 opacity-20" />
+        <ParticleBackground particleCount={30} className="opacity-30" />
+        <div className="container mx-auto px-4 relative z-10">
+          <TextReveal
+            text="ROI Calculator"
+            className="text-2xl font-bold text-white mb-2"
+          />
+          <p className="text-gray-400 mb-6">Calculate your personalization ROI</p>
+          <ROICalculator />
+        </div>
+      </section>
+
+      {/* Hero Stats Section */}
+      <section className="py-16 bg-gradient-to-b from-[#0f0d2b] to-[#1e1b4a]">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl mx-auto text-center mb-12"
+          >
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+              Trusted by Marketing Teams Worldwide
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-primary-600 to-violet-500 mx-auto rounded-full"></div>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <InteractiveCard>
+              <AnimatedStatsCounter
+                from={0}
+                to={12467}
+                suffix="+"
+                label="Marketing Professionals"
+                icon={<Users className="h-8 w-8 text-primary-400" />}
+                className="bg-[#1e1b4a] p-6 rounded-xl border border-gray-700"
+              />
+            </InteractiveCard>
+            <InteractiveCard>
+              <AnimatedStatsCounter
+                from={0}
+                to={490}
+                suffix="%"
+                label="Average ROI Increase"
+                icon={<DollarSign className="h-8 w-8 text-green-400" />}
+                className="bg-[#1e1b4a] p-6 rounded-xl border border-gray-700"
+              />
+            </InteractiveCard>
+            <InteractiveCard>
+              <AnimatedStatsCounter
+                from={0}
+                to={215}
+                suffix="%"
+                label="Engagement Improvement"
+                icon={<TrendingUp className="h-8 w-8 text-yellow-400" />}
+                className="bg-[#1e1b4a] p-6 rounded-xl border border-gray-700"
+              />
+            </InteractiveCard>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Personalization Simulator Section */}
-        <ParallaxSection speed={0.3}>
-          <section className="py-20 bg-black relative">
-            <div className="container mx-auto px-4">
-              <PersonalizationSimulator />
-            </div>
-          </section>
-        </ParallaxSection>
-
-        {/* Interactive Comparison Table */}
-        <section className="py-20 bg-[#050505]">
-          <div className="container mx-auto px-4">
-            <InteractiveComparisonTable
-              title="Generic vs. Personalized Marketing"
-              rows={[
-                { feature: "Engagement Rate", generic: "2.3%", personalized: "5.3%", lift: "2.3x" },
-                { feature: "Conversion Rate", generic: "2.23%", personalized: "6-8%", lift: "80%" },
-                { feature: "ROI", generic: "Standard", personalized: true, lift: "5-8x" },
-                { feature: "Customer Retention", generic: "38%", personalized: "64%", lift: "68%" },
-                { feature: "Time to Convert", generic: "14 days", personalized: "5 days", lift: "64%" },
-              ]}
+      {/* Marketing Impact Statistics */}
+      <section className="py-20 bg-[#0f0d2b]">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto text-center mb-16"
+          >
+            <TextReveal
+              text="Marketing Impact By The Numbers"
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
             />
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Personalized marketing delivers measurable results across all key metrics
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <InteractiveCard>
+              <AnimatedStatsCounter
+                from={0}
+                to={215}
+                suffix="%"
+                label="Higher Engagement Rate"
+                icon={<BarChart3 className="h-8 w-8 text-primary-400" />}
+                className="bg-[#1e1b4a] p-6 rounded-xl border border-gray-700"
+              />
+            </InteractiveCard>
+            <InteractiveCard>
+              <AnimatedStatsCounter
+                from={0}
+                to={183}
+                suffix="%"
+                label="Better Conversion Rate"
+                icon={<TrendingUp className="h-8 w-8 text-green-400" />}
+                className="bg-[#1e1b4a] p-6 rounded-xl border border-gray-700"
+              />
+            </InteractiveCard>
+            <InteractiveCard>
+              <AnimatedStatsCounter
+                from={0}
+                to={300}
+                suffix="%"
+                label="ROI Improvement"
+                icon={<DollarSign className="h-8 w-8 text-yellow-400" />}
+                className="bg-[#1e1b4a] p-6 rounded-xl border border-gray-700"
+              />
+            </InteractiveCard>
+            <InteractiveCard>
+              <AnimatedStatsCounter
+                from={0}
+                to={500}
+                suffix="%"
+                label="More Time Watching Videos"
+                icon={<Users className="h-8 w-8 text-purple-400" />}
+                className="bg-[#1e1b4a] p-6 rounded-xl border border-gray-700"
+              />
+            </InteractiveCard>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Live Activity Feed */}
-        <section className="fixed bottom-4 right-4 z-50 w-80 hidden md:block">
-          <LiveActivityFeed />
-        </section>
+      {/* Interactive Comparison Table */}
+      <section className="py-20 bg-[#0f0d2b]">
+        <div className="container mx-auto px-4">
+          <InteractiveComparisonTable
+            title="Generic vs. Personalized Marketing"
+            rows={[
+              { feature: "Engagement Rate", generic: "2.3%", personalized: "5.3%", lift: "2.3x" },
+              { feature: "Conversion Rate", generic: "2.23%", personalized: "6-8%", lift: "80%" },
+              { feature: "ROI", generic: "Standard", personalized: true, lift: "5-8x" },
+              { feature: "Customer Retention", generic: "38%", personalized: "64%", lift: "68%" },
+              { feature: "Time to Convert", generic: "14 days", personalized: "5 days", lift: "64%" },
+            ]}
+          />
+        </div>
+      </section>
 
-        {/* Logo Wall */}
-        <section className="py-20 bg-black">
-          <div className="container mx-auto px-4">
-            <LogoWall
-              logos={[
-                { name: "Netflix", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png" },
-                { name: "Adobe", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Adobe_Acrobat_DC_logo_2023.svg/512px-Adobe_Acrobat_DC_logo_2023.svg.png" },
-                { name: "Spotify", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/512px-Spotify_logo_without_text.svg.png" },
-                { name: "Airbnb", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_B%C3%A9lo.svg/512px-Airbnb_Logo_B%C3%A9lo.svg.png" },
-                { name: "Meta", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Meta_Platform_logo.svg/512px-Meta_Platform_logo.svg.png" },
-                { name: "Stripe", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/512px-Stripe_Logo%2C_revised_2016.svg.png" },
-              ]}
-            />
-          </div>
-        </section>
+      {/* Logo Wall */}
+      <section className="py-20 bg-[#1e1b4a]">
+        <div className="container mx-auto px-4">
+          <LogoWall
+            logos={[
+              { name: "Netflix", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png" },
+              { name: "Adobe", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Adobe_Acrobat_DC_logo_2023.svg/512px-Adobe_Acrobat_DC_logo_2023.svg.png" },
+              { name: "Spotify", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/512px-Spotify_logo_without_text.svg.png" },
+              { name: "Airbnb", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_B%C3%A9lo.svg/512px-Airbnb_Logo_B%C3%A9lo.svg.png" },
+              { name: "Meta", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Meta_Platform_logo.svg/512px-Meta_Platform_logo.svg.png" },
+              { name: "Stripe", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/512px-Stripe_Logo%2C_revised_2016.svg.png" },
+            ]}
+          />
+        </div>
+      </section>
 
+      {/* Floating Icons */}
+      <FloatingIcon 
+        icon={<TrendingUp className="h-6 w-6 text-primary-400" />} 
+        delay={0} 
+        tooltip="Marketing Growth"
+        containerClassName="fixed top-20 left-20 hidden md:block"
+      />
+      <FloatingIcon 
+        icon={<Users className="h-6 w-6 text-violet-400" />} 
+        delay={1} 
+        tooltip="Audience Engagement"
+        containerClassName="fixed bottom-20 right-20 hidden md:block"
+      />
+      <FloatingIcon 
+        icon={<DollarSign className="h-6 w-6 text-green-400" />} 
+        delay={2} 
+        tooltip="ROI Impact"
+        containerClassName="fixed top-20 right-20 hidden md:block"
+      />
 
-        {/* Progress Indicator */}
-        <ProgressIndicator />
+      {/* Live Activity Feed - Fixed position */}
+      <div className="fixed bottom-4 left-4 z-40 w-64 hidden md:block">
+        <LiveActivityFeed />
+      </div>
 
-        {/* Sticky Widget */}
-        <StickyWidget />
-
-        {/* Back to Top */}
-        <BackToTop />
-
-        {/* Exit Intent Popup */}
-        <ExitIntentPopup />
-
+      <ProgressIndicator />
+      <StickyWidget />
+      <BackToTop />
+      <ExitIntentPopup />
     </main>
   );
 };
