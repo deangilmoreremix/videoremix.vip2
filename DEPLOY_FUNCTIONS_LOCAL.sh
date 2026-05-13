@@ -25,6 +25,15 @@ if ! command -v supabase &> /dev/null; then
     exit 1
 fi
 
+# Check if Stripe CLI is installed (for local webhook testing)
+if ! command -v stripe &> /dev/null; then
+    echo "⚠️  Stripe CLI not found (optional, for local webhook testing):"
+    echo "   curl -s https://packages.stripe.dev/api/security/keypair/stripe-cli-gpg/public | gpg --dearmor | sudo tee /usr/share/keyrings/stripe.gpg >/dev/null"
+    echo "   echo 'deb https://packages.stripe.dev/stripe-cli-debian-local stable main' | sudo tee /etc/apt/sources.list.d/stripe.list"
+    echo "   sudo apt-get update && sudo apt-get install -y stripe"
+    echo "   Or download from: https://github.com/stripe/stripe-cli/releases"
+fi
+
 # Check if logged in
 echo "Checking Supabase login..."
 supabase projects list | grep -q "$PROJECT_REF" || {
