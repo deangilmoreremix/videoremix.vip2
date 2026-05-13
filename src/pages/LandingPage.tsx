@@ -41,7 +41,6 @@ import PersonalizationSimulator from "../components/premium/PersonalizationSimul
 import AnimatedBorderGradient from "../components/premium/AnimatedBorderGradient";
 import AnimatedTestimonialCard from "../components/premium/AnimatedTestimonialCard";
 import LiveActivityFeed from "../components/premium/LiveActivityFeed";
-import ParallaxSection from "../components/premium/ParallaxSection";
 import { BarChart3, Users, DollarSign, TrendingUp } from "lucide-react";
 
 
