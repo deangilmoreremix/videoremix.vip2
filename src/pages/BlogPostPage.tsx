@@ -15,6 +15,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import MagicSparkles from "../components/MagicSparkles";
+import { sanitizeHtml } from "../utils/sanitizeHtml";
 
 // Sample blog post data
 // In a real application, this would likely be fetched from an API
@@ -367,7 +368,7 @@ const BlogPostPage: React.FC = () => {
 
                   {/* Article content */}
                   <div className="prose prose-lg max-w-none prose-invert prose-headings:text-white prose-a:text-primary-400 prose-a:no-underline hover:prose-a:text-primary-300">
-                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }} />
+                    <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }} />
                   </div>
 
                   {/* Tags */}

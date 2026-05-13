@@ -39,16 +39,9 @@ const ToolkitStep: React.FC<ToolkitStepProps> = ({
     if (!selectedCategories.length) return [];
     
     return appsData.filter(app => {
-      // Check if app.category is in selectedCategories
-      // App may have businessCategory array or single category string
-      const appCats = (app as any).businessCategory || [];
-      const singleCat = app.category || '';
-      
-      // Check if any of app's categories match selected ones
-      if (appCats.length > 0) {
-        return appCats.some((cat: string) => selectedCategories.includes(cat));
-      }
-      return selectedCategories.includes(singleCat);
+      // App has single category field
+      const category = app.category || '';
+      return selectedCategories.includes(category);
     }).slice(0, 12);
   }, [selectedCategories]);
 
@@ -145,12 +138,8 @@ const ToolkitStep: React.FC<ToolkitStepProps> = ({
 
       {categories.map(category => {
         const categoryApps = recommendedApps.filter(app => {
-          const appCats = (app as any).businessCategory || [];
-          const singleCat = app.category || '';
-          if (appCats.length > 0) {
-            return appCats.includes(category.id);
-          }
-          return singleCat === category.id;
+          const category = app.category || '';
+          return category === categoryItem.id;
         });
         
         if (categoryApps.length === 0) return null;

@@ -65,12 +65,19 @@ export function isInRange(value: unknown, min: number, max: number): boolean {
 
 /**
  * Sanitize string input - remove potentially dangerous characters
+ * More comprehensive than basic regex
  */
 export function sanitizeInput(input: string): string {
+  if (typeof input !== 'string') return '';
+  
   return input
-    .replace(/[<>]/g, "") // Remove angle brackets
-    .replace(/javascript:/gi, "") // Remove javascript: protocol
-    .replace(/on\w+=/gi, "") // Remove event handlers
+    .replace(/[<>]/g, '') // Remove angle brackets
+    .replace(/javascript:/gi, '') // Remove javascript: protocol
+    .replace(/on\w+=/gi, '') // Remove event handlers
+    .replace(/script/gi, '') // Remove script tags (encoded or partial)
+    .replace(/iframe/gi, '') // Remove iframe tags
+    .replace(/eval\(/gi, '') // Remove eval(
+    .replace(/Function\(/gi, '') // Remove Function(
     .trim();
 }
 
