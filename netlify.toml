@@ -5,6 +5,9 @@
 [build.environment]
   NODE_VERSION = "20"
 
+[functions]
+  directory = "netlify/functions"
+
 # Context-specific environment (production)
 [context.production.environment]
   NODE_ENV = "production"
@@ -17,12 +20,21 @@
 [context.branch-deploy.environment]
   NODE_ENV = "development"
 
+# Redirect old Netlify subdomain to custom domain
 [[redirects]]
   from = "https://videoremix.netlify.app/*"
   to = "https://videoremix.vip/:splat"
   status = 301
   force = true
 
+# API routes - handled by Netlify Functions
+[[redirects]]
+  from = "/api/personalizer/*"
+  to = "/.netlify/functions/personalizer-api"
+  status = 200
+  force = true
+
+# SPA fallback - all other routes go to index.html
 [[redirects]]
   from = "/*"
   to = "/index.html"
@@ -64,5 +76,4 @@
     Cache-Control = "no-cache, no-store, must-revalidate"
     Pragma = "no-cache"
     Expires = "0"
-# Cache clear trigger
-# Force redeploy - 1778699865
+# Cache clear trigger - Force redeploy
