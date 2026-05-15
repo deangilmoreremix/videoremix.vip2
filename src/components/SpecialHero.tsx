@@ -19,12 +19,12 @@ import CountdownTimer from "./SpecialHero/CountdownTimer";
 import VideoPreview from "./SpecialHero/VideoPreview";
 import KeyBenefits from "./SpecialHero/KeyBenefits";
 import ActiveUsers from "./SpecialHero/ActiveUsers";
-import CreateFirstVideoCTA from "./SpecialHero/CreateFirstVideoCTA";
+import TextReveal from "./premium/TextReveal";
+import TypedText from "./premium/TypedText";
 
 const SpecialHero: React.FC = () => {
   const { hero } = useLandingPageContent();
   const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [showCreateFirstVideo, setShowCreateFirstVideo] = useState(true);
 
   const testimonials = [
     {
@@ -53,113 +53,118 @@ const SpecialHero: React.FC = () => {
     return () => clearInterval(interval);
   }, [testimonials.length]);
 
-  // Check if user has seen the Create First Video CTA before
-  useEffect(() => {
-    const hasSeenCTA = localStorage.getItem("hasSeenFirstVideoCTA");
-    if (hasSeenCTA) {
-      setShowCreateFirstVideo(false);
-    } else {
-      // After 1 minute, save that user has seen the CTA
-      const timeout = setTimeout(() => {
-        localStorage.setItem("hasSeenFirstVideoCTA", "true");
-      }, 60000);
-
-      return () => clearTimeout(timeout);
-    }
-  }, []);
-
   return (
     <section className="relative pt-32 pb-16 overflow-hidden bg-gradient-to-b from-[#0f0d2b] to-[#050510]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
           {/* Main Content - Left Side */}
           <div className="lg:col-span-3">
-<motion.div
-               initial={{ opacity: 0, y: 20 }}
-               animate={{ opacity: 1, y: 0 }}
-               transition={{ duration: 0.6 }}
-               className="text-left mb-6"
-             >
-               <motion.div
-                 initial={{ opacity: 0, scale: 0.9 }}
-                 animate={{ opacity: 1, scale: 1 }}
-                 transition={{ duration: 0.4, delay: 0.2 }}
-                 className="mb-4 inline-flex items-center rounded-full bg-gradient-to-r from-primary-600 to-violet-500 px-3 py-1 shadow-lg shadow-primary-600/25"
-               >
-                 <Award className="h-4 w-4 text-white mr-2" />
-                 <span className="text-sm font-semibold text-white tracking-wide">
-                   THE NEW VIDEOREMIX PLATFORM
-                 </span>
-               </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-left mb-6"
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+                className="mb-4 inline-flex items-center rounded-full bg-gradient-to-r from-primary-600 to-violet-500 px-3 py-1 shadow-lg shadow-primary-600/25"
+              >
+                <Award className="h-4 w-4 text-white mr-2" />
+                <span className="text-sm font-semibold text-white tracking-wide">
+                  THE NEW VIDEOREMIX PLATFORM
+                </span>
+              </motion.div>
 
-               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight md:leading-tight relative max-w-4xl">
-                 {hero?.title ? hero.title : (
-                   <>Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-violet-400">VideoRemix</span> - Your Complete Personalized Marketing Platform</>
-                 )}
-               </h1>
+              {hero?.title ? (
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight md:leading-tight relative max-w-4xl">
+                  {hero.title}
+                </h1>
+              ) : (
+                <TextReveal
+                  as="h1"
+                  text="Marketing Campaigns That Convert Like Magic"
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight md:leading-tight max-w-4xl"
+                  delay={0.3}
+                  duration={0.04}
+                  staggerChildren={0.025}
+                />
+              )}
 
-               <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl leading-relaxed">
-                 {hero?.subtitle ? hero.subtitle : (
-                   "Transform your marketing with AI-powered personalization. Create engaging, personalized videos at scale with our comprehensive AI agent ecosystem."
-                 )}
-               </p>
-
-<div className="space-y-4 mb-8">
-                  {(hero?.description ? hero.description.split('\n').filter(Boolean) : [
-                    "AI-powered personalization for marketing content and campaigns",
-                    "50+ marketing personalization tools for marketers and businesses",
-                    "Create personalized campaigns in minutes, not hours",
-                    "Increase marketing ROI with audience-specific content",
-                  ]).map((benefit, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
-                      className="flex items-center group"
-                    >
-                      <div className="mr-3 text-primary-400 group-hover:text-violet-400 transition-colors">
-                        <CheckCircle className="w-6 h-6" />
-                      </div>
-                      <p className="text-white text-lg group-hover:text-gray-100 transition-colors">{benefit}</p>
-                    </motion.div>
-                  ))}
+              {hero?.subtitle ? (
+                <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl leading-relaxed">
+                  {hero.subtitle}
+                </p>
+              ) : (
+                <div className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl leading-relaxed h-20 md:h-16">
+                  <TypedText
+                    texts={[
+                      "AI-powered personalization at scale",
+                      "50+ tools for every campaign",
+                      "Convert like magic",
+                    ]}
+                    typingSpeed={80}
+                    deletingSpeed={40}
+                    delayBetweenTexts={2500}
+                    cursorClassName="border-r-2 border-primary-400 ml-1"
+                  />
                 </div>
+              )}
 
-<motion.div
-                 whileHover={{ scale: 1.03 }}
-                 whileTap={{ scale: 0.97 }}
-                 className="mb-6"
-               >
-                  <MagicSparkles
-                    minSparkles={2}
-                    maxSparkles={5}
-                    minSize={5}
-                    maxSize={10}
+              <div className="space-y-4 mb-8">
+                {(hero?.description ? hero.description.split('\n').filter(Boolean) : [
+                  "AI-powered personalization for marketing content and campaigns",
+                  "50+ marketing personalization tools for marketers and businesses",
+                  "Create personalized campaigns in minutes, not hours",
+                  "Increase marketing ROI with audience-specific content",
+                ]).map((benefit, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
+                    className="flex items-center group"
                   >
-                    <a
-                      href={hero?.primary_button_url || "/signup"}
-                      className="block w-full md:w-auto md:inline-block text-center bg-gradient-to-r from-primary-600 via-violet-500 to-primary-500 hover:from-primary-500 hover:via-violet-400 hover:to-primary-400 text-white font-bold text-xl px-8 py-5 rounded-lg shadow-lg shadow-primary-600/30 transition-all duration-300"
-                    >
-                      <span className="flex items-center justify-center">
-                        {hero?.primary_button_text || "GET STARTED WITH VIDEOREMIX"}
-                        <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                      </span>
-                    </a>
-                  </MagicSparkles>
-               </motion.div>
+                    <div className="mr-3 text-primary-400 group-hover:text-violet-400 transition-colors">
+                      <CheckCircle className="w-6 h-6" />
+                    </div>
+                    <p className="text-white text-lg group-hover:text-gray-100 transition-colors">{benefit}</p>
+                  </motion.div>
+                ))}
+              </div>
 
-               <p className="text-gray-400 text-sm flex items-center">
-                 <span className="text-yellow-400 mr-1">⚡</span> Get started now. No
-                 credit card required.
-               </p>
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="mb-6"
+              >
+                <MagicSparkles
+                  minSparkles={2}
+                  maxSparkles={5}
+                  minSize={5}
+                  maxSize={10}
+                >
+                  <a
+                    href={hero?.primary_button_url || "/signup"}
+                    className="block w-full md:w-auto md:inline-block text-center bg-gradient-to-r from-primary-600 via-violet-500 to-primary-500 hover:from-primary-500 hover:via-violet-400 hover:to-primary-400 text-white font-bold text-xl px-8 py-5 rounded-lg shadow-lg shadow-primary-600/30 transition-all duration-300"
+                  >
+                    <span className="flex items-center justify-center">
+                      {hero?.primary_button_text || "GET STARTED WITH VIDEOREMIX"}
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </a>
+                </MagicSparkles>
+              </motion.div>
+
+              <p className="text-gray-400 text-sm flex items-center">
+                <span className="text-yellow-400 mr-1">⚡</span> Get started now. No
+                credit card required.
+              </p>
             </motion.div>
-
-            {/* Create First Personalized Video banner */}
-            {showCreateFirstVideo && <CreateFirstVideoCTA />}
           </div>
 
-          {/* Video Content - Right Side */}
+          {/* Right Side - Image & Social Proof */}
           <div className="lg:col-span-2">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -253,7 +258,7 @@ const SpecialHero: React.FC = () => {
                           </div>
                         </div>
                         <p className="mt-3 text-gray-300 italic text-sm">
-                          "{testimonial.quote}"
+                          &ldquo;{testimonial.quote}&rdquo;
                         </p>
                       </motion.div>
                     ),
@@ -313,31 +318,31 @@ const SpecialHero: React.FC = () => {
         </div>
 
         {/* Trust badges */}
-<motion.div
-           initial={{ opacity: 0, y: 20 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ duration: 0.6, delay: 0.8 }}
-           className="mt-12 pt-6 border-t border-white/10"
-         >
-           <p className="text-center text-gray-400 text-sm mb-4 tracking-wider">
-             TRUSTED BY MARKETING TEAMS WORLDWIDE
-           </p>
-           <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-             {["Microsoft", "Google", "YouTube", "Instagram", "Twitter"].map(
-               (brand, i) => (
-                 <motion.div
-                   key={i}
-                   whileHover={{ scale: 1.05, filter: "brightness(1.2)" }}
-                   className="h-8 sm:h-10 flex items-center justify-center bg-white/5 backdrop-blur-sm rounded-lg px-3 py-1 border border-white/10 transition-all duration-300"
-                 >
-                   <span className="text-white font-semibold text-sm sm:text-base tracking-wide">
-                     {brand}
-                   </span>
-                 </motion.div>
-               ),
-             )}
-           </div>
-         </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="mt-12 pt-6 border-t border-white/10"
+        >
+          <p className="text-center text-gray-400 text-sm mb-4 tracking-wider">
+            TRUSTED BY MARKETING TEAMS WORLDWIDE
+          </p>
+          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
+            {["Microsoft", "Google", "YouTube", "Instagram", "Twitter"].map(
+              (brand, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ scale: 1.05, filter: "brightness(1.2)" }}
+                  className="h-8 sm:h-10 flex items-center justify-center bg-white/5 backdrop-blur-sm rounded-lg px-3 py-1 border border-white/10 transition-all duration-300"
+                >
+                  <span className="text-white font-semibold text-sm sm:text-base tracking-wide">
+                    {brand}
+                  </span>
+                </motion.div>
+              ),
+            )}
+          </div>
+        </motion.div>
 
         {/* Key benefits icons */}
         <KeyBenefits />
@@ -369,7 +374,7 @@ const SpecialHero: React.FC = () => {
               const problemSection = document.getElementById("problem");
               if (problemSection) {
                 problemSection.scrollIntoView({ behavior: "smooth" });
-                problemSection.focus(); // Focus for screen readers
+                problemSection.focus();
               }
             }}
             className="flex flex-col items-center text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 rounded-md p-2"
