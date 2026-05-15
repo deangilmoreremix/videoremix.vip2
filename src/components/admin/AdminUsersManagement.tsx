@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { motion } from "framer-motion";
 import {
   Users,
   Plus,
@@ -21,6 +20,7 @@ import {
   FolderOpen,
   Package,
   Shield,
+  FileText,
 } from "lucide-react";
 import { supabase } from "../../utils/supabaseClient";
 import {
@@ -510,6 +510,29 @@ const AdminUsersManagement: React.FC = () => {
     const a = document.createElement("a");
     a.href = url;
     a.download = "users_template.csv";
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
+  const exportUsersToCSV = () => {
+    const headers = ["Email", "Name", "Role", "Status", "App Count", "Created At"];
+    const csvContent = [
+      headers.join(","),
+      ...users.map(user => [
+        user.email,
+        `${user.first_name || ""} ${user.last_name || ""}`.trim(),
+        user.role,
+        user.is_active ? "Active" : "Inactive",
+        user.app_count || 0,
+        user.created_at
+      ].join(","))
+    ].join("\n");
+    
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `users-${new Date().toISOString().split("T")[0]}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
   };
@@ -1238,6 +1261,14 @@ const AdminUsersManagement: React.FC = () => {
           >
             <Download className="h-4 w-4 mr-2" />
             Template
+          </button>
+
+          <button
+            onClick={exportUsersToCSV}
+            className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center transition-colors"
+          >
+            <FileText className="h-4 w-4 mr-2" />
+            Export CSV
           </button>
 
           <button
