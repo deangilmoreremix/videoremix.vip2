@@ -15,7 +15,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
-    "postinstall": "node fix-phoenix.mjs",
+    "postinstall": "node fix-phoenix.mjs && node scripts/verify-lucide.js",
     "setup-netlify": "./setup-netlify.sh",
     "deploy": "npm run build && npx netlify deploy --prod",
     "deploy:preview": "npm run build && npx netlify deploy",
