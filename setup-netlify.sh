@@ -2,18 +2,12 @@
 
 # Netlify Automated Deployment Setup Script
 # This script configures Netlify CLI for automated deployments
-# Uses project-local netlify-cli via npx instead of global installation
+# Uses npx to run netlify-cli from Netlify's build environment
 
 echo "🔧 Setting up Netlify CLI for automated deployments..."
 
-# Use npx to run netlify-cli from project dependencies
+# Use npx to run netlify-cli (available in Netlify's build environment)
 NETLIFY_CMD="npx netlify"
-
-# Check if netlify-cli is available in project dependencies
-if ! npm list netlify-cli > /dev/null 2>&1; then
-    echo "📦 Installing netlify-cli as a project dependency..."
-    npm install --save-dev netlify-cli
-fi
 
 # Check for NETLIFY_AUTH_TOKEN
 if [ -z "$NETLIFY_AUTH_TOKEN" ]; then

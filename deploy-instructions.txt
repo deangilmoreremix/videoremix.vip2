@@ -6,12 +6,12 @@ OPTION 1: Deploy from your local machine
 ----------------------------------------
 1. Download this entire project to your local computer
 2. Open terminal in the project directory
-3. Run: npx netlify-cli login
-4. Run: npx netlify-cli link
-5. Run: npx netlify-cli deploy --prod --dir=dist
+3. Run: npx netlify login
+4. Run: npx netlify link
+5. Run: npx netlify deploy --prod --dir=dist
 
 OPTION 2: Use Netlify's manual deploy (EASIEST)
-------------------------------------------------
+-------------------------------------------------
 1. Create a zip of the dist folder (I'll do this for you)
 2. Go to https://app.netlify.com
 3. Click your VideoRemix site
