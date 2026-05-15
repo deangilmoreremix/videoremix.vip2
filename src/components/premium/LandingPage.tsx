@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 import ROICalculator from './ROICalculator';
 import PersonalizationSimulator from './PersonalizationSimulator';
@@ -19,90 +19,77 @@ import InteractiveCard from './InteractiveCard';
 import TypedText from './TypedText';
 import TextReveal from './TextReveal';
 import FloatingIcon from './FloatingIcon';
-import { Sparkles, Award, Clock, Shield, Star, CheckCircle, TrendingUp } from 'lucide-react';
+import SEO from '../SEO';
+import { Sparkles, Award, Clock, Shield, Star, CheckCircle, TrendingUp, BarChart3, Users, DollarSign } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-/**
- * LandingPage component for the premium section of VideoRemix.vip.
- *
- * This is the comprehensive million-dollar landing page implementing the 12-section
- * ConversionWise anatomy with Impeccable design principles.
- *
- * Sections:
- * 1. Above the Fold Hero
- * 2. Transformation Section (Before/After)
- * 3. Deep Benefits (Image+Text blocks)
- * 4. Scannable Features (Icon grid)
- * 5. Mid-Page CTA
- * 6. What's Included
- * 7. Social Proof (Testimonials)
- * 8. UGC Strip
- * 9. Comparison Table
- * 10. FAQ
- * 11. Visuals (Demo)
- * 12. Final CTA
- */
-const LandingPage: React.FC = () => {
-  const testimonials = [
-    {
-      quote: "The personalization tools helped us achieve a 215% increase in marketing engagement and 3X more campaign leads.",
-      name: "David Chen",
-      role: "Marketing Director",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150",
-      rating: 5,
-      metrics: [
-        { label: "Engagement Lift", value: "215%" },
-        { label: "Cost Saved", value: "$50K" },
-        { label: "Time Saved", value: "80%" },
-      ],
-    },
-    {
-      quote: "I create custom marketing content for different audience segments in minutes. My conversion rates have doubled since using VideoRemix.",
-      name: "Sarah Wilson",
-      role: "Digital Marketing Lead",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=150",
-      rating: 5,
-      metrics: [
-        { label: "ROI Increase", value: "150%" },
-        { label: "Campaigns", value: "500+" },
-        { label: "Satisfaction", value: "100%" },
-      ],
-    },
-  ];
+const SpecialHero = lazy(() => import('../SpecialHero'));
+const ProblemSection = lazy(() => import('../ProblemSection'));
+const SolutionSection = lazy(() => import('../SolutionSection'));
+const FeatureMap = lazy(() => import('../FeatureMap'));
+const PersonalizationWorkflowSection = lazy(() => import('../PersonalizationWorkflowSection'));
+const ToolsCarouselSection = lazy(() => import('../ToolsCarouselSection'));
+const BenefitsSection = lazy(() => import('../BenefitsSection'));
+const AppGallerySection = lazy(() => import('../AppGallerySection'));
+const DemoSection = lazy(() => import('../DemoSection'));
+const CaseStudiesSection = lazy(() => import('../CaseStudiesSection'));
+const TestimonialsSection = lazy(() => import('../TestimonialsSection'));
+const PricingSection = lazy(() => import('../PricingSection'));
+const GuaranteeSection = lazy(() => import('../GuaranteeSection'));
+const FAQSection = lazy(() => import('../FAQSection'));
+const FinalCTA = lazy(() => import('../FinalCTA'));
 
+const SectionLoader = () => (
+  <div className="flex justify-center items-center py-20 text-white">
+    <div className="relative">
+      <div className="w-16 h-16 border-t-4 border-primary-500 border-solid rounded-full animate-spin"></div>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="text-xs text-primary-500 font-medium">Loading</span>
+      </div>
+    </div>
+  </div>
+);
+
+const LandingPage: React.FC = () => {
   return (
-    <main className="bg-gray-950 text-white min-h-screen">
-      {/* SEO Meta */}
+    <main className="bg-[#050510] text-white min-h-screen">
+      <SEO
+        title="VideoRemix.vip - AI-Powered Video Personalization Platform"
+        description="Transform your video marketing with AI-powered personalization. Create engaging, personalized videos at scale with our comprehensive AI agent ecosystem."
+        keywords={["AI video", "video personalization", "marketing automation", "AI agents", "video creation"]}
+        image="https://videoremix.vip/og-image.jpg"
+        url="https://videoremix.vip"
+      />
+
       <Helmet>
         <title>VideoRemix.vip - AI-Powered Video Personalization Platform</title>
         <meta name="description" content="Transform your video marketing with AI-powered personalization. Create engaging, personalized videos at scale." />
       </Helmet>
 
-      {/* 1. Above the Fold Hero */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <ParticleBackground particleCount={50} className="absolute inset-0" />
-        <GradientOrb className="absolute top-20 left-20" />
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <AnimatedBorderGradient>
-            <h1 className="prose-h1 text-white mb-6">
-              <TypedText texts={["Impeccable AI Video Personalization", "Transform Your Marketing"]} />
-            </h1>
-          </AnimatedBorderGradient>
-          <p className="prose-body text-gray-300 mb-10 mx-auto">
-            Transform generic videos into personalized experiences that drive 5x higher engagement at scale.
-          </p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <button className="bg-gradient-to-r from-primary-600 to-accent-600 text-white px-8 py-3 rounded-lg font-bold text-lg hover:scale-105 transition-transform shadow-lg shadow-primary-600/25">
-              Start Free Trial
-            </button>
-            <button className="border border-gray-600 text-gray-300 px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors">
-              Watch Demo
-            </button>
-          </div>
-        </div>
-      </section>
+      {/* 1. Special Hero (from original) */}
+      <Suspense fallback={<SectionLoader />}>
+        <SpecialHero />
+      </Suspense>
 
-      {/* 2. Transformation Section (Before/After) */}
+      {/* 2. Problem Section (from original) */}
+      <Suspense fallback={<SectionLoader />}>
+        <ProblemSection />
+      </Suspense>
+
+      {/* 3. Solution Section (from original) */}
+      <Suspense fallback={<SectionLoader />}>
+        <SolutionSection />
+      </Suspense>
+
+      {/* 4. Feature Map (from original) */}
+      <Suspense fallback={<SectionLoader />}>
+        <FeatureMap
+          title="Comprehensive Marketing Personalization Features"
+          subtitle="Explore the powerful personalization capabilities of VideoRemix.vip's marketing platform"
+        />
+      </Suspense>
+
+      {/* 5. Transformation Section (Before/After) - premium */}
       <section className="py-20 bg-gray-900">
         <div className="container-max section-padding">
           <TextReveal text="From Generic to Personalized" as="h2" className="prose-h2 text-center mb-16" />
@@ -125,14 +112,24 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 2.5 Personalization Simulator */}
+      {/* 6. Personalization Simulator - premium */}
       <section className="py-20 bg-gray-950">
         <div className="container-max section-padding">
           <PersonalizationSimulator />
         </div>
       </section>
 
-      {/* 3. Deep Benefits (Alternating blocks) */}
+      {/* 7. Personalization Workflow (from original) */}
+      <Suspense fallback={<SectionLoader />}>
+        <PersonalizationWorkflowSection />
+      </Suspense>
+
+      {/* 8. Tools Carousel (from original) */}
+      <Suspense fallback={<SectionLoader />}>
+        <ToolsCarouselSection />
+      </Suspense>
+
+      {/* 9. Deep Benefits (Alternating blocks) - premium */}
       <section className="py-20 bg-gray-950">
         <div className="container-max section-padding">
           <div className="space-y-20">
@@ -163,7 +160,17 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 4. Scannable Features */}
+      {/* 10. Benefits Section (from original) */}
+      <Suspense fallback={<SectionLoader />}>
+        <BenefitsSection />
+      </Suspense>
+
+      {/* 11. App Gallery (from original) */}
+      <Suspense fallback={<SectionLoader />}>
+        <AppGallerySection />
+      </Suspense>
+
+      {/* 12. Scannable Features - premium */}
       <section className="py-20 bg-gray-900">
         <div className="container-max section-padding">
           <TextReveal text="Key Features" as="h2" className="prose-h2 text-center mb-16" />
@@ -180,7 +187,7 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 5. Mid-Page CTA */}
+      {/* 13. Mid-Page CTA - premium */}
       <section className="py-20 bg-gradient-to-br from-primary-900/30 to-accent-900/30">
         <div className="container-max section-padding text-center">
           <h2 className="prose-h2 mb-4">Ready to Transform Your Marketing?</h2>
@@ -191,14 +198,18 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 5.5 ROI Calculator */}
-      <section className="py-20 bg-gray-900">
-        <div className="container-max section-padding">
+      {/* 14. ROI Calculator - premium */}
+      <section className="py-20 bg-[#0f0d2b] relative overflow-hidden">
+        <GradientOrb className="absolute top-20 right-20 w-64 h-64 opacity-20" />
+        <ParticleBackground particleCount={30} className="opacity-30" />
+        <div className="container-max section-padding relative z-10">
+          <TextReveal text="ROI Calculator" className="text-2xl font-bold text-white mb-2" />
+          <p className="text-gray-400 mb-6">Calculate your personalization ROI</p>
           <ROICalculator />
         </div>
       </section>
 
-      {/* 6. What's Included */}
+      {/* 15. What's Included - premium */}
       <section className="py-20 bg-gray-950">
         <div className="container-max section-padding">
           <TextReveal text="What's Included" as="h2" className="prose-h2 text-center mb-16" />
@@ -217,95 +228,179 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 7. Social Proof (Testimonials) */}
-      <section className="py-20 bg-gray-900">
-        <div className="container-max section-padding">
-          <TextReveal text="What Our Customers Say" as="h2" className="prose-h2 text-center mb-16" />
-          <div className="grid md:grid-cols-2 gap-8">
-            <AnimatedTestimonialCard testimonials={testimonials} />
-            <LiveActivityFeed className="hidden md:block" />
+      {/* 16. Demo Section (from original) */}
+      <Suspense fallback={<SectionLoader />}>
+        <DemoSection />
+      </Suspense>
+
+      {/* 17. Case Studies (from original) */}
+      <Suspense fallback={<SectionLoader />}>
+        <CaseStudiesSection />
+      </Suspense>
+
+      {/* 18. Testimonials (from original) */}
+      <Suspense fallback={<SectionLoader />}>
+        <TestimonialsSection />
+      </Suspense>
+
+      {/* 19. Hero Stats Section (from original) */}
+      <section className="py-16 bg-gradient-to-b from-[#0f0d2b] to-[#1e1b4a]">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl mx-auto text-center mb-12"
+          >
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+              Trusted by Marketing Teams Worldwide
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-primary-600 to-violet-500 mx-auto rounded-full"></div>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <InteractiveCard>
+              <AnimatedStatsCounter
+                from={0}
+                to={12467}
+                suffix="+"
+                label="Marketing Professionals"
+                icon={<Users className="h-8 w-8 text-primary-400" />}
+                className="bg-[#1e1b4a] p-6 rounded-xl border border-gray-700"
+              />
+            </InteractiveCard>
+            <InteractiveCard>
+              <AnimatedStatsCounter
+                from={0}
+                to={490}
+                suffix="%"
+                label="Average ROI Increase"
+                icon={<DollarSign className="h-8 w-8 text-green-400" />}
+                className="bg-[#1e1b4a] p-6 rounded-xl border border-gray-700"
+              />
+            </InteractiveCard>
+            <InteractiveCard>
+              <AnimatedStatsCounter
+                from={0}
+                to={215}
+                suffix="%"
+                label="Engagement Improvement"
+                icon={<TrendingUp className="h-8 w-8 text-yellow-400" />}
+                className="bg-[#1e1b4a] p-6 rounded-xl border border-gray-700"
+              />
+            </InteractiveCard>
           </div>
         </div>
       </section>
 
-      {/* 8. UGC Strip - Stats */}
-      <section className="py-16 bg-gray-900/50">
-        <div className="container-max section-padding">
+      {/* 20. Marketing Impact Statistics (from original) */}
+      <section className="py-20 bg-[#0f0d2b]">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto text-center mb-16"
+          >
+            <TextReveal
+              text="Marketing Impact By The Numbers"
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
+            />
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Personalized marketing delivers measurable results across all key metrics
+            </p>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <InteractiveCard>
+              <AnimatedStatsCounter
+                from={0}
+                to={215}
+                suffix="%"
+                label="Higher Engagement Rate"
+                icon={<BarChart3 className="h-8 w-8 text-primary-400" />}
+                className="bg-[#1e1b4a] p-6 rounded-xl border border-gray-700"
+              />
+            </InteractiveCard>
+            <InteractiveCard>
+              <AnimatedStatsCounter
+                from={0}
+                to={183}
+                suffix="%"
+                label="Better Conversion Rate"
+                icon={<TrendingUp className="h-8 w-8 text-green-400" />}
+                className="bg-[#1e1b4a] p-6 rounded-xl border border-gray-700"
+              />
+            </InteractiveCard>
+            <InteractiveCard>
+              <AnimatedStatsCounter
+                from={0}
+                to={300}
+                suffix="%"
+                label="ROI Improvement"
+                icon={<DollarSign className="h-8 w-8 text-yellow-400" />}
+                className="bg-[#1e1b4a] p-6 rounded-xl border border-gray-700"
+              />
+            </InteractiveCard>
+            <InteractiveCard>
+              <AnimatedStatsCounter
+                from={0}
+                to={500}
+                suffix="%"
+                label="More Time Watching Videos"
+                icon={<Users className="h-8 w-8 text-purple-400" />}
+                className="bg-[#1e1b4a] p-6 rounded-xl border border-gray-700"
+              />
+            </InteractiveCard>
+          </div>
+        </div>
+      </section>
+
+      {/* 21. Logo Wall (from original with real logos) */}
+      <section className="py-20 bg-[#1e1b4a]">
+        <div className="container mx-auto px-4">
           <LogoWall
-            title="Trusted by innovative companies worldwide"
             logos={[
-              { name: "TechCorp", url: "https://via.placeholder.com/120x40?text=TechCorp" },
-              { name: "StartupX", url: "https://via.placeholder.com/120x40?text=StartupX" },
-              { name: "EnterpriseCo", url: "https://via.placeholder.com/120x40?text=EnterpriseCo" },
-              { name: "InnovateInc", url: "https://via.placeholder.com/120x40?text=InnovateInc" },
+              { name: "Netflix", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png" },
+              { name: "Adobe", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Adobe_Acrobat_DC_logo_2023.svg/512px-Adobe_Acrobat_DC_logo_2023.svg.png" },
+              { name: "Spotify", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/512px-Spotify_logo_without_text.svg.png" },
+              { name: "Airbnb", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_B%C3%A9lo.svg/512px-Airbnb_Logo_B%C3%A9lo.svg.png" },
+              { name: "Meta", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Meta_Platform_logo.svg/512px-Meta_Platform_logo.svg.png" },
+              { name: "Stripe", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/512px-Stripe_Logo%2C_revised_2016.svg.png" },
             ]}
           />
         </div>
       </section>
 
-      <section className="py-16 bg-gray-900/50">
-        <div className="container-max section-padding">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {[
-              { value: 12467, label: "Marketing Professionals", prefix: "" },
-              { value: 215, label: "Avg Engagement Lift %", prefix: "" },
-              { value: 500, label: "Templates Available", prefix: "" },
-              { value: 4.9, label: "User Rating", suffix: "/5" },
-            ].map((stat, i) => (
-              <AnimatedStatsCounter
-                key={i}
-                from={0}
-                to={stat.value}
-                label={stat.label}
-                prefix={stat.prefix}
-                suffix={stat.suffix}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 9. Comparison Table */}
-      <section className="py-20 bg-gray-950">
-        <div className="container-max section-padding">
+      {/* 22. Interactive Comparison Table (enhanced with original's 5-row data) */}
+      <section className="py-20 bg-[#0f0d2b]">
+        <div className="container mx-auto px-4">
           <InteractiveComparisonTable
             title="Generic vs. Personalized Marketing"
             rows={[
               { feature: "Engagement Rate", generic: "2.3%", personalized: "5.3%", lift: "2.3x" },
               { feature: "Conversion Rate", generic: "2.23%", personalized: "6-8%", lift: "80%" },
               { feature: "ROI", generic: "Standard", personalized: true, lift: "5-8x" },
+              { feature: "Customer Retention", generic: "38%", personalized: "64%", lift: "68%" },
+              { feature: "Time to Convert", generic: "14 days", personalized: "5 days", lift: "64%" },
             ]}
           />
         </div>
       </section>
 
-      {/* 10. FAQ */}
-      <section className="py-20 bg-gray-900/50">
-        <div className="container-max section-padding">
-          <TextReveal text="Frequently Asked Questions" as="h2" className="prose-h2 text-center mb-16" />
-          <div className="max-w-3xl mx-auto space-y-4">
-            {[
-              { q: "Is my data secure?", a: "Yes, we use enterprise-grade encryption for all customer data." },
-              { q: "How long does it take to create videos?", a: "Most videos are created in under 5 minutes." },
-              { q: "Can I customize the AI output?", a: "Absolutely! You have full control over personalization rules." },
-            ].map((faq, i) => (
-              <div key={i} className="bg-gray-900 rounded-lg p-4">
-                <h3 className="font-bold mb-2">{faq.q}</h3>
-                <p className="text-gray-300 text-sm">{faq.a}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* 23. FAQ Section (from original - uses LandingPageContext) */}
+      <Suspense fallback={<SectionLoader />}>
+        <FAQSection />
+      </Suspense>
 
-      {/* 11. Visuals (Demo) */}
+      {/* 24. Visuals (Demo) - premium */}
       <section className="py-20 bg-gray-950">
         <div className="container-max section-padding">
           <TextReveal text="See It In Action" as="h2" className="prose-h2 text-center mb-16" />
           <div className="max-w-4xl mx-auto">
             <InteractiveCard>
               <div className="aspect-video bg-gray-900 rounded-xl overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80" 
+                <img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80"
                      alt="Video Demo" className="w-full h-full object-cover" />
               </div>
             </InteractiveCard>
@@ -313,7 +408,22 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 12. Final CTA */}
+      {/* 25. Pricing Section (from original) */}
+      <Suspense fallback={<SectionLoader />}>
+        <PricingSection />
+      </Suspense>
+
+      {/* 26. Guarantee Section (from original) */}
+      <Suspense fallback={<SectionLoader />}>
+        <GuaranteeSection />
+      </Suspense>
+
+      {/* 27. Final CTA (from original) */}
+      <Suspense fallback={<SectionLoader />}>
+        <FinalCTA />
+      </Suspense>
+
+      {/* 28. Final CTA - premium */}
       <section className="py-20 bg-gradient-to-br from-primary-600 to-accent-600">
         <div className="container-max section-padding text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to 3x Your Marketing ROI?</h2>
@@ -324,7 +434,32 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Additional UI Components */}
+      {/* Floating Icons (from original) */}
+      <FloatingIcon
+        icon={<TrendingUp className="h-6 w-6 text-primary-400" />}
+        delay={0}
+        tooltip="Marketing Growth"
+        containerClassName="fixed top-20 left-20 hidden md:block"
+      />
+      <FloatingIcon
+        icon={<Users className="h-6 w-6 text-violet-400" />}
+        delay={1}
+        tooltip="Audience Engagement"
+        containerClassName="fixed bottom-20 right-20 hidden md:block"
+      />
+      <FloatingIcon
+        icon={<DollarSign className="h-6 w-6 text-green-400" />}
+        delay={2}
+        tooltip="ROI Impact"
+        containerClassName="fixed top-20 right-20 hidden md:block"
+      />
+
+      {/* Live Activity Feed - Fixed position (from original) */}
+      <div className="fixed bottom-4 left-4 z-40 w-64 hidden md:block">
+        <LiveActivityFeed />
+      </div>
+
+      {/* UI Components */}
       <ProgressIndicator />
       <StickyWidget />
       <BackToTop />
