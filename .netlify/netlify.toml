@@ -1,5 +1,5 @@
 functionsDirectory = "/Users/shasheemoore/Downloads/videoremix2026/videoremix.vip2/netlify/functions"
-functionsDirectoryOrigin = "default"
+functionsDirectoryOrigin = "config"
 headersOrigin = "config"
 redirectsOrigin = "config"
 plugins = []
@@ -14,8 +14,6 @@ functions = "/Users/shasheemoore/Downloads/videoremix2026/videoremix.vip2/netlif
 [build.environment]
 NODE_VERSION = "20"
 NODE_ENV = "production"
-VITE_SUPABASE_URL = "https://bzxohkrxcwodllketcpz.supabase.co"
-VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6eG9oa3J4Y3dvZGxsa2V0Y3B6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NjYzODUsImV4cCI6MjA4OTQ0MjM4NX0.ExeLy2sWZMnLY4VToGlbqr3F4SpNmrsE9Hw0lyAhb9A"
 
 [build.processing]
 
@@ -104,6 +102,18 @@ force = false
 from = "https://videoremix.netlify.app/*"
 to = "https://videoremix.vip/:splat"
 status = 301.0
+force = true
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/api/personalizer/*"
+to = "/.netlify/functions/personalizer-api"
+status = 200.0
 force = true
 
 [redirects.query]

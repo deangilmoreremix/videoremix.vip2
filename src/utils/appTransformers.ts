@@ -35,6 +35,7 @@ export interface ComponentApp {
   new?: boolean;
   comingSoon?: boolean;
   url?: string;
+  price?: number;
 }
 
 // Get icon name for app (used by LazyIcon component)
@@ -102,5 +103,6 @@ export const transformApp = (dbApp: DatabaseApp): ComponentApp => {
     new: dbApp.new || false,
     comingSoon: dbApp.coming_soon || false,
     url: appUrl,
+    price: dbApp.price,
   };
 };

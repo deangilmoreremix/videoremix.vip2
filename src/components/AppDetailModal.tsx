@@ -17,6 +17,7 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { useUserAccess } from "../hooks/useUserAccess";
 import { getEnhancedAppData } from "../data/enhancedAppsData";
+import { getBundleForApp } from "../data/appsData";
 import PurchaseModal from "./PurchaseModal";
 import PersonalizerDialog from "./personalizer/PersonalizerDialog";
 
@@ -387,6 +388,7 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
           icon: app.icon,
           price: enhancedApp.price || 97,
         }}
+        bundleInfo={getBundleForApp(app.id)}
       />
 
       {/* Personalizer Dialog */}

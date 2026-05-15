@@ -73,6 +73,7 @@ import LazyIcon from "../LazyIcon";
 import { SalesDropdown } from '../ui/SalesDropdown';
 import SalesDropdownErrorBoundary from '../ui/SalesDropdownErrorBoundary';
 import { appSalesCopy } from '../../data/appSalesCopy';
+import { getBundleForApp } from '../../data/appsData';
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Card, CardContent } from "../ui/card";
@@ -827,6 +828,7 @@ const DashboardToolsSection: React.FC = () => {
             setSelectedAppForPurchase(null);
           }}
           app={selectedAppForPurchase}
+          bundleInfo={getBundleForApp(selectedAppForPurchase.id)}
         />
       )}
 

@@ -47,6 +47,7 @@ import { getEnhancedAppData } from "../data/enhancedAppsData";
 import { getAppUrl, isExternalUrl } from "../config/appUrls";
 import PurchaseModal from "./PurchaseModal";
 import PersonalizerDialog from "./personalizer/PersonalizerDialog";
+import { getBundleForApp } from "../data/appsData";
 
 // Floating Icon component to add visual interest
 const FloatingIcon: React.FC<{
@@ -2456,6 +2457,7 @@ const AppDetailPage: React.FC = () => {
           isOpen={showPurchaseModal}
           onClose={() => setShowPurchaseModal(false)}
           app={app}
+          bundleInfo={getBundleForApp(app.id)}
         />
       )}
 

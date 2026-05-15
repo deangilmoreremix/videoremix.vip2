@@ -56,12 +56,12 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const { appId, appName, price, userId, userEmail } = await req.json();
+    const { appId } = await req.json();
 
-    // Reject client-supplied userId, userEmail, and price - get from authenticated user and backend
-    if (!appId || !appName) {
+    // Reject client-supplied appId if empty
+    if (!appId) {
       return new Response(
-        JSON.stringify({ error: 'Missing required parameters: appId and appName' }),
+        JSON.stringify({ error: 'Missing required parameter: appId' }),
         {
           status: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -72,7 +72,7 @@ Deno.serve(async (req: Request) => {
     // Load app and price data from trusted backend catalog
     const { data: app, error: appError } = await supabase
       .from('apps')
-      .select('id, name, is_active, price')
+      .select('id, name, is_active, price, stripe_product_id, stripe_price_id')
       .eq('slug', appId)
       .eq('is_active', true)
       .maybeSingle();
@@ -90,6 +90,8 @@ Deno.serve(async (req: Request) => {
     // Use backend data exclusively
     const backendAppName = app.name;
     const backendPrice = app.price;
+    const stripeProductId = app.stripe_product_id;
+    const stripePriceId = app.stripe_price_id;
 
     if (!backendPrice || backendPrice <= 0) {
       return new Response(
@@ -101,31 +103,57 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: backendAppName,
-              description: `Lifetime access to ${backendAppName}`,
-            },
-            unit_amount: Math.round(backendPrice * 100),
+    // Create Checkout Session
+    let session;
+    
+    if (stripePriceId) {
+      // Use existing Stripe Price ID if available
+      session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [
+          {
+            price: stripePriceId,
+            quantity: 1,
           },
-          quantity: 1,
+        ],
+        mode: 'payment',
+        success_url: `${req.headers.get('origin')}/dashboard?purchase=success`,
+        cancel_url: `${req.headers.get('origin')}/tools?purchase=cancelled`,
+        customer_email: user.email,
+        metadata: {
+          appId,
+          userId: user.id,
+          appName: backendAppName,
         },
-      ],
-      mode: 'payment',
-      success_url: `${req.headers.get('origin')}/dashboard?purchase=success`,
-      cancel_url: `${req.headers.get('origin')}/tools?purchase=cancelled`,
-      customer_email: user.email,
-      metadata: {
-        appId,
-        userId: user.id,
-        appName: backendAppName,
-      },
-    });
+      });
+    } else {
+      // Fallback: Create price data inline (for apps without pre-created Stripe products)
+      session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [
+          {
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: backendAppName,
+                description: `Lifetime access to ${backendAppName}`,
+              },
+              unit_amount: Math.round(backendPrice * 100),
+            },
+            quantity: 1,
+          },
+        ],
+        mode: 'payment',
+        success_url: `${req.headers.get('origin')}/dashboard?purchase=success`,
+        cancel_url: `${req.headers.get('origin')}/tools?purchase=cancelled`,
+        customer_email: user.email,
+        metadata: {
+          appId,
+          userId: user.id,
+          appName: backendAppName,
+        },
+      });
+    }
 
     return new Response(
       JSON.stringify({ url: session.url }),

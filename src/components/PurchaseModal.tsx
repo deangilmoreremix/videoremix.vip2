@@ -23,19 +23,28 @@ interface PurchaseModalProps {
     price?: number;
     features?: string[];
   };
+  bundleInfo?: {
+    id: string;
+    name: string;
+    price: number;
+    description?: string;
+    appIds?: string[];
+  };
 }
 
 const PurchaseModal: React.FC<PurchaseModalProps> = ({
   isOpen,
   onClose,
   app,
+  bundleInfo,
 }) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedPrice, setSelectedPrice] = useState<number>(app.price || 97);
+  const [isBundle, setIsBundle] = useState<boolean>(false);
 
-  const defaultPrice = 97;
-  const price = app.price || defaultPrice;
+  // const _finalPrice = isBundle && bundleInfo ? bundleInfo.price : (app.price || 97);
 
   const defaultFeatures = [
     "Lifetime access to the app",
@@ -47,7 +56,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
 
   const features = app.features || defaultFeatures;
 
-  const handlePurchase = async () => {
+  const handlePurchase = async (purchasePrice?: number, bundleId?: string) => {
     if (!user) {
       onClose();
       document.dispatchEvent(new CustomEvent("open-signin-modal"));
@@ -56,6 +65,8 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
 
     setLoading(true);
     setError(null);
+
+    const finalPrice = purchasePrice || selectedPrice;
 
     try {
       const response = await fetch(
@@ -67,11 +78,12 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
             Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
           },
           body: JSON.stringify({
-            appId: app.id,
-            appName: app.name,
-            price: price,
+            appId: bundleId || app.id,
+            appName: bundleId ? bundleInfo?.name : app.name,
+            price: finalPrice,
             userId: user.id,
             userEmail: user.email,
+            isBundle: !!bundleId,
           }),
         },
       );
@@ -147,6 +159,44 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
                 </div>
               </div>
 
+              {bundleInfo && (
+                <div className="p-6 bg-gray-800/50 border-b border-gray-700">
+                  <div className="flex items-center justify-center gap-4">
+                    <button
+                      onClick={() => {
+                        setIsBundle(false);
+                        setSelectedPrice(app.price || 97);
+                      }}
+                      className={`px-6 py-3 rounded-lg border-2 transition-all ${
+                        !isBundle
+                          ? "border-primary-500 bg-primary-500/20 text-white"
+                          : "border-gray-600 text-gray-400 hover:border-gray-500"
+                      }`}
+                    >
+                      <div className="font-bold">Single App</div>
+                      <div className="text-sm">${app.price || 97}</div>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setIsBundle(true);
+                        setSelectedPrice(bundleInfo.price);
+                      }}
+                      className={`px-6 py-3 rounded-lg border-2 transition-all ${
+                        isBundle
+                          ? "border-primary-500 bg-primary-500/20 text-white"
+                          : "border-gray-600 text-gray-400 hover:border-gray-500"
+                      }`}
+                    >
+                      <div className="font-bold">Bundle Deal</div>
+                      <div className="text-sm">${bundleInfo.price}</div>
+                    </button>
+                  </div>
+                  <div className="text-center text-gray-400 text-sm mt-2">
+                    Get all {bundleInfo.appIds?.length || 0} apps - Save ${97 * (bundleInfo.appIds?.length || 0) - bundleInfo.price}
+                  </div>
+                </div>
+              )}
+
               <div className="p-8">
                 <div className="bg-gradient-to-br from-primary-900/40 to-primary-700/40 border border-primary-500/30 rounded-xl p-6 mb-6">
                   <div className="flex items-baseline justify-between mb-4">
@@ -156,7 +206,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
                       </span>
                       <div className="flex items-baseline gap-2">
                         <span className="text-5xl font-bold text-white">
-                          ${price}
+                          ${selectedPrice}
                         </span>
                         <span className="text-gray-400 text-lg">USD</span>
                       </div>
@@ -174,7 +224,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
                   </div>
 
                   <button
-                    onClick={handlePurchase}
+                    onClick={() => handlePurchase(selectedPrice, isBundle ? bundleInfo?.id : undefined)}
                     disabled={loading}
                     className="w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold py-4 px-6 rounded-lg shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >

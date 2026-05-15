@@ -36,6 +36,7 @@ import usePurchases from "../hooks/usePurchases";
 import PurchaseModal from "../components/PurchaseModal";
 import { getThumbnailUrl } from "../config/appUrls";
 import { useApps } from "../hooks/useApps";
+import { getBundleForApp } from "../data/appsData";
 
 // Tool categories mapped to database categories
 const categories = [
@@ -768,6 +769,7 @@ const ToolsHubPage: React.FC = () => {
             setSelectedApp(null);
           }}
           app={selectedApp}
+          bundleInfo={getBundleForApp(selectedApp.id)}
         />
       )}
 

@@ -10,31 +10,31 @@ export interface AppSalesData {
 }
 
 export const appSalesCopy: AppSalesData = {
-  'video-creator': {
+  'youtube-repurposer-ai': {
     tonality: 'Steve Jobs',
     whatItDoes: 'Transforms simple text prompts and keywords into professional, cinematic videos with AI-powered editing and storytelling.',
     howItMakesMoney: 'Local businesses can charge $800-2500 per custom video for clients like restaurants, salons, and retail stores needing high-quality promotional content.',
     whyBusinessesNeedIt: 'In a world where video is the language of connection, this tool gives you the power to create revolutionary marketing that turns viewers into loyal customers. Think different—your competitors are still using static images.'
   },
-  'promo-generator': {
+  'podcast-creator-ai': {
     tonality: 'Hemingway',
     whatItDoes: 'Creates promotional videos from product descriptions and target keywords.',
     howItMakesMoney: 'Charge local businesses $400-1200 for short promotional videos that highlight services and drive bookings.',
-    whyBusinessesNeedIt: 'Videos sell. This makes them fast. Businesses need sales. Use it.'
+    whyBusinessesNeedIt: 'Videos sell. This makes them fast. No skills needed. Businesses create. Customers buy.'
   },
-  'video-ai-editor': {
+  'ai-video-script-producer': {
     tonality: 'Steve Jobs',
     whatItDoes: 'Intelligently edits raw footage using AI to create polished, engaging videos with automatic cuts, transitions, and effects.',
     howItMakesMoney: 'Offer video editing services for $600-1800 per project, targeting local events, weddings, and business testimonials.',
     whyBusinessesNeedIt: 'Raw footage is chaos. This tool brings order and beauty. It\'s the future of storytelling—simple, powerful, and accessible to everyone willing to change how they connect with audiences.'
   },
-  'text-to-speech': {
+  'ai-music-jingle-assistant': {
     tonality: 'Hemingway',
     whatItDoes: 'Converts written text into natural-sounding voice narration for videos and presentations.',
     howItMakesMoney: 'Sell voiceover services for $200-800 per script, perfect for local podcasts, training videos, and marketing spots.',
     whyBusinessesNeedIt: 'Voice matters. This gives professional narration without studio costs. Businesses need it for videos that talk to customers.'
   },
-  'niche-script': {
+  'ai-news-content-writer': {
     tonality: 'Steve Jobs',
     whatItDoes: 'Generates targeted video scripts tailored to specific niches and audiences using AI analysis of market trends.',
     howItMakesMoney: 'Create and sell niche-specific video scripts for $300-1000 each, helping local businesses in industries like real estate, healthcare, and fitness.',
