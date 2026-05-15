@@ -1,5 +1,10 @@
-import React, { lazy, Suspense, ComponentType } from "react";
+import React, { lazy, Suspense, ComponentType, useMemo } from "react";
 import { Sparkles } from "lucide-react";
+
+// Fallback component for missing icons
+const FallbackIcon: React.FC<{ className?: string; size?: number }> = ({ className = "h-6 w-6", size }) => (
+  <Sparkles className={className} size={size} />
+);
 
 // Icon mapping with lazy loading
 const iconMap: Record<string, () => Promise<{ default: ComponentType<any> }>> =
@@ -138,12 +143,16 @@ const LazyIcon: React.FC<LazyIconProps> = ({
   // Defensive: Ensure name is a string, not an object
   const iconName = typeof name === "string" ? name : "sparkles";
 
-  const IconComponent = React.lazy(
-    iconMap[iconName] || (() => Promise.resolve({ default: Sparkles })),
-  );
+  // Get the icon loader or use fallback - memoized to prevent re-creating lazy component
+  const iconLoader = useMemo(() => {
+    return iconMap[iconName] || (() => Promise.resolve({ default: FallbackIcon }));
+  }, [iconName]);
+
+  // Create lazy component - memoized to prevent recreation on every render
+  const IconComponent = useMemo(() => React.lazy(iconLoader), [iconLoader]);
 
   return (
-    <Suspense fallback={<Sparkles className={className} size={size} />}>
+    <Suspense fallback={<FallbackIcon className={className} size={size} />}>
       <IconComponent className={className} size={size} />
     </Suspense>
   );

@@ -71,7 +71,48 @@ export const safeTransform = (dbApp: Partial<DatabaseApp>): ComponentApp | null 
 
 // Get icon name for app (used by LazyIcon component)
 export const getIconNameForApp = (app: DatabaseApp): string => {
-  return app.category || "ai";
+  // Map category to icon name - ensure we return a valid icon key
+  const categoryToIcon: Record<string, string> = {
+    // Category -> Icon mapping
+    "ai": "sparkles",
+    "ai-personalized-content": "ai-personalized-content",
+    "ai-referral-maximizer": "ai-referral-maximizer",
+    "ai-sales-maximizer": "ai-sales-maximizer",
+    "ai-screen-recorder": "ai-screen-recorder",
+    "smart-crm-closer": "smart-crm-closer",
+    "video-ai-editor": "video-ai-editor",
+    "ai-video-image": "ai-video-image",
+    "ai-skills-monetizer": "ai-skills-monetizer",
+    "ai-signature": "ai-signature",
+    "ai-template-generator": "ai-template-generator",
+    "funnelcraft-ai": "funnelcraft-ai",
+    "interactive-shopping": "interactive-shopping",
+    "personalizer-ai-profile-generator": "personalizer-ai-profile-generator",
+    "personalizer-ai-video-image-transformer": "personalizer-ai-video-image-transformer",
+    "personalizer-url-video-generation": "personalizer-url-video-generation",
+    "ai-proposal": "ai-proposal",
+    "sales-assistant-app": "sales-assistant-app",
+    "sales-page-builder": "sales-page-builder",
+    // Legacy categories
+    "sales-lead-gen": "sales-lead-gen",
+    "content-marketing": "content-marketing",
+    "video-audio-voice": "video-audio-voice",
+    "rag-knowledgebase": "rag-knowledgebase",
+    "realestate-local": "realestate-local",
+    "hr-hiring": "hr-hiring",
+    "finance-business": "finance-business",
+    "legal-compliance": "legal-compliance",
+    "coding-developer": "coding-developer",
+    "design-uiux": "design-uiux",
+    "research-education": "research-education",
+    "productivity-personal": "productivity-personal",
+  };
+
+  const category = app.category?.toLowerCase() || "";
+  const iconName = categoryToIcon[category] || category || "sparkles";
+
+  // Ensure the icon exists in our map, otherwise use fallback
+  return iconName;
 };
 
 // Validate that an active app has a verified launch target
