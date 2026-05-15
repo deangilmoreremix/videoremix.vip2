@@ -1,5 +1,5 @@
 [build]
-  command = "rm -rf node_modules/.cache command = "npm install --include=dev --legacy-peer-deps && npm run build"command = "npm install --include=dev --legacy-peer-deps && npm run build" npm install --include=dev --legacy-peer-deps command = "npm install --include=dev --legacy-peer-deps && npm run build"command = "npm install --include=dev --legacy-peer-deps && npm run build" npm run build"
+  command = "npm install --include=dev --legacy-peer-deps && npm run build"
   publish = "dist"
 
 [build.environment]
@@ -76,4 +76,3 @@
     Cache-Control = "no-cache, no-store, must-revalidate"
     Pragma = "no-cache"
     Expires = "0"
-# Cache clear trigger - Force redeploy v11
