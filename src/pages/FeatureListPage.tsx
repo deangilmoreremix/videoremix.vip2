@@ -11,8 +11,21 @@ import {
   Search,
   X,
   Check,
+  TrendingUp,
 } from "lucide-react";
+import LazyIcon from "../components/LazyIcon";
 import MagicSparkles from "../components/MagicSparkles";
+
+// Map for additional features that are Lucide slugs (from featuresData ≠ iconName)
+const iconMap: Record<string, string> = {
+  "video": "video",
+  "wand-2": "wand-2",
+  "layout-template": "layout-template",
+  "pencil-ruler": "pencil-ruler",
+  "globe": "globe",
+  "users": "users",
+  "trending-up": "trending-up",
+};
 
 // Additional features not covered in featuresData
 const additionalFeatures = [
@@ -145,7 +158,7 @@ const getAllFeatures = () => {
     id: feature.id,
     title: feature.title,
     shortDescription: feature.shortDescription,
-    icon: feature.icon,
+    iconName: feature.iconName,
     image: feature.image,
     category: feature.id.includes("ai")
       ? "ai"
@@ -171,6 +184,21 @@ const FeatureListPage: React.FC = () => {
   const [filteredFeatures, setFilteredFeatures] = useState<any[]>([]);
   const [allFeatures] = useState(getAllFeatures());
   const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
+
+  // Render a feature icon (supports iconName strings, emoji strings, and null)
+  const renderFeatureIcon = (
+    iconName?: string,
+    icon?: string,
+    className?: string,
+  ): React.ReactNode => {
+    if (iconName) {
+      return <LazyIcon name={iconName} className={className || "h-5 w-5"} />;
+    }
+    if (icon) {
+      return null; // emoji handled by parent context — callers append String(icon)
+    }
+    return <Sparkles className={className || "h-4 w-4"} />;
+  };
 
   useEffect(() => {
     // Filter features based on category and search query
@@ -341,7 +369,14 @@ const FeatureListPage: React.FC = () => {
 
                         {/* Icon overlay */}
                         <div className="absolute top-4 left-4 z-20 bg-black/40 backdrop-blur-sm p-2 rounded-lg">
-                          <div className="text-primary-400">{feature.icon}</div>
+                          <div className="text-primary-400">
+                            {feature.iconName
+                              ? <LazyIcon name={feature.iconName} className="h-5 w-5" />
+                              : feature.icon && typeof feature.icon === "string"
+                                ? String(feature.icon)
+                                : <Sparkles className="h-4 w-4" />
+                            }
+                          </div>
                         </div>
                       </div>
                     ) : (
@@ -351,11 +386,11 @@ const FeatureListPage: React.FC = () => {
                         {/* Centered icon for features without images */}
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="text-primary-400 text-6xl">
-                            {typeof feature.icon === "string" ? (
-                              feature.icon
-                            ) : feature.icon ? (
-                              feature.icon
-                            ) : (
+                            {feature.iconName
+                              ? <LazyIcon name={feature.iconName} />
+                              : feature.icon
+                              }
+                            {!feature.iconName && !feature.icon && (
                               <Sparkles className="h-16 w-16" />
                             )}
                           </div>
