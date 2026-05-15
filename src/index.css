@@ -147,10 +147,8 @@
 }
 
 .text-gradient {
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  background-image: linear-gradient(to right, #4f46e5, #ec4899);
+  color: #4f46e5;
+  font-weight: 600;
 }
 
 /* Enhanced scrollbars */

@@ -20,6 +20,7 @@ import TypedText from './TypedText';
 import TextReveal from './TextReveal';
 import FloatingIcon from './FloatingIcon';
 import SEO from '../SEO';
+import BundleShowcaseSection from './BundleShowcaseSection';
 import { Sparkles, Award, Clock, Shield, Star, CheckCircle, TrendingUp, BarChart3, Users, DollarSign } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -40,15 +41,14 @@ const FAQSection = lazy(() => import('../FAQSection'));
 const FinalCTA = lazy(() => import('../FinalCTA'));
 
 const SectionLoader = () => (
-  <div className="flex justify-center items-center py-20 text-white">
-    <div className="relative">
-      <div className="w-16 h-16 border-t-4 border-primary-500 border-solid rounded-full animate-spin"></div>
-      <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-xs text-primary-500 font-medium">Loading</span>
+    <div className="flex flex-col items-center justify-center py-24 px-4">
+      <div className="relative w-20 h-20 mb-4">
+        <div className="absolute inset-0 border-t-4 border-primary-500 border-solid rounded-full animate-spin"></div>
+        <div className="absolute inset-2 border-b-4 border-accent-500 border-solid rounded-full animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}></div>
       </div>
+      <span className="text-sm text-primary-400 font-medium">Loading section...</span>
     </div>
-  </div>
-);
+  );
 
 const LandingPage: React.FC = () => {
   return (
@@ -169,6 +169,9 @@ const LandingPage: React.FC = () => {
       <Suspense fallback={<SectionLoader />}>
         <AppGallerySection />
       </Suspense>
+
+      {/* 12. Bundle Showcase - NEW SECTION */}
+      <BundleShowcaseSection />
 
       {/* 12. Scannable Features - premium */}
       <section className="py-20 bg-gray-900">
