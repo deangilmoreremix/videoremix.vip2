@@ -7,7 +7,6 @@ export interface DatabaseApp {
   description: string;
   category: string;
   image?: string;
-  icon?: string;
   netlify_url?: string;
   custom_domain?: string;
   is_active: boolean;
@@ -16,6 +15,7 @@ export interface DatabaseApp {
   popular?: boolean;
   new?: boolean;
   coming_soon?: boolean;
+  is_new?: boolean;  // alternate name used in some DB records
   price?: number;
   sort_order: number;
   created_at: string;
@@ -38,10 +38,40 @@ export interface ComponentApp {
   price?: number;
 }
 
+// Validate that all required fields are present and non-empty
+export const isValidAppData = (dbApp: Partial<DatabaseApp>): dbApp is DatabaseApp => {
+  const required: (keyof DatabaseApp)[] = [
+    "id", "name", "slug", "description", "category",
+    "is_active", "is_featured", "is_public",
+    "sort_order", "created_at", "updated_at",
+  ];
+  return required.every(
+    (key) => dbApp[key] !== undefined && dbApp[key] !== null && String(dbApp[key]!).trim() !== ""
+  );
+};
+
+// Safe transform that never throws — returns null for invalid data
+export const safeTransform = (dbApp: Partial<DatabaseApp>): ComponentApp | null => {
+  if (!isValidAppData(dbApp)) {
+    console.warn("[transformApp] Skipping invalid app record (missing required fields):", {
+      id: dbApp.id,
+      name: dbApp.name,
+      slug: dbApp.slug,
+    });
+    return null;
+  }
+
+  try {
+    return transformApp(dbApp as DatabaseApp);
+  } catch (err) {
+    console.warn("[transformApp] Failed to transform app:", dbApp.id, err);
+    return null;
+  }
+};
+
 // Get icon name for app (used by LazyIcon component)
 export const getIconNameForApp = (app: DatabaseApp): string => {
-  // Check specific app slug first, then fall back to category
-  return app.slug || app.category || "ai";
+  return app.category || "ai";
 };
 
 // Validate that an active app has a verified launch target

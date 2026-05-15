@@ -44,37 +44,37 @@ export const enhancedAppDetails: Record<string, any> = {
         title: "AI-Powered Advocate Identification",
         description:
           "Machine learning algorithms identify your most influential customers and predict who is most likely to refer successfully.",
-        icon: React.createElement(Target),
+        iconName: "target",
       },
       {
         title: "Automated Incentive Optimization",
         description:
           "Dynamically adjust rewards based on customer behavior and referral success rates to maximize ROI.",
-        icon: React.createElement(TrendingUp),
+        iconName: "trending-up",
       },
       {
         title: "Personalized Outreach Campaigns",
         description:
           "Generate custom referral messages for each advocate based on their communication preferences and relationship history.",
-        icon: React.createElement(Users),
+        iconName: "users",
       },
       {
         title: "Real-Time Analytics Dashboard",
         description:
           "Monitor referral performance, track conversion rates, and measure program ROI with comprehensive analytics.",
-        icon: React.createElement(BarChart2),
+        iconName: "bar-chart-2",
       },
       {
         title: "Multi-Channel Distribution",
         description:
           "Enable referrals across email, SMS, social media, and custom landing pages for maximum reach.",
-        icon: React.createElement(Share2),
+        iconName: "share-2",
       },
       {
         title: "Fraud Detection System",
         description:
           "AI-powered fraud detection ensures program integrity by identifying suspicious referral patterns.",
-        icon: React.createElement(Award),
+        iconName: "award",
       },
     ],
     steps: [
@@ -194,37 +194,37 @@ export const enhancedAppDetails: Record<string, any> = {
         title: "AI Lead Scoring",
         description:
           "Machine learning models analyze engagement patterns and behavioral data to score and prioritize leads automatically.",
-        icon: React.createElement(Target),
+        iconName: "target",
       },
       {
         title: "Smart Follow-Up Automation",
         description:
           "AI generates personalized follow-up emails and schedules optimal send times based on prospect behavior.",
-        icon: React.createElement(Clock),
+        iconName: "clock",
       },
       {
         title: "Deal Health Monitoring",
         description:
           "Real-time analysis of deal progress with predictive insights on which deals need attention.",
-        icon: React.createElement(TrendingUp),
+        iconName: "trending-up",
       },
       {
         title: "Sales Playbook Automation",
         description:
           "Automated execution of your sales playbooks with AI-powered recommendations at each stage.",
-        icon: React.createElement(Layers),
+        iconName: "layers",
       },
       {
         title: "Pipeline Intelligence",
         description:
           "Visualize your pipeline with AI predictions on close dates, deal values, and required actions.",
-        icon: React.createElement(BarChart2),
+        iconName: "bar-chart-2",
       },
       {
         title: "Activity Recommendations",
         description:
           "Get AI-driven suggestions on the next best action for each prospect to move deals forward.",
-        icon: React.createElement(Sparkles),
+        iconName: "sparkles",
       },
     ],
     steps: [
@@ -344,37 +344,37 @@ export const enhancedAppDetails: Record<string, any> = {
         title: "Smart Scene Detection",
         description:
           "AI analyzes your footage and automatically identifies optimal cut points, eliminating filler content and awkward pauses.",
-        icon: React.createElement(Video),
+        iconName: "video",
       },
       {
         title: "Automatic Color Grading",
         description:
           "Professional color correction applied instantly based on lighting conditions and scene context.",
-        icon: React.createElement(Sparkles),
+        iconName: "sparkles",
       },
       {
         title: "AI Audio Enhancement",
         description:
           "Automatically remove background noise, balance audio levels, and enhance voice clarity.",
-        icon: React.createElement(Mic),
+        iconName: "mic",
       },
       {
         title: "Intelligent B-Roll Matching",
         description:
           "AI suggests and places relevant B-roll footage based on your script or narration.",
-        icon: React.createElement(Layers),
+        iconName: "layers",
       },
       {
         title: "Smart Transitions",
         description:
           "Automatically apply professional transitions between scenes that match your video style.",
-        icon: React.createElement(Zap),
+        iconName: "zap",
       },
       {
         title: "Multi-Format Export",
         description:
           "Export optimized versions for YouTube, Instagram, TikTok, LinkedIn, and more with one click.",
-        icon: React.createElement(Share2),
+        iconName: "share-2",
       },
     ],
     steps: [
@@ -488,37 +488,37 @@ export const enhancedAppDetails: Record<string, any> = {
         title: "AI Course Builder",
         description:
           "Input your expertise area and AI generates a complete course outline with lessons, activities, and assessments.",
-        icon: React.createElement(Layers),
+        iconName: "layers",
       },
       {
         title: "Smart Pricing Engine",
         description:
           "AI analyzes market data and competitor pricing to recommend optimal rates for your services.",
-        icon: React.createElement(DollarSign),
+        iconName: "dollar-sign",
       },
       {
         title: "Content Creation Assistant",
         description:
           "Generate lesson scripts, worksheets, and marketing materials with AI-powered content creation tools.",
-        icon: React.createElement(FileText),
+        iconName: "file-text",
       },
       {
         title: "Automated Marketing",
         description:
           "AI creates email sequences, social media content, and ad copy tailored to your target audience.",
-        icon: React.createElement(Megaphone),
+        iconName: "megaphone",
       },
       {
         title: "Sales Funnel Builder",
         description:
           "Pre-built funnel templates optimized by AI for maximum conversion rates.",
-        icon: React.createElement(TrendingUp),
+        iconName: "trending-up",
       },
       {
         title: "Client Management",
         description:
           "Integrated scheduling, payment processing, and client communication tools.",
-        icon: React.createElement(Users),
+        iconName: "users",
       },
     ],
     steps: [
@@ -637,37 +637,37 @@ export const enhancedAppDetails: Record<string, any> = {
         title: "AI Template Design",
         description:
           "Describe what you need and AI generates professional template designs based on best practices and your brand guidelines.",
-        icon: React.createElement(LayoutTemplate),
+        iconName: "layout-template",
       },
       {
         title: "Brand Style Sync",
         description:
           "Automatically apply your brand colors, fonts, and design elements across all templates.",
-        icon: React.createElement(Palette),
+        iconName: "palette",
       },
       {
         title: "Multi-Purpose Templates",
         description:
           "Create templates for presentations, documents, social media, marketing materials, and more.",
-        icon: React.createElement(Layers),
+        iconName: "layers",
       },
       {
         title: "Smart Content Blocks",
         description:
           "Pre-designed content blocks that automatically adapt to your template structure.",
-        icon: React.createElement(Package),
+        iconName: "package",
       },
       {
         title: "Template Library",
         description:
           "Save and organize your custom templates for easy reuse across projects.",
-        icon: React.createElement(Database),
+        iconName: "database",
       },
       {
         title: "Collaboration Tools",
         description:
           "Share templates with your team and maintain version control automatically.",
-        icon: React.createElement(Users),
+        iconName: "users",
       },
     ],
     steps: [
@@ -780,37 +780,37 @@ export const enhancedAppDetails: Record<string, any> = {
         title: "AI Funnel Architect",
         description:
           "Input your offer and target audience, AI generates optimized funnel structures based on industry best practices.",
-        icon: React.createElement(BarChart2),
+        iconName: "bar-chart-2",
       },
       {
         title: "Smart Page Builder",
         description:
           "Drag-and-drop builder with AI-recommended layouts and copy for maximum conversion.",
-        icon: React.createElement(Layers),
+        iconName: "layers",
       },
       {
         title: "Automated A/B Testing",
         description:
           "AI continuously tests variations and automatically allocates traffic to winning versions.",
-        icon: React.createElement(TrendingUp),
+        iconName: "trending-up",
       },
       {
         title: "Conversion Optimization",
         description:
           "Real-time AI suggestions to improve funnel performance based on user behavior.",
-        icon: React.createElement(Target),
+        iconName: "target",
       },
       {
         title: "Email Sequences",
         description:
           "Automated email follow-ups with AI-generated content that nurtures leads.",
-        icon: React.createElement(Megaphone),
+        iconName: "megaphone",
       },
       {
         title: "Analytics Dashboard",
         description:
           "Track every metric that matters with AI-powered insights and recommendations.",
-        icon: React.createElement(BarChart2),
+        iconName: "bar-chart-2",
       },
     ],
     steps: [
@@ -928,37 +928,37 @@ export const enhancedAppDetails: Record<string, any> = {
         title: "Shoppable Video Creator",
         description:
           "Add clickable product tags to videos, allowing customers to purchase without leaving the content.",
-        icon: React.createElement(Video),
+        iconName: "video",
       },
       {
         title: "Interactive Product Tours",
         description:
           "Create 360-degree product views and interactive demonstrations that showcase features.",
-        icon: React.createElement(Zap),
+        iconName: "zap",
       },
       {
         title: "AI Product Recommendations",
         description:
           "Smart recommendations based on browsing behavior and shopping patterns.",
-        icon: React.createElement(Sparkles),
+        iconName: "sparkles",
       },
       {
         title: "Virtual Try-On",
         description:
           "AR-powered try-on features for fashion, accessories, and home decor products.",
-        icon: React.createElement(Camera),
+        iconName: "camera",
       },
       {
         title: "Live Shopping Events",
         description:
           "Host interactive live shopping sessions with real-time product showcases.",
-        icon: React.createElement(Users),
+        iconName: "users",
       },
       {
         title: "Seamless Checkout",
         description:
           "One-click checkout directly from interactive experiences.",
-        icon: React.createElement(ShoppingBag),
+        iconName: "shopping-bag",
       },
     ],
     steps: [

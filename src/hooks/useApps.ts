@@ -1,16 +1,17 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../utils/supabaseClient";
-import { transformApp, ComponentApp } from "../utils/appTransformers";
+import { transformApp, safeTransform, isValidAppData, ComponentApp } from "../utils/appTransformers";
 import { appConfig } from "../config/appConfig";
 
 // Cache configuration
 const APPS_CACHE_KEY = "videoremix_apps_cache";
 const APPS_CACHE_TTL = appConfig.CACHE.APPS_TTL;
+const APPS_CACHE_VERSION = "2";
 
 interface CacheData {
   data: ComponentApp[];
   timestamp: number;
-  lastModified: string; // ISO timestamp of last server modification
+  version: string;
 }
 
 // Cache utility functions
@@ -35,12 +36,12 @@ const getCachedApps = (): ComponentApp[] | null => {
   }
 };
 
-const setCachedApps = (apps: ComponentApp[], lastModified: string): void => {
+const setCachedApps = (apps: ComponentApp[]): void => {
   try {
     const cacheData: CacheData = {
       data: apps,
       timestamp: Date.now(),
-      lastModified,
+      version: APPS_CACHE_VERSION,
     };
 
     const cacheString = JSON.stringify(cacheData);
@@ -123,17 +124,27 @@ export const useApps = () => {
       }
 
       if (data) {
-        const transformedApps = data.map(transformApp);
-        setApps(transformedApps);
+        // Validate data is an array before processing
+        if (!Array.isArray(data)) {
+          console.error("[useApps] Expected array from Supabase but got:", typeof data);
+          setApps([]);
+          setLoading(false);
+          return;
+        }
 
-        // Get the latest modification timestamp for caching
-        const latestModified = data.reduce(
-          (latest, app) => (app.updated_at > latest ? app.updated_at : latest),
-          data[0]?.updated_at || new Date().toISOString(),
-        );
+        // Filter for valid records first, then safely transform
+        const transformedApps = data
+          .filter(isValidAppData)
+          .map(safeTransform)
+          .filter((app): app is ComponentApp => app !== null);
 
-        // Cache the transformed data with modification timestamp
-        setCachedApps(transformedApps, latestModified);
+        if (transformedApps.length > 0) {
+          setApps(transformedApps);
+          setCachedApps(transformedApps);
+        } else {
+          console.warn("[useApps] No valid apps after filtering/transformation");
+          setApps([]);
+        }
       }
     } catch (err) {
       console.error("Error fetching apps:", err);

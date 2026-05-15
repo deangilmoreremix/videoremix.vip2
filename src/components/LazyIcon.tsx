@@ -4,7 +4,42 @@ import { Sparkles } from "lucide-react";
 // Icon mapping with lazy loading
 const iconMap: Record<string, () => Promise<{ default: ComponentType<any> }>> =
   {
-    // Categories - New 12 categories
+    // App icons from appsData.ts
+    "bar-chart-2": () => import("lucide-react").then((m) => ({ default: m.BarChart2 })),
+    "book-open": () => import("lucide-react").then((m) => ({ default: m.BookOpen })),
+    "briefcase": () => import("lucide-react").then((m) => ({ default: m.Briefcase })),
+    "code": () => import("lucide-react").then((m) => ({ default: m.Code })),
+    "database": () => import("lucide-react").then((m) => ({ default: m.Database })),
+    "dollar-sign": () => import("lucide-react").then((m) => ({ default: m.DollarSign })),
+    "edit": () => import("lucide-react").then((m) => ({ default: m.Edit })),
+    "file-signature": () => import("lucide-react").then((m) => ({ default: m.Ligature })),
+    "file-text": () => import("lucide-react").then((m) => ({ default: m.FileText })),
+    "globe": () => import("lucide-react").then((m) => ({ default: m.Globe })),
+    "home": () => import("lucide-react").then((m) => ({ default: m.Home })),
+    "image-icon": () => import("lucide-react").then((m) => ({ default: m.Image })),
+    "layers": () => import("lucide-react").then((m) => ({ default: m.Layers })),
+    "layout-template": () => import("lucide-react").then((m) => ({ default: m.LayoutTemplate })),
+    "mail": () => import("lucide-react").then((m) => ({ default: m.Mail })),
+    "map-pin": () => import("lucide-react").then((m) => ({ default: m.MapPin })),
+    "megaphone": () => import("lucide-react").then((m) => ({ default: m.Megaphone })),
+    "message-square": () => import("lucide-react").then((m) => ({ default: m.MessageSquare })),
+    "mic": () => import("lucide-react").then((m) => ({ default: m.Mic })),
+    "monitor": () => import("lucide-react").then((m) => ({ default: m.Monitor })),
+    "palette": () => import("lucide-react").then((m) => ({ default: m.Palette })),
+    "panel-top": () => import("lucide-react").then((m) => ({ default: m.PanelTop })),
+    "plane": () => import("lucide-react").then((m) => ({ default: m.Plane })),
+    "radio": () => import("lucide-react").then((m) => ({ default: m.Radio })),
+    "rocket": () => import("lucide-react").then((m) => ({ default: m.Rocket })),
+    "search": () => import("lucide-react").then((m) => ({ default: m.Search })),
+    "settings": () => import("lucide-react").then((m) => ({ default: m.Settings })),
+    "shield": () => import("lucide-react").then((m) => ({ default: m.Shield })),
+    "sparkles": () => import("lucide-react").then((m) => ({ default: m.Sparkles })),
+    "trending-up": () => import("lucide-react").then((m) => ({ default: m.TrendingUp })),
+    "user-check": () => import("lucide-react").then((m) => ({ default: m.UserCheck })),
+    "user-circle": () => import("lucide-react").then((m) => ({ default: m.UserCircle })),
+    "video": () => import("lucide-react").then((m) => ({ default: m.Video })),
+    
+    // Legacy categories (kept for backward compatibility)
     "sales-lead-gen": () => import("lucide-react").then((m) => ({ default: m.BarChart2 })),
     "content-marketing": () => import("lucide-react").then((m) => ({ default: m.FileText })),
     "video-audio-voice": () => import("lucide-react").then((m) => ({ default: m.Video })),
@@ -18,29 +53,12 @@ const iconMap: Record<string, () => Promise<{ default: ComponentType<any> }>> =
     "research-education": () => import("lucide-react").then((m) => ({ default: m.Search })),
     "productivity-personal": () => import("lucide-react").then((m) => ({ default: m.UserCircle })),
     
-    // Legacy categories (kept for backward compatibility)
-    video: () => import("lucide-react").then((m) => ({ default: m.Video })),
-    "lead-gen": () =>
-      import("lucide-react").then((m) => ({ default: m.Users })),
-    "ai-image": () =>
-      import("lucide-react").then((m) => ({ default: m.Image })),
-    branding: () =>
-      import("lucide-react").then((m) => ({ default: m.Palette })),
-    personalizer: () =>
-      import("lucide-react").then((m) => ({ default: m.UserCircle })),
-    creative: () =>
-      import("lucide-react").then((m) => ({ default: m.Package })),
-    content: () =>
-      import("lucide-react").then((m) => ({ default: m.Sparkles })),
-    visual: () => import("lucide-react").then((m) => ({ default: m.Image })),
-    sales: () => import("lucide-react").then((m) => ({ default: m.BarChart2 })),
-    page: () => import("lucide-react").then((m) => ({ default: m.PanelTop })),
-    client: () =>
-      import("lucide-react").then((m) => ({ default: m.UserCheck })),
-    communication: () =>
-      import("lucide-react").then((m) => ({ default: m.MessageSquare })),
-    ai: () => import("lucide-react").then((m) => ({ default: m.Sparkles })),
-
+    // Feature icons from featuresData.ts
+    "wand-2": () => import("lucide-react").then((m) => ({ default: m.Wand2 })),
+    "clock": () => import("lucide-react").then((m) => ({ default: m.Clock })),
+    "layout-template": () => import("lucide-react").then((m) => ({ default: m.LayoutTemplate })),
+    "pencil-ruler": () => import("lucide-react").then((m) => ({ default: m.PencilRuler })),
+    
     // Specific apps
     "ai-personalized-content": () =>
       import("lucide-react").then((m) => ({ default: m.Sparkles })),

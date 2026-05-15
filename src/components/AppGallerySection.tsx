@@ -58,67 +58,67 @@ const toolCategories = [
   {
     id: "all",
     label: "All Apps",
-    icon: React.createElement(Layers, { className: "w-4 h-4" }),
+    iconName: "layers",
   },
   {
     id: "sales-lead-gen",
     label: "Sales & Lead Gen",
-    icon: React.createElement(TrendingUp, { className: "w-4 h-4" }),
+    iconName: "trending-up",
   },
   {
     id: "content-marketing",
     label: "Content & Marketing",
-    icon: React.createElement(FileText, { className: "w-4 h-4" }),
+    iconName: "file-text",
   },
   {
     id: "video-audio-voice",
     label: "Video, Audio & Voice",
-    icon: React.createElement(Video, { className: "w-4 h-4" }),
+    iconName: "video",
   },
   {
     id: "rag-knowledgebase",
     label: "RAG & Knowledgebase",
-    icon: React.createElement(Database, { className: "w-4 h-4" }),
+    iconName: "database",
   },
   {
     id: "realestate-local",
     label: "Real Estate & Local",
-    icon: React.createElement(Home, { className: "w-4 h-4" }),
+    iconName: "home",
   },
   {
     id: "hr-hiring",
     label: "HR & Hiring",
-    icon: React.createElement(UserCheck, { className: "w-4 h-4" }),
+    iconName: "user-check",
   },
   {
     id: "finance-business",
     label: "Finance & Business",
-    icon: React.createElement(DollarSign, { className: "w-4 h-4" }),
+    iconName: "dollar-sign",
   },
   {
     id: "legal-compliance",
     label: "Legal & Compliance",
-    icon: React.createElement(Shield, { className: "w-4 h-4" }),
+    iconName: "shield",
   },
   {
     id: "coding-developer",
     label: "Coding & SaaS",
-    icon: React.createElement(Settings, { className: "w-4 h-4" }),
+    iconName: "settings",
   },
   {
     id: "design-uiux",
     label: "Design & UI/UX",
-    icon: React.createElement(Palette, { className: "w-4 h-4" }),
+    iconName: "palette",
   },
   {
     id: "research-education",
     label: "Research & Training",
-    icon: React.createElement(Search, { className: "w-4 h-4" }),
+    iconName: "search",
   },
   {
     id: "productivity-personal",
     label: "Productivity & Personal",
-    icon: React.createElement(UserCircle, { className: "w-4 h-4" }),
+    iconName: "user-circle",
   },
 ];
 

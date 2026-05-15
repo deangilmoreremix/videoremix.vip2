@@ -64,7 +64,7 @@ const AIEditingPage: React.FC = () => {
           title={feature.title}
           description={feature.description}
           image={feature.image}
-          icon={React.createElement(Wand2)}
+          iconName="wand-2"
           videoUrl={feature.videoUrl}
         />
 

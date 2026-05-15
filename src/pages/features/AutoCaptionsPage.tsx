@@ -58,7 +58,7 @@ const AutoCaptionsPage: React.FC = () => {
           title={feature.title}
           description={feature.description}
           image={feature.image}
-          icon={React.createElement(Globe)}
+          iconName="globe"
           videoUrl={feature.videoUrl}
         />
 

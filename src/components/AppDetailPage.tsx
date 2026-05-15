@@ -1268,37 +1268,37 @@ const AppDetailPage: React.FC = () => {
                     title: "AI-Powered Creation",
                     description:
                       "Create professional videos automatically with our advanced artificial intelligence technology",
-                    icon: React.createElement(Sparkles),
+                    iconName: "sparkles",
                   },
                   {
                     title: "Intuitive Interface",
                     description:
                       "Easy-to-use controls designed for non-technical users to create stunning videos",
-                    icon: React.createElement(Zap),
+                    iconName: "zap",
                   },
                   {
                     title: "Time-Saving Automation",
                     description:
                       "Reduce video production time by up to 90% with intelligent automation features",
-                    icon: React.createElement(Clock),
+                    iconName: "clock",
                   },
                   {
                     title: "Professional Templates",
                     description:
                       "Choose from hundreds of professionally designed templates for any purpose",
-                    icon: React.createElement(Award),
+                    iconName: "award",
                   },
                   {
                     title: "Multi-Platform Optimization",
                     description:
                       "Automatically format your videos for all major social media platforms",
-                    icon: React.createElement(Share2),
+                    iconName: "share-2",
                   },
                   {
                     title: "Collaboration Tools",
                     description:
                       "Work together with your team in real-time with powerful collaboration features",
-                    icon: React.createElement(Users),
+                    iconName: "users",
                   },
                   // @ts-expect-error
                 ]

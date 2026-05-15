@@ -20,6 +20,7 @@ import { getEnhancedAppData } from "../data/enhancedAppsData";
 import { getBundleForApp } from "../data/appsData";
 import PurchaseModal from "./PurchaseModal";
 import PersonalizerDialog from "./personalizer/PersonalizerDialog";
+import LazyIcon from "./LazyIcon";
 
 interface AppDetailModalProps {
   app: any;
@@ -269,7 +270,11 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
                             >
                               <div className="flex items-start gap-3">
                                 <div className="bg-primary-600 p-2 rounded-lg flex-shrink-0">
-                                  {feature.icon}
+                                  {feature.iconName ? (
+                                    <LazyIcon name={feature.iconName} className="h-5 w-5" />
+                                  ) : (
+                                    <Target className="h-5 w-5" />
+                                  )}
                                 </div>
                                 <div>
                                   <h4 className="text-white font-semibold mb-2">
