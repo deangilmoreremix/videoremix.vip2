@@ -38,11 +38,12 @@ interface User {
   email: string;
   first_name?: string;
   last_name?: string;
-  name?: string; // Keep for backward compatibility
+  name?: string;
   role: string;
   is_active: boolean;
   created_at: string;
-  last_login: string;
+  last_login?: string;
+  login_count?: number;
   app_access?: string[];
   app_count?: number;
 }
@@ -1401,7 +1402,12 @@ const AdminUsersManagement: React.FC = () => {
                     </span>
                     {user.last_login && (
                       <span className="text-xs text-gray-500">
-                        Last Login: {new Date(user.last_login).toLocaleDateString()}
+                        Last login: {new Date(user.last_login).toLocaleDateString()}
+                      </span>
+                    )}
+                    {user.login_count !== undefined && user.login_count > 0 && (
+                      <span className="text-xs text-gray-500">
+                        Logins: {user.login_count}
                       </span>
                     )}
                   </div>

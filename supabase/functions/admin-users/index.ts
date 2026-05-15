@@ -123,6 +123,7 @@ async function handleRequest(req: Request, supabase: any) {
       is_active: !user.banned_until,
       created_at: user.created_at,
       last_login: user.last_sign_in_at,
+      login_count: user.user_metadata?.login_count || 0,
       app_access: appAccessMap.get(user.id) || [],
       app_count: (appAccessMap.get(user.id) || []).length,
     }));
