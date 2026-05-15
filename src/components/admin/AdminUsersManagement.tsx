@@ -21,6 +21,7 @@ import {
   Package,
   Shield,
   FileText,
+  BarChart3,
 } from "lucide-react";
 import { supabase } from "../../utils/supabaseClient";
 import {
@@ -138,6 +139,9 @@ const AdminUsersManagement: React.FC = () => {
     // Modal search state
     const [appSearchQuery, setAppSearchQuery] = useState('');
 
+    // Bundle analytics state
+    const [bundleAnalytics, setBundleAnalytics] = useState<Record<string, { granted: number; total: number; rate: number }>>({});
+
     // Computed values
     const totalAppsCount = allApps.length;
     const filteredAvailableApps = useMemo(() => {
@@ -160,7 +164,24 @@ const AdminUsersManagement: React.FC = () => {
   useEffect(() => {
     fetchUsers();
     fetchAllApps();
-  }, []);
+    calculateBundleAnalytics();
+  }, [users]);
+
+  const calculateBundleAnalytics = () => {
+    const analytics: Record<string, { granted: number; total: number; rate: number }> = {};
+    bundles.forEach(bundle => {
+      const granted = users.filter(u => 
+        bundle.apps.every(app => u.app_access?.includes(app))
+      ).length;
+      const total = users.length;
+      analytics[bundle.id] = {
+        granted,
+        total,
+        rate: total > 0 ? Math.round((granted / total) * 100) : 0
+      };
+    });
+    setBundleAnalytics(analytics);
+  };
 
   const fetchAllApps = async () => {
     setLoadingAllApps(true);
@@ -1287,10 +1308,37 @@ const AdminUsersManagement: React.FC = () => {
             <Plus className="h-4 w-4 mr-2" />
             Add User
           </button>
-         </div>
-       </div>
+</div>
+        </div>
 
-       {/* Filters & Search Bar */}
+        {/* Bundle Analytics Section */}
+        {users.length > 0 && (
+          <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700 mb-6">
+            <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+              <BarChart3 className="h-4 w-4" />
+              Bundle Analytics
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {bundles.map((bundle) => {
+                const analytics = bundleAnalytics[bundle.id];
+                return (
+                  <div key={bundle.id} className="bg-gray-900/50 rounded-lg p-3 border border-gray-700">
+                    <div className="text-xs text-gray-400 mb-1">{bundle.name}</div>
+                    <div className="flex items-end gap-2">
+                      <span className="text-2xl font-bold text-white">{analytics?.granted || 0}</span>
+                      <span className="text-xs text-gray-400 mb-1">/{users.length} users</span>
+                    </div>
+                    <div className="text-xs text-gray-400 mt-1">
+                      {analytics?.rate || 0}% adoption
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Filters & Search Bar */}
        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
          <div className="relative flex-1 max-w-md">
            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
