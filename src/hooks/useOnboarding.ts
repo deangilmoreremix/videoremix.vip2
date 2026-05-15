@@ -63,7 +63,7 @@ export const useOnboarding = (): UseOnboardingReturn => {
         p_metadata: { completed_at: new Date().toISOString() },
       });
       
-      navigate('/dashboard', { replace: true });
+      navigate('/apps', { replace: true });
     } catch (error) {
       console.error('Failed to complete onboarding:', error);
       throw error;

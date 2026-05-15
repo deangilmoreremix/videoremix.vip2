@@ -54,7 +54,7 @@ const ApplicationsPage: React.FC = () => {
             className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto"
           >
             Browse our complete catalog of AI-powered applications. 
-            {user ? 'All GTM information is visible for each app.' : 'Sign in to see detailed app information.'}
+            All GTM information is visible for each app. Sign in to access your purchased apps.
           </motion.p>
           {!user && (
             <motion.div
@@ -64,7 +64,7 @@ const ApplicationsPage: React.FC = () => {
             >
               <Link to="/signin">
                 <Button size="lg" className="bg-primary-600 hover:bg-primary-700">
-                  Sign In to View Details
+                  Sign In to Access Your Apps
                 </Button>
               </Link>
             </motion.div>
@@ -77,7 +77,7 @@ const ApplicationsPage: React.FC = () => {
         <div className="mb-12">
           <h2 className="text-3xl font-bold text-white mb-4">Application Catalog</h2>
           <p className="text-gray-400">
-            {apps.length} applications available • {user ? 'GTM details visible' : 'Sign in for full access'}
+            {apps.length} applications available • GTM details visible to all • Sign in to use your apps
           </p>
         </div>
 
