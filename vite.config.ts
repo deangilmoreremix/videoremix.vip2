@@ -27,6 +27,10 @@ export default defineConfig(({ mode }) => {
                 return 'ui';
               }
             }
+            // Keep premium components in the main chunk
+            if (id.includes('premium')) {
+              return undefined;
+            }
             return undefined;
           }
         },
