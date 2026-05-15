@@ -19,109 +19,57 @@ The admin panel already has:
 - ✅ Bulk operations (batch of 50 users)
 - ✅ Search and filtering
 - ✅ super_admin restriction
+- ✅ Export Users to CSV (already implemented)
+- ✅ User Activity Timeline (login_count field, already implemented)
+- ✅ Bundle Analytics Dashboard (implemented 2026-05-15)
 
 ## Proposed Enhancements
 
-### Enhancement 1: Export Users to CSV
+### Enhancement 1: Export Users to CSV ✅ COMPLETED
+
+Already implemented in the codebase.
+
+### Enhancement 2: User Activity Timeline ✅ COMPLETED
+
+Already implemented in the codebase (login_count field exists).
+
+### Enhancement 3: Bundle Usage Analytics ✅ COMPLETED
 
 **Files:**
 - Modify: `src/components/admin/AdminUsersManagement.tsx`
 - Test: Manual testing
 
-- [ ] **Step 1: Add export functionality**
-
-Add a button to export users to CSV format:
-```typescript
-const exportUsersToCSV = () => {
-  const headers = ['Email', 'Name', 'Role', 'Status', 'App Count', 'Created At'];
-  const csvContent = [
-    headers.join(','),
-    ...users.map(user => [
-      user.email,
-      `${user.first_name || ''} ${user.last_name || ''}`.trim(),
-      user.role,
-      user.is_active ? 'Active' : 'Inactive',
-      user.app_count || 0,
-      user.created_at
-    ].join(','))
-  ].join('\n');
-  
-  const blob = new Blob([csvContent], { type: 'text/csv' });
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `users-${new Date().toISOString().split('T')[0]}.csv`;
-  a.click();
-  window.URL.revokeObjectURL(url);
-};
-```
-
-- [ ] **Step 2: Add export button to UI**
-
-Add button next to "Bulk Upload" button in the header section.
-
-### Enhancement 2: User Activity Timeline
-
-**Files:**
-- Modify: `src/components/admin/AdminUsersManagement.tsx`
-- Test: Manual testing
-
-- [ ] **Step 1: Add activity display**
-
-Display user login history and activity in the user card:
-```typescript
-// Add to User interface
-interface User {
-  // ... existing fields
-  last_login?: string;
-  login_count?: number;
-}
-
-// Add to user card display
-{user.last_login && (
-  <span className="text-xs text-gray-500">
-    Last login: {new Date(user.last_login).toLocaleDateString()}
-  </span>
-)}
-```
-
-- [ ] **Step 2: Fetch additional user data**
-
-Extend the admin-users Edge Function to include login statistics.
-
-### Enhancement 3: Bundle Usage Analytics
-
-**Files:**
-- Modify: `src/components/admin/AdminUsersManagement.tsx`
-- Test: Manual testing
-
-- [ ] **Step 1: Add analytics section**
+- [x] **Step 1: Add analytics section**
 
 Show bundle usage statistics:
 ```typescript
 // Add state for bundle analytics
-const [bundleAnalytics, setBundleAnalytics] = useState<Record<string, { granted: number, revoked: number }>>({});
+const [bundleAnalytics, setBundleAnalytics] = useState<Record<string, { granted: number, total: number, rate: number }>>({});
 
-// Fetch analytics when component loads
+// Calculate analytics when component loads
 useEffect(() => {
-  const fetchAnalytics = async () => {
-    // Calculate from users data
-    const analytics: Record<string, { granted: number, revoked: number }> = {};
+  const calculateBundleAnalytics = () => {
+    const analytics: Record<string, { granted: number, total: number, rate: number }> = {};
     bundles.forEach(bundle => {
       const granted = users.filter(u => 
         bundle.apps.every(app => u.app_access?.includes(app))
       ).length;
-      analytics[bundle.id] = { granted, revoked: 0 };
+      const total = users.length;
+      analytics[bundle.id] = {
+        granted,
+        total,
+        rate: total > 0 ? Math.round((granted / total) * 100) : 0
+      };
     });
     setBundleAnalytics(analytics);
   };
-  fetchAnalytics();
+  calculateBundleAnalytics();
 }, [users, bundles]);
 ```
 
-- [ ] **Step 2: Display analytics in UI**
+- [x] **Step 2: Display analytics in UI**
 
-Add a "Analytics" tab or section showing bundle adoption rates.
+Add a "Analytics" section showing bundle adoption rates.
 
 ### Enhancement 4: Audit Log for Access Changes
 
