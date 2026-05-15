@@ -21,7 +21,7 @@ import TextReveal from './TextReveal';
 import FloatingIcon from './FloatingIcon';
 import SEO from '../SEO';
 import BundleShowcaseSection from './BundleShowcaseSection';
-import { Sparkles, Award, Clock, Shield, Star, CheckCircle, TrendingUp, BarChart3, Users, DollarSign } from 'lucide-react';
+import { Sparkles, Award, Clock, Shield, Star, CheckCircle, TrendingUp, BarChart3, Users, DollarSign, Mail, Send, FileText, Users2, Globe, BookOpen, Code, Palette, GraduationCap, Brain, ExternalLink, HelpCircle, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const SpecialHero = lazy(() => import('../SpecialHero'));
@@ -54,16 +54,16 @@ const LandingPage: React.FC = () => {
   return (
     <main className="bg-[#050510] text-white min-h-screen">
       <SEO
-        title="VideoRemix.vip - AI-Powered Video Personalization Platform"
-        description="Transform your video marketing with AI-powered personalization. Create engaging, personalized videos at scale with our comprehensive AI agent ecosystem."
-        keywords={["AI video", "video personalization", "marketing automation", "AI agents", "video creation"]}
+        title="VideoRemix.vip - AI Marketing Platform + 100+ Business Apps"
+        description="Create personalized marketing campaigns, explore 100+ AI-powered business apps across 12 categories, and turn AI outputs into sellable services."
+        keywords={["AI marketing", "VideoRemix", "personalization", "business apps", "AI tools"]}
         image="https://videoremix.vip/og-image.jpg"
         url="https://videoremix.vip"
       />
 
       <Helmet>
-        <title>VideoRemix.vip - AI-Powered Video Personalization Platform</title>
-        <meta name="description" content="Transform your video marketing with AI-powered personalization. Create engaging, personalized videos at scale." />
+        <title>VideoRemix.vip - AI Marketing Platform + 100+ Business Apps</title>
+        <meta name="description" content="Create personalized marketing campaigns with AI. 100+ business apps across 12 categories. Turn AI into revenue." />
       </Helmet>
 
       {/* 1. Special Hero (from original) */}
@@ -528,13 +528,78 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Floating Icons (from original) */}
+      {/* Floating Icons - Strategic positioning for each key section */}
+      {/* Hero Section - Sparkles */}
       <FloatingIcon
-        icon={<TrendingUp className="h-6 w-6 text-primary-400" />}
+        icon={<Sparkles className="h-6 w-6 text-primary-400" />}
         delay={0}
-        tooltip="Marketing Growth"
-        containerClassName="fixed top-20 left-20 hidden md:block"
+        tooltip="AI Marketing Platform"
+        containerClassName="fixed top-20 right-20 hidden xl:block"
       />
+      {/* Problem Section - AlertCircle */}
+      <FloatingIcon
+        icon={<AlertCircle className="h-6 w-6 text-accent-400" />}
+        delay={0.5}
+        tooltip="Problem Solver"
+        containerClassName="fixed bottom-40 left-16 hidden md:block"
+      />
+      {/* Big Promise Section - Target */}
+      <FloatingIcon
+        icon={<Target className="h-6 w-6 text-success-400" />}
+        delay={1}
+        tooltip="Business Value"
+        containerClassName="fixed top-40 left-20 hidden lg:block"
+      />
+      {/* Personalization System - Brain */}
+      <FloatingIcon
+        icon={<Brain className="h-6 w-6 text-accent-400" />}
+        delay={1.5}
+        tooltip="AI Personalization"
+        containerClassName="fixed top-1/3 right-16 hidden md:block"
+      />
+      {/* App Ecosystem - Grid icon */}
+      <FloatingIcon
+        icon={<div className="grid grid-cols-2 gap-0.5 w-4 h-4"><div className="bg-primary-400 rounded-sm"></div><div className="bg-primary-400 rounded-sm"></div><div className="bg-primary-400 rounded-sm"></div><div className="bg-primary-400 rounded-sm"></div></div>}
+        delay={2}
+        tooltip="12 App Categories"
+        containerClassName="fixed top-1/2 right-24 hidden lg:block"
+      />
+      {/* Pricing Section - DollarSign */}
+      <FloatingIcon
+        icon={<DollarSign className="h-6 w-6 text-success-400" />}
+        delay={2.5}
+        tooltip="Pricing Options"
+        containerClassName="fixed bottom-40 right-20 hidden md:block"
+      />
+      {/* ROI Section - TrendingUp */}
+      <FloatingIcon
+        icon={<TrendingUp className="h-6 w-6 text-success-400" />}
+        delay={3}
+        tooltip="ROI Impact"
+        containerClassName="fixed top-1/4 left-16 hidden lg:block"
+      />
+      {/* Training Section - GraduationCap */}
+      <FloatingIcon
+        icon={<GraduationCap className="h-6 w-6 text-accent-400" />}
+        delay={3.5}
+        tooltip="Training & Support"
+        containerClassName="fixed bottom-1/3 left-20 hidden md:block"
+      />
+      {/* FAQ Section - HelpCircle */}
+      <FloatingIcon
+        icon={<HelpCircle className="h-6 w-6 text-primary-400" />}
+        delay={4}
+        tooltip="FAQ Help"
+        containerClassName="fixed bottom-20 left-1/4 hidden md:block"
+      />
+      {/* Footer CTA - ArrowRight */}
+      <FloatingIcon
+        icon={<ExternalLink className="h-6 w-6 text-secondary-400" />}
+        delay={4.5}
+        tooltip="Get Started"
+        containerClassName="fixed bottom-20 right-1/4 hidden md:block"
+      />
+      {/* Original icons - kept for continuity */}
       <FloatingIcon
         icon={<Users className="h-6 w-6 text-violet-400" />}
         delay={1}
@@ -542,7 +607,7 @@ const LandingPage: React.FC = () => {
         containerClassName="fixed bottom-20 right-20 hidden md:block"
       />
       <FloatingIcon
-        icon={<DollarSign className="h-6 w-6 text-green-400" />}
+        icon={<Mail className="h-6 w-6 text-green-400" />}
         delay={2}
         tooltip="ROI Impact"
         containerClassName="fixed top-20 right-20 hidden md:block"
@@ -563,3 +628,7 @@ const LandingPage: React.FC = () => {
 };
 
 export default LandingPage;
+// Cache bust: 1778881602
+// Deploy: 20260515214845
+// Fix: 1778916542
+// Final deploy: 1778916893

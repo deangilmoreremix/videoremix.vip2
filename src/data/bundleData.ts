@@ -1,5 +1,3 @@
-import { App } from './appsData';
-
 export interface Bundle {
   id: string;
   name: string;
@@ -14,10 +12,11 @@ export interface Bundle {
 }
 
 export const bundles: Bundle[] = [
+  // Category 1: Sales, Lead Gen & Prospecting Apps
   {
     id: 'sales-lead-gen-bundle',
     name: 'Sales, Lead Gen & Prospecting Bundle',
-    description: '15 AI-powered sales and lead generation tools for prospecting, outreach, and deal closing.',
+    description: 'Turn prospect research, outreach, offers, campaigns, competitor insights, and follow-up into a repeatable sales system.',
     category: 'sales-lead-gen',
     price: 397,
     priceCents: 39700,
@@ -32,28 +31,23 @@ export const bundles: Bundle[] = [
       'competitor-spy-ai',
       'ai-agency-builder-suite',
       'sales-call-follow-up-ai',
-      'ai-sales-maximizer',
-      'ai-proposal-generator',
-      'sales-assistant-platform',
-      'sales-page-builder-pro',
-      'smart-crm-closer-pro',
-      'ai-referral-maximizer-pro',
     ],
     image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-features: [
-      'Lifetime access to all 12 apps',
+    features: [
+      'Lifetime access to all 10 apps',
       'All future updates included',
       'Priority customer support',
       'Commercial usage rights',
-      'Save $760 vs buying individually ($1,160 value)',
+      'Save $573 vs buying individually ($970 value)',
       'Money-back guarantee',
     ],
     popular: true,
   },
+  // Category 2: Content Creation & Marketing Apps
   {
     id: 'content-marketing-bundle',
     name: 'Content Creation & Marketing Bundle',
-    description: '12 AI-powered content creation and marketing tools for social media, blogs, video, and campaigns.',
+    description: 'Turn ideas, videos, newsletters, articles, trends, and business updates into multi-channel marketing content.',
     category: 'content-marketing',
     price: 397,
     priceCents: 39700,
@@ -68,22 +62,22 @@ features: [
       'ai-news-content-writer',
       'ai-video-script-producer',
       'ai-music-idea-generator',
-      'ai-personalized-content',
     ],
     image: 'https://images.unsplash.com/photo-1499750310101-6cda608e867c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     features: [
-      'Lifetime access to all 11 apps',
+      'Lifetime access to all 10 apps',
       'All future updates included',
       'Priority customer support',
       'Commercial usage rights',
-      'Save $660 vs buying individually ($1,070 value)',
+      'Save $573 vs buying individually ($970 value)',
       'Money-back guarantee',
     ],
   },
+  // Category 3: Video, Audio & Voice Business Apps
   {
     id: 'video-audio-voice-bundle',
     name: 'Video, Audio & Voice Business Bundle',
-description: '11 AI-powered video, audio, and voice tools for content creation and business communication.',
+    description: 'Create video concepts, podcasts, voice workflows, audio guides, intake assistants, and branded sound assets.',
     category: 'video-audio-voice',
     price: 397,
     priceCents: 39700,
@@ -97,23 +91,22 @@ description: '11 AI-powered video, audio, and voice tools for content creation a
       'ai-intake-voice-agent',
       'ai-dictation-assistant',
       'ai-music-jingle-assistant',
-      'ai-video-image-pro',
-      'video-ai-editor-pro',
     ],
     image: 'https://images.unsplash.com/photo-1493711662062-fa9a0ceca13e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     features: [
-      'Lifetime access to all 11 apps',
+      'Lifetime access to all 9 apps',
       'All future updates included',
       'Priority customer support',
       'Commercial usage rights',
-      'Save $660 vs buying individually ($1,070 value)',
+      'Save $473 vs buying individually ($870 value)',
       'Money-back guarantee',
     ],
   },
+  // Category 4: RAG, Knowledgebase & Document Chat Apps
   {
     id: 'rag-knowledgebase-bundle',
     name: 'RAG, Knowledgebase & Document Chat Bundle',
-    description: '13 AI-powered tools for document analysis, knowledgebase creation, and intelligent Q&A.',
+    description: 'Turn documents, PDFs, emails, videos, blogs, research papers, websites, and company information into searchable AI knowledge systems.',
     category: 'rag-knowledgebase',
     price: 397,
     priceCents: 39700,
@@ -138,14 +131,15 @@ description: '11 AI-powered video, audio, and voice tools for content creation a
       'All future updates included',
       'Priority customer support',
       'Commercial usage rights',
-      'Save $753 vs buying individually ($1,553 value)',
+      'Save $853 vs buying individually ($1,253 value)',
       'Money-back guarantee',
     ],
   },
+  // Category 5: Real Estate, Home Services & Local Business Apps
   {
     id: 'realestate-local-bundle',
     name: 'Real Estate, Home Services & Local Business Bundle',
-    description: '7 AI-powered tools for real estate marketing, home services, and local business growth.',
+    description: 'Create local business marketing content, real estate campaigns, renovation concepts, tour guides, business growth plans, analytics reports, and voice assistant experiences.',
     category: 'realestate-local',
     price: 397,
     priceCents: 39700,
@@ -168,10 +162,11 @@ description: '11 AI-powered video, audio, and voice tools for content creation a
       'Money-back guarantee',
     ],
   },
+  // Category 6: HR, Hiring & Recruiting Apps
   {
     id: 'hr-hiring-bundle',
     name: 'HR, Hiring & Recruiting Bundle',
-    description: '7 AI-powered tools for hiring, recruitment, and HR management.',
+    description: 'Screen candidates, analyze resumes, summarize interviews, write outreach, compare applicants, and build hiring workflows.',
     category: 'hr-hiring',
     price: 397,
     priceCents: 39700,
@@ -185,7 +180,7 @@ description: '11 AI-powered video, audio, and voice tools for content creation a
     ],
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     features: [
-      'Lifetime access to all 7 apps',
+      'Lifetime access to all 6 apps',
       'All future updates included',
       'Priority customer support',
       'Commercial usage rights',
@@ -193,10 +188,11 @@ description: '11 AI-powered video, audio, and voice tools for content creation a
       'Money-back guarantee',
     ],
   },
+  // Category 7: Finance, Business Planning & Investment Apps
   {
     id: 'finance-business-bundle',
     name: 'Finance, Business Planning & Investment Bundle',
-    description: '7 AI-powered financial analysis and business planning tools.',
+    description: 'Analyze revenue, research investments, evaluate startups, improve profits, create dashboards, and support smarter business decisions.',
     category: 'finance-business',
     price: 397,
     priceCents: 39700,
@@ -219,10 +215,11 @@ description: '11 AI-powered video, audio, and voice tools for content creation a
       'Money-back guarantee',
     ],
   },
+  // Category 8: Legal, Compliance & Risk Apps
   {
     id: 'legal-compliance-bundle',
     name: 'Legal, Compliance & Risk Bundle',
-    description: '6 AI-powered legal analysis and compliance tools.',
+    description: 'Summarize contracts, explain legal PDFs, check policies, validate claims, organize fraud concerns, and assess business risk.',
     category: 'legal-compliance',
     price: 397,
     priceCents: 39700,
@@ -240,14 +237,15 @@ description: '11 AI-powered video, audio, and voice tools for content creation a
       'All future updates included',
       'Priority customer support',
       'Commercial usage rights',
-      'Save $226 vs buying individually ($586 value)',
+      'Save $283 vs buying individually ($586 value)',
       'Money-back guarantee',
     ],
   },
+  // Category 9: Coding, Developer & SaaS Builder Apps
   {
     id: 'coding-developer-bundle',
     name: 'Coding, Developer & SaaS Builder Bundle',
-    description: '11 AI-powered development tools for app building, coding, and SaaS creation.',
+    description: 'Plan apps, design SaaS architecture, review code, fix bugs, generate build plans, automate GitHub workflows, and plan development sprints.',
     category: 'coding-developer',
     price: 397,
     priceCents: 39700,
@@ -262,22 +260,22 @@ description: '11 AI-powered video, audio, and voice tools for content creation a
       'github-automation-agent',
       'build-plan-generator',
       'sprint-planner-ai',
-      'ai-screen-recorder',
     ],
     image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     features: [
-      'Lifetime access to all 11 apps',
+      'Lifetime access to all 10 apps',
       'All future updates included',
       'Priority customer support',
       'Commercial usage rights',
-      'Save $774 vs buying individually ($1,174 value)',
+      'Save $573 vs buying individually ($970 value)',
       'Money-back guarantee',
     ],
   },
+  // Category 10: Design, UI/UX & Landing Page Apps
   {
     id: 'design-uiux-bundle',
     name: 'Design, UI/UX & Landing Page Bundle',
-    description: '6 AI-powered design tools for UI/UX, branding, and landing pages.',
+    description: 'Design interfaces, critique landing pages, improve UX, build dashboards, write landing page copy, and optimize conversion copy.',
     category: 'design-uiux',
     price: 397,
     priceCents: 39700,
@@ -299,10 +297,11 @@ description: '11 AI-powered video, audio, and voice tools for content creation a
       'Money-back guarantee',
     ],
   },
+  // Category 11: Research, Education & Training Apps
   {
     id: 'research-education-bundle',
     name: 'Research, Education & Training Bundle',
-    description: '11 AI-powered research and educational tools for learning and content creation.',
+    description: 'Create research briefs, course outlines, coaching programs, lesson plans, workshops, training materials, and educational content.',
     category: 'research-education',
     price: 397,
     priceCents: 39700,
@@ -318,18 +317,19 @@ description: '11 AI-powered video, audio, and voice tools for content creation a
     ],
     image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     features: [
-      'Lifetime access to all 11 apps',
+      'Lifetime access to all 8 apps',
       'All future updates included',
       'Priority customer support',
       'Commercial usage rights',
-      'Save $660 vs buying individually ($1,070 value)',
+      'Save $373 vs buying individually ($770 value)',
       'Money-back guarantee',
     ],
   },
+  // Category 12: Productivity, Memory & Personal Assistant Apps
   {
     id: 'productivity-personal-bundle',
     name: 'Productivity, Memory & Personal Assistant Bundle',
-    description: '14 AI-powered productivity and personal assistant tools.',
+    description: 'Create research briefs, summarize information, organize tasks, improve productivity, build workflows, remember context, and support daily business operations.',
     category: 'productivity-personal',
     price: 397,
     priceCents: 39700,
@@ -343,19 +343,14 @@ description: '11 AI-powered video, audio, and voice tools for content creation a
       'ai-tool-router',
       'notion-workspace-ai',
       'email-memory-assistant',
-      'ai-signature-pro',
-      'ai-skills-monetizer-pro',
-      'personalizer-profile-generator',
-      'personalizer-transformer',
-      'personalizer-url-templates',
     ],
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     features: [
-      'Lifetime access to all 14 apps',
+      'Lifetime access to all 9 apps',
       'All future updates included',
       'Priority customer support',
       'Commercial usage rights',
-      'Save $900 vs buying individually ($1,300 value)',
+      'Save $473 vs buying individually ($870 value)',
       'Money-back guarantee',
     ],
   },
