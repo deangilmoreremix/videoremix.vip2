@@ -112,7 +112,7 @@ const LazyIcon: React.FC<LazyIconProps> = ({
   const iconName = typeof name === "string" ? name : "sparkles";
 
   // Get the icon component or use fallback
-  const IconComponent = iconMap[iconName] || lazy(() => Promise.resolve({ default: FallbackIcon }));
+  const IconComponent = iconMap[iconName] || FallbackIcon;
 
   return (
     <Suspense fallback={<FallbackIcon className={className} size={size} />}>
