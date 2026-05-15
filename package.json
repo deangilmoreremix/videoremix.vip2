@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "sideEffects": true,
   "scripts": {
     "validate-env": "node validate-env.mjs",
     "predev": "npm run validate-env",

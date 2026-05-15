@@ -4,8 +4,6 @@ import {
   Plus,
   Edit,
   Trash2,
-  ToggleLeft,
-  ToggleRight,
   Upload,
   Download,
   ChevronDown,
@@ -27,9 +25,7 @@ import { supabase } from "../../utils/supabaseClient";
 import {
   bundles,
   getBundleApps,
-  getAllBundleIds,
   getBundleForApp,
-  getTotalAppCount,
   bundleIcons,
 } from "../../data/bundleData";
 import type { Bundle } from "../../data/bundleData";
