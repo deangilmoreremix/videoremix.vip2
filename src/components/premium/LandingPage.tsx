@@ -173,6 +173,97 @@ const LandingPage: React.FC = () => {
       {/* 12. Bundle Showcase - NEW SECTION */}
       <BundleShowcaseSection />
 
+      {/* 13. Integrations Section - NEW SECTION */}
+      <section className="py-20 bg-gray-900">
+        <div className="container-max section-padding">
+          <TextReveal text="Seamless Integrations" as="h2" className="prose-h2 text-center mb-16" />
+          <p className="text-gray-300 text-center max-w-2xl mx-auto mb-12">
+            Connect VideoRemix.vip with your favorite tools and platforms for a streamlined workflow
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+            {[
+              { name: "Salesforce", color: "text-blue-400" },
+              { name: "HubSpot", color: "text-orange-400" },
+              { name: "Shopify", color: "text-green-400" },
+              { name: "Mailchimp", color: "text-purple-400" },
+              { name: "Google Analytics", color: "text-blue-300" },
+              { name: "Mixpanel", color: "text-yellow-400" },
+              { name: "BigQuery", color: "text-indigo-400" },
+              { name: "Slack", color: "text-lime-400" },
+              { name: "Zapier", color: "text-red-400" },
+              { name: "API", color: "text-cyan-400" },
+            ].map((integration, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: i * 0.1 }}
+                className="bg-gray-800/50 rounded-lg p-4 text-center hover:bg-gray-700/50 transition-colors"
+              >
+                <div className={`text-2xl font-bold ${integration.color}`}>{integration.name}</div>
+              </motion.div>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <button className="text-primary-400 hover:text-primary-300 font-medium">
+              View all 20+ integrations →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* 14. Resources/Blog Section - NEW SECTION */}
+      <section className="py-20 bg-gray-950">
+        <div className="container-max section-padding">
+          <TextReveal text="Resources & Insights" as="h2" className="prose-h2 text-center mb-16" />
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "AI Personalization Trends 2026",
+                desc: "Industry insights and predictions",
+                date: "May 10, 2026",
+                tag: "Report"
+              },
+              {
+                title: "ROI Calculator Guide",
+                desc: "How to measure personalization impact",
+                date: "May 5, 2026",
+                tag: "Guide"
+              },
+              {
+                title: "Case Study: 300% Engagement Lift",
+                desc: "How Company X transformed their marketing",
+                date: "Apr 28, 2026",
+                tag: "Case Study"
+              },
+            ].map((article, i) => (
+              <InteractiveCard key={i}>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  className="bg-gray-900/50 backdrop-blur rounded-xl p-6 h-full"
+                >
+                  <span className="px-2 py-1 bg-primary-600/20 text-primary-300 text-xs rounded-full font-medium">
+                    {article.tag}
+                  </span>
+                  <h3 className="text-xl font-bold text-white mt-3 mb-2">{article.title}</h3>
+                  <p className="text-gray-400 text-sm mb-4">{article.desc}</p>
+                  <div className="text-xs text-gray-500">{article.date}</div>
+                </motion.div>
+              </InteractiveCard>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <button className="text-primary-400 hover:text-primary-300 font-medium">
+              Visit Resource Center →
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* 12. Scannable Features - premium */}
       <section className="py-20 bg-gray-900">
         <div className="container-max section-padding">
