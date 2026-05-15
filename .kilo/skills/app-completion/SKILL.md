@@ -1,3 +1,9 @@
+---
+name: app-completion
+description: Complete missing data fields for all 116 apps to ensure 100% production readiness.
+mode: all
+---
+
 # App Data Completion Skill
 
 ## Purpose
