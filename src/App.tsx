@@ -19,7 +19,7 @@ import { Toaster } from "./components/ui/toast";
 import { NetworkStatusIndicator } from "./components/AsyncStates";
 
 // Lazy loaded components for better performance
-const LandingPage = lazy(() => import("./pages/LandingPage"));
+const LandingPage = lazy(() => import("./components/premium/LandingPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
 const ToolsHubPage = lazy(() => import("./pages/ToolsHubPage")); // New Tools Hub Page
 const ApplicationsPage = lazy(() => import("./pages/ApplicationsPage"));

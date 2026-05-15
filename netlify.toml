@@ -1,6 +1,7 @@
 [build]
   command = "npm install --include=dev --legacy-peer-deps && npm run build"
   publish = "dist"
+  cache = ["package-lock.json", ".gitignore"]
 
 [build.environment]
   NODE_VERSION = "20"

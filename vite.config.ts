@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
       react(),
     ],
     optimizeDeps: {
-      include: ['lucide-react', 'framer-motion'],
+      include: ['framer-motion'],
     },
     build: {
       target: 'esnext',
