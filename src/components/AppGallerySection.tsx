@@ -566,7 +566,7 @@ const AppGallerySection: React.FC = () => {
                   <div className="flex items-center">
                     <div className="p-2 bg-gray-800/80 rounded-full mr-3">
                       <LazyIcon
-                        name={app.iconName}
+                        name={typeof app.iconName === "string" ? app.iconName : "layers"}
                         className="w-5 h-5 text-primary-400"
                       />
                     </div>
@@ -829,7 +829,7 @@ const AppGallerySection: React.FC = () => {
                         <div className="flex justify-between items-center">
                           <div className="flex items-center">
                             <LazyIcon
-                              name={app.iconName}
+                              name={typeof app.iconName === "string" ? app.iconName : "layers"}
                               className="w-4 h-4 text-primary-400 mr-1"
                             />
                             <span className="text-gray-500 text-xs">
@@ -952,7 +952,7 @@ const AppGallerySection: React.FC = () => {
                       <div className="flex justify-between items-center">
                         <div className="flex items-center text-xs text-gray-400">
                           <LazyIcon
-                            name={app.iconName}
+                            name={typeof app.iconName === "string" ? app.iconName : "layers"}
                             className="h-4 w-4 text-primary-400 mr-1"
                           />
                           <span>

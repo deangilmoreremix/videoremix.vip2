@@ -135,8 +135,11 @@ const LazyIcon: React.FC<LazyIconProps> = ({
   className = "h-6 w-6",
   size,
 }) => {
+  // Defensive: Ensure name is a string, not an object
+  const iconName = typeof name === "string" ? name : "sparkles";
+
   const IconComponent = React.lazy(
-    iconMap[name] || (() => Promise.resolve({ default: Sparkles })),
+    iconMap[iconName] || (() => Promise.resolve({ default: Sparkles })),
   );
 
   return (

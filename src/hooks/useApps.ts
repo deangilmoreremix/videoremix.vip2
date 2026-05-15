@@ -6,7 +6,7 @@ import { appConfig } from "../config/appConfig";
 // Cache configuration
 const APPS_CACHE_KEY = "videoremix_apps_cache";
 const APPS_CACHE_TTL = appConfig.CACHE.APPS_TTL;
-const APPS_CACHE_VERSION = "2";
+const APPS_CACHE_VERSION = "3"; // Incremented to force cache refresh after React.createElement fix
 
 interface CacheData {
   data: ComponentApp[];

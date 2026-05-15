@@ -270,7 +270,7 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
                             >
                               <div className="flex items-start gap-3">
                                 <div className="bg-primary-600 p-2 rounded-lg flex-shrink-0">
-                                  {feature.iconName ? (
+                                  {typeof feature.iconName === "string" && feature.iconName ? (
                                     <LazyIcon name={feature.iconName} className="h-5 w-5" />
                                   ) : (
                                     <Target className="h-5 w-5" />
