@@ -77,15 +77,14 @@ export interface BenefitFeature {
 // Testimonial types
 export interface Testimonial {
   id: string;
-  content: string;
   name: string;
   role: string;
   company?: string;
-  image_url: string;
+  content: string;
+  avatar_url?: string;
   rating: number;
-  category?: string;
-  featured: boolean;
-  enabled: boolean;
+  is_active: boolean;
+  sort_order: number;
   created_at: string;
   updated_at: string;
 }
@@ -197,11 +196,7 @@ async function getBenefitsFeatures() {
 async function getTestimonials(featured_only = false) {
   let query = supabase.from("testimonials").select("*").eq("is_active", true);
 
-  if (featured_only) {
-    query = query.eq("is_featured", true);
-  }
-
-  const { data, error } = await query.order("id", { ascending: true });
+  const { data, error } = await query.order("sort_order", { ascending: true });
 
   if (error) {
     console.error("Error fetching testimonials:", error);

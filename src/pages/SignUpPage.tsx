@@ -49,15 +49,17 @@ const SignUpPage: React.FC = () => {
       return;
     }
 
-    if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters");
+    if (formData.password.length < 8) {
+      setError("Password must be at least 8 characters");
       return;
     }
 
     setLoading(true);
 
     try {
-      const { error, user } = await signUp(formData.email, formData.password, {
+      // Normalize email to lowercase to prevent case-sensitivity issues
+      const normalizedEmail = formData.email.toLowerCase().trim();
+      const { error, user } = await signUp(normalizedEmail, formData.password, {
         first_name: formData.firstName,
         last_name: formData.lastName,
       });

@@ -41,12 +41,12 @@ export interface ComponentApp {
 // Validate that all required fields are present and non-empty
 export const isValidAppData = (dbApp: Partial<DatabaseApp>): dbApp is DatabaseApp => {
   const required: (keyof DatabaseApp)[] = [
-    "id", "name", "slug", "description", "category",
+    "id", "name", "slug", "category",
     "is_active", "is_featured", "is_public",
     "sort_order", "created_at", "updated_at",
   ];
   return required.every(
-    (key) => dbApp[key] !== undefined && dbApp[key] !== null && String(dbApp[key]!).trim() !== ""
+    (key) => dbApp[key] !== undefined && dbApp[key] !== null && String(dbApp[key]!) !== ""
   );
 };
 

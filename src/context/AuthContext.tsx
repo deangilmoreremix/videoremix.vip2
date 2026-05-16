@@ -398,8 +398,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     async (email: string, password: string, metadata?: Record<string, unknown>) => {
       clearError();
       const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
+      // Normalize email to lowercase to prevent case-sensitivity issues
+      const normalizedEmail = email.toLowerCase().trim();
       const { data, error: signUpError } = await supabase.auth.signUp({
-        email,
+        email: normalizedEmail,
         password,
         options: {
           data: metadata,
@@ -420,8 +422,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const signIn = useCallback(
     async (email: string, password: string) => {
       clearError();
+      // Normalize email to lowercase to prevent case-sensitivity issues
+      const normalizedEmail = email.toLowerCase().trim();
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
-        email,
+        email: normalizedEmail,
         password,
       });
 

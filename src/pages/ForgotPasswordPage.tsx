@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, ArrowLeft, CheckCircle, AlertCircle, Video } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
 import MagicSparkles from "../components/MagicSparkles";
@@ -9,7 +9,8 @@ import SparkleEffect from "../components/SparkleEffect";
 import { useAuth } from "../context/AuthContext";
 
 const ForgotPasswordPage: React.FC = () => {
-  const { session } = useAuth();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -17,10 +18,22 @@ const ForgotPasswordPage: React.FC = () => {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // If user is already signed in, redirect to profile
+  useEffect(() => {
+    if (user) {
+      navigate("/profile");
+    }
+  }, [user, navigate]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setSuccess(false);
+
+    if (!user) {
+      setError("You must be signed in to change your password. Please sign in first.");
+      return;
+    }
 
     if (password.length < 8) {
       setError("Password must be at least 8 characters");
@@ -35,20 +48,32 @@ const ForgotPasswordPage: React.FC = () => {
     setLoading(true);
 
     try {
+      // Get the access token from the current session
+      const { data: { session } } = await supabase.auth.getSession();
+      const accessToken = session?.access_token;
+
+      if (!accessToken) {
+        setError("No active session found. Please sign in again.");
+        return;
+      }
+
       const { data, error } = await supabase.functions.invoke('change-user-password', {
         body: {
-          email: email,
+          email: user.email,
           newPassword: password,
         },
-        headers: session?.access_token ? {
-          Authorization: `Bearer ${session.access_token}`
-        } : {}
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
       });
 
       if (error) {
         setError(error.message || 'Failed to update password');
       } else if (data?.success) {
         setSuccess(true);
+        setTimeout(() => {
+          navigate("/profile");
+        }, 3000);
       } else {
         setError(data?.error || 'Failed to update password');
       }
@@ -59,13 +84,95 @@ const ForgotPasswordPage: React.FC = () => {
     }
   };
 
+  // Show sign-in prompt for unauthenticated users
+  if (!user) {
+    return (
+      <>
+        <Helmet>
+          <title>Change Password | VideoRemix.vip</title>
+          <meta
+            name="description"
+            content="Change your VideoRemix.vip password. You must be signed in to change your password."
+          />
+        </Helmet>
+
+        <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black relative overflow-hidden flex items-center justify-center py-20">
+          <div className="absolute inset-0">
+            <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/20 rounded-full blur-[100px]"></div>
+            <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-primary-600/20 rounded-full blur-[100px]"></div>
+          </div>
+
+          <SparkleEffect
+            count={30}
+            colors={["#ffffff", "#c7d2fe", "#a5b4fc", "#818cf8"]}
+            minSize={2}
+            maxSize={5}
+          />
+
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="max-w-md mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="mb-8"
+              >
+                <Link
+                  to="/signin"
+                  className="inline-flex items-center text-gray-400 hover:text-white transition-colors group"
+                >
+                  <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+                  Back to sign in
+                </Link>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="bg-gray-800/70 backdrop-blur-md rounded-2xl p-8 border border-gray-700 shadow-2xl text-center"
+              >
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-500/20 rounded-full mb-4">
+                  <Mail className="h-8 w-8 text-blue-400" />
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-3">
+                  Sign In Required
+                </h3>
+                <p className="text-gray-300 mb-6">
+                  You need to be signed in to change your password.
+                </p>
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-red-500/20 border border-red-500/50 text-red-400 p-4 rounded-lg flex items-start mb-6"
+                  >
+                    <AlertCircle className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
+                    <span>{error}</span>
+                  </motion.div>
+                )}
+                <Link
+                  to="/signin"
+                  className="inline-block bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white py-3 px-6 rounded-lg font-semibold transition-all"
+                >
+                  Sign In to Continue
+                </Link>
+              </motion.div>
+            </div>
+          </div>
+        </main>
+      </>
+    );
+  }
+
+  // Authenticated user flow
   return (
     <>
       <Helmet>
         <title>Change Password | VideoRemix.vip</title>
         <meta
           name="description"
-          content="Change your VideoRemix.vip password. Enter your email and new password to update your account."
+          content="Change your VideoRemix.vip password. Enter your new password to update your account."
         />
       </Helmet>
 
@@ -91,11 +198,11 @@ const ForgotPasswordPage: React.FC = () => {
               className="mb-8"
             >
               <Link
-                to="/signin"
+                to="/profile"
                 className="inline-flex items-center text-gray-400 hover:text-white transition-colors group"
               >
                 <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-                Back to sign in
+                Back to Profile
               </Link>
             </motion.div>
 
@@ -137,7 +244,7 @@ const ForgotPasswordPage: React.FC = () => {
                 </h1>
               </MagicSparkles>
               <p className="text-gray-300 text-lg">
-                Enter your email and new password to change your account password
+                Update your password for {user.email}
               </p>
             </motion.div>
 
@@ -159,27 +266,6 @@ const ForgotPasswordPage: React.FC = () => {
                       <span>{error}</span>
                     </motion.div>
                   )}
-
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-gray-300 mb-2"
-                    >
-                      Email Address
-                    </label>
-                    <div className="relative">
-                      <input
-                        id="email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 pl-11 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-                        placeholder="your@email.com"
-                        required
-                      />
-                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                    </div>
-                  </div>
 
                   <div>
                     <label
@@ -266,7 +352,7 @@ const ForgotPasswordPage: React.FC = () => {
                     Password Changed!
                   </h3>
                   <p className="text-gray-300 mb-6">
-                    Your password has been successfully updated. You can now sign in with your new password.
+                    Your password has been successfully updated.
                   </p>
                   <div className="bg-gray-700/50 rounded-lg p-4 mb-6">
                     <p className="text-sm text-gray-300">
@@ -281,10 +367,10 @@ const ForgotPasswordPage: React.FC = () => {
                   <p className="text-gray-400">
                     Already signed in?{" "}
                     <Link
-                      to="/dashboard"
+                      to="/profile"
                       className="text-primary-400 hover:text-primary-300 transition-colors font-medium"
                     >
-                      Go to Dashboard
+                      Go to Profile
                     </Link>
                   </p>
                 </div>

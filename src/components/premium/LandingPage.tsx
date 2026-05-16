@@ -21,7 +21,7 @@ import TextReveal from './TextReveal';
 import FloatingIcon from './FloatingIcon';
 import SEO from '../SEO';
 import BundleShowcaseSection from './BundleShowcaseSection';
-import { Sparkles, Award, Clock, Shield, Star, CheckCircle, TrendingUp, BarChart3, Users, DollarSign, Mail, Send, FileText, Users2, Globe, BookOpen, Code, Palette, GraduationCap, Brain, ExternalLink, HelpCircle, Target } from 'lucide-react';
+import { Sparkles, Award, Clock, Shield, Star, CheckCircle, TrendingUp, BarChart3, Users, DollarSign, Mail, Send, FileText, Users2, Globe, BookOpen, Code, Palette, GraduationCap, Brain, ExternalLink, HelpCircle, Target, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const SpecialHero = lazy(() => import('../SpecialHero'));
@@ -51,6 +51,11 @@ const SectionLoader = () => (
   );
 
 const LandingPage: React.FC = () => {
+  // Tree-shaking guard: these icons are passed as React.ReactNode to FloatingIcon
+  // and the bundler can't trace cross-component usage. Assign to window to force inclusion.
+  void (window.__videoremixIcons = { AlertCircle, HelpCircle, Target, Brain, GraduationCap, ExternalLink });
+  // Prevent tree-shaking of icons passed as React.ReactNode to FloatingIcon
+  void [AlertCircle, HelpCircle, Target, Brain, GraduationCap, ExternalLink];
   return (
     <main className="bg-[#050510] text-white min-h-screen">
       <SEO
