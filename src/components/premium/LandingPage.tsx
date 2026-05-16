@@ -51,11 +51,13 @@ const SectionLoader = () => (
   );
 
 const LandingPage: React.FC = () => {
-  // Tree-shaking guard: these icons are passed as React.ReactNode to FloatingIcon
-  // and the bundler can't trace cross-component usage. Assign to window to force inclusion.
-  void (window.__videoremixIcons = { AlertCircle, HelpCircle, Target, Brain, GraduationCap, ExternalLink });
-  // Prevent tree-shaking of icons passed as React.ReactNode to FloatingIcon
-  void [AlertCircle, HelpCircle, Target, Brain, GraduationCap, ExternalLink];
+  // Tree-shaking guard: force bundler to include all lucide icons used in this chunk.
+  // Icons passed as React.ReactNode to FloatingIcon can't be traced by the bundler.
+  void (window.__videoremixIcons = {
+    AlertCircle, HelpCircle, Target, Brain, GraduationCap, ExternalLink,
+    CheckCircle, BarChart3, Sparkles, Award, Clock, Shield, Star,
+    TrendingUp, Users, DollarSign, Mail,
+  });
   return (
     <main className="bg-[#050510] text-white min-h-screen">
       <SEO
