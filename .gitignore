@@ -31,3 +31,9 @@ Thumbs.db
 logs/
 *.log
 videoremix-repo-backup/
+
+# Netlify deployment artifacts
+.netlify/functions/*.zip
+.netlify/state.json
+.netlify/plugins/
+# deploy 1778918300
