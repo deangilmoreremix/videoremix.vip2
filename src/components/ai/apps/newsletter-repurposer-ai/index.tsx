@@ -13,6 +13,33 @@ import { ResultActions } from "../../primitives/ResultActions";
 import { Button } from "../../../ui/button";
 import { Label } from "../../../ui/label";
 
+interface RepurposedAsset {
+  type: string;
+  content: string;
+  engagementHook?: string;
+}
+
+interface LinkedInSlide {
+  slideNumber?: number;
+  title?: string;
+  content: string;
+}
+
+interface PromotionEmail {
+  subject?: string;
+  body?: string;
+}
+
+interface NewsletterOutput {
+  keyInsights?: string[];
+  repurposed?: RepurposedAsset[];
+  threadVersion?: string;
+  linkedInCarousel?: LinkedInSlide[];
+  blogPostTitle?: string;
+  blogPostOutline?: string;
+  promotionEmail?: PromotionEmail;
+}
+
 const GOALS = [
   { id: "tweet", label: "Tweet", icon: Hash },
   { id: "linkedin", label: "LinkedIn", icon: Linkedin },
@@ -40,6 +67,7 @@ export default function NewsletterRepurposerAI({ appId, appName, onResult, onErr
 
   const handleRun = async () => {
     if (!newsletterText.trim()) return;
+    if (newsletterText.length > 10000) return;
     const inputs = {
       newsletterText: newsletterText.trim(),
       primaryGoals: selectedGoals.join(","),
@@ -114,7 +142,7 @@ export default function NewsletterRepurposerAI({ appId, appName, onResult, onErr
   );
 }
 
-function NewsletterResult({ output }: { output: Record<string, any> }) {
+function NewsletterResult({ output }: { output: NewsletterOutput }) {
   const { keyInsights, repurposed, threadVersion, linkedInCarousel, blogPostTitle, blogPostOutline, promotionEmail } = output;
 
   return (
