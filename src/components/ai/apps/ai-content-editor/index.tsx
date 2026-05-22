@@ -47,7 +47,7 @@ export default function AIContentEditor({ appId, appName, onResult, onError, onR
   const [originalContent, setOriginalContent] = useState("");
   const [selectedGoals, setSelectedGoals] = useState<Set<EditGoal>>(new Set(["clarify"]));
   const [toneOption, setToneOption] = useState<ToneOption>("Professional");
-  const [showToneSelect, setShowToneSelect] = useState(false);
+  const showToneSelect = selectedGoals.has("tone");
   const [targetAudience, setTargetAudience] = useState("");
   const [additionalInstructions, setAdditionalInstructions] = useState("");
 
@@ -60,14 +60,8 @@ export default function AIContentEditor({ appId, appName, onResult, onError, onR
   const toggleGoal = (goal: EditGoal) => {
     setSelectedGoals((prev) => {
       const next = new Set(prev);
-      if (goal === "tone") {
-        setShowToneSelect(!prev.has("tone"));
-        if (next.has("tone")) next.delete("tone");
-        else next.add("tone");
-      } else {
-        if (next.has(goal)) next.delete(goal);
-        else next.add(goal);
-      }
+      if (next.has(goal)) next.delete(goal);
+      else next.add(goal);
       return next;
     });
   };
@@ -105,7 +99,6 @@ export default function AIContentEditor({ appId, appName, onResult, onError, onR
     setOriginalContent("");
     setSelectedGoals(new Set(["clarify"]));
     setToneOption("Professional");
-    setShowToneSelect(false);
     setTargetAudience("");
     setAdditionalInstructions("");
     reset();
@@ -168,6 +161,7 @@ export default function AIContentEditor({ appId, appName, onResult, onError, onR
                   type="button"
                   onClick={() => toggleGoal(goal.id)}
                   disabled={isRunning}
+                  aria-pressed={selectedGoals.has(goal.id)}
                   className={`
                     inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all
                     ${selectedGoals.has(goal.id)
@@ -186,7 +180,11 @@ export default function AIContentEditor({ appId, appName, onResult, onError, onR
             {/* Tone select — shown when "Change Tone" is selected */}
             {showToneSelect && (
               <div className="mt-3">
+                <Label className="text-sm font-medium text-gray-300 mb-2 block" htmlFor="tone-select">
+                  Select Tone
+                </Label>
                 <select
+                  id="tone-select"
                   value={toneOption}
                   onChange={(e) => setToneOption(e.target.value as ToneOption)}
                   disabled={isRunning}
