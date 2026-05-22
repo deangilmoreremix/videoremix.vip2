@@ -75,6 +75,7 @@ export default function YouTubeRepurposerAI({ appId, appName, onResult, onError,
 
   const handleRun = async () => {
     if (!transcript.trim() || selectedFormats.length === 0) return;
+    if (transcript.length > 10000) return;
     const inputs = {
       transcript: transcript.trim(),
       targetFormats: selectedFormats.join(","),
