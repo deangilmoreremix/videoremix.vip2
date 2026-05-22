@@ -23,6 +23,7 @@ const LandingPage = lazy(() => import("./components/premium/LandingPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
 const ToolsHubPage = lazy(() => import("./pages/ToolsHubPage")); // New Tools Hub Page
 const ApplicationsPage = lazy(() => import("./pages/ApplicationsPage"));
+const AIAppRunnerPage = lazy(() => import("./pages/AIAppRunnerPage"));
 // Feature pages
 const AIVideoCreatorPage = lazy(
   () => import("./pages/features/AIVideoCreatorPage"),
@@ -230,6 +231,20 @@ function App() {
                     </Suspense>
                   </SparkleBackground>
                 </ErrorBoundary>
+              }
+            />
+
+            {/* AI App Runner - First-party interactive UIs for the 95 AI apps */}
+            <Route
+              path="/ai-app/:slug"
+              element={
+                <ProtectedRoute>
+                  <ErrorBoundary onError={handleError}>
+                    <Suspense fallback={<SectionLoader />}>
+                      <AIAppRunnerPage />
+                    </Suspense>
+                  </ErrorBoundary>
+                </ProtectedRoute>
               }
             />
 

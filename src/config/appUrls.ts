@@ -4,6 +4,7 @@
  * Single source of truth for all app URLs across the platform.
  * Maps app IDs to their corresponding videoremix.vip subdomain URLs.
  */
+import { isInternalAIApp } from "./internalAIApps";
 
 export const APP_URLS: Record<string, string> = {
   // Personalizer Suite - ai-personalizedcontent.videoremix.vip
@@ -98,6 +99,10 @@ export const APP_URLS: Record<string, string> = {
  * @returns The app's URL (external) or internal route fallback
  */
 export const getAppUrl = (appId: string): string => {
+  // The 95 first-party AI apps run inside the dashboard as rich React UIs
+  if (isInternalAIApp(appId)) {
+    return `/ai-app/${appId}`;
+  }
   return APP_URLS[appId] || `/app/${appId}`;
 };
 

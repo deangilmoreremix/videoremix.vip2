@@ -222,10 +222,11 @@ export default function AIDocumentationWriter({
       <div className="rounded-xl border border-gray-800 bg-[#0f0f0f] p-6 space-y-5">
         {/* Document Type */}
         <div>
-          <label className="mb-2 block text-sm font-medium text-gray-300">
+          <label htmlFor="doc-type-select" className="mb-2 block text-sm font-medium text-gray-300">
             Document Type <span className="text-red-500">*</span>
           </label>
           <select
+            id="doc-type-select"
             value={selectedDocType}
             onChange={(e) => setSelectedDocType(e.target.value)}
             disabled={isRunning}
@@ -241,10 +242,11 @@ export default function AIDocumentationWriter({
 
         {/* Topic / Title */}
         <div>
-          <label className="mb-2 block text-sm font-medium text-gray-300">
+          <label htmlFor="topic-input" className="mb-2 block text-sm font-medium text-gray-300">
             Topic / Title <span className="text-red-500">*</span>
           </label>
           <input
+            id="topic-input"
             type="text"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
@@ -256,10 +258,11 @@ export default function AIDocumentationWriter({
 
         {/* Audience */}
         <div>
-          <label className="mb-2 block text-sm font-medium text-gray-300">
+          <label htmlFor="audience-input" className="mb-2 block text-sm font-medium text-gray-300">
             Target Audience
           </label>
           <input
+            id="audience-input"
             type="text"
             value={audience}
             onChange={(e) => setAudience(e.target.value)}
@@ -271,10 +274,11 @@ export default function AIDocumentationWriter({
 
         {/* Key Points / Content Outline */}
         <div>
-          <label className="mb-2 block text-sm font-medium text-gray-300">
+          <label htmlFor="key-points-input" className="mb-2 block text-sm font-medium text-gray-300">
             Key Points / Content Outline
           </label>
           <textarea
+            id="key-points-input"
             value={keyPoints}
             onChange={(e) => setKeyPoints(e.target.value)}
             placeholder="What should this document cover? List the main topics, steps, or sections..."
@@ -286,10 +290,11 @@ export default function AIDocumentationWriter({
 
         {/* Additional Context */}
         <div>
-          <label className="mb-2 block text-sm font-medium text-gray-300">
+          <label htmlFor="additional-context-input" className="mb-2 block text-sm font-medium text-gray-300">
             Additional Context
           </label>
           <textarea
+            id="additional-context-input"
             value={additionalContext}
             onChange={(e) => setAdditionalContext(e.target.value)}
             placeholder="Any extra information, brand voice notes, examples, or specific requirements..."

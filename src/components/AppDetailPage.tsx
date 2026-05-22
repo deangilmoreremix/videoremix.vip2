@@ -44,10 +44,11 @@ import { useApps } from "../hooks/useApps";
 import { useAuth } from "../context/AuthContext";
 import { useUserAccess } from "../hooks/useUserAccess";
 import { getEnhancedAppData } from "../data/enhancedAppsData";
-import { getAppUrl, isExternalUrl } from "../config/appUrls";
+import { getAppUrl } from "../config/appUrls";
 import PurchaseModal from "./PurchaseModal";
 import PersonalizerDialog from "./personalizer/PersonalizerDialog";
 import { getBundleForApp } from "../data/appsData";
+import { AppLaunchButton } from "./AppLaunchButton";
 
 // Floating Icon component to add visual interest
 const FloatingIcon: React.FC<{
@@ -339,104 +340,7 @@ const AppDetailPage: React.FC = () => {
                 )}
 
                 <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                  {app.url && isExternalUrl(appId || "") ? (
-                    user && hasAccessToApp(app.slug || app.id) ? (
-                      <motion.a
-                        href={app.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        whileHover={{
-                          scale: 1.05,
-                          boxShadow: "0 10px 25px -5px rgba(79, 70, 229, 0.4)",
-                        }}
-                        whileTap={{ scale: 0.95 }}
-                        className="inline-flex items-center justify-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg relative overflow-hidden"
-                      >
-                        {/* Glowing effect */}
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-20"
-                          animate={{
-                            x: ["-100%", "200%"],
-                          }}
-                          transition={{
-                            repeat: Infinity,
-                            repeatDelay: 3,
-                            duration: 1.5,
-                            ease: "easeInOut",
-                          }}
-                        />
-                        <span className="relative z-10">Launch {app.name}</span>
-                        <motion.div
-                          className="relative z-10 ml-2"
-                          animate={{
-                            x: [0, 5, 0],
-                            opacity: [1, 0.8, 1],
-                          }}
-                          transition={{
-                            repeat: Infinity,
-                            duration: 1.5,
-                            repeatDelay: 1,
-                          }}
-                        >
-                          <ExternalLink className="h-5 w-5" />
-                        </motion.div>
-                      </motion.a>
-                    ) : (
-                      <motion.button
-                        onClick={() => setShowPurchaseModal(true)}
-                        whileHover={{
-                          scale: 1.05,
-                          boxShadow: "0 10px 25px -5px rgba(79, 70, 229, 0.4)",
-                        }}
-                        whileTap={{ scale: 0.95 }}
-                        className="inline-flex items-center justify-center bg-gradient-to-r from-gray-600 to-gray-500 hover:from-primary-600 hover:to-primary-500 text-white font-bold px-8 py-4 rounded-lg shadow-lg relative overflow-hidden"
-                      >
-                        <Lock className="h-5 w-5 mr-2" />
-                        <span className="relative z-10">
-                          Get Access to {app.name}
-                        </span>
-                      </motion.button>
-                    )
-                  ) : (
-                    <motion.button
-                      whileHover={{
-                        scale: 1.05,
-                        boxShadow: "0 10px 25px -5px rgba(79, 70, 229, 0.4)",
-                      }}
-                      whileTap={{ scale: 0.95 }}
-                      className="inline-flex items-center justify-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg relative overflow-hidden"
-                      onClick={() => navigate("/pricing")}
-                    >
-                      {/* Glowing effect */}
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-20"
-                        animate={{
-                          x: ["-100%", "200%"],
-                        }}
-                        transition={{
-                          repeat: Infinity,
-                          repeatDelay: 3,
-                          duration: 1.5,
-                          ease: "easeInOut",
-                        }}
-                      />
-                      <span className="relative z-10">Try {app.name} Now</span>
-                      <motion.div
-                        className="relative z-10 ml-2"
-                        animate={{
-                          x: [0, 5, 0],
-                          opacity: [1, 0.8, 1],
-                        }}
-                        transition={{
-                          repeat: Infinity,
-                          duration: 1.5,
-                          repeatDelay: 1,
-                        }}
-                      >
-                        <ArrowRight className="h-5 w-5" />
-                      </motion.div>
-                    </motion.button>
-                  )}
+                  <AppLaunchButton app={app} onPurchaseClick={() => setShowPurchaseModal(true)} />
 
                   <motion.button
                     whileHover={{
