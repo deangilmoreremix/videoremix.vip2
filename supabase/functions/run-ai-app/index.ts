@@ -182,6 +182,20 @@ serve(async (req) => {
       },
     };
 
+    // Record usage for billing
+    if (userId) {
+      const tokensUsed = openaiData.usage?.total_tokens || 0;
+      try {
+        await supabase.rpc("record_ai_app_run", {
+          user_uuid: userId,
+          app_slug: appSlug,
+          tokens: tokensUsed,
+        });
+      } catch (usageErr) {
+        console.error("Failed to record usage:", usageErr);
+      }
+    }
+
     return new Response(JSON.stringify(result), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

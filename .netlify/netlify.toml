@@ -1,15 +1,16 @@
-functionsDirectory = "/Users/shasheemoore/Downloads/videoremix2026/videoremix.vip2/netlify/functions"
+functionsDirectory = "/Users/shasheemoore/Downloads/videoremixvip/videoremix.vip2/netlify/functions"
 functionsDirectoryOrigin = "config"
 headersOrigin = "config"
 redirectsOrigin = "config"
 plugins = []
 
 [build]
-publish = "/Users/shasheemoore/Downloads/videoremix2026/videoremix.vip2/dist"
+publish = "/Users/shasheemoore/Downloads/videoremixvip/videoremix.vip2/dist"
 publishOrigin = "config"
 commandOrigin = "config"
 command = "npm install --include=dev --legacy-peer-deps && npm run build"
-functions = "/Users/shasheemoore/Downloads/videoremix2026/videoremix.vip2/netlify/functions"
+cache = ["package-lock.json", ".gitignore"]
+functions = "/Users/shasheemoore/Downloads/videoremixvip/videoremix.vip2/netlify/functions"
 
 [build.environment]
 NODE_VERSION = "20"
