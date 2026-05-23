@@ -84,7 +84,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "private-ai-chat-with-memory": () => import("./private-ai-chat-with-memory"),
   "private-chatgpt-clone": () => import("./private-chatgpt-clone"),
 
-  // === Batch 6: Developer & Code Apps (10 apps) ===
+  // === Batch 6: Developer & Code Apps (10 apps - Production Ready) ===
   "ai-app-builder-assistant": () => import("./ai-app-builder-assistant"),
   "ai-saas-architect": () => import("./ai-saas-architect"),
   "ai-code-review-pro": () => import("./ai-code-review-pro"),
@@ -127,7 +127,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "interview-summary-ai": () => import("./interview-summary-ai"),
   "hiring-plan-builder": () => import("./hiring-plan-builder"),
 
-  // === Batch 10: Local & Travel Apps (7 apps) ===
+  // === Batch 10: Local & Travel Apps (7 apps — Production Ready) ===
   "real-estate-marketing-ai": () => import("./real-estate-marketing-ai"),
   "home-renovation-visualizer-ai": () => import("./home-renovation-visualizer-ai"),
   "travel-planner-ai": () => import("./travel-planner-ai"),
@@ -200,6 +200,18 @@ const productionReadySlugs = new Set([
   "private-ai-chat-with-memory",
   "private-chatgpt-clone",
 
+  // === Batch 6: Developer & Code Apps (10 apps — Production Ready) ===
+  "ai-app-builder-assistant",
+  "ai-saas-architect",
+  "ai-code-review-pro",
+  "ai-bug-fixer",
+  "ai-fullstack-builder",
+  "python-fixer-ai",
+  "github-repo-assistant",
+  "github-automation-agent",
+  "build-plan-generator",
+  "sprint-planner-ai",
+
   // === Batch 9: HR & Hiring Apps (6 apps — Production Ready) ===
   "ai-hiring-assistant",
   "resume-analyzer-ai",
@@ -219,6 +231,15 @@ const productionReadySlugs = new Set([
   "contract-summary-ai",
   "policy-compliance-assistant",
   "legal-pdf-explainer",
+
+  // === Batch 10: Local & Travel Apps (7 apps — Production Ready) ===
+  "real-estate-marketing-ai",
+  "home-renovation-visualizer-ai",
+  "travel-planner-ai",
+  "local-tour-guide-ai",
+  "local-business-voice-assistant",
+  "local-business-growth-advisor",
+  "local-business-analytics-ai",
 ]);
 
 export function getAIAppComponent(slug: string): React.LazyExoticComponent<AIAppComponent> {
