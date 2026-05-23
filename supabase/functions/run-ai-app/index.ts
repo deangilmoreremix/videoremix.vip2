@@ -1,6 +1,8 @@
 // supabase/functions/run-ai-app/index.ts
 // OpenAI Responses API Integration with Streaming & Tool Support
 // Supports: web_search_preview, file_search, vision, code_execution, realtime
+// Realtime voice sessions via handleRealtimeSession (mode=realtime query param)
+// code_execution traces (code_execution_call/output) are captured in verificationTrace
 
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -44,6 +46,11 @@ serve(async (req) => {
   }
 
   if (req.headers.get("upgrade") === "websocket") {
+    const url = new URL(req.url);
+    const mode = url.searchParams.get("mode");
+    if (mode === "realtime") {
+      return handleRealtimeSession(req);
+    }
     return handleWebSocket(req);
   }
 
@@ -371,27 +378,86 @@ async function handleWebSocket(req: Request): Promise<Response> {
 }
 
 /**
- * Parse the OpenAI Responses API output into a structured format
+ * Safely extract stdout/stderr/exitCode from code_execution tool output items.
+ * Never throws - returns a safe default on any malformed input.
+ */
+function safeExtractCodeExecutionOutput(item: any): { stdout: string; stderr: string; exitCode: number } {
+  try {
+    if (item.type === "code_execution_output") {
+      let stdout = "";
+      let stderr = "";
+      let exitCode = 0;
+      if (typeof item.output === "string") {
+        stdout = item.output;
+      } else if (item.output && typeof item.output === "object") {
+        stdout = item.output.stdout || "";
+        stderr = item.output.stderr || "";
+        exitCode = item.output.exitCode || 0;
+      }
+      return { stdout, stderr, exitCode };
+    }
+    return { stdout: "", stderr: "", exitCode: 0 };
+  } catch {
+    return { stdout: "", stderr: "", exitCode: 0 };
+  }
+}
+
+/**
+ * Parse the OpenAI Responses API output into a structured format.
+ * Handles code_execution_call / code_execution_output items (2026 shape) and
+ * surfaces captured output under verificationTrace for JSON final answers.
+ * Never throws on unknown item types.
  */
 function parseResponseOutput(data: any): any {
-  // Handle error responses
   if (data.error) {
     throw new Error(data.error.message || "API Error");
   }
 
-  // Handle output items
   if (data.output && Array.isArray(data.output)) {
     const textParts: string[] = [];
     const toolCalls: any[] = [];
     const outputTexts: any[] = [];
+    let verificationTrace: any = undefined;
 
     for (const item of data.output) {
+      if (!item || typeof item.type !== "string") {
+        continue;
+      }
       switch (item.type) {
+        case "code_execution_call":
+          toolCalls.push({
+            id: item.id,
+            name: item.name || "code_execution",
+            arguments: item.arguments || "",
+            callId: item.call_id || item.id,
+            toolType: "code_execution_call",
+          });
+          break;
+
+        case "code_execution_output": {
+          const extracted = safeExtractCodeExecutionOutput(item);
+          toolCalls.push({
+            id: item.id,
+            callId: item.call_id || item.id,
+            toolType: "code_execution_output",
+            output: extracted.stdout,
+            stderr: extracted.stderr,
+            exitCode: extracted.exitCode,
+          });
+          if (!verificationTrace) {
+            verificationTrace = { executedCode: "", stdout: "", stderr: "", passed: false };
+          }
+          verificationTrace.stdout = extracted.stdout;
+          verificationTrace.stderr = extracted.stderr;
+          verificationTrace.passed = extracted.exitCode === 0;
+          break;
+        }
+
         case "message":
           if (item.content) {
             for (const content of item.content) {
               if (content.type === "output_text") {
-                textParts.push(content.text);
+                textParts.push(content.text || "");
               }
             }
           }
@@ -402,7 +468,6 @@ function parseResponseOutput(data: any): any {
             textParts.push(item.text);
           }
           if (item.annotations) {
-            // Include citations/annotations
             outputTexts.push({ type: "text_with_annotations", content: item.text, annotations: item.annotations });
           } else {
             outputTexts.push(item.text);
@@ -427,49 +492,50 @@ function parseResponseOutput(data: any): any {
           break;
 
         case "reasoning":
-          // If there's reasoning, include it
           if (item.summary) {
             outputTexts.push({ type: "reasoning", content: item.summary });
           }
           break;
 
         default:
-          // Store unknown types
           if (item.text) {
             textParts.push(item.text);
           }
       }
     }
 
-    // If we have tool calls, return them
     if (toolCalls.length > 0) {
-      return {
-        response: textParts.join("\n"),
-        toolCalls: toolCalls,
+      const result: any = {
+        toolCalls,
         usage: "Tool execution completed",
       };
+      if (verificationTrace) {
+        result.verificationTrace = verificationTrace;
+      }
+      return result;
     }
 
-    // If we have text, try to parse as JSON
     const combinedText = textParts.join("\n").trim();
 
     if (!combinedText) {
       return { message: "No output generated" };
     }
 
-    // Try to parse as JSON
     try {
-      return JSON.parse(combinedText);
+      const parsed = JSON.parse(combinedText);
+      if (verificationTrace) {
+        parsed.verificationTrace = verificationTrace;
+      }
+      return parsed;
     } catch {
-      // If not valid JSON, return as text content
       return {
         content: combinedText,
         formatted: outputTexts.length > 0 ? outputTexts : undefined,
+        ...(verificationTrace ? { verificationTrace } : {}),
       };
     }
   }
 
-  // Handle direct output_text
   if (data.output_text) {
     try {
       return JSON.parse(data.output_text);
@@ -478,10 +544,210 @@ function parseResponseOutput(data: any): any {
     }
   }
 
-  // Handle error
   if (data.error) {
     throw new Error(data.error.message || "Unknown error");
   }
 
   return data;
+}
+
+async function handleRealtimeSession(req: Request): Promise<Response> {
+  const url = new URL(req.url);
+  const appSlug = url.searchParams.get("appSlug");
+  const voice = url.searchParams.get("voice");
+
+  if (!appSlug) {
+    return new Response(JSON.stringify({ error: "appSlug is required" }), {
+      status: 400,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  const config = getAppConfig(appSlug);
+  const openaiKey = Deno.env.get("OPENAI_API_KEY");
+
+  if (!config || !openaiKey) {
+    return new Response(JSON.stringify({ error: "App not found or OpenAI key not configured" }), {
+      status: 400,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  const realtimeVoice = config.realtimeVoice || voice || "alloy";
+
+  if (!config.tools?.includes("realtime")) {
+    return new Response(JSON.stringify({ error: "Realtime not enabled for this app" }), {
+      status: 400,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  let ephemeralToken: string;
+  let sessionModel: string;
+
+  try {
+    const sessionRes = await fetch("https://api.openai.com/v1/realtime/sessions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${openaiKey}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-realtime-mini",
+        modalities: ["audio", "text"],
+        voice: realtimeVoice,
+        instructions: config.systemPrompt || "You are a helpful AI assistant.",
+      }),
+    });
+
+    if (!sessionRes.ok) {
+      const errText = await sessionRes.text();
+      console.error("Realtime session creation failed:", sessionRes.status, errText);
+      return new Response(JSON.stringify({ error: `OpenAI error ${sessionRes.status}: ${errText}` }), {
+        status: 502,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const sessionData = await sessionRes.json();
+    ephemeralToken = sessionData.client_secret?.value;
+    sessionModel = sessionData.model || "gpt-realtime-mini";
+
+    if (!ephemeralToken) {
+      return new Response(JSON.stringify({ error: "No ephemeral token returned from OpenAI" }), {
+        status: 502,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+  } catch (err: any) {
+    console.error("Failed to create realtime session:", err);
+    return new Response(JSON.stringify({ error: err.message || "Failed to create realtime session" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  const upgrader = Deno.upgradeWebSocket(req);
+  const { socket: clientSocket, response } = upgrader;
+
+  let openaiSocket: WebSocket | null = null;
+  let sessionStartTime: number | null = null;
+  let userId: string | null = null;
+
+  clientSocket.onopen = () => {
+    console.log(`Realtime session started for app=${appSlug} voice=${realtimeVoice}`);
+    sessionStartTime = Date.now();
+
+    try {
+      openaiSocket = new WebSocket(
+        `wss://api.openai.com/v1/realtime?model=${sessionModel}`,
+        ["realtime", `openai-insecure-api-key.${ephemeralToken}`],
+      );
+
+      openaiSocket.onopen = () => {
+        console.log("OpenAI Realtime WebSocket opened");
+        openaiSocket!.send(JSON.stringify({
+          type: "session.update",
+          session: {
+            modalities: ["audio", "text"],
+            voice: realtimeVoice,
+            instructions: config.systemPrompt || "You are a helpful AI assistant.",
+          },
+        }));
+      };
+
+      openaiSocket.onmessage = (event: MessageEvent) => {
+        try {
+          const msg = JSON.parse(event.data);
+          if (clientSocket.readyState === WebSocket.OPEN) {
+            clientSocket.send(JSON.stringify(msg));
+          }
+
+          if (msg.type === "response.output_text.delta" || msg.type === "response.text.delta") {
+            const textDelta = msg.delta?.text || msg.text || "";
+            if (textDelta.length > 0) {
+              let parsedJson: any = null;
+              try {
+                const soFar = (msg._accumulatedText || "") + textDelta;
+                msg._accumulatedText = soFar;
+                const trimmed = soFar.trim();
+                if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
+                  parsedJson = JSON.parse(trimmed);
+                } else if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
+                  parsedJson = JSON.parse(trimmed);
+                }
+              } catch {}
+              if (parsedJson && clientSocket.readyState === WebSocket.OPEN) {
+                clientSocket.send(JSON.stringify({ type: "json_delta", data: parsedJson }));
+              }
+            }
+          }
+        } catch (err) {
+          console.error("Error forwarding OpenAI message:", err);
+        }
+      };
+
+      openaiSocket.onerror = (err) => {
+        console.error("OpenAI Realtime WebSocket error:", err);
+      };
+
+      openaiSocket.onclose = (event) => {
+        console.log("OpenAI Realtime WebSocket closed:", event.code, event.reason);
+        if (clientSocket.readyState === WebSocket.OPEN) {
+          clientSocket.close(event.code || 1000, event.reason || "OpenAI connection closed");
+        }
+      };
+    } catch (err) {
+      console.error("Failed to create OpenAI WebSocket:", err);
+      clientSocket.send(JSON.stringify({ error: "Failed to connect to OpenAI Realtime" }));
+      clientSocket.close();
+    }
+  };
+
+  clientSocket.onmessage = async (event: MessageEvent) => {
+    if (!openaiSocket || openaiSocket.readyState !== WebSocket.OPEN) {
+      return;
+    }
+    try {
+      const msg = JSON.parse(event.data);
+      openaiSocket.send(JSON.stringify(msg));
+    } catch (err) {
+      console.error("Error forwarding client message to OpenAI:", err);
+    }
+  };
+
+  clientSocket.onerror = (err) => {
+    console.error("Client WebSocket error:", err);
+  };
+
+  clientSocket.onclose = () => {
+    console.log("Client WebSocket closed, cleaning up OpenAI connection");
+    if (openaiSocket && openaiSocket.readyState === WebSocket.OPEN) {
+      openaiSocket.close();
+    }
+    if (sessionStartTime && userId) {
+      const durationSeconds = (Date.now() - sessionStartTime) / 1000;
+      recordRealtimeUsage(userId, appSlug, durationSeconds).catch((err) => {
+        console.error("Failed to record realtime usage:", err);
+      });
+    }
+  };
+
+  return response;
+}
+
+async function recordRealtimeUsage(userId: string, appSlug: string, seconds: number): Promise<void> {
+  try {
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+    );
+    await supabase.rpc("record_ai_app_run", {
+      user_uuid: userId,
+      app_slug: appSlug,
+      tokens: 0,
+    });
+  } catch (err) {
+    console.error("recordRealtimeUsage error:", err);
+  }
 }
