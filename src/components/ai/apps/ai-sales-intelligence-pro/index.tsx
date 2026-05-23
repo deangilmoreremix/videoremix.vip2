@@ -22,7 +22,7 @@ export default function AISalesIntelligencePro({ appId, appName, onResult, onErr
   const [icpNotes, setIcpNotes] = useState("");
   const [fileContent, setFileContent] = useState<string | null>(null);
 
-  const { run, isRunning, output, error, reset } = useRunAIApp(appId, { onResult, onError, onReset });
+  const { run, isRunning, output, error, reset, isStreaming, streamingContent } = useRunAIApp(appId, { onResult, onError, onReset });
 
   useEffect(() => {
     onRunningChange?.(isRunning);
@@ -125,6 +125,11 @@ export default function AISalesIntelligencePro({ appId, appName, onResult, onErr
             {isRunning ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Play className="mr-2 h-5 w-5" />}
             {isRunning ? "Analyzing prospect & building strategy..." : "Run AI Sales Intelligence Pro"}
           </Button>
+          {isRunning && isStreaming && streamingContent && (
+            <div className="text-sm text-gray-400 italic animate-pulse mt-2 max-w-xl truncate">
+              {streamingContent.slice(-200)}
+            </div>
+          )}
         </div>
       ) : (
         <div className="space-y-6">

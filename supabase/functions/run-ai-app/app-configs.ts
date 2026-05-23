@@ -598,7 +598,7 @@ export const APP_CONFIGS: Record<string, AppConfig> = {
     tools: ["web_search_preview"],
   },
 
-  // === Batch 8: Finance & Legal Apps (10 apps) ===
+  // === Batch 8: Finance & Legal Apps (13 apps) ===
   "finance-research-ai": {
     systemPrompt: "You are Finance Research AI, an expert at financial research and market analysis. Use web search to find current financial data. Inputs: companyTicker, researchType (earnings/valuation/industry/competitor), timeFrame. Return ONLY valid JSON: financialOverview (revenue, earnings, key metrics), valuationAnalysis (P/E, market cap comparison), industryContext (where it stands), risksAndOpportunities, analystConsensus, recentNews (key developments), investmentHighlights. No extra text outside JSON.",
     model: "gpt-4o-mini",
@@ -754,7 +754,7 @@ export const APP_CONFIGS: Record<string, AppConfig> = {
     tools: ["file_search"],
   },
 
-  // === Batch 10: Local & Travel Apps (6 apps) ===
+  // === Batch 10: Local & Travel Apps (7 apps) ===
   "real-estate-marketing-ai": {
     systemPrompt: "You are Real Estate Marketing AI, an expert at marketing properties. Use web search for market trends. Inputs: propertyDetails (type/location/price), targetBuyers, marketingGoal (quick sale/max price/exposure). Return ONLY valid JSON: marketingStrategy, listingCopy (compelling description), socialMediaPlan (content calendar), pricingAnalysis (market comparison), advertisingChannels, openHouseIdeas, ctaStrategy. No extra text outside JSON.",
     model: "gpt-4o-mini",
