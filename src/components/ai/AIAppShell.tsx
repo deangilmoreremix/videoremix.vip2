@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowLeft, Save, Download, BarChart3 } from "lucide-react";
+import { ArrowLeft, Save, Download, BarChart3, FileText, CheckCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 
@@ -14,6 +14,9 @@ interface AIAppShellProps {
   onSave?: () => void;
   onDownload?: () => void;
   isRunning?: boolean;
+  activeTab?: "input" | "results";
+  onTabChange?: (tab: "input" | "results") => void;
+  hasResults?: boolean;
 }
 
 export const AIAppShell: React.FC<AIAppShellProps> = ({
@@ -24,6 +27,9 @@ export const AIAppShell: React.FC<AIAppShellProps> = ({
   onSave,
   onDownload,
   isRunning = false,
+  activeTab = "input",
+  onTabChange,
+  hasResults = false,
 }) => {
   const navigate = useNavigate();
 
@@ -93,6 +99,39 @@ export const AIAppShell: React.FC<AIAppShellProps> = ({
               Download
             </Button>
           </div>
+        </div>
+      </div>
+
+      {/* Tab Navigation */}
+      <div className="border-b border-gray-800">
+        <div className="mx-auto max-w-7xl px-6">
+          <nav className="flex gap-1 -mb-px">
+            <button
+              onClick={() => onTabChange?.("input")}
+              className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+                activeTab === "input"
+                  ? "border-primary-500 text-primary-400"
+                  : "border-transparent text-gray-400 hover:text-white hover:border-gray-600"
+              }`}
+            >
+              <FileText className="h-4 w-4" />
+              Input Form
+            </button>
+            <button
+              onClick={() => onTabChange?.("results")}
+              className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+                activeTab === "results"
+                  ? "border-primary-500 text-primary-400"
+                  : "border-transparent text-gray-400 hover:text-white hover:border-gray-600"
+              }`}
+            >
+              <CheckCircle2 className="h-4 w-4" />
+              Results
+              {hasResults && (
+                <span className="ml-1 px-1.5 py-0.5 text-xs bg-primary-500/20 text-primary-400 rounded">1</span>
+              )}
+            </button>
+          </nav>
         </div>
       </div>
 
