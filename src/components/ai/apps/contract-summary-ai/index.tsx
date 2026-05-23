@@ -10,6 +10,7 @@ import { useRunAIApp } from "../useRunAIApp";
 import { BasicFileUpload } from "../../primitives/BasicFileUpload";
 import { PromptTextarea } from "../../primitives/PromptTextarea";
 import { StructuredResult } from "../../primitives/StructuredResult";
+import { ResultActions } from "../../primitives/ResultActions";
 import { Button } from "../../../ui/button";
 import { Label } from "../../../ui/label";
 
@@ -275,8 +276,7 @@ export default function ContractSummaryAI({ appId, appName, onResult, onError, o
           )}
 
           <div className="flex gap-3 flex-wrap">
-            <Button variant="outline" onClick={handleReset} className="border-gray-700">New Analysis</Button>
-            <Button onClick={handleClearAll} variant="ghost">Clear All</Button>
+            <ResultActions onNew={handleReset} newLabel="New Analysis" onClear={handleClearAll} clearLabel="Clear All" />
             {Object.keys(lastInputs).length > 0 && (
               <Button onClick={handleRun} disabled={isRunning} className="bg-primary-600 hover:bg-primary-500">
                 {isRunning ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}

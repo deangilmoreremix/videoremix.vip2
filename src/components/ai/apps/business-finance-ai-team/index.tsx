@@ -8,6 +8,7 @@ import { Play, Loader2, TrendingUp, DollarSign, PieChart, BarChart3, AlertTriang
 import type { AIAppProps } from "../types";
 import { useRunAIApp } from "../useRunAIApp";
 import { PromptTextarea } from "../../primitives/PromptTextarea";
+import { ResultActions } from "../../primitives/ResultActions";
 import { Button } from "../../../ui/button";
 import { Input } from "../../../ui/input";
 import { Label } from "../../../ui/label";
@@ -224,8 +225,7 @@ export default function BusinessFinanceAITeam({ appId, appName, onResult, onErro
           )}
 
           <div className="flex gap-3">
-            <Button variant="outline" onClick={handleReset} className="border-gray-700">New Analysis</Button>
-            <Button onClick={handleClearAll} variant="ghost">Clear All</Button>
+            <ResultActions onNew={handleReset} newLabel="New Analysis" onClear={handleClearAll} clearLabel="Clear All" />
             {Object.keys(lastInputs).length > 0 && (
               <Button
                 onClick={handleRun}
