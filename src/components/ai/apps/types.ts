@@ -55,6 +55,14 @@ export interface UseRunAIAppOptions {
   onResult?: (result: AIAppResult) => void;
   onError?: (error: string) => void;
   onReset?: () => void;
+  /** Enable multi-turn conversation context */
+  enableMultiTurn?: boolean;
+  /** Max conversation history items to keep */
+  maxHistoryItems?: number;
+  /** Enable auto-retry on failure */
+  autoRetry?: boolean;
+  /** Max retry attempts */
+  maxRetries?: number;
 }
 
 /**
@@ -69,4 +77,18 @@ export interface UseRunAIAppReturn {
   error: string | null;
   /** Clear output and error (e.g. "New Analysis" button) */
   reset: () => void;
+  isStreaming: boolean;
+  streamingContent: string;
+  /** Conversation history for multi-turn */
+  conversationHistory: ConversationMessage[];
+  /** Clear conversation history */
+  clearHistory: () => void;
+  /** Error suggestion from last failed attempt */
+  errorSuggestion?: string;
+}
+
+export interface ConversationMessage {
+  role: "user" | "assistant";
+  content: string;
+  timestamp: number;
 }
