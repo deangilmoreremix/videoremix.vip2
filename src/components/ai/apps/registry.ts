@@ -186,7 +186,7 @@ const productionReadySlugs = new Set([
   "multimodal-knowledge-ai",
   "ai-knowledgebase-debugger",
 
-  // === Batch 5: Research & Analysis (12 apps — Production Ready) ===
+// === Batch 5: Research & Analysis (12 apps — Production Ready) ===
   "research-assistant-ai",
   "deep-research-pro",
   "research-planner-ai",
@@ -199,17 +199,14 @@ const productionReadySlugs = new Set([
   "multi-ai-memory-hub",
   "private-ai-chat-with-memory",
   "private-chatgpt-clone",
-  // === Batch 8: Finance & Legal (all 10 production-ready) ===
+
+  // === Batch 8: Finance & Legal Apps (6 apps — Production Ready) ===
   "finance-research-ai",
-  "business-finance-ai-team",
   "profit-coach-ai",
   "investment-research-assistant",
   "startup-due-diligence-ai",
-  "revenue-data-analyst-ai",
-  "financial-dashboard-ai",
-  "contract-summary-ai",
-  "legal-pdf-explainer",
   "policy-compliance-assistant",
+  "legal-pdf-explainer",
 ]);
 
 export function getAIAppComponent(slug: string): React.LazyExoticComponent<AIAppComponent> {
