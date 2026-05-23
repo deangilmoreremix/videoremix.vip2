@@ -5,15 +5,15 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { Play, Loader2, Mic } from "lucide-react";
+import { Play, Loader2, Mic, MessageSquare } from "lucide-react";
 import type { AIAppProps } from "../types";
 import { useRunAIApp } from "../useRunAIApp";
 import { PromptTextarea } from "../../primitives/PromptTextarea";
 import { StructuredResult } from "../../primitives/StructuredResult";
 import { BasicFileUpload } from "../../primitives/BasicFileUpload";
 import { ResultActions } from "../../primitives/ResultActions";
+import { RealtimeVoiceSession } from "../../primitives/RealtimeVoiceSession";
 import { Button } from "../../../ui/button";
-import { Input } from "../../../ui/input";
 import { Label } from "../../../ui/label";
 
 export default function AIDictationAssistant({ appId, appName, onResult, onError, onRunningChange, onReset }: AIAppProps) {
@@ -73,6 +73,15 @@ export default function AIDictationAssistant({ appId, appName, onResult, onError
 
   const finalContent = dictationContent || fileContent || "";
 
+  // === Voice + Text Mode Support ===
+  const [mode, setMode] = useState<"text" | "voice">("text");
+
+  const handleVoiceResult = (json: any) => {
+    onResult?.(json);
+  };
+
+  const handleVoiceEnd = () => {};
+
   return (
     <div className="space-y-8">
       <div className="flex items-center gap-3">
@@ -81,7 +90,34 @@ export default function AIDictationAssistant({ appId, appName, onResult, onError
       </div>
       <p className="text-gray-400 -mt-4">Convert spoken ideas, voice notes, or raw dictation into polished text, summaries, emails, and documents.</p>
 
-      {!output ? (
+      {/* Mode Switch */}
+      <div className="inline-flex rounded-xl border border-gray-800 bg-black/60 p-1">
+        <button
+          onClick={() => setMode("text")}
+          className={`flex items-center gap-2 rounded-lg px-5 py-2 text-sm font-medium transition-all ${mode === "text" ? "bg-primary-600 text-white" : "text-gray-400 hover:text-white"}`}
+        >
+          <MessageSquare className="h-4 w-4" /> Text + Upload (Classic)
+        </button>
+        <button
+          onClick={() => setMode("voice")}
+          className={`flex items-center gap-2 rounded-lg px-5 py-2 text-sm font-medium transition-all ${mode === "voice" ? "bg-primary-600 text-white" : "text-gray-400 hover:text-white"}`}
+        >
+          <Mic className="h-4 w-4" /> Live Voice Dictation
+        </button>
+      </div>
+
+      {/* LIVE VOICE MODE */}
+      {mode === "voice" && !output && (
+        <RealtimeVoiceSession
+          appId={appId}
+          voice="alloy"
+          onStructuredResult={handleVoiceResult}
+          onEnd={handleVoiceEnd}
+        />
+      )}
+
+      {/* TEXT MODE (original) */}
+      {mode === "text" && !output && (
         <div className="space-y-6 max-w-3xl">
           <div>
             <Label className="text-sm font-medium text-gray-300 mb-2 block">Spoken Dictation / Notes</Label>
@@ -142,7 +178,10 @@ export default function AIDictationAssistant({ appId, appName, onResult, onError
             {isRunning ? "Processing dictation..." : "Run AI Dictation Assistant"}
           </Button>
         </div>
-      ) : (
+      )}
+
+      {/* SHARED RESULT (works for voice + text) */}
+      {output && (
         <div className="space-y-6">
           <StructuredResult result={output} title="Dictation Output" />
           <ResultActions

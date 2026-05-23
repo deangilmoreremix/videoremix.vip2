@@ -555,12 +555,28 @@ async function handleRealtimeSession(req: Request): Promise<Response> {
   const url = new URL(req.url);
   const appSlug = url.searchParams.get("appSlug");
   const voice = url.searchParams.get("voice");
+  const accessToken = url.searchParams.get("access_token") || url.searchParams.get("token");
 
   if (!appSlug) {
     return new Response(JSON.stringify({ error: "appSlug is required" }), {
       status: 400,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
+  }
+
+  // Extract and validate user from Supabase JWT (passed as query param for browser WebSocket compatibility)
+  let authenticatedUserId: string | null = null;
+  if (accessToken) {
+    try {
+      const supabase = createClient(
+        Deno.env.get("SUPABASE_URL") ?? "",
+        Deno.env.get("SUPABASE_ANON_KEY") ?? "",
+      );
+      const { data: { user } } = await supabase.auth.getUser(accessToken);
+      authenticatedUserId = user?.id ?? null;
+    } catch (e) {
+      console.warn("Realtime access_token validation failed (continuing):", e);
+    }
   }
 
   const config = getAppConfig(appSlug);
@@ -632,7 +648,7 @@ async function handleRealtimeSession(req: Request): Promise<Response> {
 
   let openaiSocket: WebSocket | null = null;
   let sessionStartTime: number | null = null;
-  let userId: string | null = null;
+  const userId: string | null = authenticatedUserId; // from validated access_token query param (or null)
 
   clientSocket.onopen = () => {
     console.log(`Realtime session started for app=${appSlug} voice=${realtimeVoice}`);

@@ -5,14 +5,14 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { Play, Loader2, Mic } from "lucide-react";
+import { Play, Loader2, Mic, MessageSquare } from "lucide-react";
 import type { AIAppProps } from "../types";
 import { useRunAIApp } from "../useRunAIApp";
 import { PromptTextarea } from "../../primitives/PromptTextarea";
 import { StructuredResult } from "../../primitives/StructuredResult";
 import { ResultActions } from "../../primitives/ResultActions";
+import { RealtimeVoiceSession } from "../../primitives/RealtimeVoiceSession";
 import { Button } from "../../../ui/button";
-import { Input } from "../../../ui/input";
 import { Label } from "../../../ui/label";
 
 export default function AIIntakeVoiceAgent({ appId, appName, onResult, onError, onRunningChange, onReset }: AIAppProps) {
@@ -71,6 +71,20 @@ export default function AIIntakeVoiceAgent({ appId, appName, onResult, onError, 
     reset();
   };
 
+  // === Voice + Text Mode Support ===
+  const [mode, setMode] = useState<"text" | "voice">("text");
+
+  const handleVoiceResult = (json: any) => {
+    // Feed the structured JSON from the live voice session into the normal output path
+    // so StructuredResult + ResultActions (copy, save, new, clear) all continue to work.
+    // We also trigger the parent onResult if provided.
+    onResult?.(json);
+  };
+
+  const handleVoiceEnd = () => {
+    // User can stay on the result or switch back to text mode
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex items-center gap-3">
@@ -79,7 +93,34 @@ export default function AIIntakeVoiceAgent({ appId, appName, onResult, onError, 
       </div>
       <p className="text-gray-400 -mt-4">Generate structured intake conversations, forms, and workflow scripts for collecting client information efficiently.</p>
 
-      {!output ? (
+      {/* Mode Switch — preserves existing text experience while adding the new live voice capability */}
+      <div className="inline-flex rounded-xl border border-gray-800 bg-black/60 p-1">
+        <button
+          onClick={() => setMode("text")}
+          className={`flex items-center gap-2 rounded-lg px-5 py-2 text-sm font-medium transition-all ${mode === "text" ? "bg-primary-600 text-white" : "text-gray-400 hover:text-white"}`}
+        >
+          <MessageSquare className="h-4 w-4" /> Text Form (Classic)
+        </button>
+        <button
+          onClick={() => setMode("voice")}
+          className={`flex items-center gap-2 rounded-lg px-5 py-2 text-sm font-medium transition-all ${mode === "voice" ? "bg-primary-600 text-white" : "text-gray-400 hover:text-white"}`}
+        >
+          <Mic className="h-4 w-4" /> Live Voice Conversation
+        </button>
+      </div>
+
+      {/* === LIVE VOICE MODE === */}
+      {mode === "voice" && !output && (
+        <RealtimeVoiceSession
+          appId={appId}
+          voice="shimmer"
+          onStructuredResult={handleVoiceResult}
+          onEnd={handleVoiceEnd}
+        />
+      )}
+
+      {/* === TEXT MODE (original behavior preserved 100%) === */}
+      {mode === "text" && !output && (
         <div className="space-y-6 max-w-3xl">
           <div>
             <Label className="text-sm font-medium text-gray-300 mb-2 block">Intake Requirements & Goals</Label>
@@ -147,7 +188,10 @@ export default function AIIntakeVoiceAgent({ appId, appName, onResult, onError, 
             {isRunning ? "Generating intake workflows..." : "Run AI Intake Voice Agent"}
           </Button>
         </div>
-      ) : (
+      )}
+
+      {/* === SHARED RESULT VIEW (works for both text and voice paths) === */}
+      {output && (
         <div className="space-y-6">
           <StructuredResult result={output} title="Intake Conversation Package" />
           <ResultActions
