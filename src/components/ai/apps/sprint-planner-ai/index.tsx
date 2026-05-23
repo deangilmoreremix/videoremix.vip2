@@ -5,7 +5,7 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { Play, Loader2, Target, Users, Clock, AlertTriangle, CheckCircle2, ArrowRight } from "lucide-react";
+import { Play, Loader2, Target, Users, Clock, AlertTriangle, CheckCircle2, ArrowRight, Mic, MessageSquare } from "lucide-react";
 import type { AIAppProps } from "../types";
 import { useRunAIApp } from "../useRunAIApp";
 import { PromptTextarea } from "../../primitives/PromptTextarea";
@@ -14,6 +14,7 @@ import { ResultActions } from "../../primitives/ResultActions";
 import { ExecutionTrace } from "../../primitives/ExecutionTrace";
 import { TaskBoard } from "../../primitives/TaskBoard";
 import { MermaidDiagram } from "../../primitives/MermaidDiagram";
+import { RealtimeVoiceSession } from "../../primitives/RealtimeVoiceSession";
 import { Button } from "../../../ui/button";
 import { Input } from "../../../ui/input";
 import { Label } from "../../../ui/label";
@@ -52,6 +53,13 @@ export default function SprintPlannerAI({ appId, appName, onResult, onError, onR
     reset();
   };
 
+  // Voice + Text mode (Batch 6 realtime planning apps)
+  const [mode, setMode] = useState<"text" | "voice">("text");
+
+  const handleVoiceResult = (json: any) => {
+    onResult?.(json);
+  };
+
   return (
     <div className="space-y-8">
       <div>
@@ -59,10 +67,37 @@ export default function SprintPlannerAI({ appId, appName, onResult, onError, onR
           <Target className="h-7 w-7 text-primary-500" />
           <h2 className="text-2xl font-semibold">{appName}</h2>
         </div>
-        <p className="mt-2 text-gray-400">Plan agile sprints with story allocation, task breakdown, and velocity tracking.</p>
+        <p className="mt-2 text-gray-400">Plan agile sprints with story allocation, task breakdown, and velocity tracking. Use Live Voice to speak your backlog and goals.</p>
       </div>
 
-      {!output ? (
+      {/* Mode switch */}
+      <div className="inline-flex rounded-xl border border-gray-800 bg-black/60 p-1">
+        <button
+          onClick={() => setMode("text")}
+          className={`flex items-center gap-2 rounded-lg px-5 py-2 text-sm font-medium transition-all ${mode === "text" ? "bg-primary-600 text-white" : "text-gray-400 hover:text-white"}`}
+        >
+          <MessageSquare className="h-4 w-4" /> Text Form
+        </button>
+        <button
+          onClick={() => setMode("voice")}
+          className={`flex items-center gap-2 rounded-lg px-5 py-2 text-sm font-medium transition-all ${mode === "voice" ? "bg-primary-600 text-white" : "text-gray-400 hover:text-white"}`}
+        >
+          <Mic className="h-4 w-4" /> Live Voice Planning
+        </button>
+      </div>
+
+      {/* Live Voice */}
+      {mode === "voice" && !output && (
+        <RealtimeVoiceSession
+          appId={appId}
+          voice="shimmer"
+          onStructuredResult={handleVoiceResult}
+          onEnd={() => {}}
+        />
+      )}
+
+      {/* Text mode (original) */}
+      {mode === "text" && !output && (
         <div className="space-y-6">
           <PromptTextarea
             label="User Stories (Backlog)"
@@ -121,7 +156,10 @@ export default function SprintPlannerAI({ appId, appName, onResult, onError, onR
             {isRunning ? "Planning sprint..." : "Plan Sprint"}
           </Button>
         </div>
-      ) : (
+      )}
+
+      {/* Rich result view (shows for both text and voice when output is set) */}
+      {output && (
         <div className="space-y-6">
           {output.verificationTrace && (
             <ExecutionTrace trace={output.verificationTrace} />
@@ -231,14 +269,14 @@ export default function SprintPlannerAI({ appId, appName, onResult, onError, onR
               a.href = url; a.download = `sprint-plan-${Date.now()}.json`; a.click();
             }}
           />
-          <ResultActions
-            onNew={handleReset}
-            newLabel="Plan Another Sprint"
-            onClear={handleClearAll}
-            clearLabel="Clear All"
-          />
-        </div>
-      )}
-    </div>
-  );
-}
+            <ResultActions
+             onNew={handleReset}
+             newLabel="Plan Another Sprint"
+             onClear={handleClearAll}
+             clearLabel="Clear All"
+           />
+         </div>
+       )}
+     </div>
+   );
+ }

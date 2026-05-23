@@ -255,7 +255,10 @@ const productionReadySlugs = new Set([
 export const VOICE_ENABLED_APPS = new Set([
   "ai-intake-voice-agent",
   "ai-dictation-assistant",
-  // Additional apps that declare realtime in config can be added here once their UIs are wired with RealtimeVoiceSession
+  // Batch 6 developer/planning apps that declare realtime (wired below)
+  "ai-app-builder-assistant",
+  "build-plan-generator",
+  "sprint-planner-ai",
 ]);
 
 export function getAIAppComponent(slug: string): React.LazyExoticComponent<AIAppComponent> {

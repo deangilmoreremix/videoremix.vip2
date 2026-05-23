@@ -5,7 +5,7 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { Play, Loader2, Target, ListChecks, Clock, AlertTriangle, Users, CheckCircle2 } from "lucide-react";
+import { Play, Loader2, Target, ListChecks, Clock, AlertTriangle, Users, CheckCircle2, Mic, MessageSquare } from "lucide-react";
 import type { AIAppProps } from "../types";
 import { useRunAIApp } from "../useRunAIApp";
 import { PromptTextarea } from "../../primitives/PromptTextarea";
@@ -14,6 +14,7 @@ import { ResultActions } from "../../primitives/ResultActions";
 import { ExecutionTrace } from "../../primitives/ExecutionTrace";
 import { TaskBoard } from "../../primitives/TaskBoard";
 import { MermaidDiagram } from "../../primitives/MermaidDiagram";
+import { RealtimeVoiceSession } from "../../primitives/RealtimeVoiceSession";
 import { Button } from "../../../ui/button";
 import { Input } from "../../../ui/input";
 import { Label } from "../../../ui/label";
@@ -49,6 +50,13 @@ export default function BuildPlanGenerator({ appId, appName, onResult, onError, 
     reset();
   };
 
+  // Voice + Text mode (Batch 6 realtime planning apps)
+  const [mode, setMode] = useState<"text" | "voice">("text");
+
+  const handleVoiceResult = (json: any) => {
+    onResult?.(json);
+  };
+
   return (
     <div className="space-y-8">
       <div>
@@ -56,10 +64,37 @@ export default function BuildPlanGenerator({ appId, appName, onResult, onError, 
           <Target className="h-7 w-7 text-primary-500" />
           <h2 className="text-2xl font-semibold">{appName}</h2>
         </div>
-        <p className="mt-2 text-gray-400">Create detailed implementation plans with task breakdowns, timelines, and risk assessment.</p>
+        <p className="mt-2 text-gray-400">Create detailed implementation plans with task breakdowns, timelines, and risk assessment. Use Live Voice to describe the project conversationally.</p>
       </div>
 
-      {!output ? (
+      {/* Mode switch */}
+      <div className="inline-flex rounded-xl border border-gray-800 bg-black/60 p-1">
+        <button
+          onClick={() => setMode("text")}
+          className={`flex items-center gap-2 rounded-lg px-5 py-2 text-sm font-medium transition-all ${mode === "text" ? "bg-primary-600 text-white" : "text-gray-400 hover:text-white"}`}
+        >
+          <MessageSquare className="h-4 w-4" /> Text Form
+        </button>
+        <button
+          onClick={() => setMode("voice")}
+          className={`flex items-center gap-2 rounded-lg px-5 py-2 text-sm font-medium transition-all ${mode === "voice" ? "bg-primary-600 text-white" : "text-gray-400 hover:text-white"}`}
+        >
+          <Mic className="h-4 w-4" /> Live Voice Planning
+        </button>
+      </div>
+
+      {/* Live Voice */}
+      {mode === "voice" && !output && (
+        <RealtimeVoiceSession
+          appId={appId}
+          voice="shimmer"
+          onStructuredResult={handleVoiceResult}
+          onEnd={() => {}}
+        />
+      )}
+
+      {/* Text mode (original) */}
+      {mode === "text" && !output && (
         <div className="space-y-6">
           <PromptTextarea
             label="Project Goal"
@@ -102,7 +137,10 @@ export default function BuildPlanGenerator({ appId, appName, onResult, onError, 
             {isRunning ? "Generating plan..." : "Generate Build Plan"}
           </Button>
         </div>
-      ) : (
+      )}
+
+      {/* Rich result view (shows for both text and voice when output is set) */}
+      {output && (
         <div className="space-y-6">
           {output.verificationTrace && (
             <ExecutionTrace trace={output.verificationTrace} />
@@ -199,14 +237,14 @@ export default function BuildPlanGenerator({ appId, appName, onResult, onError, 
               a.href = url; a.download = `build-plan-${Date.now()}.json`; a.click();
             }}
           />
-          <ResultActions
-            onNew={handleReset}
-            newLabel="New Plan"
-            onClear={handleClearAll}
-            clearLabel="Clear All"
-          />
-        </div>
-      )}
-    </div>
-  );
-}
+            <ResultActions
+             onNew={handleReset}
+             newLabel="New Plan"
+             onClear={handleClearAll}
+             clearLabel="Clear All"
+           />
+         </div>
+       )}
+     </div>
+   );
+ }

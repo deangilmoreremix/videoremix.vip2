@@ -5,13 +5,14 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { Play, Loader2, GitBranch, Layers, Code2, Rocket, Clock, CheckCircle2 } from "lucide-react";
+import { Play, Loader2, GitBranch, Layers, Code2, Rocket, Clock, CheckCircle2, Mic, MessageSquare } from "lucide-react";
 import type { AIAppProps } from "../types";
 import { useRunAIApp } from "../useRunAIApp";
 import { PromptTextarea } from "../../primitives/PromptTextarea";
 import { StructuredResult } from "../../primitives/StructuredResult";
 import { ResultActions } from "../../primitives/ResultActions";
 import { ExecutionTrace } from "../../primitives/ExecutionTrace";
+import { RealtimeVoiceSession } from "../../primitives/RealtimeVoiceSession";
 import { Button } from "../../../ui/button";
 import { Input } from "../../../ui/input";
 import { Label } from "../../../ui/label";
@@ -50,6 +51,13 @@ export default function AIAppBuilderAssistant({ appId, appName, onResult, onErro
     reset();
   };
 
+  // Voice + Text mode (Batch 6 realtime planning apps)
+  const [mode, setMode] = useState<"text" | "voice">("text");
+
+  const handleVoiceResult = (json: any) => {
+    onResult?.(json);
+  };
+
   return (
     <div className="space-y-8">
       <div>
@@ -57,10 +65,37 @@ export default function AIAppBuilderAssistant({ appId, appName, onResult, onErro
           <Layers className="h-7 w-7 text-primary-500" />
           <h2 className="text-2xl font-semibold">{appName}</h2>
         </div>
-        <p className="mt-2 text-gray-400">Design complete applications with architecture, tech stack, and development roadmap.</p>
+        <p className="mt-2 text-gray-400">Design complete applications with architecture, tech stack, and development roadmap. Use Live Voice to describe your idea conversationally.</p>
       </div>
 
-      {!output ? (
+      {/* Mode switch */}
+      <div className="inline-flex rounded-xl border border-gray-800 bg-black/60 p-1">
+        <button
+          onClick={() => setMode("text")}
+          className={`flex items-center gap-2 rounded-lg px-5 py-2 text-sm font-medium transition-all ${mode === "text" ? "bg-primary-600 text-white" : "text-gray-400 hover:text-white"}`}
+        >
+          <MessageSquare className="h-4 w-4" /> Text Form
+        </button>
+        <button
+          onClick={() => setMode("voice")}
+          className={`flex items-center gap-2 rounded-lg px-5 py-2 text-sm font-medium transition-all ${mode === "voice" ? "bg-primary-600 text-white" : "text-gray-400 hover:text-white"}`}
+        >
+          <Mic className="h-4 w-4" /> Live Voice Planning
+        </button>
+      </div>
+
+      {/* Live Voice */}
+      {mode === "voice" && !output && (
+        <RealtimeVoiceSession
+          appId={appId}
+          voice="alloy"
+          onStructuredResult={handleVoiceResult}
+          onEnd={() => {}}
+        />
+      )}
+
+      {/* Text mode (original) */}
+      {mode === "text" && !output && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -122,7 +157,10 @@ export default function AIAppBuilderAssistant({ appId, appName, onResult, onErro
             {isRunning ? "Designing your app..." : "Generate App Architecture"}
           </Button>
         </div>
-      ) : (
+      )}
+
+      {/* Rich result view (shows for both text and voice when output is set) */}
+      {output && (
         <div className="space-y-6">
           {output.verificationTrace && (
             <ExecutionTrace trace={output.verificationTrace} />
@@ -137,7 +175,7 @@ export default function AIAppBuilderAssistant({ appId, appName, onResult, onErro
               a.href = url; a.download = `app-architecture-${Date.now()}.json`; a.click();
             }}
           />
-          <ResultActions
+           <ResultActions
             onNew={handleReset}
             newLabel="New Architecture"
             onClear={handleClearAll}
