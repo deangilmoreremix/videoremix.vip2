@@ -21,7 +21,7 @@ export default function MultiAIMemoryHub({ appId, appName, onResult, onError, on
   const [agents, setAgents] = useState("research, content, sales");
   const [timeRange, setTimeRange] = useState("recent");
 
-  const { run, isRunning, output, error, reset } = useRunAIApp(appId, { onResult, onError, onReset });
+  const { run, isRunning, output, error, reset } = useRunAIApp(appId, { onResult, onError, onReset, enableMultiTurn: true });
 
   useEffect(() => {
     onRunningChange?.(isRunning);

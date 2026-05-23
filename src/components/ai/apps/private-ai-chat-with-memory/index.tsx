@@ -20,7 +20,7 @@ export default function PrivateAIChatWithMemory({ appId, appName, onResult, onEr
   const [longTermMemory, setLongTermMemory] = useState("");
   const [userPreferences, setUserPreferences] = useState("");
 
-  const { run, isRunning, output, error, reset } = useRunAIApp(appId, { onResult, onError, onReset });
+  const { run, isRunning, output, error, reset } = useRunAIApp(appId, { onResult, onError, onReset, enableMultiTurn: true });
 
   useEffect(() => {
     onRunningChange?.(isRunning);

@@ -5,12 +5,13 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { Play, Loader2, TrendingUp } from "lucide-react";
+import { Play, Loader2, TrendingUp, Mic, MessageSquare } from "lucide-react";
 import type { AIAppProps } from "../types";
 import { useRunAIApp } from "../useRunAIApp";
 import { PromptTextarea } from "../../primitives/PromptTextarea";
 import { StructuredResult } from "../../primitives/StructuredResult";
 import { ResultActions } from "../../primitives/ResultActions";
+import { RealtimeVoiceSession } from "../../primitives/RealtimeVoiceSession";
 import { Button } from "../../../ui/button";
 import { Input } from "../../../ui/input";
 import { Label } from "../../../ui/label";
@@ -50,6 +51,12 @@ export default function MarketResearchAI({ appId, appName, onResult, onError, on
     reset();
   };
 
+  const [mode, setMode] = useState<"text" | "voice">("text");
+
+  const handleVoiceResult = (json: any) => {
+    onResult?.(json);
+  };
+
   return (
     <div className="space-y-8">
       <div>
@@ -60,7 +67,34 @@ export default function MarketResearchAI({ appId, appName, onResult, onError, on
         <p className="mt-2 text-gray-400">Comprehensive market intelligence. Delivers market size/growth, competitive landscape, opportunities, threats, customer profiles, pricing trends, barriers, and clear go/no-go recommendation with live data.</p>
       </div>
 
-      {!output ? (
+      {/* Mode switch */}
+      <div className="inline-flex rounded-xl border border-gray-800 bg-black/60 p-1">
+        <button
+          onClick={() => setMode("text")}
+          className={`flex items-center gap-2 rounded-lg px-5 py-2 text-sm font-medium transition-all ${mode === "text" ? "bg-primary-600 text-white" : "text-gray-400 hover:text-white"}`}
+        >
+          <MessageSquare className="h-4 w-4" /> Text Form
+        </button>
+        <button
+          onClick={() => setMode("voice")}
+          className={`flex items-center gap-2 rounded-lg px-5 py-2 text-sm font-medium transition-all ${mode === "voice" ? "bg-primary-600 text-white" : "text-gray-400 hover:text-white"}`}
+        >
+          <Mic className="h-4 w-4" /> Live Voice
+        </button>
+      </div>
+
+      {/* Live Voice */}
+      {mode === "voice" && !output && (
+        <RealtimeVoiceSession
+          appId={appId}
+          voice="shimmer"
+          onStructuredResult={handleVoiceResult}
+          onEnd={() => {}}
+        />
+      )}
+
+      {/* Text mode */}
+      {mode === "text" && !output && (
         <div className="space-y-6 max-w-3xl">
           <div>
             <Label className="text-sm font-medium text-gray-300 mb-2 block">Market or Industry Topic</Label>
@@ -126,7 +160,9 @@ export default function MarketResearchAI({ appId, appName, onResult, onError, on
             {isRunning ? "Analyzing market with live data..." : "Run Market Research AI"}
           </Button>
         </div>
-      ) : (
+      )}
+
+      {output && (
         <div className="space-y-6">
           <StructuredResult result={output} title="Market Research Report" />
           <ResultActions

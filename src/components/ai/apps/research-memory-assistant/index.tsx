@@ -20,7 +20,7 @@ export default function ResearchMemoryAssistant({ appId, appName, onResult, onEr
   const [query, setQuery] = useState("");
   const [mode, setMode] = useState<"continue" | "investigate" | "new-topic">("continue");
 
-  const { run, isRunning, output, error, reset } = useRunAIApp(appId, { onResult, onError, onReset });
+  const { run, isRunning, output, error, reset } = useRunAIApp(appId, { onResult, onError, onReset, enableMultiTurn: true });
 
   useEffect(() => {
     onRunningChange?.(isRunning);

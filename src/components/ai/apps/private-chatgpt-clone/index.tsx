@@ -20,7 +20,7 @@ export default function PrivateChatGPTClone({ appId, appName, onResult, onError,
   const [knowledgeBase, setKnowledgeBase] = useState("");
   const [stylePreference, setStylePreference] = useState("helpful, concise, professional with occasional wit");
 
-  const { run, isRunning, output, error, reset } = useRunAIApp(appId, { onResult, onError, onReset });
+  const { run, isRunning, output, error, reset } = useRunAIApp(appId, { onResult, onError, onReset, enableMultiTurn: true });
 
   useEffect(() => {
     onRunningChange?.(isRunning);

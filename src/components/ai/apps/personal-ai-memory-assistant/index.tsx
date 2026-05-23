@@ -20,7 +20,7 @@ export default function PersonalAIMemoryAssistant({ appId, appName, onResult, on
   const [updateMemory, setUpdateMemory] = useState("");
   const [previousMemory, setPreviousMemory] = useState("");
 
-  const { run, isRunning, output, error, reset } = useRunAIApp(appId, { onResult, onError, onReset });
+  const { run, isRunning, output, error, reset } = useRunAIApp(appId, { onResult, onError, onReset, enableMultiTurn: true });
 
   useEffect(() => {
     onRunningChange?.(isRunning);
