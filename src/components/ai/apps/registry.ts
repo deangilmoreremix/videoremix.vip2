@@ -96,7 +96,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "build-plan-generator": () => import("./build-plan-generator"),
   "sprint-planner-ai": () => import("./sprint-planner-ai"),
 
-  // === Batch 7: Design & UX Apps (6 apps) ===
+  // === Batch 7: Design & UX Apps (6 apps — Production Ready) ===
   "ai-design-studio": () => import("./ai-design-studio"),
   "landing-page-critic-ai": () => import("./landing-page-critic-ai"),
   "ai-ux-designer": () => import("./ai-ux-designer"),
@@ -104,7 +104,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "landing-page-copy-ai": () => import("./landing-page-copy-ai"),
   "conversion-copy-editor": () => import("./conversion-copy-editor"),
 
-  // === Batch 8: Finance & Legal Apps (13 apps) ===
+  // === Batch 8: Finance & Legal Apps (13 apps — Production Ready) ===
   "finance-research-ai": () => import("./finance-research-ai"),
   "business-finance-ai-team": () => import("./business-finance-ai-team"),
   "profit-coach-ai": () => import("./profit-coach-ai"),
@@ -139,7 +139,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
 
 // Production-ready flag for admin / filtering
 const productionReadySlugs = new Set([
-  // Batch 1 (all 10 complete)
+  // Batch 1 (10)
   "ai-sales-intelligence-pro",
   "lead-research-scraper-ai",
   "ai-business-growth-consultant",
@@ -150,18 +150,20 @@ const productionReadySlugs = new Set([
   "competitor-spy-ai",
   "ai-agency-builder-suite",
   "sales-call-follow-up-ai",
-  // Batch 2 (all 10 complete)
+
+  // Batch 2 (10)
   "blog-to-podcast-ai",
   "daily-content-engine-ai",
   "ai-content-creator-pro",
-  "ai-documentation-writer",
   "ai-content-editor",
+  "ai-documentation-writer",
   "youtube-repurposer-ai",
   "newsletter-repurposer-ai",
   "ai-news-content-writer",
   "ai-video-script-producer",
   "ai-music-idea-generator",
-  // === Batch 3: Video, Audio & Voice AI (all 9 complete) ===
+
+  // Batch 3 (9)
   "ai-film-producer",
   "podcast-creator-ai",
   "news-to-podcast-ai",
@@ -171,7 +173,8 @@ const productionReadySlugs = new Set([
   "ai-intake-voice-agent",
   "ai-dictation-assistant",
   "ai-music-jingle-assistant",
-  // === Batch 4: RAG, Knowledgebase & Document Chat (all 13 complete) ===
+
+  // Batch 4 (13)
   "business-knowledgebase-ai",
   "pdf-business-assistant",
   "research-paper-assistant",
@@ -186,7 +189,7 @@ const productionReadySlugs = new Set([
   "multimodal-knowledge-ai",
   "ai-knowledgebase-debugger",
 
-  // === Batch 5: Research & Analysis (12 apps — Production Ready) ===
+  // Batch 5 (12)
   "research-assistant-ai",
   "deep-research-pro",
   "research-planner-ai",
@@ -200,7 +203,7 @@ const productionReadySlugs = new Set([
   "private-ai-chat-with-memory",
   "private-chatgpt-clone",
 
-  // === Batch 6: Developer & Code Apps (10 apps — Production Ready) ===
+  // Batch 6 (10)
   "ai-app-builder-assistant",
   "ai-saas-architect",
   "ai-code-review-pro",
@@ -212,15 +215,15 @@ const productionReadySlugs = new Set([
   "build-plan-generator",
   "sprint-planner-ai",
 
-  // === Batch 9: HR & Hiring Apps (6 apps — Production Ready) ===
-  "ai-hiring-assistant",
-  "resume-analyzer-ai",
-  "candidate-decision-ai",
-  "candidate-outreach-ai",
-  "interview-summary-ai",
-  "hiring-plan-builder",
+  // Batch 7 (6)
+  "ai-design-studio",
+  "landing-page-critic-ai",
+  "ai-ux-designer",
+  "dashboard-designer-ai",
+  "landing-page-copy-ai",
+  "conversion-copy-editor",
 
-  // === Batch 8: Finance & Legal Apps (13 apps — Production Ready) ===
+  // Batch 8 (13)
   "finance-research-ai",
   "business-finance-ai-team",
   "profit-coach-ai",
@@ -229,17 +232,27 @@ const productionReadySlugs = new Set([
   "revenue-data-analyst-ai",
   "financial-dashboard-ai",
   "contract-summary-ai",
-  "policy-compliance-assistant",
   "legal-pdf-explainer",
+  "policy-compliance-assistant",
+  "claim-checker-ai",
+  "fraud-investigation-assistant",
+  "risk-decision-ai",
 
-  // === Batch 10: Local & Travel Apps (7 apps — Production Ready) ===
-  "real-estate-marketing-ai",
-  "home-renovation-visualizer-ai",
-  "travel-planner-ai",
-  "local-tour-guide-ai",
-  "local-business-voice-assistant",
-  "local-business-growth-advisor",
-  "local-business-analytics-ai",
+  // Batch 9 (6)
+  "ai-hiring-assistant",
+  "resume-analyzer-ai",
+  "candidate-decision-ai",
+  "candidate-outreach-ai",
+  "interview-summary-ai",
+  "hiring-plan-builder",
+]);
+
+// Apps that have full Live Voice / Realtime API support in their custom UI
+// (uses the existing run-ai-app Edge Function with ?mode=realtime — no extra servers)
+export const VOICE_ENABLED_APPS = new Set([
+  "ai-intake-voice-agent",
+  "ai-dictation-assistant",
+  // Additional apps that declare realtime in config can be added here once their UIs are wired with RealtimeVoiceSession
 ]);
 
 export function getAIAppComponent(slug: string): React.LazyExoticComponent<AIAppComponent> {
@@ -271,4 +284,8 @@ export function getImplementedAIAppSlugs(): string[] {
 
 export function getProductionReadyAIAppSlugs(): string[] {
   return Array.from(productionReadySlugs);
+}
+
+export function supportsVoiceMode(slug: string): boolean {
+  return VOICE_ENABLED_APPS.has(slug);
 }
