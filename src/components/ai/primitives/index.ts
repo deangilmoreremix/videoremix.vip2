@@ -4,3 +4,8 @@ export { PromptTextarea } from "./PromptTextarea";
 export { StructuredResult } from "./StructuredResult";
 export { BasicFileUpload } from "./BasicFileUpload";
 export { ResultActions } from "./ResultActions";
+export { CodeBlock } from "./CodeBlock";
+export { DiffViewer } from "./DiffViewer";
+export { ExecutionTrace } from "./ExecutionTrace";
+export { MermaidDiagram } from "./MermaidDiagram";
+export { TaskBoard } from "./TaskBoard";

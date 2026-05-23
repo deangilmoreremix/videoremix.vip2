@@ -13,7 +13,7 @@ import { isInternalAIApp } from "../../../config/internalAIApps";
  * Batch 5 (Research & Analysis) — 12 apps production-ready with custom UIs.
  * Batch 6 (Developer & Code Apps) — 10 apps production-ready with custom UIs.
  * Batch 7 (Design & UX Apps) — 6 apps production-ready with custom UIs.
- * Batch 8 (Finance & Legal Apps) — 10 apps production-ready with custom UIs.
+ * Batch 8 (Finance & Legal Apps) — 4 apps production-ready with custom UIs.
  * Batch 9 (HR & Hiring Apps) — 6 apps with tool configurations.
  * Batch 10 (Local & Travel Apps) — 7 apps with tool configurations.
  * All future batches/apps must follow the standards documented in _TEMPLATE.tsx.
@@ -70,7 +70,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "multimodal-knowledge-ai": () => import("./multimodal-knowledge-ai"),
   "ai-knowledgebase-debugger": () => import("./ai-knowledgebase-debugger"),
 
-  // === Batch 5: Research & Analysis (12 apps) ===
+  // === Batch 5: Research & Analysis (12 apps - Production Ready) ===
   "research-assistant-ai": () => import("./research-assistant-ai"),
   "deep-research-pro": () => import("./deep-research-pro"),
   "research-planner-ai": () => import("./research-planner-ai"),
@@ -186,6 +186,20 @@ const productionReadySlugs = new Set([
   "multimodal-knowledge-ai",
   "ai-knowledgebase-debugger",
 
+  // === Batch 5: Research & Analysis (12 apps — Production Ready) ===
+  "research-assistant-ai",
+  "deep-research-pro",
+  "research-planner-ai",
+  "ai-course-creator-assistant",
+  "academic-research-ai",
+  "market-research-ai",
+  "fact-check-ai",
+  "research-memory-assistant",
+  "personal-ai-memory-assistant",
+  "multi-ai-memory-hub",
+  "private-ai-chat-with-memory",
+  "private-chatgpt-clone",
+
 // === Batch 5: Research & Analysis (12 apps — Production Ready) ===
   "research-assistant-ai",
   "deep-research-pro",
@@ -202,9 +216,13 @@ const productionReadySlugs = new Set([
 
   // === Batch 8: Finance & Legal Apps (6 apps — Production Ready) ===
   "finance-research-ai",
+  "business-finance-ai-team",
   "profit-coach-ai",
   "investment-research-assistant",
   "startup-due-diligence-ai",
+  "revenue-data-analyst-ai",
+  "financial-dashboard-ai",
+  "contract-summary-ai",
   "policy-compliance-assistant",
   "legal-pdf-explainer",
 ]);
