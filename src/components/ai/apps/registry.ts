@@ -11,9 +11,9 @@ import { isInternalAIApp } from "../../../config/internalAIApps";
  * Batch 3 (Video, Audio & Voice AI) — 9 apps production-ready with custom UIs.
  * Batch 4 (RAG, Knowledgebase & Document Chat) — 13 apps production-ready with custom UIs.
  * Batch 5 (Research & Analysis) — 12 apps production-ready with custom UIs.
- * Batch 6 (Developer & Code Apps) — 10 apps with tool configurations.
- * Batch 7 (Design & UX Apps) — 6 apps with tool configurations.
- * Batch 8 (Finance & Legal Apps) — 13 apps with tool configurations.
+ * Batch 6 (Developer & Code Apps) — 10 apps production-ready with custom UIs.
+ * Batch 7 (Design & UX Apps) — 6 apps production-ready with custom UIs.
+ * Batch 8 (Finance & Legal Apps) — 10 apps production-ready with custom UIs.
  * Batch 9 (HR & Hiring Apps) — 6 apps with tool configurations.
  * Batch 10 (Local & Travel Apps) — 7 apps with tool configurations.
  * All future batches/apps must follow the standards documented in _TEMPLATE.tsx.
@@ -199,6 +199,17 @@ const productionReadySlugs = new Set([
   "multi-ai-memory-hub",
   "private-ai-chat-with-memory",
   "private-chatgpt-clone",
+  // === Batch 8: Finance & Legal (all 10 production-ready) ===
+  "finance-research-ai",
+  "business-finance-ai-team",
+  "profit-coach-ai",
+  "investment-research-assistant",
+  "startup-due-diligence-ai",
+  "revenue-data-analyst-ai",
+  "financial-dashboard-ai",
+  "contract-summary-ai",
+  "legal-pdf-explainer",
+  "policy-compliance-assistant",
 ]);
 
 export function getAIAppComponent(slug: string): React.LazyExoticComponent<AIAppComponent> {
