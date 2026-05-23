@@ -9,7 +9,7 @@
 import React, { useState, useEffect } from "react";
 import { Play, Loader2, Clock, FileText, Lightbulb, Search, TrendingUp, BookOpen } from "lucide-react";
 import type { AIAppProps } from "../types";
-import { useRunAIApp } from "./useRunAIApp";
+import { useRunAIApp } from "../useRunAIApp";
 import { ResultActions } from "../../primitives/ResultActions";
 import { Button } from "../../../ui/button";
 

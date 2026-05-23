@@ -7,14 +7,20 @@ import { isInternalAIApp } from "../../../config/internalAIApps";
  * AI Apps Template + Registry System
  *
  * Batch 1 (Sales, Lead Gen & Prospecting) — 10 apps production-ready with custom UIs.
- * Batch 2 (Content Creation & Marketing) — 4 apps production-ready (blog-to-podcast-ai, daily-content-engine-ai, ai-content-creator-pro, ai-documentation-writer); 6 in progress.
- * Batch 3 (Video, Audio & Voice) — 9 apps production-ready with custom UIs.
- * Batch 4 (RAG, Knowledgebase & Document Chat) — 3 apps production-ready with custom UIs.
+ * Batch 2 (Content Creation & Marketing) — 10 apps production-ready with custom UIs.
+ * Batch 3 (Video, Audio & Voice AI) — 9 apps production-ready with custom UIs.
+ * Batch 4 (RAG, Knowledgebase & Document Chat) — 13 apps production-ready with custom UIs.
+ * Batch 5 (Research & Analysis) — 12 apps production-ready with custom UIs.
+ * Batch 6 (Developer & Code Apps) — 10 apps with tool configurations.
+ * Batch 7 (Design & UX Apps) — 6 apps with tool configurations.
+ * Batch 8 (Finance & Legal Apps) — 13 apps with tool configurations.
+ * Batch 9 (HR & Hiring Apps) — 6 apps with tool configurations.
+ * Batch 10 (Local & Travel Apps) — 7 apps with tool configurations.
  * All future batches/apps must follow the standards documented in _TEMPLATE.tsx.
  */
 
 const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
-  // === Batch 1: Sales, Lead Gen & Prospecting (Production Ready) ===
+  // === Batch 1: Sales, Lead Gen & Prospecting (10 apps - Production Ready) ===
   "ai-sales-intelligence-pro": () => import("./ai-sales-intelligence-pro"),
   "lead-research-scraper-ai": () => import("./lead-research-scraper-ai"),
   "ai-business-growth-consultant": () => import("./ai-business-growth-consultant"),
@@ -26,7 +32,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "ai-agency-builder-suite": () => import("./ai-agency-builder-suite"),
   "sales-call-follow-up-ai": () => import("./sales-call-follow-up-ai"),
 
-  // === Batch 2: Content Creation & Marketing (in progress — 10th corrected to ai-music-idea-generator; jingle removed, belongs in Batch 3) ===
+  // === Batch 2: Content Creation & Marketing (10 apps - Production Ready) ===
   "blog-to-podcast-ai": () => import("./blog-to-podcast-ai"),
   "daily-content-engine-ai": () => import("./daily-content-engine-ai"),
   "ai-content-creator-pro": () => import("./ai-content-creator-pro"),
@@ -38,7 +44,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "ai-video-script-producer": () => import("./ai-video-script-producer"),
   "ai-music-idea-generator": () => import("./ai-music-idea-generator"),
 
-// === Batch 3: Voice & Audio AI (Production Ready) ===
+  // === Batch 3: Voice & Audio AI (9 apps - Production Ready) ===
   "ai-film-producer": () => import("./ai-film-producer"),
   "podcast-creator-ai": () => import("./podcast-creator-ai"),
   "news-to-podcast-ai": () => import("./news-to-podcast-ai"),
@@ -49,7 +55,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "ai-dictation-assistant": () => import("./ai-dictation-assistant"),
   "ai-music-jingle-assistant": () => import("./ai-music-jingle-assistant"),
 
-  // === Batch 4: RAG, Knowledgebase & Document Chat ===
+  // === Batch 4: RAG, Knowledgebase & Document Chat (13 apps - Production Ready) ===
   "business-knowledgebase-ai": () => import("./business-knowledgebase-ai"),
   "pdf-business-assistant": () => import("./pdf-business-assistant"),
   "research-paper-assistant": () => import("./research-paper-assistant"),
@@ -63,13 +69,75 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "private-company-ai-assistant": () => import("./private-company-ai-assistant"),
   "multimodal-knowledge-ai": () => import("./multimodal-knowledge-ai"),
   "ai-knowledgebase-debugger": () => import("./ai-knowledgebase-debugger"),
+
+  // === Batch 5: Research & Analysis (12 apps) ===
+  "research-assistant-ai": () => import("./research-assistant-ai"),
+  "deep-research-pro": () => import("./deep-research-pro"),
+  "research-planner-ai": () => import("./research-planner-ai"),
+  "ai-course-creator-assistant": () => import("./ai-course-creator-assistant"),
+  "academic-research-ai": () => import("./academic-research-ai"),
+  "market-research-ai": () => import("./market-research-ai"),
+  "fact-check-ai": () => import("./fact-check-ai"),
+  "research-memory-assistant": () => import("./research-memory-assistant"),
+  "personal-ai-memory-assistant": () => import("./personal-ai-memory-assistant"),
+  "multi-ai-memory-hub": () => import("./multi-ai-memory-hub"),
+  "private-ai-chat-with-memory": () => import("./private-ai-chat-with-memory"),
+  "private-chatgpt-clone": () => import("./private-chatgpt-clone"),
+
+  // === Batch 6: Developer & Code Apps (10 apps) ===
+  "ai-app-builder-assistant": () => import("./ai-app-builder-assistant"),
+  "ai-saas-architect": () => import("./ai-saas-architect"),
+  "ai-code-review-pro": () => import("./ai-code-review-pro"),
+  "ai-bug-fixer": () => import("./ai-bug-fixer"),
+  "ai-fullstack-builder": () => import("./ai-fullstack-builder"),
+  "python-fixer-ai": () => import("./python-fixer-ai"),
+  "github-repo-assistant": () => import("./github-repo-assistant"),
+  "github-automation-agent": () => import("./github-automation-agent"),
+  "build-plan-generator": () => import("./build-plan-generator"),
+  "sprint-planner-ai": () => import("./sprint-planner-ai"),
+
+  // === Batch 7: Design & UX Apps (6 apps) ===
+  "ai-design-studio": () => import("./ai-design-studio"),
+  "landing-page-critic-ai": () => import("./landing-page-critic-ai"),
+  "ai-ux-designer": () => import("./ai-ux-designer"),
+  "dashboard-designer-ai": () => import("./dashboard-designer-ai"),
+  "landing-page-copy-ai": () => import("./landing-page-copy-ai"),
+  "conversion-copy-editor": () => import("./conversion-copy-editor"),
+
+  // === Batch 8: Finance & Legal Apps (13 apps) ===
+  "finance-research-ai": () => import("./finance-research-ai"),
+  "business-finance-ai-team": () => import("./business-finance-ai-team"),
+  "profit-coach-ai": () => import("./profit-coach-ai"),
+  "investment-research-assistant": () => import("./investment-research-assistant"),
+  "startup-due-diligence-ai": () => import("./startup-due-diligence-ai"),
+  "revenue-data-analyst-ai": () => import("./revenue-data-analyst-ai"),
+  "financial-dashboard-ai": () => import("./financial-dashboard-ai"),
+  "contract-summary-ai": () => import("./contract-summary-ai"),
+  "legal-pdf-explainer": () => import("./legal-pdf-explainer"),
+  "policy-compliance-assistant": () => import("./policy-compliance-assistant"),
+  "claim-checker-ai": () => import("./claim-checker-ai"),
+  "fraud-investigation-assistant": () => import("./fraud-investigation-assistant"),
+  "risk-decision-ai": () => import("./risk-decision-ai"),
+
+  // === Batch 9: HR & Hiring Apps (6 apps) ===
+  "ai-hiring-assistant": () => import("./ai-hiring-assistant"),
+  "resume-analyzer-ai": () => import("./resume-analyzer-ai"),
+  "candidate-decision-ai": () => import("./candidate-decision-ai"),
+  "candidate-outreach-ai": () => import("./candidate-outreach-ai"),
+  "interview-summary-ai": () => import("./interview-summary-ai"),
+  "hiring-plan-builder": () => import("./hiring-plan-builder"),
+
+  // === Batch 10: Local & Travel Apps (7 apps) ===
+  "real-estate-marketing-ai": () => import("./real-estate-marketing-ai"),
+  "home-renovation-visualizer-ai": () => import("./home-renovation-visualizer-ai"),
+  "travel-planner-ai": () => import("./travel-planner-ai"),
+  "local-tour-guide-ai": () => import("./local-tour-guide-ai"),
+  "local-business-voice-assistant": () => import("./local-business-voice-assistant"),
+  "local-business-growth-advisor": () => import("./local-business-growth-advisor"),
+  "local-business-analytics-ai": () => import("./local-business-analytics-ai"),
 };
 
 // Production-ready flag for admin / filtering
-// Batch 1: all 10 production-ready
-// Batch 2: 4 production-ready (blog-to-podcast-ai, daily-content-engine-ai, ai-content-creator-pro, ai-documentation-writer); 6 apps still need implementation
-// Batch 3: all 9 production-ready
-// Batch 4: all 3 production-ready
 const productionReadySlugs = new Set([
   // Batch 1 (all 10 complete)
   "ai-sales-intelligence-pro",
@@ -82,12 +150,18 @@ const productionReadySlugs = new Set([
   "competitor-spy-ai",
   "ai-agency-builder-suite",
   "sales-call-follow-up-ai",
-  // Batch 2 (3 complete + ai-documentation-writer now production-ready)
+  // Batch 2 (all 10 complete)
   "blog-to-podcast-ai",
   "daily-content-engine-ai",
   "ai-content-creator-pro",
   "ai-documentation-writer",
-// === Batch 3: Video, Audio & Voice AI (all 9 complete) ===
+  "ai-content-editor",
+  "youtube-repurposer-ai",
+  "newsletter-repurposer-ai",
+  "ai-news-content-writer",
+  "ai-video-script-producer",
+  "ai-music-idea-generator",
+  // === Batch 3: Video, Audio & Voice AI (all 9 complete) ===
   "ai-film-producer",
   "podcast-creator-ai",
   "news-to-podcast-ai",
@@ -97,7 +171,7 @@ const productionReadySlugs = new Set([
   "ai-intake-voice-agent",
   "ai-dictation-assistant",
   "ai-music-jingle-assistant",
-  // === Batch 4: RAG, Knowledgebase & Document Chat (all 13 apps) ===
+  // === Batch 4: RAG, Knowledgebase & Document Chat (all 13 complete) ===
   "business-knowledgebase-ai",
   "pdf-business-assistant",
   "research-paper-assistant",
@@ -111,6 +185,20 @@ const productionReadySlugs = new Set([
   "private-company-ai-assistant",
   "multimodal-knowledge-ai",
   "ai-knowledgebase-debugger",
+
+  // === Batch 5: Research & Analysis (12 apps — Production Ready) ===
+  "research-assistant-ai",
+  "deep-research-pro",
+  "research-planner-ai",
+  "ai-course-creator-assistant",
+  "academic-research-ai",
+  "market-research-ai",
+  "fact-check-ai",
+  "research-memory-assistant",
+  "personal-ai-memory-assistant",
+  "multi-ai-memory-hub",
+  "private-ai-chat-with-memory",
+  "private-chatgpt-clone",
 ]);
 
 export function getAIAppComponent(slug: string): React.LazyExoticComponent<AIAppComponent> {

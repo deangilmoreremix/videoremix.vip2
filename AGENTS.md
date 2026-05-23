@@ -1,5 +1,63 @@
 # AGENTS.md
 
+## AgentMemory Setup
+
+Persistent memory for all coding agents — remembers your stack, patterns, and decisions across sessions.
+
+**Repository:** https://github.com/rohitg00/agentmemory
+
+### Installation
+
+```bash
+# Install globally (recommended)
+npm install -g @agentmemory/agentmemory
+```
+
+### Start Memory Server
+
+In a separate terminal, run:
+
+```bash
+agentmemory
+```
+
+This starts the memory server on `http://localhost:3111`. The real-time viewer is at `http://localhost:3113`.
+
+### MCP Server (for all agents)
+
+Add to your environment or `.env` file:
+
+```bash
+AGENTMEMORY_URL=http://localhost:3111
+AGENTMEMORY_SECRET=  # auto-generated on first start
+```
+
+All agents connect to the same memory server via MCP or REST, sharing memory across sessions.
+
+### Verify Setup
+
+```bash
+curl http://localhost:3111/agentmemory/health
+```
+
+### Key Features
+
+- **95.2% retrieval accuracy** on LongMemEval-S benchmark
+- **12 auto-capture hooks** — captures agent actions silently
+- **BM25 + vector + graph search** with RRF fusion
+- **~170K tokens/year** vs 19.5M+ for full context paste
+- **Real-time viewer** at port 3113
+- **Multi-agent** — all agents share the same memory server
+
+### Commands
+
+- `agentmemory demo` — seed sample sessions and test recall
+- `agentmemory connect <agent>` — wire a specific agent
+- `agentmemory stop` — stop the server
+- `agentmemory upgrade` — update to latest version
+
+---
+
 ## Stripe CLI Setup
 
 ### Installation
