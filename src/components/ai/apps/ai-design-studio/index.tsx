@@ -18,6 +18,9 @@ export default function AIDesignStudio({ appId, appName, onResult, onError, onRu
   const [refImageName, setRefImageName] = useState<string | null>(null);
   const [iterationPrompt, setIterationPrompt] = useState("");
   const [lastInputs, setLastInputs] = useState<Record<string, unknown> | null>(null);
+  // isImageLoading guards against race condition: FileReader.readAsDataURL is async;
+  // prevents Run button from being enabled (and clicked) before base64 referenceImage is populated in buildInputs.
+  const [isImageLoading, setIsImageLoading] = useState(false);
 
   const { run, isRunning, output, reset, clearHistory } = useRunAIApp(appId, { 
     enableMultiTurn: true, 
@@ -37,15 +40,23 @@ export default function AIDesignStudio({ appId, appName, onResult, onError, onRu
   const handleReferenceImage = (file: File | null, _content?: string) => {
     if (file) {
       setRefImageName(file.name);
+      setIsImageLoading(true);
       const reader = new FileReader();
       reader.onload = (e) => {
         const dataUrl = e.target?.result as string;
         setReferenceImage(dataUrl);
+        setIsImageLoading(false);
+      };
+      reader.onerror = () => {
+        setIsImageLoading(false);
+        setRefImageName(null);
+        setReferenceImage(null);
       };
       reader.readAsDataURL(file);
     } else {
       setRefImageName(null);
       setReferenceImage(null);
+      setIsImageLoading(false);
     }
   };
 
@@ -60,6 +71,7 @@ export default function AIDesignStudio({ appId, appName, onResult, onError, onRu
 
   const handleRun = async () => {
     if (!designGoal.trim()) return;
+    // Race closed: button is disabled while isImageLoading, so referenceImage (if any) is guaranteed to be set before buildInputs runs.
     const inputs = buildInputs(designGoal);
     setLastInputs(inputs);
     await run(inputs);
@@ -95,6 +107,7 @@ export default function AIDesignStudio({ appId, appName, onResult, onError, onRu
     setRefImageName(null);
     setIterationPrompt("");
     setLastInputs(null);
+    setIsImageLoading(false);
     clearHistory();
     reset();
   };
@@ -217,7 +230,12 @@ export default function AIDesignStudio({ appId, appName, onResult, onError, onRu
             accept=".png,.jpg,.jpeg,.webp,.gif"
             maxSizeMB={5}
           />
-          {refImageName && referenceImage && (
+          {refImageName && isImageLoading && (
+            <div className="flex items-center gap-3 text-sm text-amber-400 -mt-2">
+              <Loader2 className="h-4 w-4 animate-spin" /> Processing image for vision...
+            </div>
+          )}
+          {refImageName && referenceImage && !isImageLoading && (
             <div className="flex items-center gap-3 text-sm text-green-400 -mt-2">
               <LucideImage className="h-4 w-4" /> {refImageName} — will be analyzed via vision
             </div>
@@ -225,7 +243,7 @@ export default function AIDesignStudio({ appId, appName, onResult, onError, onRu
 
           <Button
             onClick={handleRun}
-            disabled={!designGoal.trim() || isRunning}
+            disabled={!designGoal.trim() || isRunning || isImageLoading}
             className="w-full md:w-auto bg-primary-600 hover:bg-primary-500 text-lg py-6"
           >
             {isRunning ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Play className="mr-2 h-5 w-5" />}
