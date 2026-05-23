@@ -12,6 +12,7 @@ import { PromptTextarea } from "../../primitives/PromptTextarea";
 import { StructuredResult } from "../../primitives/StructuredResult";
 import { BasicFileUpload } from "../../primitives/BasicFileUpload";
 import { ResultActions } from "../../primitives/ResultActions";
+import { ExecutionTrace } from "../../primitives/ExecutionTrace";
 import { Button } from "../../../ui/button";
 import { Input } from "../../../ui/input";
 import { Label } from "../../../ui/label";
@@ -177,6 +178,9 @@ export default function AIKnowledgebaseDebugger({ appId, appName, onResult, onEr
         </div>
       ) : (
         <div className="space-y-6">
+          {output.verificationTrace && (
+            <ExecutionTrace trace={output.verificationTrace} />
+          )}
           <StructuredResult result={output} title="Debugging Report & Fixes" />
           <ResultActions
             onNew={handleReset}
