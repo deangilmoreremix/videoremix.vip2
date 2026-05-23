@@ -3,6 +3,9 @@ import { type AIAppComponent } from "./types";
 import { GenericAIApp } from "./GenericAIApp";
 import { isInternalAIApp } from "../../../config/internalAIApps";
 
+// Re-export so consumers can import from registry.ts directly
+export { isInternalAIApp };
+
 /**
  * AI Apps Template + Registry System
  *

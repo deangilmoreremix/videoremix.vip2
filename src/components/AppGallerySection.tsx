@@ -26,8 +26,10 @@ import {
   DollarSign,
   Shield,
   Settings,
+  Mic,
 } from "lucide-react";
 import MagicSparkles from "./MagicSparkles";
+import { supportsVoiceMode, isInternalAIApp } from "./ai/apps/registry";
 import { useInView } from "react-intersection-observer";
 import { useApps } from "../hooks/useApps";
 import { useAuth } from "../context/AuthContext";
@@ -810,12 +812,17 @@ const AppGallerySection: React.FC = () => {
                               POPULAR
                             </span>
                           )}
-                          {app.new && (
-                            <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded font-bold">
-                              NEW
-                            </span>
-                          )}
-                        </div>
+                           {app.new && (
+                             <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded font-bold">
+                               NEW
+                             </span>
+                           )}
+                           {isInternalAIApp(app.id) && supportsVoiceMode(app.id) && (
+                             <span className="bg-violet-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1 font-medium">
+                               <Mic className="h-3 w-3" /> VOICE
+                             </span>
+                           )}
+                         </div>
                       </div>
 
                       <div className="p-4">
@@ -928,12 +935,17 @@ const AppGallerySection: React.FC = () => {
                               POPULAR
                             </div>
                           )}
-                          {app.new && (
-                            <div className="bg-green-500 text-xs text-black px-1.5 py-0.5 rounded font-bold">
-                              NEW
-                            </div>
-                          )}
-                        </div>
+                           {app.new && (
+                             <div className="bg-green-500 text-xs text-black px-1.5 py-0.5 rounded font-bold">
+                               NEW
+                             </div>
+                           )}
+                           {isInternalAIApp(app.id) && supportsVoiceMode(app.id) && (
+                             <div className="bg-violet-600 text-white text-xs px-1.5 py-0.5 rounded flex items-center gap-1 font-medium">
+                               <Mic className="h-3 w-3" /> VOICE
+                             </div>
+                           )}
+                         </div>
                       </div>
                     </div>
 
