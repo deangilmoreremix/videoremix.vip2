@@ -8,6 +8,9 @@ import { getAIAppComponent, isAIAppImplemented } from "../components/ai/apps/reg
 import { useAuth } from "../context/AuthContext";
 import { supabase } from "../utils/supabaseClient";
 import { ErrorState } from "../components/ai/primitives/ErrorState";
+import { ResultPanel } from "../components/ai/ResultPanel";
+
+type TabType = "input" | "results";
 
 const AIAppRunnerPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -19,6 +22,7 @@ const AIAppRunnerPage: React.FC = () => {
   const [lastResult, setLastResult] = useState<any>(null);
   const [isRunning, setIsRunning] = useState(false);
   const [lastError, setLastError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<TabType>("input");
 
   if (!slug || !isInternalAIApp(slug) || !app) {
     return (
@@ -40,7 +44,7 @@ const AIAppRunnerPage: React.FC = () => {
   const handleResult = useCallback((result: any) => {
     setLastResult(result);
     setLastError(null);
-    // isRunning is now driven by onRunningChange from the child hook (prevents stale true after done)
+    setActiveTab("results");
   }, []);
 
   const handleError = useCallback((error: string) => {
@@ -55,6 +59,7 @@ const AIAppRunnerPage: React.FC = () => {
   const handleReset = useCallback(() => {
     setLastResult(null);
     setLastError(null);
+    setActiveTab("input");
   }, []);
 
   /**
@@ -132,7 +137,10 @@ const AIAppRunnerPage: React.FC = () => {
       onSave={handleSaveToProject}
       onDownload={handleDownload}
       isRunning={isRunning}
-      usage={{ used: 12, limit: 100 }} // TODO: wire real usage from hook
+      usage={{ used: 12, limit: 100 }}
+      activeTab={activeTab}
+      onTabChange={setActiveTab}
+      hasResults={!!lastResult}
     >
       <div className="mb-4 flex items-center gap-2 text-xs">
         {isCustomUI ? (
@@ -150,16 +158,42 @@ const AIAppRunnerPage: React.FC = () => {
         </div>
       )}
 
-      <AppComponent
-        appId={slug}
-        appName={app.name}
-        onResult={handleResult}
-        onError={handleError}
-        onRunningChange={handleRunningChange}
-        onReset={handleReset}
-      />
-
-      {lastError && <ErrorState error={lastError} />}
+      <div className="min-h-[400px]">
+        {activeTab === "input" ? (
+          <>
+            <AppComponent
+              appId={slug}
+              appName={app.name}
+              onResult={handleResult}
+              onError={handleError}
+              onRunningChange={handleRunningChange}
+              onReset={handleReset}
+            />
+            {lastError && <ErrorState error={lastError} />}
+          </>
+        ) : (
+          <div className="space-y-6">
+            {lastResult ? (
+              <ResultPanel
+                result={lastResult}
+                onSave={handleSaveToProject}
+                appSlug={slug}
+              />
+            ) : (
+              <div className="flex flex-col items-center justify-center py-16 text-gray-500">
+                <p className="text-lg mb-2">No results yet</p>
+                <p className="text-sm">Run the app to see results here</p>
+                <button
+                  onClick={() => setActiveTab("input")}
+                  className="mt-4 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-500 transition-colors"
+                >
+                  Go to Input Form
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </AIAppShell>
   );
 };
