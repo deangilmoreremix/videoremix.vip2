@@ -14,8 +14,8 @@ import { isInternalAIApp } from "../../../config/internalAIApps";
  * Batch 6 (Developer & Code Apps) — 10 apps production-ready with custom UIs.
  * Batch 7 (Design & UX Apps) — 6 apps production-ready with custom UIs.
  * Batch 8 (Finance & Legal Apps) — 13 apps production-ready with custom UIs.
- * Batch 9 (HR & Hiring Apps) — 6 apps with tool configurations.
- * Batch 10 (Local & Travel Apps) — 7 apps with tool configurations.
+ * Batch 9 (HR & Hiring Apps) — 6 apps production-ready with custom UIs.
+ * Batch 10 (Local & Travel Apps) — 7 apps production-ready with custom UIs.
  * All future batches/apps must follow the standards documented in _TEMPLATE.tsx.
  */
 
@@ -200,21 +200,15 @@ const productionReadySlugs = new Set([
   "private-ai-chat-with-memory",
   "private-chatgpt-clone",
 
-// === Batch 5: Research & Analysis (12 apps — Production Ready) ===
-  "research-assistant-ai",
-  "deep-research-pro",
-  "research-planner-ai",
-  "ai-course-creator-assistant",
-  "academic-research-ai",
-  "market-research-ai",
-  "fact-check-ai",
-  "research-memory-assistant",
-  "personal-ai-memory-assistant",
-  "multi-ai-memory-hub",
-  "private-ai-chat-with-memory",
-  "private-chatgpt-clone",
+  // === Batch 9: HR & Hiring Apps (6 apps — Production Ready) ===
+  "ai-hiring-assistant",
+  "resume-analyzer-ai",
+  "candidate-decision-ai",
+  "candidate-outreach-ai",
+  "interview-summary-ai",
+  "hiring-plan-builder",
 
-  // === Batch 8: Finance & Legal Apps (6 apps — Production Ready) ===
+  // === Batch 8: Finance & Legal Apps (13 apps — Production Ready) ===
   "finance-research-ai",
   "business-finance-ai-team",
   "profit-coach-ai",
