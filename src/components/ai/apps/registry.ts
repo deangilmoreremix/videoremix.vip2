@@ -13,7 +13,7 @@ import { isInternalAIApp } from "../../../config/internalAIApps";
  * Batch 5 (Research & Analysis) — 12 apps production-ready with custom UIs.
  * Batch 6 (Developer & Code Apps) — 10 apps production-ready with custom UIs.
  * Batch 7 (Design & UX Apps) — 6 apps production-ready with custom UIs.
- * Batch 8 (Finance & Legal Apps) — 4 apps production-ready with custom UIs.
+ * Batch 8 (Finance & Legal Apps) — 13 apps production-ready with custom UIs.
  * Batch 9 (HR & Hiring Apps) — 6 apps with tool configurations.
  * Batch 10 (Local & Travel Apps) — 7 apps with tool configurations.
  * All future batches/apps must follow the standards documented in _TEMPLATE.tsx.
