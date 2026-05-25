@@ -10,6 +10,49 @@ export const PricingSection: React.FC = () => {
   >("yearly");
   const { pricingPlans, isLoading, error } = useLandingPageContent();
 
+  // All hooks must be declared at the top (before any conditional returns)
+  // to satisfy React Rules of Hooks. The following three were previously
+  // declared after early returns and caused "Rendered more hooks than during
+  // the previous render" on initial landing page load.
+  const [showAllFeatures, setShowAllFeatures] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({
+    hours: 23,
+    minutes: 59,
+    seconds: 59,
+  });
+
+  // Discount timer effect hoisted here (before any early returns) to guarantee
+  // stable hook call order on every render, including during the initial
+  // isLoading phase from LandingPageContext.
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        const newSeconds = prev.seconds - 1;
+
+        if (newSeconds >= 0) {
+          return { ...prev, seconds: newSeconds };
+        }
+
+        const newMinutes = prev.minutes - 1;
+
+        if (newMinutes >= 0) {
+          return { ...prev, minutes: newMinutes, seconds: 59 };
+        }
+
+        const newHours = prev.hours - 1;
+
+        if (newHours >= 0) {
+          return { hours: newHours, minutes: 59, seconds: 59 };
+        }
+
+        clearInterval(interval);
+        return { hours: 0, minutes: 0, seconds: 0 };
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   // Determine if we're in production
   const isProduction = typeof window !== 'undefined' && 
                        window.location.hostname !== 'localhost' && 
@@ -20,11 +63,7 @@ export const PricingSection: React.FC = () => {
   if (isProduction && 
       (!pricingPlans || pricingPlans.length === 0) &&
       !isLoading) {
-    console.warn('[PricingSection] Falling back to default content in production. CMS data unavailable.', {
-      hasError: !!error,
-      error: error,
-      pricingPlansCount: pricingPlans?.length || 0,
-    });
+    console.debug('[PricingSection] Falling back to default content in production. CMS data unavailable.');
   }
 
   // Show loading state
@@ -420,45 +459,6 @@ export const PricingSection: React.FC = () => {
         "12-month content planning calendar with video ideas for every platform.",
     },
   ];
-
-  // State for expanded features section
-  const [showAllFeatures, setShowAllFeatures] = useState(false);
-
-  // Effect for discount timer
-  const [timeLeft, setTimeLeft] = useState({
-    hours: 23,
-    minutes: 59,
-    seconds: 59,
-  });
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => {
-        const newSeconds = prev.seconds - 1;
-
-        if (newSeconds >= 0) {
-          return { ...prev, seconds: newSeconds };
-        }
-
-        const newMinutes = prev.minutes - 1;
-
-        if (newMinutes >= 0) {
-          return { ...prev, minutes: newMinutes, seconds: 59 };
-        }
-
-        const newHours = prev.hours - 1;
-
-        if (newHours >= 0) {
-          return { hours: newHours, minutes: 59, seconds: 59 };
-        }
-
-        clearInterval(interval);
-        return { hours: 0, minutes: 0, seconds: 0 };
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   // Get pricing based on billing cycle
   const getPrice = (plan) => {

@@ -10,7 +10,8 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import CountUp from "react-countup";
+import CountUpRaw from "react-countup";
+const CountUp = (CountUpRaw as any)?.default ?? CountUpRaw;
 import { useLandingPageContent } from "../context/LandingPageContext";
 import MagicSparkles from "./MagicSparkles";
 import { safeParseInt } from "../utils/safeParse";
@@ -18,6 +19,21 @@ import { safeParseInt } from "../utils/safeParse";
 const BenefitsSection: React.FC = () => {
   // Get benefits data from context
   const { benefitsFeatures, isLoading, error } = useLandingPageContent();
+
+  // All hooks must be declared at the top before any conditional early returns.
+  // The following hooks were previously declared after loading/error/empty early
+  // returns, causing "Rendered more hooks than during the previous render".
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+
+  // Carousel auto-advance (hoisted here for Rules of Hooks compliance).
+  // Uses a stable length (the marketingTestimonials array below has 10 items).
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveTestimonial((prev) => (prev + 1) % 10);
+    }, 8000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Default benefits - only used in development/preview mode
   const defaultBenefits = [
@@ -78,11 +94,7 @@ const BenefitsSection: React.FC = () => {
   if (isProduction && 
       (!benefitsFeatures || benefitsFeatures.length === 0) &&
       !isLoading) {
-    console.warn('[BenefitsSection] Falling back to default content in production. CMS data unavailable.', {
-      hasError: !!error,
-      error: error,
-      benefitsCount: benefitsFeatures?.length || 0,
-    });
+    console.debug('[BenefitsSection] Falling back to default content in production. CMS data unavailable.');
   }
 
   // Show loading state
@@ -160,9 +172,6 @@ const BenefitsSection: React.FC = () => {
       </section>
     );
   }
-
-  // State for testimonials carousel
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
 
   // Testimonial data - VideoRemix platform user experiences
   const marketingTestimonials = [
@@ -297,15 +306,6 @@ const BenefitsSection: React.FC = () => {
       },
     },
   ];
-
-  // Auto-advance testimonials
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % marketingTestimonials.length);
-    }, 8000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <section

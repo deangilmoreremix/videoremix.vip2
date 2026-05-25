@@ -140,7 +140,7 @@ function App() {
   return (
     <AuthProvider>
       <AdminProvider>
-        <div className="flex flex-col min-h-screen bg-gray-900">
+        <div className="flex flex-col min-h-screen bg-gray-900 relative">
           <Helmet>
             <title>
               VideoRemix.vip - AI-Powered Marketing Personalization Platform

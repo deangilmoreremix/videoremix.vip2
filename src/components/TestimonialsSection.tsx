@@ -27,6 +27,19 @@ const TestimonialsSection: React.FC = () => {
   });
   const [activeFilter, setActiveFilter] = useState("all");
 
+  // Carousel auto-advance effect hoisted to top for Rules of Hooks compliance.
+  // Previously declared after loading/empty early returns, causing the
+  // "Rendered more hooks than during the previous render" crash on landing page.
+  useEffect(() => {
+    if (!dbTestimonials || dbTestimonials.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % dbTestimonials.length);
+    }, 8000);
+
+    return () => clearInterval(interval);
+  }, [dbTestimonials]);
+
   // Determine if we're in production
   const isProduction = typeof window !== 'undefined' && 
                        window.location.hostname !== 'localhost' && 
@@ -37,11 +50,7 @@ const TestimonialsSection: React.FC = () => {
   if (isProduction && 
       (!dbTestimonials || dbTestimonials.length === 0) &&
       !isLoading) {
-    console.warn('[TestimonialsSection] Falling back to static content in production. CMS data unavailable.', {
-      hasError: !!error,
-      error: error,
-      testimonialsCount: dbTestimonials?.length || 0,
-    });
+    console.debug('[TestimonialsSection] Falling back to static content in production. CMS data unavailable.');
   }
 
   // Show loading state
@@ -96,16 +105,6 @@ const TestimonialsSection: React.FC = () => {
     activeFilter === "all"
       ? allTestimonials.filter((t) => t.featured)
       : allTestimonials.filter((t) => t.category === activeFilter);
-
-  useEffect(() => {
-    if (!testimonials || testimonials.length <= 1) return;
-
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % testimonials.length);
-    }, 8000);
-
-    return () => clearInterval(interval);
-  }, [testimonials]);
 
   // Prevent errors with empty testimonials
   if (!testimonials || testimonials.length === 0) {

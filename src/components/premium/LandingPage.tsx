@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
+import ErrorBoundary from '../ErrorBoundary';
 import ROICalculator from './ROICalculator';
 import PersonalizationSimulator from './PersonalizationSimulator';
 import InteractiveComparisonTable from './InteractiveComparisonTable';
@@ -169,7 +170,9 @@ const LandingPage: React.FC = () => {
 
       {/* 10. Benefits Section (from original) */}
       <Suspense fallback={<SectionLoader />}>
-        <BenefitsSection />
+        <ErrorBoundary fallback={<div className="py-12 text-center text-gray-400">Benefits section temporarily unavailable.</div>}>
+          <BenefitsSection />
+        </ErrorBoundary>
       </Suspense>
 
       {/* 11. App Gallery (from original) */}
@@ -341,7 +344,9 @@ const LandingPage: React.FC = () => {
 
       {/* 18. Testimonials (from original) */}
       <Suspense fallback={<SectionLoader />}>
-        <TestimonialsSection />
+        <ErrorBoundary fallback={<div className="py-12 text-center text-gray-400">Testimonials temporarily unavailable.</div>}>
+          <TestimonialsSection />
+        </ErrorBoundary>
       </Suspense>
 
       {/* 19. Hero Stats Section (from original) */}
@@ -491,7 +496,9 @@ const LandingPage: React.FC = () => {
 
       {/* 23. FAQ Section (from original - uses LandingPageContext) */}
       <Suspense fallback={<SectionLoader />}>
-        <FAQSection />
+        <ErrorBoundary fallback={<div className="py-12 text-center text-gray-400">FAQ section temporarily unavailable.</div>}>
+          <FAQSection />
+        </ErrorBoundary>
       </Suspense>
 
       {/* 24. Visuals (Demo) - premium */}
@@ -511,7 +518,9 @@ const LandingPage: React.FC = () => {
 
       {/* 25. Pricing Section (from original) */}
       <Suspense fallback={<SectionLoader />}>
-        <PricingSection />
+        <ErrorBoundary fallback={<div className="py-12 text-center text-gray-400">Pricing section temporarily unavailable.</div>}>
+          <PricingSection />
+        </ErrorBoundary>
       </Suspense>
 
       {/* 26. Guarantee Section (from original) */}

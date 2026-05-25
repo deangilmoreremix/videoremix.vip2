@@ -142,7 +142,7 @@ export const useApps = () => {
           setApps(transformedApps);
           setCachedApps(transformedApps);
         } else {
-          console.warn("[useApps] No valid apps after filtering/transformation");
+          console.debug("[useApps] No valid apps after filtering/transformation (common on public/landing pages)");
           setApps([]);
         }
       }
