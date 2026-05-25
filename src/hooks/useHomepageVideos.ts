@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { VideoService } from "../services/videoService";
-import type { Video } from "../utils/supabaseClient";
+import type { Video } from "../utils/supabaseTypes";
 
 interface UseHomepageVideosOptions {
   autoFetch?: boolean;

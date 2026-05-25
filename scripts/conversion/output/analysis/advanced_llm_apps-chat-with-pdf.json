@@ -1,0 +1,59 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": true,
+  "hasColumns": false,
+  "hasButtons": false,
+  "widgetCounts": {
+    "textInput": 1,
+    "numberInput": 0,
+    "fileUpload": 1,
+    "selectBox": 0,
+    "button": 0,
+    "chat": 0,
+    "write": 1
+  },
+  "providers": {},
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 41,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": true,
+  "hasWebSearch": false,
+  "uiType": "file-upload",
+  "inputFields": [
+    {
+      "name": "upload_a_pdf_file",
+      "label": "Upload a PDF file",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "ask_a_question_about_the_pdf",
+      "label": "Ask a question about the PDF",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "unknown",
+  "filePath": "awesome-llm-apps/advanced_llm_apps/chat_with_X_tutorials/chat_with_pdf/chat_pdf_llama3.py",
+  "appName": "chat-with-pdf",
+  "category": "awesome-llm-apps",
+  "complexity": "rag",
+  "requiresApiKey": false,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 8,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:34.693Z",
+  "analyzerVersion": "0.1.0"
+}

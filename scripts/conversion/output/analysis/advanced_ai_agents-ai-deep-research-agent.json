@@ -1,0 +1,90 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 3,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 2,
+    "chat": 0,
+    "write": 5
+  },
+  "providers": {
+    "agno": {
+      "count": 4,
+      "imports": 2,
+      "clients": 2,
+      "models": []
+    },
+    "crewai": {
+      "count": 2,
+      "imports": 2,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 2,
+      "imports": 2,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {
+    "firecrawl": {
+      "count": 2,
+      "usage": "scraping"
+    }
+  },
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": true,
+  "usesAsyncio": true,
+  "linesOfCode": 185,
+  "hasMultiAgent": true,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": true,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "openai_api_key",
+      "label": "OpenAI API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "firecrawl_api_key",
+      "label": "Firecrawl API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_your_research_topic",
+      "label": "Enter your research topic:",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/single_agent_apps/ai_deep_research_agent/deep_research_openai.py",
+  "appName": "ai-deep-research-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "FIRECRAWL_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 27,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:36.410Z",
+  "analyzerVersion": "0.1.0"
+}

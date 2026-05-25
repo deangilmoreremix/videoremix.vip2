@@ -1,14 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import CreateFirstVideoCTA from "./CreateFirstVideoCTA";
+import { useState, useEffect, createContext, useContext, ReactNode, FC } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
+import CreateFirstVideoCTA from "./CreateFirstVideoCTA";
 
-// Types of modals we support
-type ModalType =
-  | "createFirstVideo"
-  | "featuredAnnouncement"
-  | "newFeature"
-  | "pricing";
+// Types
+type ModalType = 'createFirstVideo' | 'featuredAnnouncement' | 'newFeature' | 'pricing';
 
 interface ModalsContextType {
   showModal: (type: ModalType) => void;
@@ -16,6 +12,7 @@ interface ModalsContextType {
   hideAllModals: () => void;
 }
 
+// Create context using createContext to avoid bundling issues
 const ModalsContext = createContext<ModalsContextType>({
   showModal: () => {},
   hideModal: () => {},
@@ -24,9 +21,11 @@ const ModalsContext = createContext<ModalsContextType>({
 
 const useModals = () => useContext(ModalsContext);
 
-export const ModalsProvider: React.FC<{ children: React.ReactNode }> = ({
+export const ModalsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  console.log('✅ ModalsProvider rendering with useState');
+
   // Track which modals are visible
   const [visibleModals, setVisibleModals] = useState<
     Record<ModalType, boolean>
@@ -116,7 +115,7 @@ export const ModalsProvider: React.FC<{ children: React.ReactNode }> = ({
 
 // Helper component for modal overlay
 const ModalOverlay: React.FC<{
-  children: React.ReactNode;
+  children: ReactNode;
   onClose: () => void;
 }> = ({ children, onClose }) => {
   return (

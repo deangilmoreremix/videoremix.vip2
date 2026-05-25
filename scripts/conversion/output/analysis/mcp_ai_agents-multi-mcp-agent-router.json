@@ -1,0 +1,91 @@
+{
+  "hasChatInput": true,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": false,
+  "widgetCounts": {
+    "textInput": 1,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 1,
+    "button": 0,
+    "chat": 4,
+    "write": 12
+  },
+  "providers": {
+    "anthropic": {
+      "count": 3,
+      "imports": 2,
+      "clients": 1,
+      "models": []
+    },
+    "agno": {
+      "count": 8,
+      "imports": 4,
+      "clients": 4,
+      "models": []
+    },
+    "crewai": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": true,
+  "isAsync": true,
+  "usesAsyncio": true,
+  "linesOfCode": 372,
+  "hasMultiAgent": true,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "chat",
+  "inputFields": [
+    {
+      "name": "anthropic_api_key",
+      "label": "Anthropic API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "agent_selection",
+      "label": "Agent Selection",
+      "type": "radio",
+      "required": true
+    },
+    {
+      "name": "choose_agent",
+      "label": "Choose Agent",
+      "type": "select",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/mcp_ai_agents/multi_mcp_agent_router/agent_forge.py",
+  "appName": "multi-mcp-agent-router",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "ANTHROPIC_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 23,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:36.667Z",
+  "analyzerVersion": "0.1.0"
+}

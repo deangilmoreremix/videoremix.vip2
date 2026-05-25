@@ -1,14 +1,13 @@
-import { StrictMode, Suspense, lazy } from "react";
+import React, { Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
-import { AnimationProvider } from "./context/AnimationContext";
+import { AuthProvider } from "./context/AuthContext";
 import { ModalsProvider } from "./components/ModalsProvider";
-
-// Import base styles early to prevent layout shifts
+import { LandingPageProvider } from "./context/LandingPageContext";
+import GlobalErrorBoundary from "./components/GlobalErrorBoundary";
+import App from "./App";
 import "./index.css";
 
-// Simple loading indicator for initial app load
 const LoadingScreen = () => (
   <div className="fixed inset-0 flex items-center justify-center bg-gray-900 text-white">
     <div className="relative">
@@ -20,40 +19,31 @@ const LoadingScreen = () => (
   </div>
 );
 
-// Load the main app
-import App from "./App";
+const root = document.getElementById("root");
 
-// Only mount the app after the DOM is fully loaded
-const mountApp = () => {
-  const root = document.getElementById("root");
-  if (root) {
-    createRoot(root).render(
-      <StrictMode>
-        <BrowserRouter
-          future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-        >
-          <HelmetProvider>
-            <AnimationProvider>
+if (root) {
+  createRoot(root).render(
+    <React.StrictMode>
+      <GlobalErrorBoundary
+        onError={(error, errorInfo) => {
+          console.error('🚨 Global error caught:', error, errorInfo);
+        }}
+      >
+        <LandingPageProvider>
+          <BrowserRouter>
+            <AuthProvider>
               <ModalsProvider>
                 <Suspense fallback={<LoadingScreen />}>
                   <App />
                 </Suspense>
               </ModalsProvider>
-            </AnimationProvider>
-          </HelmetProvider>
-        </BrowserRouter>
-      </StrictMode>,
-    );
-  }
-};
-
-// Safely handle requestIdleCallback
-const runWhenIdle = (cb: () => void) => {
-  if (typeof window !== "undefined" && "requestIdleCallback" in window) {
-    (window as any).requestIdleCallback(cb);
-  } else {
-    setTimeout(cb, 50);
-  }
-};
-
-runWhenIdle(mountApp);
+            </AuthProvider>
+          </BrowserRouter>
+        </LandingPageProvider>
+      </GlobalErrorBoundary>
+    </React.StrictMode>
+  );
+  console.log('✅ App mounted successfully');
+} else {
+  console.error('❌ Root element not found');
+}

@@ -1,0 +1,59 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": true,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 1,
+    "numberInput": 1,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 5,
+    "chat": 0,
+    "write": 7
+  },
+  "providers": {},
+  "externalServices": {},
+  "usesSessionState": true,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 120,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "multi-tab",
+  "inputFields": [
+    {
+      "name": "your_question",
+      "label": "Your Question:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "select_number_of_math_questions_to_benchmark",
+      "label": "Select number of math questions to benchmark",
+      "type": "range",
+      "required": true
+    }
+  ],
+  "outputFormat": "table",
+  "primaryProvider": "unknown",
+  "filePath": "awesome-llm-apps/rag_tutorials/agentic_rag_math_agent/app/streamlit.py",
+  "appName": "app",
+  "category": "awesome-llm-apps",
+  "complexity": "simple",
+  "requiresApiKey": false,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 2,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:34.248Z",
+  "analyzerVersion": "0.1.0"
+}

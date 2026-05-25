@@ -1,0 +1,126 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": true,
+  "hasColumns": false,
+  "hasButtons": false,
+  "widgetCounts": {
+    "textInput": 8,
+    "numberInput": 0,
+    "fileUpload": 1,
+    "selectBox": 0,
+    "button": 0,
+    "chat": 0,
+    "write": 1
+  },
+  "providers": {
+    "anthropic": {
+      "count": 6,
+      "imports": 3,
+      "clients": 3,
+      "models": []
+    },
+    "langchain": {
+      "count": 15,
+      "imports": 12,
+      "clients": 3,
+      "models": []
+    }
+  },
+  "externalServices": {
+    "qdrant": {
+      "count": 4,
+      "usage": "vector-store"
+    }
+  },
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 454,
+  "hasMultiAgent": false,
+  "hasTools": true,
+  "hasRAG": true,
+  "hasWebSearch": true,
+  "uiType": "file-upload",
+  "inputFields": [
+    {
+      "name": "anthropic_api_key",
+      "label": "Anthropic API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "openai_api_key",
+      "label": "OpenAI API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "tavily_api_key",
+      "label": "Tavily API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "qdrant_url",
+      "label": "Qdrant URL",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "qdrant_api_key",
+      "label": "Qdrant API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "document_url",
+      "label": "Document URL",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "choose_input_method",
+      "label": "Choose input method:",
+      "type": "radio",
+      "required": true
+    },
+    {
+      "name": "enter_document_url",
+      "label": "Enter document URL:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "upload_a_document",
+      "label": "Upload a document",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "please_enter_your_question",
+      "label": "Please enter your question:",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "image",
+  "primaryProvider": "langchain",
+  "filePath": "awesome-llm-apps/rag_tutorials/corrective_rag/corrective_rag.py",
+  "appName": "corrective-rag",
+  "category": "awesome-llm-apps",
+  "complexity": "rag",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "ANTHROPIC_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 11,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:34.130Z",
+  "analyzerVersion": "0.1.0"
+}

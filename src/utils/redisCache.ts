@@ -28,7 +28,11 @@ class RedisCache {
   private cleanupInterval: NodeJS.Timeout | null = null;
 
   constructor() {
-    this.initializeCache();
+    // Initialize cache asynchronously without awaiting (fire and forget)
+    this.initializeCache().catch(error => {
+      console.warn("Cache initialization failed:", error.message);
+    });
+
     // Clean up expired in-memory entries every 5 minutes
     this.cleanupInterval = setInterval(
       () => {
@@ -40,9 +44,21 @@ class RedisCache {
 
   private async initializeCache(): Promise<void> {
     try {
+      // Check if we're in a Deno environment first
+      if (typeof Deno === 'undefined' || typeof Deno.env === 'undefined') {
+        console.warn("Deno environment not available, using in-memory cache");
+        return;
+      }
+
       // Try to import Redis client for Deno
-      const { createClient } =
-        await import("https://deno.land/x/redis@v0.32.0/mod.ts");
+      let createClient;
+      try {
+        const redisModule = await import("https://deno.land/x/redis@v0.32.0/mod.ts");
+        createClient = redisModule.createClient;
+      } catch (importError) {
+        console.warn("Failed to import Redis client:", importError);
+        return;
+      }
 
       const redisUrl = Deno.env.get("REDIS_URL");
       if (!redisUrl) {
@@ -50,20 +66,29 @@ class RedisCache {
         return;
       }
 
+      // Parse Redis URL safely
+      let parsedUrl;
+      try {
+        parsedUrl = new URL(redisUrl);
+      } catch (urlError) {
+        console.warn("Invalid Redis URL format:", urlError);
+        return;
+      }
+
       this.client = await createClient({
-        hostname: new URL(redisUrl).hostname,
-        port: parseInt(new URL(redisUrl).port) || 6379,
-        password: new URL(redisUrl).password,
+        hostname: parsedUrl.hostname,
+        port: parseInt(parsedUrl.port) || 6379,
+        password: parsedUrl.password,
       });
 
       // Test connection
       await this.client.ping();
       this.isConnected = true;
       console.log("Redis cache client connected successfully");
-    } catch (error) {
+    } catch (error: any) {
       console.warn(
         "Failed to connect to Redis for caching, using in-memory cache:",
-        error.message,
+        error?.message || error,
       );
     }
   }

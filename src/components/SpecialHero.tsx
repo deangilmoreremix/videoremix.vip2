@@ -1,386 +1,351 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import {
   ChevronDown,
-  Shield,
-  Star,
-  ArrowRight,
-  Sparkles,
   Award,
+  Sparkles,
+  ArrowRight,
   CheckCircle,
-  Clock,
+  Play,
+  TrendingUp,
 } from "lucide-react";
-import { TypeAnimation } from "react-type-animation";
-import CountUp from "react-countup";
-import { Link } from "react-router-dom";
 import MagicSparkles from "./MagicSparkles";
 import { useLandingPageContent } from "../context/LandingPageContext";
-import CountdownTimer from "./SpecialHero/CountdownTimer";
-import VideoPreview from "./SpecialHero/VideoPreview";
-import KeyBenefits from "./SpecialHero/KeyBenefits";
-import ActiveUsers from "./SpecialHero/ActiveUsers";
-import CreateFirstVideoCTA from "./SpecialHero/CreateFirstVideoCTA";
 
 const SpecialHero: React.FC = () => {
   const { hero } = useLandingPageContent();
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [showCreateFirstVideo, setShowCreateFirstVideo] = useState(true);
-
-  const testimonials = [
-    {
-      name: "David Chen",
-      role: "Marketing Director",
-      quote:
-        "The personalization tools helped us achieve a 215% increase in marketing engagement and 3X more campaign leads.",
-      image:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150",
-    },
-    {
-      name: "Sarah Wilson",
-      role: "Digital Marketing Lead",
-      quote:
-        "I create custom marketing content for different audience segments in minutes. My conversion rates have doubled since using VideoRemix.",
-      image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=150",
-    },
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 8000);
-
-    return () => clearInterval(interval);
-  }, [testimonials.length]);
-
-  // Check if user has seen the Create First Video CTA before
-  useEffect(() => {
-    const hasSeenCTA = localStorage.getItem("hasSeenFirstVideoCTA");
-    if (hasSeenCTA) {
-      setShowCreateFirstVideo(false);
-    } else {
-      // After 1 minute, save that user has seen the CTA
-      const timeout = setTimeout(() => {
-        localStorage.setItem("hasSeenFirstVideoCTA", "true");
-      }, 60000);
-
-      return () => clearTimeout(timeout);
-    }
-  }, []);
 
   return (
-    <section className="relative pt-32 pb-16 overflow-hidden bg-gradient-to-b from-black to-gray-900">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
-          {/* Main Content - Left Side */}
-          <div className="lg:col-span-3">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-left mb-6"
-            >
-              <div className="mb-4 inline-flex items-center rounded-full bg-primary-600 px-3 py-1">
-                <Award className="h-4 w-4 text-white mr-2" />
-                <span className="text-sm font-medium text-white">
-                  THE NEW VIDEOREMIX PLATFORM
-                </span>
-              </div>
+    <section className="relative pt-32 pb-24 overflow-hidden bg-[#030303]">
+      {/* Premium ambient background */}
+      <div className="absolute inset-0">
+        {/* Animated gradient orbs */}
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-br from-primary-600/30 via-accent-500/10 to-transparent rounded-full blur-[120px] animate-pulse-slow"></div>
+        <div className="absolute bottom-0 left-0 w-[700px] h-[700px] bg-gradient-to-tr from-accent-500/20 via-primary-600/10 to-transparent rounded-full blur-[100px]"></div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-none md:leading-tight relative">
-                Welcome to <span className="text-primary-400">VideoRemix</span>{" "}
-                - Your Complete Personalized Marketing Platform
-              </h1>
+        {/* Mesh gradient overlay */}
+        <div className="absolute inset-0 opacity-30 bg-gradient-to-b from-primary-900/20 via-transparent to-accent-900/20"></div>
 
-              <p className="text-xl md:text-2xl text-gray-300 mb-8">
-                The professional platform for creating personalized marketing at
-                scale. 50+ AI-powered tools help you deliver the right message
-                to the right audience segment.
-              </p>
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] bg-[size:60px_60px]"></div>
 
-              <div className="space-y-4 mb-8">
-                {[
-                  "AI-powered personalization for marketing content and campaigns",
-                  "50+ marketing personalization tools for marketers and businesses",
-                  "Create personalized campaigns in minutes, not hours",
-                  "Increase marketing ROI with audience-specific content",
-                ].map((benefit, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
-                    className="flex items-center"
-                  >
-                    <div className="mr-3 text-primary-400">
-                      <CheckCircle className="w-6 h-6" />
-                    </div>
-                    <p className="text-white text-lg">{benefit}</p>
-                  </motion.div>
-                ))}
-              </div>
-
-              <motion.div
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="mb-6"
-              >
-                <MagicSparkles
-                  minSparkles={2}
-                  maxSparkles={5}
-                  minSize={5}
-                  maxSize={10}
-                >
-                  <a
-                    href="/signup"
-                    className="block w-full md:w-auto md:inline-block text-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold text-xl px-8 py-5 rounded-lg shadow-lg"
-                  >
-                    <span className="flex items-center justify-center">
-                      GET STARTED WITH VIDEOREMIX
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </span>
-                  </a>
-                </MagicSparkles>
-              </motion.div>
-
-              <p className="text-gray-400 text-sm">
-                <span className="text-yellow-400">⚡</span> Get started now. No
-                credit card required.
-              </p>
-            </motion.div>
-
-            {/* Create First Personalized Video banner */}
-            {showCreateFirstVideo && <CreateFirstVideoCTA />}
-          </div>
-
-          {/* Video Content - Right Side */}
-          <div className="lg:col-span-2">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="bg-gradient-to-br from-gray-800 to-gray-900 p-1.5 rounded-xl overflow-hidden shadow-2xl"
-            >
-              <div className="relative aspect-video w-full overflow-hidden rounded-lg">
-                <img
-                  src={
-                    hero?.background_image_url ||
-                    "https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
-                  }
-                  alt="Personalized Marketing Demo"
-                  className="w-full h-full object-cover"
-                />
-
-                <Link
-                  to="/signup"
-                  className="absolute inset-0 bg-black/50 flex items-center justify-center group"
-                >
-                  <motion.div
-                    className="relative"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    {/* Pulsing animation */}
-                    <motion.div
-                      className="absolute -inset-4 rounded-full bg-primary-500/20 blur-md"
-                      animate={{
-                        scale: [1, 1.5, 1],
-                        opacity: [0.5, 0, 0.5],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        repeatType: "loop",
-                      }}
-                    />
-
-                    <MagicSparkles minSparkles={3} maxSparkles={6} speed="fast">
-                      <div className="bg-primary-600 group-hover:bg-primary-500 transition-colors rounded-full p-5 relative flex items-center justify-center">
-                        <Sparkles className="h-8 w-8 text-white" />
-                      </div>
-                    </MagicSparkles>
-                  </motion.div>
-                </Link>
-
-                <div className="absolute top-3 left-3 bg-primary-600/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm text-white font-medium flex items-center gap-2">
-                  <Sparkles className="h-4 w-4" />
-                  <span>AI-Powered Personalization</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Testimonial mini slider */}
-            <div className="mt-6 relative">
-              <AnimatePresence mode="wait">
-                {testimonials.map(
-                  (testimonial, index) =>
-                    activeTestimonial === index && (
-                      <motion.div
-                        key={testimonial.name}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.5 }}
-                        className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/10"
-                      >
-                        <div className="flex items-center">
-                          <img
-                            src={testimonial.image}
-                            alt={testimonial.name}
-                            className="w-12 h-12 rounded-full object-cover border-2 border-primary-500"
-                          />
-                          <div className="ml-4">
-                            <div className="text-white font-medium">
-                              {testimonial.name}
-                            </div>
-                            <div className="text-gray-400 text-sm">
-                              {testimonial.role}
-                            </div>
-                            <div className="flex mt-1">
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className="w-4 h-4 text-yellow-500 fill-yellow-500"
-                                />
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                        <p className="mt-3 text-gray-300 italic text-sm">
-                          "{testimonial.quote}"
-                        </p>
-                      </motion.div>
-                    ),
-                )}
-              </AnimatePresence>
-
-              {/* Dots indicator */}
-              <div
-                className="flex justify-center mt-4 space-x-2"
-                role="tablist"
-                aria-label="Testimonials"
-              >
-                {testimonials.map((_, idx) => (
-                  <button
-                    key={idx}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      idx === activeTestimonial
-                        ? "bg-primary-500 w-6"
-                        : "bg-gray-500"
-                    }`}
-                    onClick={() => setActiveTestimonial(idx)}
-                    role="tab"
-                    aria-selected={idx === activeTestimonial}
-                    aria-controls={`testimonial-panel-${idx}`}
-                    aria-label={`View testimonial ${idx + 1} of ${testimonials.length}: ${testimonials[idx].name}`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Stats */}
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              <div className="bg-white/5 backdrop-blur-sm rounded-lg p-3 border border-white/10 text-center">
-                <div className="text-2xl font-bold text-white">
-                  <CountUp end={12467} separator="," duration={2.5} />+
-                </div>
-                <div className="text-xs text-gray-400">
-                  Marketing Professionals
-                </div>
-              </div>
-              <div className="bg-white/5 backdrop-blur-sm rounded-lg p-3 border border-white/10 text-center">
-                <div className="flex justify-center">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 text-yellow-500 fill-yellow-500"
-                    />
-                  ))}
-                </div>
-                <div className="text-xl font-bold text-white mt-1">4.9/5</div>
-                <div className="text-xs text-gray-400">
-                  Marketing ROI Rating
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Trust badges */}
+        {/* Moving light streaks */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-12 pt-6 border-t border-white/10"
-        >
-          <p className="text-center text-gray-400 text-sm mb-4">
-            TRUSTED BY MARKETING TEAMS WORLDWIDE
-          </p>
-          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-            {["Microsoft", "Google", "YouTube", "Instagram", "Twitter"].map(
-              (brand, i) => (
-                <motion.img
-                  key={i}
-                  whileHover={{ scale: 1.05, filter: "brightness(1.2)" }}
-                  src={
-                    [
-                      "https://cdn.pixabay.com/photo/2013/02/12/09/07/microsoft-80658_960_720.png",
-                      "https://cdn.pixabay.com/photo/2015/12/11/11/43/google-1088003_960_720.png",
-                      "https://cdn.pixabay.com/photo/2017/03/30/17/42/youtube-2189041_960_720.png",
-                      "https://cdn.pixabay.com/photo/2018/06/05/13/24/instagram-3456027_960_720.png",
-                      "https://cdn.pixabay.com/photo/2017/06/22/14/23/twitter-2430933_960_720.png",
-                    ][i]
-                  }
-                  alt={brand}
-                  className="h-8 sm:h-10 brightness-[2]"
-                />
-              ),
-            )}
-          </div>
-        </motion.div>
-
-        {/* Key benefits icons */}
-        <KeyBenefits />
-
-        {/* Active users counter */}
-        <ActiveUsers />
-
-        {/* Video preview section */}
-        <VideoPreview />
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 1, y: 0 }}
+          className="absolute top-1/4 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-500/20 to-transparent"
           animate={{
-            opacity: 1,
-            y: [0, 10, 0],
+            x: ["-100%", "200%"],
+            opacity: [0, 1, 0],
           }}
           transition={{
-            y: {
-              duration: 1.5,
-              repeat: Infinity,
-              repeatType: "mirror",
-            },
+            duration: 8,
+            repeat: Infinity,
+            repeatDelay: 5,
           }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
-        >
-          <button
-            onClick={() => {
-              const problemSection = document.getElementById("problem");
-              if (problemSection) {
-                problemSection.scrollIntoView({ behavior: "smooth" });
-                problemSection.focus(); // Focus for screen readers
-              }
-            }}
-            className="flex flex-col items-center text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 rounded-md p-2"
-            aria-label="Scroll to problem section and discover more about marketing personalization"
-          >
-            <span className="text-sm mb-2" aria-hidden="true">
-              Discover more
-            </span>
-            <ChevronDown className="h-6 w-6" aria-hidden="true" />
-          </button>
-        </motion.div>
+        />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Left Column - Main Content */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="text-left"
+            >
+              {/* Premium badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
+                className="mb-8 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary-900/40 to-accent-900/30 border border-primary-500/20 backdrop-blur-sm"
+              >
+                <div className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
+                </div>
+                <span className="text-sm font-semibold text-white tracking-wide uppercase">
+                  AI-Powered Video Platform
+                </span>
+              </motion.div>
+
+              {/* Hero headline - massive typography */}
+              <motion.h1
+                initial={{ opacity: 0, x: -40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3, duration: 0.7 }}
+                className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.95] mb-8 tracking-tight"
+                style={{ fontFamily: 'var(--font-display)' }}
+              >
+                <span className="block text-gray-100 mb-2">
+                  Create Videos
+                </span>
+                <span className="block text-transparent bg-gradient-to-r from-primary-400 via-accent-400 to-primary-300 bg-clip-text animate-gradient-shift" style={{backgroundSize: '200% auto'}}>
+                  That Convert
+                </span>
+                <span className="block text-gray-100 mt-2">
+                  Like Magic ✨
+                </span>
+              </motion.h1>
+
+              {/* Hero subtext */}
+              <motion.p
+                initial={{ opacity: 0, x: -40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                className="text-xl md:text-2xl text-gray-300 mb-10 leading-relaxed max-w-2xl font-light border-l-4 border-primary-500/50 pl-6"
+              >
+                The world's most advanced AI video platform. Create personalized,
+                high-converting videos in minutes — not hours.
+              </motion.p>
+
+              {/* Benefit pills */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+                className="flex flex-wrap gap-3 mb-10"
+              >
+                {[
+                  "AI-Powered",
+                  "No Experience Needed",
+                  "5-Minute Setup",
+                  "Enterprise Results",
+                ].map((benefit, index) => (
+                  <div
+                    key={index}
+                    className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 backdrop-blur-sm"
+                  >
+                    {benefit}
+                  </div>
+                ))}
+              </motion.div>
+
+              {/* CTA buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.6 }}
+                className="flex flex-col sm:flex-row gap-4"
+              >
+                <motion.a
+                  href="/signup"
+                  whileHover={{
+                    scale: 1.03,
+                    y: -3,
+                    boxShadow: "0 25px 50px -12px rgba(99, 102, 241, 0.4)",
+                  }}
+                  whileTap={{ scale: 0.97 }}
+                  className="relative inline-flex items-center justify-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold text-xl px-10 py-5 rounded-2xl shadow-2xl overflow-hidden group"
+                >
+                  {/* Shimmer effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shimmer"></div>
+                  <span className="relative z-10 flex items-center">
+                    Start Creating Free
+                    <motion.span
+                      animate={{ x: [0, 6, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                      className="ml-3"
+                    >
+                      →
+                    </motion.span>
+                  </span>
+                </motion.a>
+
+                <motion.a
+                  href="#demo"
+                  whileHover={{
+                    scale: 1.03,
+                    y: -3,
+                    backgroundColor: "rgba(255, 255, 255, 0.1)",
+                  }}
+                  whileTap={{ scale: 0.97 }}
+                  className="inline-flex items-center justify-center glass-button text-white font-semibold text-lg px-10 py-5 rounded-2xl border border-white/10"
+                >
+                  <Play className="h-5 w-5 mr-2" />
+                  Watch Demo
+                </motion.a>
+              </motion.div>
+
+              {/* Social proof */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8, duration: 0.6 }}
+                className="mt-12 pt-8 border-t border-white/10"
+              >
+                <p className="text-sm text-gray-500 mb-4 uppercase tracking-widest">
+                  Trusted by 12,000+ creators & companies
+                </p>
+                <div className="flex flex-wrap gap-6 items-center opacity-60">
+                  {[
+                    "Netflix",
+                    "Adobe",
+                    "Spotify",
+                    "Airbnb",
+                    "Meta",
+                    "Stripe",
+                  ].map((brand, i) => (
+                    <span
+                      key={i}
+                      className="text-xl font-bold text-gray-500 tracking-tight"
+                    >
+                      {brand}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Column - Hero Visual */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 40 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="relative"
+            >
+              {/* Main dashboard mockup */}
+              <div className="relative">
+                {/* Glow behind card */}
+                <div className="absolute -inset-8 bg-gradient-to-br from-primary-600/20 via-accent-500/10 to-primary-600/20 rounded-[2rem] blur-3xl"></div>
+
+                {/* Card */}
+                <motion.div
+                  className="relative bg-gradient-to-b from-gray-900/90 via-gray-800/80 to-gray-900/90 backdrop-blur-2xl rounded-2xl border border-gray-700/50 shadow-2xl overflow-hidden"
+                  whileHover={{ y: -5 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  {/* Card header */}
+                  <div className="bg-black/30 px-6 py-4 border-b border-gray-700/50 flex items-center gap-2">
+                    <div className="flex gap-1.5">
+                      <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+                    </div>
+                    <div className="flex-1 text-center">
+                      <span className="text-xs text-gray-500">VideoRemix Studio</span>
+                    </div>
+                  </div>
+
+                  {/* Card content */}
+                  <div className="p-6">
+                    <div className="grid grid-cols-3 gap-3 mb-6">
+                      {[
+                        "Personalization",
+                        "AI Editing",
+                        "Analytics",
+                      ].map((feature, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
+                          className="bg-gradient-to-br from-primary-500/10 to-accent-500/10 border border-primary-500/20 rounded-xl p-3 text-center text-xs font-medium text-gray-300"
+                        >
+                          {feature}
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    {/* Preview image */}
+                    <div className="relative aspect-video rounded-xl overflow-hidden bg-gray-950">
+                      <img
+                        src={
+                          hero?.background_image_url ||
+                          "https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+                        }
+                        alt="VideoRemix Dashboard"
+                        className="w-full h-full object-cover opacity-80"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+
+                      {/* Floating play button */}
+                      <motion.div
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                        whileHover={{ scale: 1.1 }}
+                      >
+                        <div className="w-14 h-14 rounded-full bg-primary-600/90 backdrop-blur-sm flex items-center justify-center shadow-lg">
+                          <Play className="h-7 w-7 text-white ml-1" />
+                        </div>
+                      </motion.div>
+
+                      {/* Floating badge */}
+                      <motion.div
+                        initial={{ x: 20, y: -20, opacity: 0 }}
+                        animate={{ x: 0, y: 0, opacity: 1 }}
+                        transition={{ delay: 0.8, duration: 0.5 }}
+                        className="absolute top-4 left-4 bg-primary-600/90 backdrop-blur-sm px-3 py-1.5 rounded-lg flex items-center gap-2 text-white text-sm"
+                      >
+                        <Sparkles className="h-4 w-4" />
+                        AI Active
+                      </motion.div>
+
+                      {/* Stats pill */}
+                      <motion.div
+                        initial={{ x: -20, y: 20, opacity: 0 }}
+                        animate={{ x: 0, y: 0, opacity: 1 }}
+                        transition={{ delay: 1, duration: 0.5 }}
+                        className="absolute bottom-4 right-4 bg-green-500/90 backdrop-blur-sm px-3 py-1.5 rounded-lg flex items-center gap-2 text-white text-sm font-semibold"
+                      >
+                        <TrendingUp className="h-4 w-4" />
+                        +247% ROI
+                      </motion.div>
+                    </div>
+
+                    {/* Stats row */}
+                    <div className="grid grid-cols-3 gap-4 mt-6">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-white">10M+</div>
+                        <div className="text-xs text-gray-500 uppercase tracking-wide">Videos</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-white">150+</div>
+                        <div className="text-xs text-gray-500 uppercase tracking-wide">Countries</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-white">4.9★</div>
+                        <div className="text-xs text-gray-500 uppercase tracking-wide">Rating</div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Floating achievement card */}
+                <motion.div
+                  initial={{ x: 30, y: -30, opacity: 0 }}
+                  animate={{ x: 0, y: 0, opacity: 1 }}
+                  transition={{ delay: 1.2, duration: 0.6 }}
+                  className="absolute -left-8 top-1/4 bg-gradient-to-br from-yellow-900/40 to-amber-900/30 backdrop-blur-xl border border-yellow-500/30 rounded-xl p-4 shadow-xl w-40"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <Award className="h-5 w-5 text-yellow-500" />
+                    <span className="text-xs font-bold text-yellow-200 uppercase tracking-wider">Achievement</span>
+                  </div>
+                  <p className="text-sm text-white leading-tight">
+                    First video created! 🎉
+                  </p>
+                </motion.div>
+
+                {/* Floating notification */}
+                <motion.div
+                  initial={{ x: -20, y: 20, opacity: 0 }}
+                  animate={{ x: 0, y: 0, opacity: 1 }}
+                  transition={{ delay: 1.4, duration: 0.6 }}
+                  className="absolute -right-4 bottom-1/4 bg-gradient-to-br from-green-900/40 to-emerald-900/30 backdrop-blur-xl border border-green-500/30 rounded-xl p-4 shadow-xl flex items-center gap-3 max-w-[200px]"
+                >
+                  <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                    <Check className="h-4 w-4 text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-green-400">Video Ready</p>
+                    <p className="text-xs text-gray-300">Your personalized video is ready to export</p>
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

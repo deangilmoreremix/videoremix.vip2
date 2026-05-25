@@ -1,0 +1,89 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": true,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 2,
+    "numberInput": 0,
+    "fileUpload": 1,
+    "selectBox": 0,
+    "button": 1,
+    "chat": 0,
+    "write": 4
+  },
+  "providers": {
+    "agno": {
+      "count": 2,
+      "imports": 1,
+      "clients": 1,
+      "models": [
+        {
+          "pattern": "gpt-4",
+          "count": 1
+        }
+      ]
+    },
+    "crewai": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 125,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "file-upload",
+  "inputFields": [
+    {
+      "name": "enter_your_openai_api_key",
+      "label": "Enter your OpenAI API key:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "upload_a_csv_or_excel_file",
+      "label": "Upload a CSV or Excel file",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "ask_a_query_about_the_data",
+      "label": "Ask a query about the data:",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "table",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/starter_ai_agents/ai_data_analysis_agent/ai_data_analyst.py",
+  "appName": "ai-data-analysis-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 15,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T14:58:31.769Z",
+  "analyzerVersion": "0.1.0"
+}

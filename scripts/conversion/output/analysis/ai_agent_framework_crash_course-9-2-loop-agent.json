@@ -1,0 +1,59 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 1,
+    "numberInput": 1,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 1,
+    "chat": 0,
+    "write": 4
+  },
+  "providers": {},
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": true,
+  "linesOfCode": 77,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "topic",
+      "label": "Topic",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "target_iterations_early_stop_possible",
+      "label": "Target iterations (early stop possible)",
+      "type": "number",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "unknown",
+  "filePath": "awesome-llm-apps/ai_agent_framework_crash_course/google_adk_crash_course/9_multi_agent_patterns/9_2_loop_agent/app.py",
+  "appName": "9-2-loop-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "simple",
+  "requiresApiKey": false,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 2,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:37.016Z",
+  "analyzerVersion": "0.1.0"
+}

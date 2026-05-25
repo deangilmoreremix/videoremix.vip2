@@ -1,0 +1,167 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 4,
+    "numberInput": 2,
+    "fileUpload": 0,
+    "selectBox": 9,
+    "button": 1,
+    "chat": 0,
+    "write": 4
+  },
+  "providers": {
+    "agno": {
+      "count": 8,
+      "imports": 4,
+      "clients": 4,
+      "models": [
+        {
+          "pattern": "gpt-4",
+          "count": 1
+        }
+      ]
+    },
+    "crewai": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    },
+    "autogen": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": true,
+  "linesOfCode": 291,
+  "hasMultiAgent": true,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "background_vibe",
+      "label": "Background Vibe",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "game_type",
+      "label": "Game Type",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "target_audience",
+      "label": "Target Audience",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "player_perspective",
+      "label": "Player Perspective",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "multiplayer_support",
+      "label": "Multiplayer Support",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "game_goal",
+      "label": "Game Goal",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "art_style",
+      "label": "Art Style",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "target_platforms",
+      "label": "Target Platforms",
+      "type": "multiselect",
+      "required": true
+    },
+    {
+      "name": "development_time_months",
+      "label": "Development Time (months)",
+      "type": "range",
+      "required": true
+    },
+    {
+      "name": "budget_usd",
+      "label": "Budget (USD)",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "core_gameplay_mechanics",
+      "label": "Core Gameplay Mechanics",
+      "type": "multiselect",
+      "required": true
+    },
+    {
+      "name": "game_moodatmosphere",
+      "label": "Game Mood/Atmosphere",
+      "type": "multiselect",
+      "required": true
+    },
+    {
+      "name": "games_for_inspiration_commaseparated",
+      "label": "Games for Inspiration (comma-separated)",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "unique_features_or_requirements",
+      "label": "Unique Features or Requirements",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "level_of_detail_in_response",
+      "label": "Level of Detail in Response",
+      "type": "select",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/multi_agent_apps/agent_teams/ai_game_design_agent_team/game_design_agent_team.py",
+  "appName": "ai-game-design-agent-team",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 15,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:35.641Z",
+  "analyzerVersion": "0.1.0"
+}

@@ -1,0 +1,120 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 2,
+    "numberInput": 3,
+    "fileUpload": 0,
+    "selectBox": 4,
+    "button": 2,
+    "chat": 0,
+    "write": 13
+  },
+  "providers": {
+    "agno": {
+      "count": 6,
+      "imports": 3,
+      "clients": 3,
+      "models": []
+    },
+    "crewai": {
+      "count": 3,
+      "imports": 3,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 3,
+      "imports": 3,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 245,
+  "hasMultiAgent": true,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "gemini_api_key",
+      "label": "Gemini API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "age",
+      "label": "Age",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "height_cm",
+      "label": "Height (cm)",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "activity_level",
+      "label": "Activity Level",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "dietary_preferences",
+      "label": "Dietary Preferences",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "weight_kg",
+      "label": "Weight (kg)",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "sex",
+      "label": "Sex",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "fitness_goals",
+      "label": "Fitness Goals",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "what_would_you_like_to_know",
+      "label": "What would you like to know?",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/single_agent_apps/ai_health_fitness_agent/health_agent.py",
+  "appName": "ai-health-fitness-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 15,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:36.074Z",
+  "analyzerVersion": "0.1.0"
+}

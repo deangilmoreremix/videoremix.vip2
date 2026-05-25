@@ -22,7 +22,7 @@ VideoRemix is a multi-app platform that provides:
 - **Backend**: Supabase (PostgreSQL + Edge Functions)
 - **Deployment**: Netlify with custom domain
 - **Payments**: Stripe, PayPal, PayKickstart integration
-- **AI**: OpenAI GPT + Google Gemini APIs
+- **AI**: OpenAI GPT-4o (primary). Limited specialized integrations for vision and other capabilities.
 
 ## Quick Start
 

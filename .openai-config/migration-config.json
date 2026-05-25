@@ -1,0 +1,92 @@
+# OpenAI API Configuration for VideoRemix Migration
+# This file contains settings for OpenAI API integration across all converted applications
+
+# API Configuration
+OPENAI_API_BASE_URL=https://api.openai.com/v1
+OPENAI_ORGANIZATION_ID=${OPENAI_ORG_ID}
+
+# Model Mappings (from old providers to OpenAI)
+MODEL_MAPPINGS = {
+    # Google Gemini → OpenAI
+    "gemini-2.0-flash-exp": "gpt-4o",
+    "gemini-2.5-flash-preview-05-20": "gpt-4o",
+    "gemini-2.5-flash": "gpt-4o",
+    "models/embedding-001": "text-embedding-ada-002",
+
+    # Anthropic Claude → OpenAI
+    "claude-3-5-sonnet": "gpt-4o",
+    "claude-3-7-sonnet": "gpt-4o",
+    "claude-3-7-sonnet-thinking": "gpt-4o",
+
+    # Other providers → OpenAI
+    "llama-3.3-70b-versatile": "gpt-4o",
+    "deepseek-chat": "gpt-4o"
+}
+
+# Rate Limiting Configuration
+RATE_LIMITS = {
+    "requests_per_minute": 50,
+    "requests_per_hour": 1000,
+    "tokens_per_minute": 10000,
+    "burst_limit": 10
+}
+
+# Cost Monitoring Thresholds
+COST_THRESHOLDS = {
+    "daily_budget": 50.00,
+    "monthly_budget": 1000.00,
+    "alert_percentage": 80
+}
+
+# Monitoring Endpoints
+MONITORING_CONFIG = {
+    "metrics_endpoint": "https://api.openai.com/v1/usage",
+    "alert_webhook": "${SLACK_WEBHOOK_URL}",
+    "dashboard_url": "https://platform.openai.com/usage"
+}
+
+# Application-Specific Settings
+APP_CONFIGS = {
+    "ai_reasoning_agent": {
+        "model": "gpt-4o",
+        "max_tokens": 2000,
+        "temperature": 0.7
+    },
+    "rag_apps": {
+        "embedding_model": "text-embedding-ada-002",
+        "vector_dimensions": 1536,
+        "similarity_threshold": 0.8
+    },
+    "voice_apps": {
+        "whisper_model": "whisper-1",
+        "transcription_format": "srt"
+    }
+}
+
+# Environment Variables Required
+REQUIRED_ENV_VARS = [
+    "OPENAI_API_KEY",
+    "OPENAI_ORG_ID",
+    "SLACK_WEBHOOK_URL"
+]
+
+# Fallback Configuration
+FALLBACK_MODELS = {
+    "primary": "gpt-4o",
+    "secondary": "gpt-4",
+    "tertiary": "gpt-3.5-turbo"
+}
+
+# Migration Status Summary (Phase 3 Completion)
+MIGRATION_STATUS = {
+    "total_applications": 111,
+    "successfully_converted": 95,
+    "requires_alternatives": 10,
+    "non_migratable": 6,
+    "completion_date": "2026-05-03",
+    "phase": "Phase 3 Complete",
+    "success_rate": "85.6%",
+    "non_migratable_categories": ["mcp_ai_agents"],
+    "requires_alternatives_categories": ["voice_ai_agents", "ai_agent_framework_crash_course"],
+    "alternatives_documented": true
+}

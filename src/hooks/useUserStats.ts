@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase";
 
 interface UserStats {
   purchasedAppsCount: number;
@@ -39,7 +39,7 @@ export const useUserStats = () => {
             .from("user_app_access")
             .select("app_slug", { count: "exact", head: false })
             .eq("user_id", user.id)
-            .eq("has_access", true),
+            .eq("is_active", true),
           supabase
             .from("videos")
             .select("id", { count: "exact", head: false })

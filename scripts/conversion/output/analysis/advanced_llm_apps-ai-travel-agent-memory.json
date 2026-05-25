@@ -1,0 +1,66 @@
+{
+  "hasChatInput": true,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 1,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 1,
+    "chat": 4,
+    "write": 5
+  },
+  "providers": {
+    "openai": {
+      "count": 3,
+      "imports": 2,
+      "clients": 1,
+      "models": [
+        {
+          "pattern": "gpt-4o",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": true,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 100,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": true,
+  "hasWebSearch": false,
+  "uiType": "chat",
+  "inputFields": [
+    {
+      "name": "enter_openai_api_key",
+      "label": "Enter OpenAI API Key",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "openai",
+  "filePath": "awesome-llm-apps/advanced_llm_apps/llm_apps_with_memory_tutorials/ai_travel_agent_memory/travel_agent_memory.py",
+  "appName": "ai-travel-agent-memory",
+  "category": "awesome-llm-apps",
+  "complexity": "rag",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "OPENAI_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 8,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:34.828Z",
+  "analyzerVersion": "0.1.0"
+}

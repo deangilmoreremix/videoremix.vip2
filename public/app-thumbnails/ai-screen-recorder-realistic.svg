@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" 
+     xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-ai-screen-recorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#2d2a4a"/>
+    </linearGradient>
+    <radialGradient id="glow-ai-screen-recorder" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" style="stop-color:#45B7D1;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#45B7D1;stop-opacity:0"/>
+    </radialGradient>
+    <filter id="shadow-ai-screen-recorder">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="rgba(0,0,0,0.3)"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg-ai-screen-recorder)"/>
+  
+  <!-- Scene Environment -->
+  
+    <!-- Professional Recording Studio -->
+    <rect x="0" y="300" width="800" height="300" fill="#F8F9FA"/>
+    <rect x="0" y="250" width="800" height="50" fill="#E9ECEF"/>
+    
+    <!-- Soundproofing Panels -->
+    <rect x="50" y="100" width="20" height="200" fill="#BDC3C7"/>
+    <rect x="80" y="100" width="20" height="200" fill="#34495E"/>
+    <rect x="110" y="100" width="20" height="200" fill="#BDC3C7"/>
+    
+    <!-- Professional Microphone -->
+    <rect x="400" y="280" width="4" height="100" fill="#BDC3C7"/>
+    <circle cx="402" cy="270" r="15" fill="#2C3E50"/>
+    <rect x="390" cy="250" width="24" height="20" fill="#34495E"/>
+    
+    <!-- Studio Monitors -->
+    <rect x="200" y="320" width="60" height="40" fill="#34495E" rx="3"/>
+    <rect x="210" y="330" width="40" height="20" fill="#2C3E50"/>
+    
+    <rect x="540" y="320" width="60" height="40" fill="#34495E" rx="3"/>
+    <rect x="550" y="330" width="40" height="20" fill="#2C3E50"/>
+    
+    <!-- Mixing Console -->
+    <rect x="300" y="380" width="200" height="15" fill="#2C3E50" rx="2"/>
+    <circle cx="320" cy="375" r="5" fill="#E74C3C"/>
+    <circle cx="340" cy="375" r="5" fill="#F39C12"/>
+    <circle cx="360" cy="375" r="5" fill="#27AE60"/>
+    
+    <!-- Webcam -->
+    <rect x="380" y="250" width="40" height="30" fill="#34495E" rx="3"/>
+    <circle cx="400" cy="240" r="8" fill="#2C3E50"/>
+    <circle cx="400" cy="240" r="3" fill="#E74C3C"/>
+  
+  
+  <!-- Software Interface -->
+  
+    <!-- Screen Recording Interface -->
+    <rect x="320" y="290" width="160" height="80" fill="#2C3E50" rx="3"/>
+    <rect x="330" y="300" width="140" height="60" fill="#34495E" rx="2"/>
+    <circle cx="400" cy="310" r="12" fill="#E74C3C"/>
+    <circle cx="400" cy="310" r="6" fill="#FFFFFF"/>
+    <rect x="380" y="340" width="40" height="6" fill="#BDC3C7" rx="1"/>
+    <rect x="380" y="350" width="30" height="6" fill="#BDC3C7" rx="1"/>
+    <rect x="380" y="360" width="50" height="6" fill="#BDC3C7" rx="1"/>
+  
+  
+  <!-- Person using the software -->
+  
+    <!-- Software Trainer -->
+    <circle cx="380" cy="220" r="18" fill="#E8B4A2"/>
+    <circle cx="370" cy="210" r="3" fill="#2C3E50"/>
+    <circle cx="390" cy="210" r="3" fill="#2C3E50"/>
+    <path d="M375,225 Q380,235 385,225" stroke="#D2B4A2" stroke-width="2" fill="none"/>
+    <rect x="365" y="240" width="30" height="40" fill="#9B59B6"/>
+    <rect x="370" y="280" width="20" height="30" fill="#34495E"/>
+  
+  
+  <!-- Glow effect around interface -->
+  <ellipse cx="400" cy="270" rx="180" ry="140" fill="url(#glow-ai-screen-recorder)"/>
+  
+  <!-- App name overlay -->
+  <rect x="0" y="480" width="800" height="120" fill="url(#bg-ai-screen-recorder)" opacity="0.9"/>
+  <linearGradient id="textFade-ai-screen-recorder" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:0"/>
+    <stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:0.8"/>
+  </linearGradient>
+  <rect x="0" y="480" width="800" height="40" fill="url(#textFade-ai-screen-recorder)"/>
+  
+  <!-- App name -->
+  <text x="400" y="550" 
+        text-anchor="middle" 
+        font-family="Arial, sans-serif" 
+        font-size="24" 
+        font-weight="700" 
+        fill="white"
+        filter="url(#shadow-ai-screen-recorder)">AI Screen Recorder</text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="575" 
+        text-anchor="middle" 
+        font-family="Arial, sans-serif" 
+        font-size="14" 
+        font-weight="400" 
+        fill="#94a3b8">Professional AI Tool</text>
+  
+  <!-- Subtle texture overlay -->
+  <defs>
+    <pattern id="texture-ai-screen-recorder" patternUnits="userSpaceOnUse" width="40" height="40">
+      <rect width="40" height="40" fill="transparent"/>
+      <circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.03)"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#texture-ai-screen-recorder)"/>
+</svg>

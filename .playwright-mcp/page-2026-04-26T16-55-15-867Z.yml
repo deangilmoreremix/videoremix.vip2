@@ -1,0 +1,45 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "VideoRemix.vip AI MARKETING PLATFORM" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e10]
+        - generic [ref=e13]:
+          - text: VideoRemix.vip
+          - generic [ref=e14]: AI MARKETING PLATFORM
+      - generic [ref=e15]:
+        - button "Search... K" [ref=e16] [cursor=pointer]:
+          - img [ref=e17]
+          - generic [ref=e20]: Search...
+          - generic [ref=e21]:
+            - img [ref=e22]
+            - generic [ref=e24]: K
+        - button "Tools" [ref=e26] [cursor=pointer]:
+          - text: Tools
+          - img [ref=e27]
+        - link "Pricing" [ref=e29] [cursor=pointer]:
+          - /url: /pricing
+        - link "Dashboard" [ref=e30] [cursor=pointer]:
+          - /url: /dashboard
+        - link "FAQ" [ref=e31] [cursor=pointer]:
+          - /url: /faq
+        - generic [ref=e32]:
+          - link "Sign In" [ref=e33] [cursor=pointer]:
+            - /url: /signin
+          - link "Sign Up" [ref=e35] [cursor=pointer]:
+            - /url: /signup
+  - button "Enable sound effects" [ref=e36] [cursor=pointer]:
+    - img [ref=e37]
+  - generic [ref=e40]:
+    - generic [ref=e43]:
+      - img [ref=e44]
+      - generic [ref=e49]: "567"
+      - text: people online now
+    - link "View all activity" [ref=e51] [cursor=pointer]:
+      - /url: "#activity"
+      - text: View all activity
+      - img [ref=e52]
+  - generic [ref=e55]:
+    - heading "AI Assistant" [level=3] [ref=e56]
+    - paragraph [ref=e57]: AI assistant component placeholder
+  - generic [ref=e66]: Loading

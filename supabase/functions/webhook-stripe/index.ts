@@ -1,9 +1,47 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'npm:@supabase/supabase-js@2';
+
+// Fetch user's API key from Supabase (user-provided keys)
+async function getUserApiKey(user_id, provider) {
+  const { data, error } = await supabase
+    .from('user_api_keys')
+    .select('encrypted_api_key')
+    .eq('user_id', user_id)
+    .eq('provider', provider)
+    .single();
+
+  if (error || !data) {
+    return null;
+  }
+  return data.encrypted_api_key;
+}
+
+// Verify JWT token to get user_id
+async function verifyUser(req) {
+  const authHeader = req.headers.get('Authorization');
+  if (!authHeader?.startsWith('Bearer ')) {
+    return null;
+  }
+  const token = authHeader.substring(7);
+  try {
+    const { data: { user } } = await supabase.auth.getUser(token);
+    if (!user) return null;
+    return { user_id: user.id };
+  } catch (e) {
+    console.error('JWT verification failed:', e);
+    return null;
+  }
+}
+
+import Stripe from 'npm:stripe@14';
 import { corsHeaders } from '../_shared/cors.ts';
 import { processPurchase, ProcessedPurchase } from '../_shared/purchaseProcessor.ts';
 
 const STRIPE_WEBHOOK_SECRET = Deno.env.get('STRIPE_WEBHOOK_SECRET') || '';
+const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY') || '', {
+  apiVersion: '2023-10-16',
+  httpClient: Stripe.createFetchHttpClient(),
+});
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -22,14 +60,64 @@ serve(async (req) => {
     const signature = req.headers.get('stripe-signature');
     const body = await req.text();
 
+    // Verify webhook signature FIRST before any processing
+    if (!STRIPE_WEBHOOK_SECRET || !signature) {
+      console.error('Missing Stripe webhook secret or signature');
+      return new Response(
+        JSON.stringify({ success: false, error: 'Invalid webhook configuration' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    let event: Stripe.Event;
+    try {
+      event = await stripe.webhooks.constructEventAsync(
+        body,
+        signature,
+        STRIPE_WEBHOOK_SECRET
+      );
+    } catch (err) {
+      console.error('Stripe webhook signature verification failed:', err);
+      
+      // Log failed attempts for security monitoring
+      await supabase.from('webhook_logs').insert({
+        platform: 'stripe',
+        event_type: 'signature_failed',
+        webhook_payload: { raw_body_length: body.length, signature },
+        processing_status: 'failed',
+        error_message: err.message,
+      });
+      
+      return new Response(
+        JSON.stringify({ success: false, error: 'Invalid signature' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Log verified webhook
     await supabase.from('webhook_logs').insert({
       platform: 'stripe',
-      event_type: 'raw_webhook',
-      webhook_payload: JSON.parse(body),
+      event_type: event.type,
+      webhook_payload: event,
       processing_status: 'pending',
+      stripe_event_id: event.id,
     });
 
-    const event = JSON.parse(body);
+    // Check for idempotency - don't process same event twice
+    const { data: existingEvent } = await supabase
+      .from('webhook_logs')
+      .select('id')
+      .eq('stripe_event_id', event.id)
+      .eq('processing_status', 'completed')
+      .maybeSingle();
+
+    if (existingEvent) {
+      console.log(`Event ${event.id} already processed, skipping`);
+      return new Response(
+        JSON.stringify({ success: true, message: 'Event already processed' }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     let result;
 
@@ -58,6 +146,18 @@ serve(async (req) => {
         result = { success: true, message: 'Event type not processed' };
     }
 
+    // Mark event as processed
+    await supabase
+      .from('webhook_logs')
+      .update({ 
+        processing_status: result.success ? 'completed' : 'failed',
+        error_message: result.error || null,
+        completed_at: new Date().toISOString()
+      })
+      .eq('stripe_event_id', event.id)
+      .order('created_at', { ascending: false })
+      .limit(1);
+
     return new Response(
       JSON.stringify(result),
       {
@@ -70,6 +170,24 @@ serve(async (req) => {
     );
   } catch (error) {
     console.error('Stripe webhook error:', error);
+    
+    // Log the error
+    try {
+      const supabase = createClient(
+        Deno.env.get('SUPABASE_URL') ?? '',
+        Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+      );
+      
+      await supabase.from('webhook_logs').insert({
+        platform: 'stripe',
+        event_type: 'error',
+        processing_status: 'failed',
+        error_message: error.message,
+      });
+    } catch (logError) {
+      console.error('Failed to log webhook error:', logError);
+    }
+    
     return new Response(
       JSON.stringify({ success: false, error: error.message }),
       {

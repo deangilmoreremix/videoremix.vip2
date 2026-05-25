@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+
 import {
   Eye,
   EyeOff,
@@ -17,9 +17,14 @@ import SparkleEffect from "../components/SparkleEffect";
 
 const SignInPage: React.FC = () => {
   const { signIn, user } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const from = (location.state as any)?.from || "/dashboard";
+
+  // Use direct window navigation instead of React Router hooks
+  // This avoids the Router context dependency entirely
+  const handleNavigation = (path: string) => {
+    window.location.href = path;
+  };
+
+  const from = "/dashboard"; // Default fallback
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -28,11 +33,8 @@ const SignInPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (user) {
-      navigate(from, { replace: true });
-    }
-  }, [user, navigate, from]);
+  // Don't auto-navigate on user changes - let handleSubmit handle navigation
+  // This prevents redirect loops and race conditions
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,11 +42,17 @@ const SignInPage: React.FC = () => {
     setLoading(true);
 
     try {
-      const { error } = await signIn(formData.email, formData.password);
+      // ALWAYS normalize email to lowercase - critical fix for login issues!
+      const normalizedEmail = formData.email.toLowerCase().trim();
+      const { error } = await signIn(normalizedEmail, formData.password);
       if (error) {
         setError(error.message);
       } else {
-        navigate(from, { replace: true });
+        // Wait for auth state to stabilize before navigating
+        // This prevents race conditions where navigation happens before onAuthStateChange fires
+        setTimeout(() => {
+          handleNavigation(from);
+        }, 100); // Small delay to let auth state changes propagate
       }
     } catch (err) {
       setError("An unexpected error occurred");
@@ -91,13 +99,13 @@ const SignInPage: React.FC = () => {
               transition={{ duration: 0.6 }}
               className="mb-8"
             >
-              <Link
-                to="/"
+              <a
+                href="/"
                 className="inline-flex items-center text-gray-400 hover:text-white transition-colors group"
               >
                 <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
                 Back to home
-              </Link>
+              </a>
             </motion.div>
 
             {/* Logo section */}
@@ -107,8 +115,8 @@ const SignInPage: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-center mb-8"
             >
-              <Link
-                to="/"
+              <a
+                href="/"
                 className="inline-flex items-center justify-center space-x-2 group mb-6"
               >
                 <div className="relative">
@@ -130,8 +138,8 @@ const SignInPage: React.FC = () => {
                   <div className="text-xs text-primary-300">
                     Marketing Personalization Platform
                   </div>
-                </div>
-              </Link>
+                 </div>
+               </a>
 
               <MagicSparkles minSparkles={3} maxSparkles={6}>
                 <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
@@ -188,12 +196,12 @@ const SignInPage: React.FC = () => {
                     >
                       Password
                     </label>
-                    <Link
-                      to="/forgot-password"
+                    <a
+                      href="/forgot-password"
                       className="text-sm text-primary-400 hover:text-primary-300 transition-colors"
                     >
                       Forgot password?
-                    </Link>
+                    </a>
                   </div>
                   <div className="relative">
                     <input
@@ -260,12 +268,12 @@ const SignInPage: React.FC = () => {
               <div className="mt-8 text-center space-y-4">
                 <p className="text-gray-400">
                   Don't have an account?{" "}
-                  <Link
-                    to="/signup"
+                  <a
+                    href="/signup"
                     className="text-primary-400 hover:text-primary-300 transition-colors font-medium"
                   >
                     Sign up now
-                  </Link>
+                  </a>
                 </p>
 
               </div>

@@ -1,0 +1,107 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": false,
+  "widgetCounts": {
+    "textInput": 3,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 0,
+    "chat": 0,
+    "write": 3
+  },
+  "providers": {
+    "openai": {
+      "count": 5,
+      "imports": 3,
+      "clients": 2,
+      "models": [
+        {
+          "pattern": "gpt-4o",
+          "count": 2
+        }
+      ]
+    },
+    "agno": {
+      "count": 10,
+      "imports": 5,
+      "clients": 5,
+      "models": [
+        {
+          "pattern": "gpt-4",
+          "count": 2
+        }
+      ]
+    },
+    "langchain": {
+      "count": 2,
+      "imports": 1,
+      "clients": 1,
+      "models": []
+    },
+    "crewai": {
+      "count": 5,
+      "imports": 5,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 5,
+      "imports": 5,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": true,
+  "usesAsyncio": true,
+  "linesOfCode": 174,
+  "hasMultiAgent": true,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": true,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "deepseek_api_key",
+      "label": "DeepSeek API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "openai_api_key",
+      "label": "OpenAI API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_your_pygame_query",
+      "label": "Enter your PyGame query:",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "code",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/autonomous_game_playing_agent_apps/ai_3dpygame_r1/ai_3dpygame_r1.py",
+  "appName": "ai-3dpygame-r1",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "OPENAI_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 23,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:35.103Z",
+  "analyzerVersion": "0.1.0"
+}

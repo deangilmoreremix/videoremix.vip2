@@ -15,7 +15,7 @@ import {
   Cloud,
   Loader,
 } from "lucide-react";
-import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "../../utils/supabase";
 
 interface Purchase {
   id: string;

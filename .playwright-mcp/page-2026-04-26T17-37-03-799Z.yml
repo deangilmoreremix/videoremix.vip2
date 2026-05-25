@@ -1,0 +1,500 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "VideoRemix.vip AI MARKETING PLATFORM" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e10]
+        - generic [ref=e13]:
+          - text: VideoRemix.vip
+          - generic [ref=e14]: AI MARKETING PLATFORM
+      - generic [ref=e15]:
+        - button "Search... K" [ref=e16] [cursor=pointer]:
+          - img [ref=e17]
+          - generic [ref=e20]: Search...
+          - generic [ref=e21]:
+            - img [ref=e22]
+            - generic [ref=e24]: K
+        - button "Tools" [ref=e26] [cursor=pointer]:
+          - text: Tools
+          - img [ref=e27]
+        - link "Pricing" [active] [ref=e29] [cursor=pointer]:
+          - /url: /pricing
+        - link "Dashboard" [ref=e30] [cursor=pointer]:
+          - /url: /dashboard
+        - link "FAQ" [ref=e31] [cursor=pointer]:
+          - /url: /faq
+        - generic [ref=e32]:
+          - link "Sign In" [ref=e33] [cursor=pointer]:
+            - /url: /signin
+          - link "Sign Up" [ref=e35] [cursor=pointer]:
+            - /url: /signup
+  - button "Enable sound effects" [ref=e36] [cursor=pointer]:
+    - img [ref=e37]
+  - generic [ref=e40]:
+    - generic [ref=e43]:
+      - img [ref=e44]
+      - generic [ref=e3284]: "575"
+      - text: people online now
+    - generic [ref=e67]:
+      - generic [ref=e3086]:
+        - img [ref=e3088]
+        - generic [ref=e3093]:
+          - paragraph [ref=e3094]: Maria B. just signed up for VideoRemix.vip
+          - paragraph [ref=e3095]: Just now
+      - generic [ref=e2891]:
+        - img [ref=e2893]
+        - generic [ref=e2896]:
+          - paragraph [ref=e2897]: Robert L. created their first video
+          - paragraph [ref=e2898]: Just now
+    - link "View all activity" [ref=e51] [cursor=pointer]:
+      - /url: "#activity"
+      - text: View all activity
+      - img [ref=e52]
+  - generic [ref=e55]:
+    - heading "AI Assistant" [level=3] [ref=e56]
+    - paragraph [ref=e57]: AI assistant component placeholder
+  - generic [ref=e58]:
+    - main [ref=e3285]:
+      - generic [ref=e3288]:
+        - heading "Simple, Transparent Pricing" [level=1] [ref=e3289]
+        - paragraph [ref=e3290]: Choose the perfect plan for your creative needs. No hidden fees, cancel anytime.
+      - generic [ref=e3295]:
+        - generic [ref=e3296]:
+          - generic [ref=e3298]: VIDEOREMIX PLANS
+          - heading "Choose Your VideoRemix Plan" [level=2] [ref=e3300]
+          - paragraph [ref=e3301]: Select the plan that fits your personalized marketing needs. Flexible options for teams of all sizes.
+          - generic [ref=e3303]:
+            - button "Monthly" [ref=e3304] [cursor=pointer]
+            - button "Yearly Save 20%" [ref=e3305] [cursor=pointer]
+            - button "Lifetime Best Value" [ref=e3306] [cursor=pointer]
+        - generic [ref=e3307]:
+          - generic [ref=e3310]:
+            - generic [ref=e3311]: Free
+            - generic [ref=e3312]: Perfect for trying out the platform
+            - generic [ref=e3313]:
+              - generic [ref=e3314]:
+                - generic [ref=e3315]: Free
+                - generic [ref=e3316]: forever
+              - generic [ref=e3317]: No credit card required
+            - link "Start For Free" [ref=e3318] [cursor=pointer]:
+              - /url: "#signup"
+            - generic [ref=e3319]:
+              - generic [ref=e3320]:
+                - img [ref=e3321]
+                - generic [ref=e3323]: 5 video exports per month
+              - generic [ref=e3324]:
+                - img [ref=e3325]
+                - generic [ref=e3327]: 720p video quality
+              - generic [ref=e3328]:
+                - img [ref=e3329]
+                - generic [ref=e3331]: Basic editing features
+              - generic [ref=e3332]:
+                - img [ref=e3333]
+                - generic [ref=e3335]: 2GB cloud storage
+              - generic [ref=e3336]:
+                - img [ref=e3337]
+                - generic [ref=e3339]: Standard templates
+              - generic [ref=e3340]:
+                - img [ref=e3341]
+                - generic [ref=e3343]: Watermarked videos
+          - generic [ref=e3346]:
+            - generic [ref=e3348]: MOST POPULAR
+            - generic [ref=e3349]:
+              - generic [ref=e3350]:
+                - generic [ref=e3351]: Pro
+                - generic [ref=e3352]: Ideal for content creators and small teams
+                - generic [ref=e3353]:
+                  - generic [ref=e3354]:
+                    - generic [ref=e3355]: $290
+                    - generic [ref=e3356]: /year
+                  - generic [ref=e3357]: Billed annually (effectively $24/mo)
+                - link "GET STARTED NOW" [ref=e3359] [cursor=pointer]:
+                  - /url: "#checkout"
+                - generic [ref=e3361]:
+                  - img [ref=e3362]
+                  - generic [ref=e3364]: Get started today
+              - generic [ref=e3365]:
+                - generic [ref=e3366]:
+                  - generic [ref=e3367]:
+                    - img [ref=e3368]
+                    - generic [ref=e3372]: "INCLUDES:"
+                  - generic [ref=e3373]:
+                    - generic [ref=e3374]:
+                      - generic [ref=e3375]: Priority Support
+                      - paragraph [ref=e3376]: Get help when you need it with our dedicated support team
+                    - generic [ref=e3377]:
+                      - generic [ref=e3378]: Regular Updates
+                      - paragraph [ref=e3379]: Access new features and improvements as they're released
+                    - generic [ref=e3380]:
+                      - generic [ref=e3381]: Training Resources
+                      - paragraph [ref=e3382]: Comprehensive guides and tutorials to master VideoRemix
+                - generic [ref=e3383]:
+                  - generic [ref=e3384]: "Everything in Pro includes:"
+                  - generic [ref=e3385]:
+                    - generic [ref=e3386]:
+                      - img [ref=e3387]
+                      - generic [ref=e3389]: Unlimited video exports
+                    - generic [ref=e3390]:
+                      - img [ref=e3391]
+                      - generic [ref=e3393]: 4K video quality
+                    - generic [ref=e3394]:
+                      - img [ref=e3395]
+                      - generic [ref=e3397]: All editing features
+                    - generic [ref=e3398]:
+                      - img [ref=e3399]
+                      - generic [ref=e3401]: 50GB cloud storage
+                    - generic [ref=e3402]:
+                      - img [ref=e3403]
+                      - generic [ref=e3405]: Premium templates
+                    - generic [ref=e3406]:
+                      - img [ref=e3407]
+                      - generic [ref=e3409]: No watermarks
+                    - generic [ref=e3410]:
+                      - img [ref=e3411]
+                      - generic [ref=e3413]: Basic AI features
+                    - generic [ref=e3414]:
+                      - img [ref=e3415]
+                      - generic [ref=e3417]: Auto subtitle generation
+                    - generic [ref=e3418]:
+                      - img [ref=e3419]
+                      - generic [ref=e3421]: 2 team members
+                    - generic [ref=e3422]:
+                      - img [ref=e3423]
+                      - generic [ref=e3425]: Priority email support
+        - button "Show Full Feature Comparison" [ref=e3427] [cursor=pointer]:
+          - generic [ref=e3428]: Show Full Feature Comparison
+          - img [ref=e3430]
+        - generic [ref=e3433]:
+          - generic [ref=e3434]:
+            - heading "Feature Comparison" [level=3] [ref=e3435]
+            - button "Toggle feature comparison" [ref=e3436] [cursor=pointer]:
+              - generic [ref=e3437]: View all features
+              - img [ref=e3439]
+          - generic [ref=e3442]:
+            - generic [ref=e3443]:
+              - generic [ref=e3444]: Advanced AI effects
+              - img [ref=e3447]
+              - img [ref=e3452]
+            - generic [ref=e3454]:
+              - generic [ref=e3455]: Brand kit integration
+              - img [ref=e3458]
+              - img [ref=e3463]
+            - generic [ref=e3465]:
+              - generic [ref=e3466]: Multi-platform optimization
+              - img [ref=e3469]
+              - img [ref=e3474]
+            - generic [ref=e3476]:
+              - generic [ref=e3477]: Bulk export capabilities
+              - img [ref=e3480]
+              - img [ref=e3485]
+            - generic [ref=e3487]:
+              - generic [ref=e3488]: API access
+              - img [ref=e3491]
+              - img [ref=e3496]
+            - generic [ref=e3498]:
+              - generic [ref=e3499]:
+                - generic [ref=e3500]: Free
+                - link "Sign Up" [ref=e3501] [cursor=pointer]:
+                  - /url: "#signup"
+              - generic [ref=e3502]:
+                - generic [ref=e3503]: Pro Plan
+                - link "Get Access" [ref=e3504] [cursor=pointer]:
+                  - /url: "#checkout"
+        - generic [ref=e3505]:
+          - generic [ref=e3506]:
+            - heading "Frequently Asked Questions" [level=3] [ref=e3507]
+            - paragraph [ref=e3508]: Quick answers to common questions
+          - generic [ref=e3509]:
+            - group [ref=e3511]:
+              - generic "Can I switch between plans?" [ref=e3512] [cursor=pointer]:
+                - generic [ref=e3513]: Can I switch between plans?
+                - img [ref=e3515]
+            - group [ref=e3518]:
+              - generic "What plans are available??" [ref=e3519] [cursor=pointer]:
+                - generic [ref=e3520]: What plans are available??
+                - img [ref=e3522]
+            - group [ref=e3525]:
+              - generic "How does the lifetime plan work?" [ref=e3526] [cursor=pointer]:
+                - generic [ref=e3527]: How does the lifetime plan work?
+                - img [ref=e3529]
+            - group [ref=e3532]:
+              - generic "How do I get started??" [ref=e3533] [cursor=pointer]:
+                - generic [ref=e3534]: How do I get started??
+                - img [ref=e3536]
+          - link "View all FAQs" [ref=e3539] [cursor=pointer]:
+            - /url: "#faq"
+            - text: View all FAQs
+            - img [ref=e3541]
+      - generic [ref=e3546]:
+        - generic [ref=e3547]:
+          - heading "Frequently Asked Questions" [level=2] [ref=e3548]
+          - paragraph [ref=e3549]: Everything you need to know about our marketing personalization platform
+        - generic [ref=e3550]:
+          - generic [ref=e3551]:
+            - generic [ref=e3552]:
+              - button "What is VideoRemix.vip?" [expanded] [ref=e3553] [cursor=pointer]:
+                - heading "What is VideoRemix.vip?" [level=3] [ref=e3554]
+                - img [ref=e3557]
+              - generic [ref=e3560]: VideoRemix.vip is an AI-powered marketing personalization platform with 37+ tools designed to help solopreneurs, agencies, and businesses create personalized marketing content that drives results. Our platform combines audience segmentation, AI-powered personalization, and integrated marketing tools to help you achieve 3x higher engagement and conversion rates compared to generic marketing approaches.
+            - generic [ref=e3561]:
+              - button "How does VideoRemix.vip work?" [ref=e3562] [cursor=pointer]:
+                - heading "How does VideoRemix.vip work?" [level=3] [ref=e3563]
+                - img [ref=e3566]
+              - generic [ref=e3568]: VideoRemix.vip provides 37+ AI-powered marketing tools across Video, AI Image, Lead Generation, Branding, and Creative categories. Choose the tools you need, define your audience segments, and our AI automatically personalizes content, messaging, and calls-to-action for each segment. You can create personalized marketing campaigns—from videos to landing pages to CRM sequences—in minutes instead of days.
+            - generic [ref=e3569]:
+              - button "Do I need any technical skills to use VideoRemix.vip?" [ref=e3570] [cursor=pointer]:
+                - heading "Do I need any technical skills to use VideoRemix.vip?" [level=3] [ref=e3571]
+                - img [ref=e3574]
+              - generic [ref=e3576]: Not at all! VideoRemix.vip is designed for solopreneurs, marketers, and business owners with no technical background. Our intuitive interface and AI-powered personalization features make it easy for anyone to create professional marketing content, segment audiences, and launch personalized campaigns without technical skills or marketing expertise.
+            - generic [ref=e3577]:
+              - button "What types of marketing content can I create?" [ref=e3578] [cursor=pointer]:
+                - heading "What types of marketing content can I create?" [level=3] [ref=e3579]
+                - img [ref=e3582]
+              - generic [ref=e3584]: You can create personalized videos, landing pages, promotional content, email campaigns, social media posts, lead generation funnels, CRM sequences, branding materials, and more. With 37+ tools including AI Video Creator, Landing Page Creator, Smart CRM Closer, FunnelCraft AI, and Interactive Shopping, you can create virtually any type of personalized marketing content for your business or clients.
+            - generic [ref=e3585]:
+              - button "How much does VideoRemix.vip cost?" [ref=e3586] [cursor=pointer]:
+                - heading "How much does VideoRemix.vip cost?" [level=3] [ref=e3587]
+                - img [ref=e3590]
+              - generic [ref=e3592]: VideoRemix.vip offers a Free plan with basic features (5 video exports per month, 2 audience segments), a Pro plan at $29/month with unlimited access to all tools and segments, and a Business plan at $79/month with advanced features, team collaboration, and white-label options. We also offer annual and lifetime pricing options.
+            - generic [ref=e3593]:
+              - button "Can I use VideoRemix.vip for my agency or multiple clients?" [ref=e3594] [cursor=pointer]:
+                - heading "Can I use VideoRemix.vip for my agency or multiple clients?" [level=3] [ref=e3595]
+                - img [ref=e3598]
+              - generic [ref=e3600]: Absolutely! Business plans support up to 10 team members and allow you to manage multiple client accounts with separate branding, campaigns, and analytics. Many agencies use our platform to offer personalized marketing services that would typically require multiple specialized tools and larger teams.
+          - generic [ref=e3601]:
+            - paragraph [ref=e3602]: Still have questions? Our support team is here to help.
+            - link "Contact Support" [ref=e3603] [cursor=pointer]:
+              - /url: "#contact"
+      - generic [ref=e3605]:
+        - generic [ref=e3608]:
+          - generic [ref=e3609]:
+            - img [ref=e3611]
+            - generic [ref=e3616]: JOIN VIDEOREMIX TODAY
+          - heading "Ready to Start Personalizing Your Marketing?" [level=2] [ref=e3617]
+          - generic [ref=e3619]:
+            - img [ref=e3621]
+            - paragraph [ref=e3624]: "Get Started: Choose from Free, Pro, or Lifetime plans"
+          - paragraph [ref=e3625]: Join thousands of creators and businesses who are transforming their video content and seeing real results.
+        - generic [ref=e3626]:
+          - generic [ref=e3629]:
+            - heading "Why Choose VideoRemix for Personalized Marketing" [level=3] [ref=e3630]
+            - generic [ref=e3631]:
+              - generic [ref=e3632]:
+                - img [ref=e3634]
+                - heading "Save 15+ Hours Weekly" [level=4] [ref=e3637]
+                - paragraph [ref=e3638]: Reduce video editing time by 90% with our AI-powered tools
+              - generic [ref=e3639]:
+                - img [ref=e3641]
+                - heading "Professional Results" [level=4] [ref=e3643]
+                - paragraph [ref=e3644]: Create studio-quality videos regardless of your experience level
+              - generic [ref=e3645]:
+                - img [ref=e3647]
+                - heading "Grow Your Audience" [level=4] [ref=e3652]
+                - paragraph [ref=e3653]: Consistently publish engaging content that attracts followers
+              - generic [ref=e3654]:
+                - img [ref=e3656]
+                - heading "Export Anywhere" [level=4] [ref=e3659]
+                - paragraph [ref=e3660]: Share directly to all major platforms or download in any format
+              - generic [ref=e3661]:
+                - img [ref=e3663]
+                - heading "Secure & Private" [level=4] [ref=e3665]
+                - paragraph [ref=e3666]: Enterprise-grade security keeps your content safe and private
+            - generic [ref=e3667]:
+              - generic [ref=e3668]:
+                - img [ref=e3670]
+                - generic [ref=e3672]: Unlimited AI-powered video creation
+              - generic [ref=e3673]:
+                - img [ref=e3675]
+                - generic [ref=e3677]: Professional templates and effects
+              - generic [ref=e3678]:
+                - img [ref=e3680]
+                - generic [ref=e3682]: Time-saving automation features
+              - generic [ref=e3683]:
+                - img [ref=e3685]
+                - generic [ref=e3687]: Cloud storage and collaboration tools
+              - generic [ref=e3688]:
+                - img [ref=e3690]
+                - generic [ref=e3692]: Regular feature updates and enhancements
+              - generic [ref=e3693]:
+                - img [ref=e3695]
+                - generic [ref=e3697]: 24/7 customer support
+              - generic [ref=e3698]:
+                - img [ref=e3700]
+                - generic [ref=e3702]: 14-day money-back guarantee
+            - generic [ref=e3703]:
+              - link "Try Free For 14 Days" [ref=e3704] [cursor=pointer]:
+                - /url: "#pricing"
+                - text: Try Free For 14 Days
+                - img [ref=e3706]
+              - link "Watch Demo First" [ref=e3708] [cursor=pointer]:
+                - /url: "#watch-demo"
+                - img [ref=e3711]
+                - text: Watch Demo First
+          - generic [ref=e3713]:
+            - generic [ref=e3715]: PRO PLAN
+            - generic [ref=e3716]:
+              - heading "VideoRemix Pro Plan" [level=3] [ref=e3717]
+              - generic [ref=e3718]:
+                - generic [ref=e3719]: $29
+                - generic [ref=e3720]: /month
+              - generic [ref=e3721]: Full access to all personalized marketing tools
+            - generic [ref=e3722]:
+              - generic [ref=e3723]:
+                - img [ref=e3725]
+                - generic [ref=e3729]: Full Feature Access
+              - paragraph [ref=e3730]: Get unlimited access to 20+ personalized marketing apps and AI-powered features
+            - link "Start with VideoRemix Pro" [ref=e3731] [cursor=pointer]:
+              - /url: "#claim-offer"
+            - paragraph [ref=e3732]: Get started today. No credit card required.
+        - generic [ref=e3733]:
+          - heading "Join Our Community of 10,000+ Video Creators" [level=3] [ref=e3734]
+          - paragraph [ref=e3735]: Don't miss this opportunity to transform your video creation process and start producing professional content that drives real results for your business or brand.
+          - generic [ref=e3736]:
+            - link "Start Free Trial" [ref=e3737] [cursor=pointer]:
+              - /url: "#signup"
+            - link "Have Questions?" [ref=e3738] [cursor=pointer]:
+              - /url: "#questions"
+    - contentinfo [ref=e2649]:
+      - generic [ref=e2650]:
+        - generic [ref=e2651]:
+          - generic [ref=e2652]:
+            - generic [ref=e2653]:
+              - img [ref=e2654]
+              - generic [ref=e2657]: VideoRemix.vip
+            - paragraph [ref=e2658]: AI-powered marketing tools to help you create personalized content, close more sales, and grow your business faster.
+            - generic [ref=e2659]:
+              - link "Facebook" [ref=e2660] [cursor=pointer]:
+                - /url: "#facebook"
+                - img [ref=e2661]
+                - generic [ref=e2663]: Facebook
+              - link "Twitter" [ref=e2664] [cursor=pointer]:
+                - /url: "#twitter"
+                - img [ref=e2665]
+                - generic [ref=e2667]: Twitter
+              - link "Instagram" [ref=e2668] [cursor=pointer]:
+                - /url: "#instagram"
+                - img [ref=e2669]
+                - generic [ref=e2672]: Instagram
+              - link "LinkedIn" [ref=e2673] [cursor=pointer]:
+                - /url: "#linkedin"
+                - img [ref=e2674]
+                - generic [ref=e2678]: LinkedIn
+              - link "YouTube" [ref=e2679] [cursor=pointer]:
+                - /url: "#youtube"
+                - img [ref=e2680]
+                - generic [ref=e2683]: YouTube
+            - generic [ref=e2685]:
+              - img [ref=e2686]
+              - link "hello@videoremix.vip" [ref=e2689] [cursor=pointer]:
+                - /url: mailto:hello@videoremix.vip
+          - generic [ref=e2690]:
+            - heading "Stay up to date" [level=3] [ref=e2691]
+            - paragraph [ref=e2692]: Get the latest news, updates, and tips straight to your inbox.
+            - generic [ref=e2693]:
+              - textbox "Your email" [ref=e2694]
+              - button "Subscribe" [ref=e2695] [cursor=pointer]
+        - generic [ref=e2696]:
+          - generic [ref=e2697]:
+            - heading "Product" [level=3] [ref=e2698]
+            - list [ref=e2699]:
+              - listitem [ref=e2700]:
+                - link "Pricing" [ref=e2701] [cursor=pointer]:
+                  - /url: /pricing
+                  - img [ref=e2702]
+                  - text: Pricing
+              - listitem [ref=e2704]:
+                - link "Tools" [ref=e2705] [cursor=pointer]:
+                  - /url: /tools
+                  - img [ref=e2706]
+                  - text: Tools
+              - listitem [ref=e2708]:
+                - link "Dashboard" [ref=e2709] [cursor=pointer]:
+                  - /url: /dashboard
+                  - img [ref=e2710]
+                  - text: Dashboard
+          - generic [ref=e2712]:
+            - heading "Company" [level=3] [ref=e2713]
+            - list [ref=e2714]:
+              - listitem [ref=e2715]:
+                - link "About Us" [ref=e2716] [cursor=pointer]:
+                  - /url: /about
+                  - img [ref=e2717]
+                  - text: About Us
+              - listitem [ref=e2719]:
+                - link "Blog" [ref=e2720] [cursor=pointer]:
+                  - /url: /blog
+                  - img [ref=e2721]
+                  - text: Blog
+          - generic [ref=e2723]:
+            - heading "AI Marketing Tools" [level=3] [ref=e2724]
+            - list [ref=e2725]:
+              - listitem [ref=e2726]:
+                - link "AI Personalized Content Hub" [ref=e2727] [cursor=pointer]:
+                  - /url: https://ai-personalizedcontent.videoremix.vip
+                  - img [ref=e2728]
+                  - text: AI Personalized Content Hub
+              - listitem [ref=e2730]:
+                - link "FunnelCraft AI" [ref=e2731] [cursor=pointer]:
+                  - /url: https://ai-funnelcraft.videoremix.vip
+                  - img [ref=e2732]
+                  - text: FunnelCraft AI
+              - listitem [ref=e2734]:
+                - link "AI Skills Monetizer" [ref=e2735] [cursor=pointer]:
+                  - /url: https://ai-skills-monetizer.videoremix.vip
+                  - img [ref=e2736]
+                  - text: AI Skills Monetizer
+              - listitem [ref=e2738]:
+                - link "AI Skills & Resume" [ref=e2739] [cursor=pointer]:
+                  - /url: https://ai-skills.videoremix.vip
+                  - img [ref=e2740]
+                  - text: AI Skills & Resume
+              - listitem [ref=e2742]:
+                - link "Sales Page Builder" [ref=e2743] [cursor=pointer]:
+                  - /url: https://ai-salespage.videoremix.vip
+                  - img [ref=e2744]
+                  - text: Sales Page Builder
+              - listitem [ref=e2746]:
+                - link "Sales Assistant Pro" [ref=e2747] [cursor=pointer]:
+                  - /url: https://ai-salesassistant.videoremix.vip
+                  - img [ref=e2748]
+                  - text: Sales Assistant Pro
+              - listitem [ref=e2750]:
+                - link "AI Personalization Studio" [ref=e2751] [cursor=pointer]:
+                  - /url: https://ai-personalizationstudio.videoremix.vip
+                  - img [ref=e2752]
+                  - text: AI Personalization Studio
+              - listitem [ref=e2754]:
+                - link "AI Personalizer" [ref=e2755] [cursor=pointer]:
+                  - /url: https://ai-personalizer.videoremix.vip
+                  - img [ref=e2756]
+                  - text: AI Personalizer
+        - generic [ref=e2758]:
+          - generic [ref=e2759]:
+            - img [ref=e2760]
+            - generic [ref=e2762]: SOC 2 Compliant
+          - generic [ref=e2763]:
+            - img [ref=e2764]
+            - generic [ref=e2766]: GDPR Compliant
+          - generic [ref=e2767]:
+            - img [ref=e2768]
+            - generic [ref=e2771]: Global CDN
+          - generic [ref=e2772]:
+            - img [ref=e2773]
+            - generic [ref=e2775]: 99.9% Uptime
+          - generic [ref=e2776]:
+            - img [ref=e2777]
+            - generic [ref=e2779]: Bank-Level Encryption
+        - generic [ref=e2780]:
+          - generic [ref=e2781]: © 2026 VideoRemix.vip. All rights reserved.
+          - generic [ref=e2782]:
+            - link "Terms of Service" [ref=e2783] [cursor=pointer]:
+              - /url: /terms
+            - link "Privacy Policy" [ref=e2784] [cursor=pointer]:
+              - /url: /privacy
+            - link "Cookie Policy" [ref=e2785] [cursor=pointer]:
+              - /url: /cookies
+        - paragraph [ref=e2787]:
+          - text: VideoRemix.vip uses cookies to ensure you get the best experience on our website. By continuing to browse, you agree to our
+          - link "privacy policy" [ref=e2788] [cursor=pointer]:
+            - /url: /privacy
+          - text: .

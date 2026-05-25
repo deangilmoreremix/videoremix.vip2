@@ -44,7 +44,7 @@ interface LandingPageProps {
 
 const LandingPage: React.FC<LandingPageProps> = ({ isMobile, isTablet }) => {
   return (
-    <main>
+    <main className="bg-[#050505]">
       <SpecialHero />
       <ProblemSection />
       <SolutionSection />

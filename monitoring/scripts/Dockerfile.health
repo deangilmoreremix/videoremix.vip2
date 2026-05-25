@@ -1,0 +1,11 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY health-check-server.js .
+
+RUN npm install express
+
+EXPOSE 9466
+
+CMD ["node", "health-check-server.js"]

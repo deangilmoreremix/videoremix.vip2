@@ -8,7 +8,7 @@ interface FeatureHeroProps {
   title: string;
   description: string;
   image: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   videoUrl?: string;
 }
 

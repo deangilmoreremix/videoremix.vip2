@@ -1,0 +1,54 @@
+{
+  "hasChatInput": true,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": false,
+  "widgetCounts": {
+    "textInput": 0,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 0,
+    "chat": 4,
+    "write": 3
+  },
+  "providers": {
+    "openai": {
+      "count": 3,
+      "imports": 2,
+      "clients": 1,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": true,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 37,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "chat",
+  "inputFields": [],
+  "outputFormat": "markdown",
+  "primaryProvider": "openai",
+  "filePath": "awesome-llm-apps/advanced_llm_apps/cursor_ai_experiments/local_chatgpt_clone/chatgpt_clone_llama3.py",
+  "appName": "local-chatgpt-clone",
+  "category": "awesome-llm-apps",
+  "complexity": "simple",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "OPENAI_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 2,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:34.500Z",
+  "analyzerVersion": "0.1.0"
+}

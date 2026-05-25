@@ -1,0 +1,120 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": true,
+  "hasFileUpload": true,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 1,
+    "numberInput": 7,
+    "fileUpload": 1,
+    "selectBox": 0,
+    "button": 2,
+    "chat": 0,
+    "write": 43
+  },
+  "providers": {
+    "agno": {
+      "count": 8,
+      "imports": 4,
+      "clients": 4,
+      "models": []
+    },
+    "crewai": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 6,
+      "imports": 5,
+      "clients": 1,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": true,
+  "usesAsyncio": true,
+  "linesOfCode": 968,
+  "hasMultiAgent": true,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "multi-tab",
+  "inputFields": [
+    {
+      "name": "monthly_income_",
+      "label": "Monthly Income ($)",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "number_of_dependants",
+      "label": "Number of Dependants",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "how_would_you_like_to_enter_your_expenses",
+      "label": "How would you like to enter your expenses?",
+      "type": "radio",
+      "required": true
+    },
+    {
+      "name": "choose_your_csv_file",
+      "label": "Choose your CSV file",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "how_many_debts_do_you_have",
+      "label": "How many debts do you have?",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "name",
+      "label": "Name",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "amount_",
+      "label": "Amount ($)",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "interest_rate_",
+      "label": "Interest Rate (%)",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "minimum_payment_",
+      "label": "Minimum Payment ($)",
+      "type": "number",
+      "required": true
+    }
+  ],
+  "outputFormat": "table",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/multi_agent_apps/ai_financial_coach_agent/ai_financial_coach_agent.py",
+  "appName": "ai-financial-coach-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 23,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:35.256Z",
+  "analyzerVersion": "0.1.0"
+}

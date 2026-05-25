@@ -1,0 +1,150 @@
+{
+  "hasChatInput": false,
+  "hasForm": true,
+  "hasTabs": true,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 4,
+    "numberInput": 3,
+    "fileUpload": 0,
+    "selectBox": 5,
+    "button": 2,
+    "chat": 0,
+    "write": 28
+  },
+  "providers": {
+    "agno": {
+      "count": 10,
+      "imports": 5,
+      "clients": 5,
+      "models": []
+    },
+    "crewai": {
+      "count": 5,
+      "imports": 5,
+      "clients": 0,
+      "models": []
+    },
+    "ollama": {
+      "count": 2,
+      "imports": 0,
+      "clients": 2,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 5,
+      "imports": 5,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {
+    "firecrawl": {
+      "count": 2,
+      "usage": "scraping"
+    }
+  },
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 828,
+  "hasMultiAgent": true,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": true,
+  "uiType": "multi-tab",
+  "inputFields": [
+    {
+      "name": "firecrawl_api_key",
+      "label": "Firecrawl API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "_city",
+      "label": "🏙️ City",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "_stateprovince_optional",
+      "label": "🗺️ State/Province (optional)",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "_minimum_price_",
+      "label": "💰 Minimum Price ($)",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "_maximum_price_",
+      "label": "💰 Maximum Price ($)",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "_property_type",
+      "label": "🏠 Property Type",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "_bedrooms",
+      "label": "🛏️ Bedrooms",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "_bathrooms",
+      "label": "🚿 Bathrooms",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "_minimum_square_feet",
+      "label": "📏 Minimum Square Feet",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "_timeline",
+      "label": "⏰ Timeline",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "_urgency",
+      "label": "🚨 Urgency",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "_special_features__requirements",
+      "label": "🎯 Special Features & Requirements",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "image",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/multi_agent_apps/agent_teams/ai_real_estate_agent_team/local_ai_real_estate_agent_team.py",
+  "appName": "ai-real-estate-agent-team",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "FIRECRAWL_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 18,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:35.828Z",
+  "analyzerVersion": "0.1.0"
+}

@@ -1,0 +1,53 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 1,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 1,
+    "chat": 0,
+    "write": 11
+  },
+  "providers": {},
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": true,
+  "linesOfCode": 113,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "enter_a_business_opportunity_to_analyze",
+      "label": "Enter a business opportunity to analyze:",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "unknown",
+  "filePath": "awesome-llm-apps/ai_agent_framework_crash_course/google_adk_crash_course/9_multi_agent_patterns/9_1_sequential_agent/app.py",
+  "appName": "9-1-sequential-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "simple",
+  "requiresApiKey": false,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 2,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:36.979Z",
+  "analyzerVersion": "0.1.0"
+}

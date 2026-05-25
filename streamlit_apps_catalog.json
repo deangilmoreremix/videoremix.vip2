@@ -1,0 +1,1913 @@
+{
+  "starter_ai_agents": {
+    "ai_reasoning_agent": {
+      "main_file": "starter_ai_agents/ai_reasoning_agent/local_ai_reasoning_agent.py",
+      "agent_path": "starter_ai_agents/ai_reasoning_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "",
+        "numpy",
+        "openai",
+        "pandas",
+        "pillow",
+        "plotly",
+        "python-dotenv",
+        "requests",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_breakup_recovery_agent": {
+      "main_file": "starter_ai_agents/ai_breakup_recovery_agent/ai_breakup_recovery_agent.py",
+      "agent_path": "starter_ai_agents/ai_breakup_recovery_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "duckduckgo-search",
+        "google-genai",
+        "pillow",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_meme_generator_agent_browseruse": {
+      "main_file": "starter_ai_agents/ai_meme_generator_agent_browseruse/ai_meme_generator_agent.py",
+      "agent_path": "starter_ai_agents/ai_meme_generator_agent_browseruse",
+      "has_requirements": true,
+      "dependencies": [
+        "asyncio",
+        "browser-use",
+        "langchain-anthropic",
+        "langchain-openai",
+        "playwright",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Use OpenAI's DALL-E for image generation instead of browser automation"
+    },
+    "ai_blog_to_podcast_agent": {
+      "main_file": "starter_ai_agents/ai_blog_to_podcast_agent/blog_to_podcast_agent.py",
+      "agent_path": "starter_ai_agents/ai_blog_to_podcast_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "elevenlabs",
+        "firecrawl-py",
+        "openai",
+        "requests",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_travel_agent": {
+      "main_file": "starter_ai_agents/ai_travel_agent/local_travel_agent.py",
+      "agent_path": "starter_ai_agents/ai_travel_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "google-search-results",
+        "icalendar",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_medical_imaging_agent": {
+      "main_file": "starter_ai_agents/ai_medical_imaging_agent/ai_medical_imaging.py",
+      "agent_path": "starter_ai_agents/ai_medical_imaging_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "duckduckgo-search",
+        "google-generativeai",
+        "pillow",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_data_analysis_agent": {
+      "main_file": "starter_ai_agents/ai_data_analysis_agent/ai_data_analyst.py",
+      "agent_path": "starter_ai_agents/ai_data_analysis_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "duckdb",
+        "numpy",
+        "openai",
+        "pandas",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "openai_research_agent": {
+      "main_file": "starter_ai_agents/openai_research_agent/research_agent.py",
+      "agent_path": "starter_ai_agents/openai_research_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "asyncio",
+        "openai",
+        "openai-agents",
+        "pydantic",
+        "python-dotenv",
+        "streamlit",
+        "uuid"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_startup_trend_analysis_agent": {
+      "main_file": "starter_ai_agents/ai_startup_trend_analysis_agent/startup_trends_agent.py",
+      "agent_path": "starter_ai_agents/ai_startup_trend_analysis_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "duckduckgo_search",
+        "lxml_html_clean",
+        "newspaper4k",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "web_scraping_ai_agent": {
+      "main_file": "starter_ai_agents/web_scraping_ai_agent/local_ai_scrapper.py",
+      "agent_path": "starter_ai_agents/web_scraping_ai_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "playwright",
+        "scrapegraphai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_music_generator_agent": {
+      "main_file": "starter_ai_agents/ai_music_generator_agent/music_generator_agent.py",
+      "agent_path": "starter_ai_agents/ai_music_generator_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "openai",
+        "requests",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "multimodal_ai_agent": {
+      "main_file": "starter_ai_agents/multimodal_ai_agent/multimodal_reasoning_agent.py",
+      "agent_path": "starter_ai_agents/multimodal_ai_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "google-generativeai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_data_visualisation_agent": {
+      "main_file": "starter_ai_agents/ai_data_visualisation_agent/ai_data_visualisation_agent.py",
+      "agent_path": "starter_ai_agents/ai_data_visualisation_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "e2b",
+        "e2b-code-interpreter",
+        "matplotlib",
+        "pandas",
+        "pillow",
+        "streamlit",
+        "together"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "mixture_of_agents": {
+      "main_file": "starter_ai_agents/mixture_of_agents/mixture-of-agents.py",
+      "agent_path": "starter_ai_agents/mixture_of_agents",
+      "has_requirements": true,
+      "dependencies": [
+        "asyncio",
+        "streamlit",
+        "together"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_life_insurance_advisor_agent": {
+      "main_file": "starter_ai_agents/ai_life_insurance_advisor_agent/life_insurance_advisor_agent.py",
+      "agent_path": "starter_ai_agents/ai_life_insurance_advisor_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "e2b-code-interpreter",
+        "firecrawl-py",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "xai_finance_agent": {
+      "main_file": "starter_ai_agents/xai_finance_agent/xai_finance_agent.py",
+      "agent_path": "starter_ai_agents/xai_finance_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "duckduckgo-search",
+        "yfinance"
+      ],
+      "uses_st_secrets": true,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    }
+  },
+  "voice_ai_agents": {
+    "customer_support_voice_agent": {
+      "main_file": "voice_ai_agents/customer_support_voice_agent/customer_support_voice_agent.py",
+      "agent_path": "voice_ai_agents/customer_support_voice_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "fastembed",
+        "firecrawl-py",
+        "openai",
+        "openai-agents",
+        "python-dotenv",
+        "qdrant-client",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Use OpenAI's Whisper for transcription and TTS for speech synthesis"
+    },
+    "voice_rag_openaisdk": {
+      "main_file": "voice_ai_agents/voice_rag_openaisdk/rag_voice.py",
+      "agent_path": "voice_ai_agents/voice_rag_openaisdk",
+      "has_requirements": true,
+      "dependencies": [
+        "fastembed",
+        "langchain",
+        "langchain-community",
+        "langchain-openai",
+        "langchain-text-splitters",
+        "openai",
+        "openai-agents",
+        "qdrant-client",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Use OpenAI's Whisper for transcription and TTS for speech synthesis"
+    },
+    "ai_audio_tour_agent": {
+      "main_file": "voice_ai_agents/ai_audio_tour_agent/ai_audio_tour_agent.py",
+      "agent_path": "voice_ai_agents/ai_audio_tour_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "openai",
+        "openai-agents",
+        "pydantic",
+        "pydantic_core",
+        "python-dotenv",
+        "rich",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Use OpenAI's Whisper for transcription and TTS for speech synthesis"
+    }
+  },
+  "rag_tutorials": {
+    "rag_database_routing": {
+      "main_file": "rag_tutorials/rag_database_routing/rag_database_routing.py",
+      "agent_path": "rag_tutorials/rag_database_routing",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "duckduckgo-search",
+        "langchain",
+        "langchain-community",
+        "langchain-core",
+        "langchain-openai",
+        "langgraph",
+        "pypdf",
+        "qdrant-client",
+        "sentence-transformers",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "gemini_agentic_rag": {
+      "main_file": "rag_tutorials/gemini_agentic_rag/agentic_rag_gemini.py",
+      "agent_path": "rag_tutorials/gemini_agentic_rag",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "exa",
+        "langchain-community",
+        "langchain-qdrant",
+        "qdrant-client",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "deepseek_local_rag_agent": {
+      "main_file": "rag_tutorials/deepseek_local_rag_agent/deepseek_rag_agent.py",
+      "agent_path": "rag_tutorials/deepseek_local_rag_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "exa",
+        "langchain-community",
+        "langchain-qdrant",
+        "ollama",
+        "qdrant-client",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_blog_search": {
+      "main_file": "rag_tutorials/ai_blog_search/app.py",
+      "agent_path": "rag_tutorials/ai_blog_search",
+      "has_requirements": true,
+      "dependencies": [
+        "beautifulsoup4",
+        "langchain",
+        "langchain-community",
+        "langchain-google-genai",
+        "langchain-qdrant",
+        "langchain-text-splitters",
+        "langchainhub",
+        "langgraph",
+        "python-dotenv",
+        "tiktoken"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "rag_chain": {
+      "main_file": "rag_tutorials/rag_chain/app.py",
+      "agent_path": "rag_tutorials/rag_chain",
+      "has_requirements": true,
+      "dependencies": [
+        "chromadb",
+        "langchain-chroma",
+        "langchain-community",
+        "langchain-core",
+        "langchain-google-genai",
+        "pypdf2",
+        "python-dotenv",
+        "sentence-transformers",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "autonomous_rag": {
+      "main_file": "rag_tutorials/autonomous_rag/autorag.py",
+      "agent_path": "rag_tutorials/autonomous_rag",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "duckduckgo-search",
+        "nest_asyncio",
+        "openai",
+        "pgvector",
+        "psycopg-binary",
+        "pypdf",
+        "requests",
+        "sqlalchemy",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "agentic_rag_embedding_gemma": {
+      "main_file": "rag_tutorials/agentic_rag_embedding_gemma/agentic_rag_embeddinggemma.py",
+      "agent_path": "rag_tutorials/agentic_rag_embedding_gemma",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "lancedb",
+        "ollama",
+        "pypdf",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "agentic_rag_with_reasoning": {
+      "main_file": "rag_tutorials/agentic_rag_with_reasoning/rag_reasoning_agent.py",
+      "agent_path": "rag_tutorials/agentic_rag_with_reasoning",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "lancedb",
+        "openai",
+        "python-dotenv",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "qwen_local_rag": {
+      "main_file": "rag_tutorials/qwen_local_rag/qwen_local_rag_agent.py",
+      "agent_path": "rag_tutorials/qwen_local_rag",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "exa",
+        "langchain-community",
+        "langchain-qdrant",
+        "ollama",
+        "pypdf",
+        "qdrant-client",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "agentic_rag_gpt5": {
+      "main_file": "rag_tutorials/agentic_rag_gpt5/agentic_rag_gpt5.py",
+      "agent_path": "rag_tutorials/agentic_rag_gpt5",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "lancedb",
+        "openai",
+        "python-dotenv",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "knowledge_graph_rag_citations": {
+      "main_file": "rag_tutorials/knowledge_graph_rag_citations/knowledge_graph_rag.py",
+      "agent_path": "rag_tutorials/knowledge_graph_rag_citations",
+      "has_requirements": true,
+      "dependencies": [
+        "neo4j",
+        "ollama",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "contextualai_rag_agent": {
+      "main_file": "rag_tutorials/contextualai_rag_agent/contextualai_rag_agent.py",
+      "agent_path": "rag_tutorials/contextualai_rag_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "contextual-client",
+        "pydantic",
+        "requests",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "vision_rag": {
+      "main_file": "rag_tutorials/vision_rag/vision_rag.py",
+      "agent_path": "rag_tutorials/vision_rag",
+      "has_requirements": true,
+      "dependencies": [
+        "cohere",
+        "google-generativeai",
+        "numpy",
+        "pillow",
+        "pymupdf",
+        "requests",
+        "streamlit",
+        "tqdm"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "llama3.1_local_rag": {
+      "main_file": "rag_tutorials/llama3.1_local_rag/llama3.1_local_rag.py",
+      "agent_path": "rag_tutorials/llama3.1_local_rag",
+      "has_requirements": true,
+      "dependencies": [
+        "langchain",
+        "langchain_community",
+        "langchain_ollama",
+        "ollama",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "local_hybrid_search_rag": {
+      "main_file": "rag_tutorials/local_hybrid_search_rag/local_main.py",
+      "agent_path": "rag_tutorials/local_hybrid_search_rag",
+      "has_requirements": true,
+      "dependencies": [
+        "flashrank",
+        "llama-cpp-python",
+        "numpy",
+        "pandas",
+        "psycopg2-binary",
+        "pydantic",
+        "pypdf",
+        "python-dotenv",
+        "raglite",
+        "rerankers",
+        "sentence-transformers",
+        "spacy",
+        "sqlalchemy",
+        "streamlit",
+        "tqdm"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "rag_agent_cohere": {
+      "main_file": "rag_tutorials/rag_agent_cohere/rag_agent_cohere.py",
+      "agent_path": "rag_tutorials/rag_agent_cohere",
+      "has_requirements": true,
+      "dependencies": [
+        "cohere",
+        "duckduckgo-search",
+        "langchain",
+        "langchain-cohere",
+        "langchain-community",
+        "langchain-core",
+        "langchain-qdrant",
+        "langgraph",
+        "pydantic",
+        "pydantic-core",
+        "qdrant-client",
+        "streamlit",
+        "tenacity",
+        "typing-extensions"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "corrective_rag": {
+      "main_file": "rag_tutorials/corrective_rag/corrective_rag.py",
+      "agent_path": "rag_tutorials/corrective_rag",
+      "has_requirements": true,
+      "dependencies": [
+        "anthropic",
+        "langchain",
+        "langchain-anthropic",
+        "langchain-community",
+        "langchain-core",
+        "langchain-openai",
+        "langgraph",
+        "nest-asyncio",
+        "numpy",
+        "openai",
+        "pydantic",
+        "pyyaml",
+        "qdrant-client",
+        "streamlit",
+        "tavily-python",
+        "tenacity",
+        "tiktoken"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "rag-as-a-service": {
+      "main_file": "rag_tutorials/rag-as-a-service/rag_app.py",
+      "agent_path": "rag_tutorials/rag-as-a-service",
+      "has_requirements": true,
+      "dependencies": [
+        "anthropic",
+        "requests",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "hybrid_search_rag": {
+      "main_file": "rag_tutorials/hybrid_search_rag/main.py",
+      "agent_path": "rag_tutorials/hybrid_search_rag",
+      "has_requirements": true,
+      "dependencies": [
+        "anthropic",
+        "cohere",
+        "openai",
+        "psycopg2-binary",
+        "pydantic",
+        "pypdf",
+        "python-dotenv",
+        "raglite",
+        "rerankers",
+        "spacy",
+        "sqlalchemy",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "agentic_rag_math_agent": {
+      "main_file": "rag_tutorials/agentic_rag_math_agent/app/streamlit.py",
+      "agent_path": "rag_tutorials/agentic_rag_math_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "dspy",
+        "faiss-cpu",
+        "llama-index",
+        "llama-index-vector-stores-qdrant",
+        "nest-asyncio",
+        "openai",
+        "pandas",
+        "python-dotenv",
+        "qdrant-client",
+        "requests",
+        "streamlit",
+        "tavily-python"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    }
+  },
+  "advanced_llm_apps": {
+    "cursor_ai_experiments": {
+      "main_file": "advanced_llm_apps/cursor_ai_experiments/multi_agent_researcher.py",
+      "agent_path": "advanced_llm_apps/cursor_ai_experiments",
+      "has_requirements": true,
+      "dependencies": [
+        "crewai",
+        "langchain-community",
+        "ollama",
+        "playwright",
+        "scrapegraphai",
+        "streamlit",
+        "streamlit-chat"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "resume_job_matcher": {
+      "main_file": "advanced_llm_apps/resume_job_matcher/app.py",
+      "agent_path": "advanced_llm_apps/resume_job_matcher",
+      "has_requirements": true,
+      "dependencies": [
+        "pymupdf",
+        "requests",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "chat-with-tarots": {
+      "main_file": "advanced_llm_apps/chat-with-tarots/app.py",
+      "agent_path": "advanced_llm_apps/chat-with-tarots",
+      "has_requirements": true,
+      "dependencies": [
+        "langchain",
+        "langchain-core",
+        "langchain-ollama",
+        "ollama",
+        "pandas",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "gpt_oss_critique_improvement_loop": {
+      "main_file": "advanced_llm_apps/gpt_oss_critique_improvement_loop/streamlit_app.py",
+      "agent_path": "advanced_llm_apps/gpt_oss_critique_improvement_loop",
+      "has_requirements": true,
+      "dependencies": [
+        "groq",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "llm_router_app": {
+      "main_file": "advanced_llm_apps/cursor_ai_experiments/llm_router_app/llm_router.py",
+      "agent_path": "advanced_llm_apps/cursor_ai_experiments/llm_router_app",
+      "has_requirements": true,
+      "dependencies": [
+        "\"routellm[serve,eval]\"",
+        "routellm",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "local_chatgpt_clone": {
+      "main_file": "advanced_llm_apps/cursor_ai_experiments/local_chatgpt_clone/chatgpt_clone_llama3.py",
+      "agent_path": "advanced_llm_apps/cursor_ai_experiments/local_chatgpt_clone",
+      "has_requirements": true,
+      "dependencies": [
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "chat_with_substack": {
+      "main_file": "advanced_llm_apps/chat_with_X_tutorials/chat_with_substack/chat_substack.py",
+      "agent_path": "advanced_llm_apps/chat_with_X_tutorials/chat_with_substack",
+      "has_requirements": true,
+      "dependencies": [
+        "embedchain",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "chat_with_research_papers": {
+      "main_file": "advanced_llm_apps/chat_with_X_tutorials/chat_with_research_papers/chat_arxiv.py",
+      "agent_path": "advanced_llm_apps/chat_with_X_tutorials/chat_with_research_papers",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "arxiv",
+        "openai",
+        "pypdf",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "chat_with_youtube_videos": {
+      "main_file": "advanced_llm_apps/chat_with_X_tutorials/chat_with_youtube_videos/chat_youtube.py",
+      "agent_path": "advanced_llm_apps/chat_with_X_tutorials/chat_with_youtube_videos",
+      "has_requirements": true,
+      "dependencies": [
+        "embedchain[youtube]",
+        "streamlit",
+        "youtube-transcript-api"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "chat_with_github": {
+      "main_file": "advanced_llm_apps/chat_with_X_tutorials/chat_with_github/chat_github.py",
+      "agent_path": "advanced_llm_apps/chat_with_X_tutorials/chat_with_github",
+      "has_requirements": true,
+      "dependencies": [
+        "embedchain[github]",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "chat_with_pdf": {
+      "main_file": "advanced_llm_apps/chat_with_X_tutorials/chat_with_pdf/chat_pdf_llama3.py",
+      "agent_path": "advanced_llm_apps/chat_with_X_tutorials/chat_with_pdf",
+      "has_requirements": true,
+      "dependencies": [
+        "embedchain",
+        "streamlit",
+        "streamlit-chat"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "chat_with_gmail": {
+      "main_file": "advanced_llm_apps/chat_with_X_tutorials/chat_with_gmail/chat_gmail.py",
+      "agent_path": "advanced_llm_apps/chat_with_X_tutorials/chat_with_gmail",
+      "has_requirements": true,
+      "dependencies": [
+        "embedchain[gmail]",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "toonify_token_optimization": {
+      "main_file": "advanced_llm_apps/llm_optimization_tools/toonify_token_optimization/toonify_app.py",
+      "agent_path": "advanced_llm_apps/llm_optimization_tools/toonify_token_optimization",
+      "has_requirements": true,
+      "dependencies": [
+        "anthropic",
+        "openai",
+        "pandas",
+        "streamlit",
+        "tiktoken",
+        "toonify"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_travel_agent_memory": {
+      "main_file": "advanced_llm_apps/llm_apps_with_memory_tutorials/ai_travel_agent_memory/travel_agent_memory.py",
+      "agent_path": "advanced_llm_apps/llm_apps_with_memory_tutorials/ai_travel_agent_memory",
+      "has_requirements": true,
+      "dependencies": [
+        "mem0ai",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "local_chatgpt_with_memory": {
+      "main_file": "advanced_llm_apps/llm_apps_with_memory_tutorials/local_chatgpt_with_memory/local_chatgpt_memory.py",
+      "agent_path": "advanced_llm_apps/llm_apps_with_memory_tutorials/local_chatgpt_with_memory",
+      "has_requirements": true,
+      "dependencies": [
+        "litellm",
+        "mem0ai",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "multi_llm_memory": {
+      "main_file": "advanced_llm_apps/llm_apps_with_memory_tutorials/multi_llm_memory/multi_llm_memory.py",
+      "agent_path": "advanced_llm_apps/llm_apps_with_memory_tutorials/multi_llm_memory",
+      "has_requirements": true,
+      "dependencies": [
+        "litellm",
+        "mem0ai",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_arxiv_agent_memory": {
+      "main_file": "advanced_llm_apps/llm_apps_with_memory_tutorials/ai_arxiv_agent_memory/ai_arxiv_agent_memory.py",
+      "agent_path": "advanced_llm_apps/llm_apps_with_memory_tutorials/ai_arxiv_agent_memory",
+      "has_requirements": true,
+      "dependencies": [
+        "mem0ai",
+        "multion",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "llm_app_personalized_memory": {
+      "main_file": "advanced_llm_apps/llm_apps_with_memory_tutorials/llm_app_personalized_memory/llm_app_memory.py",
+      "agent_path": "advanced_llm_apps/llm_apps_with_memory_tutorials/llm_app_personalized_memory",
+      "has_requirements": true,
+      "dependencies": [
+        "mem0ai",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "llama3_stateful_chat": {
+      "main_file": "advanced_llm_apps/llm_apps_with_memory_tutorials/llama3_stateful_chat/local_llama3_chat.py",
+      "agent_path": "advanced_llm_apps/llm_apps_with_memory_tutorials/llama3_stateful_chat",
+      "has_requirements": true,
+      "dependencies": [
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    }
+  },
+  "advanced_ai_agents": {
+    "ai_tic_tac_toe_agent": {
+      "main_file": "advanced_ai_agents/autonomous_game_playing_agent_apps/ai_tic_tac_toe_agent/utils.py",
+      "agent_path": "advanced_ai_agents/autonomous_game_playing_agent_apps/ai_tic_tac_toe_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "altair",
+        "annotated-types",
+        "anthropic",
+        "anyio",
+        "attrs",
+        "blinker",
+        "build",
+        "cachetools",
+        "certifi",
+        "charset-normalizer",
+        "click",
+        "distro",
+        "docstring-parser",
+        "gitdb",
+        "gitpython",
+        "google-auth",
+        "google-genai",
+        "groq",
+        "h11",
+        "httpcore",
+        "httpx",
+        "idna",
+        "jinja2",
+        "jiter",
+        "jsonschema",
+        "jsonschema-specifications",
+        "markdown-it-py",
+        "markupsafe",
+        "mdurl",
+        "narwhals",
+        "nest-asyncio",
+        "numpy",
+        "ollama",
+        "openai",
+        "packaging",
+        "pandas",
+        "pathlib",
+        "pillow",
+        "pip",
+        "pip-tools",
+        "protobuf",
+        "pyarrow",
+        "pyasn1",
+        "pyasn1-modules",
+        "pydantic",
+        "pydantic-core",
+        "pydantic-settings",
+        "pydeck",
+        "pygments",
+        "pyproject-hooks",
+        "python-dateutil",
+        "python-dotenv",
+        "python-multipart",
+        "pytz",
+        "pyyaml",
+        "referencing",
+        "requests",
+        "rich",
+        "rpds-py",
+        "rsa",
+        "setuptools",
+        "shellingham",
+        "six",
+        "smmap",
+        "sniffio",
+        "streamlit",
+        "tenacity",
+        "toml",
+        "tomli",
+        "tornado",
+        "tqdm",
+        "typer",
+        "typing-extensions",
+        "tzdata",
+        "urllib3",
+        "websockets",
+        "wheel"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_3dpygame_r1": {
+      "main_file": "advanced_ai_agents/autonomous_game_playing_agent_apps/ai_3dpygame_r1/ai_3dpygame_r1.py",
+      "agent_path": "advanced_ai_agents/autonomous_game_playing_agent_apps/ai_3dpygame_r1",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "browser-use",
+        "langchain-openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Use OpenAI's GPT for game logic and reasoning"
+    },
+    "ai_chess_agent": {
+      "main_file": "advanced_ai_agents/autonomous_game_playing_agent_apps/ai_chess_agent/ai_chess_agent.py",
+      "agent_path": "advanced_ai_agents/autonomous_game_playing_agent_apps/ai_chess_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "autogen",
+        "cairosvg",
+        "chess",
+        "pillow",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "devpulse_ai": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/devpulse_ai/streamlit_app.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/devpulse_ai",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "feedparser",
+        "httpx",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_domain_deep_research_agent": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/ai_domain_deep_research_agent/ai_domain_deep_research_agent.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/ai_domain_deep_research_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "composio",
+        "composio-agno",
+        "streamlit",
+        "together"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_financial_coach_agent": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/ai_financial_coach_agent/ai_financial_coach_agent.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/ai_financial_coach_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "asyncio",
+        "google-adk",
+        "matplotlib",
+        "numpy",
+        "pandas",
+        "plotly",
+        "python-dotenv",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_mental_wellbeing_agent": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/ai_mental_wellbeing_agent/ai_mental_wellbeing_agent.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/ai_mental_wellbeing_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "autogen-agentchat",
+        "autogen-ext",
+        "pyautogen",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_email_gtm_outreach_agent": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/ai_email_gtm_outreach_agent/ai_email_gtm_outreach_agent.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/ai_email_gtm_outreach_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "exa_py",
+        "openai",
+        "pydantic",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "multi_agent_researcher": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/multi_agent_researcher/research_agent.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/multi_agent_researcher",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_aqi_analysis_agent": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/ai_aqi_analysis_agent/ai_aqi_analysis_agent_streamlit.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/ai_aqi_analysis_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "dataclasses",
+        "firecrawl-py",
+        "gradio",
+        "openai",
+        "pydantic"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "trust_gated_agent_team": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/trust_gated_agent_team/trust_gated_agents.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/trust_gated_agent_team",
+      "has_requirements": true,
+      "dependencies": [
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "product_launch_intelligence_agent": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/product_launch_intelligence_agent/product_launch_intelligence_agent.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/product_launch_intelligence_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "firecrawl",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_speech_trainer_agent": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/ai_speech_trainer_agent/frontend/Home.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/ai_speech_trainer_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "deepface",
+        "fastapi",
+        "faster-whisper",
+        "librosa",
+        "mediapipe",
+        "moviepy",
+        "openai",
+        "opencv-python",
+        "pandas",
+        "plotly",
+        "python-dotenv",
+        "requests",
+        "streamlit",
+        "tf-keras",
+        "uvicorn"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_services_agency": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/agent_teams/ai_services_agency/agency.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/agent_teams/ai_services_agency",
+      "has_requirements": true,
+      "dependencies": [
+        "agency-swarm",
+        "python-dotenv",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_legal_agent_team": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/agent_teams/ai_legal_agent_team/legal_agent_team.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/agent_teams/ai_legal_agent_team",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "duckduckgo-search",
+        "openai",
+        "pypdf",
+        "qdrant-client",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_game_design_agent_team": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/agent_teams/ai_game_design_agent_team/game_design_agent_team.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/agent_teams/ai_game_design_agent_team",
+      "has_requirements": true,
+      "dependencies": [
+        "autogen",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "multimodal_design_agent_team": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/agent_teams/multimodal_design_agent_team/design_agent_team.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/agent_teams/multimodal_design_agent_team",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "duckduckgo-search",
+        "google-generativeai",
+        "pillow",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ag2_adaptive_research_team": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/agent_teams/ag2_adaptive_research_team/app.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/agent_teams/ag2_adaptive_research_team",
+      "has_requirements": true,
+      "dependencies": [
+        "ag2[openai]",
+        "pypdf",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_competitor_intelligence_agent_team": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/agent_teams/ai_competitor_intelligence_agent_team/competitor_agent_team.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/agent_teams/ai_competitor_intelligence_agent_team",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "duckduckgo-search",
+        "firecrawl-py",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "multimodal_coding_agent_team": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/agent_teams/multimodal_coding_agent_team/ai_coding_agent_o3.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/agent_teams/multimodal_coding_agent_team",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "e2b-code-interpreter",
+        "pillow",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_real_estate_agent_team": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/agent_teams/ai_real_estate_agent_team/local_ai_real_estate_agent_team.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/agent_teams/ai_real_estate_agent_team",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "firecrawl-py",
+        "googlesearch-python",
+        "openai",
+        "pydantic",
+        "python-dotenv",
+        "requests",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_recruitment_agent_team": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/agent_teams/ai_recruitment_agent_team/ai_recruitment_agent_team.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/agent_teams/ai_recruitment_agent_team",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "black",
+        "phidata",
+        "pypdf2",
+        "python-dateutil",
+        "pytz",
+        "requests",
+        "streamlit",
+        "streamlit-pdf-viewer",
+        "typing-extensions"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_teaching_agent_team": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/agent_teams/ai_teaching_agent_team/teaching_agent_team.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/agent_teams/ai_teaching_agent_team",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "composio",
+        "composio-phidata",
+        "composio_core",
+        "duckduckgo-search",
+        "google-search-results",
+        "openai",
+        "streamlit",
+        "typing-extensions"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "local_ai_legal_agent_team": {
+      "main_file": "advanced_ai_agents/multi_agent_apps/agent_teams/ai_legal_agent_team/local_ai_legal_agent_team/local_legal_agent.py",
+      "agent_path": "advanced_ai_agents/multi_agent_apps/agent_teams/ai_legal_agent_team/local_ai_legal_agent_team",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "ollama",
+        "qdrant-client",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_system_architect_r1": {
+      "main_file": "advanced_ai_agents/single_agent_apps/ai_system_architect_r1/ai_system_architect_r1.py",
+      "agent_path": "advanced_ai_agents/single_agent_apps/ai_system_architect_r1",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "anthropic",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_email_gtm_reachout_agent": {
+      "main_file": "advanced_ai_agents/single_agent_apps/ai_email_gtm_reachout_agent/ai_email_gtm_reachout.py",
+      "agent_path": "advanced_ai_agents/single_agent_apps/ai_email_gtm_reachout_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "openai",
+        "pydantic",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_health_fitness_agent": {
+      "main_file": "advanced_ai_agents/single_agent_apps/ai_health_fitness_agent/health_agent.py",
+      "agent_path": "advanced_ai_agents/single_agent_apps/ai_health_fitness_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "google-generativeai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_fraud_investigation_agent": {
+      "main_file": "advanced_ai_agents/single_agent_apps/ai_fraud_investigation_agent/fraud_investigation_agent.py",
+      "agent_path": "advanced_ai_agents/single_agent_apps/ai_fraud_investigation_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "beautifulsoup4",
+        "openai",
+        "requests",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "research_agent_gemini_interaction_api": {
+      "main_file": "advanced_ai_agents/single_agent_apps/research_agent_gemini_interaction_api/research_planner_executor_agent.py",
+      "agent_path": "advanced_ai_agents/single_agent_apps/research_agent_gemini_interaction_api",
+      "has_requirements": true,
+      "dependencies": [
+        "google-genai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_meeting_agent": {
+      "main_file": "advanced_ai_agents/single_agent_apps/ai_meeting_agent/meeting_agent.py",
+      "agent_path": "advanced_ai_agents/single_agent_apps/ai_meeting_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "crewai",
+        "crewai-tools",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_startup_insight_fire1_agent": {
+      "main_file": "advanced_ai_agents/single_agent_apps/ai_startup_insight_fire1_agent/ai_startup_insight_fire1_agent.py",
+      "agent_path": "advanced_ai_agents/single_agent_apps/ai_startup_insight_fire1_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "firecrawl-py",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_movie_production_agent": {
+      "main_file": "advanced_ai_agents/single_agent_apps/ai_movie_production_agent/movie_production_agent.py",
+      "agent_path": "advanced_ai_agents/single_agent_apps/ai_movie_production_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "google-search-results",
+        "lxml_html_clean",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_personal_finance_agent": {
+      "main_file": "advanced_ai_agents/single_agent_apps/ai_personal_finance_agent/finance_agent.py",
+      "agent_path": "advanced_ai_agents/single_agent_apps/ai_personal_finance_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "google-search-results",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_customer_support_agent": {
+      "main_file": "advanced_ai_agents/single_agent_apps/ai_customer_support_agent/customer_support_agent.py",
+      "agent_path": "advanced_ai_agents/single_agent_apps/ai_customer_support_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "mem0ai",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_deep_research_agent": {
+      "main_file": "advanced_ai_agents/single_agent_apps/ai_deep_research_agent/deep_research_openai.py",
+      "agent_path": "advanced_ai_agents/single_agent_apps/ai_deep_research_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "firecrawl",
+        "firecrawl-py",
+        "openai-agents",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_journalist_agent": {
+      "main_file": "advanced_ai_agents/single_agent_apps/ai_journalist_agent/journalist_agent.py",
+      "agent_path": "advanced_ai_agents/single_agent_apps/ai_journalist_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "google-search-results",
+        "lxml_html_clean",
+        "newspaper4k",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_recipe_meal_planning_agent": {
+      "main_file": "advanced_ai_agents/single_agent_apps/ai_recipe_meal_planning_agent/ai_recipe_meal_planning_agent.py",
+      "agent_path": "advanced_ai_agents/single_agent_apps/ai_recipe_meal_planning_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "duckduckgo-search",
+        "python-dotenv",
+        "requests",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "successfully converted"
+    },
+    "ai_speech_trainer_agent_team": {
+      "migration_status": "requires alternatives",
+      "alternatives": "Use OpenAI Vision API for facial analysis and Whisper for audio processing"
+    }
+  },
+  "mcp_ai_agents": {
+    "github_mcp_agent": {
+      "main_file": "mcp_ai_agents/github_mcp_agent/github_agent.py",
+      "agent_path": "mcp_ai_agents/github_mcp_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "asyncio",
+        "mcp",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "non-migratable",
+      "alternatives": "Implement MCP protocol integration directly with OpenAI API or use OpenAI Agents SDK"
+    },
+    "ai_travel_planner_mcp_agent_team": {
+      "main_file": "mcp_ai_agents/ai_travel_planner_mcp_agent_team/app.py",
+      "agent_path": "mcp_ai_agents/ai_travel_planner_mcp_agent_team",
+      "has_requirements": true,
+      "dependencies": [
+        "agno",
+        "google-search-results",
+        "icalendar",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "non-migratable",
+      "alternatives": "Implement MCP protocol integration directly with OpenAI API or use OpenAI Agents SDK"
+    },
+    "browser_mcp_agent": {
+      "main_file": "mcp_ai_agents/browser_mcp_agent/main.py",
+      "agent_path": "mcp_ai_agents/browser_mcp_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "asyncio",
+        "mcp-agent",
+        "openai",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "non-migratable",
+      "alternatives": "Implement MCP protocol integration directly with OpenAI API or use OpenAI Agents SDK"
+    },
+    "multi_mcp_agent_router": {
+      "main_file": "mcp_ai_agents/multi_mcp_agent_router/agent_forge.py",
+      "agent_path": "mcp_ai_agents/multi_mcp_agent_router",
+      "has_requirements": true,
+      "dependencies": [
+        "anthropic",
+        "mcp",
+        "pydantic",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "non-migratable",
+      "alternatives": "Implement MCP protocol integration directly with OpenAI API or use OpenAI Agents SDK"
+    }
+  },
+  "ai_agent_framework_crash_course": {
+    "7_plugins": {
+      "main_file": "ai_agent_framework_crash_course/google_adk_crash_course/7_plugins/app.py",
+      "agent_path": "ai_agent_framework_crash_course/google_adk_crash_course/7_plugins",
+      "has_requirements": true,
+      "dependencies": [
+        "google-adk",
+        "google-genai",
+        "python-dotenv",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Follow OpenAI Agents SDK documentation for equivalent functionality"
+    },
+    "6_1_agent_lifecycle_callbacks": {
+      "main_file": "ai_agent_framework_crash_course/google_adk_crash_course/6_callbacks/6_1_agent_lifecycle_callbacks/app.py",
+      "agent_path": "ai_agent_framework_crash_course/google_adk_crash_course/6_callbacks/6_1_agent_lifecycle_callbacks",
+      "has_requirements": true,
+      "dependencies": [
+        "google-adk",
+        "python-dotenv",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Follow OpenAI Agents SDK documentation for equivalent functionality"
+    },
+    "6_2_llm_interaction_callbacks": {
+      "main_file": "ai_agent_framework_crash_course/google_adk_crash_course/6_callbacks/6_2_llm_interaction_callbacks/app.py",
+      "agent_path": "ai_agent_framework_crash_course/google_adk_crash_course/6_callbacks/6_2_llm_interaction_callbacks",
+      "has_requirements": true,
+      "dependencies": [
+        "google-adk",
+        "python-dotenv",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Follow OpenAI Agents SDK documentation for equivalent functionality"
+    },
+    "6_3_tool_execution_callbacks": {
+      "main_file": "ai_agent_framework_crash_course/google_adk_crash_course/6_callbacks/6_3_tool_execution_callbacks/app.py",
+      "agent_path": "ai_agent_framework_crash_course/google_adk_crash_course/6_callbacks/6_3_tool_execution_callbacks",
+      "has_requirements": true,
+      "dependencies": [
+        "google-adk",
+        "python-dotenv",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Follow OpenAI Agents SDK documentation for equivalent functionality"
+    },
+    "5_1_in_memory_conversation_agent": {
+      "main_file": "ai_agent_framework_crash_course/google_adk_crash_course/5_memory_agent/5_1_in_memory_conversation_agent/app.py",
+      "agent_path": "ai_agent_framework_crash_course/google_adk_crash_course/5_memory_agent/5_1_in_memory_conversation_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "asyncio",
+        "google-adk",
+        "python-dotenv",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Follow OpenAI Agents SDK documentation for equivalent functionality"
+    },
+    "5_2_persistent_conversation_agent": {
+      "main_file": "ai_agent_framework_crash_course/google_adk_crash_course/5_memory_agent/5_2_persistent_conversation_agent/app.py",
+      "agent_path": "ai_agent_framework_crash_course/google_adk_crash_course/5_memory_agent/5_2_persistent_conversation_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "asyncio",
+        "google-adk",
+        "python-dotenv",
+        "sqlalchemy",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Follow OpenAI Agents SDK documentation for equivalent functionality"
+    },
+    "9_3_parallel_agent": {
+      "main_file": "ai_agent_framework_crash_course/google_adk_crash_course/9_multi_agent_patterns/9_3_parallel_agent/app.py",
+      "agent_path": "ai_agent_framework_crash_course/google_adk_crash_course/9_multi_agent_patterns/9_3_parallel_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "google-adk",
+        "pydantic",
+        "python-dotenv",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Follow OpenAI Agents SDK documentation for equivalent functionality"
+    },
+    "9_1_sequential_agent": {
+      "main_file": "ai_agent_framework_crash_course/google_adk_crash_course/9_multi_agent_patterns/9_1_sequential_agent/app.py",
+      "agent_path": "ai_agent_framework_crash_course/google_adk_crash_course/9_multi_agent_patterns/9_1_sequential_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "google-adk",
+        "pydantic",
+        "python-dotenv",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Follow OpenAI Agents SDK documentation for equivalent functionality"
+    },
+    "9_2_loop_agent": {
+      "main_file": "ai_agent_framework_crash_course/google_adk_crash_course/9_multi_agent_patterns/9_2_loop_agent/app.py",
+      "agent_path": "ai_agent_framework_crash_course/google_adk_crash_course/9_multi_agent_patterns/9_2_loop_agent",
+      "has_requirements": false,
+      "dependencies": [],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Follow OpenAI Agents SDK documentation for equivalent functionality"
+    },
+    "1_starter_agent": {
+      "main_file": "ai_agent_framework_crash_course/openai_sdk_crash_course/1_starter_agent/app.py",
+      "agent_path": "ai_agent_framework_crash_course/openai_sdk_crash_course/1_starter_agent",
+      "has_requirements": true,
+      "dependencies": [
+        "openai-agents",
+        "python-dotenv",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": true,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Follow OpenAI Agents SDK documentation for equivalent functionality"
+    },
+    "7_sessions": {
+      "main_file": "ai_agent_framework_crash_course/openai_sdk_crash_course/7_sessions/streamlit_sessions_app.py",
+      "agent_path": "ai_agent_framework_crash_course/openai_sdk_crash_course/7_sessions",
+      "has_requirements": true,
+      "dependencies": [
+        "openai-agents",
+        "python-dotenv",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Follow OpenAI Agents SDK documentation for equivalent functionality"
+    },
+    "4_running_agents": {
+      "main_file": "ai_agent_framework_crash_course/openai_sdk_crash_course/4_running_agents/agent_runner.py",
+      "agent_path": "ai_agent_framework_crash_course/openai_sdk_crash_course/4_running_agents",
+      "has_requirements": true,
+      "dependencies": [
+        "openai-agents",
+        "python-dotenv",
+        "streamlit"
+      ],
+      "uses_st_secrets": false,
+      "uses_os_getenv": false,
+      "has_streamlit_config": false,
+      "migration_status": "requires alternatives",
+      "alternatives": "Follow OpenAI Agents SDK documentation for equivalent functionality"
+    }
+  },
+  "awesome_agent_skills": {}
+}

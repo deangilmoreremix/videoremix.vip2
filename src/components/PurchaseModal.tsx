@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
+import { Analytics, PerformanceMonitor } from "../utils/analytics";
+import { ABTestUtils } from "../utils/abTesting";
 
 interface PurchaseModalProps {
   isOpen: boolean;
@@ -19,23 +21,60 @@ interface PurchaseModalProps {
     name: string;
     description: string;
     image: string;
-    icon: React.ReactNode;
+    icon: ReactNode;
     price?: number;
     features?: string[];
   };
+  showBundleOption?: boolean;
 }
 
 const PurchaseModal: React.FC<PurchaseModalProps> = ({
   isOpen,
   onClose,
   app,
+  showBundleOption = true,
 }) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [modalOpenTime, setModalOpenTime] = useState<number | null>(null);
+  const [ctaVariant, setCtaVariant] = useState<string>('Get Instant Access Now');
+  const [selectedTier, setSelectedTier] = useState<'single' | 'bundle'>('single');
 
-  const defaultPrice = 97;
-  const price = app.price || defaultPrice;
+  // Pricing tiers
+  const pricingTiers = {
+    single: {
+      name: "Single App Lifetime",
+      price: 37,
+      originalPrice: 97,
+      description: `Lifetime access to ${app.name}`,
+      features: [
+        "Lifetime access to this app",
+        "All future updates included",
+        "Priority customer support",
+        "Commercial usage rights",
+        "Money-back guarantee",
+      ]
+    },
+    bundle: {
+      name: "All Apps Lifetime",
+      price: 597,
+      originalPrice: 138 * 37, // ~138 apps * $37
+      description: "Lifetime access to all apps",
+      features: [
+        "Lifetime access to all apps",
+        "All future updates included",
+        "Priority customer support",
+        "Commercial usage rights",
+        "Money-back guarantee",
+        "Save 85% vs individual purchases"
+      ]
+    }
+  };
+
+  const currentTier = pricingTiers[selectedTier];
+  const savings = currentTier.originalPrice - currentTier.price;
+  const savingsPercent = Math.round((savings / currentTier.originalPrice) * 100);
 
   const defaultFeatures = [
     "Lifetime access to the app",
@@ -47,12 +86,49 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
 
   const features = app.features || defaultFeatures;
 
+  // Track modal open/close
+  useEffect(() => {
+    if (isOpen) {
+      setModalOpenTime(Date.now());
+      const variant = ABTestUtils.getCtaButtonText(user?.id);
+      setCtaVariant(variant);
+      Analytics.trackModalOpen(app.id, 'purchase');
+      PerformanceMonitor.trackAnimationSmoothness(app.id, 'modal_open');
+    } else if (modalOpenTime) {
+      const duration = Date.now() - modalOpenTime;
+      Analytics.trackModalClose(app.id, 'purchase', duration);
+      setModalOpenTime(null);
+    }
+  }, [isOpen, app.id, modalOpenTime, user?.id]);
+
+  // Track modal load time
+  useEffect(() => {
+    if (isOpen) {
+      const endTracking = PerformanceMonitor.trackModalLoadTime(app.id);
+      return endTracking;
+    }
+  }, [isOpen, app.id]);
+
   const handlePurchase = async () => {
+    // Track CTA click with A/B test variant
+    Analytics.trackCtaClick(app.id, 'purchase_now', {
+      price: currentTier.price,
+      tier: selectedTier,
+      user_logged_in: !!user,
+      cta_variant: ctaVariant,
+      test_id: 'cta_button_text'
+    });
+    ABTestUtils.trackCtaClick('cta_button_text', ctaVariant);
+
     if (!user) {
+      Analytics.trackEvent('signin_redirect', { from_modal: true, app_id: app.id });
       onClose();
       document.dispatchEvent(new CustomEvent("open-signin-modal"));
       return;
     }
+
+    // Track purchase start
+    Analytics.trackPurchaseStart(app.id, currentTier.price, { tier: selectedTier });
 
     setLoading(true);
     setError(null);
@@ -69,9 +145,12 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
           body: JSON.stringify({
             appId: app.id,
             appName: app.name,
-            price: price,
+            price: currentTier.price,
+            tier: selectedTier,
             userId: user.id,
             userEmail: user.email,
+            purchaseType: selectedTier, // 'single' or 'bundle'
+            isBundle: selectedTier === 'bundle',
           }),
         },
       );
@@ -83,12 +162,15 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
       const { url } = await response.json();
 
       if (url) {
+        Analytics.trackPurchaseComplete(app.id, currentTier.price, { tier: selectedTier });
+        ABTestUtils.trackPurchase('cta_button_text', ctaVariant, currentTier.price);
         window.location.href = url;
       } else {
         throw new Error("No checkout URL received");
       }
     } catch (err: any) {
       console.error("Error creating checkout session:", err);
+      Analytics.trackError(`Purchase failed: ${err.message}`, 'checkout_error', app.id);
       setError(err.message || "Failed to start checkout. Please try again.");
       setLoading(false);
     }
@@ -186,7 +268,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
                     ) : (
                       <>
                         <Lock className="h-5 w-5" />
-                        <span>Get Instant Access Now</span>
+                        <span>{ctaVariant}</span>
                       </>
                     )}
                   </button>

@@ -714,7 +714,7 @@ const ToolsHubPage: React.FC = () => {
                 </MagicSparkles>
 
                 <p className="text-xl text-gray-300 mb-8">
-                  Get unlimited access to all 50+ personalization tools and
+                  Get unlimited access to all 20+ personalization apps and
                   create content that delivers 3x better results than generic
                   content.
                 </p>

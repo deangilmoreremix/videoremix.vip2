@@ -1,0 +1,113 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 5,
+    "numberInput": 1,
+    "fileUpload": 0,
+    "selectBox": 1,
+    "button": 1,
+    "chat": 0,
+    "write": 8
+  },
+  "providers": {
+    "agno": {
+      "count": 8,
+      "imports": 4,
+      "clients": 4,
+      "models": [
+        {
+          "pattern": "gpt-4",
+          "count": 1
+        }
+      ]
+    },
+    "crewai": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": true,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 361,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": false,
+  "hasWebSearch": true,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "target_companies_industry_size_region_tech_etc",
+      "label": "Target companies (industry, size, region, tech, etc.)",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "your_productservice_offering_13_sentences",
+      "label": "Your product/service offering (1-3 sentences)",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "your_name",
+      "label": "Your name",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "your_company",
+      "label": "Your company",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "calendar_link_optional",
+      "label": "Calendar link (optional)",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "number_of_companies",
+      "label": "Number of companies",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "email_style",
+      "label": "Email style",
+      "type": "select",
+      "required": true
+    }
+  ],
+  "outputFormat": "image",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/multi_agent_apps/ai_email_gtm_outreach_agent/ai_email_gtm_outreach_agent.py",
+  "appName": "ai-email-gtm-outreach-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 15,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:35.329Z",
+  "analyzerVersion": "0.1.0"
+}

@@ -40,7 +40,7 @@ import PurchaseModal from "./PurchaseModal";
 
 // Floating Icon component to add visual interest
 const FloatingIcon: React.FC<{
-  icon: React.ReactNode;
+  icon: ReactNode;
   size?: number;
   color?: string;
   top?: string;
@@ -572,11 +572,21 @@ const AppDetailPage: React.FC = () => {
                   }}
                 />
 
-                <img
-                  src={app.demoImage || app.image}
-                  alt={app.name}
-                  className="w-full aspect-video object-cover rounded-lg relative z-10"
-                />
+                {isExternalUrl(appId || "") ? (
+                  <iframe
+                    src={app.url}
+                    title={`${app.name} Demo`}
+                    className="w-full aspect-video rounded-lg relative z-10 border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <img
+                    src={app.demoImage || app.image}
+                    alt={app.name}
+                    className="w-full aspect-video object-cover rounded-lg relative z-10"
+                  />
+                )}
 
                 {/* Floating icons specific to the current app type */}
                 <motion.div
@@ -660,51 +670,53 @@ const AppDetailPage: React.FC = () => {
                   )}
                 </motion.div>
 
-                {/* Play button overlay with enhanced animation */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <motion.button
-                    whileHover={{
-                      scale: 1.1,
-                      boxShadow: "0 0 25px 5px rgba(99, 102, 241, 0.4)",
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-white/10 backdrop-blur-sm p-5 rounded-full relative"
-                    id="demo"
-                  >
-                    {/* Pulsing circle animation */}
-                    <motion.div
-                      className="absolute -inset-3 rounded-full border-2 border-primary-500/40"
-                      animate={{
-                        scale: [1, 1.5, 1],
-                        opacity: [0.7, 0, 0.7],
+                {/* Play button overlay with enhanced animation - only for non-external apps */}
+                {!isExternalUrl(appId || "") && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <motion.button
+                      whileHover={{
+                        scale: 1.1,
+                        boxShadow: "0 0 25px 5px rgba(99, 102, 241, 0.4)",
                       }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 2.5,
-                        ease: "easeInOut",
-                      }}
-                    />
+                      whileTap={{ scale: 0.95 }}
+                      className="bg-white/10 backdrop-blur-sm p-5 rounded-full relative"
+                      id="demo"
+                    >
+                      {/* Pulsing circle animation */}
+                      <motion.div
+                        className="absolute -inset-3 rounded-full border-2 border-primary-500/40"
+                        animate={{
+                          scale: [1, 1.5, 1],
+                          opacity: [0.7, 0, 0.7],
+                        }}
+                        transition={{
+                          repeat: Infinity,
+                          duration: 2.5,
+                          ease: "easeInOut",
+                        }}
+                      />
 
-                    {/* Second pulsing circle with different timing */}
-                    <motion.div
-                      className="absolute -inset-1 rounded-full border-2 border-primary-400/30"
-                      animate={{
-                        scale: [1, 1.3, 1],
-                        opacity: [0.5, 0, 0.5],
-                      }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 2,
-                        delay: 0.5,
-                        ease: "easeInOut",
-                      }}
-                    />
+                      {/* Second pulsing circle with different timing */}
+                      <motion.div
+                        className="absolute -inset-1 rounded-full border-2 border-primary-400/30"
+                        animate={{
+                          scale: [1, 1.3, 1],
+                          opacity: [0.5, 0, 0.5],
+                        }}
+                        transition={{
+                          repeat: Infinity,
+                          duration: 2,
+                          delay: 0.5,
+                          ease: "easeInOut",
+                        }}
+                      />
 
-                    <div className="bg-primary-600 rounded-full p-3 flex items-center justify-center relative z-10">
-                      <Play className="h-8 w-8 text-white" fill="white" />
-                    </div>
-                  </motion.button>
-                </div>
+                      <div className="bg-primary-600 rounded-full p-3 flex items-center justify-center relative z-10">
+                        <Play className="h-8 w-8 text-white" fill="white" />
+                      </div>
+                    </motion.button>
+                  </div>
+                )}
 
                 {/* Status badges */}
                 <div className="absolute top-4 left-4 flex flex-col items-start gap-2 z-20">

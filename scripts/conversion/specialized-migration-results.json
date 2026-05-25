@@ -1,0 +1,74 @@
+{
+  "successfullyConverted": [
+    "deepseek_local_rag_agent",
+    "qwen_local_rag",
+    "llama3.1_local_rag",
+    "agentic_rag_embedding_gemma",
+    "vision_rag",
+    "rag-as-a-service",
+    "corrective_rag"
+  ],
+  "nonMigratable": [
+    {
+      "app": "knowledge_graph_rag_citations",
+      "reasoning": "Requires Neo4j graph database for entity extraction and multi-hop reasoning",
+      "alternatives": [
+        "Implement graph-like functionality using pgvector with relationship metadata",
+        "Use OpenAI function calling for entity extraction",
+        "Store citation chains in JSON format within vector documents"
+      ]
+    },
+    {
+      "app": "contextualai_rag_agent",
+      "reasoning": "Complete dependency on Contextual AI SaaS platform",
+      "alternatives": [
+        "Keep as external service integration",
+        "Implement OpenAI-based RAG with similar API wrapper",
+        "Consider building custom RAG service using Supabase"
+      ]
+    },
+    {
+      "app": "hybrid_search_rag",
+      "reasoning": "Uses RAGLite framework with complex hybrid search pipeline",
+      "alternatives": [
+        "Convert to pgvector similarity search with BM25 keyword search using pg_search",
+        "Implement custom hybrid search using Supabase",
+        "Use OpenAI-based reranking for result combination"
+      ]
+    }
+  ],
+  "conversionNotes": {
+    "deepseek_local_rag_agent": "Converted DeepSeek-R1 local model to OpenAI GPT-4o API calls. Maintained RAG architecture with pgvector. Created openai-wrapper.ts with RAG retrieval logic.",
+    "qwen_local_rag": "Converted Qwen3 local model to OpenAI GPT-4o API calls. Maintained RAG architecture with pgvector. Created openai-wrapper.ts with RAG retrieval logic.",
+    "llama3.1_local_rag": "Converted Llama3.1 local model to OpenAI GPT-4o API calls. Maintained RAG architecture with pgvector. Created openai-wrapper.ts with RAG retrieval logic.",
+    "agentic_rag_embedding_gemma": "Converted Gemma local embeddings to OpenAI text-embedding-3-small. Maintained RAG architecture. Created openai-wrapper.ts with embedding conversion.",
+    "knowledge_graph_rag_citations": "Non-migratable: Requires Neo4j graph database for entity extraction and multi-hop reasoning. Alternatives: pgvector with relationship metadata, OpenAI function calling for entity extraction, JSON citation storage.",
+    "contextualai_rag_agent": "Non-migratable: Complete dependency on Contextual AI SaaS platform. Alternatives: External service integration, OpenAI-based RAG wrapper, custom Supabase RAG service.",
+    "vision_rag": "Converted Gemini Vision multimodal embeddings to GPT-4o Vision API with pgvector storage for image metadata. Created vision-wrapper.ts with image captioning and embedding logic.",
+    "rag-as-a-service": "Implemented OpenAI as primary LLM with fallback chain architecture. Maintained multi-step RAG logic. Created fallback-chain.ts for provider failover.",
+    "corrective_rag": "Implemented OpenAI as primary LLM with fallback chain architecture. Maintained corrective RAG logic with document grading. Created fallback-chain.ts for provider failover.",
+    "hybrid_search_rag": "Converted RAGLite hybrid search to pgvector similarity search with BM25 keyword search fallback and OpenAI-based reranking. Created hybrid-search.ts with combined retrieval logic."
+  },
+  "wrappersCreated": [
+    "supabase/functions/deepseek_local_rag_agent/openai-wrapper.ts",
+    "supabase/functions/qwen_local_rag/openai-wrapper.ts",
+    "supabase/functions/llama3.1_local_rag/openai-wrapper.ts",
+    "supabase/functions/agentic_rag_embedding_gemma/openai-wrapper.ts",
+    "supabase/functions/vision_rag/vision-wrapper.ts",
+    "supabase/functions/rag-as-a-service/fallback-chain.ts",
+    "supabase/functions/corrective_rag/fallback-chain.ts",
+    "supabase/functions/hybrid_search_rag/hybrid-search.ts"
+  ],
+  "summary": {
+    "totalApps": 10,
+    "converted": 7,
+    "nonMigratable": 3,
+    "conversionRate": "70%",
+    "specializedApproaches": [
+      "OpenAI API replacement for local LLMs",
+      "GPT-4o Vision for multimodal processing",
+      "Fallback chains for multi-provider architectures",
+      "Hybrid search with pgvector + keyword search + AI reranking"
+    ]
+  }
+}

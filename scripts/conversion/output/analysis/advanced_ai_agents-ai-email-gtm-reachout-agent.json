@@ -1,0 +1,162 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": true,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 11,
+    "numberInput": 1,
+    "fileUpload": 0,
+    "selectBox": 3,
+    "button": 6,
+    "chat": 0,
+    "write": 36
+  },
+  "providers": {
+    "agno": {
+      "count": 8,
+      "imports": 4,
+      "clients": 4,
+      "models": []
+    },
+    "crewai": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 1097,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": false,
+  "hasWebSearch": true,
+  "uiType": "multi-tab",
+  "inputFields": [
+    {
+      "name": "what_type_of_companies_should_we_target",
+      "label": "What type of companies should we target?",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "preferred_company_size",
+      "label": "Preferred company size",
+      "type": "radio",
+      "required": true
+    },
+    {
+      "name": "number_of_companies_to_find",
+      "label": "Number of companies to find",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "your_name_",
+      "label": "Your Name *",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "your_email_",
+      "label": "Your Email *",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "your_organization_",
+      "label": "Your Organization *",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "linkedin_profile_optional",
+      "label": "LinkedIn Profile (optional)",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "phone_number_optional",
+      "label": "Phone Number (optional)",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "company_website_optional",
+      "label": "Company Website (optional)",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "calendar_link_optional",
+      "label": "Calendar Link (optional)",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "describe_your_offering_",
+      "label": "Describe your offering *",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "serviceproduct_category",
+      "label": "Service/Product Category",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "which_departments_should_we_target",
+      "label": "Which departments should we target?",
+      "type": "multiselect",
+      "required": true
+    },
+    {
+      "name": "email_content",
+      "label": "Email Content",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "email_content",
+      "label": "Email Content",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "contact_information",
+      "label": "Contact Information",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "json",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/single_agent_apps/ai_email_gtm_reachout_agent/ai_email_gtm_reachout.py",
+  "appName": "ai-email-gtm-reachout-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 15,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:36.031Z",
+  "analyzerVersion": "0.1.0"
+}

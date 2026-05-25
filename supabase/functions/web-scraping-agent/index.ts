@@ -1,0 +1,313 @@
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+import { corsHeaders, jsonResponse, errorResponse } from '../_shared/utils.ts';
+
+import { createClient } from '@supabase/supabase-js';
+
+// Fetch user's API key from Supabase (user-provided keys)
+async function getUserApiKey(user_id, provider) {
+  const { data, error } = await supabase
+    .from('user_api_keys')
+    .select('encrypted_api_key')
+    .eq('user_id', user_id)
+    .eq('provider', provider)
+    .single();
+
+  if (error || !data) {
+    return null;
+  }
+  return data.encrypted_api_key;
+}
+
+// Verify JWT token to get user_id
+async function verifyUser(req) {
+  const authHeader = req.headers.get('Authorization');
+  if (!authHeader?.startsWith('Bearer ')) {
+    return null;
+  }
+  const token = authHeader.substring(7);
+  try {
+    const { data: { user } } = await supabase.auth.getUser(token);
+    if (!user) return null;
+    return { user_id: user.id };
+  } catch (e) {
+    console.error('JWT verification failed:', e);
+    return null;
+  }
+}
+
+import OpenAI from 'npm:openai@4.78.1';;
+
+const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+const openai = new OpenAI({
+  apiKey: userApiKey,
+});
+
+interface ScrapeInput {
+  url: string;
+  prompt: string;
+  mode: 'extract' | 'summarize' | 'qa' | 'list';
+  userId?: string;
+}
+
+interface ScrapeResult {
+  url: string;
+  extractedData: any;
+  summary?: string;
+  keyPoints?: string[];
+  mode: string;
+}
+
+// Simple HTML content fetcher with basic cleaning
+async function fetchWebpage(url: string): Promise<string> {
+  // Basic URL validation
+  try {
+    new URL(url);
+  } catch {
+    throw new Error('Invalid URL format');
+  }
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; AI-Scraper/1.0)',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Accept-Encoding': 'gzip, deflate',
+        'Connection': 'keep-alive',
+      },
+      // Note: Netlify Functions have size limits; very large pages may fail
+      // For production, consider using a dedicated scraping service
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const contentType = response.headers.get('content-type') || '';
+    if (!contentType.includes('text/html') && !contentType.includes('text/plain')) {
+      console.warn(`Non-HTML content type: ${contentType}`);
+    }
+
+    const text = await response.text();
+    
+    // Basic HTML cleaning
+    const cleaned = cleanHTML(text);
+    
+    // Truncate if too long (OpenAI has token limits)
+    if (cleaned.length > 50000) {
+      return cleaned.substring(0, 50000) + '\n\n[Content truncated due to length]';
+    }
+    
+    return cleaned;
+  } catch (error: any) {
+    if (error.code === 'ENOTFOUND' || error.code === 'EAI_AGAIN') {
+      throw new Error('Unable to reach the website. Check the URL and your internet connection.');
+    }
+    throw error;
+  }
+}
+
+function cleanHTML(html: string): string {
+  // Remove script and style tags
+  let cleaned = html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+    .replace(/<noscript\b[^<]*(?:(?!<\/noscript>)<[^<]*)*<\/noscript>/gi, '');
+  
+  // Remove HTML comments
+  cleaned = cleaned.replace(/<!--[\s\S]*?-->/g, '');
+  
+  // Replace tags with newlines appropriately
+  cleaned = cleaned
+    .replace(/<(br|h[1-6]|p|div|section|article|header|footer|table|tr|td|th|ul|ol|li)[^>]*>/gi, '\n')
+    .replace(/<\/[^>]+>/g, '');
+  
+  // Remove extra whitespace
+  cleaned = cleaned.replace(/\s+/g, ' ').trim();
+  
+  // Decode HTML entities (basic)
+  cleaned = cleaned
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+  
+  return cleaned;
+}
+
+async function extractWithAI(content: string, prompt: string, mode: string): Promise<any> {
+  const modeInstructions = {
+    extract: `Extract structured data based on the user's request. Return a JSON object, array, or string as appropriate.`,
+    summarize: 'Provide a concise summary of the content. Return a JSON with "summary" field containing 2-3 sentences.',
+    qa: 'Answer the user\'s question based on the page content. Return a JSON with "answer" field.',
+    list: 'Extract a list of items from the content. Return a JSON with "items" array.'
+  };
+
+  const systemPrompt = `You are an AI web scraping assistant. ${modeInstructions[mode as keyof typeof modeInstructions]}
+
+Always respond with valid, parseable JSON. Return only JSON, no other text.`;
+
+  const userPrompt = `Webpage Content (truncated to 50k chars):
+  
+${content}
+
+  
+User Request: ${prompt}
+
+Based on the request and the webpage content, extract the requested information.`;
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ],
+      temperature: 0.3,
+      max_tokens: 1500
+    });
+
+    const contentText = response.choices[0].message.content?.trim() || '{}';
+    
+    // Extract JSON from response (in case there's surrounding text)
+    const jsonMatch = contentText.match(/\{[\s\S]*\}|\[[\s\S]*\]/);
+    const jsonStr = jsonMatch ? jsonMatch[0] : contentText;
+    
+    return JSON.parse(jsonStr);
+  } catch (error: any) {
+    console.error('OpenAI extraction error:', error);
+    // Fallback: return raw content summary
+    return {
+      error: 'Failed to parse extraction',
+      rawSummary: content.substring(0, 500) + '...'
+    };
+  }
+}
+
+
+  // Verify authentication and get user's API key
+  const { user_id } = await verifyUser(req);
+  if (!user_id) {
+    return jsonResponse({ error: 'Unauthorized' }, 401);
+  }
+
+  // Get user's openai API key
+  const userApiKey = await getUserApiKey(user_id, 'openai');
+  if (!userApiKey) {
+    return jsonResponse({ 
+      error: 'API_KEY_MISSING',
+      message: 'Please add your openai API key in your profile.',
+      provider: 'openai'
+    }, 403);
+  }
+
+  // Parse body
+  let body;
+  try {
+    body = await req.json();
+  } catch (e) {
+    // body remains undefined for non-JSON requests
+  }
+Deno.serve(async (req: Request) => {
+  // CORS preflight
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { status: 200, headers: corsHeaders });
+  }
+
+  if (req.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: { 'Content-Type': 'application/json', ...corsHeaders } });;
+  }
+
+  try {
+    const input: ScrapeInput = await req.json();
+
+    if (!input.url?.trim() || !input.prompt?.trim()) {
+      return new Response(JSON.stringify({ error: 'URL and prompt are required' }), { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } });;
+    }
+
+    // Validate URL
+    try {
+      new URL(input.url);
+    } catch {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Please provide a valid URL including protocol (https://)' })
+      };
+    }
+
+    // Fetch webpage
+    let content: string;
+    try {
+      content = await fetchWebpage(input.url);
+    } catch (err: any) {
+      return new Response(JSON.stringify({ error: `Failed to fetch webpage: ${err.message}` }), { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } });;
+    }
+
+    if (content.length < 10) {
+      return new Response(JSON.stringify({ error: 'Page appears to be empty or could not be accessed' }), { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } });;
+    }
+
+    // Extract with AI
+    let extractedData: any;
+    let summary: string | undefined;
+    let keyPoints: string[] | undefined;
+
+    try {
+      extractedData = await extractWithAI(content, input.prompt, input.mode);
+      
+      // Post-process for specific modes
+      if (input.mode === 'summarize' && typeof extractedData === 'object' && 'summary' in extractedData) {
+        summary = extractedData.summary;
+      }
+      
+      if (input.mode === 'list' && Array.isArray(extractedData)) {
+        keyPoints = extractedData.slice(0, 10).map(String);
+      } else if (input.mode === 'extract' && typeof extractedData === 'object') {
+        keyPoints = Object.values(extractedData).flatMap(v => 
+          Array.isArray(v) ? v.map(String) : [String(v)]
+        ).slice(0, 5);
+      }
+    } catch (err) {
+      console.error('Extraction error:', err);
+      extractedData = { error: 'AI extraction failed', rawContent: content.substring(0, 200) };
+    }
+
+    const result: ScrapeResult = {
+      url: input.url,
+      extractedData,
+      summary,
+      keyPoints,
+      mode: input.mode
+    };
+
+    // Save to database
+    try {
+      await supabase
+        .from('ai_agent_runs')
+        .insert({
+          agent_type: 'web_scraping_agent',
+          user_id: input.userId || null,
+          input_data: { url: input.url, prompt: input.prompt, mode: input.mode },
+          output_data: result,
+          status: 'completed',
+          created_at: new Date().toISOString()
+        });
+    } catch (dbError) {
+      console.error('Database error:', dbError);
+    }
+
+    return new Response(JSON.stringify(result), { status: 200, headers: { 'Content-Type': 'application/json', ...corsHeaders } });;
+
+  } catch (error) {
+    console.error('Handler error:', error);
+    return new Response(JSON.stringify({
+        error: 'Internal server error',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      }), { status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders } });;
+  }
+}

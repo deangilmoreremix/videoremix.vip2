@@ -17,7 +17,7 @@ import {
   Copy,
   Globe,
 } from "lucide-react";
-import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "../../utils/supabase";
 import { appConfig } from "../../config/appConfig";
 
 interface App {

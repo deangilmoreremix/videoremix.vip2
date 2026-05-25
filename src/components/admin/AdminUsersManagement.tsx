@@ -14,7 +14,7 @@ import {
   Key,
   Settings,
 } from "lucide-react";
-import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "../../utils/supabase";
 
 interface User {
   id: string;

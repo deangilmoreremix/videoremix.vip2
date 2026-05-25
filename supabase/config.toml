@@ -1,3 +1,2 @@
-[auth.email.template.recovery]
-subject = "Reset your password - VideoRemix"
-content_path = "./supabase/templates/recovery.html"
+[auth.email]
+enable_confirmations = false

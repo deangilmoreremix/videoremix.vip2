@@ -1,4 +1,4 @@
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase";
 import { classifyError, withRetry, RetryConfig } from "../utils/errorHandling";
 
 /**

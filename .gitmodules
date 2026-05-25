@@ -1,3 +1,3 @@
-[submodule "superpowers"]
-	path = superpowers
-	url = https://github.com/deangilmoreremix/superpowers
+[submodule "vendor/impeccable"]
+	path = vendor/impeccable
+	url = https://github.com/deangilmoreremix/impeccable.git

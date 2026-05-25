@@ -1,0 +1,104 @@
+{
+  "hasChatInput": true,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": true,
+  "hasColumns": true,
+  "hasButtons": false,
+  "widgetCounts": {
+    "textInput": 1,
+    "numberInput": 0,
+    "fileUpload": 1,
+    "selectBox": 0,
+    "button": 0,
+    "chat": 4,
+    "write": 10
+  },
+  "providers": {
+    "agno": {
+      "count": 4,
+      "imports": 2,
+      "clients": 2,
+      "models": []
+    },
+    "langchain": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    },
+    "crewai": {
+      "count": 2,
+      "imports": 2,
+      "clients": 0,
+      "models": []
+    },
+    "ollama": {
+      "count": 2,
+      "imports": 0,
+      "clients": 2,
+      "models": [
+        {
+          "pattern": "llama3\\.",
+          "count": 1
+        }
+      ]
+    },
+    "openai_agents": {
+      "count": 2,
+      "imports": 2,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {
+    "qdrant": {
+      "count": 3,
+      "usage": "vector-store"
+    },
+    "beautifulsoup": {
+      "count": 1,
+      "usage": "integration"
+    }
+  },
+  "usesSessionState": false,
+  "hasHistory": true,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 522,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": true,
+  "hasWebSearch": true,
+  "uiType": "chat",
+  "inputFields": [
+    {
+      "name": "upload_pdf_files",
+      "label": "Upload PDF files",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "enter_url_to_scrape",
+      "label": "Enter URL to scrape",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "image",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/rag_tutorials/qwen_local_rag/qwen_local_rag_agent.py",
+  "appName": "qwen-local-rag",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 21,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:33.830Z",
+  "analyzerVersion": "0.1.0"
+}

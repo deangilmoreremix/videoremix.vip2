@@ -8,7 +8,7 @@ import {
   Download,
   Eye,
 } from "lucide-react";
-import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "../../utils/supabase";
 
 interface CSVPreviewData {
   headers: string[];

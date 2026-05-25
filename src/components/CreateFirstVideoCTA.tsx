@@ -11,12 +11,9 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-interface CreateFirstVideoCTAProps {
-  variant?: "hero" | "sidebar" | "popup" | "inline";
-  className?: string;
-}
 
-const CreateFirstVideoCTA: React.FC<CreateFirstVideoCTAProps> = ({
+
+const CreateFirstVideoCTA = ({
   variant = "inline",
   className = "",
 }) => {

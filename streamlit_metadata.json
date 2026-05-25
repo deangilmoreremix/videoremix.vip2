@@ -1,0 +1,119 @@
+[
+  {
+    "file_path": "/workspaces/videoremix.vip2/awesome-llm-apps/starter_ai_agents/ai_startup_trend_analysis_agent/startup_trends_agent.py",
+    "agent_name": "ai_startup_trend_analysis_agent",
+    "requirements_txt_exists": true,
+    "requirements_dependencies": ["agno>=2.2.10", "streamlit==1.40.2", "duckduckgo_search==6.3.7", "newspaper4k==0.9.3.1", "lxml_html_clean==0.4.1"],
+    "contains_st_secrets": false,
+    "contains_os_getenv": false,
+    "streamlit_config_toml_exists": false
+  },
+  {
+    "file_path": "/workspaces/videoremix.vip2/awesome-llm-apps/starter_ai_agents/ai_travel_agent/local_travel_agent.py",
+    "agent_name": "ai_travel_agent",
+    "requirements_txt_exists": true,
+    "requirements_dependencies": ["streamlit", "agno>=2.2.10", "openai", "google-search-results", "icalendar"],
+    "contains_st_secrets": false,
+    "contains_os_getenv": false,
+    "streamlit_config_toml_exists": false
+  },
+  {
+    "file_path": "/workspaces/videoremix.vip2/awesome-llm-apps/starter_ai_agents/ai_travel_agent/travel_agent.py",
+    "agent_name": "ai_travel_agent",
+    "requirements_txt_exists": true,
+    "requirements_dependencies": ["streamlit", "agno>=2.2.10", "openai", "google-search-results", "icalendar"],
+    "contains_st_secrets": false,
+    "contains_os_getenv": false,
+    "streamlit_config_toml_exists": false
+  },
+  {
+    "file_path": "/workspaces/videoremix.vip2/awesome-llm-apps/starter_ai_agents/mixture_of_agents/mixture-of-agents.py",
+    "agent_name": "mixture_of_agents",
+    "requirements_txt_exists": true,
+    "requirements_dependencies": ["streamlit", "asyncio", "together"],
+    "contains_st_secrets": false,
+    "contains_os_getenv": false,
+    "streamlit_config_toml_exists": false
+  },
+  {
+    "file_path": "/workspaces/videoremix.vip2/awesome-llm-apps/starter_ai_agents/multimodal_ai_agent/multimodal_reasoning_agent.py",
+    "agent_name": "multimodal_ai_agent",
+    "requirements_txt_exists": true,
+    "requirements_dependencies": ["agno>=2.2.10", "google-generativeai==0.8.3", "streamlit==1.40.2"],
+    "contains_st_secrets": false,
+    "contains_os_getenv": false,
+    "streamlit_config_toml_exists": false
+  },
+  {
+    "file_path": "/workspaces/videoremix.vip2/awesome-llm-apps/starter_ai_agents/multimodal_ai_agent/mutimodal_agent.py",
+    "agent_name": "multimodal_ai_agent",
+    "requirements_txt_exists": true,
+    "requirements_dependencies": ["agno>=2.2.10", "google-generativeai==0.8.3", "streamlit==1.40.2"],
+    "contains_st_secrets": false,
+    "contains_os_getenv": false,
+    "streamlit_config_toml_exists": false
+  },
+  {
+    "file_path": "/workspaces/videoremix.vip2/awesome-llm-apps/starter_ai_agents/openai_research_agent/research_agent.py",
+    "agent_name": "openai_research_agent",
+    "requirements_txt_exists": true,
+    "requirements_dependencies": ["openai-agents", "openai", "streamlit", "uuid", "pydantic", "python-dotenv", "asyncio"],
+    "contains_st_secrets": false,
+    "contains_os_getenv": false,
+    "streamlit_config_toml_exists": false
+  },
+  {
+    "file_path": "/workspaces/videoremix.vip2/awesome-llm-apps/starter_ai_agents/web_scraping_ai_agent/ai_scrapper.py",
+    "agent_name": "web_scraping_ai_agent",
+    "requirements_txt_exists": true,
+    "requirements_dependencies": ["streamlit", "scrapegraphai", "playwright"],
+    "contains_st_secrets": false,
+    "contains_os_getenv": false,
+    "streamlit_config_toml_exists": false
+  },
+  {
+    "file_path": "/workspaces/videoremix.vip2/awesome-llm-apps/starter_ai_agents/web_scraping_ai_agent/local_ai_scrapper.py",
+    "agent_name": "web_scraping_ai_agent",
+    "requirements_txt_exists": true,
+    "requirements_dependencies": ["streamlit", "scrapegraphai", "playwright"],
+    "contains_st_secrets": false,
+    "contains_os_getenv": false,
+    "streamlit_config_toml_exists": false
+  },
+  {
+    "file_path": "/workspaces/videoremix.vip2/awesome-llm-apps/starter_ai_agents/xai_finance_agent/xai_finance_agent.py",
+    "agent_name": "xai_finance_agent",
+    "requirements_txt_exists": true,
+    "requirements_dependencies": ["agno>=2.2.10", "duckduckgo-search", "yfinance"],
+    "contains_st_secrets": true,
+    "contains_os_getenv": true,
+    "streamlit_config_toml_exists": false
+  },
+  {
+    "file_path": "/workspaces/videoremix.vip2/awesome-llm-apps/voice_ai_agents/ai_audio_tour_agent/ai_audio_tour_agent.py",
+    "agent_name": "ai_audio_tour_agent",
+    "requirements_txt_exists": true,
+    "requirements_dependencies": ["openai==1.68.2", "openai-agents==0.0.6", "pydantic==2.10.6", "pydantic_core==2.27.2", "python-dotenv==1.0.1", "rich==13.9.4", "streamlit==1.43.2"],
+    "contains_st_secrets": false,
+    "contains_os_getenv": false,
+    "streamlit_config_toml_exists": false
+  },
+  {
+    "file_path": "/workspaces/videoremix.vip2/awesome-llm-apps/voice_ai_agents/customer_support_voice_agent/customer_support_voice_agent.py",
+    "agent_name": "customer_support_voice_agent",
+    "requirements_txt_exists": true,
+    "requirements_dependencies": ["firecrawl-py", "qdrant-client", "streamlit", "fastembed", "openai>=1.0.0", "python-dotenv", "openai-agents"],
+    "contains_st_secrets": false,
+    "contains_os_getenv": false,
+    "streamlit_config_toml_exists": false
+  },
+  {
+    "file_path": "/workspaces/videoremix.vip2/awesome-llm-apps/voice_ai_agents/voice_rag_openaisdk/rag_voice.py",
+    "agent_name": "voice_rag_openaisdk",
+    "requirements_txt_exists": true,
+    "requirements_dependencies": ["openai-agents==0.4.2", "streamlit==1.51.0", "qdrant-client==1.15.1", "fastembed==0.7.3", "langchain==1.0.3", "langchain-community==0.4.1", "langchain-openai==1.0.2", "openai==2.7.1", "langchain-text-splitters==1.0.0"],
+    "contains_st_secrets": false,
+    "contains_os_getenv": false,
+    "streamlit_config_toml_exists": false
+  }
+]

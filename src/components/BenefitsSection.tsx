@@ -21,7 +21,7 @@ const BenefitsSection: React.FC = () => {
   // Default benefits in case data isn't loaded yet
   const defaultBenefits = [
     {
-      icon: <Clock className="h-10 w-10 text-primary-400" />,
+      icon: <Clock className="h-10 w-10" />,
       title: "Create Personalized Marketing in Minutes",
       description:
         "Our AI tools analyze your audience and automatically personalize marketing content that resonates with each segment.",
@@ -34,7 +34,7 @@ const BenefitsSection: React.FC = () => {
       ],
     },
     {
-      icon: <Users className="h-10 w-10 text-primary-400" />,
+      icon: <Users className="h-10 w-10" />,
       title: "Segment Your Audience Automatically",
       description:
         "Let AI identify and group your prospects into segments for highly targeted personalized marketing.",
@@ -47,7 +47,7 @@ const BenefitsSection: React.FC = () => {
       ],
     },
     {
-      icon: <Star className="h-10 w-10 text-primary-400" />,
+      icon: <Star className="h-10 w-10" />,
       title: "Personalized Marketing That Converts",
       description:
         "Customize marketing to each prospect's needs, preferences, and position in the buyer journey.",
@@ -57,7 +57,7 @@ const BenefitsSection: React.FC = () => {
       ],
     },
     {
-      icon: <Zap className="h-10 w-10 text-primary-400" />,
+      icon: <Zap className="h-10 w-10" />,
       title: "Scale Your Marketing Personalization",
       description:
         "Create thousands of personalized marketing video variations without additional work using our automation tools.",
@@ -77,20 +77,20 @@ const BenefitsSection: React.FC = () => {
           let iconComponent;
           switch (benefit.icon_name) {
             case "Clock":
-              iconComponent = <Clock className="h-10 w-10 text-primary-400" />;
+              iconComponent = <Clock className="h-10 w-10" />;
               break;
             case "Star":
-              iconComponent = <Star className="h-10 w-10 text-primary-400" />;
+              iconComponent = <Star className="h-10 w-10" />;
               break;
             case "Users":
-              iconComponent = <Users className="h-10 w-10 text-primary-400" />;
+              iconComponent = <Users className="h-10 w-10" />;
               break;
             case "Zap":
-              iconComponent = <Zap className="h-10 w-10 text-primary-400" />;
+              iconComponent = <Zap className="h-10 w-10" />;
               break;
             default:
               iconComponent = (
-                <Sparkles className="h-10 w-10 text-primary-400" />
+                <Sparkles className="h-10 w-10" />
               );
           }
 
@@ -129,7 +129,7 @@ const BenefitsSection: React.FC = () => {
       image: "https://randomuser.me/api/portraits/women/44.jpg",
       metrics: {
         conversion: "Time Saver",
-        engagement: "50+ Tools",
+        engagement: "20+ Apps",
         roi: "Worth It",
       },
     },

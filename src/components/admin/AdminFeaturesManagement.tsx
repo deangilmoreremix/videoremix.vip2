@@ -13,7 +13,7 @@ import {
   CheckCircle,
   Shield,
 } from "lucide-react";
-import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "../../utils/supabase";
 import { useAdmin } from "../../context/AdminContext";
 
 interface Feature {

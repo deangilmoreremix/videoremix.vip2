@@ -1,0 +1,126 @@
+{
+  "hasChatInput": false,
+  "hasForm": true,
+  "hasTabs": true,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 5,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 4,
+    "button": 2,
+    "chat": 1,
+    "write": 12
+  },
+  "providers": {
+    "agno": {
+      "count": 10,
+      "imports": 5,
+      "clients": 5,
+      "models": []
+    },
+    "crewai": {
+      "count": 5,
+      "imports": 5,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 5,
+      "imports": 5,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": true,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 370,
+  "hasMultiAgent": true,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": true,
+  "uiType": "multi-tab",
+  "inputFields": [
+    {
+      "name": "openai_api_key",
+      "label": "OpenAI API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "project_name",
+      "label": "Project Name",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "project_description",
+      "label": "Project Description",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "project_type",
+      "label": "Project Type",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "expected_timeline",
+      "label": "Expected Timeline",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "budget_range",
+      "label": "Budget Range",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "project_priority",
+      "label": "Project Priority",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "technical_requirements_optional",
+      "label": "Technical Requirements (optional)",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "special_considerations_optional",
+      "label": "Special Considerations (optional)",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "show_analysis_history",
+      "label": "Show Analysis History",
+      "type": "checkbox",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/multi_agent_apps/agent_teams/ai_services_agency/agency.py",
+  "appName": "ai-services-agency",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 15,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:35.567Z",
+  "analyzerVersion": "0.1.0"
+}

@@ -31,7 +31,7 @@ interface CaseStudyType {
   results: {
     metric: string;
     value: string;
-    icon: React.ReactNode;
+    icon: ReactNode;
     color: string;
   }[];
   testimonial: {

@@ -1,9 +1,9 @@
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase";
 import type {
   Video,
   VideoUploadData,
   VideoUpdateData,
-} from "../utils/supabaseClient";
+} from "../utils/supabaseTypes";
 
 export class VideoService {
   /**

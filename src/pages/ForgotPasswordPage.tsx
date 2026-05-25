@@ -3,13 +3,11 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Mail, ArrowLeft, CheckCircle, AlertCircle, Video } from "lucide-react";
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase";
 import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
-import { useAuth } from "../context/AuthContext";
 
 const ForgotPasswordPage: React.FC = () => {
-  const { session } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -35,14 +33,13 @@ const ForgotPasswordPage: React.FC = () => {
     setLoading(true);
 
     try {
+      // ALWAYS normalize email to lowercase
+      const normalizedEmail = email.toLowerCase().trim();
       const { data, error } = await supabase.functions.invoke('change-user-password', {
         body: {
-          email: email,
+          email: normalizedEmail,
           newPassword: password,
         },
-        headers: session?.access_token ? {
-          Authorization: `Bearer ${session.access_token}`
-        } : {}
       });
 
       if (error) {

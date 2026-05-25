@@ -1,0 +1,66 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": true,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 0,
+    "numberInput": 0,
+    "fileUpload": 2,
+    "selectBox": 0,
+    "button": 2,
+    "chat": 0,
+    "write": 1
+  },
+  "providers": {
+    "ollama": {
+      "count": 1,
+      "imports": 0,
+      "clients": 1,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": true,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 94,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "file-upload",
+  "inputFields": [
+    {
+      "name": "upload_resume_pdftxt",
+      "label": "Upload Resume (PDF/TXT)",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "upload_job_description_pdftxt",
+      "label": "Upload Job Description (PDF/TXT)",
+      "type": "file",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "ollama",
+  "filePath": "awesome-llm-apps/advanced_llm_apps/resume_job_matcher/app.py",
+  "appName": "resume-job-matcher",
+  "category": "awesome-llm-apps",
+  "complexity": "file-processing",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 2,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:34.345Z",
+  "analyzerVersion": "0.1.0"
+}

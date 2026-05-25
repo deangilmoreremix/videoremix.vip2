@@ -1,0 +1,131 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": true,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 8,
+    "numberInput": 0,
+    "fileUpload": 1,
+    "selectBox": 1,
+    "button": 4,
+    "chat": 0,
+    "write": 2
+  },
+  "providers": {
+    "agno": {
+      "count": 6,
+      "imports": 3,
+      "clients": 3,
+      "models": [
+        {
+          "pattern": "gpt-4",
+          "count": 3
+        }
+      ]
+    },
+    "crewai": {
+      "count": 3,
+      "imports": 3,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 3,
+      "imports": 3,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": true,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 522,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": false,
+  "hasWebSearch": true,
+  "uiType": "file-upload",
+  "inputFields": [
+    {
+      "name": "openai_api_key",
+      "label": "OpenAI API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "zoom_account_id",
+      "label": "Zoom Account ID",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "zoom_client_id",
+      "label": "Zoom Client ID",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "zoom_client_secret",
+      "label": "Zoom Client Secret",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "sender_email",
+      "label": "Sender Email",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "email_app_password",
+      "label": "Email App Password",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "company_name",
+      "label": "Company Name",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "select_the_role_you",
+      "label": "Select the role you",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "upload_your_resume_pdf",
+      "label": "Upload your resume (PDF)",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "candidate",
+      "label": "Candidate",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/multi_agent_apps/agent_teams/ai_recruitment_agent_team/ai_recruitment_agent_team.py",
+  "appName": "ai-recruitment-agent-team",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 15,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:35.864Z",
+  "analyzerVersion": "0.1.0"
+}

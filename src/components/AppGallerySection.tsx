@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   Video,
+  Clock,
   Users,
   Image as ImageIcon,
   Sparkles,
@@ -26,6 +27,7 @@ import { useApps } from "../hooks/useApps";
 import { useAuth } from "../context/AuthContext";
 import { useUserAccess } from "../hooks/useUserAccess";
 import LazyIcon from "./LazyIcon";
+import { Analytics, PerformanceMonitor } from "../utils/analytics";
 
 // Define TrendingUp component before it's used
 const TrendingUp: React.FC<{ className?: string }> = (props) => (
@@ -50,37 +52,37 @@ const TrendingUp: React.FC<{ className?: string }> = (props) => (
 const toolCategories = [
   {
     id: "all",
-    label: "All Personalization Tools",
+    label: "All AI Tools",
     icon: React.createElement(Layers, { className: "w-4 h-4" }),
   },
   {
     id: "video",
-    label: "Personalized Video",
+    label: "Video Creation",
     icon: React.createElement(Video, { className: "w-4 h-4" }),
   },
   {
     id: "lead-gen",
-    label: "Personalized Marketing",
+      label: "Sales & Marketing",
     icon: React.createElement(Users, { className: "w-4 h-4" }),
   },
   {
     id: "ai-image",
-    label: "Personalized AI Image",
+    label: "AI Image",
     icon: React.createElement(ImageIcon, { className: "w-4 h-4" }),
   },
   {
     id: "branding",
-    label: "Personalized Branding",
+    label: "Branding",
     icon: React.createElement(Palette, { className: "w-4 h-4" }),
   },
   {
     id: "personalizer",
-    label: "Content Personalizer",
+    label: "Personalizer",
     icon: React.createElement(UserCircle, { className: "w-4 h-4" }),
   },
   {
     id: "creative",
-    label: "Personalized Creative",
+    label: "Creative Tools",
     icon: React.createElement(Package, { className: "w-4 h-4" }),
   },
 ];
@@ -88,11 +90,95 @@ const toolCategories = [
 // Featured apps to highlight (by slug)
 const featuredApps = [
   "ai-personalized-content",
-  "ai-referral-maximizer",
-  "ai-sales-maximizer",
-  "smart-crm-closer",
+  "funnelcraft-ai",
+  "ai-skills-monetizer",
+  "resume-amplifier",
+  "landing-page",
+  "sales-assistant-app",
+  "ai-art",
+  "personalizer-profile",
+  "personalizer-video-image-transformer",
+  "personalizer-recorder",
+  "ai-signature",
+  "thumbnail-generator",
+  "personalizer-profile-generator",
   "video-ai-editor",
-  "ai-video-image",
+  "ai-referral-maximizer-pro",
+  "ai-sales-maximizer",
+  "ai-content",
+  "product-research-ai",
+];
+
+// Apps that should show "Coming Soon" label
+const comingSoonApps = [
+  "AI Headshot Studio",
+  "Nano Banana Studio",
+  "Seedance V2 Studio",
+  "EasyVeo",
+  "AIClip",
+  "Pet Product Studio",
+  "Resale Photo Enhancer",
+  "AI Recruiter",
+  "Talk to PDF",
+  "Blogger CMS",
+  "Amazon Product Studio",
+  "AI Business Card",
+  "MailWise",
+  "My Podcast",
+  "EZScribe",
+  "AI Knowledge Base",
+  "AI Outbound",
+  "AI Royal Portrait",
+  "AI MEME",
+  "AI Real Estate Stager",
+  "AI Logo",
+  "OldPhoto",
+  "AITryOn",
+  "AI Age Transformation",
+  "AI Professional Makeup Generator",
+  "AI Flash Cards",
+  "AI Group Photo",
+  "AI Tattoo Try-On",
+  "AI Hair Style Simulator",
+  "AI Kids-to-Adult Prediction",
+  "AI Room Declutter",
+  "AI Fitness Body Simulator",
+  "AI Pet Portrait",
+  "AI Kissing Video Generator",
+  "Chat with PDF",
+  "AI Travel Studio",
+  "Prompt Architect",
+  "ClearMark AI",
+  "PlantVision AI",
+  "AI Wedding Photo",
+  "User Account Registration Form",
+  "Social Post",
+  "MagicSelf AI",
+  "AI Resume Builder",
+  "GEO Checker",
+  "AI Character Studio",
+  "Luxury Hair Studio",
+  "ProFlow Plumbing",
+  "Solace AI",
+  "ReLive AI",
+  "AI Chiropractic Service",
+  "Tabla - ReserveAI",
+  "Dental ReserveAI",
+  "CounselMate",
+  "Intelligent Real Estate Agent",
+  "Fixera",
+  "Velora - Yoga AI",
+  "Nova AssuranceAI",
+  "TurboGlow Auto Spa",
+  "Paws & Pals",
+  "Vertex Tax Strategy",
+  "LedgerSync",
+  "Nova Care Clinic",
+  "Opulent Drive",
+  "ProFix Auto",
+  "TowMate",
+  "SwiftLink Logistics",
+  "Lumea Residence",
 ];
 
 // Fallback image URLs to use when an app image fails to load
@@ -243,10 +329,18 @@ const AppGallerySection: React.FC = () => {
         [appId]: currentErrorCount + 1,
       };
     });
+
+    // Track image load error
+    Analytics.trackError(`Image load failed for app ${appId}`, 'image_load_error', appId);
   };
 
   // Get a fallback image URL based on app ID
-  const getFallbackImage = (appId: string, errorCount: number = 0) => {
+  const getFallbackImage = (appId: string | undefined, errorCount: number = 0) => {
+    // Handle undefined appId
+    if (!appId || typeof appId !== 'string') {
+      return fallbackImages[0]; // Default fallback
+    }
+
     // Start with a deterministic fallback based on app ID
     const index = appId.charCodeAt(0) % fallbackImages.length;
 
@@ -438,32 +532,37 @@ const AppGallerySection: React.FC = () => {
                     </p>
                   </div>
 
-                  <div className="flex space-x-2">
-                    {user && (
-                      <>
-                        {hasAccessToApp(app.id) && app.isActive ? (
-                          <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
-                            <Check className="h-3 w-3" /> OWNED
-                          </span>
-                        ) : (
-                          <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
-                            <Lock className="h-3 w-3" />{" "}
-                            {app.isActive ? "LOCKED" : "INACTIVE"}
-                          </span>
-                        )}
-                      </>
-                    )}
-                    {app.popular && (
-                      <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded-full font-bold mb-1">
-                        POPULAR
-                      </span>
-                    )}
-                    {app.new && (
-                      <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded-full font-bold">
-                        NEW
-                      </span>
-                    )}
-                  </div>
+                   <div className="flex space-x-2">
+                     {comingSoonApps.includes(app.name) && (
+                       <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">
+                         COMING SOON
+                       </span>
+                     )}
+                     {user && (
+                       <>
+                         {hasAccessToApp(app.id) && app.isActive ? (
+                           <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                             <Check className="h-3 w-3" /> OWNED
+                           </span>
+                         ) : (
+                           <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                             <Lock className="h-3 w-3" />{" "}
+                             {app.isActive ? "LOCKED" : "INACTIVE"}
+                           </span>
+                         )}
+                       </>
+                     )}
+                     {app.popular && (
+                       <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded-full font-bold mb-1">
+                         POPULAR
+                       </span>
+                     )}
+                     {app.new && (
+                       <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded-full font-bold">
+                         NEW
+                       </span>
+                     )}
+                   </div>
                 </div>
 
                 {/* App image */}
@@ -724,6 +823,8 @@ const AppGallerySection: React.FC = () => {
                     key={app.id}
                     whileHover={{ y: -10 }}
                     className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 w-[280px] flex-shrink-0 group hover:border-primary-500/50 transition-colors"
+                    onMouseEnter={() => Analytics.trackCardHover(app.id, hasAccessToApp(app.id))}
+                    onClick={() => Analytics.trackCardClick(app.id, hasAccessToApp(app.id))}
                   >
                     <a
                       href={appUrl}
@@ -742,6 +843,7 @@ const AppGallerySection: React.FC = () => {
                           alt={app.name}
                           className="w-full h-full object-cover"
                           onError={() => handleImageError(app.id)}
+                          onLoad={() => PerformanceMonitor.trackImageLoad(app.id, app.image)}
                         />
 
                         {/* Overlay with personalization focus */}
@@ -752,33 +854,38 @@ const AppGallerySection: React.FC = () => {
                           Personalized
                         </div>
 
-                        {/* Status badges */}
-                        <div className="absolute top-3 right-3 flex flex-col space-y-1 items-end">
-                          {user && (
-                            <>
-                              {hasAccessToApp(app.id) && app.isActive ? (
-                                <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
-                                  <Check className="h-3 w-3" /> OWNED
-                                </span>
-                              ) : (
-                                <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
-                                  <Lock className="h-3 w-3" />{" "}
-                                  {app.isActive ? "LOCKED" : "INACTIVE"}
-                                </span>
-                              )}
-                            </>
-                          )}
-                          {app.popular && (
-                            <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded font-bold">
-                              POPULAR
-                            </span>
-                          )}
-                          {app.new && (
-                            <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded font-bold">
-                              NEW
-                            </span>
-                          )}
-                        </div>
+                         {/* Status badges */}
+                         <div className="absolute top-3 right-3 flex flex-col space-y-1 items-end">
+                           {comingSoonApps.includes(app.name) && (
+                             <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded font-bold">
+                               COMING SOON
+                             </span>
+                           )}
+                           {user && (
+                             <>
+                               {hasAccessToApp(app.id) && app.isActive ? (
+                                 <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                   <Check className="h-3 w-3" /> OWNED
+                                 </span>
+                               ) : (
+                                 <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                   <Lock className="h-3 w-3" />{" "}
+                                   {app.isActive ? "LOCKED" : "INACTIVE"}
+                                 </span>
+                               )}
+                             </>
+                           )}
+                           {app.popular && (
+                             <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded font-bold">
+                               POPULAR
+                             </span>
+                           )}
+                           {app.new && (
+                             <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded font-bold">
+                               NEW
+                             </span>
+                           )}
+                         </div>
                       </div>
 
                       <div className="p-4">
@@ -840,6 +947,8 @@ const AppGallerySection: React.FC = () => {
                         ? "group bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-primary-500/50 transition-colors shadow-lg"
                         : "flex bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-primary-500/50 transition-colors shadow-lg"
                     }`}
+                    onMouseEnter={() => Analytics.trackCardHover(app.id, hasAccessToApp(app.id))}
+                    onClick={() => Analytics.trackCardClick(app.id, hasAccessToApp(app.id))}
                   >
                     {/* App image */}
                     <div
@@ -863,6 +972,7 @@ const AppGallerySection: React.FC = () => {
                               : "w-32 h-full"
                           } ${user && !hasAccessToApp(app.id) ? "grayscale opacity-60" : ""}`}
                           onError={() => handleImageError(app.id)}
+                          onLoad={() => PerformanceMonitor.trackImageLoad(app.id, app.image)}
                         />
 
                         {/* Personalization marker */}
@@ -870,33 +980,38 @@ const AppGallerySection: React.FC = () => {
                           Personalized
                         </div>
 
-                        {/* Status badges */}
-                        <div className="absolute top-2 right-2">
-                          {user && (
-                            <>
-                              {hasAccessToApp(app.id) && app.isActive ? (
-                                <div className="bg-green-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
-                                  <Check className="h-3 w-3" /> OWNED
-                                </div>
-                              ) : (
-                                <div className="bg-gray-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
-                                  <Lock className="h-3 w-3" />{" "}
-                                  {app.isActive ? "LOCKED" : "INACTIVE"}
-                                </div>
-                              )}
-                            </>
-                          )}
-                          {app.popular && (
-                            <div className="bg-yellow-500 text-xs text-black px-1.5 py-0.5 rounded font-bold mb-1">
-                              POPULAR
-                            </div>
-                          )}
-                          {app.new && (
-                            <div className="bg-green-500 text-xs text-black px-1.5 py-0.5 rounded font-bold">
-                              NEW
-                            </div>
-                          )}
-                        </div>
+                         {/* Status badges */}
+                         <div className="absolute top-2 right-2">
+                           {comingSoonApps.includes(app.name) && (
+                             <div className="bg-orange-500 text-xs text-white px-1.5 py-0.5 rounded font-bold mb-1">
+                               COMING SOON
+                             </div>
+                           )}
+                           {user && (
+                             <>
+                               {hasAccessToApp(app.id) && app.isActive ? (
+                                 <div className="bg-green-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
+                                   <Check className="h-3 w-3" /> OWNED
+                                 </div>
+                               ) : (
+                                 <div className="bg-gray-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
+                                   <Lock className="h-3 w-3" />{" "}
+                                   {app.isActive ? "LOCKED" : "INACTIVE"}
+                                 </div>
+                               )}
+                             </>
+                           )}
+                           {app.popular && (
+                             <div className="bg-yellow-500 text-xs text-black px-1.5 py-0.5 rounded font-bold mb-1">
+                               POPULAR
+                             </div>
+                           )}
+                           {app.new && (
+                             <div className="bg-green-500 text-xs text-black px-1.5 py-0.5 rounded font-bold">
+                               NEW
+                             </div>
+                           )}
+                         </div>
                       </div>
                     </div>
 

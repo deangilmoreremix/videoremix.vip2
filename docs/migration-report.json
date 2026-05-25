@@ -1,0 +1,48 @@
+{
+  "timestamp": "2026-05-01T21:02:02.015Z",
+  "total": 10,
+  "succeeded": 10,
+  "failed": 0,
+  "functions": [
+    {
+      "name": "consultpro-ai",
+      "migrated": true
+    },
+    {
+      "name": "email-gtm-agent",
+      "migrated": true
+    },
+    {
+      "name": "finance-agent",
+      "migrated": true
+    },
+    {
+      "name": "financial-coach",
+      "migrated": true
+    },
+    {
+      "name": "launchrocket-ai",
+      "migrated": true
+    },
+    {
+      "name": "podcastify-ai",
+      "migrated": true
+    },
+    {
+      "name": "reasoning-agent",
+      "migrated": true
+    },
+    {
+      "name": "salesforce-ai",
+      "migrated": true
+    },
+    {
+      "name": "socialbuzz-ai",
+      "migrated": true
+    },
+    {
+      "name": "web-scraping-agent",
+      "migrated": true
+    }
+  ]
+}

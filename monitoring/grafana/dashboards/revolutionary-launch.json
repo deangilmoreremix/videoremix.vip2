@@ -1,0 +1,90 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "🎯 Revolutionary Launch: Card Tile & Modal Experience",
+    "tags": ["launch", "revolutionary", "card-modal"],
+    "timezone": "UTC",
+    "panels": [
+      {
+        "id": 1,
+        "title": "🚀 Launch Success Metrics",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(modal_opens_total[1h])",
+            "legendFormat": "Modal Opens/Hour"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "color": "red", "value": null },
+                { "color": "orange", "value": 50 },
+                { "color": "green", "value": 100 }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 2,
+        "title": "📊 User Engagement",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(page_views_total[5m])",
+            "legendFormat": "Page Views"
+          },
+          {
+            "expr": "rate(modal_opens_total[5m])",
+            "legendFormat": "Modal Opens"
+          },
+          {
+            "expr": "rate(purchase_attempts_total[5m])",
+            "legendFormat": "Purchase Attempts"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "⚡ Performance Metrics",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))",
+            "legendFormat": "95th Percentile Response Time"
+          },
+          {
+            "expr": "rate(http_requests_total{status=~"2.."}[5m]) / rate(http_requests_total[5m]) * 100",
+            "legendFormat": "Success Rate %"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "🚨 Error Monitoring",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total{status=~"5.."}[5m])",
+            "legendFormat": "5xx Errors"
+          },
+          {
+            "expr": "rate(http_requests_total{status=~"4.."}[5m])",
+            "legendFormat": "4xx Errors"
+          }
+        ]
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "30s"
+  }
+}

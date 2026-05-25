@@ -1,0 +1,72 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 1,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 1,
+    "chat": 0,
+    "write": 17
+  },
+  "providers": {
+    "agno": {
+      "count": 2,
+      "imports": 1,
+      "clients": 1,
+      "models": []
+    },
+    "crewai": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": true,
+  "usesAsyncio": true,
+  "linesOfCode": 181,
+  "hasMultiAgent": true,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": true,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "your_command",
+      "label": "Your Command",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/mcp_ai_agents/browser_mcp_agent/main.py",
+  "appName": "browser-mcp-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 23,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:36.630Z",
+  "analyzerVersion": "0.1.0"
+}
