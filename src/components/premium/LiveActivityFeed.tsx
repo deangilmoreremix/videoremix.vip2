@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { TrendingUp, CheckCircle, DollarSign } from 'lucide-react';
+import TrendingUp from 'lucide-react/dist/esm/icons/trending-up.js';
+import CheckCircle from 'lucide-react/dist/esm/icons/check-circle.js';
+import DollarSign from 'lucide-react/dist/esm/icons/dollar-sign.js';
 
 interface Activity {
   id: number;

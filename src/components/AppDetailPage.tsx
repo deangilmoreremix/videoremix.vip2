@@ -859,7 +859,7 @@ const AppDetailPage: React.FC = () => {
                   professional-quality content in minutes instead of hours,
                   without requiring any technical expertise or expensive
                   equipment. Our innovative AI-powered platform handles the
-                  complex aspects of video creation so you can focus on what
+                  complex aspects of marketing campaign creation so you can focus on what
                   matters most - your message and creativity.
                 </p>
 
@@ -964,7 +964,7 @@ const AppDetailPage: React.FC = () => {
                   </h3>
                   <p className="text-xl text-gray-300 mb-6 break-words relative z-10">
                     Join thousands of creators who are already using {app.name}{" "}
-                    to transform their video content.
+                    to transform their marketing content.
                   </p>
                   <motion.button
                     whileHover={{
@@ -1182,7 +1182,7 @@ const AppDetailPage: React.FC = () => {
                   {
                     title: "Time-Saving Automation",
                     description:
-                      "Reduce video production time by up to 90% with intelligent automation features",
+                      "Reduce campaign production time by up to 90% with intelligent automation features",
                     icon: React.createElement(Clock),
                   },
                   {
@@ -1376,7 +1376,7 @@ const AppDetailPage: React.FC = () => {
                           others: true,
                         },
                         {
-                          feature: "Create videos in minutes",
+                          feature: "Create marketing campaigns in minutes",
                           videoRemix: true,
                           traditional: false,
                           others: false,
@@ -1898,7 +1898,7 @@ const AppDetailPage: React.FC = () => {
                       question:
                         "Do I need any technical skills to use this app?",
                       answer:
-                        "Not at all! Our app is designed to be user-friendly and intuitive. You don't need any prior video editing experience or technical skills to create professional-quality content.",
+                        "Not at all! Our app is designed to be user-friendly and intuitive. You don't need any prior content editing experience or technical skills to create professional-quality content.",
                     },
                     {
                       question: "How long does it take to create a video?",

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Input, Button, Select, ProgressIndicator } from '../components/ui';
 
-interface 62llminteractioncallbacksAppProps {}
+interface LlmInteractionCallbacksAppProps {}
 
-export const 62llminteractioncallbacksApp: React.FC<62llminteractioncallbacksAppProps> = () => {
+export const LlmInteractionCallbacksApp: React.FC<LlmInteractionCallbacksAppProps> = () => {
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState('');
@@ -52,4 +52,4 @@ export const 62llminteractioncallbacksApp: React.FC<62llminteractioncallbacksApp
   );
 };
 
-export default 62llminteractioncallbacksApp;
+export default LlmInteractionCallbacksApp;

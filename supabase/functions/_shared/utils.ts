@@ -8,9 +8,9 @@
  * - Rate limiting helpers
  */
 
-import { OpenAI } from 'npm:openai@4.78.1';
-import Anthropic from 'npm:anthropic@0.39.0';
-import { createClient } from '@supabase/supabase-js';
+import OpenAI from 'npm:openai@4.78.1';
+import Anthropic from 'npm:@anthropic-ai/sdk@0.17.1';
+import { createClient } from 'npm:@supabase/supabase-js@2';
 
 export interface EdgeFunctionResponse {
   success: boolean;

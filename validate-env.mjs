@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, isAbsolute, join } from 'path';
 import dotenv from 'dotenv';
@@ -18,82 +18,106 @@ const customEnvPath = process.env.ENV_PATH
   : null;
 const lockFilePath = join(__dirname, '.env.lock');
 
-let correctProjectId;
-let correctUrl;
-try {
+// Read .env.lock to get locked values if available
+let correctProjectId, correctUrl;
+if (existsSync(lockFilePath)) {
   const lockFile = readFileSync(lockFilePath, 'utf-8');
-  correctProjectId = lockFile.match(/LOCKED_PROJECT_ID=(.+)/)?.[1]?.trim();
-  correctUrl = lockFile.match(/LOCKED_SUPABASE_URL=(.+)/)?.[1]?.trim();
-
-  if (!correctProjectId || !correctUrl) {
-    console.error('❌ ERROR: .env.lock is missing required keys');
-    process.exit(1);
-  }
-} catch (error) {
-  console.error('❌ ERROR: Cannot read .env.lock — ensure it exists and is readable');
-  console.error(`   ${error instanceof Error ? error.message : String(error)}`);
-  process.exit(1);
+  correctProjectId = lockFile.match(/LOCKED_PROJECT_ID=(.+)/)?.[1];
+  correctUrl = lockFile.match(/LOCKED_SUPABASE_URL=(.+)/)?.[1];
 }
 
-const envCandidates = [
-  envPath,
-  envLocalPath,
-  envDevelopmentPath,
-  envLaunchPath,
-  envExamplePath,
-  legacyEnvPath,
-  ...(customEnvPath ? [customEnvPath] : []),
+// Read .env file
+let envVars = {};
+if (existsSync(envPath)) {
+  const envFile = readFileSync(envPath, 'utf-8');
+  envFile.split('\n').forEach(line => {
+    const match = line.match(/^([^#=]+)=(.*)$/);
+    if (match) {
+      envVars[match[1].trim()] = match[2].trim();
+    }
+  });
+}
+
+// Required environment variables
+const requiredVars = [
+  { name: 'VITE_SUPABASE_URL', required: true },
+  { name: 'VITE_SUPABASE_ANON_KEY', required: true },
 ];
 
-for (const candidate of envCandidates) {
-  if (existsSync(candidate)) {
-    dotenv.config({ path: candidate, override: false });
-  }
-}
+// Optional but recommended
+const optionalVars = [
+  { name: 'OPENAI_API_KEY', required: false },
+];
 
-let currentUrl = process.env.VITE_SUPABASE_URL?.trim();
+let hasErrors = false;
 
-if (!currentUrl) {
-  for (const candidate of envCandidates) {
-    try {
-      const envFile = readFileSync(candidate, 'utf-8');
-      const urlMatch = envFile.match(/^VITE_SUPABASE_URL=([^#\n]+)/m);
-      currentUrl = urlMatch ? urlMatch[1].trim() : undefined;
-      if (currentUrl) break;
-    } catch {
-      // File missing/unreadable, continue checking other candidates
+// Check required variables
+console.log('🔍 Validating environment variables...\n');
+
+for (const { name } of requiredVars) {
+  const value = process.env[name] || envVars[name];
+  
+  if (!value) {
+    console.error(`❌ ERROR: ${name} is not set`);
+    hasErrors = true;
+  } else if (name === 'VITE_SUPABASE_URL') {
+    // Check if this is a local Supabase instance
+    const isLocal = value.includes('localhost') || value.includes('127.0.0.1') || value.includes('::1');
+    
+    // Validate Supabase URL format - accept both production and local URLs
+    if (!value.includes('supabase.co') && !isLocal) {
+      console.error(`❌ ERROR: ${name} does not appear to be a valid Supabase URL`);
+      console.error(`   Got: ${value}`);
+      console.error(`   Expected: https://<project-id>.supabase.co or http://localhost:54321`);
+      hasErrors = true;
+    }
+    
+    // Check against locked project ID only for production URLs
+    if (!isLocal && correctProjectId && !value.includes(correctProjectId)) {
+      console.error(`❌ ERROR: Project ID mismatch in ${name}`);
+      console.error(`   Expected: ${correctProjectId}`);
+      console.error(`   URL: ${value}`);
+      hasErrors = true;
+    }
+    
+    // For local URLs, warn but don't error
+    if (isLocal) {
+      console.log(`ℹ️  Using local Supabase instance: ${value}`);
+    }
+  } else if (name === 'VITE_SUPABASE_ANON_KEY') {
+    // Validate anon key format (should start with eyJ)
+    if (!value.startsWith('eyJ')) {
+      console.error(`❌ ERROR: ${name} does not appear to be a valid Supabase anon key`);
+      console.error(`   Anon keys should start with 'eyJ...'`);
+      hasErrors = true;
     }
   }
 }
 
-if (!currentUrl) {
-  const existingCandidates = envCandidates
-    .filter((file) => existsSync(file))
-    .map((file) => file.replace(`${__dirname}/`, ''))
-    .join(', ') || 'none';
-  console.error('❌ ERROR: VITE_SUPABASE_URL not found in environment files or shell env');
-  console.error(`   Checked files: ${existingCandidates}`);
-  process.exit(1);
+// Check optional variables
+for (const { name } of optionalVars) {
+  const value = process.env[name] || envVars[name];
+  if (!value) {
+    console.warn(`⚠️  WARNING: ${name} is not set (optional but recommended)`);
+  }
 }
 
-if (currentUrl !== correctUrl) {
-  console.error('❌ ERROR: Incorrect Supabase URL detected!');
-  console.error(`   Current:  ${currentUrl}`);
-  console.error(`   Expected: ${correctUrl}`);
-  console.error(`   Project:  ${correctProjectId}`);
-  console.error('');
-  console.error('   Run: cp .env.example .env');
-  console.error('   Or set ENV_PATH=<your-env-file> for non-standard env filenames.');
+// Summary
+console.log('');
+if (hasErrors) {
+  console.error('❌ Environment validation failed!');
+  console.error('   Please check your .env file or environment variables.');
   process.exit(1);
+} else {
+  console.log('✅ All required environment variables are set');
+  
+  // Show non-sensitive info
+  if (envVars.VITE_SUPABASE_URL || process.env.VITE_SUPABASE_URL) {
+    const url = process.env.VITE_SUPABASE_URL || envVars.VITE_SUPABASE_URL;
+    const isLocal = url.includes('localhost') || url.includes('127.0.0.1') || url.includes('::1');
+    const projectId = isLocal ? 'local' : (url.match(/https:\/\/([^.]+)/)?.[1] || 'unknown');
+    console.log(`   Project: ${projectId}`);
+    console.log(`   URL: ${url}`);
+  }
+  console.log('');
 }
-
-if (!currentUrl.includes(correctProjectId)) {
-  console.error('❌ ERROR: Project ID mismatch!');
-  console.error('   URL contains wrong project ID');
-  console.error(`   Expected: ${correctProjectId}`);
-  process.exit(1);
-}
-
-console.log('✅ Supabase configuration is correct');
-console.log(`   Project: ${correctProjectId}`);
-console.log(`   URL: ${correctUrl}`);

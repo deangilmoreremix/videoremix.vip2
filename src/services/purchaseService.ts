@@ -113,7 +113,7 @@ export const purchaseService = {
         console.error("Error fetching bundle purchases:", bundleError);
       }
 
-      let appSlugs = [];
+      const appSlugs = [];
 
       // Add directly purchased apps
       if (directAccess) {

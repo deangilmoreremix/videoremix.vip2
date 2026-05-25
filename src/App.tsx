@@ -32,6 +32,7 @@ const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
 const AdminSignUp = lazy(() => import("./components/admin/AdminSignUp"));
 const SpecialFooter = lazy(() => import("./components/SpecialFooter"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
+const CoursesPage = lazy(() => import("./pages/CoursesPage"));
 const AnalyticsDashboard = lazy(() => import("./components/AnalyticsDashboard"));
 
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
@@ -91,6 +92,7 @@ const AiTravelAgentPage = lazy(() => import("./pages/agents/AiTravelAgentPage"))
 const AiTravelPlannerMcpAgentTeamPage = lazy(() => import("./pages/agents/AiTravelPlannerMcpAgentTeamPage"));
   const AgentAppPage = lazy(() => import("./pages/agents/AppPage"));
 const AutonomousRagPage = lazy(() => import("./pages/agents/AutonomousRagPage"));
+const PersonalizerPage = lazy(() => import("./pages/PersonalizerPage"));
 const BlogToPodcastAgentPage = lazy(() => import("./pages/agents/BlogToPodcastAgentPage"));
 const BrowserMcpAgentPage = lazy(() => import("./pages/agents/BrowserMcpAgentPage"));
 const ChatWithGithubPage = lazy(() => import("./pages/agents/ChatWithGithubPage"));
@@ -381,29 +383,19 @@ function App() {
   return (
     <>
       <Helmet>
-        <title>
-          VideoRemix.vip - AI-Powered Marketing Personalization Platform
-        </title>
-        <meta
-          name="description"
-          content="Create personalized marketing content that converts with AI-powered tools. Transform your campaigns with VideoRemix.vip's marketing personalization platform."
-        />
+        <title>VideoRemix.vip - AI-Powered Marketing Personalization Platform</title>
+        <meta name="description" content="Create personalized marketing content that converts with AI-powered tools. Transform your campaigns with VideoRemix.vip's marketing personalization platform." />
       </Helmet>
       <div className="flex flex-col min-h-screen bg-gray-900 text-white">
 
-        {/* Header Navigation - Hidden on admin pages */}
         {!isAdminPage && <SpecialHeader topOffset={0} />}
 
-        {/* Scroll Progress Indicator - Hidden on admin pages */}
         {!isAdminPage && <ScrollProgressBar topOffset={0} />}
 
-        {/* Custom Cursor (desktop only) - Hidden on admin pages */}
         {!isMobile && !isTablet && !isAdminPage && <CustomCursor />}
 
-        {/* Audio Feedback System - Hidden on admin pages */}
         {!isAdminPage && <AudioPlayer />}
 
-        {/* Live Activity Indicator - Hidden on admin pages */}
         {!isAdminPage && <LiveActivityIndicator />}
 
 
@@ -551,6 +543,18 @@ function App() {
                   </Suspense>
                 </ErrorBoundary>
               </ProtectedRoute>
+            }
+          />
+
+          {/* Personalizer Deep Link */}
+          <Route
+            path="/new"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <PersonalizerPage />
+                </Suspense>
+              </ErrorBoundary>
             }
           />
 
@@ -817,7 +821,21 @@ function App() {
   
 
 
-        </Routes>
+          {/* Courses Page */}
+          <Route
+            path="/courses"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <CoursesPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+         </Routes>
         <Toaster />
         <MobileBottomNav />
         <NetworkStatusIndicator />

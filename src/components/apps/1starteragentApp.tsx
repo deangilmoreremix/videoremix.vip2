@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Input, Button, Select, ProgressIndicator } from '../components/ui';
 
-interface 1starteragentAppProps {}
+interface StarterAgentAppProps {}
 
-export const 1starteragentApp: React.FC<1starteragentAppProps> = () => {
+export const StarterAgentApp: React.FC<StarterAgentAppProps> = () => {
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState('');
@@ -52,4 +52,4 @@ export const 1starteragentApp: React.FC<1starteragentAppProps> = () => {
   );
 };
 
-export default 1starteragentApp;
+export default StarterAgentApp;

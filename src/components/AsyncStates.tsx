@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Loader2, AlertCircle, RefreshCw, Inbox } from 'lucide-react';
+import Loader2 from 'lucide-react/dist/esm/icons/loader-2.js';
+import AlertCircle from 'lucide-react/dist/esm/icons/alert-circle.js';
+import RefreshCw from 'lucide-react/dist/esm/icons/refresh-cw.js';
+import Inbox from 'lucide-react/dist/esm/icons/inbox.js';
 import { ClassifiedError } from '../utils/errorHandling';
 
 /**

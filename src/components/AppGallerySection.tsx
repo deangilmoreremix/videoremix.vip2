@@ -28,6 +28,7 @@ import { useAuth } from "../context/AuthContext";
 import { useUserAccess } from "../hooks/useUserAccess";
 import LazyIcon from "./LazyIcon";
 import { Analytics, PerformanceMonitor } from "../utils/analytics";
+import { gtmContent } from "../data/gtmContent";
 
 // Define TrendingUp component before it's used
 const TrendingUp: React.FC<{ className?: string }> = (props) => (
@@ -56,8 +57,8 @@ const toolCategories = [
     icon: React.createElement(Layers, { className: "w-4 h-4" }),
   },
   {
-    id: "video",
-    label: "Video Creation",
+    id: "marketing",
+    label: "Marketing Campaigns",
     icon: React.createElement(Video, { className: "w-4 h-4" }),
   },
   {
@@ -201,7 +202,7 @@ const personalizationBenefits = [
   {
     title: "3.5x More Conversions",
     description:
-      "Personalized videos convert at rates up to 3.5x higher than standard videos",
+      "Personalized campaigns convert at rates up to 3.5x higher than standard videos",
     icon: <TrendingUp className="h-5 w-5 text-primary-400" />,
   },
   {
@@ -239,6 +240,20 @@ const AppGallerySection: React.FC = () => {
 
   // Image loading error handling state
   const [imageErrors, setImageErrors] = useState<Record<string, number>>({});
+
+  const [expandedApps, setExpandedApps] = useState<Set<string>>(new Set());
+
+  const toggleAppExpansion = (appId: string) => {
+    setExpandedApps((prev) => {
+      const next = new Set(prev);
+      if (next.has(appId)) {
+        next.delete(appId);
+      } else {
+        next.add(appId);
+      }
+      return next;
+    });
+  };
 
   // Update filtered tools when category or search query changes
   useEffect(() => {
@@ -942,13 +957,13 @@ const AppGallerySection: React.FC = () => {
                   <motion.div
                     key={app.id}
                     variants={itemVariants}
-                    className={`relative ${
+                    className={`relative cursor-pointer ${
                       viewMode === "grid"
                         ? "group bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-primary-500/50 transition-colors shadow-lg"
                         : "flex bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-primary-500/50 transition-colors shadow-lg"
-                    }`}
+                    } ${expandedApps.has(app.id) ? "border-primary-500" : ""}`}
                     onMouseEnter={() => Analytics.trackCardHover(app.id, hasAccessToApp(app.id))}
-                    onClick={() => Analytics.trackCardClick(app.id, hasAccessToApp(app.id))}
+                    onClick={() => toggleAppExpansion(app.id)}
                   >
                     {/* App image */}
                     <div
@@ -1044,6 +1059,7 @@ const AppGallerySection: React.FC = () => {
                         <a
                           href={appUrl}
                           className="text-primary-400 hover:text-primary-300 text-sm font-medium flex items-center"
+                          onClick={(e) => e.stopPropagation()}
                           {...(isExternal
                             ? { target: "_blank", rel: "noopener noreferrer" }
                             : {})}
@@ -1102,6 +1118,59 @@ const AppGallerySection: React.FC = () => {
                           </div>
                         </div>
                       )}
+
+                      {/* GTM Content Expansion */}
+                      {expandedApps.has(app.id) && gtmContent[app.group] && (
+                        <div className="px-4 pb-4 border-t border-gray-700 mt-2 pt-3">
+                          <div className="text-xs text-gray-400 mb-2 flex items-center">
+                            <Sparkles className="h-3 w-3 mr-1 text-primary-400" />
+                            Go-to-Market Information
+                          </div>
+                          
+                          {/* Target Audience */}
+                          <div className="mb-3">
+                            <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Target Audience</div>
+                            <div className="text-sm text-gray-200">{gtmContent[app.group].targetAudience}</div>
+                          </div>
+                          
+                          {/* Value Proposition */}
+                          <div className="mb-3">
+                            <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Value Proposition</div>
+                            <div className="text-sm text-gray-200">{gtmContent[app.group].valueProposition}</div>
+                          </div>
+                          
+                          {/* Use Cases */}
+                          <div className="mb-3">
+                            <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Use Cases</div>
+                            <ul className="text-sm text-gray-200 space-y-1">
+                              {gtmContent[app.group].useCases.map((useCase, idx) => (
+                                <li key={idx} className="flex items-start">
+                                  <span className="text-primary-400 mr-2">•</span>
+                                  {useCase}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          
+                          {/* Competitive Differentiation */}
+                          <div className="mb-3">
+                            <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Competitive Difference</div>
+                            <div className="text-sm text-gray-200">{gtmContent[app.group].competitiveDiff}</div>
+                          </div>
+                          
+                          {/* Pricing Rationale */}
+                          <div className="mb-3">
+                            <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Pricing</div>
+                            <div className="text-sm text-gray-200">{gtmContent[app.group].pricingRationale}</div>
+                          </div>
+                          
+                          {/* Integration Points */}
+                          <div className="mb-3">
+                            <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Integrations</div>
+                            <div className="text-sm text-gray-200">{gtmContent[app.group].integrationPoints.join(", ")}</div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </motion.div>
                 );
@@ -1141,7 +1210,7 @@ const AppGallerySection: React.FC = () => {
 
           <p className="text-gray-300 mb-8">
             Get unlimited access to all 50+ personalization tools and create
-            content that delivers 3x better results than generic videos.
+            content that delivers 3x better results than generic campaigns.
           </p>
 
           <motion.a

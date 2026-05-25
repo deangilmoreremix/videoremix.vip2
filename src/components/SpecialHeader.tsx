@@ -12,6 +12,8 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "./ui/toast";
 import GlobalSearch from "./GlobalSearch";
+import { appGroups } from "../../data/appGroups";
+import { rawAppsData } from "../../data/appsData";
 
 interface SpecialHeaderProps {
   topOffset?: number;
@@ -45,117 +47,13 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
     setActiveDropdown(null);
   };
 
-  // Featured tools for the dropdown - Updated with the 17 new apps
-  const featuredTools = [
-    {
-      name: "AI Personalized Content Hub",
-      url: "https://ai-personalizedcontent.videoremix.vip",
-      description: "Create personalized content with AI",
-      icon: <span className="text-lg">🎬</span>,
-    },
-    {
-      name: "FunnelCraft AI",
-      url: "https://ai-funnelcraft.videoremix.vip",
-      description: "Build high-converting sales funnels",
-      icon: <span className="text-lg">📊</span>,
-    },
-    {
-      name: "AI Skills Monetizer",
-      url: "https://ai-skills-monetizer.videoremix.vip",
-      description: "Turn your skills into profits",
-      icon: <span className="text-lg">💰</span>,
-    },
-    {
-      name: "AI Skills & Resume",
-      url: "https://ai-skills.videoremix.vip",
-      description: "Perfect your resume and skills",
-      icon: <span className="text-lg">📝</span>,
-    },
-    {
-      name: "Sales Page Builder",
-      url: "https://ai-salespage.videoremix.vip",
-      description: "Build high-converting sales pages",
-      icon: <span className="text-lg">🏗️</span>,
-    },
-    {
-      name: "Sales Assistant Pro",
-      url: "https://ai-salesassistant.videoremix.vip",
-      description: "AI-powered sales assistance",
-      icon: <span className="text-lg">💼</span>,
-    },
-    {
-      name: "AI Personalization Studio",
-      url: "https://ai-personalizationstudio.videoremix.vip",
-      description: "Full personalization suite",
-      icon: <span className="text-lg">🎨</span>,
-    },
-    {
-      name: "AI Personalizer",
-      url: "https://ai-personalizer.videoremix.vip",
-      description: "Personalize any content",
-      icon: <span className="text-lg">✨</span>,
-    },
-    {
-      name: "AI Video Transformer",
-      url: "https://ai-video-transformer.videoremix.vip",
-      description: "Transform videos with AI",
-      icon: <span className="text-lg">🎥</span>,
-    },
-    {
-      name: "AI Screen Recorder",
-      url: "https://ai-screenrecorder.videoremix.vip",
-      description: "Record and enhance screen content",
-      icon: <span className="text-lg">🖥️</span>,
-    },
-    {
-      name: "AI Signature",
-      url: "https://ai-signature.videoremix.vip",
-      description: "Generate professional signatures",
-      icon: <span className="text-lg">✍️</span>,
-    },
-    {
-      name: "AI Thumbnail Generator",
-      url: "https://ai-thumbnail-generator.videoremix.vip",
-      description: "Create eye-catching thumbnails",
-      icon: <span className="text-lg">🖼️</span>,
-    },
-    {
-      name: "Profile Gen",
-      url: "https://ai-profilegen.videoremix.vip",
-      description: "Generate optimized profiles",
-      icon: <span className="text-lg">👤</span>,
-    },
-    {
-      name: "AI Video Editor",
-      url: "https://ai-videoeditor.videoremix.vip",
-      description: "Edit videos with AI power",
-      icon: <span className="text-lg">🎞️</span>,
-    },
-    {
-      name: "AI Referral Maximizer Pro",
-      url: "https://referrals.smartcrm.vip",
-      description: "Maximize your referral program",
-      icon: <span className="text-lg">🔗</span>,
-    },
-    {
-      name: "AI Sales Maximizer",
-      url: "https://salesmax.smartcrm.vip",
-      description: "Boost your sales performance",
-      icon: <span className="text-lg">📈</span>,
-    },
-    {
-      name: "ContentAI",
-      url: "https://contentai.smartcrm.vip",
-      description: "AI-powered content creation",
-      icon: <span className="text-lg">📝</span>,
-    },
-    {
-      name: "Product Research AI",
-      url: "https://research.smartcrm.vip",
-      description: "Research products with AI",
-      icon: <span className="text-lg">🔍</span>,
-    },
-  ];
+  // Grouped tools for the dropdown
+  const getGroupedTools = () => {
+    return appGroups.map(group => ({
+      ...group,
+      tools: rawAppsData.filter(app => app.group === group.id).slice(0, 6) // Show 6 per group
+    })).filter(group => group.tools.length > 0);
+  };
 
   return (
     <motion.header
@@ -237,31 +135,40 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                       <Sparkles className="h-4 w-4 mr-1" /> Our AI Tools
                     </h3>
 
-                    <div className="grid grid-cols-2 gap-2 mb-3 max-h-[300px] overflow-y-auto">
-                      {featuredTools.map((tool, index) => (
-                        <a
-                          key={index}
-                          href={tool.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block p-2 hover:bg-gray-800 rounded text-white transition-colors group"
-                        >
-                          <div className="flex items-center mb-1">
-                            <div className="mr-2">{tool.icon}</div>
-                            <span className="font-medium group-hover:text-primary-400 transition-colors text-sm">
-                              {tool.name}
-                            </span>
+                    <div className="max-h-[400px] overflow-y-auto pr-2">
+                      {getGroupedTools().map((group) => (
+                        <div key={group.id} className="mb-4 last:mb-0">
+                          <div className="flex items-center mb-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                            <span className="mr-2 w-3 h-3 flex items-center justify-center">{group.icon}</span>
+                            {group.label}
                           </div>
-                          <p className="text-gray-400 text-xs line-clamp-1">
-                            {tool.description}
-                          </p>
-                        </a>
+                          <div className="grid grid-cols-2 gap-2">
+                             {group.tools.map((tool: Record<string, unknown>) => (
+                              <a
+                                key={tool.id}
+                                href={`https://${tool.id}.videoremix.vip`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block p-2 hover:bg-gray-800 rounded text-white transition-colors group"
+                              >
+                                <div className="flex items-center mb-1">
+                                  <span className="font-medium group-hover:text-primary-400 transition-colors text-sm">
+                                    {tool.name}
+                                  </span>
+                                </div>
+                                <p className="text-gray-400 text-xs line-clamp-1">
+                                  {tool.description}
+                                </p>
+                              </a>
+                            ))}
+                          </div>
+                        </div>
                       ))}
                     </div>
 
                     <Link
                       to="/tools"
-                      className="block text-center bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition-colors mt-2"
+                      className="block text-center bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition-colors mt-3"
                     >
                       <span className="flex items-center justify-center">
                         Browse All Tools

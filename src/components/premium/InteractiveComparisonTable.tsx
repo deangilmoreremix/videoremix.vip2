@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, X, TrendingUp } from 'lucide-react';
+import Check from 'lucide-react/dist/esm/icons/check.js';
+import X from 'lucide-react/dist/esm/icons/x.js';
+import TrendingUp from 'lucide-react/dist/esm/icons/trending-up.js';
 
 interface ComparisonRow {
   feature: string;

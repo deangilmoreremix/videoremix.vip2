@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PersonalizerDialog from './PersonalizerDialog';
+import { Button } from '@/components/ui/button';
 
 interface VideoRemixPersonalizerProps {
   appId?: string;
@@ -41,12 +42,12 @@ export default function VideoRemixPersonalizer({
 
   return (
     <>
-      <button
+      <Button
         onClick={() => setOpen(true)}
-        className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-white"
+        className="bg-primary-600 hover:bg-primary-700 text-white font-body"
       >
         Personalize This
-      </button>
+      </Button>
       <PersonalizerDialog
         open={open}
         onClose={handleClose}

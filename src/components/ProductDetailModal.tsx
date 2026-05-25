@@ -1,5 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Star, CheckCircle, TrendingUp, Users, Zap, Target, DollarSign, Lock, Loader } from 'lucide-react';
+import X from 'lucide-react/dist/esm/icons/x.js';
+import Star from 'lucide-react/dist/esm/icons/star.js';
+import CheckCircle from 'lucide-react/dist/esm/icons/check-circle.js';
+import TrendingUp from 'lucide-react/dist/esm/icons/trending-up.js';
+import Users from 'lucide-react/dist/esm/icons/users.js';
+import Zap from 'lucide-react/dist/esm/icons/zap.js';
+import Target from 'lucide-react/dist/esm/icons/target.js';
+import DollarSign from 'lucide-react/dist/esm/icons/dollar-sign.js';
+import Lock from 'lucide-react/dist/esm/icons/lock.js';
+import Loader from 'lucide-react/dist/esm/icons/loader.js';
 import { motion, useScroll, useTransform, useMotionValue } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { Analytics } from '../utils/analytics';

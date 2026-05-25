@@ -4,7 +4,7 @@ import { Check, X, Gift, ChevronDown, Shield, FileVideo } from "lucide-react";
 import { useLandingPageContent } from "../context/LandingPageContext";
 import MagicSparkles from "./MagicSparkles";
 
-export const PricingSection: React.FC = () => {
+const PricingSection: React.FC = () => {
   const [billingCycle, setBillingCycle] = useState<
     "monthly" | "yearly" | "lifetime"
   >("yearly");
@@ -19,12 +19,12 @@ export const PricingSection: React.FC = () => {
       price_lifetime: 0,
       description: "Perfect for trying out the platform",
       features: [
-        "5 video exports per month",
-        "720p video quality",
+         "5 marketing campaigns per month",
+         "Standard content quality",
         "Basic editing features",
         "2GB cloud storage",
         "Standard templates",
-        "Watermarked videos",
+         "Watermarked campaigns",
       ],
       is_popular: false,
     },
@@ -35,8 +35,8 @@ export const PricingSection: React.FC = () => {
       price_lifetime: 699,
       description: "Ideal for content creators and small teams",
       features: [
-        "Unlimited video exports",
-        "4K video quality",
+         "Unlimited campaigns",
+         "High-quality content",
         "All editing features",
         "50GB cloud storage",
         "Premium templates",
@@ -85,16 +85,16 @@ export const PricingSection: React.FC = () => {
   // Categorized features for expanded display
   const featureCategories = [
     {
-      title: "Video Creation & Editing",
+       title: "Campaign Creation & Editing",
       features: [
         {
-          title: "AI Video Creation",
-          basic: "Limited to 5 videos",
+           title: "AI Campaign Creation",
+          basic: "Limited to 5 campaigns",
           pro: "Unlimited",
           business: "Unlimited with priority processing",
         },
         {
-          title: "Video Quality",
+           title: "Content Quality",
           basic: "720p",
           pro: "4K",
           business: "4K",
@@ -141,7 +141,7 @@ export const PricingSection: React.FC = () => {
           business: "Enterprise-level",
         },
         {
-          title: "Personalized Video Creation",
+           title: "Personalized Campaign Creation",
           basic: "✕",
           pro: "✓",
           business: "✓ Advanced",
@@ -223,7 +223,7 @@ export const PricingSection: React.FC = () => {
           business: "All platforms + scheduling",
         },
         {
-          title: "Video Analytics",
+           title: "Campaign Analytics",
           basic: "Basic",
           pro: "Advanced",
           business: "Enterprise",
@@ -243,7 +243,7 @@ export const PricingSection: React.FC = () => {
         {
           title: "Batch Processing",
           basic: "✕",
-          pro: "Up to 5 videos",
+          pro: "Up to 5 campaigns",
           business: "Unlimited",
         },
       ],
@@ -276,7 +276,7 @@ export const PricingSection: React.FC = () => {
           business: "✓ Custom mood profiles",
         },
         {
-          title: "AI Video Enhancer",
+           title: "AI Campaign Enhancer",
           basic: "✕",
           pro: "Basic enhancement",
           business: "Professional enhancement",
@@ -344,7 +344,7 @@ export const PricingSection: React.FC = () => {
   // Bonuses to add value to the offer
   const bonuses = [
     {
-      title: "Video Marketing Blueprint",
+       title: "Marketing Campaign Blueprint",
       value: "$297",
       description:
         "Learn how to create videos that convert viewers into customers.",
@@ -427,3 +427,5 @@ export const PricingSection: React.FC = () => {
     </section>
   );
 };
+
+export default PricingSection;

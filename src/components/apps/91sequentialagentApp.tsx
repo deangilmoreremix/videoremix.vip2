@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Input, Button, Select, ProgressIndicator } from '../components/ui';
 
-interface 91sequentialagentAppProps {}
+interface SequentialAgentAppProps {}
 
-export const 91sequentialagentApp: React.FC<91sequentialagentAppProps> = () => {
+export const SequentialAgentApp: React.FC<SequentialAgentAppProps> = () => {
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState('');
@@ -52,4 +52,4 @@ export const 91sequentialagentApp: React.FC<91sequentialagentAppProps> = () => {
   );
 };
 
-export default 91sequentialagentApp;
+export default SequentialAgentApp;

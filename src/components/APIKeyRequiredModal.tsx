@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { X, Eye, EyeOff, ExternalLink, Check } from 'lucide-react';
+import X from 'lucide-react/dist/esm/icons/x.js';
+import Eye from 'lucide-react/dist/esm/icons/eye.js';
+import EyeOff from 'lucide-react/dist/esm/icons/eye-off.js';
+import ExternalLink from 'lucide-react/dist/esm/icons/external-link.js';
+import Check from 'lucide-react/dist/esm/icons/check.js';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { PROVIDER_INFO, type ApiKeyGateContextType } from './api-key-gate';
 import { useApiKeyGate } from './api-key-gate';

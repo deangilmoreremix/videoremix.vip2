@@ -10,9 +10,12 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import CountUp from "react-countup";
+import CountUpModule from "react-countup";
 import { useLandingPageContent } from "../context/LandingPageContext";
 import MagicSparkles from "./MagicSparkles";
+
+// Handle both CommonJS and ES module exports
+const CountUp = CountUpModule.default || CountUpModule;
 
 const BenefitsSection: React.FC = () => {
   // Get benefits data from context
@@ -39,10 +42,10 @@ const BenefitsSection: React.FC = () => {
       description:
         "Let AI identify and group your prospects into segments for highly targeted personalized marketing.",
       stats: [
-        { label: "Increase in engagement with segmentation", value: "215%" },
+        { label: "Increase in engagement with segmentation", value: "2.3x" },
         {
           label: "Higher conversion with personalized marketing",
-          value: "183%",
+          value: "80%",
         },
       ],
     },
@@ -52,17 +55,17 @@ const BenefitsSection: React.FC = () => {
       description:
         "Customize marketing to each prospect's needs, preferences, and position in the buyer journey.",
       stats: [
-        { label: "Personalized marketing conversion rate", value: "48%" },
-        { label: "Marketing ROI increase with personalization", value: "267%" },
+        { label: "Personalized marketing conversion rate", value: "58%" },
+        { label: "Marketing ROI increase with personalization", value: "5-8x" },
       ],
     },
     {
       icon: <Zap className="h-10 w-10" />,
       title: "Scale Your Marketing Personalization",
       description:
-        "Create thousands of personalized marketing video variations without additional work using our automation tools.",
+         "Create thousands of personalized marketing campaign variations without additional work using our automation tools.",
       stats: [
-        { label: "Marketing variations from one video", value: "100+" },
+         { label: "Marketing variations from one campaign", value: "100+" },
         { label: "Audience segments supported", value: "Unlimited" },
       ],
     },
@@ -174,7 +177,7 @@ const BenefitsSection: React.FC = () => {
     },
     {
       quote:
-        "Real estate marketing needs personalization, and VideoRemix.vip delivers. We create neighborhood-specific videos that increased property inquiries by 214% in the first month.",
+         "Real estate marketing needs personalization, and VideoRemix.vip delivers. We create neighborhood-specific campaigns that increased property inquiries by 214% in the first month.",
       name: "Jessica Martinez",
       role: "Digital Marketing Manager",
       company: "Premier Properties",
@@ -187,7 +190,7 @@ const BenefitsSection: React.FC = () => {
     },
     {
       quote:
-        "As an e-commerce brand, we struggled with generic marketing. Now we create dynamic product videos customized to each customer segment increasing AOV by 37%.",
+         "As an e-commerce brand, we struggled with generic marketing. Now we create dynamic product campaigns customized to each customer segment increasing AOV by 37%.",
       name: "Ryan Thompson",
       role: "E-commerce Director",
       company: "Fashion Forward",
@@ -200,7 +203,7 @@ const BenefitsSection: React.FC = () => {
     },
     {
       quote:
-        "Higher education marketing is highly competitive. Personalized video content for different prospect segments increased our application submissions by 176% year-over-year.",
+         "Higher education marketing is highly competitive. Personalized marketing content for different prospect segments increased our application submissions by 176% year-over-year.",
       name: "Olivia Parker",
       role: "University Marketing Lead",
       company: "Global Education Institute",
@@ -213,7 +216,7 @@ const BenefitsSection: React.FC = () => {
     },
     {
       quote:
-        "Our financial services firm now delivers personalized investment advice videos to different client segments. Client acquisition costs decreased by 58% while conversions surged.",
+         "Our financial services firm now delivers personalized investment advice campaigns to different client segments. Client acquisition costs decreased by 58% while conversions surged.",
       name: "Daniel Morgan",
       role: "Client Acquisition Head",
       company: "Precision Financial Group",
@@ -226,7 +229,7 @@ const BenefitsSection: React.FC = () => {
     },
     {
       quote:
-        "For our nonprofit, personalized donor videos based on previous giving patterns increased recurring donations by 194% and major gifts by over 300%. Game-changing technology.",
+         "For our nonprofit, personalized donor campaigns based on previous giving patterns increased recurring donations by 194% and major gifts by over 300%. Game-changing technology.",
       name: "Amelia Washington",
       role: "Donor Relations Director",
       company: "Global Hope Initiative",

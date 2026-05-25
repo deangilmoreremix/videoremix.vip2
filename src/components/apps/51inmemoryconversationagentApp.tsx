@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Input, Button, Select, ProgressIndicator } from '../components/ui';
 
-interface 51inmemoryconversationagentAppProps {}
+interface InMemoryConversationAgentAppProps {}
 
-export const 51inmemoryconversationagentApp: React.FC<51inmemoryconversationagentAppProps> = () => {
+export const InMemoryConversationAgentApp: React.FC<InMemoryConversationAgentAppProps> = () => {
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState('');
@@ -52,4 +52,4 @@ export const 51inmemoryconversationagentApp: React.FC<51inmemoryconversationagen
   );
 };
 
-export default 51inmemoryconversationagentApp;
+export default InMemoryConversationAgentApp;

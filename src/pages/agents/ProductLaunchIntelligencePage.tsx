@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
-import { TrendingUp, MessageSquare, BarChart3, Rocket } from 'lucide-react';
+import TrendingUp from 'lucide-react/dist/esm/icons/trending-up.js';
+import MessageSquare from 'lucide-react/dist/esm/icons/message-square.js';
+import BarChart3 from 'lucide-react/dist/esm/icons/bar-chart-3.js';
+import Rocket from 'lucide-react/dist/esm/icons/rocket.js';
 
 const ProductLaunchIntelligencePage: React.FC = () => {
   const { user } = useAuth();

@@ -1,22 +1,20 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
-import {
-  User,
-  Settings,
-  Bell,
-  LogOut,
-  Zap,
-  Video,
-  Award,
-  Sun,
-  Moon,
-  Menu,
-  Home,
-  AlertTriangle,
-  Loader2,
-  Key,
-} from "lucide-react";
+import User from "lucide-react/dist/esm/icons/user.js";
+import Settings from "lucide-react/dist/esm/icons/settings.js";
+import Bell from "lucide-react/dist/esm/icons/bell.js";
+import LogOut from "lucide-react/dist/esm/icons/log-out.js";
+import Zap from "lucide-react/dist/esm/icons/zap.js";
+import Video from "lucide-react/dist/esm/icons/video.js";
+import Award from "lucide-react/dist/esm/icons/award.js";
+import Sun from "lucide-react/dist/esm/icons/sun.js";
+import Moon from "lucide-react/dist/esm/icons/moon.js";
+import Menu from "lucide-react/dist/esm/icons/menu.js";
+import Home from "lucide-react/dist/esm/icons/home.js";
+import AlertTriangle from "lucide-react/dist/esm/icons/alert-triangle.js";
+import Loader2 from "lucide-react/dist/esm/icons/loader-2.js";
+import Key from "lucide-react/dist/esm/icons/key.js";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "../components/ui/toast";
@@ -281,7 +279,7 @@ const DashboardPage: React.FC = () => {
                     icon={Zap}
                     sparklineData={sparklineData}
                     loading={statsLoading}
-                    error={statsError}
+                    error={!!statsError}
                     change={15}
                     changeLabel="vs last month"
                     color="#6366f1"
@@ -299,7 +297,7 @@ const DashboardPage: React.FC = () => {
                     value={stats.videosCreated}
                     icon={Video}
                     loading={statsLoading}
-                    error={statsError}
+                    error={!!statsError}
                     change={stats.videosCreated > 0 ? 25 : 0}
                     changeLabel="vs last month"
                     color="#8b5cf6"
@@ -318,7 +316,7 @@ const DashboardPage: React.FC = () => {
                     suffix="%"
                     icon={Award}
                     loading={statsLoading}
-                    error={statsError}
+                    error={!!statsError}
                     change={timeSavedPercentage > 0 ? 10 : 0}
                     changeLabel="vs last month"
                     color="#10b981"

@@ -13,7 +13,7 @@ interface FeatureCTAProps {
 }
 
 const FeatureCTA: React.FC<FeatureCTAProps> = ({
-  title = "Ready to Transform Your Video Creation Process?",
+  title = "Ready to Transform Your Marketing Process?",
   relatedFeatures = [],
 }) => {
   return (
@@ -48,7 +48,7 @@ const FeatureCTA: React.FC<FeatureCTAProps> = ({
 
           <p className="text-gray-300 mb-8">
             Join thousands of creators and businesses who have revolutionized
-            their video production with VideoRemix.vip's powerful features.
+            their marketing campaigns with VideoRemix.vip's powerful features.
           </p>
 
           <motion.div

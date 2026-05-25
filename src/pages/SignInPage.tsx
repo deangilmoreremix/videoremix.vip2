@@ -7,13 +7,15 @@ import {
   EyeOff,
   AlertCircle,
   Sparkles,
-  Video,
+  Megaphone,
   ArrowLeft,
   CheckCircle,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
+import ParticleBackground from "../components/premium/ParticleBackground";
+import GradientOrb from "../components/premium/GradientOrb";
 
 const SignInPage: React.FC = () => {
   const { signIn, user } = useAuth();
@@ -77,6 +79,8 @@ const SignInPage: React.FC = () => {
       </Helmet>
 
       <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black relative overflow-hidden flex items-center justify-center py-20">
+      <ParticleBackground className="z-0" particleCount={40} />
+      <GradientOrb size={600} colorFrom="primary-600" colorTo="accent-500" blur={100} mouseFollow={true} />
         {/* Background effects */}
         <div className="absolute inset-0">
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/20 rounded-full blur-[100px]"></div>
@@ -129,7 +133,7 @@ const SignInPage: React.FC = () => {
                     }}
                     className="absolute inset-0 bg-primary-400 rounded-full blur-lg opacity-30 group-hover:opacity-60 transition-opacity"
                   ></motion.div>
-                  <Video className="h-10 w-10 text-white relative z-10" />
+                  <Megaphone className="h-10 w-10 text-white relative z-10" />
                 </div>
                 <div className="text-left">
                   <span className="text-2xl font-bold text-white leading-none block">

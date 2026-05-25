@@ -61,12 +61,12 @@ const DemoSection: React.FC = () => {
           </div>
 
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-            Create Professional Videos in{" "}
+            Create Professional Marketing Campaigns in{" "}
             <span className="text-primary-400">3 Simple Steps</span>
           </h2>
 
           <p className="text-xl text-gray-300 mb-8">
-            VideoRemix.vip makes professional video creation accessible to
+            VideoRemix.vip makes professional marketing campaign creation accessible to
             everyone, regardless of technical skills or experience.
           </p>
 
@@ -235,12 +235,12 @@ const DemoSection: React.FC = () => {
           </div>
 
           <h3 className="text-2xl font-bold text-white mb-4">
-            Stop Wasting Time on Manual Video Editing
+            Stop Wasting Time on Manual Campaign Creation
           </h3>
 
           <p className="text-gray-300 mb-8">
             Our AI technology handles the tedious work so you can focus on
-            creating amazing content that grows your audience and business.
+            creating amazing marketing campaigns that grow your audience and business.
           </p>
 
           <motion.a

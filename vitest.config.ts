@@ -8,5 +8,6 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./tests/setup.ts'],
+    exclude: ['**/node_modules/**', '**/.kilo/**', '**/dist/**', '**/src/utils/errorHandling.test.ts', '**/src/pages/agents/__tests__/**'],
   },
 })

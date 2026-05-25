@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+maigret
+python-dotenv
+pydantic
+requests
+beautifulsoup4

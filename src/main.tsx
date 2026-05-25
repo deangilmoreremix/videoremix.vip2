@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "./context/AuthContext";
 import { ModalsProvider } from "./components/ModalsProvider";
 import { LandingPageProvider } from "./context/LandingPageContext";
@@ -29,17 +30,24 @@ if (root) {
           console.error('🚨 Global error caught:', error, errorInfo);
         }}
       >
-        <LandingPageProvider>
-          <BrowserRouter>
-            <AuthProvider>
-              <ModalsProvider>
-                <Suspense fallback={<LoadingScreen />}>
-                  <App />
-                </Suspense>
-              </ModalsProvider>
-            </AuthProvider>
-          </BrowserRouter>
-        </LandingPageProvider>
+        <HelmetProvider>
+          <LandingPageProvider>
+            <BrowserRouter
+              future={{
+                v7_startTransition: true,
+                v7_relativeSplatPath: true,
+              }}
+            >
+              <AuthProvider>
+                <ModalsProvider>
+                  <Suspense fallback={<LoadingScreen />}>
+                    <App />
+                  </Suspense>
+                </ModalsProvider>
+              </AuthProvider>
+            </BrowserRouter>
+          </LandingPageProvider>
+        </HelmetProvider>
       </GlobalErrorBoundary>
     </React.StrictMode>
   );

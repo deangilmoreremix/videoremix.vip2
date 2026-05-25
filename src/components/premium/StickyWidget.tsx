@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronUp, BarChart3 } from 'lucide-react';
+import ChevronUp from 'lucide-react/dist/esm/icons/chevron-up.js';
+import BarChart3 from 'lucide-react/dist/esm/icons/bar-chart-3.js';
 import ROICalculator from './ROICalculator';
 
 const StickyWidget: React.FC = () => {

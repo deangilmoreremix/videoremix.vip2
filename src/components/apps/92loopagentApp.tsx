@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Input, Button, Select, ProgressIndicator } from '../components/ui';
 
-interface 92loopagentAppProps {}
+interface LoopAgentAppProps {}
 
-export const 92loopagentApp: React.FC<92loopagentAppProps> = () => {
+export const LoopAgentApp: React.FC<LoopAgentAppProps> = () => {
   const [input_1, setinput_1] = useState(0);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState('');
@@ -58,4 +58,4 @@ export const 92loopagentApp: React.FC<92loopagentAppProps> = () => {
   );
 };
 
-export default 92loopagentApp;
+export default LoopAgentApp;

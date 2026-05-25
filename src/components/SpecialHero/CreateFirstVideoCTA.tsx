@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Video, ArrowRight } from "lucide-react";
+import { Megaphone, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const CreateFirstVideoCTA = () => {
@@ -13,7 +13,7 @@ const CreateFirstVideoCTA = () => {
     >
       <div className="flex items-center justify-center mb-3">
         <div className="bg-gradient-to-r from-primary-500 to-primary-400 p-2.5 rounded-full">
-          <Video className="h-5 w-5 text-white" />
+          <Megaphone className="h-5 w-5 text-white" />
         </div>
       </div>
       <h3 className="text-center text-xl font-bold text-white mb-3">
@@ -28,7 +28,7 @@ const CreateFirstVideoCTA = () => {
           to="/help/create-first-video"
           className="flex items-center bg-white text-primary-600 hover:bg-gray-100 font-semibold px-6 py-2.5 rounded-lg shadow-lg transition-all duration-200"
         >
-          <Video className="h-5 w-5 mr-2" />
+          <Megaphone className="h-5 w-5 mr-2" />
           Start Personalizing Content
           <ArrowRight className="ml-2 h-4 w-4" />
         </Link>
