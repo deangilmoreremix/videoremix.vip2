@@ -18,8 +18,32 @@ import { LandingPageProvider } from "./context/LandingPageContext";
 import { Toaster } from "./components/ui/toast";
 import { NetworkStatusIndicator } from "./components/AsyncStates";
 
+// TEMP DIAGNOSTIC: retry-aware dynamic import logger (revert after root cause confirmed)
+// Helps distinguish "server already dead before import starts" vs "transform fails mid-request"
+function debugDynamicImport<T>(
+  importFn: () => Promise<{ default: T }>,
+  name: string,
+): () => Promise<{ default: T }> {
+  return async () => {
+    const t0 = Date.now();
+    const ts = new Date().toISOString();
+    console.log(`[DYNAMIC-IMPORT-DIAG] START ${name} @ ${ts}`);
+    try {
+      const mod = await importFn();
+      console.log(`[DYNAMIC-IMPORT-DIAG] SUCCESS ${name} in ${Date.now() - t0}ms`);
+      return mod;
+    } catch (err: any) {
+      console.error(`[DYNAMIC-IMPORT-DIAG] FAILED ${name} after ${Date.now() - t0}ms:`, {
+        message: err?.message,
+        stack: err?.stack?.split('\n').slice(0, 3).join('\n'),
+      });
+      throw err;
+    }
+  };
+}
+
 // Lazy loaded components for better performance
-const LandingPage = lazy(() => import("./components/premium/LandingPage"));
+const LandingPage = lazy(debugDynamicImport(() => import("./components/premium/LandingPage"), "LandingPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
 const ToolsHubPage = lazy(() => import("./pages/ToolsHubPage")); // New Tools Hub Page
 const ApplicationsPage = lazy(() => import("./pages/ApplicationsPage"));
@@ -54,7 +78,7 @@ const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
 const AdminSignUp = lazy(() => import("./components/admin/AdminSignUp"));
-const SpecialFooter = lazy(() => import("./components/SpecialFooter"));
+const SpecialFooter = lazy(debugDynamicImport(() => import("./components/SpecialFooter"), "SpecialFooter"));
 
 // Help Center pages
 const HelpCenterPage = lazy(() => import("./pages/HelpCenterPage"));

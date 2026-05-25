@@ -10,6 +10,34 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       react(),
+      // TEMP DIAGNOSTIC PLUGIN (revert after debugging server connection loss + dynamic import failures)
+      // Logs requests for src files and HMR activity to help trace when/why the dev server becomes unreachable
+      ...(mode === 'development'
+        ? [
+            {
+              name: 'diagnose-dynamic-imports-and-hmr',
+              configureServer(server) {
+                const origPrint = server.printUrls;
+                server.printUrls = () => {
+                  origPrint?.call(server);
+                  console.log('\n[ VITE DIAG ] Diagnostic mode active — watching /src requests + HMR');
+                };
+
+                server.middlewares.use((req, _res, next) => {
+                  const url = req.url || '';
+                  if (url.includes('/src/') || url.includes('?import') || url.includes('.tsx') || url.includes('.ts')) {
+                    console.log(`[VITE DIAG] ${req.method || 'GET'} ${url}  t=${Date.now()}`);
+                  }
+                  next();
+                });
+              },
+              handleHotUpdate(ctx) {
+                console.log(`[VITE DIAG] HMR: ${ctx.file.split('/').pop()} → ${ctx.modules.length} modules`);
+                return ctx.modules;
+              },
+            },
+          ]
+        : []),
     ],
     optimizeDeps: {
       include: ['framer-motion'],
