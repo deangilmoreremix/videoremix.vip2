@@ -15,7 +15,7 @@ import Home from "lucide-react/dist/esm/icons/home.js";
 import AlertTriangle from "lucide-react/dist/esm/icons/alert-triangle.js";
 import Loader2 from "lucide-react/dist/esm/icons/loader-2.js";
 import Key from "lucide-react/dist/esm/icons/key.js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "../components/ui/toast";
 import ErrorBoundary from "../components/ErrorBoundary";
@@ -26,6 +26,7 @@ import { useAchievements } from "../hooks/useAchievements";
 import EnhancedStatCard from "../components/dashboard/EnhancedStatCard";
 import MagicSparkles from "../components/MagicSparkles";
 import AgentApiConfigPanel from "../components/AgentApiConfigPanel";
+import OnboardingWizard from '../components/onboarding/OnboardingWizard';
 
 // Lazy load heavy dashboard sections
 const DashboardToolsSection = lazy(() => import("../components/dashboard/DashboardToolsSection"));
@@ -38,10 +39,21 @@ const DashboardPage: React.FC = () => {
   const { stats, loading: statsLoading, error: statsError } = useUserStats();
   const { preferences, setTheme } = useDashboardPreferences();
   const { achievements, getRecentAchievements } = useAchievements();
+  const [searchParams] = useSearchParams();
   const [greeting, setGreeting] = useState("");
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
   const [showApiConfig, setShowApiConfig] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  useEffect(() => {
+    // Show wizard for any user who hasn't completed onboarding yet
+    // This triggers on every sign-in for users who haven't finished the wizard
+    const onboardingCompleted = user?.user_metadata?.onboarding_completed;
+    if (!onboardingCompleted && user) {
+      setShowOnboarding(true);
+    }
+  }, [user]);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -251,9 +263,18 @@ const DashboardPage: React.FC = () => {
                     </div>
                   </motion.div>
                 )}
-              </motion.div>
+               </motion.div>
 
-              {/* Onboarding Progress */}
+              {showOnboarding && (
+                <OnboardingWizard
+                  onComplete={() => {
+                    setShowOnboarding(false);
+                    window.history.replaceState({}, '', '/dashboard');
+                  }}
+                />
+              )}
+
+               {/* Onboarding Progress */}
               <div className="mb-8">
                 <ErrorBoundary fallback={<div></div>}>
                   <OnboardingProgressTracker />

@@ -108,7 +108,7 @@ const CategorySelectionStep: React.FC<CategorySelectionStepProps> = ({
           `}
           aria-disabled={!canContinue}
         >
-          Continue to Toolkit →
+          Continue to Recommendations →
         </button>
       </div>
     </motion.div>

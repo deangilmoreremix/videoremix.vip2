@@ -48,6 +48,9 @@ interface AuthContextType {
   updateProfile: (
     updates: Record<string, unknown>
   ) => Promise<{ user: User | null; error: AuthError | null }>;
+  updateOnboardingAnswers: (
+    answers: Record<string, unknown>
+  ) => Promise<{ user: User | null; error: AuthError | null }>;
   refreshSession: () => Promise<boolean>;
 
   // Utility
@@ -694,17 +697,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return { user: data?.user, error: updateError };
       }
 
-      // Also save to profiles table for extended profile data with tenant support
-      if (data?.user) {
-        const profileData = {
-          user_id: data.user.id,
-          email: data.user.email,
-          full_name: `${updates.first_name || ''} ${updates.last_name || ''}`.trim(),
-          avatar_url: updates.avatar_url || '',
-          bio: updates.bio || '',
-          company: updates.company || '',
-          website: updates.website || '',
-        };
+        // Also save to profiles table for extended profile data with tenant support
+        if (data?.user) {
+          const profileData = {
+            user_id: data.user.id,
+            email: data.user.email,
+            full_name: `${updates.first_name || ''} ${updates.last_name || ''}`.trim(),
+            avatar_url: updates.avatar_url || '',
+            bio: updates.bio || '',
+            company: updates.company || '',
+            website: updates.website || '',
+            // Add onboarding fields
+            onboarding_answers: updates.onboarding || null,
+            onboarding_completed_at: updates.onboarding_completed ? new Date().toISOString() : null,
+          };
 
         // Try to upsert into profiles table
         const { error: profileError } = await supabase
@@ -719,6 +725,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return { user: data.user, error: updateError };
     },
     [clearError, handleAuthError, supabase]
+  );
+
+  const updateOnboardingAnswers = useCallback(
+    async (answers: Record<string, unknown>) => {
+      try {
+        const { data, error } = await supabase.auth.updateUser({
+          data: answers,
+        });
+        return { user: data.user, error };
+      } catch (err) {
+        return { user: null, error: err as AuthError };
+      }
+    },
+    []
   );
 
   const value: AuthContextType = useMemo(
@@ -741,6 +761,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       signOut,
       resetPassword,
       updateProfile,
+      updateOnboardingAnswers,
       refreshSession,
 
       // Utility
@@ -760,6 +781,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       signOut,
       resetPassword,
       updateProfile,
+      updateOnboardingAnswers,
       refreshSession,
       clearError,
     ]
