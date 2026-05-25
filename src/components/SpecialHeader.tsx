@@ -202,12 +202,6 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                 </motion.div>
               )}
             </AnimatePresence>
-           <Link
-             to="/apps"
-             className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium"
-           >
-             Applications
-           </Link>
           </div>
 
           <Link
@@ -399,12 +393,6 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                       </div>
                     </motion.div>
                   )}
-               <Link
-                 to="/apps"
-                 className="block text-white hover:bg-gray-800 px-3 py-2 rounded-md"
-               >
-                 Applications
-               </Link>
                 </AnimatePresence>
               </div>
 

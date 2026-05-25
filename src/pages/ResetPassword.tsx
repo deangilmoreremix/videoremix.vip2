@@ -1,33 +1,31 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
-import { useAuth } from "../context/AuthContext";
-import { motion } from "framer-motion";
 
 export default function ResetPassword() {
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
-  const { user } = useAuth();
 
   const updatePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    if (!user) {
-      setError("You must be signed in to change your password");
+    if (!email) {
+      setError("Email is required");
       return;
     }
 
-    if (newPassword.length < 8) {
+    if (password.length < 8) {
       setError("Password must be at least 8 characters");
       return;
     }
 
-    if (newPassword !== confirmPassword) {
+    if (password !== confirm) {
       setError("Passwords do not match");
       return;
     }
@@ -35,23 +33,10 @@ export default function ResetPassword() {
     setLoading(true);
 
     try {
-      // Get the access token from the current session
-      const { data: { session } } = await supabase.auth.getSession();
-      const accessToken = session?.access_token;
-
-      if (!accessToken) {
-        setError("No active session found. Please sign in again.");
-        return;
-      }
-
-      // Use the authenticated user's email (normalized by backend)
       const { data, error } = await supabase.functions.invoke('change-user-password', {
         body: {
-          email: user.email,
-          newPassword: newPassword,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+          email: email,
+          newPassword: password,
         },
       });
 
@@ -63,7 +48,7 @@ export default function ResetPassword() {
       if (data?.success) {
         setSuccess(true);
         setTimeout(() => {
-          navigate("/profile", { replace: true });
+          navigate("/signin", { replace: true });
         }, 3000);
       } else {
         setError(data?.error || 'Failed to update password');
@@ -174,20 +159,23 @@ export default function ResetPassword() {
         }}
       >
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
-          <motion.h1
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="text-3xl md:text-4xl font-bold text-white mb-2"
+          <h2
+            style={{
+              fontSize: "28px",
+              fontWeight: "700",
+              color: "#ffffff",
+              marginBottom: "8px",
+            }}
           >
             Change Password
-          </motion.h1>
+          </h2>
           <p
             style={{
               fontSize: "14px",
               color: "rgba(255, 255, 255, 0.7)",
             }}
           >
-            Update your password for {user?.email}
+            Enter your email and new password below
           </p>
         </div>
 
@@ -220,12 +208,44 @@ export default function ResetPassword() {
                 marginBottom: "8px",
               }}
             >
+              Email Address
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              style={{
+                width: "100%",
+                padding: "12px 16px",
+                background: "rgba(255, 255, 255, 0.1)",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
+                borderRadius: "8px",
+                color: "#ffffff",
+                fontSize: "14px",
+                outline: "none",
+                boxSizing: "border-box",
+              }}
+              placeholder="Enter your email address"
+            />
+          </div>
+
+          <div>
+            <label
+              style={{
+                display: "block",
+                fontSize: "14px",
+                fontWeight: "500",
+                color: "rgba(255, 255, 255, 0.9)",
+                marginBottom: "8px",
+              }}
+            >
               New Password
             </label>
             <input
               type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
               style={{
                 width: "100%",
@@ -252,12 +272,12 @@ export default function ResetPassword() {
                 marginBottom: "8px",
               }}
             >
-              Confirm New Password
+              Confirm Password
             </label>
             <input
               type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={confirm}
+              onChange={(e) => setConfirm(e.target.value)}
               required
               style={{
                 width: "100%",
@@ -305,7 +325,8 @@ export default function ResetPassword() {
             lineHeight: "1.6",
           }}
         >
-          Your password must be at least 8 characters. After changing your password, you will need to sign in again.
+          Your password must be at least 8 characters and match the
+          confirmation. Make sure to use a strong, unique password.
         </p>
       </div>
     </div>

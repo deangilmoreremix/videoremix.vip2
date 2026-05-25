@@ -18,7 +18,6 @@ import {
   BookOpen,
   HelpCircle,
 } from "lucide-react";
-import { sanitizeHtml } from "../utils/sanitizeHtml";
 
 // Mock article data - in a real app this would come from an API or CMS
 const articles = [
@@ -830,7 +829,7 @@ const HelpArticlePage: React.FC = () => {
                   {/* Article Content */}
                   <div
                     className="prose prose-lg prose-invert max-w-none prose-headings:scroll-mt-24 prose-a:text-primary-400 hover:prose-a:text-primary-300 prose-a:no-underline prose-a:transition-colors prose-h2:border-b prose-h2:border-gray-700 prose-h2:pb-2 prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-700 prose-code:text-primary-300 prose-img:rounded-lg"
-                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(article.content) }}
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }}
                   />
 
                   {/* Article Feedback */}

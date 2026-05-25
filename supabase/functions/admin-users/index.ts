@@ -123,7 +123,6 @@ async function handleRequest(req: Request, supabase: any) {
       is_active: !user.banned_until,
       created_at: user.created_at,
       last_login: user.last_sign_in_at,
-      login_count: user.user_metadata?.login_count || 0,
       app_access: appAccessMap.get(user.id) || [],
       app_count: (appAccessMap.get(user.id) || []).length,
     }));
@@ -318,17 +317,6 @@ async function handleRequest(req: Request, supabase: any) {
 
   // Handle app access management for specific users
   if (action === "app-access") {
-    // Restrict bundle/app access management to super_admin only
-    if (roleData.role !== 'super_admin') {
-      return new Response(
-        JSON.stringify({ success: false, error: "Super admin access required for app access management" }),
-        {
-          status: 403,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
-    }
-
     if (req.method === "GET") {
       // Get app access for a specific user
       const { data: userAccess, error: accessError } = await supabase

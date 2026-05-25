@@ -398,15 +398,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     async (email: string, password: string, metadata?: Record<string, unknown>) => {
       clearError();
       const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
-      // Normalize email to lowercase to prevent case-sensitivity issues
-      const normalizedEmail = email.toLowerCase().trim();
       const { data, error: signUpError } = await supabase.auth.signUp({
-        email: normalizedEmail,
+        email,
         password,
         options: {
           data: metadata,
           emailRedirectTo: `${siteUrl}/auth/confirm`,
-          emailConfirm: false,
         },
       });
 
@@ -422,10 +419,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const signIn = useCallback(
     async (email: string, password: string) => {
       clearError();
-      // Normalize email to lowercase to prevent case-sensitivity issues
-      const normalizedEmail = email.toLowerCase().trim();
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
-        email: normalizedEmail,
+        email,
         password,
       });
 
@@ -501,30 +496,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return { user: data?.user, error: updateError };
       }
 
-        // Also save to profiles table for extended profile data with tenant support
-        if (data?.user) {
-          const profileData: Record<string, unknown> = {
-            user_id: data.user.id,
-            email: data.user.email,
-            full_name: `${updates.first_name || ''} ${updates.last_name || ''}`.trim(),
-            avatar_url: updates.avatar_url || '',
-            bio: updates.bio || '',
-            company: updates.company || '',
-            website: updates.website || '',
-          };
-          
-          // Add onboarding data if present
-          if (updates.onboarding !== undefined) {
-            profileData.onboarding = updates.onboarding;
-          }
-          if (updates.onboarding_completed !== undefined) {
-            profileData.onboarding_completed = updates.onboarding_completed;
-          }
-          
-          // Try to upsert into profiles table
-          const { error: profileError } = await supabase
-            .from('profiles')
-            .upsert(profileData, { onConflict: 'user_id' });
+      // Also save to profiles table for extended profile data with tenant support
+      if (data?.user) {
+        const profileData = {
+          user_id: data.user.id,
+          email: data.user.email,
+          full_name: `${updates.first_name || ''} ${updates.last_name || ''}`.trim(),
+          avatar_url: updates.avatar_url || '',
+          bio: updates.bio || '',
+          company: updates.company || '',
+          website: updates.website || '',
+        };
+
+        // Try to upsert into profiles table
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .upsert(profileData, { onConflict: 'user_id' });
 
         if (profileError) {
           console.warn('Failed to update profiles table:', profileError);

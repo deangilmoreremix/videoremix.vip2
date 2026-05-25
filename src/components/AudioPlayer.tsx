@@ -17,34 +17,33 @@ const AudioPlayer: React.FC = () => {
     notification: () => playSound("notification"),
   });
 
-  // Define sound effects - disabled to prevent 403 errors from external URLs
+  // Define sound effects
   const soundEffects: SoundEffect[] = [
-    // Temporarily disabled external audio files due to CORS/403 issues
-    // {
-    //   id: "hover",
-    //   url: "https://assets.mixkit.co/sfx/preview/mixkit-single-classic-click-1116.mp3",
-    //   volume: 0.15,
-    // },
-    // {
-    //   id: "click",
-    //   url: "https://assets.mixkit.co/sfx/preview/mixkit-modern-click-box-check-1120.mp3",
-    //   volume: 0.2,
-    // },
-    // {
-    //   id: "success",
-    //   url: "https://assets.mixkit.co/sfx/preview/mixkit-software-interface-start-2574.mp3",
-    //   volume: 0.2,
-    // },
-    // {
-    //   id: "sparkle",
-    //   url: "https://assets.mixkit.co/sfx/preview/mixkit-fairy-arcade-sparkle-866.mp3",
-    //   volume: 0.15,
-    // },
-    // {
-    //   id: "notification",
-    //   url: "https://assets.mixkit.co/sfx/preview/mixkit-appointment-notification-melodic-tone-2536.mp3",
-    //   volume: 0.2,
-    // },
+    {
+      id: "hover",
+      url: "https://assets.mixkit.co/sfx/preview/mixkit-single-classic-click-1116.mp3",
+      volume: 0.15,
+    },
+    {
+      id: "click",
+      url: "https://assets.mixkit.co/sfx/preview/mixkit-modern-click-box-check-1120.mp3",
+      volume: 0.2,
+    },
+    {
+      id: "success",
+      url: "https://assets.mixkit.co/sfx/preview/mixkit-software-interface-start-2574.mp3",
+      volume: 0.2,
+    },
+    {
+      id: "sparkle",
+      url: "https://assets.mixkit.co/sfx/preview/mixkit-fairy-arcade-sparkle-866.mp3",
+      volume: 0.15,
+    },
+    {
+      id: "notification",
+      url: "https://assets.mixkit.co/sfx/preview/mixkit-appointment-notification-melodic-tone-2536.mp3",
+      volume: 0.2,
+    },
   ];
 
   const playSound = (id: string) => {

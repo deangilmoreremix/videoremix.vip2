@@ -21,46 +21,14 @@ import {
   Zap,
   Camera,
   Share,
-  Megaphone,
-  Database,
-  Monitor,
-  DollarSign,
-  Ligature as FileSignature,
-  LayoutTemplate,
-  ShoppingBag,
-  Store,
-  UserCheck,
-  Rocket,
-  Settings,
-  BarChart2,
-  Briefcase,
   Wand2,
-  Scissors,
-  Edit,
-  Heart,
-  MessageSquare,
-  ShoppingCart,
-  CreditCard,
-  Mail,
-  Radio,
-  Send,
-  Plane,
-  Wrench,
-  Droplets as Drop,
-  Car,
-  Truck,
-  Home,
-  Shield,
-  Utensils,
-  TrendingUp,
-  Code,
-  BookOpen,
   Globe,
-  MapPin,
-  X,
+  MessageSquare,
   Brain,
-  Check,
+  FileVideo,
+  ShoppingCart,
   Lock,
+  Check,
 } from "lucide-react";
 import MagicSparkles from "../MagicSparkles";
 import { useInView } from "react-intersection-observer";
@@ -73,10 +41,6 @@ import LazyIcon from "../LazyIcon";
 import { SalesDropdown } from '../ui/SalesDropdown';
 import SalesDropdownErrorBoundary from '../ui/SalesDropdownErrorBoundary';
 import { appSalesCopy } from '../../data/appSalesCopy';
-import { getBundleForApp } from '../../data/appsData';
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Card, CardContent } from "../ui/card";
 
 // Define TrendingUp component
 const TrendingUp: React.FC<{ className?: string }> = (props) => (
@@ -97,72 +61,42 @@ const TrendingUp: React.FC<{ className?: string }> = (props) => (
   </svg>
 );
 
-// App categories
+// App categories with personalization focus
 const toolCategories = [
   {
     id: "all",
-    label: "All Apps",
-    iconName: "layers",
+    label: "All Personalization Tools",
+    icon: React.createElement(Layers, { className: "w-4 h-4" }),
   },
   {
-    id: "sales-lead-gen",
-    label: "Sales & Lead Gen",
-    iconName: "trending-up",
+    id: "video",
+    label: "Personalized Video",
+    icon: React.createElement(Video, { className: "w-4 h-4" }),
   },
   {
-    id: "content-marketing",
-    label: "Content & Marketing",
-    iconName: "file-text",
+    id: "lead-gen",
+    label: "Personalized Marketing",
+    icon: React.createElement(Users, { className: "w-4 h-4" }),
   },
   {
-    id: "video-audio-voice",
-    label: "Video, Audio & Voice",
-    iconName: "video",
+    id: "ai-image",
+    label: "Personalized AI Image",
+    icon: React.createElement(ImageIcon, { className: "w-4 h-4" }),
   },
   {
-    id: "rag-knowledgebase",
-    label: "RAG & Knowledgebase",
-    iconName: "database",
+    id: "branding",
+    label: "Personalized Branding",
+    icon: React.createElement(Palette, { className: "w-4 h-4" }),
   },
   {
-    id: "realestate-local",
-    label: "Real Estate & Local",
-    iconName: "home",
+    id: "personalizer",
+    label: "Content Personalizer",
+    icon: React.createElement(UserCircle, { className: "w-4 h-4" }),
   },
   {
-    id: "hr-hiring",
-    label: "HR & Hiring",
-    iconName: "user-check",
-  },
-  {
-    id: "finance-business",
-    label: "Finance & Business",
-    iconName: "dollar-sign",
-  },
-  {
-    id: "legal-compliance",
-    label: "Legal & Compliance",
-    iconName: "shield",
-  },
-  {
-    id: "coding-developer",
-    label: "Coding & SaaS",
-    iconName: "settings",
-  },
-  {
-    id: "design-uiux",
-    label: "Design & UI/UX",
-    iconName: "palette",
-  },
-  {
-    id: "research-education",
-    label: "Research & Training",
-    iconName: "search",
-  },
-  {
-    id: "productivity-personal",
-    label: "Productivity & Personal",
-    iconName: "user-circle",
+    id: "creative",
+    label: "Personalized Creative",
+    icon: React.createElement(Package, { className: "w-4 h-4" }),
   },
 ];
 
@@ -235,7 +169,14 @@ const DashboardToolsSection: React.FC = () => {
   const hasAnyPurchases = purchasedApps.length > 0;
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [filteredApps, setFilteredApps] = useState<any[]>([]);
+  const [sortOrder, setSortOrder] = useState<"popular" | "new" | "a-z">(
+    "popular",
+  );
+  const [hoveredApp, setHoveredApp] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
+  const containerRef = useRef<HTMLDivElement>(null);
   const [purchaseModalOpen, setPurchaseModalOpen] = useState(false);
   const [selectedAppForPurchase, setSelectedAppForPurchase] =
     useState<any>(null);
@@ -247,7 +188,62 @@ const DashboardToolsSection: React.FC = () => {
   // Image loading error handling state
   const [imageErrors, setImageErrors] = useState<Record<string, number>>({});
 
+  // Update filtered tools when category, search query, or access data change
+  useEffect(() => {
+    if (!appsData || appsData.length === 0) {
+      setFilteredApps([]);
+      return;
+    }
 
+    let result = [...appsData];
+
+    // Progressive disclosure: show public apps to everyone, private apps only to authorized users
+    result = result.filter((app) => {
+      // Public apps are visible to everyone
+      if (app.isPublic) return true;
+
+      // Private apps only visible to logged-in users with access
+      return user && hasAccessToApp(app.id);
+    });
+
+    // Apply category filter
+    if (selectedCategory !== "all") {
+      result = result.filter((app) => app.category === selectedCategory);
+    }
+
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(
+        (app) =>
+          app.name.toLowerCase().includes(query) ||
+          app.description.toLowerCase().includes(query),
+      );
+    }
+
+    // Apply sorting
+    switch (sortOrder) {
+      case "popular":
+        result.sort((a, b) => {
+          if (a.popular && !b.popular) return -1;
+          if (!a.popular && b.popular) return 1;
+          return 0;
+        });
+        break;
+      case "new":
+        result.sort((a, b) => {
+          if (a.new && !b.new) return -1;
+          if (!a.new && b.new) return 1;
+          return 0;
+        });
+        break;
+      case "a-z":
+        result.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+    }
+
+    setFilteredApps(result);
+  }, [selectedCategory, searchQuery, sortOrder, user, accessData, appsData]);
 
   // Handle image load errors
   const handleImageError = (appId: string) => {
@@ -274,9 +270,36 @@ const DashboardToolsSection: React.FC = () => {
     return fallbackImages[adjustedIndex];
   };
 
+  // Scroll helpers
+  const scrollLeft10Percent = () => {
+    if (containerRef.current) {
+      const width = containerRef.current.clientWidth;
+      containerRef.current.scrollBy({ left: -width * 0.3, behavior: "smooth" });
+    }
+  };
 
+  const scrollRight10Percent = () => {
+    if (containerRef.current) {
+      const width = containerRef.current.clientWidth;
+      containerRef.current.scrollBy({ left: width * 0.3, behavior: "smooth" });
+    }
+  };
 
+  // Handle category change
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
 
+    // Dispatch custom event for sound effect
+    document.dispatchEvent(new Event("sound:click"));
+  };
+
+  // Handle card expansion toggle
+  const toggleCardExpansion = (appId: string) => {
+    setExpandedCards(prev => ({
+      ...prev,
+      [appId]: !prev[appId]
+    }));
+  };
 
   // Get featured apps
   const getFeaturedApps = () => {
@@ -286,7 +309,26 @@ const DashboardToolsSection: React.FC = () => {
     return appsData.filter((app) => featuredApps.includes(app.id));
   };
 
+  // Animated cards with staggered entrance
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+        delayChildren: 0.1,
+      },
+    },
+  };
 
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    show: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5 },
+    },
+  };
 
   return (
     <section id="tools" className="py-20 bg-black relative overflow-hidden">
@@ -376,224 +418,29 @@ const DashboardToolsSection: React.FC = () => {
           <div className="flex justify-center overflow-x-auto hide-scrollbar">
             <div className="flex space-x-3">
               {toolCategories.map((category) => (
-                <Button
+                <motion.button
                   key={category.id}
-                  variant={selectedCategory === category.id ? "default" : "secondary"}
-                  size="sm"
-                  className={`min-w-[140px] h-auto py-3 px-4 ${
+                  whileHover={{ y: -3 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 min-w-[140px] ${
                     selectedCategory === category.id
-                      ? "bg-gradient-to-r from-primary-600 to-primary-500 text-white shadow-md"
-                      : ""
+                      ? `bg-gradient-to-r from-primary-600 to-primary-500 text-white shadow-md`
+                      : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                   }`}
-                  onClick={() => setSelectedCategory(category.id)}
+                  onClick={() => handleCategoryChange(category.id)}
                 >
                   <div className="flex flex-col items-center">
-                    <div className="mb-1">
+                    <div
+                      className={`p-2 rounded-full ${selectedCategory === category.id ? "bg-white/20" : "bg-gray-700"} mb-1`}
+                    >
                       {category.icon}
                     </div>
-                    <span className="text-xs">{category.label}</span>
+                    <span>{category.label}</span>
                   </div>
-                </Button>
+                </motion.button>
               ))}
             </div>
           </div>
-        </div>
-
-        {/* Search and filter controls */}
-        <div className="max-w-6xl mx-auto mb-8">
-          <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0">
-            <div className="relative md:w-1/3">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search tools..."
-                className="pl-10 pr-10"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              {searchQuery && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-1 top-1/2 transform -translate-y-1/2 h-7 w-7 p-0"
-                  onClick={() => setSearchQuery("")}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Category Sections */}
-        <div className="space-y-16">
-          {toolCategories.slice(1).map((category, categoryIndex) => {
-            let categoryApps = appsData.filter(app => app.category === category.id);
-
-            // Apply search filter
-            if (searchQuery.trim()) {
-              const query = searchQuery.toLowerCase();
-              categoryApps = categoryApps.filter(
-                (app) =>
-                  app.name.toLowerCase().includes(query) ||
-                  app.description.toLowerCase().includes(query)
-              );
-            }
-
-            if (categoryApps.length === 0) return null;
-
-            // Only show this category section if "all" is selected or this category is selected
-            if (selectedCategory !== "all" && selectedCategory !== category.id) return null;
-
-            return (
-              <motion.div
-                key={category.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ duration: 0.7, delay: 0.3 + categoryIndex * 0.1 }}
-                className="max-w-6xl mx-auto"
-              >
-                <div className="flex items-center mb-8">
-                  <div className="p-3 bg-primary-900/50 rounded-lg mr-4">
-                    {category.icon}
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-white">{category.label}</h3>
-                    <p className="text-gray-400 text-sm">
-                      {categoryApps.length} {categoryApps.length === 1 ? 'tool' : 'tools'} available
-                      {searchQuery && ` (filtered)`}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {categoryApps.slice(0, 8).map((app, index) => {
-                    const isPurchased = user && hasAccessToApp(app.id);
-                    const handleAppClick = (e: React.MouseEvent) => {
-                      if (!isPurchased) {
-                        e.preventDefault();
-                        setSelectedAppForPurchase(app);
-                        setPurchaseModalOpen(true);
-                      }
-                    };
-
-                    return (
-                      <motion.div
-                        key={app.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                        transition={{ duration: 0.5, delay: 0.1 + index * 0.05 }}
-                        whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                        className="cursor-pointer"
-                        onClick={handleAppClick}
-                      >
-                        <Card className="relative overflow-hidden group hover:border-primary-500/50 transition-colors">
-                          {/* App image */}
-                          <div className="w-full aspect-video relative">
-                            <img
-                              src={imageErrors[app.id] ? getFallbackImage(app.id, imageErrors[app.id]) : app.image}
-                              alt={app.name}
-                              className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out"
-                              onError={() => handleImageError(app.id)}
-                            />
-
-                            {/* Status badges */}
-                            <div className="absolute top-3 right-3 flex flex-col space-y-1 items-end">
-                              {isPurchased ? (
-                                <span className="bg-green-500 text-white text-xs px-2 py-0.5 rounded font-bold flex items-center">
-                                  <Check className="h-3 w-3 mr-1" /> OWNED
-                                </span>
-                              ) : (
-                                <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded font-bold flex items-center">
-                                  <Lock className="h-3 w-3 mr-1" /> LOCKED
-                                </span>
-                              )}
-                              {app.popular && (
-                                <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded font-bold">
-                                  POPULAR
-                                </span>
-                              )}
-                              {app.new && (
-                                <span className="bg-primary-500 text-white text-xs px-2 py-0.5 rounded font-bold">
-                                  NEW
-                                </span>
-                              )}
-                            </div>
-
-                            {/* Gradient overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
-                          </div>
-
-                          <CardContent className="p-4">
-                            <h4 className="text-white font-bold text-lg group-hover:text-primary-400 transition-colors mb-2">
-                              {app.name}
-                            </h4>
-                            <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                              {app.description}
-                            </p>
-
-                            <div className="flex justify-between items-center">
-                              <div className="flex items-center text-gray-500 text-xs">
-                                <LazyIcon name={app.iconName} className="w-4 h-4 text-primary-400 mr-1" />
-                                <span>{category.label}</span>
-                              </div>
-
-                              <span className="text-primary-400 text-sm font-medium flex items-center">
-                                {isPurchased ? "Open" : "Purchase"}
-                                <ArrowRight className="ml-1 h-3 w-3" />
-                              </span>
-                            </div>
-                          </CardContent>
-
-                          {/* Hover overlay */}
-                          {!isPurchased && (
-                            <div className="absolute inset-0 bg-primary-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
-                              <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="bg-white text-gray-900 px-6 py-3 rounded-lg font-bold flex items-center"
-                                onClick={handleAppClick}
-                              >
-                                <ShoppingCart className="mr-2 h-5 w-5" />
-                                Purchase Now
-                              </motion.button>
-                            </div>
-                          )}
-                        </Card>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-
-                {categoryApps.length > 8 && (
-                  <div className="text-center mt-6">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-primary-400 hover:text-primary-300"
-                      onClick={() => {
-                        // Could implement "show more" functionality
-                        console.log(`Show more ${category.label} apps`);
-                      }}
-                    >
-                      View all {categoryApps.length} {category.label.toLowerCase()} tools →
-                    </Button>
-                  </div>
-                )}
-              </motion.div>
-            );
-          })}
         </div>
 
         {/* Empty state when user has no purchases */}
@@ -780,11 +627,476 @@ const DashboardToolsSection: React.FC = () => {
           </motion.div>
         )}
 
+        {/* Search and filter controls - only show if user has purchases */}
+        {(!user || hasAnyPurchases) && (
+          <div className="max-w-6xl mx-auto mb-8">
+            <div className="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0">
+              <div className="relative md:w-1/3">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Search className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search personalization tools..."
+                  className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                {searchQuery && (
+                  <button
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                    onClick={() => setSearchQuery("")}
+                  >
+                    <span className="text-gray-400 hover:text-white">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </span>
+                  </button>
+                )}
+              </div>
 
+              <div className="flex space-x-3">
+                <div className="relative md:w-48">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Filter className="h-4 w-4 text-gray-400" />
+                  </div>
+                  <select
+                    className="w-full pl-9 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white appearance-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    value={sortOrder}
+                    onChange={(e) =>
+                      setSortOrder(e.target.value as "popular" | "new" | "a-z")
+                    }
+                  >
+                    <option value="popular">Most Popular First</option>
+                    <option value="new">Newest First</option>
+                    <option value="a-z">Alphabetical</option>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <svg
+                      className="h-4 w-4 text-gray-400"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </div>
 
+                <div className="bg-gray-800 rounded-lg p-1 flex">
+                  <button
+                    className={`p-1 rounded ${viewMode === "grid" ? "bg-primary-600 text-white" : "text-gray-400 hover:text-white"}`}
+                    onClick={() => setViewMode("grid")}
+                    aria-label="Grid view"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    className={`p-1 rounded ${viewMode === "list" ? "bg-primary-600 text-white" : "text-gray-400 hover:text-white"}`}
+                    onClick={() => setViewMode("list")}
+                    aria-label="List view"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4 6h16M4 12h16M4 18h16"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
+        {/* All tools carousel with horizontal scroll - only show if user has purchases */}
+        {(!user || hasAnyPurchases) && (
+          <div className="max-w-6xl mx-auto mb-16 relative" ref={containerRef}>
+            <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+              <Wand2 className="h-6 w-6 mr-2 text-primary-400" />
+              Personalization Tools
+            </h3>
 
+            {/* Left/Right scroll controls */}
+            <button
+              onClick={scrollLeft10Percent}
+              className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-2 z-20 bg-black/80 backdrop-blur-sm p-2 rounded-full text-white shadow-lg hover:bg-black/60"
+              aria-label="Scroll left"
+            >
+              <ArrowRight className="h-5 w-5 rotate-180" />
+            </button>
 
+            <button
+              onClick={scrollRight10Percent}
+              className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-2 z-20 bg-black/80 backdrop-blur-sm p-2 rounded-full text-white shadow-lg hover:bg-black/60"
+              aria-label="Scroll right"
+            >
+              <ArrowRight className="h-5 w-5" />
+            </button>
+
+            {/* Tool cards in horizontal scroll container */}
+            <div
+              className="overflow-x-auto pb-6 hide-scrollbar"
+              style={{ scrollbarWidth: "none" }}
+            >
+              <div
+                className="flex space-x-4 px-1"
+                style={{ width: "max-content" }}
+              >
+                {filteredApps.map((app) => {
+                  const appUrl = getAppUrl(app.id, appsData);
+                  const isPurchased = user && hasAccessToApp(app.id);
+                  const handleClick = (e: React.MouseEvent) => {
+                    if (!isPurchased) {
+                      e.preventDefault();
+                      setSelectedAppForPurchase(app);
+                      setPurchaseModalOpen(true);
+                    }
+                  };
+
+                  return (
+                    <motion.div
+                      key={app.id}
+                      whileHover={{ y: -10 }}
+                      className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 w-[280px] flex-shrink-0 group hover:border-primary-500/50 transition-colors cursor-pointer"
+                      onClick={handleClick}
+                    >
+                      <div className="relative h-[160px]">
+                        <img
+                          src={
+                            imageErrors[app.id]
+                              ? getFallbackImage(app.id, imageErrors[app.id])
+                              : app.image
+                          }
+                          alt={app.name}
+                          className="w-full h-full object-cover"
+                          onError={() => handleImageError(app.id)}
+                        />
+
+                        {/* Overlay with personalization focus */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+
+                        {/* Personalization badge */}
+                        <div className="absolute top-3 left-3 bg-primary-600/80 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full">
+                          Personalized
+                        </div>
+
+                        {/* Status badges */}
+                        <div className="absolute top-3 right-3 flex flex-col space-y-1 items-end">
+                          {isPurchased ? (
+                            <span className="bg-green-500 text-white text-xs px-2 py-0.5 rounded font-bold flex items-center">
+                              <Check className="h-3 w-3 mr-1" /> OWNED
+                            </span>
+                          ) : (
+                            <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded font-bold flex items-center">
+                              <Lock className="h-3 w-3 mr-1" /> LOCKED
+                            </span>
+                          )}
+                          {app.popular && (
+                            <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded font-bold">
+                              POPULAR
+                            </span>
+                          )}
+                          {app.new && (
+                            <span className="bg-primary-500 text-white text-xs px-2 py-0.5 rounded font-bold">
+                              NEW
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="p-4">
+                        <h4 className="text-white font-bold text-lg group-hover:text-primary-400 transition-colors">
+                          {app.name}
+                        </h4>
+                        <p className="text-gray-400 text-sm mb-3">
+                          {app.description}
+                        </p>
+
+                        <div className="flex justify-between items-center">
+                          <div className="flex items-center">
+                            <LazyIcon
+                              name={app.iconName}
+                              className="h-4 w-4 text-primary-400 mr-1"
+                            />
+                            <span className="text-gray-500 text-xs">
+                              Personalization Tool
+                            </span>
+                          </div>
+
+                          <span className="text-primary-400 text-sm font-medium flex items-center">
+                            {isPurchased ? "Open" : "Purchase"}
+                            <ArrowRight className="h-3 w-3 ml-1" />
+                          </span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Main tools grid/list - only show if user has purchases */}
+        {(!user || hasAnyPurchases) && (
+          <div className="max-w-6xl mx-auto mb-16">
+            {filteredApps.length > 0 ? (
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="show"
+                className={
+                  viewMode === "grid"
+                    ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                    : "space-y-4"
+                }
+              >
+                {filteredApps.map((app) => {
+                  const appUrl = getAppUrl(app.id, appsData);
+                  const isPurchased =
+                    user && hasAccessToApp(app.slug || app.id);
+                  const handleClick = (e: React.MouseEvent) => {
+                    if (!isPurchased) {
+                      e.preventDefault();
+                      setSelectedAppForPurchase(app);
+                      setPurchaseModalOpen(true);
+                    } else {
+                      window.location.href = appUrl;
+                    }
+                  };
+
+                  return (
+                    <motion.div
+                      key={app.id}
+                      variants={itemVariants}
+                      onHoverStart={() => setHoveredApp(app.id)}
+                      onHoverEnd={() => setHoveredApp(null)}
+                      onClick={handleClick}
+                      className={`relative cursor-pointer ${
+                        viewMode === "grid"
+                          ? "group bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-primary-500/50 transition-colors shadow-lg"
+                          : "flex bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-primary-500/50 transition-colors shadow-lg"
+                      }`}
+                    >
+                      {/* App image */}
+                      <div
+                        className={
+                          viewMode === "grid"
+                            ? "w-full aspect-video"
+                            : "flex-shrink-0 w-32 h-full"
+                        }
+                      >
+                        <div className="relative h-full">
+                          <img
+                            src={
+                              imageErrors[app.id]
+                                ? getFallbackImage(app.id, imageErrors[app.id])
+                                : app.image
+                            }
+                            alt={app.name}
+                            className={`object-cover ${
+                              viewMode === "grid"
+                                ? "w-full h-full"
+                                : "w-32 h-full"
+                            }`}
+                            onError={() => handleImageError(app.id)}
+                          />
+
+                          {/* Personalization marker */}
+                          <div className="absolute top-2 left-2 bg-primary-600/80 text-xs text-white px-2 py-0.5 rounded-full">
+                            Personalized
+                          </div>
+
+                          {/* Status badges */}
+                          <div className="absolute top-2 right-2 flex flex-col space-y-1 items-end">
+                            {isPurchased ? (
+                              <div className="bg-green-500 text-xs text-white px-1.5 py-0.5 rounded font-bold flex items-center">
+                                <Check className="h-3 w-3 mr-1" /> OWNED
+                              </div>
+                            ) : (
+                              <div className="bg-gray-600 text-xs text-white px-1.5 py-0.5 rounded font-bold flex items-center">
+                                <Lock className="h-3 w-3 mr-1" /> LOCKED
+                              </div>
+                            )}
+                            {app.popular && (
+                              <div className="bg-yellow-500 text-xs text-black px-1.5 py-0.5 rounded font-bold">
+                                POPULAR
+                              </div>
+                            )}
+                            {app.new && (
+                              <div className="bg-primary-500 text-xs text-white px-1.5 py-0.5 rounded font-bold">
+                                NEW
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div
+                        className={
+                          viewMode === "grid" ? "p-4" : "p-4 flex-grow"
+                        }
+                      >
+                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary-400 transition-colors break-words">
+                          {app.name}
+                        </h3>
+                        <p className="text-gray-300 text-sm mb-4 break-words">
+                          Personalized {app.description.toLowerCase()}
+                        </p>
+
+                        {/* Link to app details */}
+                        <div className="flex justify-between items-center">
+                          <div className="flex items-center text-xs text-gray-400">
+                            <LazyIcon
+                              name={app.iconName}
+                              className="h-4 w-4 text-primary-400 mr-1"
+                            />
+                            <span>
+                              {
+                                toolCategories.find(
+                                  (c) => c.id === app.category,
+                                )?.label
+                              }
+                            </span>
+                          </div>
+
+                          <span className="text-primary-400 hover:text-primary-300 text-sm font-medium flex items-center">
+                            {isPurchased ? "Open App" : "Purchase"}
+                            <ArrowRight className="ml-1 h-3 w-3" />
+                          </span>
+                        </div>
+
+                        {/* Sales Dropdown */}
+                        <SalesDropdownErrorBoundary>
+                          <SalesDropdown
+                            salesCopy={appSalesCopy[app.id]}
+                            isExpanded={expandedCards[app.id] || false}
+                            onToggle={() => toggleCardExpansion(app.id)}
+                            appId={app.id}
+                          />
+                        </SalesDropdownErrorBoundary>
+                      </div>
+
+                      {/* Hover effect for grid view */}
+                      {viewMode === "grid" && (
+                          <div className="absolute inset-0 bg-primary-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center z-20">
+                            {isPurchased ? (
+                              <a
+                                href={appUrl}
+                                className="bg-white text-gray-900 font-bold py-2 px-6 rounded-lg flex items-center"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <Wand2 className="h-5 w-5 mr-2" />
+                                Open App
+                              </a>
+                            ) : (
+                              <button
+                                className="bg-white text-gray-900 font-bold py-2 px-6 rounded-lg flex items-center"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleClick(e);
+                                }}
+                              >
+                                <ShoppingCart className="h-5 w-5 mr-2" />
+                                Purchase Now
+                              </button>
+                            )}
+
+                            {/* User count for popular apps */}
+                            {app.popular && (
+                              <div className="mt-3 flex items-center text-white text-sm">
+                                <Users className="h-4 w-4 mr-1" />
+                                <span>Used by 1,200+ creators</span>
+                              </div>
+                            )}
+
+                            {/* Star ratings */}
+                            <div className="mt-2 flex items-center">
+                              {[...Array(5)].map((_, i) => (
+                                <Star
+                                  key={i}
+                                  className="h-4 w-4 text-yellow-500 fill-yellow-500"
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
+            ) : (
+              <div className="bg-gray-800 rounded-xl p-8 text-center">
+                <div className="text-gray-400 text-lg mb-4">
+                  No personalization tools found matching your criteria
+                </div>
+                <button
+                  onClick={() => {
+                    setSelectedCategory("all");
+                    setSearchQuery("");
+                  }}
+                  className="text-primary-400 font-medium"
+                >
+                  Reset filters
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Bottom CTA - show for non-logged-in users or users without purchases */}
         {(!user || !hasAnyPurchases) && (
@@ -828,7 +1140,6 @@ const DashboardToolsSection: React.FC = () => {
             setSelectedAppForPurchase(null);
           }}
           app={selectedAppForPurchase}
-          bundleInfo={getBundleForApp(selectedAppForPurchase.id)}
         />
       )}
 

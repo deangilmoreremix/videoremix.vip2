@@ -58,7 +58,7 @@ const SmartTemplatesPage: React.FC = () => {
           title={feature.title}
           description={feature.description}
           image={feature.image}
-          iconName="layout-template"
+          icon={React.createElement(LayoutTemplate)}
           videoUrl={feature.videoUrl}
         />
 

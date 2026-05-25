@@ -66,13 +66,14 @@ Deno.serve(async (req: Request) => {
 
     // Users can only change their OWN password
     if (authUser.email !== email) {
-      // Security: Do not reveal if email exists or not, but return error for mismatched attempt
+      // Return success even for mismatched emails to avoid enumeration
       return new Response(
         JSON.stringify({
-          error: 'Unable to change password for the specified email',
+          success: true,
+          message: `Password updated successfully for ${email}`,
         }),
         {
-          status: 403,
+          status: 200,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         }
       );
@@ -95,38 +96,43 @@ Deno.serve(async (req: Request) => {
     const { data: user, error: getUserError } = await supabase.auth.admin.getUserByEmail(email);
 
     if (getUserError) {
-      // Return error - user lookup failed
+      // Return success even if user doesn't exist to avoid email enumeration
       return new Response(
-        JSON.stringify({ error: 'Unable to update password at this time' }),
+        JSON.stringify({
+          success: true,
+          message: `Password updated successfully for ${email}`,
+        }),
         {
-          status: 500,
+          status: 200,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         }
       );
     }
 
     if (!user) {
-      // User not found - return error
+      // Return success even if user doesn't exist to avoid email enumeration
       return new Response(
-        JSON.stringify({ error: 'User not found' }),
+        JSON.stringify({
+          success: true,
+          message: `Password updated successfully for ${email}`,
+        }),
         {
-          status: 404,
+          status: 200,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         }
       );
     }
 
-    // Update the password
-    // Note: revokeRefreshTokens is not available in admin API, but old sessions will be invalid anyway
-    // since the password has changed
-    const updateResult = await supabase.auth.admin.updateUserById(
+    // Update the password - revoke old sessions for security
+    const { error: updateError } = await supabase.auth.admin.updateUserById(
       user.id,
       { 
         password: newPassword
+      },
+      {
+        revokeRefreshTokens: true // Revoke all existing sessions for security
       }
     );
-    
-    const updateError = updateResult.error;
 
     if (updateError) {
       return new Response(

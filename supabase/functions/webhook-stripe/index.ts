@@ -20,82 +20,16 @@ serve(async (req) => {
     );
 
     const signature = req.headers.get('stripe-signature');
-    if (!signature) {
-      console.error('Missing Stripe signature');
-      return new Response(
-        JSON.stringify({ success: false, error: 'Missing signature' }),
-        {
-          status: 400,
-          headers: {
-            ...corsHeaders,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-    }
-
     const body = await req.text();
-
-    // Verify the incoming Stripe signature before parsing or processing any event payload
-    let event;
-    try {
-      const crypto = await import('https://deno.land/x/crypto@v0.9.0/mod.ts');
-      const encoder = new TextEncoder();
-      const decoder = new TextDecoder();
-
-      const elements = signature.split(',');
-      const sigElements: { [key: string]: string } = {};
-      for (const element of elements) {
-        const [key, value] = element.split('=');
-        sigElements[key] = value;
-      }
-
-      const timestamp = sigElements['t'];
-      const v1 = sigElements['v1'];
-
-      const signedPayload = `${timestamp}.${body}`;
-      const key = encoder.encode(STRIPE_WEBHOOK_SECRET);
-      const data = encoder.encode(signedPayload);
-
-      const computedSignature = await crypto.createHmac('sha256', key)
-        .update(data)
-        .digest('hex');
-
-      if (computedSignature !== v1) {
-        console.error('Invalid Stripe signature');
-        return new Response(
-          JSON.stringify({ success: false, error: 'Invalid signature' }),
-          {
-            status: 400,
-            headers: {
-              ...corsHeaders,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-      }
-
-      event = JSON.parse(body);
-    } catch (error) {
-      console.error('Failed to verify Stripe signature:', error);
-      return new Response(
-        JSON.stringify({ success: false, error: 'Signature verification failed' }),
-        {
-          status: 400,
-          headers: {
-            ...corsHeaders,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-    }
 
     await supabase.from('webhook_logs').insert({
       platform: 'stripe',
       event_type: 'raw_webhook',
-      webhook_payload: event,
+      webhook_payload: JSON.parse(body),
       processing_status: 'pending',
     });
+
+    const event = JSON.parse(body);
 
     let result;
 
@@ -175,29 +109,16 @@ async function handleCheckoutCompleted(supabase: any, event: any) {
         .maybeSingle();
 
       if (purchaseRecord) {
-        // Implement idempotent writes - check if access record already exists
-        const { data: existingAccess } = await supabase
-          .from('user_app_access')
-          .select('id')
-          .eq('user_id', session.metadata.userId)
-          .eq('app_slug', session.metadata.appId)
-          .eq('purchase_id', purchaseRecord.id)
-          .maybeSingle();
+        await supabase.from('user_app_access').insert({
+          user_id: session.metadata.userId,
+          app_slug: session.metadata.appId,
+          purchase_id: purchaseRecord.id,
+          access_type: 'lifetime',
+          is_active: true,
+          granted_at: new Date().toISOString(),
+        });
 
-        if (!existingAccess) {
-          await supabase.from('user_app_access').insert({
-            user_id: session.metadata.userId,
-            app_slug: session.metadata.appId,
-            purchase_id: purchaseRecord.id,
-            access_type: 'lifetime',
-            is_active: true,
-            granted_at: new Date().toISOString(),
-          });
-
-          console.log(`Granted access to app ${session.metadata.appId} for user ${session.metadata.userId}`);
-        } else {
-          console.log(`Access already exists for app ${session.metadata.appId} for user ${session.metadata.userId}`);
-        }
+        console.log(`Granted access to app ${session.metadata.appId} for user ${session.metadata.userId}`);
       }
     } catch (error) {
       console.error('Error granting app access:', error);

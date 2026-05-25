@@ -16,7 +16,6 @@ import {
   Loader,
 } from "lucide-react";
 import { supabase } from "../../utils/supabaseClient";
-import { safeParseFloat } from "../../utils/safeParse";
 
 interface Purchase {
   id: string;
@@ -189,7 +188,7 @@ const AdminPurchasesManagement: React.FC = () => {
           return {
             email,
             productName,
-            amount: safeParseFloat(amount, 0),
+            amount: parseFloat(amount) || 0,
             platform: platform || "manual",
             transactionId:
               transactionId || `manual-${Date.now()}-${Math.random()}`,

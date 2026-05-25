@@ -1,17 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../utils/supabaseClient";
-import { transformApp, safeTransform, isValidAppData, ComponentApp } from "../utils/appTransformers";
+import { transformApp, ComponentApp } from "../utils/appTransformers";
 import { appConfig } from "../config/appConfig";
 
 // Cache configuration
 const APPS_CACHE_KEY = "videoremix_apps_cache";
 const APPS_CACHE_TTL = appConfig.CACHE.APPS_TTL;
-const APPS_CACHE_VERSION = "3"; // Incremented to force cache refresh after React.createElement fix
 
 interface CacheData {
   data: ComponentApp[];
   timestamp: number;
-  version: string;
+  lastModified: string; // ISO timestamp of last server modification
 }
 
 // Cache utility functions
@@ -36,45 +35,16 @@ const getCachedApps = (): ComponentApp[] | null => {
   }
 };
 
-const setCachedApps = (apps: ComponentApp[]): void => {
+const setCachedApps = (apps: ComponentApp[], lastModified: string): void => {
   try {
     const cacheData: CacheData = {
       data: apps,
       timestamp: Date.now(),
-      version: APPS_CACHE_VERSION,
+      lastModified,
     };
-
-    const cacheString = JSON.stringify(cacheData);
-
-    // Check if the data is too large for localStorage (typically ~5-10MB limit)
-    if (cacheString.length > 4 * 1024 * 1024) { // 4MB limit
-      console.warn("Apps data too large for localStorage, skipping cache");
-      return;
-    }
-
-    localStorage.setItem(APPS_CACHE_KEY, cacheString);
+    localStorage.setItem(APPS_CACHE_KEY, JSON.stringify(cacheData));
   } catch (error) {
-    // Handle QuotaExceededError and other storage errors gracefully
-    if (error instanceof DOMException && error.name === 'QuotaExceededError') {
-      console.warn("Storage quota exceeded, clearing old cache and retrying");
-
-      // Try clearing some space and retry once
-      try {
-        localStorage.removeItem(APPS_CACHE_KEY);
-        // Clear other potential caches if they exist
-        const keysToRemove = Object.keys(localStorage).filter(key =>
-          key.includes('videoremix') || key.includes('cache')
-        );
-        keysToRemove.forEach(key => localStorage.removeItem(key));
-
-        // Retry with smaller data or skip caching
-        console.warn("Cache cleared, skipping apps data caching to prevent quota issues");
-      } catch (clearError) {
-        console.warn("Failed to clear cache:", clearError);
-      }
-    } else {
-      console.warn("Error caching apps data:", error);
-    }
+    console.warn("Error caching apps data:", error);
   }
 };
 
@@ -100,10 +70,63 @@ export const useApps = () => {
       if (!forceRefresh) {
         const cachedApps = getCachedApps();
         if (cachedApps) {
-          console.log("[useApps] Using cached data (skipping validation due to RLS issues)");
-          setApps(cachedApps);
-          setLoading(false);
-          return;
+          // Validate cache with server
+          try {
+            console.log("[useApps] Validating cache with server...");
+            const { data: serverLastModified, error: validationError } =
+              await supabase
+                .from("apps")
+                .select("updated_at")
+                .order("updated_at", { ascending: false })
+                .limit(1);
+
+            console.log("[useApps] Cache validation response:", {
+              data: serverLastModified,
+              error: validationError,
+              errorCode: validationError?.code,
+              errorMessage: validationError?.message,
+              errorDetails: validationError?.details,
+            });
+
+            // Handle 406 error (RLS or empty result)
+            if (validationError) {
+              console.warn(
+                "[useApps] Cache validation failed due to RLS or empty table:",
+                validationError,
+              );
+              // Continue to fetch fresh data - this is expected when RLS blocks access or table is empty
+            } else if (serverLastModified && serverLastModified.length > 0) {
+              const cached = localStorage.getItem(APPS_CACHE_KEY);
+              if (cached) {
+                const cacheData: CacheData = JSON.parse(cached);
+                // If server data is newer, don't use cache
+                if (
+                  serverLastModified[0]?.updated_at &&
+                  serverLastModified[0].updated_at > cacheData.lastModified
+                ) {
+                  // Cache is stale, continue to fetch fresh data
+                  console.log(
+                    "[useApps] Cache is stale, fetching fresh data...",
+                  );
+                } else {
+                  // Cache is valid
+                  console.log("[useApps] Cache is valid, using cached data");
+                  setApps(cachedApps);
+                  setLoading(false);
+                  return;
+                }
+              }
+            } else {
+              // Empty result or no data
+              console.log("[useApps] Empty result or no data available");
+            }
+          } catch (validationError) {
+            console.warn(
+              "Cache validation failed, fetching fresh data:",
+              validationError,
+            );
+            // Continue to fetch fresh data
+          }
         }
       }
 
@@ -113,38 +136,21 @@ export const useApps = () => {
         .order("sort_order", { ascending: true });
 
       if (supabaseError) {
-        // Handle RLS/permission errors gracefully
-        if (supabaseError.code === 'PGRST116' || supabaseError.message?.includes('permission denied') || supabaseError.message?.includes('RLS') || supabaseError.code === '42501') {
-          console.warn("[useApps] Access denied to apps table, returning empty array:", supabaseError);
-          setApps([]);
-          setLoading(false);
-          return;
-        }
         throw supabaseError;
       }
 
       if (data) {
-        // Validate data is an array before processing
-        if (!Array.isArray(data)) {
-          console.error("[useApps] Expected array from Supabase but got:", typeof data);
-          setApps([]);
-          setLoading(false);
-          return;
-        }
+        const transformedApps = data.map(transformApp);
+        setApps(transformedApps);
 
-        // Filter for valid records first, then safely transform
-        const transformedApps = data
-          .filter(isValidAppData)
-          .map(safeTransform)
-          .filter((app): app is ComponentApp => app !== null);
+        // Get the latest modification timestamp for caching
+        const latestModified = data.reduce(
+          (latest, app) => (app.updated_at > latest ? app.updated_at : latest),
+          data[0]?.updated_at || new Date().toISOString(),
+        );
 
-        if (transformedApps.length > 0) {
-          setApps(transformedApps);
-          setCachedApps(transformedApps);
-        } else {
-          console.warn("[useApps] No valid apps after filtering/transformation");
-          setApps([]);
-        }
+        // Cache the transformed data with modification timestamp
+        setCachedApps(transformedApps, latestModified);
       }
     } catch (err) {
       console.error("Error fetching apps:", err);

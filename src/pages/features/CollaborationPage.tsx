@@ -58,7 +58,7 @@ const CollaborationPage: React.FC = () => {
           title={feature.title}
           description={feature.description}
           image={feature.image}
-          iconName="users"
+          icon={React.createElement(Users)}
           videoUrl={feature.videoUrl}
         />
 

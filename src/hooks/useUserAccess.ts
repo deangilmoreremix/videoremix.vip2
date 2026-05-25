@@ -297,11 +297,7 @@ export const useUserAccess = (): UnifiedAccessData & {
     return await purchaseService.checkUserHasAccess(user.id, appSlug);
   }, []);
 
-  const refetch = useCallback(async (forceRefresh: boolean = true) => {
-    if (forceRefresh) {
-      // Clear cache and force immediate reload
-      setLastUserId(null);
-    }
+  const refetch = useCallback(async () => {
     await loadAllAccessData();
   }, [loadAllAccessData]);
 

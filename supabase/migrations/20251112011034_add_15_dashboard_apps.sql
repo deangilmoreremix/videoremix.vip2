@@ -5,11 +5,6 @@
   Adds 15 new apps to the platform with their corresponding Netlify deployment URLs.
   These apps will be displayed on the dashboard and protected by the paywall system.
 
-  ## Pricing Structure
-  - 87 apps: $97 lifetime each
-  - 15 Netlify apps (these 15): $197 lifetime each (premium apps)
-  - 12 category bundles: $397 each (all apps in a category)
-
   ## New Apps Added
 
   1. **AI Personalized Content** - https://capable-mermaid-3c73fa.netlify.app/
@@ -68,91 +63,91 @@ VALUES
   ('ai-personalized-content', 'AI Personalized Content', 'Create highly personalized content that speaks directly to your audience', 'personalizer',
    'https://capable-mermaid-3c73fa.netlify.app/',
    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-   'Sparkles', true, false, 197, true, true, 400),
+   'Sparkles', true, false, 97, true, true, 400),
 
   -- 2. AI Referral Maximizer
   ('ai-referral-maximizer-pro', 'AI Referral Maximizer', 'Maximize your referral conversions with AI-powered automation', 'lead-gen',
    'https://eloquent-kleicha-7e3a3e.netlify.app',
    'https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-   'Megaphone', true, false, 197, true, true, 410),
+   'Megaphone', true, false, 97, true, true, 410),
 
   -- 3. AI Sales Maximizer
   ('ai-sales-maximizer', 'AI Sales Maximizer', 'Boost your sales with intelligent AI-driven strategies', 'sales',
    'https://magnificent-lamington-619374.netlify.app/',
    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-   'BarChart2', true, true, 197, true, true, 420),
+   'BarChart2', true, true, 97, true, true, 420),
 
   -- 4. AI Screen Recorder
   ('ai-screen-recorder', 'AI Screen Recorder', 'Record your screen with AI-enhanced editing capabilities', 'video',
    'https://adorable-arithmetic-675d28.netlify.app/',
    'https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-   'Monitor', false, true, 197, true, false, 430),
+   'Monitor', false, true, 97, true, false, 430),
 
   -- 5. Smart CRM Closer
   ('smart-crm-closer-pro', 'Smart CRM Closer', 'Close more deals with AI-powered CRM intelligence', 'sales',
    'https://stupendous-twilight-64389a.netlify.app/',
    'https://images.unsplash.com/photo-1553484771-371a605b060b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-   'Database', true, false, 197, true, true, 440),
+   'Database', true, false, 97, true, true, 440),
 
   -- 6. Video AI Editor
   ('video-ai-editor-pro', 'Video AI Editor', 'Professional video editing powered by artificial intelligence', 'video',
    'https://heroic-seahorse-296f32.netlify.app/',
    'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-   'Video', true, false, 197, true, true, 450),
+   'Video', true, false, 97, true, true, 450),
 
   -- 7. AI Video & Image
   ('ai-video-image-pro', 'AI Video & Image', 'Transform videos and images with advanced AI processing', 'ai-image',
    'https://thriving-mochi-ecd815.netlify.app/',
    'https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-   'ImageIcon', false, true, 197, true, false, 460),
+   'ImageIcon', false, true, 97, true, false, 460),
 
   -- 8. AI Skills Monetizer
   ('ai-skills-monetizer-pro', 'AI Skills Monetizer', 'Turn your skills into profitable income streams', 'sales',
    'https://roaring-mochi-39a60a.netlify.app',
    'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-   'DollarSign', true, false, 197, true, false, 470),
+   'DollarSign', true, false, 97, true, false, 470),
 
   -- 9. AI Signature
   ('ai-signature-pro', 'AI Signature', 'Create professional email signatures with AI design', 'personalizer',
    'https://kaleidoscopic-tarsier-3d0a6c.netlify.app/',
    'https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-   'FileSignature', false, false, 197, true, false, 480),
+   'FileSignature', false, false, 97, true, false, 480),
 
   -- 10. Personalizer AI Profile Generator
   ('personalizer-profile-generator', 'Personalizer AI Profile Generator', 'Generate compelling personalized profiles with AI', 'personalizer',
    'https://endearing-churros-2ce8c6.netlify.app/',
    'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-   'UserCircle', false, true, 197, true, false, 490),
+   'UserCircle', false, true, 97, true, false, 490),
 
   -- 11. Personalizer AI Video & Image Transformer
   ('personalizer-transformer', 'Personalizer AI Video & Image Transformer', 'Transform media content with personalized AI enhancements', 'personalizer',
    'https://thriving-mochi-ecd815.netlify.app/',
    'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-   'Sparkles', true, false, 197, true, true, 500),
+   'Sparkles', true, false, 97, true, true, 500),
 
   -- 12. Personalizer URL Video Generation Templates & Editor
   ('personalizer-url-templates', 'Personalizer URL Video Generation Templates & Editor', 'Generate personalized videos from URLs with smart templates', 'personalizer',
    'https://cute-khapse-4e62cb.netlify.app/',
    'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-   'LayoutTemplate', false, false, 197, true, false, 510),
+   'LayoutTemplate', false, false, 97, true, false, 510),
 
   -- 13. AI Proposal
   ('ai-proposal-generator', 'AI Proposal', 'Create winning proposals with AI-powered writing assistance', 'sales',
    'https://keen-pastelito-6b9074.netlify.app',
    'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-   'FileText', true, false, 197, true, false, 520),
+   'FileText', true, false, 97, true, false, 520),
 
   -- 14. Sales Assistant App
   ('sales-assistant-platform', 'Sales Assistant App', 'Your complete AI sales assistance platform', 'sales',
    'https://gentle-frangipane-ceed17.netlify.app',
    'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-   'Briefcase', true, false, 197, true, true, 530),
+   'Briefcase', true, false, 97, true, true, 530),
 
   -- 15. Sales Page Builder
   ('sales-page-builder-pro', 'Sales Page Builder', 'Build high-converting sales pages in minutes', 'page',
    'https://prismatic-starship-c0b4c2.netlify.app',
    'https://images.unsplash.com/photo-1432888622747-4eb9a8f2c293?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-   'PanelTop', true, true, 197, true, true, 540)
+   'PanelTop', true, true, 97, true, true, 540)
 
 ON CONFLICT (slug)
 DO UPDATE SET

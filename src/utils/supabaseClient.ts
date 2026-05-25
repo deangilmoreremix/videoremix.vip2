@@ -77,14 +77,15 @@ export interface BenefitFeature {
 // Testimonial types
 export interface Testimonial {
   id: string;
+  content: string;
   name: string;
   role: string;
   company?: string;
-  content: string;
-  avatar_url?: string;
+  image_url: string;
   rating: number;
-  is_active: boolean;
-  sort_order: number;
+  category?: string;
+  featured: boolean;
+  enabled: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -161,7 +162,7 @@ async function getHeroContent() {
     const { data, error } = await supabase
       .from("hero_content")
       .select("*")
-      .eq("is_active", true)
+      .eq("enabled", true)
       .order("created_at", { ascending: false })
       .limit(1)
       .single();
@@ -182,7 +183,7 @@ async function getBenefitsFeatures() {
   const { data, error } = await supabase
     .from("benefits_features")
     .select("*")
-    .eq("is_active", true)
+    .eq("enabled", true)
     .order("id", { ascending: true });
 
   if (error) {
@@ -194,9 +195,13 @@ async function getBenefitsFeatures() {
 }
 
 async function getTestimonials(featured_only = false) {
-  let query = supabase.from("testimonials").select("*").eq("is_active", true);
+  let query = supabase.from("testimonials").select("*").eq("enabled", true);
 
-  const { data, error } = await query.order("sort_order", { ascending: true });
+  if (featured_only) {
+    query = query.eq("featured", true);
+  }
+
+  const { data, error } = await query.order("id", { ascending: true });
 
   if (error) {
     console.error("Error fetching testimonials:", error);
@@ -207,13 +212,13 @@ async function getTestimonials(featured_only = false) {
 }
 
 async function getFAQs(category = "all") {
-  let query = supabase.from("faqs").select("*").eq("is_active", true);
+  let query = supabase.from("faqs").select("*").eq("enabled", true);
 
   if (category !== "all") {
     query = query.eq("category", category);
   }
 
-  const { data, error } = await query.order("sort_order", { ascending: true });
+  const { data, error } = await query.order("list_order", { ascending: true });
 
   if (error) {
     console.error("Error fetching FAQs:", error);
@@ -227,7 +232,7 @@ async function getPricingPlans() {
   const { data, error } = await supabase
     .from("pricing_plans")
     .select("*")
-    .eq("is_active", true)
+    .eq("enabled", true)
     .order("price_monthly", { ascending: true });
 
   if (error) {

@@ -22,40 +22,6 @@ export async function processPurchase(
   try {
     const email = purchase.email.toLowerCase().trim();
 
-    // FIRST: Check for existing purchase (idempotency check)
-    // This prevents race conditions from duplicate webhooks
-    const { data: existingPurchase } = await supabase
-      .from('purchases')
-      .select('id, user_id, processed')
-      .eq('platform', platform)
-      .eq('platform_transaction_id', purchase.transactionId)
-      .maybeSingle();
-
-    if (existingPurchase) {
-      console.log(`Purchase ${purchase.transactionId} already exists, skipping`);
-      
-      // If purchase exists but wasn't fully processed, complete it
-      if (!existingPurchase.processed) {
-        const productMatch = await matchProduct(supabase, purchase.productName, purchase.productSku);
-        
-        if (productMatch && productMatch.appSlugs.length > 0) {
-          await grantAppAccess(
-            supabase,
-            existingPurchase.user_id,
-            productMatch.appSlugs,
-            existingPurchase.id,
-            purchase.isSubscription
-          );
-        }
-        await supabase
-          .from('purchases')
-          .update({ processed: true, processed_at: new Date().toISOString() })
-          .eq('id', existingPurchase.id);
-      }
-      
-      return { success: true, userId: existingPurchase.user_id };
-    }
-
     let userId: string | null = null;
     let userExists = false;
 

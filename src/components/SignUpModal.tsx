@@ -56,9 +56,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
     setLoading(true);
 
     try {
-      // Normalize email to lowercase to prevent case-sensitivity issues
-      const normalizedEmail = formData.email.toLowerCase().trim();
-      const { error } = await signUp(normalizedEmail, formData.password, {
+      const { error } = await signUp(formData.email, formData.password, {
         first_name: formData.firstName,
         last_name: formData.lastName,
       });

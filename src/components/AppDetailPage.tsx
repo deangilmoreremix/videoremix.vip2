@@ -29,26 +29,14 @@ import {
   Mail,
   Gift,
   ExternalLink,
-  Lock,
-  BarChart2,
-  Database,
-  Home,
-  UserCheck,
-  DollarSign,
-  Shield,
-  Settings,
-  Search,
 } from "lucide-react";
 import MagicSparkles from "./MagicSparkles";
 import { useApps } from "../hooks/useApps";
 import { useAuth } from "../context/AuthContext";
 import { useUserAccess } from "../hooks/useUserAccess";
 import { getEnhancedAppData } from "../data/enhancedAppsData";
-import { getAppUrl } from "../config/appUrls";
+import { getAppUrl, isExternalUrl } from "../config/appUrls";
 import PurchaseModal from "./PurchaseModal";
-import PersonalizerDialog from "./personalizer/PersonalizerDialog";
-import { getBundleForApp } from "../data/appsData";
-import { AppLaunchButton } from "./AppLaunchButton";
 
 // Floating Icon component to add visual interest
 const FloatingIcon: React.FC<{
@@ -151,7 +139,6 @@ const AppDetailPage: React.FC = () => {
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
-  const [showPersonalizer, setShowPersonalizer] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -340,7 +327,104 @@ const AppDetailPage: React.FC = () => {
                 )}
 
                 <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                  <AppLaunchButton app={app} onPurchaseClick={() => setShowPurchaseModal(true)} />
+                  {app.url && isExternalUrl(appId || "") ? (
+                    user && hasAccessToApp(app.slug || app.id) ? (
+                      <motion.a
+                        href={app.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{
+                          scale: 1.05,
+                          boxShadow: "0 10px 25px -5px rgba(79, 70, 229, 0.4)",
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                        className="inline-flex items-center justify-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg relative overflow-hidden"
+                      >
+                        {/* Glowing effect */}
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-20"
+                          animate={{
+                            x: ["-100%", "200%"],
+                          }}
+                          transition={{
+                            repeat: Infinity,
+                            repeatDelay: 3,
+                            duration: 1.5,
+                            ease: "easeInOut",
+                          }}
+                        />
+                        <span className="relative z-10">Launch {app.name}</span>
+                        <motion.div
+                          className="relative z-10 ml-2"
+                          animate={{
+                            x: [0, 5, 0],
+                            opacity: [1, 0.8, 1],
+                          }}
+                          transition={{
+                            repeat: Infinity,
+                            duration: 1.5,
+                            repeatDelay: 1,
+                          }}
+                        >
+                          <ExternalLink className="h-5 w-5" />
+                        </motion.div>
+                      </motion.a>
+                    ) : (
+                      <motion.button
+                        onClick={() => setShowPurchaseModal(true)}
+                        whileHover={{
+                          scale: 1.05,
+                          boxShadow: "0 10px 25px -5px rgba(79, 70, 229, 0.4)",
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                        className="inline-flex items-center justify-center bg-gradient-to-r from-gray-600 to-gray-500 hover:from-primary-600 hover:to-primary-500 text-white font-bold px-8 py-4 rounded-lg shadow-lg relative overflow-hidden"
+                      >
+                        <Lock className="h-5 w-5 mr-2" />
+                        <span className="relative z-10">
+                          Get Access to {app.name}
+                        </span>
+                      </motion.button>
+                    )
+                  ) : (
+                    <motion.button
+                      whileHover={{
+                        scale: 1.05,
+                        boxShadow: "0 10px 25px -5px rgba(79, 70, 229, 0.4)",
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                      className="inline-flex items-center justify-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg relative overflow-hidden"
+                      onClick={() => navigate("/pricing")}
+                    >
+                      {/* Glowing effect */}
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-20"
+                        animate={{
+                          x: ["-100%", "200%"],
+                        }}
+                        transition={{
+                          repeat: Infinity,
+                          repeatDelay: 3,
+                          duration: 1.5,
+                          ease: "easeInOut",
+                        }}
+                      />
+                      <span className="relative z-10">Try {app.name} Now</span>
+                      <motion.div
+                        className="relative z-10 ml-2"
+                        animate={{
+                          x: [0, 5, 0],
+                          opacity: [1, 0.8, 1],
+                        }}
+                        transition={{
+                          repeat: Infinity,
+                          duration: 1.5,
+                          repeatDelay: 1,
+                        }}
+                      >
+                        <ArrowRight className="h-5 w-5" />
+                      </motion.div>
+                    </motion.button>
+                  )}
 
                   <motion.button
                     whileHover={{
@@ -370,31 +454,6 @@ const AppDetailPage: React.FC = () => {
                       <Play className="mr-2 h-5 w-5" />
                     </motion.div>
                     Watch Demo
-                  </motion.button>
-
-                  {/* Personalize This Button */}
-                  <motion.button
-                    whileHover={{
-                      scale: 1.05,
-                      boxShadow: "0 10px 25px -5px rgba(236, 72, 153, 0.4)",
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    className="inline-flex items-center justify-center bg-gradient-to-r from-accent to-pink-500 hover:from-accent/90 hover:to-pink-500/90 text-white font-bold px-8 py-4 rounded-lg shadow-lg relative overflow-hidden"
-                    onClick={() => setShowPersonalizer(true)}
-                  >
-                    <motion.div
-                      animate={{
-                        rotate: [0, 15, 0, -15, 0],
-                      }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 2,
-                        repeatDelay: 3,
-                      }}
-                    >
-                      <Sparkles className="h-5 w-5 mr-2" />
-                    </motion.div>
-                    <span className="relative z-10">Personalize This</span>
                   </motion.button>
                 </div>
 
@@ -527,31 +586,7 @@ const AppDetailPage: React.FC = () => {
                   transition={{ delay: 0.5 }}
                 >
                   {/* Icons based on app category - add animation to each */}
-                  {app.category === "sales-lead-gen" && (
-                    <motion.div
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 2,
-                        repeatDelay: 2,
-                      }}
-                    >
-                      <BarChart2 className="h-4 w-4 text-primary-400" />
-                    </motion.div>
-                  )}
-                  {app.category === "content-marketing" && (
-                    <motion.div
-                      animate={{ y: [0, -3, 0] }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 1.5,
-                        repeatDelay: 1,
-                      }}
-                    >
-                      <FileText className="h-4 w-4 text-primary-400" />
-                    </motion.div>
-                  )}
-                  {app.category === "video-audio-voice" && (
+                  {app.category === "video" && (
                     <motion.div
                       animate={{ scale: [1, 1.2, 1] }}
                       transition={{
@@ -563,7 +598,7 @@ const AppDetailPage: React.FC = () => {
                       <Video className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {app.category === "rag-knowledgebase" && (
+                  {app.category === "ai-image" && (
                     <motion.div
                       animate={{ rotate: [0, 15, 0, -15, 0] }}
                       transition={{
@@ -572,10 +607,10 @@ const AppDetailPage: React.FC = () => {
                         repeatDelay: 1,
                       }}
                     >
-                      <Database className="h-4 w-4 text-primary-400" />
+                      <Sparkles className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {app.category === "realestate-local" && (
+                  {app.category === "lead-gen" && (
                     <motion.div
                       animate={{ y: [0, -3, 0] }}
                       transition={{
@@ -584,22 +619,10 @@ const AppDetailPage: React.FC = () => {
                         repeatDelay: 1,
                       }}
                     >
-                      <Home className="h-4 w-4 text-primary-400" />
+                      <Users className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {app.category === "hr-hiring" && (
-                    <motion.div
-                      animate={{ scale: [1, 1.3, 1] }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 1.8,
-                        repeatDelay: 2,
-                      }}
-                    >
-                      <UserCheck className="h-4 w-4 text-primary-400" />
-                    </motion.div>
-                  )}
-                  {app.category === "finance-business" && (
+                  {app.category === "branding" && (
                     <motion.div
                       animate={{ rotateY: [0, 180, 0] }}
                       transition={{
@@ -608,58 +631,10 @@ const AppDetailPage: React.FC = () => {
                         repeatDelay: 3,
                       }}
                     >
-                      <DollarSign className="h-4 w-4 text-primary-400" />
+                      <PenTool className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {app.category === "legal-compliance" && (
-                    <motion.div
-                      animate={{ rotate: [0, 360] }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 5,
-                        ease: "linear",
-                      }}
-                    >
-                      <Shield className="h-4 w-4 text-primary-400" />
-                    </motion.div>
-                  )}
-                  {app.category === "coding-developer" && (
-                    <motion.div
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 2,
-                        repeatDelay: 2,
-                      }}
-                    >
-                      <Settings className="h-4 w-4 text-primary-400" />
-                    </motion.div>
-                  )}
-                  {app.category === "design-uiux" && (
-                    <motion.div
-                      animate={{ rotate: [0, 15, 0, -15, 0] }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 3,
-                        repeatDelay: 1,
-                      }}
-                    >
-                      <Palette className="h-4 w-4 text-primary-400" />
-                    </motion.div>
-                  )}
-                  {app.category === "research-education" && (
-                    <motion.div
-                      animate={{ y: [0, -3, 0] }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 1.5,
-                        repeatDelay: 1,
-                      }}
-                    >
-                      <Search className="h-4 w-4 text-primary-400" />
-                    </motion.div>
-                  )}
-                  {app.category === "productivity-personal" && (
+                  {app.category === "personalizer" && (
                     <motion.div
                       animate={{ scale: [1, 1.3, 1] }}
                       transition={{
@@ -668,7 +643,19 @@ const AppDetailPage: React.FC = () => {
                         repeatDelay: 2,
                       }}
                     >
-                      <UserCircle className="h-4 w-4 text-primary-400" />
+                      <MousePointer className="h-4 w-4 text-primary-400" />
+                    </motion.div>
+                  )}
+                  {app.category === "creative" && (
+                    <motion.div
+                      animate={{ rotate: [0, 360] }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 5,
+                        ease: "linear",
+                      }}
+                    >
+                      <Layers className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
                 </motion.div>
@@ -1172,37 +1159,37 @@ const AppDetailPage: React.FC = () => {
                     title: "AI-Powered Creation",
                     description:
                       "Create professional videos automatically with our advanced artificial intelligence technology",
-                    iconName: "sparkles",
+                    icon: React.createElement(Sparkles),
                   },
                   {
                     title: "Intuitive Interface",
                     description:
                       "Easy-to-use controls designed for non-technical users to create stunning videos",
-                    iconName: "zap",
+                    icon: React.createElement(Zap),
                   },
                   {
                     title: "Time-Saving Automation",
                     description:
                       "Reduce video production time by up to 90% with intelligent automation features",
-                    iconName: "clock",
+                    icon: React.createElement(Clock),
                   },
                   {
                     title: "Professional Templates",
                     description:
                       "Choose from hundreds of professionally designed templates for any purpose",
-                    iconName: "award",
+                    icon: React.createElement(Award),
                   },
                   {
                     title: "Multi-Platform Optimization",
                     description:
                       "Automatically format your videos for all major social media platforms",
-                    iconName: "share-2",
+                    icon: React.createElement(Share2),
                   },
                   {
                     title: "Collaboration Tools",
                     description:
                       "Work together with your team in real-time with powerful collaboration features",
-                    iconName: "users",
+                    icon: React.createElement(Users),
                   },
                   // @ts-expect-error
                 ]
@@ -2361,17 +2348,8 @@ const AppDetailPage: React.FC = () => {
           isOpen={showPurchaseModal}
           onClose={() => setShowPurchaseModal(false)}
           app={app}
-          bundleInfo={getBundleForApp(app.id)}
         />
       )}
-
-      {/* Personalizer Dialog */}
-      <PersonalizerDialog
-        open={showPersonalizer}
-        onClose={() => setShowPersonalizer(false)}
-        appId={app?.id}
-        userId={user?.id}
-      />
     </div>
   );
 };

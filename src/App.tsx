@@ -11,19 +11,16 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import AIAssistant from "./components/AIAssistant";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MobileBottomNav from "./components/MobileBottomNav";
-import GlobalPersonalizerButton from "./components/personalizer/GlobalPersonalizerButton";
 import { AdminProvider } from "./context/AdminContext";
 import { AuthProvider } from "./context/AuthContext";
-import { LandingPageProvider } from "./context/LandingPageContext";
 import { Toaster } from "./components/ui/toast";
 import { NetworkStatusIndicator } from "./components/AsyncStates";
 
 // Lazy loaded components for better performance
-const LandingPage = lazy(() => import("./components/premium/LandingPage"));
+const LandingPage = lazy(() => import("./pages/LandingPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
 const ToolsHubPage = lazy(() => import("./pages/ToolsHubPage")); // New Tools Hub Page
-const ApplicationsPage = lazy(() => import("./pages/ApplicationsPage"));
-const AIAppRunnerPage = lazy(() => import("./pages/AIAppRunnerPage"));
+
 // Feature pages
 const AIVideoCreatorPage = lazy(
   () => import("./pages/features/AIVideoCreatorPage"),
@@ -69,9 +66,6 @@ const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const EmailConfirmPage = lazy(() => import("./pages/EmailConfirmPage"));
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
 const MagicLinkPage = lazy(() => import("./pages/MagicLinkPage"));
-
-// Personalizer page
-const PersonalizerPage = lazy(() => import("./pages/PersonalizerPage"));
 
 // Loading fallback component
 const SectionLoader = () => (
@@ -169,9 +163,6 @@ function App() {
           {/* AI Assistant - Hidden on admin pages */}
           {!isAdminPage && <AIAssistant />}
 
-          {/* Global Personalizer Button - Hidden on admin pages */}
-          {!isAdminPage && <GlobalPersonalizerButton />}
-
           <Routes>
             {/* Landing Page Route */}
             <Route
@@ -180,9 +171,7 @@ function App() {
                 <ErrorBoundary onError={handleError}>
                   <SparkleBackground>
                     <Suspense fallback={<SectionLoader />}>
-                      <LandingPageProvider>
-                        <LandingPage />
-                      </LandingPageProvider>
+                      <LandingPage isMobile={isMobile} isTablet={isTablet} />
                       <SpecialFooter />
                     </Suspense>
                   </SparkleBackground>
@@ -204,20 +193,6 @@ function App() {
                 </ErrorBoundary>
               }
             />
-            {/* Applications Page */}
-            <Route
-              path="/apps"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <SparkleBackground>
-                    <Suspense fallback={<SectionLoader />}>
-                      <ApplicationsPage />
-                      <SpecialFooter />
-                    </Suspense>
-                  </SparkleBackground>
-                </ErrorBoundary>
-              }
-            />
 
             {/* App Detail Pages */}
             <Route
@@ -231,20 +206,6 @@ function App() {
                     </Suspense>
                   </SparkleBackground>
                 </ErrorBoundary>
-              }
-            />
-
-            {/* AI App Runner - First-party interactive UIs for the 95 AI apps */}
-            <Route
-              path="/ai-app/:slug"
-              element={
-                <ProtectedRoute>
-                  <ErrorBoundary onError={handleError}>
-                    <Suspense fallback={<SectionLoader />}>
-                      <AIAppRunnerPage />
-                    </Suspense>
-                  </ErrorBoundary>
-                </ProtectedRoute>
               }
             />
 
@@ -621,18 +582,6 @@ function App() {
                 <ErrorBoundary onError={handleError}>
                   <Suspense fallback={<SectionLoader />}>
                     <AdminDashboard />
-                  </Suspense>
-                </ErrorBoundary>
-              }
-            />
-
-            {/* Personalizer Page */}
-            <Route
-              path="/new"
-              element={
-                <ErrorBoundary onError={handleError}>
-                  <Suspense fallback={<SectionLoader />}>
-                    <PersonalizerPage />
                   </Suspense>
                 </ErrorBoundary>
               }

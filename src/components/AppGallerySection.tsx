@@ -19,17 +19,8 @@ import {
   Brain,
   Check,
   Lock,
-  FileText,
-  Database,
-  Home,
-  UserCheck,
-  DollarSign,
-  Shield,
-  Settings,
-  Mic,
 } from "lucide-react";
 import MagicSparkles from "./MagicSparkles";
-import { supportsVoiceMode, isInternalAIApp } from "./ai/apps/registry";
 import { useInView } from "react-intersection-observer";
 import { useApps } from "../hooks/useApps";
 import { useAuth } from "../context/AuthContext";
@@ -55,72 +46,42 @@ const TrendingUp: React.FC<{ className?: string }> = (props) => (
   </svg>
 );
 
-// App categories
+// App categories with personalization focus
 const toolCategories = [
   {
     id: "all",
-    label: "All Apps",
-    iconName: "layers",
+    label: "All Personalization Tools",
+    icon: React.createElement(Layers, { className: "w-4 h-4" }),
   },
   {
-    id: "sales-lead-gen",
-    label: "Sales & Lead Gen",
-    iconName: "trending-up",
+    id: "video",
+    label: "Personalized Video",
+    icon: React.createElement(Video, { className: "w-4 h-4" }),
   },
   {
-    id: "content-marketing",
-    label: "Content & Marketing",
-    iconName: "file-text",
+    id: "lead-gen",
+    label: "Personalized Marketing",
+    icon: React.createElement(Users, { className: "w-4 h-4" }),
   },
   {
-    id: "video-audio-voice",
-    label: "Video, Audio & Voice",
-    iconName: "video",
+    id: "ai-image",
+    label: "Personalized AI Image",
+    icon: React.createElement(ImageIcon, { className: "w-4 h-4" }),
   },
   {
-    id: "rag-knowledgebase",
-    label: "RAG & Knowledgebase",
-    iconName: "database",
+    id: "branding",
+    label: "Personalized Branding",
+    icon: React.createElement(Palette, { className: "w-4 h-4" }),
   },
   {
-    id: "realestate-local",
-    label: "Real Estate & Local",
-    iconName: "home",
+    id: "personalizer",
+    label: "Content Personalizer",
+    icon: React.createElement(UserCircle, { className: "w-4 h-4" }),
   },
   {
-    id: "hr-hiring",
-    label: "HR & Hiring",
-    iconName: "user-check",
-  },
-  {
-    id: "finance-business",
-    label: "Finance & Business",
-    iconName: "dollar-sign",
-  },
-  {
-    id: "legal-compliance",
-    label: "Legal & Compliance",
-    iconName: "shield",
-  },
-  {
-    id: "coding-developer",
-    label: "Coding & SaaS",
-    iconName: "settings",
-  },
-  {
-    id: "design-uiux",
-    label: "Design & UI/UX",
-    iconName: "palette",
-  },
-  {
-    id: "research-education",
-    label: "Research & Training",
-    iconName: "search",
-  },
-  {
-    id: "productivity-personal",
-    label: "Productivity & Personal",
-    iconName: "user-circle",
+    id: "creative",
+    label: "Personalized Creative",
+    icon: React.createElement(Package, { className: "w-4 h-4" }),
   },
 ];
 
@@ -514,7 +475,7 @@ const AppGallerySection: React.FC = () => {
                         : app.image
                     }
                     alt={app.name}
-                    className={`w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-in-out ${user && !hasAccessToApp(app.id) ? "grayscale opacity-60" : ""}`}
+                    className={`w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out ${user && !hasAccessToApp(app.id) ? "grayscale opacity-60" : ""}`}
                     onError={() => handleImageError(app.id)}
                   />
 
@@ -568,7 +529,7 @@ const AppGallerySection: React.FC = () => {
                   <div className="flex items-center">
                     <div className="p-2 bg-gray-800/80 rounded-full mr-3">
                       <LazyIcon
-                        name={typeof app.iconName === "string" ? app.iconName : "layers"}
+                        name={app.iconName}
                         className="w-5 h-5 text-primary-400"
                       />
                     </div>
@@ -779,7 +740,7 @@ const AppGallerySection: React.FC = () => {
                               : app.image
                           }
                           alt={app.name}
-                          className="w-full h-full object-cover object-center"
+                          className="w-full h-full object-cover"
                           onError={() => handleImageError(app.id)}
                         />
 
@@ -812,17 +773,12 @@ const AppGallerySection: React.FC = () => {
                               POPULAR
                             </span>
                           )}
-                           {app.new && (
-                             <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded font-bold">
-                               NEW
-                             </span>
-                           )}
-                           {isInternalAIApp(app.id) && supportsVoiceMode(app.id) && (
-                             <span className="bg-violet-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1 font-medium">
-                               <Mic className="h-3 w-3" /> VOICE
-                             </span>
-                           )}
-                         </div>
+                          {app.new && (
+                            <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded font-bold">
+                              NEW
+                            </span>
+                          )}
+                        </div>
                       </div>
 
                       <div className="p-4">
@@ -836,7 +792,7 @@ const AppGallerySection: React.FC = () => {
                         <div className="flex justify-between items-center">
                           <div className="flex items-center">
                             <LazyIcon
-                              name={typeof app.iconName === "string" ? app.iconName : "layers"}
+                              name={app.iconName}
                               className="w-4 h-4 text-primary-400 mr-1"
                             />
                             <span className="text-gray-500 text-xs">
@@ -901,7 +857,7 @@ const AppGallerySection: React.FC = () => {
                               : app.image
                           }
                           alt={app.name}
-                          className={`object-cover object-center ${
+                          className={`object-cover ${
                             viewMode === "grid"
                               ? "w-full h-full"
                               : "w-32 h-full"
@@ -935,17 +891,12 @@ const AppGallerySection: React.FC = () => {
                               POPULAR
                             </div>
                           )}
-                           {app.new && (
-                             <div className="bg-green-500 text-xs text-black px-1.5 py-0.5 rounded font-bold">
-                               NEW
-                             </div>
-                           )}
-                           {isInternalAIApp(app.id) && supportsVoiceMode(app.id) && (
-                             <div className="bg-violet-600 text-white text-xs px-1.5 py-0.5 rounded flex items-center gap-1 font-medium">
-                               <Mic className="h-3 w-3" /> VOICE
-                             </div>
-                           )}
-                         </div>
+                          {app.new && (
+                            <div className="bg-green-500 text-xs text-black px-1.5 py-0.5 rounded font-bold">
+                              NEW
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
 
@@ -964,7 +915,7 @@ const AppGallerySection: React.FC = () => {
                       <div className="flex justify-between items-center">
                         <div className="flex items-center text-xs text-gray-400">
                           <LazyIcon
-                            name={typeof app.iconName === "string" ? app.iconName : "layers"}
+                            name={app.iconName}
                             className="h-4 w-4 text-primary-400 mr-1"
                           />
                           <span>

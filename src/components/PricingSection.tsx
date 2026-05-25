@@ -8,55 +8,9 @@ export const PricingSection: React.FC = () => {
   const [billingCycle, setBillingCycle] = useState<
     "monthly" | "yearly" | "lifetime"
   >("yearly");
-  const { pricingPlans, isLoading, error } = useLandingPageContent();
+  const { pricingPlans, isLoading } = useLandingPageContent();
 
-  // Determine if we're in production
-  const isProduction = typeof window !== 'undefined' && 
-                       window.location.hostname !== 'localhost' && 
-                       window.location.hostname !== '127.0.0.1' &&
-                       !window.location.hostname.includes('preview');
-
-  // Log telemetry when falling back in production
-  if (isProduction && 
-      (!pricingPlans || pricingPlans.length === 0) &&
-      !isLoading) {
-    console.warn('[PricingSection] Falling back to default content in production. CMS data unavailable.', {
-      hasError: !!error,
-      error: error,
-      pricingPlansCount: pricingPlans?.length || 0,
-    });
-  }
-
-  // Show loading state
-  if (isLoading) {
-    return (
-      <section id="pricing" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="flex justify-center items-center min-h-[400px]">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  // Show error state if there's an error and no data
-  if (error && (!pricingPlans || pricingPlans.length === 0)) {
-    return (
-      <section id="pricing" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-white mb-2">Unable to Load Pricing</h3>
-              <p className="text-gray-300">{error}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  // Default pricing data structure - only used in development/preview mode
+  // Default pricing data structure as fallback
   const defaultPlans = [
     {
       name: "Free",
@@ -116,23 +70,11 @@ export const PricingSection: React.FC = () => {
     },
   ];
 
-  // Use dynamic data from Supabase if available, otherwise use defaults only in dev/preview mode
-  const plans = pricingPlans && pricingPlans.length > 0
-    ? pricingPlans
-    : (isProduction ? [] : defaultPlans);
-
-  // If in production and no plans, show empty state
-  if (isProduction && plans.length === 0) {
-    return (
-      <section id="pricing" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <p className="text-gray-400">Pricing information is currently unavailable.</p>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  // Use dynamic data from Supabase if available
+  const plans =
+    !isLoading && pricingPlans && pricingPlans.length > 0
+      ? pricingPlans
+      : defaultPlans;
 
   // Find the popular plan
   const popularPlan = plans.find((plan) => plan.is_popular) || plans[1];

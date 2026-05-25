@@ -13,19 +13,18 @@ import {
 import CountUp from "react-countup";
 import { useLandingPageContent } from "../context/LandingPageContext";
 import MagicSparkles from "./MagicSparkles";
-import { safeParseInt } from "../utils/safeParse";
 
 const BenefitsSection: React.FC = () => {
   // Get benefits data from context
-  const { benefitsFeatures, isLoading, error } = useLandingPageContent();
+  const { benefitsFeatures, isLoading } = useLandingPageContent();
 
-  // Default benefits - only used in development/preview mode
+  // Default benefits in case data isn't loaded yet
   const defaultBenefits = [
     {
       icon: <Clock className="h-10 w-10 text-primary-400" />,
       title: "Create Personalized Marketing in Minutes",
       description:
-        "Our AI tools analyze your audience and automatically personalize marketing content that resonhes with each segment.",
+        "Our AI tools analyze your audience and automatically personalize marketing content that resonates with each segment.",
       stats: [
         {
           label: "Time saved vs manual marketing personalization",
@@ -69,97 +68,39 @@ const BenefitsSection: React.FC = () => {
     },
   ];
 
-  // Log telemetry when falling back in production
-  const isProduction = typeof window !== 'undefined' && 
-                       window.location.hostname !== 'localhost' && 
-                       window.location.hostname !== '127.0.0.1' &&
-                       !window.location.hostname.includes('preview');
-  
-  if (isProduction && 
-      (!benefitsFeatures || benefitsFeatures.length === 0) &&
-      !isLoading) {
-    console.warn('[BenefitsSection] Falling back to default content in production. CMS data unavailable.', {
-      hasError: !!error,
-      error: error,
-      benefitsCount: benefitsFeatures?.length || 0,
-    });
-  }
+  // Transform the data from Supabase to match the component's expectations
+  const benefits =
+    isLoading || !benefitsFeatures || benefitsFeatures.length === 0
+      ? defaultBenefits
+      : benefitsFeatures.map((benefit) => {
+          // Convert icon name string to actual component
+          let iconComponent;
+          switch (benefit.icon_name) {
+            case "Clock":
+              iconComponent = <Clock className="h-10 w-10 text-primary-400" />;
+              break;
+            case "Star":
+              iconComponent = <Star className="h-10 w-10 text-primary-400" />;
+              break;
+            case "Users":
+              iconComponent = <Users className="h-10 w-10 text-primary-400" />;
+              break;
+            case "Zap":
+              iconComponent = <Zap className="h-10 w-10 text-primary-400" />;
+              break;
+            default:
+              iconComponent = (
+                <Sparkles className="h-10 w-10 text-primary-400" />
+              );
+          }
 
-  // Show loading state
-  if (isLoading) {
-    return (
-      <section id="benefits" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="flex justify-center items-center min-h-[400px]">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  // Show error state if there's an error and no data
-  if (error && (!benefitsFeatures || benefitsFeatures.length === 0)) {
-    return (
-      <section id="benefits" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-white mb-2">Unable to Load Benefits</h3>
-              <p className="text-gray-300">{error}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  // Use CMS data if available, otherwise use defaults only in dev/preview mode
-  const shouldUseDefaults = !benefitsFeatures || benefitsFeatures.length === 0;
-  const benefits = shouldUseDefaults
-    ? (isProduction ? [] : defaultBenefits)
-    : benefitsFeatures.map((benefit) => {
-        // Convert icon name string to actual component
-        let iconComponent;
-        switch (benefit.icon_name) {
-          case "Clock":
-            iconComponent = <Clock className="h-10 w-10 text-primary-400" />;
-            break;
-          case "Star":
-            iconComponent = <Star className="h-10 w-10 text-primary-400" />;
-            break;
-          case "Users":
-            iconComponent = <Users className="h-10 w-10 text-primary-400" />;
-            break;
-          case "Zap":
-            iconComponent = <Zap className="h-10 w-10 text-primary-400" />;
-            break;
-          default:
-            iconComponent = (
-              <Sparkles className="h-10 w-10 text-primary-400" />
-            );
-        }
-
-        return {
-          icon: iconComponent,
-          title: benefit.title,
-          description: benefit.description,
-          stats: Array.isArray(benefit.stats) ? benefit.stats : [],
-        };
-      });
-
-  // If in production and no benefits, show empty state
-  if (isProduction && benefits.length === 0) {
-    return (
-      <section id="benefits" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <p className="text-gray-400">Benefits information is currently unavailable.</p>
-          </div>
-        </div>
-      </section>
-    );
-  }
+          return {
+            icon: iconComponent,
+            title: benefit.title,
+            description: benefit.description,
+            stats: Array.isArray(benefit.stats) ? benefit.stats : [],
+          };
+        });
 
   // State for testimonials carousel
   const [activeTestimonial, setActiveTestimonial] = useState(0);
@@ -423,10 +364,10 @@ const BenefitsSection: React.FC = () => {
                           transition={{ duration: 0.2 }}
                         >
                           <CountUp
-                            end={safeParseInt(stat.value, 0)}
-                             suffix={
-                               safeParseInt(stat.value, -1) === -1 ? stat.value : ""
-                             }
+                            end={parseInt(stat.value) || 0}
+                            suffix={
+                              isNaN(parseInt(stat.value)) ? stat.value : ""
+                            }
                             duration={2}
                           />
                         </motion.div>

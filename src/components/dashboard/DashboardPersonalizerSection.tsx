@@ -20,7 +20,7 @@ const DashboardPersonalizerSection: React.FC = () => {
 
   const personalizerApps = appsData.filter(
     (app) =>
-      app.category === "productivity-personal" &&
+      app.category === "personalizer" &&
       (!user || purchasedApps.includes(app.id)),
   );
 

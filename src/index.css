@@ -147,8 +147,10 @@
 }
 
 .text-gradient {
-  color: #4f46e5;
-  font-weight: 600;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #4f46e5, #ec4899);
 }
 
 /* Enhanced scrollbars */
@@ -436,4 +438,3 @@ html {
   word-break: break-word;
   hyphens: auto;
 }
-/* Cache clear 1778700881 */
