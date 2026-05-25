@@ -1,25 +1,53 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, Upload, FileText } from "lucide-react";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
+import { FileUploadZone } from "@/components/agent-ui/FileUploadZone";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { Users, Briefcase, Mail, Video, Upload, FileText, CheckCircle2, UserPlus } from "lucide-react";
+
+const STORAGE_KEY = 'ai-recruitment-agent-team';
 
 const AiRecruitmentAgentTeamPage: React.FC = () => {
   const { user } = useAuth();
   const [file, setFile] = useState<File | null>(null);
-  const [textValues, setTextValues] = useState<Record<string, string>>({});
+  const [formData, setFormData] = useState({
+    openaiApiKey: '',
+    zoomAccountId: '',
+    zoomClientId: '',
+    zoomClientSecret: '',
+    senderEmail: '',
+    emailAppPassword: '',
+    companyName: '',
+    roleToFill: '',
+    resumePdf: '',
+    candidate: ''
+  });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) setFile(e.target.files[0]);
-  };
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setFormData(parsed.formData || {});
+      } catch {}
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ formData, hasFile: !!file }));
+  }, [formData, file]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,25 +55,26 @@ const AiRecruitmentAgentTeamPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('openai_api_key', textValues.openai_api_key || '');
-      formData.append('zoom_account_id', textValues.zoom_account_id || '');
-      formData.append('zoom_client_id', textValues.zoom_client_id || '');
-      formData.append('zoom_client_secret', textValues.zoom_client_secret || '');
-      formData.append('sender_email', textValues.sender_email || '');
-      formData.append('email_app_password', textValues.email_app_password || '');
-      formData.append('company_name', textValues.company_name || '');
-      formData.append('select_the_role_you', textValues.select_the_role_you || '');
-      formData.append('upload_your_resume_pdf', textValues.upload_your_resume_pdf || '');
-      formData.append('candidate', textValues.candidate || '');
+      const formDataToSend = new FormData();
+      formDataToSend.append('file', file);
+      formDataToSend.append('openai_api_key', formData.openaiApiKey);
+      formDataToSend.append('zoom_account_id', formData.zoomAccountId);
+      formDataToSend.append('zoom_client_id', formData.zoomClientId);
+      formDataToSend.append('zoom_client_secret', formData.zoomClientSecret);
+      formDataToSend.append('sender_email', formData.senderEmail);
+      formDataToSend.append('email_app_password', formData.emailAppPassword);
+      formDataToSend.append('company_name', formData.companyName);
+      formDataToSend.append('select_the_role_you', formData.roleToFill);
+      formDataToSend.append('upload_your_resume_pdf', formData.resumePdf);
+      formDataToSend.append('candidate', formData.candidate);
       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-recruitment-agent-team`, {
         method: 'POST',
-        body: formData
+        body: formDataToSend
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);
+      localStorage.removeItem(STORAGE_KEY);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -53,178 +82,231 @@ const AiRecruitmentAgentTeamPage: React.FC = () => {
     }
   };
 
+  const updateField = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  if (result && !loading) {
+    return (
+      <>
+        <Helmet>
+          <title>Results - Recruitment Agent</title>
+        </Helmet>
+        <main className="pt-24 pb-20">
+          <div className="container mx-auto px-4 max-w-3xl">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+              <div className="text-center mb-8">
+                <h1 className="text-3xl font-bold mb-3">Recruitment Task Complete</h1>
+                <p className="text-gray-400">Your recruitment workflow has been processed</p>
+              </div>
+
+              <ResultGrid columns={2}>
+                <ResultCard
+                  icon={<CheckCircle2 className="h-5 w-5" />}
+                  title="Status"
+                  value="Completed"
+                  variant="success"
+                />
+                <ResultCard
+                  icon={<Briefcase className="h-5 w-5" />}
+                  title="Role"
+                  value={formData.roleToFill || 'Not specified'}
+                />
+              </ResultGrid>
+
+              {result.candidates && (
+                <ResultCard
+                  icon={<UserPlus className="h-5 w-5" />}
+                  title="Candidates Found"
+                  description={result.candidates}
+                  variant="info"
+                />
+              )}
+
+              {result.result && (
+                <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+                  <h3 className="text-lg font-medium mb-4">Full Results</h3>
+                  <pre className="text-sm text-gray-300 whitespace-pre-wrap bg-gray-800/50 p-4 rounded-lg overflow-x-auto">
+                    {typeof result.result === 'string' ? result.result : JSON.stringify(result.result, null, 2)}
+                  </pre>
+                </div>
+              )}
+
+              <div className="flex justify-center">
+                <ActionButton onClick={() => { setResult(null); setFile(null); }}>
+                  Process Another Candidate
+                </ActionButton>
+              </div>
+            </motion.div>
+          </div>
+        </main>
+      </>
+    );
+  }
+
   return (
     <>
       <Helmet>
-        <title>AiRecruitmentAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-recruitment-agent-team to automate tasks with AI." />
+        <title>Recruitment Agent Team - VideoRemix.vip</title>
+        <meta name="description" content="AI-powered recruitment agent team for hiring automation." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-purple-500 rounded-3xl mb-6">
-              <Upload className="h-10 w-10 text-white" />
+              <Users className="h-10 w-10 text-white" />
             </div>
-            <h1 className="text-4xl font-bold mb-4">Ai Recruitment Agent Team</h1>
-            <p className="text-xl text-gray-400">AI-powered ai recruitment agent team.</p>
+            <h1 className="text-4xl font-bold mb-4">Recruitment Agent Team</h1>
+            <p className="text-xl text-gray-400">AI-powered recruitment automation with Zoom and email integration.</p>
           </motion.div>
 
           <Card className="bg-gray-800/50 border-gray-700 mb-8">
             <CardHeader><CardTitle>Upload & Configure</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="file">Upload File *</Label>
-                  <div
-                    className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-blue-500 cursor-pointer"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    <FileText className="h-12 w-12 mx-auto mb-4 text-gray-500" />
-                    <p className="text-gray-300">Click to select a file</p>
-                    {file && <p className="text-sm text-blue-400 mt-2">{file.name}</p>}
+                <FormSection title="Job Description" description="Upload or enter the job details">
+                  <div>
+                    <p className="text-sm font-medium text-gray-200 mb-2">Job Description File *</p>
+                    <FileUploadZone
+                      accept=".pdf,.doc,.docx,.txt"
+                      maxSize={10 * 1024 * 1024}
+                      onFileSelect={setFile}
+                      selectedFile={file}
+                      helperText="Upload a job description PDF or document"
+                    />
                   </div>
-                  <input ref={fileInputRef} type="file" onChange={handleFileChange} className="hidden" />
-                </div>
+                </FormSection>
 
-
-                <div className="space-y-2">
-                  <Label htmlFor="openai_api_key">OpenAI API Key *</Label>
-                  <Input
-                    id="openai_api_key"
-                    value={textValues.openai_api_key || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, openai_api_key: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
+                <FormSection title="API Keys" description="Required credentials">
+                  <ApiKeyInput
+                    label="OpenAI API Key"
+                    value={formData.openaiApiKey}
+                    onChange={(v) => updateField('openaiApiKey', v)}
+                    helperText="Required for AI-powered candidate screening"
+                    required
                   />
-                </div>
+                </FormSection>
 
-                <div className="space-y-2">
-                  <Label htmlFor="zoom_account_id">Zoom Account ID *</Label>
-                  <Input
-                    id="zoom_account_id"
-                    value={textValues.zoom_account_id || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, zoom_account_id: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
+                <FormSection title="Zoom Integration" description="Video interview scheduling">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <SmartInput
+                      label="Zoom Account ID"
+                      name="zoomAccountId"
+                      value={formData.zoomAccountId}
+                      onChange={(v) => updateField('zoomAccountId', v)}
+                      placeholder="Your Zoom account ID"
+                      helperText="Found in Zoom admin settings"
+                    />
+                    <SmartInput
+                      label="Zoom Client ID"
+                      name="zoomClientId"
+                      value={formData.zoomClientId}
+                      onChange={(v) => updateField('zoomClientId', v)}
+                      placeholder="Your Zoom client ID"
+                      helperText="From Zoom app credentials"
+                    />
+                  </div>
+                  <ApiKeyInput
+                    label="Zoom Client Secret"
+                    value={formData.zoomClientSecret}
+                    onChange={(v) => updateField('zoomClientSecret', v)}
+                    helperText="From Zoom app credentials"
                   />
-                </div>
+                </FormSection>
 
-                <div className="space-y-2">
-                  <Label htmlFor="zoom_client_id">Zoom Client ID *</Label>
-                  <Input
-                    id="zoom_client_id"
-                    value={textValues.zoom_client_id || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, zoom_client_id: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
+                <FormSection title="Email Configuration" description="Candidate communication">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <SmartInput
+                      label="Sender Email"
+                      name="senderEmail"
+                      value={formData.senderEmail}
+                      onChange={(v) => updateField('senderEmail', v)}
+                      placeholder="recruitment@company.com"
+                      helperText="Email address for sending"
+                      required
+                    />
+                    <ApiKeyInput
+                      label="Email App Password"
+                      value={formData.emailAppPassword}
+                      onChange={(v) => updateField('emailAppPassword', v)}
+                      helperText="Gmail app-specific password"
+                      required
+                    />
+                  </div>
+                </FormSection>
+
+                <FormSection title="Recruitment Details" description="About the role and candidate">
+                  <SmartInput
+                    label="Company Name"
+                    name="companyName"
+                    value={formData.companyName}
+                    onChange={(v) => updateField('companyName', v)}
+                    placeholder="Acme Corp, TechStart Inc..."
+                    helperText="Name of your company"
+                    required
                   />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="zoom_client_secret">Zoom Client Secret *</Label>
-                  <Input
-                    id="zoom_client_secret"
-                    value={textValues.zoom_client_secret || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, zoom_client_secret: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
+                  <SmartInput
+                    label="Role to Fill"
+                    name="roleToFill"
+                    value={formData.roleToFill}
+                    onChange={(v) => updateField('roleToFill', v)}
+                    placeholder="Senior Software Engineer, Product Manager..."
+                    helperText="The job title or position"
+                    required
                   />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="sender_email">Sender Email *</Label>
-                  <Input
-                    id="sender_email"
-                    value={textValues.sender_email || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, sender_email: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
+                  <SmartInput
+                    label="Candidate Info"
+                    name="candidate"
+                    value={formData.candidate}
+                    onChange={(v) => updateField('candidate', v)}
+                    placeholder="Candidate name, email, or resume summary..."
+                    helperText="Enter candidate details for screening"
                   />
-                </div>
+                </FormSection>
 
-                <div className="space-y-2">
-                  <Label htmlFor="email_app_password">Email App Password *</Label>
-                  <Input
-                    id="email_app_password"
-                    value={textValues.email_app_password || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, email_app_password: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
+                {error && (
+                  <ErrorMessage
+                    title="Recruitment task failed"
+                    message={error}
+                    onRetry={handleSubmit}
+                    retryLoading={loading}
                   />
-                </div>
+                )}
 
-                <div className="space-y-2">
-                  <Label htmlFor="company_name">Company Name *</Label>
-                  <Input
-                    id="company_name"
-                    value={textValues.company_name || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, company_name: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="select_the_role_you">Select the role you *</Label>
-                  <Input
-                    id="select_the_role_you"
-                    value={textValues.select_the_role_you || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, select_the_role_you: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="upload_your_resume_pdf">Upload your resume (PDF) *</Label>
-                  <Input
-                    id="upload_your_resume_pdf"
-                    value={textValues.upload_your_resume_pdf || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, upload_your_resume_pdf: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="candidate">Candidate *</Label>
-                  <Input
-                    id="candidate"
-                    value={textValues.candidate || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, candidate: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-
-                <Button type="submit" disabled={loading || !file} className="w-full">
-                  {loading ? 'Processing...' : 'Process File'}
-                </Button>
+                <ActionButton
+                  type="submit"
+                  onClick={handleSubmit}
+                  loading={loading}
+                  disabled={loading || !file}
+                  size="lg"
+                  className="w-full"
+                >
+                  <UserPlus className="h-4 w-4" />
+                  {loading ? 'Processing...' : 'Process Recruitment'}
+                </ActionButton>
               </form>
             </CardContent>
           </Card>
 
-          {error && <Card className="border-red-500/50 bg-red-500/10 mb-8"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
+          {loading && (
+            <LoadingIndicator
+              message="Processing recruitment task..."
+              subtext="Screening candidates, scheduling interviews..."
+            />
+          )}
 
-           {result && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Result</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     {result.result && (
-                       <div className="space-y-2">
-                         <Label>Transcript</Label>
-                         <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(result, null, 2)}</pre>
-                       </div>
-                     )}
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
+          {!file && !loading && (
+            <EmptyState
+              icon={<Briefcase className="h-16 w-16 text-gray-600" />}
+              title="Start recruitment workflow"
+              description="Upload a job description to begin AI-powered candidate screening"
+              tips={[
+                "Upload a clear job description for best results",
+                "Ensure all API keys have proper permissions",
+                "Configure Zoom and email for automated scheduling",
+              ]}
+            />
+          )}
         </div>
       </main>
     </>

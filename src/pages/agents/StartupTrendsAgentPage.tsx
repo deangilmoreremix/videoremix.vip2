@@ -1,13 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
+import { SmartInput } from "../../components/agent-ui/SmartInput";
+import { ActionButton } from "../../components/agent-ui/ActionButton";
+import { ResultCard } from "../../components/agent-ui/ResultCard";
+import { EmptyState } from "../../components/agent-ui/EmptyState";
+import { LoadingIndicator } from "../../components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "../../components/agent-ui/ErrorMessage";
+import { FormSection } from "../../components/agent-ui/FormSection";
+import { ExamplePrompt } from "../../components/agent-ui/ExamplePrompt";
+import { Label } from "../../components/ui/label";
+
+const STORAGE_KEY = "startupTrendsAgentForm";
+
+const EXAMPLE_PROMPTS = [
+  "AI healthcare startups in 2026",
+  "Sustainable energy solutions for emerging markets",
+  "Fintech innovations in Southeast Asia",
+  "Climate tech ventures focusing on carbon capture",
+];
 
 const StartupTrendsAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -15,6 +29,24 @@ const StartupTrendsAgentPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setFormData(parsed);
+      } catch {}
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  }, [formData]);
+
+  const handleExampleSelect = (example: string) => {
+    setFormData({ enter_the_area_of_interest_for_your_startup: example });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,63 +77,81 @@ const StartupTrendsAgentPage: React.FC = () => {
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">Startup Trends Agent </h1>
-            <p className="text-xl text-gray-400">AI-powered startup trends agent .</p>
+            <h1 className="text-4xl font-bold mb-4">Startup Trends Agent</h1>
+            <p className="text-xl text-gray-400">AI-powered startup trends agent.</p>
           </motion.div>
 
-          {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
+          {error && <ErrorMessage message={error} className="mb-6" />}
 
           <Card className="bg-gray-800/50 border-gray-700 mb-8">
             <CardHeader><CardTitle>Input</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
+                <FormSection
+                  title="Enter the area of interest for your Startup"
+                  helperText="Describe the industry, technology, or market segment you want to research. For example: 'AI healthcare startups in 2026' or 'Sustainable energy solutions for emerging markets'. A well-defined research topic helps generate more actionable insights."
+                >
+                  <SmartInput
+                    id="enter_the_area_of_interest_for_your_startup"
+                    type="text"
+                    value={formData.enter_the_area_of_interest_for_your_startup}
+                    onChange={(e) => setFormData({ ...formData, enter_the_area_of_interest_for_your_startup: e.target.value })}
+                    placeholder="e.g., 'AI healthcare startups in 2026' or 'Sustainable energy solutions for emerging markets'"
+                    className="bg-gray-900/50 border-gray-600 text-white"
+                  />
+                </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="enter_the_area_of_interest_for_your_startup">Enter the area of interest for your Startup: *</Label>
-                
-                <Input
-                  id="enter_the_area_of_interest_for_your_startup"
-                  type="text"
-                  value={formData.enter_the_area_of_interest_for_your_startup}
-                  onChange={(e) => setFormData({ ...formData, enter_the_area_of_interest_for_your_startup: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
-
-                <Button type="submit" disabled={loading} className="w-full">
+                <ActionButton
+                  type="submit"
+                  loading={loading}
+                  disabled={loading || !formData.enter_the_area_of_interest_for_your_startup.trim()}
+                  className="w-full"
+                >
                   {loading ? 'Processing...' : 'Generate Results'}
-                </Button>
+                </ActionButton>
               </form>
+
+              <ExamplePrompt
+                examples={EXAMPLE_PROMPTS}
+                onSelect={handleExampleSelect}
+                className="mt-6"
+              />
             </CardContent>
           </Card>
 
-          {loading && (
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="py-8 text-center">
-                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-                <p className="text-gray-400">Processing...</p>
-              </CardContent>
-            </Card>
+          {loading && <LoadingIndicator message="Analyzing startup trends..." />}
+
+          {result && result.status === 'completed' && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <ResultCard
+                title="Research Results"
+                timestamp={result.created_at}
+              >
+                <div className="space-y-4">
+                  <div>
+                    <Label className="text-sm font-medium text-gray-300 mb-2 block">Transcript</Label>
+                    <div className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">
+                      {result.result}
+                    </div>
+                  </div>
+                </div>
+              </ResultCard>
+            </motion.div>
           )}
 
-           {result && result.status === 'completed' && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     <div className="space-y-2">
-                       <Label>Transcript</Label>
-                       <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
+          {!result && !loading && !error && (
+            <EmptyState
+              title="No Results Yet"
+              description="Enter a research topic above and click 'Generate Results' to discover startup trends."
+              icon={Sparkles}
+              tips={[
+                "Try 'AI healthcare startups in 2026'",
+                "Explore 'Sustainable energy solutions'",
+                "Research 'Fintech innovations in Southeast Asia'",
+                "Discover 'Climate tech ventures focusing on carbon capture'"
+              ]}
+            />
+          )}
         </div>
       </main>
     </>

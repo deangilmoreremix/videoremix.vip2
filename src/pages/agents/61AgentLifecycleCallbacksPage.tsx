@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Loader2, Bot, User, Trash2, Send } from "lucide-react";
 
@@ -19,6 +22,21 @@ const Agent61AgentLifecycleCallbacksPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('61-agent-lifecycle-messages');
+    if (saved) {
+      try {
+        setMessages(JSON.parse(saved));
+      } catch {
+        console.warn('Failed to parse saved messages');
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('61-agent-lifecycle-messages', JSON.stringify(messages));
+  }, [messages]);
 
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
 
@@ -50,7 +68,10 @@ const Agent61AgentLifecycleCallbacksPage: React.FC = () => {
     }
   };
 
-  const clearChat = () => setMessages([]);
+  const clearChat = () => {
+    setMessages([]);
+    localStorage.removeItem('61-agent-lifecycle-messages');
+  };
 
   return (
     <>
@@ -67,46 +88,77 @@ const Agent61AgentLifecycleCallbacksPage: React.FC = () => {
           </motion.div>
 
           <Card className="flex-1 bg-gray-800/50 border-gray-700 flex flex-col overflow-hidden">
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {messages.length === 0 && (
-                <div className="text-center text-gray-500 py-20">
-                  <Bot className="h-16 w-16 mx-auto mb-4 opacity-50" />
-                  <p>Start a conversation...</p>
-                </div>
-              )}
-
-              {messages.map((msg, idx) => (
-                <motion.div key={idx} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                  className={"flex " + (msg.role === 'user' ? 'justify-end' : 'justify-start')}
-                >
-                  <div className={"flex items-start space-x-2 max-w-[80%] " + (msg.role === 'user' ? 'flex-row-reverse space-x-reverse' : '')}>
-                    <div className={"w-8 h-8 rounded-full flex items-center justify-center " + (msg.role === 'user' ? 'bg-blue-600' : 'bg-purple-600')}>
-                      {msg.role === 'user' ? <User className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
+            {messages.length === 0 ? (
+              <div className="flex-1 overflow-y-auto p-4 space-y-6">
+                <ExamplePrompt
+                  title="Start with one of these:"
+                  examples={[
+                    "What can you help me with?",
+                    "Explain agent lifecycle callbacks",
+                    "How do I monitor agent health?",
+                  ]}
+                  onSelect={setInput}
+                />
+                <EmptyState
+                  icon={<Bot className="h-16 w-16 text-gray-600" />}
+                  title="Agent Lifecycle Callbacks Assistant"
+                  description="Start a conversation to learn about agent lifecycle callbacks. I can help explain lifecycle hooks, health monitoring, and best practices."
+                  tips={[
+                    "Ask about initialization and teardown callbacks",
+                    "Learn how to monitor agent health status",
+                    "Discover best practices for agent state management",
+                  ]}
+                />
+              </div>
+            ) : (
+              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                {messages.map((msg, idx) => (
+                  <motion.div key={idx} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                    className={"flex " + (msg.role === 'user' ? 'justify-end' : 'justify-start')}
+                  >
+                    <div className={"flex items-start space-x-2 max-w-[80%] " + (msg.role === 'user' ? 'flex-row-reverse space-x-reverse' : '')}>
+                      <div className={"w-8 h-8 rounded-full flex items-center justify-center " + (msg.role === 'user' ? 'bg-blue-600' : 'bg-purple-600')}>
+                        {msg.role === 'user' ? <User className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
+                      </div>
+                      <Card className={"p-3 " + (msg.role === 'user' ? 'bg-blue-600/20 border-blue-500/30' : 'bg-gray-700/50 border-gray-600')}>
+                        <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                      </Card>
                     </div>
-                    <Card className={"p-3 " + (msg.role === 'user' ? 'bg-blue-600/20 border-blue-500/30' : 'bg-gray-700/50 border-gray-600')}>
-                      <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
-                    </Card>
+                  </motion.div>
+                ))}
+
+                {loading && (
+                  <div className="flex items-center space-x-2 text-gray-500">
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    <span>Thinking...</span>
                   </div>
-                </motion.div>
-              ))}
+                )}
 
-              {loading && (
-                <div className="flex items-center space-x-2 text-gray-500">
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  <span>Thinking...</span>
+                <div ref={messagesEndRef} />
+              </div>
+            )}
+
+            <div className="border-t border-gray-700 p-4 bg-gray-900/50 space-y-3">
+              <form onSubmit={handleSubmit} className="space-y-2">
+                <SmartInput
+                  name="message"
+                  value={input}
+                  onChange={setInput}
+                  placeholder="Type your message... (Enter to send, Shift+Enter for new line)"
+                  helperText="Press Enter to send. Conversation history is saved locally."
+                  disabled={loading}
+                />
+                <div className="flex justify-end gap-2">
+                  <ActionButton type="submit" disabled={loading || !input.trim()} size="sm">
+                    <Send className="h-4 w-4" />
+                    Send
+                  </ActionButton>
+                  <ActionButton type="button" variant="ghost" onClick={clearChat} size="sm" disabled={loading}>
+                    <Trash2 className="h-4 w-4" />
+                  </ActionButton>
                 </div>
-              )}
-
-              <div ref={messagesEndRef} />
-            </div>
-
-            <div className="border-t border-gray-700 p-4 bg-gray-900/50">
-              <form onSubmit={handleSubmit} className="flex space-x-2">
-                <Input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type your message..."
-                  className="flex-1 bg-gray-800 border-gray-600 text-white" disabled={loading} />
-                <Button type="submit" disabled={loading || !input.trim()}><Send className="h-4 w-4" /></Button>
-                <Button type="button" variant="ghost" size="icon" onClick={clearChat}><Trash2 className="h-4 w-4" /></Button>
               </form>
+              {error && <ErrorMessage message={error} />}
             </div>
           </Card>
         </div>

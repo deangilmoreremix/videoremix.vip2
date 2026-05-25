@@ -1,23 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, Sparkles } from "lucide-react";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { ResultCard } from "@/components/agent-ui/ResultCard";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
+import { Loader2, Sparkles, MapPin, Clock, User, Headphones } from "lucide-react";
 
 const AiAudioTourAgentPage: React.FC = () => {
   const { user } = useAuth();
-  const [formData, setFormData] = useState({ openai_api_key: "", tour_duration_minutes: "", guide: "" });
+  const [formData, setFormData] = useState({ 
+    openai_api_key: "", 
+    tour_duration_minutes: "30", 
+    guide: "historical"
+  });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const saved = localStorage.getItem('ai-audio-tour-state');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setFormData(prev => ({ ...prev, ...parsed }));
+      } catch {}
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('ai-audio-tour-state', JSON.stringify(formData));
+  }, [formData]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.openai_api_key.trim()) {
+      setError('Please enter your OpenAI API key');
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -29,8 +56,9 @@ const AiAudioTourAgentPage: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);
+      localStorage.removeItem('ai-audio-tour-state');
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || 'An error occurred');
     } finally {
       setLoading(false);
     }
@@ -40,101 +68,131 @@ const AiAudioTourAgentPage: React.FC = () => {
     <>
       <Helmet>
         <title>AiAudioTourAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-audio-tour-agent to automate tasks with AI." />
+        <meta name="description" content="Use ai-audio-tour-agent to create AI-powered audio tours." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-4">Ai Audio Tour Agent</h1>
-            <p className="text-xl text-gray-400">AI-powered ai audio tour agent.</p>
+            <p className="text-xl text-gray-400">Create AI-powered audio tours for any location.</p>
           </motion.div>
 
-          {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
+          {error && <ErrorMessage title="Request Failed" message={error} onRetry={handleSubmit} retryLoading={loading} />}
 
           <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Input</CardTitle></CardHeader>
+            <CardHeader><CardTitle>Tour Configuration</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
+                <FormSection title="API Configuration" description="Enter your OpenAI API key">
+                  <ApiKeyInput
+                    label="OpenAI API Key"
+                    name="openai_api_key"
+                    value={formData.openai_api_key}
+                    onChange={(val) => setFormData({ ...formData, openai_api_key: val })}
+                    placeholder="sk-..."
+                    helperText="Get your API key from OpenAI Platform"
+                    required
+                  />
+                </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="openai_api_key">OpenAI API Key: *</Label>
-                
-                <Input
-                  id="openai_api_key"
-                  type="text"
-                  value={formData.openai_api_key}
-                  onChange={(e) => setFormData({ ...formData, openai_api_key: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+                <FormSection title="Tour Settings" description="Customize your audio tour">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-200 flex items-center gap-2">
+                        <Clock className="h-4 w-4" /> Tour Duration (minutes)
+                      </label>
+                      <input
+                        type="range"
+                        min="5"
+                        max="120"
+                        step="5"
+                        value={formData.tour_duration_minutes}
+                        onChange={(e) => setFormData({ ...formData, tour_duration_minutes: e.target.value })}
+                        className="w-full accent-violet-500"
+                      />
+                      <p className="text-xs text-gray-400 text-center">{formData.tour_duration_minutes} minutes</p>
+                    </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="tour_duration_minutes">Tour Duration (minutes) *</Label>
-                
-                <Input
-                  id="tour_duration_minutes"
-                  type="range"
-                  value={formData.tour_duration_minutes}
-                  onChange={(e) => setFormData({ ...formData, tour_duration_minutes: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+                    <SelectDropdown
+                      label="Guide Style"
+                      value={formData.guide}
+                      onValueChange={(val) => setFormData({ ...formData, guide: val })}
+                      options={[
+                        { value: "historical", label: "Historical" },
+                        { value: "fun", label: "Fun & Engaging" },
+                        { value: "educational", label: "Educational" },
+                        { value: "mysterious", label: "Mysterious" },
+                      ]}
+                      helperText="Choose the tone of your tour guide"
+                    />
+                  </div>
+                </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="guide">Guide *</Label>
-                
-                <select
-                  id="guide"
-                  value={formData.guide}
-                  onChange={(e) => setFormData({ ...formData, guide: e.target.value })}
-                  className="w-full bg-gray-900/50 border border-gray-600 rounded-md px-3 py-2 text-white"
-                >
-                  <option value=""></option>
-                </select>
-                
-              </div>
-
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Processing...' : 'Generate Results'}
-                </Button>
+                <ActionButton type="submit" loading={loading} disabled={loading} size="lg" className="w-full">
+                  <Headphones className="h-4 w-4" />
+                  Generate Audio Tour
+                </ActionButton>
               </form>
             </CardContent>
           </Card>
 
           {loading && (
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="py-8 text-center">
-                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-                <p className="text-gray-400">Processing...</p>
-              </CardContent>
-            </Card>
+            <LoadingIndicator 
+              message="Generating your audio tour..." 
+              subtext="Creating narration and audio"
+            />
           )}
 
-           {result && result.status === 'completed' && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     <div className="space-y-2">
-                       <Label>Audio Response</Label>
-                       <audio controls src={result.audioUrl} className="w-full" />
-                     </div>
-                     
-                     <div className="space-y-2">
-                       <Label>Transcript</Label>
-                       <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
+          {result && result.status === 'completed' && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+              {result.audioUrl && (
+                <ResultCard
+                  icon={<Headphones className="h-5 w-5" />}
+                  title="Audio Tour Ready"
+                  description="Your audio tour has been generated. Listen below."
+                  variant="success"
+                />
+              )}
+
+              <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+                <label className="text-sm font-medium text-gray-200 mb-3 flex items-center gap-2">
+                  <Headphones className="h-4 w-4" /> Audio Player
+                </label>
+                <audio controls src={result.audioUrl} className="w-full" />
+              </div>
+
+              <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+                <label className="text-sm font-medium text-gray-200 mb-3 flex items-center gap-2">
+                  Transcript
+                </label>
+                <p className="text-gray-300 whitespace-pre-wrap">{result.result}</p>
+              </div>
+
+              <EmptyState
+                icon={<MapPin className="h-16 w-16 text-gray-600" />}
+                title="Tour Generated"
+                description="Your audio tour is ready to share."
+                action={
+                  <ActionButton onClick={() => { setResult(null); setFormData({ openai_api_key: "", tour_duration_minutes: "30", guide: "historical" }); }}>
+                    Create Another Tour
+                  </ActionButton>
+                }
+              />
+            </motion.div>
+          )}
+
+          {!result && !loading && (
+            <EmptyState
+              icon={<MapPin className="h-16 w-16 text-gray-600" />}
+              title="Ready to Create"
+              description="Configure your tour settings and generate an AI-powered audio tour."
+              tips={[
+                "Set your desired tour duration",
+                "Choose a guide style that fits your audience",
+                "The AI will generate narration based on your settings",
+              ]}
+            />
+          )}
         </div>
       </main>
     </>

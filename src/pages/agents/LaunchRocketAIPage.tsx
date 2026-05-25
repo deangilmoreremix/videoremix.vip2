@@ -5,10 +5,14 @@ import {
   Building2,
   Users,
   BarChart3,
-  Lightbulb
+  Lightbulb,
+  Rocket,
+  CheckCircle
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import LaunchRocketForm from "../../components/agents/LaunchRocketForm";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ResultGrid } from "@/components/agent-ui/ResultCard";
 
 interface LaunchIntelligenceResult {
   id: string;
@@ -71,9 +75,8 @@ const LaunchRocketAIPage: React.FC = () => {
 
       setResult(data);
 
-      // Simulate progress through stages
       for (let i = 1; i <= 4; i++) {
-        setTimeout(() => setCurrentStage(i), i * 20000); // 20 seconds per stage
+        setTimeout(() => setCurrentStage(i), i * 20000);
       }
 
     } catch (err) {
@@ -82,7 +85,7 @@ const LaunchRocketAIPage: React.FC = () => {
     } finally {
       setTimeout(() => {
         setIsProcessing(false);
-      }, 80000); // Complete after all stages
+      }, 80000);
     }
   };
 
@@ -110,7 +113,6 @@ const LaunchRocketAIPage: React.FC = () => {
             error={error || undefined}
           />
 
-          {/* Results Display */}
           {result && result.status === 'completed' && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -120,28 +122,22 @@ const LaunchRocketAIPage: React.FC = () => {
               <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
                 <h3 className="text-3xl font-bold text-white mb-6">Launch Intelligence Report</h3>
 
-                {/* Executive Summary */}
-                <div className="bg-gradient-to-r from-orange-900/20 to-red-900/20 border border-orange-500/20 rounded-lg p-6 mb-8">
-                  <h4 className="text-xl font-semibold text-white mb-4">Executive Summary</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-orange-400">{result.confidence * 100}%</div>
-                      <div className="text-sm text-gray-300">Analysis Confidence</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-orange-400">{Math.round(result.processingTime / 1000)}s</div>
-                      <div className="text-sm text-gray-300">Processing Time</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-orange-400">{result.sources.length}</div>
-                      <div className="text-sm text-gray-300">Data Sources</div>
-                    </div>
+                <ResultGrid columns={3}>
+                  <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-4 text-center">
+                    <div className="text-2xl font-bold text-orange-400">{result.confidence * 100}%</div>
+                    <div className="text-sm text-gray-300">Analysis Confidence</div>
                   </div>
-                </div>
+                  <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-4 text-center">
+                    <div className="text-2xl font-bold text-orange-400">{Math.round(result.processingTime / 1000)}s</div>
+                    <div className="text-sm text-gray-300">Processing Time</div>
+                  </div>
+                  <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-4 text-center">
+                    <div className="text-2xl font-bold text-orange-400">{result.sources.length}</div>
+                    <div className="text-sm text-gray-300">Data Sources</div>
+                  </div>
+                </ResultGrid>
 
-                {/* Tabbed Results */}
-                <div className="space-y-6">
-                  {/* Competitor Analysis Tab */}
+                <div className="space-y-6 mt-8">
                   {result.competitorAnalysis && (
                     <div className="bg-gray-900/50 rounded-lg p-6">
                       <h4 className="text-xl font-semibold text-white mb-4 flex items-center">
@@ -169,7 +165,6 @@ const LaunchRocketAIPage: React.FC = () => {
                     </div>
                   )}
 
-                  {/* Market Sentiment Tab */}
                   {result.marketSentiment && (
                     <div className="bg-gray-900/50 rounded-lg p-6">
                       <h4 className="text-xl font-semibold text-white mb-4 flex items-center">
@@ -224,7 +219,6 @@ const LaunchRocketAIPage: React.FC = () => {
                     </div>
                   )}
 
-                  {/* Launch Metrics Tab */}
                   {result.launchMetrics && (
                     <div className="bg-gray-900/50 rounded-lg p-6">
                       <h4 className="text-xl font-semibold text-white mb-4 flex items-center">
@@ -256,7 +250,6 @@ const LaunchRocketAIPage: React.FC = () => {
                     </div>
                   )}
 
-                  {/* Strategic Recommendations */}
                   {result.recommendations && (
                     <div className="bg-gradient-to-r from-green-900/20 to-blue-900/20 border border-green-500/20 rounded-lg p-6">
                       <h4 className="text-xl font-semibold text-white mb-4 flex items-center">
@@ -300,6 +293,20 @@ const LaunchRocketAIPage: React.FC = () => {
                 </div>
               </div>
             </motion.div>
+          )}
+
+          {!result && !isProcessing && !error && (
+            <EmptyState
+              icon={<Rocket className="h-16 w-16 text-gray-600" />}
+              title="Launch Intelligence Ready"
+              description="Enter your product details to receive AI-powered competitor analysis, market sentiment, and strategic recommendations"
+              tips={[
+                "Enter your product or service name",
+                "Select a target market category",
+                "Add up to 3 key competitors",
+                "Optional: Set your launch timeline"
+              ]}
+            />
           )}
         </div>
       </main>

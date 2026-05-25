@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
@@ -15,9 +15,13 @@ import {
   Building2,
   Calendar,
   ExternalLink,
-  AlertCircle,
   RefreshCw
 } from "lucide-react";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
 
 interface Lead {
   name: string;
@@ -43,6 +47,8 @@ interface EmailResult {
   };
   timestamp: string;
 }
+
+const STORAGE_KEY = "email-gtm-form-data";
 
 const EmailGTMPage: React.FC = () => {
   const { user } = useAuth();
@@ -78,6 +84,28 @@ const EmailGTMPage: React.FC = () => {
     "Executive": ["Strategic Partnership", "Investment", "Business Development"]
   };
 
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.companyName) setCompanyName(parsed.companyName);
+        if (parsed.websiteUrl) setWebsiteUrl(parsed.websiteUrl);
+        if (parsed.contactName) setContactName(parsed.contactName);
+        if (parsed.position) setPosition(parsed.position);
+        if (parsed.department) setDepartment(parsed.department);
+        if (parsed.campaignType) setCampaignType(parsed.campaignType);
+      } catch (e) {
+        console.warn("Failed to parse saved form data");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const formData = { companyName, websiteUrl, contactName, position, department, campaignType };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  }, [companyName, websiteUrl, contactName, position, department, campaignType]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!companyName.trim() || !websiteUrl.trim() || !contactName.trim() || !position.trim()) {
@@ -111,6 +139,7 @@ const EmailGTMPage: React.FC = () => {
       }
 
       setResult(data);
+      localStorage.removeItem(STORAGE_KEY);
 
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred');
@@ -135,6 +164,9 @@ const EmailGTMPage: React.FC = () => {
     setCampaignType("Software Solution");
   };
 
+  const contactNameExamples = ["Ivan Zhao", "John Smith", "Sarah Chen", "Michael Johnson"];
+  const positionExamples = ["CEO", "VP of Sales", "Head of Marketing", "Chief Revenue Officer"];
+
   return (
     <>
       <Helmet>
@@ -147,7 +179,6 @@ const EmailGTMPage: React.FC = () => {
 
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-6xl">
-          {/* Hero */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -166,16 +197,14 @@ const EmailGTMPage: React.FC = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main Content */}
             <div className="lg:col-span-2 space-y-6">
-              {/* Configuration Card */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
                 className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700"
               >
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl font-bold text-white flex items-center gap-2">
                     <Target className="h-5 w-5 text-blue-400" />
                     Target Configuration
@@ -190,68 +219,67 @@ const EmailGTMPage: React.FC = () => {
                   </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Company Name *
-                      </label>
-                      <input
-                        type="text"
-                        value={companyName}
-                        onChange={(e) => setCompanyName(e.target.value)}
-                        placeholder="e.g., Notion, Salesforce, HubSpot"
-                        className="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-2.5 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                        required
-                      />
-                    </div>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <SmartInput
+                      label="Company Name"
+                      name="companyName"
+                      value={companyName}
+                      onChange={setCompanyName}
+                      placeholder="Enter company name (e.g., Notion, Salesforce, HubSpot, Shopify)"
+                      helperText="The official registered name of the company you're targeting"
+                      required
+                    />
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Website URL *
-                      </label>
-                      <input
-                        type="url"
-                        value={websiteUrl}
-                        onChange={(e) => setWebsiteUrl(e.target.value)}
-                        placeholder="https://company.com"
-                        className="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-2.5 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                        required
-                      />
-                    </div>
+                    <SmartInput
+                      label="Website URL"
+                      name="websiteUrl"
+                      type="url"
+                      value={websiteUrl}
+                      onChange={setWebsiteUrl}
+                      placeholder="https://www.company.com"
+                      helperText="Full URL including https:// for the company's main website"
+                      required
+                    />
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Contact Name *
-                      </label>
-                      <input
-                        type="text"
+                    <div className="space-y-2">
+                      <SmartInput
+                        label="Contact Name"
+                        name="contactName"
                         value={contactName}
-                        onChange={(e) => setContactName(e.target.value)}
-                        placeholder="e.g., John Smith"
-                        className="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-2.5 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                        onChange={setContactName}
+                        placeholder="Enter the decision-maker's full name"
+                        helperText="Full name of the person you want to reach (first and last name)"
                         required
+                      />
+                      <ExamplePrompt
+                        examples={contactNameExamples}
+                        onSelect={setContactName}
+                        title="Try an example contact:"
                       />
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Position/Title *
-                      </label>
-                      <input
-                        type="text"
+                    <div className="space-y-2">
+                      <SmartInput
+                        label="Position/Title"
+                        name="position"
                         value={position}
-                        onChange={(e) => setPosition(e.target.value)}
-                        placeholder="e.g., VP of Sales, CMO, Head of Marketing"
-                        className="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-2.5 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                        onChange={setPosition}
+                        placeholder="Enter job title (e.g., VP of Sales, CMO, Head of Growth)"
+                        helperText="Their official job title or role at the company"
                         required
+                      />
+                      <ExamplePrompt
+                        examples={positionExamples}
+                        onSelect={setPosition}
+                        title="Try an example position:"
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-200">
                         Department
                       </label>
                       <select
@@ -263,10 +291,14 @@ const EmailGTMPage: React.FC = () => {
                           <option key={dept} value={dept}>{dept}</option>
                         ))}
                       </select>
+                      <p className="text-xs text-gray-400 flex items-center gap-1.5">
+                        <Info className="h-3.5 w-3.5 text-cyan-500" />
+                        Select the department most relevant to your offering
+                      </p>
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-200">
                         Campaign Type
                       </label>
                       <select
@@ -278,45 +310,35 @@ const EmailGTMPage: React.FC = () => {
                           <option key={type} value={type}>{type}</option>
                         ))}
                       </select>
+                      <p className="text-xs text-gray-400 flex items-center gap-1.5">
+                        <Info className="h-3.5 w-3.5 text-cyan-500" />
+                        Determines the tone and approach of the email
+                      </p>
                     </div>
                   </div>
 
-                  <button
+                  <ActionButton
                     type="submit"
-                    disabled={isProcessing}
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 disabled:from-gray-600 disabled:to-gray-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all flex items-center justify-center gap-2"
+                    variant="primary"
+                    loading={isProcessing}
+                    loadingText="Researching & Generating..."
+                    disabled={!companyName.trim() || !websiteUrl.trim() || !contactName.trim() || !position.trim()}
+                    className="w-full"
                   >
-                    {isProcessing ? (
-                      <>
-                        <Loader2 className="h-5 w-5 animate-spin" />
-                        Researching & Generating...
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="h-5 w-5" />
-                        Generate Personalized Email
-                      </>
-                    )}
-                  </button>
+                    <Sparkles className="h-5 w-5" />
+                    Generate Personalized Email
+                  </ActionButton>
                 </form>
               </motion.div>
 
-              {/* Error Display */}
               {error && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 text-red-300 flex items-start gap-3"
-                >
-                  <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-medium">Error</p>
-                    <p className="text-sm">{error}</p>
-                  </div>
-                </motion.div>
+                <ErrorMessage
+                  title="Failed to generate email"
+                  message={error}
+                  onRetry={handleSubmit}
+                />
               )}
 
-              {/* Results Section */}
               {result && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -328,19 +350,33 @@ const EmailGTMPage: React.FC = () => {
                       <Mail className="h-5 w-5 text-green-400" />
                       Generated Email
                     </h2>
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => copyToClipboard(result.email)}
-                        className="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors"
-                      >
-                        {copied ? <CheckCircle className="h-4 w-4 text-green-400" /> : <Copy className="h-4 w-4" />}
-                        {copied ? "Copied!" : "Copy"}
-                      </button>
-                    </div>
+                    <button
+                      onClick={() => copyToClipboard(result.email)}
+                      className="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors"
+                    >
+                      {copied ? <CheckCircle className="h-4 w-4 text-green-400" /> : <Copy className="h-4 w-4" />}
+                      {copied ? "Copied!" : "Copy"}
+                    </button>
                   </div>
 
-                  {/* Research Summary */}
-                  <div className="bg-blue-900/20 border border-blue-500/20 rounded-lg p-4 mb-6">
+                  <ResultGrid columns={2} className="mb-4">
+                    <ResultCard
+                      icon={<Building2 className="h-5 w-5" />}
+                      title="Company"
+                      value={result.lead.companyName || companyName}
+                      subtext={result.department}
+                      variant="default"
+                    />
+                    <ResultCard
+                      icon={<Users className="h-5 w-5" />}
+                      title="Contact"
+                      value={result.lead.contactName || contactName}
+                      subtext={result.lead.position || position}
+                      variant="default"
+                    />
+                  </ResultGrid>
+
+                  <div className="bg-blue-900/20 border border-blue-500/20 rounded-lg p-4 mb-4">
                     <h3 className="text-sm font-semibold text-blue-300 mb-3 flex items-center gap-2">
                       <Search className="h-4 w-4" />
                       Research Summary
@@ -365,13 +401,10 @@ const EmailGTMPage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Email Content */}
                   <div className="bg-gray-900/50 rounded-lg p-5 border border-gray-700">
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="text-sm font-semibold text-gray-300">Personalized Email</h3>
                       <div className="flex items-center gap-2 text-xs text-gray-400">
-                        <span>{result.department}</span>
-                        <span>•</span>
                         <span>{result.campaignType}</span>
                       </div>
                     </div>
@@ -387,9 +420,7 @@ const EmailGTMPage: React.FC = () => {
               )}
             </div>
 
-            {/* Sidebar */}
             <div className="space-y-6">
-              {/* How It Works */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -420,7 +451,6 @@ const EmailGTMPage: React.FC = () => {
                 </div>
               </motion.div>
 
-              {/* Features */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -455,14 +485,13 @@ const EmailGTMPage: React.FC = () => {
                 </ul>
               </motion.div>
 
-              {/* Example Output */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
                 className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700"
               >
-                <h3 className="text-lg font-bold text-white mb-3">💡 Example Output</h3>
+                <h3 className="text-lg font-bold text-white mb-3">Example Output</h3>
                 <div className="space-y-3 text-sm text-gray-300">
                   <p>For target: <strong className="text-white">Notion</strong> (Ivan Zhao, CEO)</p>
                   <p className="text-xs text-gray-400 line-clamp-3">
@@ -473,7 +502,6 @@ const EmailGTMPage: React.FC = () => {
                 </div>
               </motion.div>
 
-              {/* CTA */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -499,5 +527,13 @@ const EmailGTMPage: React.FC = () => {
     </>
   );
 };
+
+const Info = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <circle cx="12" cy="12" r="10"/>
+    <line x1="12" y1="16" x2="12" y2="12"/>
+    <line x1="12" y1="8" x2="12.01" y2="8"/>
+  </svg>
+);
 
 export default EmailGTMPage;

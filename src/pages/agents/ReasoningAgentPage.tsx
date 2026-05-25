@@ -7,15 +7,19 @@ import {
   Zap,
   History,
   Sparkles,
-  Loader2,
   MessageSquare,
   ArrowRight,
   Clock,
   Lightbulb,
   CheckCircle2,
-  AlertCircle,
   RefreshCw
 } from "lucide-react";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 
 interface ReasoningResponse {
   standardAnswer?: string;
@@ -38,7 +42,27 @@ const ReasoningAgentPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [showHistory, setShowHistory] = useState(false);
 
-  // Load history from localStorage
+  useEffect(() => {
+    const savedQuestion = localStorage.getItem('reasoning-question');
+    const savedMode = localStorage.getItem('reasoning-mode');
+    const savedModel = localStorage.getItem('reasoning-model');
+    if (savedQuestion) setQuestion(savedQuestion);
+    if (savedMode) setMode(savedMode as "standard" | "reasoning" | "compare");
+    if (savedModel) setModel(savedModel);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('reasoning-question', question);
+  }, [question]);
+
+  useEffect(() => {
+    localStorage.setItem('reasoning-mode', mode);
+  }, [mode]);
+
+  useEffect(() => {
+    localStorage.setItem('reasoning-model', model);
+  }, [model]);
+
   useEffect(() => {
     const saved = localStorage.getItem('reasoning-history');
     if (saved) {
@@ -50,7 +74,6 @@ const ReasoningAgentPage: React.FC = () => {
     }
   }, []);
 
-  // Save history to localStorage
   useEffect(() => {
     localStorage.setItem('reasoning-history', JSON.stringify(history));
   }, [history]);
@@ -87,7 +110,7 @@ const ReasoningAgentPage: React.FC = () => {
       };
 
       setResult(reasoningResult);
-      setHistory(prev => [reasoningResult, ...prev.slice(0, 19)]); // Keep last 20
+      setHistory(prev => [reasoningResult, ...prev.slice(0, 19)]);
 
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred');
@@ -122,7 +145,6 @@ const ReasoningAgentPage: React.FC = () => {
 
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-6xl">
-          {/* Hero */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -141,9 +163,7 @@ const ReasoningAgentPage: React.FC = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main Content */}
             <div className="lg:col-span-2 space-y-6">
-              {/* Settings Card */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -199,21 +219,22 @@ const ReasoningAgentPage: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Question Input */}
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
                       Ask a Reasoning Question
                     </label>
-                    <textarea
+                    <SmartTextarea
                       value={question}
                       onChange={(e) => setQuestion(e.target.value)}
                       placeholder="Enter a logic puzzle, math problem, or analytical question that requires step-by-step thinking..."
-                      className="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 min-h-[120px] resize-none transition-all"
+                      className="w-full"
                     />
+                    <p className="text-xs text-gray-500 mt-2">
+                      Format tip: Be specific about what you're asking. Include all relevant details and constraints for best results.
+                    </p>
                   </div>
 
-                  {/* Example Chips */}
                   <div className="flex flex-wrap gap-2">
                     <span className="text-sm text-gray-400 flex items-center mr-2">Try:</span>
                     {exampleQuestions.map((q, i) => (
@@ -229,23 +250,16 @@ const ReasoningAgentPage: React.FC = () => {
                   </div>
 
                   <div className="flex items-center gap-4">
-                    <button
+                    <ActionButton
                       type="submit"
+                      isLoading={isProcessing}
                       disabled={isProcessing || !question.trim()}
-                      className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 disabled:from-gray-600 disabled:to-gray-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-purple-500/25 transition-all duration-200 flex items-center justify-center gap-2 disabled:cursor-not-allowed"
+                      loadingText="Analyzing..."
+                      icon={<Brain className="h-5 w-5" />}
+                      className="flex-1"
                     >
-                      {isProcessing ? (
-                        <>
-                          <Loader2 className="h-5 w-5 animate-spin" />
-                          Analyzing...
-                        </>
-                      ) : (
-                        <>
-                          <Brain className="h-5 w-5" />
-                          Analyze with AI
-                        </>
-                      )}
-                    </button>
+                      Analyze with AI
+                    </ActionButton>
 
                     {history.length > 0 && (
                       <button
@@ -261,7 +275,6 @@ const ReasoningAgentPage: React.FC = () => {
                 </form>
               </motion.div>
 
-              {/* Results Section */}
               <AnimatePresence>
                 {(result || isProcessing) && (
                   <motion.div
@@ -276,62 +289,69 @@ const ReasoningAgentPage: React.FC = () => {
                     </h2>
 
                     {isProcessing && (
-                      <div className="flex flex-col items-center justify-center py-12">
-                        <Loader2 className="h-12 w-12 animate-spin text-purple-500 mb-4" />
-                        <p className="text-gray-300 font-medium">AI is thinking...</p>
-                        <p className="text-sm text-gray-500 mt-1">This may take 10-30 seconds</p>
-                      </div>
+                      <LoadingIndicator 
+                        message="AI is thinking..." 
+                        submessage="This may take 10-30 seconds" 
+                      />
                     )}
 
                     {result && !isProcessing && (
                       <div className="space-y-6">
                         {mode === "compare" && result.standardAnswer && result.reasoningAnswer && (
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="bg-gray-900/50 rounded-lg p-5 border border-gray-700">
-                              <h3 className="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2">
-                                <Zap className="h-4 w-4 text-blue-400" />
-                                Standard Response
-                                <span className="text-xs text-gray-500 ml-auto">No step-by-step</span>
-                              </h3>
-                              <div className="text-gray-200 text-sm leading-relaxed whitespace-pre-wrap">
-                                {result.standardAnswer}
-                              </div>
-                            </div>
-                            <div className="bg-gray-900/50 rounded-lg p-5 border border-purple-500/30">
-                              <h3 className="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2">
-                                <Brain className="h-4 w-4 text-purple-400" />
-                                With Reasoning
-                                <span className="text-xs text-gray-500 ml-auto">Step-by-step</span>
-                              </h3>
-                              <div className="text-gray-200 text-sm leading-relaxed whitespace-pre-wrap">
-                                {result.reasoningAnswer}
-                              </div>
-                            </div>
-                          </div>
+                          <ResultGrid columns={2}>
+                            <ResultCard
+                              title="Standard Response"
+                              subtitle="No step-by-step reasoning"
+                              icon={<Zap className="h-4 w-4 text-blue-400" />}
+                              content={result.standardAnswer}
+                              metadata={{
+                                "Processing Time": `${Math.round(result.processingTime / 1000)}s`,
+                                "Model": result.model
+                              }}
+                            />
+                            <ResultCard
+                              title="With Reasoning"
+                              subtitle="Step-by-step thinking"
+                              icon={<Brain className="h-4 w-4 text-purple-400" />}
+                              content={result.reasoningAnswer}
+                              metadata={{
+                                "Processing Time": `${Math.round(result.processingTime / 1000)}s`,
+                                "Model": result.model
+                              }}
+                              variant="highlighted"
+                            />
+                          </ResultGrid>
                         )}
 
                         {mode === "standard" && result.standardAnswer && (
-                          <div className="bg-gray-900/50 rounded-lg p-5 border border-gray-700">
-                            <h3 className="text-sm font-semibold text-gray-300 mb-3">Standard Response</h3>
-                            <div className="text-gray-200 text-sm leading-relaxed whitespace-pre-wrap">
-                              {result.standardAnswer}
-                            </div>
-                          </div>
+                          <ResultCard
+                            title="Standard Response"
+                            subtitle="Direct answer without explicit reasoning"
+                            icon={<Zap className="h-4 w-4 text-blue-400" />}
+                            content={result.standardAnswer}
+                            metadata={{
+                              "Processing Time": `${Math.round(result.processingTime / 1000)}s`,
+                              "Model": result.model,
+                              "Timestamp": new Date(result.timestamp).toLocaleString()
+                            }}
+                          />
                         )}
 
                         {mode === "reasoning" && result.reasoningAnswer && (
-                          <div className="bg-gray-900/50 rounded-lg p-5 border border-purple-500/30">
-                            <h3 className="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2">
-                              <Brain className="h-4 w-4 text-purple-400" />
-                              Reasoning Response
-                            </h3>
-                            <div className="text-gray-200 text-sm leading-relaxed whitespace-pre-wrap">
-                              {result.reasoningAnswer}
-                            </div>
-                          </div>
+                          <ResultCard
+                            title="Reasoning Response"
+                            subtitle="Step-by-step analytical thinking"
+                            icon={<Brain className="h-4 w-4 text-purple-400" />}
+                            content={result.reasoningAnswer}
+                            metadata={{
+                              "Processing Time": `${Math.round(result.processingTime / 1000)}s`,
+                              "Model": result.model,
+                              "Timestamp": new Date(result.timestamp).toLocaleString()
+                            }}
+                            variant="highlighted"
+                          />
                         )}
 
-                        {/* Meta info */}
                         <div className="flex items-center gap-4 text-xs text-gray-500 pt-2 border-t border-gray-700">
                           <span className="flex items-center gap-1">
                             <Clock className="h-3 w-3" />
@@ -349,22 +369,27 @@ const ReasoningAgentPage: React.FC = () => {
                 )}
               </AnimatePresence>
 
-              {/* Error Display */}
-              {error && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 text-red-300 flex items-start gap-3"
-                >
-                  <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-medium">Error</p>
-                    <p className="text-sm">{error}</p>
-                  </div>
-                </motion.div>
+              {!result && !isProcessing && (
+                <EmptyState
+                  icon={<Brain className="h-12 w-12 text-purple-400" />}
+                  title="No reasoning results yet"
+                  description="Enter a logic puzzle, math problem, or analytical question above to see how AI reasoning compares to standard responses."
+                  tips={[
+                    "Try: 'How many r's are in strawberry?'",
+                    "Classic: 'A bat and ball cost $1.10, bat is $1.00 more...'",
+                    "Logic: 'A farmer has 17 sheep, all but 9 die...'",
+                    "Math: 'What is the 17th letter of the alphabet?'"
+                  ]}
+                />
               )}
 
-              {/* History Panel */}
+              {error && (
+                <ErrorMessage
+                  message={error}
+                  onDismiss={() => setError(null)}
+                />
+              )}
+
               <AnimatePresence>
                 {showHistory && history.length > 0 && (
                   <motion.div
@@ -425,9 +450,7 @@ const ReasoningAgentPage: React.FC = () => {
               </AnimatePresence>
             </div>
 
-            {/* Sidebar */}
             <div className="space-y-6">
-              {/* How It Works */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -457,7 +480,6 @@ const ReasoningAgentPage: React.FC = () => {
                 </div>
               </motion.div>
 
-              {/* Tips Card */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -492,25 +514,23 @@ const ReasoningAgentPage: React.FC = () => {
                 </ul>
               </motion.div>
 
-              {/* Use Cases */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
                 className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700"
               >
-                <h3 className="text-lg font-bold text-white mb-3">📚 Common Use Cases</h3>
+                <h3 className="text-lg font-bold text-white mb-3">Common Use Cases</h3>
                 <div className="grid grid-cols-1 gap-2 text-sm">
                   {[
-                    { icon: '🧮', text: 'Math puzzles & calculations' },
-                    { icon: '♟️', text: 'Logic puzzles & riddles' },
-                    { icon: '🔍', text: 'Multi-step analysis' },
-                    { icon: '📊', text: 'Decision-making frameworks' },
-                    { icon: '💡', text: 'Creative problem-solving' },
-                    { icon: '🎯', text: 'Strategy evaluation' }
+                    { text: 'Math puzzles & calculations' },
+                    { text: 'Logic puzzles & riddles' },
+                    { text: 'Multi-step analysis' },
+                    { text: 'Decision-making frameworks' },
+                    { text: 'Creative problem-solving' },
+                    { text: 'Strategy evaluation' }
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-2 text-gray-300">
-                      <span>{item.icon}</span>
                       <span>{item.text}</span>
                     </div>
                   ))}

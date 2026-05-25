@@ -1,16 +1,21 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { Card } from "../../components/ui/card";
 import { Loader2, Bot, User, Trash2, Send } from "lucide-react";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
+
+const STORAGE_KEY = 'starter-agent-messages';
 
 const Agent1StarterAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -20,10 +25,29 @@ const Agent1StarterAgentPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        setMessages(JSON.parse(saved));
+      } catch (e) {
+        console.warn('Failed to parse saved messages');
+      }
+    }
+  }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!input.trim() || loading) return;
     const userMsg: Message = { role: 'user', content: input };
     setMessages(prev => [...prev, userMsg]);
@@ -44,13 +68,16 @@ const Agent1StarterAgentPage: React.FC = () => {
       if (!res.ok) throw new Error(data.error || 'Failed');
       setMessages(prev => [...prev, { role: 'assistant', content: data.response || data.result || '' }]);
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || 'An unexpected error occurred');
     } finally {
       setLoading(false);
     }
   };
 
-  const clearChat = () => setMessages([]);
+  const clearChat = () => {
+    setMessages([]);
+    localStorage.removeItem(STORAGE_KEY);
+  };
 
   return (
     <>
@@ -69,10 +96,16 @@ const Agent1StarterAgentPage: React.FC = () => {
           <Card className="flex-1 bg-gray-800/50 border-gray-700 flex flex-col overflow-hidden">
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {messages.length === 0 && (
-                <div className="text-center text-gray-500 py-20">
-                  <Bot className="h-16 w-16 mx-auto mb-4 opacity-50" />
-                  <p>Start a conversation...</p>
-                </div>
+                <EmptyState
+                  icon={<Bot className="h-16 w-16 text-gray-600" />}
+                  title="Start a conversation"
+                  description="Ask me anything about AI, automation, or any topic you'd like to explore. I'm here to help!"
+                  tips={[
+                    "Be specific with your questions for better answers",
+                    "You can ask me to explain complex topics simply",
+                    "I can help write code, analyze data, or brainstorm ideas"
+                  ]}
+                />
               )}
 
               {messages.map((msg, idx) => (
@@ -101,12 +134,50 @@ const Agent1StarterAgentPage: React.FC = () => {
             </div>
 
             <div className="border-t border-gray-700 p-4 bg-gray-900/50">
-              <form onSubmit={handleSubmit} className="flex space-x-2">
-                <Input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type your message..."
-                  className="flex-1 bg-gray-800 border-gray-600 text-white" disabled={loading} />
-                <Button type="submit" disabled={loading || !input.trim()}><Send className="h-4 w-4" /></Button>
-                <Button type="button" variant="ghost" size="icon" onClick={clearChat}><Trash2 className="h-4 w-4" /></Button>
+              {messages.length === 0 && (
+                <div className="mb-4">
+                  <ExamplePrompt
+                    title="Try one of these:"
+                    examples={[
+                      "What can you help me with?",
+                      "Explain quantum computing simply",
+                      "Write a Python function to sort a list"
+                    ]}
+                    onSelect={setInput}
+                  />
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-3">
+                <SmartInput
+                  name="message"
+                  label=""
+                  value={input}
+                  onChange={setInput}
+                  placeholder="Type your message... (Enter to send, Shift+Enter for new line)"
+                  helperText="Press Enter to send. Conversation history is saved locally."
+                  disabled={loading}
+                />
+                <div className="flex gap-2 justify-end">
+                  <ActionButton type="submit" disabled={loading || !input.trim()} loading={loading}>
+                    <Send className="h-4 w-4" />
+                    Send
+                  </ActionButton>
+                  {messages.length > 0 && (
+                    <ActionButton variant="ghost" onClick={clearChat}>
+                      <Trash2 className="h-4 w-4" />
+                    </ActionButton>
+                  )}
+                </div>
               </form>
+
+              {error && (
+                <ErrorMessage
+                  message={error}
+                  onRetry={handleSubmit}
+                  retryLoading={loading}
+                />
+              )}
             </div>
           </Card>
         </div>

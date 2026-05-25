@@ -2,15 +2,21 @@ import React, { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, Bot, User, Trash2, Send } from "lucide-react";
+import { Loader2, Bot, User, Trash2, Send, MessageSquare } from "lucide-react";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
+
+const STORAGE_KEY = '51-inmemory-conversation-messages';
 
 const Agent51InMemoryConversationAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -20,10 +26,27 @@ const Agent51InMemoryConversationAgentPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        setMessages(JSON.parse(saved));
+      } catch (e) {
+        console.warn('Failed to parse saved messages');
+      }
+    }
+  }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+  }, [messages]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const handleSubmit = async (e?: React.FormEvent) => {
+    e?.preventDefault();
     if (!input.trim() || loading) return;
     const userMsg: Message = { role: 'user', content: input };
     setMessages(prev => [...prev, userMsg]);
@@ -50,7 +73,23 @@ const Agent51InMemoryConversationAgentPage: React.FC = () => {
     }
   };
 
-  const clearChat = () => setMessages([]);
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
+
+  const clearChat = () => {
+    setMessages([]);
+    localStorage.removeItem(STORAGE_KEY);
+  };
+
+  const examplePrompts = [
+    "What can you help me with?",
+    "Explain quantum computing simply",
+    "Write a Python function to sort a list",
+  ];
 
   return (
     <>
@@ -69,14 +108,24 @@ const Agent51InMemoryConversationAgentPage: React.FC = () => {
           <Card className="flex-1 bg-gray-800/50 border-gray-700 flex flex-col overflow-hidden">
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {messages.length === 0 && (
-                <div className="text-center text-gray-500 py-20">
-                  <Bot className="h-16 w-16 mx-auto mb-4 opacity-50" />
-                  <p>Start a conversation...</p>
-                </div>
+                <EmptyState
+                  icon={<MessageSquare className="h-16 w-16 text-gray-600" />}
+                  title="Start a conversation"
+                  description="Ask me anything! I can help with a variety of tasks including answering questions, writing code, explaining concepts, and more."
+                  tips={[
+                    "Be specific for better results",
+                    "You can ask follow-up questions",
+                    "Conversation history is saved locally"
+                  ]}
+                />
               )}
 
               {messages.map((msg, idx) => (
-                <motion.div key={idx} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
                   className={"flex " + (msg.role === 'user' ? 'justify-end' : 'justify-start')}
                 >
                   <div className={"flex items-start space-x-2 max-w-[80%] " + (msg.role === 'user' ? 'flex-row-reverse space-x-reverse' : '')}>
@@ -91,22 +140,70 @@ const Agent51InMemoryConversationAgentPage: React.FC = () => {
               ))}
 
               {loading && (
-                <div className="flex items-center space-x-2 text-gray-500">
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  <span>Thinking...</span>
+                <div className="flex gap-3">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center">
+                    <Bot className="h-4 w-4" />
+                  </div>
+                  <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+                    <LoadingIndicator message="Thinking..." size="sm" />
+                  </div>
                 </div>
               )}
 
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="border-t border-gray-700 p-4 bg-gray-900/50">
-              <form onSubmit={handleSubmit} className="flex space-x-2">
-                <Input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type your message..."
-                  className="flex-1 bg-gray-800 border-gray-600 text-white" disabled={loading} />
-                <Button type="submit" disabled={loading || !input.trim()}><Send className="h-4 w-4" /></Button>
-                <Button type="button" variant="ghost" size="icon" onClick={clearChat}><Trash2 className="h-4 w-4" /></Button>
-              </form>
+            <div className="border-t border-gray-700 p-4 bg-gray-900/50 space-y-3">
+              {messages.length === 0 && (
+                <div className="max-w-2xl mx-auto">
+                  <ExamplePrompt
+                    title="Start with one of these:"
+                    examples={examplePrompts}
+                    onSelect={setInput}
+                  />
+                </div>
+              )}
+
+              <div className="max-w-3xl mx-auto flex gap-3">
+                <div className="flex-1">
+                  <SmartInput
+                    label=""
+                    name="message"
+                    value={input}
+                    onChange={setInput}
+                    placeholder="Type your message... (Enter to send, Shift+Enter for new line)"
+                    helperText="Press Enter to send. Conversation history is saved locally."
+                    onKeyDown={handleKeyPress}
+                  />
+                </div>
+                <ActionButton
+                  onClick={() => handleSubmit()}
+                  loading={loading}
+                  disabled={!input.trim()}
+                  variant="primary"
+                >
+                  <Send className="h-4 w-4" />
+                  Send
+                </ActionButton>
+                <ActionButton
+                  onClick={clearChat}
+                  disabled={loading || messages.length === 0}
+                  variant="ghost"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </ActionButton>
+              </div>
+
+              {error && (
+                <div className="max-w-3xl mx-auto">
+                  <ErrorMessage
+                    title="Failed to send message"
+                    message={error}
+                    onRetry={() => handleSubmit()}
+                    retryLoading={loading}
+                  />
+                </div>
+              )}
             </div>
           </Card>
         </div>

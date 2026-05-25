@@ -1,20 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, Sparkles } from "lucide-react";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
+import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { Film, Clapperboard, Clock, Users, Sparkles, CheckCircle2 } from "lucide-react";
+
+const STORAGE_KEY = 'ai-movie-production-agent';
 
 const AiMovieProductionAgentPage: React.FC = () => {
   const { user } = useAuth();
-  const [formData, setFormData] = useState({ enter_google_api_key_to_access_gemini_25_flash: "", enter_serp_api_key_for_search_functionality: "", describe_your_movie_idea_in_a_few_sentences: "", select_the_movie_genre: "", select_the_target_audience: "", estimated_runtime_in_minutes: "" });
+  const [formData, setFormData] = useState({
+    googleApiKey: '',
+    serpApiKey: '',
+    movieIdea: '',
+    genre: '',
+    targetAudience: '',
+    runtime: '90'
+  });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        setFormData(JSON.parse(saved));
+      } catch {}
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  }, [formData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,11 +52,20 @@ const AiMovieProductionAgentPage: React.FC = () => {
       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-movie-production-agent`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
+        body: JSON.stringify({
+          enter_google_api_key_to_access_gemini_25_flash: formData.googleApiKey,
+          enter_serp_api_key_for_search_functionality: formData.serpApiKey,
+          describe_your_movie_idea_in_a_few_sentences: formData.movieIdea,
+          select_the_movie_genre: formData.genre,
+          select_the_target_audience: formData.targetAudience,
+          estimated_runtime_in_minutes: formData.runtime,
+          userId: user?.id
+        })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);
+      localStorage.removeItem(STORAGE_KEY);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -36,141 +73,208 @@ const AiMovieProductionAgentPage: React.FC = () => {
     }
   };
 
+  const updateField = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  if (result && result.status === 'completed' && !loading) {
+    return (
+      <>
+        <Helmet>
+          <title>Results - Movie Production</title>
+        </Helmet>
+        <main className="pt-24 pb-20">
+          <div className="container mx-auto px-4 max-w-3xl">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+              <div className="text-center mb-8">
+                <h1 className="text-3xl font-bold mb-3">Movie Production Plan Generated</h1>
+                <p className="text-gray-400">Your AI-powered movie production plan is ready</p>
+              </div>
+
+              <ResultGrid columns={3}>
+                <ResultCard
+                  icon={<Film className="h-5 w-5" />}
+                  title="Genre"
+                  value={formData.genre || 'Not specified'}
+                />
+                <ResultCard
+                  icon={<Clock className="h-5 w-5" />}
+                  title="Runtime"
+                  value={`${formData.runtime} min`}
+                />
+                <ResultCard
+                  icon={<CheckCircle2 className="h-5 w-5" />}
+                  title="Status"
+                  value="Completed"
+                  variant="success"
+                />
+              </ResultGrid>
+
+              {result.script && (
+                <ResultCard
+                  icon={<Clapperboard className="h-5 w-5" />}
+                  title="Generated Script"
+                  description={result.script}
+                  variant="info"
+                />
+              )}
+
+              {result.result && (
+                <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+                  <h3 className="text-lg font-medium mb-4">Full Production Plan</h3>
+                  <div className="text-gray-300 whitespace-pre-wrap">{result.result}</div>
+                </div>
+              )}
+
+              <div className="flex justify-center">
+                <ActionButton onClick={() => { setResult(null); }}>
+                  Generate Another Plan
+                </ActionButton>
+              </div>
+            </motion.div>
+          </div>
+        </main>
+      </>
+    );
+  }
+
   return (
     <>
       <Helmet>
-        <title>AiMovieProductionAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-movie-production-agent to automate tasks with AI." />
+        <title>Movie Production Agent - VideoRemix.vip</title>
+        <meta name="description" content="AI-powered movie production planning agent." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">Ai Movie Production Agent</h1>
-            <p className="text-xl text-gray-400">AI-powered ai movie production agent.</p>
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-red-600 to-orange-500 rounded-3xl mb-6">
+              <Clapperboard className="h-10 w-10 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold mb-4">Movie Production Agent</h1>
+            <p className="text-xl text-gray-400">AI-powered movie script generation and production planning.</p>
           </motion.div>
 
-          {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
-
           <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Input</CardTitle></CardHeader>
+            <CardHeader><CardTitle>Production Details</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
+                <FormSection title="API Configuration" description="Required API keys for AI services">
+                  <ApiKeyInput
+                    label="Google API Key (Gemini 2.5 Flash)"
+                    value={formData.googleApiKey}
+                    onChange={(v) => updateField('googleApiKey', v)}
+                    helperText="Required for Gemini AI features"
+                    required
+                  />
+                  <ApiKeyInput
+                    label="Serp API Key"
+                    value={formData.serpApiKey}
+                    onChange={(v) => updateField('serpApiKey', v)}
+                    helperText="Required for search functionality"
+                    required
+                  />
+                </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="enter_google_api_key_to_access_gemini_25_flash">Enter Google API Key to access Gemini 2.5 Flash *</Label>
-                
-                <Input
-                  id="enter_google_api_key_to_access_gemini_25_flash"
-                  type="text"
-                  value={formData.enter_google_api_key_to_access_gemini_25_flash}
-                  onChange={(e) => setFormData({ ...formData, enter_google_api_key_to_access_gemini_25_flash: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+                <FormSection title="Movie Concept" description="Describe your movie idea">
+                  <SmartTextarea
+                    label="Movie Idea"
+                    name="movieIdea"
+                    value={formData.movieIdea}
+                    onChange={(v) => updateField('movieIdea', v)}
+                    placeholder="A retired detective discovers a hidden camera in her apartment that reveals a conspiracy spanning three decades..."
+                    helperText="Describe your movie concept in 2-3 sentences. Include genre, main characters, and core conflict."
+                    rows={4}
+                    required
+                  />
 
-              <div className="space-y-2">
-                <Label htmlFor="enter_serp_api_key_for_search_functionality">Enter Serp API Key for Search functionality *</Label>
-                
-                <Input
-                  id="enter_serp_api_key_for_search_functionality"
-                  type="text"
-                  value={formData.enter_serp_api_key_for_search_functionality}
-                  onChange={(e) => setFormData({ ...formData, enter_serp_api_key_for_search_functionality: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <SelectDropdown
+                      label="Movie Genre"
+                      value={formData.genre}
+                      onValueChange={(v) => updateField('genre', v)}
+                      options={[
+                        { value: 'drama', label: 'Drama' },
+                        { value: 'thriller', label: 'Thriller' },
+                        { value: 'comedy', label: 'Comedy' },
+                        { value: 'scifi', label: 'Science Fiction' },
+                        { value: 'horror', label: 'Horror' },
+                        { value: 'romance', label: 'Romance' },
+                        { value: 'action', label: 'Action' },
+                        { value: 'documentary', label: 'Documentary' }
+                      ]}
+                      helperText="Select the primary genre"
+                      required
+                    />
 
-              <div className="space-y-2">
-                <Label htmlFor="describe_your_movie_idea_in_a_few_sentences">Describe your movie idea in a few sentences: *</Label>
-                
-                <Textarea
-                  id="describe_your_movie_idea_in_a_few_sentences"
-                  value={formData.describe_your_movie_idea_in_a_few_sentences}
-                  onChange={(e) => setFormData({ ...formData, describe_your_movie_idea_in_a_few_sentences: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white min-h-[120px]"
-                />
-                
-              </div>
+                    <SelectDropdown
+                      label="Target Audience"
+                      value={formData.targetAudience}
+                      onValueChange={(v) => updateField('targetAudience', v)}
+                      options={[
+                        { value: 'family', label: 'Family (All Ages)' },
+                        { value: 'pg13', label: 'PG-13 (Teens+)' },
+                        { value: 'r', label: 'R-Rated (Adults)' },
+                        { value: 'children', label: 'Children' }
+                      ]}
+                      helperText="Select your target audience rating"
+                      required
+                    />
+                  </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="select_the_movie_genre">Select the movie genre: *</Label>
-                
-                <select
-                  id="select_the_movie_genre"
-                  value={formData.select_the_movie_genre}
-                  onChange={(e) => setFormData({ ...formData, select_the_movie_genre: e.target.value })}
-                  className="w-full bg-gray-900/50 border border-gray-600 rounded-md px-3 py-2 text-white"
+                  <SmartInput
+                    label="Estimated Runtime (minutes)"
+                    name="runtime"
+                    value={formData.runtime}
+                    onChange={(v) => updateField('runtime', v)}
+                    placeholder="90, 120, 150..."
+                    helperText="Typical movies range from 90-150 minutes"
+                    required
+                  />
+                </FormSection>
+
+                {error && (
+                  <ErrorMessage
+                    title="Production plan generation failed"
+                    message={error}
+                    onRetry={handleSubmit}
+                    retryLoading={loading}
+                  />
+                )}
+
+                <ActionButton
+                  type="submit"
+                  onClick={handleSubmit}
+                  loading={loading}
+                  disabled={loading || !formData.movieIdea.trim()}
+                  size="lg"
+                  className="w-full"
                 >
-                  <option value=""></option>
-                </select>
-                
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="select_the_target_audience">Select the target audience: *</Label>
-                
-                <select
-                  id="select_the_target_audience"
-                  value={formData.select_the_target_audience}
-                  onChange={(e) => setFormData({ ...formData, select_the_target_audience: e.target.value })}
-                  className="w-full bg-gray-900/50 border border-gray-600 rounded-md px-3 py-2 text-white"
-                >
-                  <option value=""></option>
-                </select>
-                
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="estimated_runtime_in_minutes">Estimated runtime (in minutes): *</Label>
-                
-                <Input
-                  id="estimated_runtime_in_minutes"
-                  type="range"
-                  value={formData.estimated_runtime_in_minutes}
-                  onChange={(e) => setFormData({ ...formData, estimated_runtime_in_minutes: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
-
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Processing...' : 'Generate Results'}
-                </Button>
+                  <Sparkles className="h-4 w-4" />
+                  Generate Production Plan
+                </ActionButton>
               </form>
             </CardContent>
           </Card>
 
           {loading && (
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="py-8 text-center">
-                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-                <p className="text-gray-400">Processing...</p>
-              </CardContent>
-            </Card>
+            <LoadingIndicator
+              message="Generating movie production plan..."
+              subtext="Creating script and production details based on your concept"
+            />
           )}
 
-           {result && result.status === 'completed' && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     <div className="space-y-2">
-                       <Label>Transcript</Label>
-                       <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
+          {!result && !loading && (
+            <EmptyState
+              icon={<Clapperboard className="h-16 w-16 text-gray-600" />}
+              title="Create your movie"
+              description="Describe your movie concept and let AI generate a complete production plan"
+              tips={[
+                "Be specific about genre, tone, and target audience",
+                "Include main character archetypes and their arcs",
+                "Describe the central conflict or story question",
+              ]}
+            />
+          )}
         </div>
       </main>
     </>

@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2, Sparkles, Brain, Key } from "lucide-react";
 
 const MixtureOfAgentsPage: React.FC = () => {
   const { user } = useAuth();
@@ -16,8 +21,29 @@ const MixtureOfAgentsPage: React.FC = () => {
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const saved = localStorage.getItem('mixture-of-agents-data');
+    if (saved) {
+      try {
+        setFormData(JSON.parse(saved));
+      } catch {}
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('mixture-of-agents-data', JSON.stringify(formData));
+  }, [formData]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.enter_your_together_api_key.trim()) {
+      setError("Together API key is required");
+      return;
+    }
+    if (!formData.enter_your_question.trim()) {
+      setError("Please enter your question");
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -29,11 +55,17 @@ const MixtureOfAgentsPage: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);
+      localStorage.removeItem('mixture-of-agents-data');
     } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleClear = () => {
+    setFormData({ enter_your_together_api_key: "", enter_your_question: "" });
+    setResult(null);
   };
 
   return (
@@ -45,77 +77,91 @@ const MixtureOfAgentsPage: React.FC = () => {
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">Mixture Of Agents</h1>
-            <p className="text-xl text-gray-400">AI-powered mixture of agents.</p>
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-violet-600 to-pink-500 rounded-3xl mb-6">
+              <Brain className="h-10 w-10 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold mb-4">Mixture of Agents</h1>
+            <p className="text-xl text-gray-400">Leverage multiple AI agents for enhanced reasoning and answers.</p>
           </motion.div>
 
-          {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
+          {error && <ErrorMessage message={error} onRetry={handleSubmit} retryLoading={loading} />}
 
-          <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Input</CardTitle></CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+          {!result ? (
+            <Card className="bg-gray-800/50 border-gray-700 mb-8">
+              <CardHeader><CardTitle>Agent Configuration</CardTitle></CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <FormSection title="API Configuration" description="Enter your Together API key">
+                    <ApiKeyInput
+                      label="Together API Key"
+                      name="enter_your_together_api_key"
+                      value={formData.enter_your_together_api_key}
+                      onChange={(val) => setFormData({ ...formData, enter_your_together_api_key: val })}
+                      helperText="Your key is stored locally and never sent to our servers"
+                      required
+                    />
+                  </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="enter_your_together_api_key">Enter your Together API Key: *</Label>
-                
-                <Input
-                  id="enter_your_together_api_key"
-                  type="text"
-                  value={formData.enter_your_together_api_key}
-                  onChange={(e) => setFormData({ ...formData, enter_your_together_api_key: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+                  <FormSection title="Your Question" description="Ask anything and let multiple agents collaborate on the answer">
+                    <SmartTextarea
+                      label="Your Question"
+                      name="enter_your_question"
+                      value={formData.enter_your_question}
+                      onChange={(val) => setFormData({ ...formData, enter_your_question: val })}
+                      placeholder="What are the pros and cons of remote work vs office work for software engineers?"
+                      helperText="Complex questions work best. Multiple agents will analyze from different angles."
+                      rows={5}
+                      required
+                    />
+                  </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="enter_your_question">Enter your question: *</Label>
-                
-                <Input
-                  id="enter_your_question"
-                  type="text"
-                  value={formData.enter_your_question}
-                  onChange={(e) => setFormData({ ...formData, enter_your_question: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
-
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Processing...' : 'Generate Results'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-
-          {loading && (
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="py-8 text-center">
-                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-                <p className="text-gray-400">Processing...</p>
+                  <div className="flex gap-3 pt-4">
+                    <ActionButton type="submit" loading={loading} size="lg" className="flex-1" disabled={!formData.enter_your_question.trim()}>
+                      <Sparkles className="h-4 w-4" />
+                      Get Multi-Agent Answer
+                    </ActionButton>
+                    <ActionButton variant="ghost" onClick={handleClear} disabled={loading}>
+                      Clear
+                    </ActionButton>
+                  </div>
+                </form>
               </CardContent>
             </Card>
-          )}
+          ) : loading ? (
+            <LoadingIndicator message="Running multi-agent analysis..." subtext="Multiple agents are collaborating on your question" />
+          ) : null}
 
-           {result && result.status === 'completed' && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     <div className="space-y-2">
-                       <Label>Transcript</Label>
-                       <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
+          {result && result.status === 'completed' && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+              <ResultGrid columns={2}>
+                <ResultCard
+                  icon={<Brain className="h-5 w-5" />}
+                  title="Agents Used"
+                  value={result.agent_count || "Multiple"}
+                  subtext="Collaborative analysis"
+                />
+                <ResultCard
+                  icon={<Sparkles className="h-5 w-5" />}
+                  title="Status"
+                  value="Completed"
+                  variant="success"
+                />
+              </ResultGrid>
+
+              <Card className="bg-gray-800/50 border-gray-700">
+                <CardHeader><CardTitle>Multi-Agent Response</CardTitle></CardHeader>
+                <CardContent>
+                  <div className="prose prose-invert max-w-none">
+                    <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans text-gray-200">{result.result}</pre>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <ActionButton onClick={() => { setResult(null); setFormData({ enter_your_together_api_key: formData.enter_your_together_api_key, enter_your_question: "" }); }} variant="secondary" className="w-full">
+                Ask Another Question
+              </ActionButton>
+            </motion.div>
+          )}
         </div>
       </main>
     </>

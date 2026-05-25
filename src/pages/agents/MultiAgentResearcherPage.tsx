@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2, Sparkles, FileSearch, Key } from "lucide-react";
 
 const MultiAgentResearcherPage: React.FC = () => {
   const { user } = useAuth();
@@ -16,8 +21,29 @@ const MultiAgentResearcherPage: React.FC = () => {
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const saved = localStorage.getItem('multi-agent-researcher-data');
+    if (saved) {
+      try {
+        setFormData(JSON.parse(saved));
+      } catch {}
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('multi-agent-researcher-data', JSON.stringify(formData));
+  }, [formData]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.openai_api_key.trim()) {
+      setError("OpenAI API key is required");
+      return;
+    }
+    if (!formData.enter_your_report_query.trim()) {
+      setError("Please enter your research query");
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -29,11 +55,17 @@ const MultiAgentResearcherPage: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);
+      localStorage.removeItem('multi-agent-researcher-data');
     } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleClear = () => {
+    setFormData({ openai_api_key: "", enter_your_report_query: "" });
+    setResult(null);
   };
 
   return (
@@ -45,77 +77,91 @@ const MultiAgentResearcherPage: React.FC = () => {
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-cyan-600 to-blue-500 rounded-3xl mb-6">
+              <FileSearch className="h-10 w-10 text-white" />
+            </div>
             <h1 className="text-4xl font-bold mb-4">Multi Agent Researcher</h1>
-            <p className="text-xl text-gray-400">AI-powered multi agent researcher.</p>
+            <p className="text-xl text-gray-400">Deep research powered by multiple AI agents working together.</p>
           </motion.div>
 
-          {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
+          {error && <ErrorMessage message={error} onRetry={handleSubmit} retryLoading={loading} />}
 
-          <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Input</CardTitle></CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+          {!result ? (
+            <Card className="bg-gray-800/50 border-gray-700 mb-8">
+              <CardHeader><CardTitle>Research Configuration</CardTitle></CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <FormSection title="API Configuration" description="Enter your OpenAI API key">
+                    <ApiKeyInput
+                      label="OpenAI API Key"
+                      name="openai_api_key"
+                      value={formData.openai_api_key}
+                      onChange={(val) => setFormData({ ...formData, openai_api_key: val })}
+                      helperText="Your key is stored locally and never sent to our servers"
+                      required
+                    />
+                  </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="openai_api_key">OpenAI API Key *</Label>
-                
-                <Input
-                  id="openai_api_key"
-                  type="text"
-                  value={formData.openai_api_key}
-                  onChange={(e) => setFormData({ ...formData, openai_api_key: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+                  <FormSection title="Research Topic" description="Define what you want to research">
+                    <SmartTextarea
+                      label="Report Query"
+                      name="enter_your_report_query"
+                      value={formData.enter_your_report_query}
+                      onChange={(val) => setFormData({ ...formData, enter_your_report_query: val })}
+                      placeholder="Research the latest developments in quantum computing, focusing on recent breakthroughs, key players, and potential applications in the next 5 years"
+                      helperText="Be specific about your research topic. Include scope, time frame, and focus areas for best results."
+                      rows={5}
+                      required
+                    />
+                  </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="enter_your_report_query">Enter your report query *</Label>
-                
-                <Input
-                  id="enter_your_report_query"
-                  type="text"
-                  value={formData.enter_your_report_query}
-                  onChange={(e) => setFormData({ ...formData, enter_your_report_query: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
-
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Processing...' : 'Generate Results'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-
-          {loading && (
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="py-8 text-center">
-                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-                <p className="text-gray-400">Processing...</p>
+                  <div className="flex gap-3 pt-4">
+                    <ActionButton type="submit" loading={loading} size="lg" className="flex-1" disabled={!formData.enter_your_report_query.trim()}>
+                      <Sparkles className="h-4 w-4" />
+                      Start Research
+                    </ActionButton>
+                    <ActionButton variant="ghost" onClick={handleClear} disabled={loading}>
+                      Clear
+                    </ActionButton>
+                  </div>
+                </form>
               </CardContent>
             </Card>
-          )}
+          ) : loading ? (
+            <LoadingIndicator message="Running multi-agent research..." subtext="Multiple agents are investigating your topic" />
+          ) : null}
 
-           {result && result.status === 'completed' && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     <div className="space-y-2">
-                       <Label>Transcript</Label>
-                       <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
+          {result && result.status === 'completed' && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+              <ResultGrid columns={2}>
+                <ResultCard
+                  icon={<FileSearch className="h-5 w-5" />}
+                  title="Topic"
+                  value={formData.enter_your_report_query.slice(0, 50) + (formData.enter_your_report_query.length > 50 ? '...' : '')}
+                  subtext="Research complete"
+                />
+                <ResultCard
+                  icon={<Sparkles className="h-5 w-5" />}
+                  title="Status"
+                  value="Completed"
+                  variant="success"
+                />
+              </ResultGrid>
+
+              <Card className="bg-gray-800/50 border-gray-700">
+                <CardHeader><CardTitle>Research Report</CardTitle></CardHeader>
+                <CardContent>
+                  <div className="prose prose-invert max-w-none">
+                    <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans text-gray-200">{result.result}</pre>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <ActionButton onClick={() => { setResult(null); setFormData({ openai_api_key: formData.openai_api_key, enter_your_report_query: "" }); }} variant="secondary" className="w-full">
+                Research Another Topic
+              </ActionButton>
+            </motion.div>
+          )}
         </div>
       </main>
     </>

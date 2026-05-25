@@ -1,23 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, Sparkles } from "lucide-react";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { ResultCard } from "@/components/agent-ui/ResultCard";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { FileCode, Sparkles, Lightbulb } from "lucide-react";
+
+const STORAGE_KEY = 'cursor-ai-experiments';
 
 const CursorAiExperimentsPage: React.FC = () => {
   const { user } = useAuth();
-  const [formData, setFormData] = useState({ enter_your_openai_api_key: "", enter_the_topic_for_the_article: "" });
+  const [formData, setFormData] = useState({ openai_api_key: "", topic: "" });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        setFormData(JSON.parse(saved));
+      } catch {}
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  }, [formData]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.openai_api_key.trim()) {
+      setError("OpenAI API key is required");
+      return;
+    }
+    if (!formData.topic.trim()) {
+      setError("Topic is required");
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -29,6 +52,7 @@ const CursorAiExperimentsPage: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);
+      localStorage.removeItem(STORAGE_KEY);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -36,90 +60,111 @@ const CursorAiExperimentsPage: React.FC = () => {
     }
   };
 
-  return (
-    <>
-      <Helmet>
-        <title>CursorAiExperiments - VideoRemix.vip</title>
-        <meta name="description" content="Use cursor-ai-experiments to automate tasks with AI." />
-      </Helmet>
-      <main className="pt-24 pb-20">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">Cursor Ai Experiments</h1>
-            <p className="text-xl text-gray-400">AI-powered cursor ai experiments.</p>
-          </motion.div>
+  if (result && result.status === 'completed') {
+    return (
+      <>
+        <Helmet>
+          <title>CursorAiExperiments - VideoRemix.vip</title>
+        </Helmet>
+        <main className="pt-24 pb-20">
+          <div className="container mx-auto px-4 max-w-3xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-6"
+            >
+              <ResultCard
+                icon={<FileCode className="h-5 w-5" />}
+                title="AI Experiment Results"
+                description={result.result}
+                variant="success"
+              />
+              <div className="flex justify-center">
+                <ActionButton onClick={() => { setResult(null); setFormData({ openai_api_key: "", topic: "" }); }}>
+                  <Sparkles className="h-4 w-4" />
+                  New Experiment
+                </ActionButton>
+              </div>
+            </motion.div>
+          </div>
+        </main>
+      </>
+    );
+  }
 
-          {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
+  if (loading) {
+    return <LoadingIndicator message="Running AI experiments..." subtext="Testing Cursor AI capabilities" />;
+  }
 
-          <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Input</CardTitle></CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+  if (!result && !loading) {
+    return (
+      <>
+        <Helmet>
+          <title>CursorAiExperiments - VideoRemix.vip</title>
+        </Helmet>
+        <main className="pt-24 pb-20">
+          <div className="container mx-auto px-4 max-w-3xl">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-emerald-600 to-teal-500 rounded-3xl mb-6">
+                <FileCode className="h-10 w-10 text-white" />
+              </div>
+              <h1 className="text-4xl font-bold mb-4">Cursor AI Experiments</h1>
+              <p className="text-xl text-gray-400">Explore and experiment with Cursor AI capabilities.</p>
+            </motion.div>
 
-              <div className="space-y-2">
-                <Label htmlFor="enter_your_openai_api_key">Enter your OpenAI API Key: *</Label>
-                
-                <Input
-                  id="enter_your_openai_api_key"
-                  type="text"
-                  value={formData.enter_your_openai_api_key}
-                  onChange={(e) => setFormData({ ...formData, enter_your_openai_api_key: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
+            <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto">
+              <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6 space-y-6">
+                <SmartInput
+                  label="OpenAI API Key"
+                  name="openai_api_key"
+                  value={formData.openai_api_key}
+                  onChange={(value) => setFormData(prev => ({ ...prev, openai_api_key: value }))}
+                  type="password"
+                  placeholder="sk-..."
+                  helperText="Your API key is stored locally and never sent to our servers"
+                  required
                 />
-                
+
+                <SmartInput
+                  label="Experiment Topic"
+                  name="topic"
+                  value={formData.topic}
+                  onChange={(value) => setFormData(prev => ({ ...prev, topic: value }))}
+                  placeholder="e.g., 'Code refactoring suggestions for my project'"
+                  helperText="Describe the experiment or task you want Cursor AI to perform"
+                  required
+                />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="enter_the_topic_for_the_article">Enter the topic for the article: *</Label>
-                
-                <Input
-                  id="enter_the_topic_for_the_article"
-                  type="text"
-                  value={formData.enter_the_topic_for_the_article}
-                  onChange={(e) => setFormData({ ...formData, enter_the_topic_for_the_article: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+              {error && (
+                <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+                  <p className="text-red-300 text-sm">{error}</p>
+                </div>
+              )}
 
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Processing...' : 'Generate Results'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+              <ActionButton type="submit" loading={loading} size="lg" className="w-full">
+                <Sparkles className="h-4 w-4" />
+                Run Experiment
+              </ActionButton>
+            </form>
 
-          {loading && (
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="py-8 text-center">
-                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-                <p className="text-gray-400">Processing...</p>
-              </CardContent>
-            </Card>
-          )}
+            <EmptyState
+              icon={<Lightbulb className="h-16 w-16 text-gray-600" />}
+              title="Cursor AI Experiments"
+              description="Experiment with Cursor AI to explore new possibilities"
+              tips={[
+                "Try code generation, refactoring, or debugging tasks",
+                "Experiment with different coding styles and approaches",
+                "Use specific technical terms for better results"
+              ]}
+            />
+          </div>
+        </main>
+      </>
+    );
+  }
 
-           {result && result.status === 'completed' && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     <div className="space-y-2">
-                       <Label>Transcript</Label>
-                       <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
-        </div>
-      </main>
-    </>
-  );
+  return null;
 };
 
 export default CursorAiExperimentsPage;

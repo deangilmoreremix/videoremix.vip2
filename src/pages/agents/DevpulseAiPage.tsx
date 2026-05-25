@@ -2,16 +2,14 @@ import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, Sparkles } from "lucide-react";
+import { ResultCard } from "@/components/agent-ui/ResultCard";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { Zap, Sparkles, Code } from "lucide-react";
 
 const DevpulseAiPage: React.FC = () => {
   const { user } = useAuth();
-  const [formData, setFormData] = useState({  });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +22,7 @@ const DevpulseAiPage: React.FC = () => {
       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/devpulse-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
+        body: JSON.stringify({ userId: user?.id })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -36,62 +34,88 @@ const DevpulseAiPage: React.FC = () => {
     }
   };
 
-  return (
-    <>
-      <Helmet>
-        <title>DevpulseAi - VideoRemix.vip</title>
-        <meta name="description" content="Use devpulse-ai to automate tasks with AI." />
-      </Helmet>
-      <main className="pt-24 pb-20">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">Devpulse Ai</h1>
-            <p className="text-xl text-gray-400">AI-powered devpulse ai.</p>
-          </motion.div>
+  if (result && result.status === 'completed') {
+    return (
+      <>
+        <Helmet>
+          <title>DevpulseAi - VideoRemix.vip</title>
+        </Helmet>
+        <main className="pt-24 pb-20">
+          <div className="container mx-auto px-4 max-w-3xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-6"
+            >
+              <ResultCard
+                icon={<Zap className="h-5 w-5" />}
+                title="Devpulse AI Results"
+                description={result.result}
+                variant="success"
+              />
+              <div className="flex justify-center">
+                <ActionButton onClick={() => { setResult(null); }}>
+                  <Sparkles className="h-4 w-4" />
+                  Refresh
+                </ActionButton>
+              </div>
+            </motion.div>
+          </div>
+        </main>
+      </>
+    );
+  }
 
-          {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
+  if (loading) {
+    return <LoadingIndicator message="Fetching dev insights..." subtext="Analyzing developer trends and patterns" />;
+  }
 
-          <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Input</CardTitle></CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+  if (!result && !loading) {
+    return (
+      <>
+        <Helmet>
+          <title>DevpulseAi - VideoRemix.vip</title>
+        </Helmet>
+        <main className="pt-24 pb-20">
+          <div className="container mx-auto px-4 max-w-3xl">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-violet-600 to-purple-500 rounded-3xl mb-6">
+                <Zap className="h-10 w-10 text-white" />
+              </div>
+              <h1 className="text-4xl font-bold mb-4">Devpulse AI</h1>
+              <p className="text-xl text-gray-400">AI-powered developer insights and trends.</p>
+            </motion.div>
 
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Processing...' : 'Generate Results'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+            <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto">
+              {error && (
+                <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+                  <p className="text-red-300 text-sm">{error}</p>
+                </div>
+              )}
 
-          {loading && (
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="py-8 text-center">
-                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-                <p className="text-gray-400">Processing...</p>
-              </CardContent>
-            </Card>
-          )}
+              <ActionButton type="submit" loading={loading} size="lg" className="w-full">
+                <Sparkles className="h-4 w-4" />
+                Get Dev Insights
+              </ActionButton>
+            </form>
 
-           {result && result.status === 'completed' && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     <div className="space-y-2">
-                       <Label>Transcript</Label>
-                       <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
-        </div>
-      </main>
-    </>
-  );
+            <EmptyState
+              icon={<Code className="h-16 w-16 text-gray-600" />}
+              title="Developer Pulse Insights"
+              description="Get AI-powered insights on developer trends and best practices"
+              tips={[
+                "Insights are generated from the latest developer community data",
+                "Click refresh to get updated insights",
+                "Results include trending technologies and best practices"
+              ]}
+            />
+          </div>
+        </main>
+      </>
+    );
+  }
+
+  return null;
 };
 
 export default DevpulseAiPage;

@@ -3,14 +3,21 @@ import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
 import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, Bot, User, Trash2, Send } from "lucide-react";
+import { Bot, User, Trash2, Send } from "lucide-react";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
+
+const STORAGE_KEY = 'rag-agent-cohere-messages';
 
 const RagAgentCoherePage: React.FC = () => {
   const { user } = useAuth();
@@ -20,7 +27,24 @@ const RagAgentCoherePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        setMessages(JSON.parse(saved));
+      } catch {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    }
+  }, []);
+
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+    }
+  }, [messages]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +52,7 @@ const RagAgentCoherePage: React.FC = () => {
     const userMsg: Message = { role: 'user', content: input };
     setMessages(prev => [...prev, userMsg]);
     setInput("");
+    localStorage.removeItem(STORAGE_KEY);
     setLoading(true);
     setError(null);
     try {
@@ -50,7 +75,29 @@ const RagAgentCoherePage: React.FC = () => {
     }
   };
 
-  const clearChat = () => setMessages([]);
+  const clearChat = () => {
+    setMessages([]);
+    localStorage.removeItem(STORAGE_KEY);
+  };
+
+  const handleRetry = () => {
+    if (input.trim()) {
+      const form = document.createElement('form');
+      form.submit();
+    }
+  };
+
+  const examplePrompts = [
+    "What documents can I upload?",
+    "How does RAG work with Cohere?",
+    "Help me summarize a PDF"
+  ];
+
+  const emptyStateTips = [
+    "Upload documents for context-aware answers",
+    "Ask questions about your uploaded files",
+    "Get summaries and insights from your documents"
+  ];
 
   return (
     <>
@@ -69,10 +116,19 @@ const RagAgentCoherePage: React.FC = () => {
           <Card className="flex-1 bg-gray-800/50 border-gray-700 flex flex-col overflow-hidden">
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {messages.length === 0 && (
-                <div className="text-center text-gray-500 py-20">
-                  <Bot className="h-16 w-16 mx-auto mb-4 opacity-50" />
-                  <p>Start a conversation...</p>
-                </div>
+                <EmptyState
+                  icon={Bot}
+                  title="Start a conversation"
+                  description="Ask questions about your documents and get AI-powered insights"
+                  tips={[
+                    "Upload documents for context-aware answers",
+                    "Ask questions about your uploaded files",
+                    "Get summaries and insights from your documents",
+                    "Try: 'Summarize the main points'"
+                  ]}
+                >
+                  <ExamplePrompt suggestions={examplePrompts} onSuggestionClick={setInput} />
+                </EmptyState>
               )}
 
               {messages.map((msg, idx) => (
@@ -90,22 +146,33 @@ const RagAgentCoherePage: React.FC = () => {
                 </motion.div>
               ))}
 
-              {loading && (
-                <div className="flex items-center space-x-2 text-gray-500">
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  <span>Thinking...</span>
-                </div>
-              )}
+              {loading && <LoadingIndicator />}
+
+              {error && <ErrorMessage message={error} onRetry={handleRetry} />}
 
               <div ref={messagesEndRef} />
             </div>
 
             <div className="border-t border-gray-700 p-4 bg-gray-900/50">
-              <form onSubmit={handleSubmit} className="flex space-x-2">
-                <Input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type your message..."
-                  className="flex-1 bg-gray-800 border-gray-600 text-white" disabled={loading} />
-                <Button type="submit" disabled={loading || !input.trim()}><Send className="h-4 w-4" /></Button>
-                <Button type="button" variant="ghost" size="icon" onClick={clearChat}><Trash2 className="h-4 w-4" /></Button>
+              <form onSubmit={handleSubmit} className="space-y-3">
+                <SmartInput
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Ask anything... e.g., 'Explain quantum computing in simple terms'"
+                  disabled={loading}
+                />
+                <p className="text-xs text-gray-500">You can ask about documents you upload, get summaries, and more.</p>
+                <div className="flex space-x-2">
+                  <ActionButton
+                    type="submit"
+                    loading={loading}
+                    disabled={!input.trim()}
+                    icon={<Send className="h-4 w-4" />}
+                  >
+                    Send
+                  </ActionButton>
+                  <Button type="button" variant="ghost" size="icon" onClick={clearChat}><Trash2 className="h-4 w-4" /></Button>
+                </div>
               </form>
             </div>
           </Card>

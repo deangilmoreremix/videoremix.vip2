@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2, Sparkles, Brain, MessageSquare, Key } from "lucide-react";
 
 const MultiAiMemoryPage: React.FC = () => {
   const { user } = useAuth();
@@ -16,8 +21,33 @@ const MultiAiMemoryPage: React.FC = () => {
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const saved = localStorage.getItem('multi-ai-memory-data');
+    if (saved) {
+      try {
+        setFormData(JSON.parse(saved));
+      } catch {}
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('multi-ai-memory-data', JSON.stringify(formData));
+  }, [formData]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.enter_openai_api_key.trim()) {
+      setError("OpenAI API key is required");
+      return;
+    }
+    if (!formData.enter_anthropic_api_key.trim()) {
+      setError("Anthropic API key is required");
+      return;
+    }
+    if (!formData.ask_the_ai.trim()) {
+      setError("Please enter your question");
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -29,11 +59,17 @@ const MultiAiMemoryPage: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);
+      localStorage.removeItem('multi-ai-memory-data');
     } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleClear = () => {
+    setFormData({ enter_openai_api_key: "", enter_anthropic_api_key: "", ask_the_ai: "" });
+    setResult(null);
   };
 
   return (
@@ -45,95 +81,104 @@ const MultiAiMemoryPage: React.FC = () => {
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-             <h1 className="text-4xl font-bold mb-4">Multi AI Memory</h1>
-             <p className="text-xl text-gray-400">AI-powered multi AI memory.</p>
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-violet-600 to-indigo-500 rounded-3xl mb-6">
+              <Brain className="h-10 w-10 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold mb-4">Multi AI Memory</h1>
+            <p className="text-xl text-gray-400">Leverage multiple AI models with shared memory for complex reasoning.</p>
           </motion.div>
 
-          {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
+          {error && <ErrorMessage message={error} onRetry={handleSubmit} retryLoading={loading} />}
 
-          <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Input</CardTitle></CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+          {!result ? (
+            <Card className="bg-gray-800/50 border-gray-700 mb-8">
+              <CardHeader><CardTitle>Configuration</CardTitle></CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <FormSection title="API Keys" description="Enter your API keys for OpenAI and Anthropic">
+                    <ApiKeyInput
+                      label="OpenAI API Key"
+                      name="enter_openai_api_key"
+                      value={formData.enter_openai_api_key}
+                      onChange={(val) => setFormData({ ...formData, enter_openai_api_key: val })}
+                      helperText="Your key is stored locally and never sent to our servers"
+                      required
+                    />
+                    
+                    <ApiKeyInput
+                      label="Anthropic API Key"
+                      name="enter_anthropic_api_key"
+                      value={formData.enter_anthropic_api_key}
+                      onChange={(val) => setFormData({ ...formData, enter_anthropic_api_key: val })}
+                      helperText="Your key is stored locally and never sent to our servers"
+                      required
+                    />
+                  </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="enter_openai_api_key">Enter OpenAI API Key *</Label>
-                
-                <Input
-                  id="enter_openai_api_key"
-                  type="text"
-                  value={formData.enter_openai_api_key}
-                  onChange={(e) => setFormData({ ...formData, enter_openai_api_key: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+                  <FormSection title="Your Question" description="Ask a question that benefits from multi-model analysis">
+                    <SmartTextarea
+                      label="Ask the AI"
+                      name="ask_the_ai"
+                      value={formData.ask_the_ai}
+                      onChange={(val) => setFormData({ ...formData, ask_the_ai: val })}
+                      placeholder="Compare and contrast the approaches of GPT-4 and Claude to reasoning about complex mathematical problems"
+                      helperText="Questions that benefit from multiple perspectives work best. The agents will collaborate for a comprehensive answer."
+                      rows={5}
+                      required
+                    />
+                  </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="enter_anthropic_api_key">Enter Anthropic API Key *</Label>
-                
-                <Input
-                  id="enter_anthropic_api_key"
-                  type="text"
-                  value={formData.enter_anthropic_api_key}
-                  onChange={(e) => setFormData({ ...formData, enter_anthropic_api_key: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="ask_the_ai">Ask the AI *</Label>
-                
-                <Input
-                  id="ask_the_ai"
-                  type="text"
-                  value={formData.ask_the_ai}
-                  onChange={(e) => setFormData({ ...formData, ask_the_ai: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
-
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Processing...' : 'Generate Results'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-
-          {loading && (
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="py-8 text-center">
-                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-                <p className="text-gray-400">Processing...</p>
+                  <div className="flex gap-3 pt-4">
+                    <ActionButton type="submit" loading={loading} size="lg" className="flex-1" disabled={!formData.ask_the_ai.trim()}>
+                      <Sparkles className="h-4 w-4" />
+                      Get Multi-Model Answer
+                    </ActionButton>
+                    <ActionButton variant="ghost" onClick={handleClear} disabled={loading}>
+                      Clear
+                    </ActionButton>
+                  </div>
+                </form>
               </CardContent>
             </Card>
-          )}
+          ) : loading ? (
+            <LoadingIndicator message="Running multi-AI analysis..." subtext="Multiple models are processing your question" />
+          ) : null}
 
-           {result && result.status === 'completed' && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     <div className="space-y-2">
-                       <Label>Transcript</Label>
-                       <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
+          {result && result.status === 'completed' && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+              <ResultGrid columns={2}>
+                <ResultCard
+                  icon={<Brain className="h-5 w-5" />}
+                  title="Models Used"
+                  value={result.model_count || "Multiple"}
+                  subtext="Collaborative reasoning"
+                />
+                <ResultCard
+                  icon={<MessageSquare className="h-5 w-5" />}
+                  title="Status"
+                  value="Completed"
+                  variant="success"
+                />
+              </ResultGrid>
+
+              <Card className="bg-gray-800/50 border-gray-700">
+                <CardHeader><CardTitle>Multi-AI Response</CardTitle></CardHeader>
+                <CardContent>
+                  <div className="prose prose-invert max-w-none">
+                    <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans text-gray-200">{result.result}</pre>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <ActionButton onClick={() => { setResult(null); setFormData({ enter_openai_api_key: formData.enter_openai_api_key, enter_anthropic_api_key: formData.enter_anthropic_api_key, ask_the_ai: "" }); }} variant="secondary" className="w-full">
+                Ask Another Question
+              </ActionButton>
+            </motion.div>
+          )}
         </div>
       </main>
     </>
   );
 };
 
- export default MultiAiMemoryPage;
+export default MultiAiMemoryPage;

@@ -1,23 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, Sparkles } from "lucide-react";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { ResultCard } from "@/components/agent-ui/ResultCard";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { Github, Sparkles, Code, GitBranch } from "lucide-react";
+
+const STORAGE_KEY = 'github-mcp-agent';
 
 const GithubMcpAgentPage: React.FC = () => {
   const { user } = useAuth();
-  const [formData, setFormData] = useState({ openai_api_key: "", github_token: "", repository: "", query_type: "", your_query: "" });
+  const [formData, setFormData] = useState({
+    openai_api_key: "",
+    github_token: "",
+    repository: "",
+    query_type: "code_search",
+    query: ""
+  });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        setFormData(JSON.parse(saved));
+      } catch {}
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  }, [formData]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.repository.trim()) {
+      setError("Repository is required");
+      return;
+    }
+    if (!formData.query.trim()) {
+      setError("Query is required");
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -29,6 +61,7 @@ const GithubMcpAgentPage: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);
+      localStorage.removeItem(STORAGE_KEY);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -36,131 +69,162 @@ const GithubMcpAgentPage: React.FC = () => {
     }
   };
 
-  return (
-    <>
-      <Helmet>
-        <title>GithubMcpAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use github-mcp-agent to automate tasks with AI." />
-      </Helmet>
-      <main className="pt-24 pb-20">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">Github Mcp Agent</h1>
-            <p className="text-xl text-gray-400">AI-powered github mcp agent.</p>
-          </motion.div>
+  if (result && result.status === 'completed') {
+    return (
+      <>
+        <Helmet>
+          <title>GithubMcpAgent - VideoRemix.vip</title>
+        </Helmet>
+        <main className="pt-24 pb-20">
+          <div className="container mx-auto px-4 max-w-3xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-6"
+            >
+              <ResultCard
+                icon={<Code className="h-5 w-5" />}
+                title="GitHub Analysis Results"
+                description={result.result}
+                variant="success"
+              />
+              <div className="flex justify-center">
+                <ActionButton onClick={() => { setResult(null); setFormData({
+                  openai_api_key: "",
+                  github_token: "",
+                  repository: "",
+                  query_type: "code_search",
+                  query: ""
+                }); }}>
+                  <Sparkles className="h-4 w-4" />
+                  New Query
+                </ActionButton>
+              </div>
+            </motion.div>
+          </div>
+        </main>
+      </>
+    );
+  }
 
-          {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
+  if (loading) {
+    return <LoadingIndicator message="Analyzing GitHub repository..." subtext="Searching code and issues" />;
+  }
 
-          <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Input</CardTitle></CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+  if (!result && !loading) {
+    return (
+      <>
+        <Helmet>
+          <title>GithubMcpAgent - VideoRemix.vip</title>
+        </Helmet>
+        <main className="pt-24 pb-20">
+          <div className="container mx-auto px-4 max-w-3xl">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-gray-700 to-gray-900 rounded-3xl mb-6">
+                <Github className="h-10 w-10 text-white" />
+              </div>
+              <h1 className="text-4xl font-bold mb-4">GitHub MCP Agent</h1>
+              <p className="text-xl text-gray-400">AI-powered GitHub repository analysis with MCP.</p>
+            </motion.div>
 
-              <div className="space-y-2">
-                <Label htmlFor="openai_api_key">OpenAI API Key *</Label>
-                
-                <Input
-                  id="openai_api_key"
-                  type="text"
-                  value={formData.openai_api_key}
-                  onChange={(e) => setFormData({ ...formData, openai_api_key: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
+            <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto">
+              <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6 space-y-6">
+                <FormSection title="API Configuration" description="Enter your API credentials">
+                  <div className="space-y-4">
+                    <SmartInput
+                      label="OpenAI API Key"
+                      name="openai_api_key"
+                      value={formData.openai_api_key}
+                      onChange={(value) => setFormData(prev => ({ ...prev, openai_api_key: value }))}
+                      type="password"
+                      placeholder="sk-..."
+                      helperText="Your API key is stored locally"
+                    />
+
+                    <SmartInput
+                      label="GitHub Token"
+                      name="github_token"
+                      value={formData.github_token}
+                      onChange={(value) => setFormData(prev => ({ ...prev, github_token: value }))}
+                      type="password"
+                      placeholder="ghp_..."
+                      helperText="Personal access token for GitHub API access"
+                    />
+                  </div>
+                </FormSection>
+
+                <FormSection title="Repository" description="Specify the repository to analyze">
+                  <div className="space-y-4">
+                    <SmartInput
+                      label="Repository"
+                      name="repository"
+                      value={formData.repository}
+                      onChange={(value) => setFormData(prev => ({ ...prev, repository: value }))}
+                      placeholder="e.g., owner/repo or https://github.com/owner/repo"
+                      helperText="Full repository path or URL"
+                      required
+                    />
+
+                    <SelectDropdown
+                      label="Query Type"
+                      name="query_type"
+                      value={formData.query_type}
+                      onValueChange={(value) => setFormData(prev => ({ ...prev, query_type: value }))}
+                      options={[
+                        { value: "code_search", label: "Code Search" },
+                        { value: "issues", label: "Issues" },
+                        { value: "pull_requests", label: "Pull Requests" },
+                        { value: "repo_info", label: "Repository Info" },
+                        { value: "file_search", label: "File Search" }
+                      ]}
+                      helperText="Select the type of query to perform"
+                    />
+                  </div>
+                </FormSection>
+
+                <FormSection title="Query" description="Enter your search query">
+                  <SmartTextarea
+                    label="Your Query"
+                    name="query"
+                    value={formData.query}
+                    onChange={(value) => setFormData(prev => ({ ...prev, query: value }))}
+                    placeholder="e.g., 'Find all functions related to user authentication'"
+                    helperText="Describe what you want to search for in the repository"
+                    rows={4}
+                    required
+                  />
+                </FormSection>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="github_token">GitHub Token *</Label>
-                
-                <Input
-                  id="github_token"
-                  type="text"
-                  value={formData.github_token}
-                  onChange={(e) => setFormData({ ...formData, github_token: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+              {error && (
+                <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+                  <p className="text-red-300 text-sm">{error}</p>
+                </div>
+              )}
 
-              <div className="space-y-2">
-                <Label htmlFor="repository">Repository *</Label>
-                
-                <Input
-                  id="repository"
-                  type="text"
-                  value={formData.repository}
-                  onChange={(e) => setFormData({ ...formData, repository: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+              <ActionButton type="submit" loading={loading} size="lg" className="w-full">
+                <Sparkles className="h-4 w-4" />
+                Search Repository
+              </ActionButton>
+            </form>
 
-              <div className="space-y-2">
-                <Label htmlFor="query_type">Query Type *</Label>
-                
-                <select
-                  id="query_type"
-                  value={formData.query_type}
-                  onChange={(e) => setFormData({ ...formData, query_type: e.target.value })}
-                  className="w-full bg-gray-900/50 border border-gray-600 rounded-md px-3 py-2 text-white"
-                >
-                  <option value=""></option>
-                </select>
-                
-              </div>
+            <EmptyState
+              icon={<GitBranch className="h-16 w-16 text-gray-600" />}
+              title="GitHub Repository Analysis"
+              description="Search and analyze GitHub repositories with AI"
+              tips={[
+                "Enter the repository in owner/repo format",
+                "Choose the appropriate query type for your search",
+                "Be specific about what you're looking for in the code"
+              ]}
+            />
+          </div>
+        </main>
+      </>
+    );
+  }
 
-              <div className="space-y-2">
-                <Label htmlFor="your_query">Your Query *</Label>
-                
-                <Textarea
-                  id="your_query"
-                  value={formData.your_query}
-                  onChange={(e) => setFormData({ ...formData, your_query: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white min-h-[120px]"
-                />
-                
-              </div>
-
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Processing...' : 'Generate Results'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-
-          {loading && (
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="py-8 text-center">
-                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-                <p className="text-gray-400">Processing...</p>
-              </CardContent>
-            </Card>
-          )}
-
-           {result && result.status === 'completed' && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     <div className="space-y-2">
-                       <Label>Transcript</Label>
-                       <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
-        </div>
-      </main>
-    </>
-  );
+  return null;
 };
 
 export default GithubMcpAgentPage;

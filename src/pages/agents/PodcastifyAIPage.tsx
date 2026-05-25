@@ -8,10 +8,13 @@ import {
   Download,
   Share2,
   CheckCircle,
-  Volume2
+  Volume2,
+  Podcast
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import PodcastifyForm from "../../components/agents/PodcastifyForm";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ResultGrid } from "@/components/agent-ui/ResultCard";
 
 interface PodcastifyResult {
   id: string;
@@ -68,9 +71,8 @@ const PodcastifyAIPage: React.FC = () => {
 
       setResult(data);
 
-      // Simulate progress through stages
       for (let i = 1; i <= 4; i++) {
-        setTimeout(() => setCurrentStage(i), i * 15000); // 15 seconds per stage
+        setTimeout(() => setCurrentStage(i), i * 15000);
       }
 
     } catch (err) {
@@ -79,7 +81,7 @@ const PodcastifyAIPage: React.FC = () => {
     } finally {
       setTimeout(() => {
         setIsProcessing(false);
-      }, 60000); // Complete after all stages
+      }, 60000);
     }
   };
 
@@ -107,7 +109,6 @@ const PodcastifyAIPage: React.FC = () => {
             error={error || undefined}
           />
 
-          {/* Results Display */}
           {result && result.status === 'completed' && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -115,7 +116,6 @@ const PodcastifyAIPage: React.FC = () => {
               className="mt-12 max-w-5xl mx-auto"
             >
               <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden">
-                {/* Header */}
                 <div className="bg-gradient-to-r from-purple-900/20 to-pink-900/20 border-b border-gray-700 p-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
@@ -138,7 +138,6 @@ const PodcastifyAIPage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Action Buttons */}
                   <div className="flex items-center space-x-3 mt-4">
                     <button className="bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-colors">
                       <Download className="h-4 w-4 mr-2" />
@@ -155,95 +154,62 @@ const PodcastifyAIPage: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Tab Navigation */}
-                <div className="border-b border-gray-700">
-                  <div className="flex overflow-x-auto">
-                    {[
-                      { id: 'overview', label: 'Overview', icon: FileText },
-                      { id: 'script', label: 'Podcast Script', icon: Mic },
-                      { id: 'keypoints', label: 'Key Points', icon: CheckCircle },
-                      { id: 'summary', label: 'Episode Summary', icon: Volume2 }
-                    ].map((tab) => (
-                      <button
-                        key={tab.id}
-                        className="flex items-center px-6 py-4 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white hover:bg-gray-700/30 transition-colors"
-                      >
-                        <tab.icon className="h-4 w-4 mr-2" />
-                        {tab.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Content */}
                 <div className="p-6 space-y-6">
-                  {/* Overview Tab (Default) */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="bg-gray-900/50 rounded-lg p-6">
-                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
+                  <ResultGrid columns={2}>
+                    <div className="bg-gray-900/50 rounded-lg p-4">
+                      <div className="flex items-center mb-2">
                         <FileText className="h-5 w-5 mr-2 text-purple-400" />
-                        Episode Summary
-                      </h4>
-                      <p className="text-gray-300 leading-relaxed">
-                        {result.summary}
-                      </p>
+                        <span className="text-purple-300 font-medium">Episode Summary</span>
+                      </div>
+                      <p className="text-gray-300 text-sm leading-relaxed">{result.summary}</p>
                     </div>
-
-                    <div className="bg-gray-900/50 rounded-lg p-6">
-                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
+                    <div className="bg-gray-900/50 rounded-lg p-4">
+                      <div className="flex items-center mb-2">
                         <CheckCircle className="h-5 w-5 mr-2 text-green-400" />
-                        Key Takeaways
-                      </h4>
-                      <ul className="text-gray-300 space-y-2">
+                        <span className="text-green-300 font-medium">Key Takeaways</span>
+                      </div>
+                      <ul className="text-gray-300 space-y-1 text-sm">
                         {result.keyPoints.map((point, index) => (
                           <li key={index} className="flex items-start">
-                            <span className="text-green-400 mr-2 mt-1">•</span>
-                            <span className="text-sm">{point}</span>
+                            <span className="text-green-400 mr-2">•</span>
+                            <span>{point}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
-                  </div>
+                  </ResultGrid>
 
-                  {/* Episode Stats */}
-                  <div className="bg-gradient-to-r from-purple-900/20 to-pink-900/20 border border-purple-500/20 rounded-lg p-6">
-                    <h4 className="text-lg font-semibold text-white mb-4">Episode Details</h4>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-purple-400">{result.podcastScript.split(' ').length}</div>
-                        <div className="text-sm text-gray-400">Words</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-pink-400">{result.estimatedDuration}</div>
-                        <div className="text-sm text-gray-400">Duration</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-purple-400">{result.keyPoints.length}</div>
-                        <div className="text-sm text-gray-400">Key Points</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-pink-400">Ready</div>
-                        <div className="text-sm text-gray-400">Status</div>
-                      </div>
+                  <ResultGrid columns={4}>
+                    <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-3 text-center">
+                      <div className="text-xl font-bold text-purple-400">{result.podcastScript.split(' ').length}</div>
+                      <div className="text-xs text-gray-400">Words</div>
                     </div>
-                  </div>
+                    <div className="bg-pink-500/10 border border-pink-500/20 rounded-lg p-3 text-center">
+                      <div className="text-xl font-bold text-pink-400">{result.estimatedDuration}</div>
+                      <div className="text-xs text-gray-400">Duration</div>
+                    </div>
+                    <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-3 text-center">
+                      <div className="text-xl font-bold text-purple-400">{result.keyPoints.length}</div>
+                      <div className="text-xs text-gray-400">Key Points</div>
+                    </div>
+                    <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3 text-center">
+                      <div className="text-xl font-bold text-green-400">Ready</div>
+                      <div className="text-xs text-gray-400">Status</div>
+                    </div>
+                  </ResultGrid>
 
-                  {/* Full Script */}
-                  <div className="bg-gray-900/50 rounded-lg p-6">
-                    <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
+                  <div className="bg-gray-900/50 rounded-lg p-4">
+                    <div className="flex items-center mb-3">
                       <Mic className="h-5 w-5 mr-2 text-purple-400" />
-                      Full Podcast Script
-                    </h4>
-                    <div className="bg-gray-800/50 rounded-lg p-4">
-                      <div className="prose prose-invert max-w-none">
-                        <div className="text-gray-300 leading-relaxed whitespace-pre-line text-sm">
-                          {result.podcastScript}
-                        </div>
+                      <span className="text-white font-medium">Full Podcast Script</span>
+                    </div>
+                    <div className="prose prose-invert max-w-none">
+                      <div className="text-gray-300 leading-relaxed whitespace-pre-line text-sm">
+                        {result.podcastScript}
                       </div>
                     </div>
                   </div>
 
-                  {/* Source */}
                   <div className="bg-gray-900/50 rounded-lg p-4">
                     <div className="flex items-center justify-between">
                       <div className="text-sm text-gray-400">
@@ -257,6 +223,19 @@ const PodcastifyAIPage: React.FC = () => {
                 </div>
               </div>
             </motion.div>
+          )}
+
+          {!result && !isProcessing && !error && (
+            <EmptyState
+              icon={<Podcast className="h-16 w-16 text-gray-600" />}
+              title="Ready to convert"
+              description="Enter a blog URL to transform it into an engaging podcast episode"
+              tips={[
+                "Paste a full blog post URL",
+                "Add custom instructions for tone and style",
+                "The AI will extract key points and generate a script"
+              ]}
+            />
           )}
         </div>
       </main>

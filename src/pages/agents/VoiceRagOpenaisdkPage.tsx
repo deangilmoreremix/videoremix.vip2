@@ -1,24 +1,68 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Loader2, Upload, FileText } from "lucide-react";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { FileUploadZone } from "@/components/agent-ui/FileUploadZone";
+import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
+
+const STORAGE_KEY = "voice-rag-openaisdk-form";
+
+interface FormData {
+  qdrant_url: string;
+  qdrant_api_key: string;
+  openai_api_key: string;
+  select_voice: string;
+  upload_pdf: string;
+  question: string;
+}
 
 const VoiceRagOpenaisdkPage: React.FC = () => {
   const { user } = useAuth();
   const [file, setFile] = useState<File | null>(null);
-  const [textValues, setTextValues] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [formData, setFormData] = useState<FormData>(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        return {
+          qdrant_url: "",
+          qdrant_api_key: "",
+          openai_api_key: "",
+          select_voice: "",
+          upload_pdf: "",
+          question: "",
+        };
+      }
+    }
+    return {
+      qdrant_url: "",
+      qdrant_api_key: "",
+      openai_api_key: "",
+      select_voice: "",
+      upload_pdf: "",
+      question: "",
+    };
+  });
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) setFile(e.target.files[0]);
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  }, [formData]);
+
+  const updateField = (field: keyof FormData, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,17 +71,17 @@ const VoiceRagOpenaisdkPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('qdrant_url', textValues.qdrant_url || '');
-      formData.append('qdrant_api_key', textValues.qdrant_api_key || '');
-      formData.append('openai_api_key', textValues.openai_api_key || '');
-      formData.append('select_voice', textValues.select_voice || '');
-      formData.append('upload_pdf', textValues.upload_pdf || '');
-      formData.append('what_would_you_like_to_know_about_the_documentation', textValues.what_would_you_like_to_know_about_the_documentation || '');
+      const formDataToSend = new FormData();
+      formDataToSend.append('file', file);
+      formDataToSend.append('qdrant_url', formData.qdrant_url || '');
+      formDataToSend.append('qdrant_api_key', formData.qdrant_api_key || '');
+      formDataToSend.append('openai_api_key', formData.openai_api_key || '');
+      formDataToSend.append('select_voice', formData.select_voice || '');
+      formDataToSend.append('upload_pdf', formData.upload_pdf || '');
+      formDataToSend.append('what_would_you_like_to_know_about_the_documentation', formData.question || '');
       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/voice-rag-openaisdk`, {
         method: 'POST',
-        body: formData
+        body: formDataToSend
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
@@ -65,108 +109,141 @@ const VoiceRagOpenaisdkPage: React.FC = () => {
             <p className="text-xl text-gray-400">AI-powered voice rag openaisdk.</p>
           </motion.div>
 
-          <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Upload & Configure</CardTitle></CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="file">Upload File *</Label>
-                  <div
-                    className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-blue-500 cursor-pointer"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    <FileText className="h-12 w-12 mx-auto mb-4 text-gray-500" />
-                    <p className="text-gray-300">Click to select a file</p>
-                    {file && <p className="text-sm text-blue-400 mt-2">{file.name}</p>}
-                  </div>
-                  <input ref={fileInputRef} type="file" onChange={handleFileChange} className="hidden" />
-                </div>
+          <FormSection title="Upload & Configure" description="Upload your file and configure the voice rag service">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="col-span-full">
+                <FileUploadZone
+                  accept="*/*"
+                  onFileSelect={(files) => setFile(files as File | null)}
+                  selectedFile={file}
+                  helperText="Upload a file to process with the voice rag service"
+                />
+              </div>
 
+              <div className="col-span-full">
+                <SmartInput
+                  label="Qdrant URL"
+                  name="qdrant_url"
+                  value={formData.qdrant_url}
+                  onChange={(val) => updateField("qdrant_url", val)}
+                  placeholder="e.g., 'https://localhost:6333' or cloud URL"
+                  helperText="The URL of your Qdrant instance (local or cloud)"
+                  required
+                />
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="qdrant_url">Qdrant URL *</Label>
-                  <Input
-                    id="qdrant_url"
-                    value={textValues.qdrant_url || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, qdrant_url: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
+              <div className="col-span-full">
+                <ApiKeyInput
+                  label="Qdrant API Key"
+                  value={formData.qdrant_api_key}
+                  onChange={(val) => updateField("qdrant_api_key", val)}
+                  helperText="Your Qdrant API key for authentication"
+                  required
+                />
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="qdrant_api_key">Qdrant API Key *</Label>
-                  <Input
-                    id="qdrant_api_key"
-                    value={textValues.qdrant_api_key || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, qdrant_api_key: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
+              <div className="col-span-full">
+                <ApiKeyInput
+                  label="OpenAI API Key"
+                  value={formData.openai_api_key}
+                  onChange={(val) => updateField("openai_api_key", val)}
+                  helperText="Your OpenAI API key for voice synthesis"
+                  required
+                />
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="openai_api_key">OpenAI API Key *</Label>
-                  <Input
-                    id="openai_api_key"
-                    value={textValues.openai_api_key || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, openai_api_key: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
+              <div className="col-span-full">
+                <SmartInput
+                  label="Select Voice"
+                  name="select_voice"
+                  value={formData.select_voice}
+                  onChange={(val) => updateField("select_voice", val)}
+                  placeholder="e.g., 'alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'"
+                  helperText="Choose an OpenAI voice for synthesis"
+                  required
+                />
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="select_voice">Select Voice *</Label>
-                  <Input
-                    id="select_voice"
-                    value={textValues.select_voice || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, select_voice: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
+              <div className="col-span-full">
+                <SmartInput
+                  label="Upload PDF"
+                  name="upload_pdf"
+                  value={formData.upload_pdf}
+                  onChange={(val) => updateField("upload_pdf", val)}
+                  placeholder="URL or path to PDF"
+                  helperText="URL or path to the PDF documentation to query"
+                  required
+                />
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="upload_pdf">Upload PDF *</Label>
-                  <Input
-                    id="upload_pdf"
-                    value={textValues.upload_pdf || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, upload_pdf: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
+              <div className="col-span-full">
+                <SmartTextarea
+                  label="What would you like to know about the documentation?"
+                  name="question"
+                  value={formData.question}
+                  onChange={(val) => updateField("question", val)}
+                  placeholder="e.g., 'How do I configure authentication?'"
+                  helperText="Enter your question about the documentation"
+                  required
+                />
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="what_would_you_like_to_know_about_the_documentation">What would you like to know about the documentation? *</Label>
-                  <Input
-                    id="what_would_you_like_to_know_about_the_documentation"
-                    value={textValues.what_would_you_like_to_know_about_the_documentation || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, what_would_you_like_to_know_about_the_documentation: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
+              <div className="col-span-full pt-2">
+                <ActionButton
+                  type="submit"
+                  loading={loading}
+                  loadingText="Processing..."
+                  disabled={loading || !file}
+                  className="w-full"
+                >
+                  Process File
+                </ActionButton>
+              </div>
+            </form>
+          </FormSection>
 
+          {loading && (
+            <LoadingIndicator
+              message="Processing your file..."
+              subtext="This may take a few moments"
+            />
+          )}
 
-                <Button type="submit" disabled={loading || !file} className="w-full">
-                  {loading ? 'Processing...' : 'Process File'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+          {error && (
+            <ErrorMessage
+              title="Processing Failed"
+              message={error}
+              onRetry={handleSubmit}
+            />
+          )}
 
-          {error && <Card className="border-red-500/50 bg-red-500/10 mb-8"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
+          {!file && !loading && !result && (
+            <EmptyState
+              icon={<FileText className="h-12 w-12 text-gray-400" />}
+              title="No File Uploaded"
+              description="Upload a file to get started with the voice rag openaisdk service."
+              tips={[
+                "Upload a document file to process",
+                "Configure your Qdrant and OpenAI credentials",
+                "Select a voice for synthesis",
+                "Ask a question about your documentation"
+              ]}
+            />
+          )}
 
-          {result && (
+          {result && !loading && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <Card className="bg-gray-800/50 border-gray-700">
-                <CardHeader><CardTitle>Result</CardTitle></CardHeader>
-                <CardContent>
-                  <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(result, null, 2)}</pre>
-                </CardContent>
-              </Card>
+              <ResultGrid columns={1}>
+                <ResultCard
+                  title="Result"
+                  variant="success"
+                  icon="check"
+                >
+                  <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans text-gray-300">
+                    {JSON.stringify(result, null, 2)}
+                  </pre>
+                </ResultCard>
+              </ResultGrid>
             </motion.div>
           )}
         </div>

@@ -1,34 +1,119 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2, Shield, DollarSign } from "lucide-react";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
+
+const STORAGE_KEY = 'ai-life-insurance-advisor-agent';
+
+const CURRENCY_OPTIONS = [
+  { value: "USD", label: "USD - US Dollar" },
+  { value: "EUR", label: "EUR - Euro" },
+  { value: "GBP", label: "GBP - British Pound" },
+  { value: "CAD", label: "CAD - Canadian Dollar" },
+  { value: "AUD", label: "AUD - Australian Dollar" },
+  { value: "JPY", label: "JPY - Japanese Yen" },
+  { value: "CHF", label: "CHF - Swiss Franc" },
+  { value: "INR", label: "INR - Indian Rupee" },
+];
+
+const INCOME_REPLACEMENT_OPTIONS = [
+  { value: "3_years", label: "3 Years" },
+  { value: "5_years", label: "5 Years" },
+  { value: "7_years", label: "7 Years" },
+  { value: "10_years", label: "10 Years" },
+  { value: "15_years", label: "15 Years" },
+  { value: "20_years", label: "20 Years" },
+];
 
 const AiLifeInsuranceAdvisorAgentPage: React.FC = () => {
   const { user } = useAuth();
-  const [formData, setFormData] = useState({ openai_api_key: "", firecrawl_api_key: "", e2b_api_key: "", age: "", annual_income: "", dependents: "", country__state: "", total_outstanding_debt_incl_mortgage: "", savings__investments_available_to_dependents: "", existing_life_insurance: "", currency: "", income_replacement_horizon: "" });
+  const [openaiApiKey, setOpenaiApiKey] = useState("");
+  const [firecrawlApiKey, setFirecrawlApiKey] = useState("");
+  const [e2bApiKey, setE2bApiKey] = useState("");
+  const [age, setAge] = useState("");
+  const [annualIncome, setAnnualIncome] = useState("");
+  const [dependents, setDependents] = useState("");
+  const [countryState, setCountryState] = useState("");
+  const [totalDebt, setTotalDebt] = useState("");
+  const [savingsInvestments, setSavingsInvestments] = useState("");
+  const [existingInsurance, setExistingInsurance] = useState("");
+  const [currency, setCurrency] = useState("USD");
+  const [incomeReplacementHorizon, setIncomeReplacementHorizon] = useState("10_years");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setOpenaiApiKey(parsed.openaiApiKey || "");
+        setFirecrawlApiKey(parsed.firecrawlApiKey || "");
+        setE2bApiKey(parsed.e2bApiKey || "");
+        setAge(parsed.age || "");
+        setAnnualIncome(parsed.annualIncome || "");
+        setDependents(parsed.dependents || "");
+        setCountryState(parsed.countryState || "");
+        setTotalDebt(parsed.totalDebt || "");
+        setSavingsInvestments(parsed.savingsInvestments || "");
+        setExistingInsurance(parsed.existingInsurance || "");
+        setCurrency(parsed.currency || "USD");
+        setIncomeReplacementHorizon(parsed.incomeReplacementHorizon || "10_years");
+      } catch {}
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      openaiApiKey, firecrawlApiKey, e2bApiKey, age, annualIncome, dependents,
+      countryState, totalDebt, savingsInvestments, existingInsurance, currency, incomeReplacementHorizon
+    }));
+  }, [openaiApiKey, firecrawlApiKey, e2bApiKey, age, annualIncome, dependents,
+      countryState, totalDebt, savingsInvestments, existingInsurance, currency, incomeReplacementHorizon]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!age || !annualIncome) {
+      setError("Please fill in required fields");
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-life-insurance-advisor-agent`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
+        body: JSON.stringify({
+          openai_api_key: openaiApiKey,
+          firecrawl_api_key: firecrawlApiKey,
+          e2b_api_key: e2bApiKey,
+          age,
+          annual_income: annualIncome,
+          dependents,
+          country__state: countryState,
+          total_outstanding_debt_incl_mortgage: totalDebt,
+          savings__investments_available_to_dependents: savingsInvestments,
+          existing_life_insurance: existingInsurance,
+          currency,
+          income_replacement_horizon: incomeReplacementHorizon,
+          userId: user?.id
+        })
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
+      if (!res.ok) throw new Error(data.error || 'Analysis failed');
       setResult(data);
+      localStorage.removeItem(STORAGE_KEY);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -36,226 +121,255 @@ const AiLifeInsuranceAdvisorAgentPage: React.FC = () => {
     }
   };
 
+  const handleReset = () => {
+    setOpenaiApiKey("");
+    setFirecrawlApiKey("");
+    setE2bApiKey("");
+    setAge("");
+    setAnnualIncome("");
+    setDependents("");
+    setCountryState("");
+    setTotalDebt("");
+    setSavingsInvestments("");
+    setExistingInsurance("");
+    setCurrency("USD");
+    setIncomeReplacementHorizon("10_years");
+    setResult(null);
+    setError(null);
+  };
+
+  if (loading) {
+    return (
+      <div className="pt-24 pb-20">
+        <LoadingIndicator message="Analysing your insurance needs..." subtext="Calculating optimal coverage based on your financial profile" />
+      </div>
+    );
+  }
+
+  if (result && result.status === 'completed') {
+    return (
+      <>
+        <Helmet>
+          <title>Insurance Analysis - AiLifeInsuranceAdvisorAgent</title>
+        </Helmet>
+        <main className="pt-24 pb-20">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-emerald-600 to-teal-500 rounded-3xl mb-6">
+                <Shield className="h-10 w-10 text-white" />
+              </div>
+              <h1 className="text-4xl font-bold mb-4">Analysis Complete</h1>
+              <p className="text-xl text-gray-400">Your personalised life insurance recommendations</p>
+            </motion.div>
+
+            <ResultGrid columns={3}>
+              <ResultCard
+                icon={<DollarSign />}
+                title="Recommended Coverage"
+                value={result.recommendedCoverage || result.coverage || "—"}
+                subtext={currency}
+                variant="success"
+              />
+              <ResultCard
+                icon={<Shield />}
+                title="Policy Type"
+                value={result.policyType || "Term Life"}
+                variant="info"
+              />
+              <ResultCard
+                icon={<DollarSign />}
+                title="Estimated Premium"
+                value={result.estimatedPremium || "—"}
+                subtext={`${currency}/year`}
+                variant="info"
+              />
+            </ResultGrid>
+
+            <div className="mt-6 bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+              <h3 className="text-lg font-medium text-white mb-4">Full Analysis</h3>
+              <div className="prose prose-invert max-w-none">
+                <p className="text-gray-300 whitespace-pre-wrap">{result.result}</p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-center">
+              <ActionButton onClick={handleReset} variant="secondary">
+                New Analysis
+              </ActionButton>
+            </div>
+          </div>
+        </main>
+      </>
+    );
+  }
+
   return (
     <>
       <Helmet>
         <title>AiLifeInsuranceAdvisorAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-life-insurance-advisor-agent to automate tasks with AI." />
+        <meta name="description" content="Get personalised life insurance recommendations based on your financial profile." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-emerald-600 to-teal-500 rounded-3xl mb-6">
+              <Shield className="h-10 w-10 text-white" />
+            </div>
             <h1 className="text-4xl font-bold mb-4">Ai Life Insurance Advisor Agent</h1>
-            <p className="text-xl text-gray-400">AI-powered ai life insurance advisor agent.</p>
+            <p className="text-xl text-gray-400">Get personalised life insurance recommendations</p>
           </motion.div>
 
-          {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
-
           <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Input</CardTitle></CardHeader>
+            <CardHeader><CardTitle>Your Information</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <SmartInput
+                    label="OpenAI API Key"
+                    name="openaiApiKey"
+                    value={openaiApiKey}
+                    onChange={setOpenaiApiKey}
+                    type="password"
+                    placeholder="sk-..."
+                    helperText="Required for analysis"
+                  />
+                  <SmartInput
+                    label="Firecrawl API Key"
+                    name="firecrawlApiKey"
+                    value={firecrawlApiKey}
+                    onChange={setFirecrawlApiKey}
+                    type="password"
+                    placeholder="fc-..."
+                    helperText="For market research"
+                  />
+                  <SmartInput
+                    label="E2B API Key"
+                    name="e2bApiKey"
+                    value={e2bApiKey}
+                    onChange={setE2bApiKey}
+                    type="password"
+                    placeholder="e2b-..."
+                    helperText="For insurance data"
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="openai_api_key">OpenAI API Key *</Label>
-                
-                <Input
-                  id="openai_api_key"
-                  type="text"
-                  value={formData.openai_api_key}
-                  onChange={(e) => setFormData({ ...formData, openai_api_key: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <SmartInput
+                    label="Age *"
+                    name="age"
+                    value={age}
+                    onChange={setAge}
+                    type="number"
+                    placeholder="35"
+                    helperText="Your current age"
+                    required
+                  />
+                  <SmartInput
+                    label="Annual Income *"
+                    name="annualIncome"
+                    value={annualIncome}
+                    onChange={setAnnualIncome}
+                    type="number"
+                    placeholder="85000"
+                    helperText="Your yearly gross income"
+                    required
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <SmartInput
+                    label="Number of Dependents"
+                    name="dependents"
+                    value={dependents}
+                    onChange={setDependents}
+                    type="number"
+                    placeholder="2"
+                    helperText="Family members who rely on your income"
+                  />
+                  <SmartInput
+                    label="Country / State"
+                    name="countryState"
+                    value={countryState}
+                    onChange={setCountryState}
+                    placeholder="USA / California"
+                    helperText="Your location for regional recommendations"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <SmartInput
+                    label="Total Outstanding Debt"
+                    name="totalDebt"
+                    value={totalDebt}
+                    onChange={setTotalDebt}
+                    type="number"
+                    placeholder="250000"
+                    helperText="Including mortgage"
+                  />
+                  <SmartInput
+                    label="Savings & Investments"
+                    name="savingsInvestments"
+                    value={savingsInvestments}
+                    onChange={setSavingsInvestments}
+                    type="number"
+                    placeholder="150000"
+                    helperText="Available to dependents"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <SmartInput
+                    label="Existing Life Insurance"
+                    name="existingInsurance"
+                    value={existingInsurance}
+                    onChange={setExistingInsurance}
+                    type="number"
+                    placeholder="100000"
+                    helperText="Current coverage amount"
+                  />
+                  <SelectDropdown
+                    label="Currency"
+                    value={currency}
+                    onValueChange={setCurrency}
+                    options={CURRENCY_OPTIONS}
+                    helperText="Currency for calculations"
+                  />
+                </div>
+
+                <SelectDropdown
+                  label="Income Replacement Horizon"
+                  value={incomeReplacementHorizon}
+                  onValueChange={setIncomeReplacementHorizon}
+                  options={INCOME_REPLACEMENT_OPTIONS}
+                  helperText="Years of income to replace if you pass away"
                 />
-                
-              </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="firecrawl_api_key">Firecrawl API Key *</Label>
-                
-                <Input
-                  id="firecrawl_api_key"
-                  type="text"
-                  value={formData.firecrawl_api_key}
-                  onChange={(e) => setFormData({ ...formData, firecrawl_api_key: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+                {error && <ErrorMessage message={error} onRetry={handleSubmit} retryLoading={loading} />}
 
-              <div className="space-y-2">
-                <Label htmlFor="e2b_api_key">E2B API Key *</Label>
-                
-                <Input
-                  id="e2b_api_key"
-                  type="text"
-                  value={formData.e2b_api_key}
-                  onChange={(e) => setFormData({ ...formData, e2b_api_key: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="age">Age *</Label>
-                
-                <Input
-                  id="age"
-                  type="number"
-                  value={formData.age}
-                  onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="annual_income">Annual Income *</Label>
-                
-                <Input
-                  id="annual_income"
-                  type="number"
-                  value={formData.annual_income}
-                  onChange={(e) => setFormData({ ...formData, annual_income: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="dependents">Dependents *</Label>
-                
-                <Input
-                  id="dependents"
-                  type="number"
-                  value={formData.dependents}
-                  onChange={(e) => setFormData({ ...formData, dependents: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="country__state">Country / State *</Label>
-                
-                <Input
-                  id="country__state"
-                  type="text"
-                  value={formData.country__state}
-                  onChange={(e) => setFormData({ ...formData, country__state: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="total_outstanding_debt_incl_mortgage">Total Outstanding Debt (incl. mortgage) *</Label>
-                
-                <Input
-                  id="total_outstanding_debt_incl_mortgage"
-                  type="number"
-                  value={formData.total_outstanding_debt_incl_mortgage}
-                  onChange={(e) => setFormData({ ...formData, total_outstanding_debt_incl_mortgage: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="savings__investments_available_to_dependents">Savings & Investments available to dependents *</Label>
-                
-                <Input
-                  id="savings__investments_available_to_dependents"
-                  type="number"
-                  value={formData.savings__investments_available_to_dependents}
-                  onChange={(e) => setFormData({ ...formData, savings__investments_available_to_dependents: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="existing_life_insurance">Existing Life Insurance *</Label>
-                
-                <Input
-                  id="existing_life_insurance"
-                  type="number"
-                  value={formData.existing_life_insurance}
-                  onChange={(e) => setFormData({ ...formData, existing_life_insurance: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="currency">Currency *</Label>
-                
-                <select
-                  id="currency"
-                  value={formData.currency}
-                  onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                  className="w-full bg-gray-900/50 border border-gray-600 rounded-md px-3 py-2 text-white"
-                >
-                  <option value=""></option>
-                </select>
-                
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="income_replacement_horizon">Income Replacement Horizon *</Label>
-                
-                <select
-                  id="income_replacement_horizon"
-                  value={formData.income_replacement_horizon}
-                  onChange={(e) => setFormData({ ...formData, income_replacement_horizon: e.target.value })}
-                  className="w-full bg-gray-900/50 border border-gray-600 rounded-md px-3 py-2 text-white"
-                >
-                  <option value=""></option>
-                </select>
-                
-              </div>
-
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Processing...' : 'Generate Results'}
-                </Button>
+                <div className="flex gap-3">
+                  <ActionButton type="submit" loading={loading} size="lg" className="flex-1" disabled={!age || !annualIncome}>
+                    <Shield className="h-4 w-4" />
+                    Get Recommendations
+                  </ActionButton>
+                  <ActionButton variant="ghost" onClick={handleReset}>
+                    Clear
+                  </ActionButton>
+                </div>
               </form>
             </CardContent>
           </Card>
 
-          {loading && (
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="py-8 text-center">
-                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-                <p className="text-gray-400">Processing...</p>
-              </CardContent>
-            </Card>
-          )}
-
-           {result && result.status === 'completed' && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     <div className="space-y-2">
-                       <Label>Transcript</Label>
-                       <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
+          <EmptyState
+            icon={<Shield className="h-16 w-16 text-gray-600" />}
+            title="No recommendations yet"
+            description="Enter your financial information to receive personalised life insurance advice"
+            tips={[
+              "Have your income and debt figures ready",
+              "Consider your dependents' financial needs",
+              "Factor in mortgage and outstanding loans",
+              "Think about how many years of income you'd want to replace"
+            ]}
+          />
         </div>
       </main>
     </>
