@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase";
 
 export interface Achievement {
   id: string;
@@ -59,6 +59,12 @@ export const ACHIEVEMENT_DEFINITIONS: Record<string, AchievementDefinition> = {
     description: "Created 10 videos",
     icon: "🏆",
     color: "from-orange-500 to-orange-600",
+  },
+  onboarding_completed: {
+    title: "Onboarding Complete",
+    description: "Finished the onboarding wizard",
+    icon: "🎯",
+    category: "milestone",
   },
 };
 

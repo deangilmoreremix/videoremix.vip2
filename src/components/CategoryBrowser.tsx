@@ -10,15 +10,6 @@ import {
   Sparkles,
   ArrowRight,
   Lock,
-  TrendingUp,
-  FileText,
-  Database,
-  Home,
-  UserCheck,
-  DollarSign,
-  Shield,
-  Settings,
-  Search,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -26,112 +17,58 @@ import { useAuth } from "../context/AuthContext";
 // Public categories that are visible to everyone
 const publicCategories = [
   {
-    id: "sales-lead-gen",
-    name: "Sales & Lead Gen",
-    description: "AI tools for sales, lead generation, and prospecting",
-    icon: TrendingUp,
-    public: true,
-    featured: true,
-    appsCount: 10,
-  },
-  {
-    id: "content-marketing",
-    name: "Content & Marketing",
-    description: "Create marketing content with AI",
-    icon: FileText,
-    public: true,
-    featured: true,
-    appsCount: 10,
-  },
-  {
-    id: "video-audio-voice",
-    name: "Video, Audio & Voice",
-    description: "AI-powered video, audio and voice tools",
+    id: "video",
+    name: "Video Creation",
+    description: "AI-powered video tools for content creators",
     icon: Video,
     public: true,
     featured: true,
-    appsCount: 9,
-  },
-  {
-    id: "rag-knowledgebase",
-    name: "RAG & Knowledgebase",
-    description: "Document chat and knowledge management",
-    icon: Database,
-    public: false, // Requires login
-    featured: true,
-    appsCount: 13,
-  },
-  {
-    id: "realestate-local",
-    name: "Real Estate & Local",
-    description: "Tools for real estate and local businesses",
-    icon: Home,
-    public: false, // Requires login
-    featured: true,
-    appsCount: 7,
-  },
-  {
-    id: "hr-hiring",
-    name: "HR & Hiring",
-    description: "AI recruitment and hiring tools",
-    icon: UserCheck,
-    public: false, // Requires login
-    featured: false,
-    appsCount: 6,
-  },
-  {
-    id: "finance-business",
-    name: "Finance & Business",
-    description: "Business planning and financial analysis",
-    icon: DollarSign,
-    public: false, // Requires login
-    featured: false,
-    appsCount: 7,
-  },
-  {
-    id: "legal-compliance",
-    name: "Legal & Compliance",
-    description: "Legal document analysis and compliance",
-    icon: Shield,
-    public: false, // Requires login
-    featured: false,
-    appsCount: 6,
-  },
-  {
-    id: "coding-developer",
-    name: "Coding & SaaS",
-    description: "Development tools and SaaS builders",
-    icon: Settings,
-    public: false, // Requires login
-    featured: false,
-    appsCount: 10,
-  },
-  {
-    id: "design-uiux",
-    name: "Design & UI/UX",
-    description: "Design tools and UI/UX assistants",
-    icon: Palette,
-    public: false, // Requires login
-    featured: false,
-    appsCount: 6,
-  },
-  {
-    id: "research-education",
-    name: "Research & Training",
-    description: "Research assistants and training tools",
-    icon: Search,
-    public: false, // Requires login
-    featured: false,
     appsCount: 8,
   },
   {
-    id: "productivity-personal",
-    name: "Productivity & Personal",
-    description: "Personal assistants and productivity tools",
+    id: "ai-image",
+    name: "AI Image Generation",
+    description: "Create stunning visuals with artificial intelligence",
+    icon: ImageIcon,
+    public: true,
+    featured: true,
+    appsCount: 5,
+  },
+  {
+    id: "marketing",
+    name: "Marketing Tools",
+    description: "Boost your marketing with AI-driven insights",
+    icon: Users,
+    public: false, // Requires login
+    featured: true,
+    appsCount: 6,
+  },
+  {
+    id: "branding",
+    name: "Brand Design",
+    description: "Professional branding tools for businesses",
+    icon: Palette,
+    public: false, // Requires login
+    featured: true,
+    appsCount: 4,
+  },
+  {
+    id: "personalizer",
+    name: "Content Personalization",
+    description: "Tailor content for maximum engagement",
     icon: UserCircle,
     public: true,
     featured: false,
-    appsCount: 10,
+    appsCount: 3,
+  },
+  {
+    id: "creative",
+    name: "Creative Suite",
+    description: "Complete toolkit for creative professionals",
+    icon: Package,
+    public: false, // Requires login
+    featured: false,
+    appsCount: 12,
   },
 ];
 
@@ -240,7 +177,7 @@ const CategoryBrowser: React.FC = () => {
 
                     {isLocked ? (
                       <Link
-                        to="/signin"
+                        to="/sign-in"
                         className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-400 bg-gray-700/50 border border-gray-600/50 rounded-lg hover:bg-gray-700/70 transition-colors"
                       >
                         <Lock className="mr-2 h-4 w-4" />
@@ -285,7 +222,7 @@ const CategoryBrowser: React.FC = () => {
                 tools, branding suites, and advanced creative features.
               </p>
               <Link
-                to="/signin"
+                to="/sign-in"
                 className="inline-flex items-center px-6 py-3 text-lg font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-xl transition-colors shadow-lg hover:shadow-xl hover:shadow-primary-500/25"
               >
                 Sign In to Explore All

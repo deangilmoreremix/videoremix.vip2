@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   Video,
+  Clock,
   Users,
   Image as ImageIcon,
   Sparkles,
@@ -19,22 +20,15 @@ import {
   Brain,
   Check,
   Lock,
-  FileText,
-  Database,
-  Home,
-  UserCheck,
-  DollarSign,
-  Shield,
-  Settings,
-  Mic,
 } from "lucide-react";
 import MagicSparkles from "./MagicSparkles";
-import { supportsVoiceMode, isInternalAIApp } from "./ai/apps/registry";
 import { useInView } from "react-intersection-observer";
 import { useApps } from "../hooks/useApps";
 import { useAuth } from "../context/AuthContext";
 import { useUserAccess } from "../hooks/useUserAccess";
 import LazyIcon from "./LazyIcon";
+import { Analytics, PerformanceMonitor } from "../utils/analytics";
+import { gtmContent } from "../data/gtmContent";
 
 // Define TrendingUp component before it's used
 const TrendingUp: React.FC<{ className?: string }> = (props) => (
@@ -55,83 +49,137 @@ const TrendingUp: React.FC<{ className?: string }> = (props) => (
   </svg>
 );
 
-// App categories
+// App categories with personalization focus
 const toolCategories = [
   {
     id: "all",
-    label: "All Apps",
-    iconName: "layers",
+    label: "All AI Tools",
+    icon: React.createElement(Layers, { className: "w-4 h-4" }),
   },
   {
-    id: "sales-lead-gen",
-    label: "Sales & Lead Gen",
-    iconName: "trending-up",
+    id: "marketing",
+    label: "Marketing Campaigns",
+    icon: React.createElement(Video, { className: "w-4 h-4" }),
   },
   {
-    id: "content-marketing",
-    label: "Content & Marketing",
-    iconName: "file-text",
+    id: "lead-gen",
+      label: "Sales & Marketing",
+    icon: React.createElement(Users, { className: "w-4 h-4" }),
   },
   {
-    id: "video-audio-voice",
-    label: "Video, Audio & Voice",
-    iconName: "video",
+    id: "ai-image",
+    label: "AI Image",
+    icon: React.createElement(ImageIcon, { className: "w-4 h-4" }),
   },
   {
-    id: "rag-knowledgebase",
-    label: "RAG & Knowledgebase",
-    iconName: "database",
+    id: "branding",
+    label: "Branding",
+    icon: React.createElement(Palette, { className: "w-4 h-4" }),
   },
   {
-    id: "realestate-local",
-    label: "Real Estate & Local",
-    iconName: "home",
+    id: "personalizer",
+    label: "Personalizer",
+    icon: React.createElement(UserCircle, { className: "w-4 h-4" }),
   },
   {
-    id: "hr-hiring",
-    label: "HR & Hiring",
-    iconName: "user-check",
-  },
-  {
-    id: "finance-business",
-    label: "Finance & Business",
-    iconName: "dollar-sign",
-  },
-  {
-    id: "legal-compliance",
-    label: "Legal & Compliance",
-    iconName: "shield",
-  },
-  {
-    id: "coding-developer",
-    label: "Coding & SaaS",
-    iconName: "settings",
-  },
-  {
-    id: "design-uiux",
-    label: "Design & UI/UX",
-    iconName: "palette",
-  },
-  {
-    id: "research-education",
-    label: "Research & Training",
-    iconName: "search",
-  },
-  {
-    id: "productivity-personal",
-    label: "Productivity & Personal",
-    iconName: "user-circle",
+    id: "creative",
+    label: "Creative Tools",
+    icon: React.createElement(Package, { className: "w-4 h-4" }),
   },
 ];
 
 // Featured apps to highlight (by slug)
 const featuredApps = [
   "ai-personalized-content",
-  "ai-referral-maximizer",
-  "ai-sales-maximizer",
-  "smart-crm-closer",
+  "funnelcraft-ai",
+  "ai-skills-monetizer",
+  "resume-amplifier",
+  "landing-page",
+  "sales-assistant-app",
+  "ai-art",
+  "personalizer-profile",
+  "personalizer-video-image-transformer",
+  "personalizer-recorder",
+  "ai-signature",
+  "thumbnail-generator",
+  "personalizer-profile-generator",
   "video-ai-editor",
-  "ai-video-image",
+  "ai-referral-maximizer-pro",
+  "ai-sales-maximizer",
+  "ai-content",
+  "product-research-ai",
+];
+
+// Apps that should show "Coming Soon" label
+const comingSoonApps = [
+  "AI Headshot Studio",
+  "Nano Banana Studio",
+  "Seedance V2 Studio",
+  "EasyVeo",
+  "AIClip",
+  "Pet Product Studio",
+  "Resale Photo Enhancer",
+  "AI Recruiter",
+  "Talk to PDF",
+  "Blogger CMS",
+  "Amazon Product Studio",
+  "AI Business Card",
+  "MailWise",
+  "My Podcast",
+  "EZScribe",
+  "AI Knowledge Base",
+  "AI Outbound",
+  "AI Royal Portrait",
+  "AI MEME",
+  "AI Real Estate Stager",
+  "AI Logo",
+  "OldPhoto",
+  "AITryOn",
+  "AI Age Transformation",
+  "AI Professional Makeup Generator",
+  "AI Flash Cards",
+  "AI Group Photo",
+  "AI Tattoo Try-On",
+  "AI Hair Style Simulator",
+  "AI Kids-to-Adult Prediction",
+  "AI Room Declutter",
+  "AI Fitness Body Simulator",
+  "AI Pet Portrait",
+  "AI Kissing Video Generator",
+  "Chat with PDF",
+  "AI Travel Studio",
+  "Prompt Architect",
+  "ClearMark AI",
+  "PlantVision AI",
+  "AI Wedding Photo",
+  "User Account Registration Form",
+  "Social Post",
+  "MagicSelf AI",
+  "AI Resume Builder",
+  "GEO Checker",
+  "AI Character Studio",
+  "Luxury Hair Studio",
+  "ProFlow Plumbing",
+  "Solace AI",
+  "ReLive AI",
+  "AI Chiropractic Service",
+  "Tabla - ReserveAI",
+  "Dental ReserveAI",
+  "CounselMate",
+  "Intelligent Real Estate Agent",
+  "Fixera",
+  "Velora - Yoga AI",
+  "Nova AssuranceAI",
+  "TurboGlow Auto Spa",
+  "Paws & Pals",
+  "Vertex Tax Strategy",
+  "LedgerSync",
+  "Nova Care Clinic",
+  "Opulent Drive",
+  "ProFix Auto",
+  "TowMate",
+  "SwiftLink Logistics",
+  "Lumea Residence",
 ];
 
 // Fallback image URLs to use when an app image fails to load
@@ -154,7 +202,7 @@ const personalizationBenefits = [
   {
     title: "3.5x More Conversions",
     description:
-      "Personalized videos convert at rates up to 3.5x higher than standard videos",
+      "Personalized campaigns convert at rates up to 3.5x higher than standard videos",
     icon: <TrendingUp className="h-5 w-5 text-primary-400" />,
   },
   {
@@ -192,6 +240,20 @@ const AppGallerySection: React.FC = () => {
 
   // Image loading error handling state
   const [imageErrors, setImageErrors] = useState<Record<string, number>>({});
+
+  const [expandedApps, setExpandedApps] = useState<Set<string>>(new Set());
+
+  const toggleAppExpansion = (appId: string) => {
+    setExpandedApps((prev) => {
+      const next = new Set(prev);
+      if (next.has(appId)) {
+        next.delete(appId);
+      } else {
+        next.add(appId);
+      }
+      return next;
+    });
+  };
 
   // Update filtered tools when category or search query changes
   useEffect(() => {
@@ -282,10 +344,18 @@ const AppGallerySection: React.FC = () => {
         [appId]: currentErrorCount + 1,
       };
     });
+
+    // Track image load error
+    Analytics.trackError(`Image load failed for app ${appId}`, 'image_load_error', appId);
   };
 
   // Get a fallback image URL based on app ID
-  const getFallbackImage = (appId: string, errorCount: number = 0) => {
+  const getFallbackImage = (appId: string | undefined, errorCount: number = 0) => {
+    // Handle undefined appId
+    if (!appId || typeof appId !== 'string') {
+      return fallbackImages[0]; // Default fallback
+    }
+
     // Start with a deterministic fallback based on app ID
     const index = appId.charCodeAt(0) % fallbackImages.length;
 
@@ -477,32 +547,37 @@ const AppGallerySection: React.FC = () => {
                     </p>
                   </div>
 
-                  <div className="flex space-x-2">
-                    {user && (
-                      <>
-                        {hasAccessToApp(app.id) && app.isActive ? (
-                          <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
-                            <Check className="h-3 w-3" /> OWNED
-                          </span>
-                        ) : (
-                          <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
-                            <Lock className="h-3 w-3" />{" "}
-                            {app.isActive ? "LOCKED" : "INACTIVE"}
-                          </span>
-                        )}
-                      </>
-                    )}
-                    {app.popular && (
-                      <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded-full font-bold mb-1">
-                        POPULAR
-                      </span>
-                    )}
-                    {app.new && (
-                      <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded-full font-bold">
-                        NEW
-                      </span>
-                    )}
-                  </div>
+                   <div className="flex space-x-2">
+                     {comingSoonApps.includes(app.name) && (
+                       <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">
+                         COMING SOON
+                       </span>
+                     )}
+                     {user && (
+                       <>
+                         {hasAccessToApp(app.id) && app.isActive ? (
+                           <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                             <Check className="h-3 w-3" /> OWNED
+                           </span>
+                         ) : (
+                           <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                             <Lock className="h-3 w-3" />{" "}
+                             {app.isActive ? "LOCKED" : "INACTIVE"}
+                           </span>
+                         )}
+                       </>
+                     )}
+                     {app.popular && (
+                       <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded-full font-bold mb-1">
+                         POPULAR
+                       </span>
+                     )}
+                     {app.new && (
+                       <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded-full font-bold">
+                         NEW
+                       </span>
+                     )}
+                   </div>
                 </div>
 
                 {/* App image */}
@@ -514,7 +589,7 @@ const AppGallerySection: React.FC = () => {
                         : app.image
                     }
                     alt={app.name}
-                    className={`w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-in-out ${user && !hasAccessToApp(app.id) ? "grayscale opacity-60" : ""}`}
+                    className={`w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out ${user && !hasAccessToApp(app.id) ? "grayscale opacity-60" : ""}`}
                     onError={() => handleImageError(app.id)}
                   />
 
@@ -568,7 +643,7 @@ const AppGallerySection: React.FC = () => {
                   <div className="flex items-center">
                     <div className="p-2 bg-gray-800/80 rounded-full mr-3">
                       <LazyIcon
-                        name={typeof app.iconName === "string" ? app.iconName : "layers"}
+                        name={app.iconName}
                         className="w-5 h-5 text-primary-400"
                       />
                     </div>
@@ -763,6 +838,8 @@ const AppGallerySection: React.FC = () => {
                     key={app.id}
                     whileHover={{ y: -10 }}
                     className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 w-[280px] flex-shrink-0 group hover:border-primary-500/50 transition-colors"
+                    onMouseEnter={() => Analytics.trackCardHover(app.id, hasAccessToApp(app.id))}
+                    onClick={() => Analytics.trackCardClick(app.id, hasAccessToApp(app.id))}
                   >
                     <a
                       href={appUrl}
@@ -779,8 +856,9 @@ const AppGallerySection: React.FC = () => {
                               : app.image
                           }
                           alt={app.name}
-                          className="w-full h-full object-cover object-center"
+                          className="w-full h-full object-cover"
                           onError={() => handleImageError(app.id)}
+                          onLoad={() => PerformanceMonitor.trackImageLoad(app.id, app.image)}
                         />
 
                         {/* Overlay with personalization focus */}
@@ -791,35 +869,35 @@ const AppGallerySection: React.FC = () => {
                           Personalized
                         </div>
 
-                        {/* Status badges */}
-                        <div className="absolute top-3 right-3 flex flex-col space-y-1 items-end">
-                          {user && (
-                            <>
-                              {hasAccessToApp(app.id) && app.isActive ? (
-                                <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
-                                  <Check className="h-3 w-3" /> OWNED
-                                </span>
-                              ) : (
-                                <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
-                                  <Lock className="h-3 w-3" />{" "}
-                                  {app.isActive ? "LOCKED" : "INACTIVE"}
-                                </span>
-                              )}
-                            </>
-                          )}
-                          {app.popular && (
-                            <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded font-bold">
-                              POPULAR
-                            </span>
-                          )}
+                         {/* Status badges */}
+                         <div className="absolute top-3 right-3 flex flex-col space-y-1 items-end">
+                           {comingSoonApps.includes(app.name) && (
+                             <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded font-bold">
+                               COMING SOON
+                             </span>
+                           )}
+                           {user && (
+                             <>
+                               {hasAccessToApp(app.id) && app.isActive ? (
+                                 <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                   <Check className="h-3 w-3" /> OWNED
+                                 </span>
+                               ) : (
+                                 <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                   <Lock className="h-3 w-3" />{" "}
+                                   {app.isActive ? "LOCKED" : "INACTIVE"}
+                                 </span>
+                               )}
+                             </>
+                           )}
+                           {app.popular && (
+                             <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded font-bold">
+                               POPULAR
+                             </span>
+                           )}
                            {app.new && (
                              <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded font-bold">
                                NEW
-                             </span>
-                           )}
-                           {isInternalAIApp(app.id) && supportsVoiceMode(app.id) && (
-                             <span className="bg-violet-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1 font-medium">
-                               <Mic className="h-3 w-3" /> VOICE
                              </span>
                            )}
                          </div>
@@ -836,7 +914,7 @@ const AppGallerySection: React.FC = () => {
                         <div className="flex justify-between items-center">
                           <div className="flex items-center">
                             <LazyIcon
-                              name={typeof app.iconName === "string" ? app.iconName : "layers"}
+                              name={app.iconName}
                               className="w-4 h-4 text-primary-400 mr-1"
                             />
                             <span className="text-gray-500 text-xs">
@@ -879,11 +957,13 @@ const AppGallerySection: React.FC = () => {
                   <motion.div
                     key={app.id}
                     variants={itemVariants}
-                    className={`relative ${
+                    className={`relative cursor-pointer ${
                       viewMode === "grid"
                         ? "group bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-primary-500/50 transition-colors shadow-lg"
                         : "flex bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-primary-500/50 transition-colors shadow-lg"
-                    }`}
+                    } ${expandedApps.has(app.id) ? "border-primary-500" : ""}`}
+                    onMouseEnter={() => Analytics.trackCardHover(app.id, hasAccessToApp(app.id))}
+                    onClick={() => toggleAppExpansion(app.id)}
                   >
                     {/* App image */}
                     <div
@@ -901,12 +981,13 @@ const AppGallerySection: React.FC = () => {
                               : app.image
                           }
                           alt={app.name}
-                          className={`object-cover object-center ${
+                          className={`object-cover ${
                             viewMode === "grid"
                               ? "w-full h-full"
                               : "w-32 h-full"
                           } ${user && !hasAccessToApp(app.id) ? "grayscale opacity-60" : ""}`}
                           onError={() => handleImageError(app.id)}
+                          onLoad={() => PerformanceMonitor.trackImageLoad(app.id, app.image)}
                         />
 
                         {/* Personalization marker */}
@@ -914,35 +995,35 @@ const AppGallerySection: React.FC = () => {
                           Personalized
                         </div>
 
-                        {/* Status badges */}
-                        <div className="absolute top-2 right-2">
-                          {user && (
-                            <>
-                              {hasAccessToApp(app.id) && app.isActive ? (
-                                <div className="bg-green-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
-                                  <Check className="h-3 w-3" /> OWNED
-                                </div>
-                              ) : (
-                                <div className="bg-gray-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
-                                  <Lock className="h-3 w-3" />{" "}
-                                  {app.isActive ? "LOCKED" : "INACTIVE"}
-                                </div>
-                              )}
-                            </>
-                          )}
-                          {app.popular && (
-                            <div className="bg-yellow-500 text-xs text-black px-1.5 py-0.5 rounded font-bold mb-1">
-                              POPULAR
-                            </div>
-                          )}
+                         {/* Status badges */}
+                         <div className="absolute top-2 right-2">
+                           {comingSoonApps.includes(app.name) && (
+                             <div className="bg-orange-500 text-xs text-white px-1.5 py-0.5 rounded font-bold mb-1">
+                               COMING SOON
+                             </div>
+                           )}
+                           {user && (
+                             <>
+                               {hasAccessToApp(app.id) && app.isActive ? (
+                                 <div className="bg-green-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
+                                   <Check className="h-3 w-3" /> OWNED
+                                 </div>
+                               ) : (
+                                 <div className="bg-gray-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
+                                   <Lock className="h-3 w-3" />{" "}
+                                   {app.isActive ? "LOCKED" : "INACTIVE"}
+                                 </div>
+                               )}
+                             </>
+                           )}
+                           {app.popular && (
+                             <div className="bg-yellow-500 text-xs text-black px-1.5 py-0.5 rounded font-bold mb-1">
+                               POPULAR
+                             </div>
+                           )}
                            {app.new && (
                              <div className="bg-green-500 text-xs text-black px-1.5 py-0.5 rounded font-bold">
                                NEW
-                             </div>
-                           )}
-                           {isInternalAIApp(app.id) && supportsVoiceMode(app.id) && (
-                             <div className="bg-violet-600 text-white text-xs px-1.5 py-0.5 rounded flex items-center gap-1 font-medium">
-                               <Mic className="h-3 w-3" /> VOICE
                              </div>
                            )}
                          </div>
@@ -964,7 +1045,7 @@ const AppGallerySection: React.FC = () => {
                       <div className="flex justify-between items-center">
                         <div className="flex items-center text-xs text-gray-400">
                           <LazyIcon
-                            name={typeof app.iconName === "string" ? app.iconName : "layers"}
+                            name={app.iconName}
                             className="h-4 w-4 text-primary-400 mr-1"
                           />
                           <span>
@@ -978,6 +1059,7 @@ const AppGallerySection: React.FC = () => {
                         <a
                           href={appUrl}
                           className="text-primary-400 hover:text-primary-300 text-sm font-medium flex items-center"
+                          onClick={(e) => e.stopPropagation()}
                           {...(isExternal
                             ? { target: "_blank", rel: "noopener noreferrer" }
                             : {})}
@@ -1036,6 +1118,59 @@ const AppGallerySection: React.FC = () => {
                           </div>
                         </div>
                       )}
+
+                      {/* GTM Content Expansion */}
+                      {expandedApps.has(app.id) && gtmContent[app.group] && (
+                        <div className="px-4 pb-4 border-t border-gray-700 mt-2 pt-3">
+                          <div className="text-xs text-gray-400 mb-2 flex items-center">
+                            <Sparkles className="h-3 w-3 mr-1 text-primary-400" />
+                            Go-to-Market Information
+                          </div>
+                          
+                          {/* Target Audience */}
+                          <div className="mb-3">
+                            <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Target Audience</div>
+                            <div className="text-sm text-gray-200">{gtmContent[app.group].targetAudience}</div>
+                          </div>
+                          
+                          {/* Value Proposition */}
+                          <div className="mb-3">
+                            <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Value Proposition</div>
+                            <div className="text-sm text-gray-200">{gtmContent[app.group].valueProposition}</div>
+                          </div>
+                          
+                          {/* Use Cases */}
+                          <div className="mb-3">
+                            <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Use Cases</div>
+                            <ul className="text-sm text-gray-200 space-y-1">
+                              {gtmContent[app.group].useCases.map((useCase, idx) => (
+                                <li key={idx} className="flex items-start">
+                                  <span className="text-primary-400 mr-2">•</span>
+                                  {useCase}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          
+                          {/* Competitive Differentiation */}
+                          <div className="mb-3">
+                            <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Competitive Difference</div>
+                            <div className="text-sm text-gray-200">{gtmContent[app.group].competitiveDiff}</div>
+                          </div>
+                          
+                          {/* Pricing Rationale */}
+                          <div className="mb-3">
+                            <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Pricing</div>
+                            <div className="text-sm text-gray-200">{gtmContent[app.group].pricingRationale}</div>
+                          </div>
+                          
+                          {/* Integration Points */}
+                          <div className="mb-3">
+                            <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Integrations</div>
+                            <div className="text-sm text-gray-200">{gtmContent[app.group].integrationPoints.join(", ")}</div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </motion.div>
                 );
@@ -1075,7 +1210,7 @@ const AppGallerySection: React.FC = () => {
 
           <p className="text-gray-300 mb-8">
             Get unlimited access to all 50+ personalization tools and create
-            content that delivers 3x better results than generic videos.
+            content that delivers 3x better results than generic campaigns.
           </p>
 
           <motion.a

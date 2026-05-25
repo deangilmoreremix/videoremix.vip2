@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 interface AuthLoadingGateProps {
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * Minimum time to show loading state (prevents flash)
    * Default: 100ms
@@ -11,11 +11,11 @@ interface AuthLoadingGateProps {
   /**
    * Custom loading component to show while auth is resolving
    */
-  loadingComponent?: React.ReactNode;
+  loadingComponent?: ReactNode;
   /**
    * Custom error component to show if auth fails
    */
-  errorComponent?: React.ReactNode;
+  errorComponent?: ReactNode;
   /**
    * Callback when auth state is resolved (authenticated or not)
    */

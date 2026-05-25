@@ -1,0 +1,135 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 4,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 1,
+    "button": 1,
+    "chat": 0,
+    "write": 3
+  },
+  "providers": {
+    "openai": {
+      "count": 4,
+      "imports": 2,
+      "clients": 2,
+      "models": [
+        {
+          "pattern": "gpt-4o",
+          "count": 1
+        }
+      ]
+    },
+    "anthropic": {
+      "count": 2,
+      "imports": 1,
+      "clients": 1,
+      "models": [
+        {
+          "pattern": "claude-3.5-sonnet",
+          "count": 1
+        }
+      ]
+    },
+    "agno": {
+      "count": 2,
+      "imports": 1,
+      "clients": 1,
+      "models": [
+        {
+          "pattern": "gpt-4",
+          "count": 1
+        },
+        {
+          "pattern": "claude-3",
+          "count": 1
+        }
+      ]
+    },
+    "langchain": {
+      "count": 6,
+      "imports": 3,
+      "clients": 3,
+      "models": []
+    },
+    "crewai": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": true,
+  "usesAsyncio": true,
+  "linesOfCode": 130,
+  "hasMultiAgent": true,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "select_ai_model",
+      "label": "Select AI Model",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "claude_api_key",
+      "label": "Claude API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "deepseek_api_key",
+      "label": "Deepseek API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "openai_api_key",
+      "label": "OpenAI API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "meme_idea_input",
+      "label": "Meme Idea Input",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "image",
+  "primaryProvider": "langchain",
+  "filePath": "awesome-llm-apps/starter_ai_agents/ai_meme_generator_agent_browseruse/ai_meme_generator_agent.py",
+  "appName": "ai-meme-generator-agent-browseruse",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "OPENAI_API_KEY",
+    "ANTHROPIC_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 23,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T14:58:31.694Z",
+  "analyzerVersion": "0.1.0"
+}

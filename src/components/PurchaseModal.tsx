@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
+import { Analytics, PerformanceMonitor } from "../utils/analytics";
+import { ABTestUtils } from "../utils/abTesting";
 
 interface PurchaseModalProps {
   isOpen: boolean;
@@ -19,32 +21,60 @@ interface PurchaseModalProps {
     name: string;
     description: string;
     image: string;
-    icon: React.ReactNode;
+    icon: ReactNode;
     price?: number;
     features?: string[];
   };
-  bundleInfo?: {
-    id: string;
-    name: string;
-    price: number;
-    description?: string;
-    appIds?: string[];
-  };
+  showBundleOption?: boolean;
 }
 
 const PurchaseModal: React.FC<PurchaseModalProps> = ({
   isOpen,
   onClose,
   app,
-  bundleInfo,
+  showBundleOption = true,
 }) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [selectedPrice, setSelectedPrice] = useState<number>(app.price || 97);
-  const [isBundle, setIsBundle] = useState<boolean>(false);
+  const [modalOpenTime, setModalOpenTime] = useState<number | null>(null);
+  const [ctaVariant, setCtaVariant] = useState<string>('Get Instant Access Now');
+  const [selectedTier, setSelectedTier] = useState<'single' | 'bundle'>('single');
 
-  // const _finalPrice = isBundle && bundleInfo ? bundleInfo.price : (app.price || 97);
+  // Pricing tiers
+  const pricingTiers = {
+    single: {
+      name: "Single App Lifetime",
+      price: 37,
+      originalPrice: 97,
+      description: `Lifetime access to ${app.name}`,
+      features: [
+        "Lifetime access to this app",
+        "All future updates included",
+        "Priority customer support",
+        "Commercial usage rights",
+        "Money-back guarantee",
+      ]
+    },
+    bundle: {
+      name: "All Apps Lifetime",
+      price: 597,
+      originalPrice: 138 * 37, // ~138 apps * $37
+      description: "Lifetime access to all apps",
+      features: [
+        "Lifetime access to all apps",
+        "All future updates included",
+        "Priority customer support",
+        "Commercial usage rights",
+        "Money-back guarantee",
+        "Save 85% vs individual purchases"
+      ]
+    }
+  };
+
+  const currentTier = pricingTiers[selectedTier];
+  const savings = currentTier.originalPrice - currentTier.price;
+  const savingsPercent = Math.round((savings / currentTier.originalPrice) * 100);
 
   const defaultFeatures = [
     "Lifetime access to the app",
@@ -56,17 +86,52 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
 
   const features = app.features || defaultFeatures;
 
-  const handlePurchase = async (purchasePrice?: number, bundleId?: string) => {
+  // Track modal open/close
+  useEffect(() => {
+    if (isOpen) {
+      setModalOpenTime(Date.now());
+      const variant = ABTestUtils.getCtaButtonText(user?.id);
+      setCtaVariant(variant);
+      Analytics.trackModalOpen(app.id, 'purchase');
+      PerformanceMonitor.trackAnimationSmoothness(app.id, 'modal_open');
+    } else if (modalOpenTime) {
+      const duration = Date.now() - modalOpenTime;
+      Analytics.trackModalClose(app.id, 'purchase', duration);
+      setModalOpenTime(null);
+    }
+  }, [isOpen, app.id, modalOpenTime, user?.id]);
+
+  // Track modal load time
+  useEffect(() => {
+    if (isOpen) {
+      const endTracking = PerformanceMonitor.trackModalLoadTime(app.id);
+      return endTracking;
+    }
+  }, [isOpen, app.id]);
+
+  const handlePurchase = async () => {
+    // Track CTA click with A/B test variant
+    Analytics.trackCtaClick(app.id, 'purchase_now', {
+      price: currentTier.price,
+      tier: selectedTier,
+      user_logged_in: !!user,
+      cta_variant: ctaVariant,
+      test_id: 'cta_button_text'
+    });
+    ABTestUtils.trackCtaClick('cta_button_text', ctaVariant);
+
     if (!user) {
+      Analytics.trackEvent('signin_redirect', { from_modal: true, app_id: app.id });
       onClose();
       document.dispatchEvent(new CustomEvent("open-signin-modal"));
       return;
     }
 
+    // Track purchase start
+    Analytics.trackPurchaseStart(app.id, currentTier.price, { tier: selectedTier });
+
     setLoading(true);
     setError(null);
-
-    const finalPrice = purchasePrice || selectedPrice;
 
     try {
       const response = await fetch(
@@ -78,12 +143,14 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
             Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
           },
           body: JSON.stringify({
-            appId: bundleId || app.id,
-            appName: bundleId ? bundleInfo?.name : app.name,
-            price: finalPrice,
+            appId: app.id,
+            appName: app.name,
+            price: currentTier.price,
+            tier: selectedTier,
             userId: user.id,
             userEmail: user.email,
-            isBundle: !!bundleId,
+            purchaseType: selectedTier, // 'single' or 'bundle'
+            isBundle: selectedTier === 'bundle',
           }),
         },
       );
@@ -95,12 +162,15 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
       const { url } = await response.json();
 
       if (url) {
+        Analytics.trackPurchaseComplete(app.id, currentTier.price, { tier: selectedTier });
+        ABTestUtils.trackPurchase('cta_button_text', ctaVariant, currentTier.price);
         window.location.href = url;
       } else {
         throw new Error("No checkout URL received");
       }
     } catch (err: any) {
       console.error("Error creating checkout session:", err);
+      Analytics.trackError(`Purchase failed: ${err.message}`, 'checkout_error', app.id);
       setError(err.message || "Failed to start checkout. Please try again.");
       setLoading(false);
     }
@@ -159,44 +229,6 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
                 </div>
               </div>
 
-              {bundleInfo && (
-                <div className="p-6 bg-gray-800/50 border-b border-gray-700">
-                  <div className="flex items-center justify-center gap-4">
-                    <button
-                      onClick={() => {
-                        setIsBundle(false);
-                        setSelectedPrice(app.price || 97);
-                      }}
-                      className={`px-6 py-3 rounded-lg border-2 transition-all ${
-                        !isBundle
-                          ? "border-primary-500 bg-primary-500/20 text-white"
-                          : "border-gray-600 text-gray-400 hover:border-gray-500"
-                      }`}
-                    >
-                      <div className="font-bold">Single App</div>
-                      <div className="text-sm">${app.price || 97}</div>
-                    </button>
-                    <button
-                      onClick={() => {
-                        setIsBundle(true);
-                        setSelectedPrice(bundleInfo.price);
-                      }}
-                      className={`px-6 py-3 rounded-lg border-2 transition-all ${
-                        isBundle
-                          ? "border-primary-500 bg-primary-500/20 text-white"
-                          : "border-gray-600 text-gray-400 hover:border-gray-500"
-                      }`}
-                    >
-                      <div className="font-bold">Bundle Deal</div>
-                      <div className="text-sm">${bundleInfo.price}</div>
-                    </button>
-                  </div>
-                  <div className="text-center text-gray-400 text-sm mt-2">
-                    Get all {bundleInfo.appIds?.length || 0} apps - Save ${97 * (bundleInfo.appIds?.length || 0) - bundleInfo.price}
-                  </div>
-                </div>
-              )}
-
               <div className="p-8">
                 <div className="bg-gradient-to-br from-primary-900/40 to-primary-700/40 border border-primary-500/30 rounded-xl p-6 mb-6">
                   <div className="flex items-baseline justify-between mb-4">
@@ -206,7 +238,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
                       </span>
                       <div className="flex items-baseline gap-2">
                         <span className="text-5xl font-bold text-white">
-                          ${selectedPrice}
+                          ${price}
                         </span>
                         <span className="text-gray-400 text-lg">USD</span>
                       </div>
@@ -224,7 +256,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
                   </div>
 
                   <button
-                    onClick={() => handlePurchase(selectedPrice, isBundle ? bundleInfo?.id : undefined)}
+                    onClick={handlePurchase}
                     disabled={loading}
                     className="w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold py-4 px-6 rounded-lg shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
@@ -236,7 +268,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
                     ) : (
                       <>
                         <Lock className="h-5 w-5" />
-                        <span>Get Instant Access Now</span>
+                        <span>{ctaVariant}</span>
                       </>
                     )}
                   </button>

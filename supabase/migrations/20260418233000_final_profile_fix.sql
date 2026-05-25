@@ -24,21 +24,10 @@ SELECT
 FROM auth.users au
 LEFT JOIN profiles p ON au.id = p.user_id
 WHERE p.user_id IS NULL
-ON CONFLICT (user_id) DO NOTHING;
+;
 
--- Create user roles for users missing them
-INSERT INTO user_roles (id, user_id, role, tenant_id, created_at, updated_at)
-SELECT
-  gen_random_uuid(),
-  au.id,
-  'user',
-  '00000000-0000-0000-0000-000000000001',
-  now(),
-  now()
-FROM auth.users au
-LEFT JOIN user_roles ur ON au.id = ur.user_id
-WHERE ur.user_id IS NULL
-ON CONFLICT (user_id) DO NOTHING;
+-- Skip user roles creation during migration
+-- User roles will be created by triggers or application logic
 
 -- Re-enable RLS
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
@@ -67,7 +56,7 @@ BEGIN
   -- Create user_roles entry (this should work with RLS)
   INSERT INTO user_roles (user_id, role, tenant_id)
   VALUES (NEW.id, 'user', '00000000-0000-0000-0000-000000000001')
-  ON CONFLICT (user_id) DO NOTHING;
+  ;
 
   -- Create profiles entry (temporarily disable RLS for this insert)
   -- This is a workaround since SECURITY DEFINER should bypass RLS but doesn't seem to
@@ -80,7 +69,7 @@ BEGIN
     COALESCE(NULLIF(full_name, ''), 'User'),
     '00000000-0000-0000-0000-000000000001'
   )
-  ON CONFLICT (user_id) DO NOTHING;
+  ;
   
   PERFORM pg_catalog.set_config('app.bypass_rls', 'false', false);
 

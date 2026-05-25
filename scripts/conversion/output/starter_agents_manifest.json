@@ -1,0 +1,133 @@
+{
+  "category": "starter_ai_agents",
+  "apps": [
+    {
+      "appName": "ai_reasoning_agent",
+      "appSlug": "ai-reasoning-agent",
+      "componentName": "AiReasoningAgentPage",
+      "analysisFile": "/workspaces/videoremix.vip2/scripts/conversion/output/analysis/ai_reasoning_agent.json",
+      "functionFile": "/workspaces/videoremix.vip2/scripts/conversion/output/functions/ai-reasoning-agent.ts",
+      "componentFile": "/workspaces/videoremix.vip2/scripts/conversion/output/components/AiReasoningAgentPage.tsx"
+    },
+    {
+      "appName": "ai_breakup_recovery_agent",
+      "appSlug": "ai-breakup-recovery-agent",
+      "componentName": "AiBreakupRecoveryAgentPage",
+      "analysisFile": "/workspaces/videoremix.vip2/scripts/conversion/output/analysis/ai_breakup_recovery_agent.json",
+      "functionFile": "/workspaces/videoremix.vip2/scripts/conversion/output/functions/ai-breakup-recovery-agent.ts",
+      "componentFile": "/workspaces/videoremix.vip2/scripts/conversion/output/components/AiBreakupRecoveryAgentPage.tsx"
+    },
+    {
+      "appName": "ai_meme_generator_agent_browseruse",
+      "appSlug": "ai-meme-generator-agent-browseruse",
+      "componentName": "AiMemeGeneratorAgentBrowserusePage",
+      "analysisFile": "/workspaces/videoremix.vip2/scripts/conversion/output/analysis/ai_meme_generator_agent_browseruse.json",
+      "functionFile": "/workspaces/videoremix.vip2/scripts/conversion/output/functions/ai-meme-generator-agent-browseruse.ts",
+      "componentFile": "/workspaces/videoremix.vip2/scripts/conversion/output/components/AiMemeGeneratorAgentBrowserusePage.tsx"
+    },
+    {
+      "appName": "ai_blog_to_podcast_agent",
+      "appSlug": "ai-blog-to-podcast-agent",
+      "componentName": "AiBlogToPodcastAgentPage",
+      "analysisFile": "/workspaces/videoremix.vip2/scripts/conversion/output/analysis/ai_blog_to_podcast_agent.json",
+      "functionFile": "/workspaces/videoremix.vip2/scripts/conversion/output/functions/ai-blog-to-podcast-agent.ts",
+      "componentFile": "/workspaces/videoremix.vip2/scripts/conversion/output/components/AiBlogToPodcastAgentPage.tsx"
+    },
+    {
+      "appName": "ai_travel_agent",
+      "appSlug": "ai-travel-agent",
+      "componentName": "AiTravelAgentPage",
+      "analysisFile": "/workspaces/videoremix.vip2/scripts/conversion/output/analysis/ai_travel_agent.json",
+      "functionFile": "/workspaces/videoremix.vip2/scripts/conversion/output/functions/ai-travel-agent.ts",
+      "componentFile": "/workspaces/videoremix.vip2/scripts/conversion/output/components/AiTravelAgentPage.tsx"
+    },
+    {
+      "appName": "ai_medical_imaging_agent",
+      "appSlug": "ai-medical-imaging-agent",
+      "componentName": "AiMedicalImagingAgentPage",
+      "analysisFile": "/workspaces/videoremix.vip2/scripts/conversion/output/analysis/ai_medical_imaging_agent.json",
+      "functionFile": "/workspaces/videoremix.vip2/scripts/conversion/output/functions/ai-medical-imaging-agent.ts",
+      "componentFile": "/workspaces/videoremix.vip2/scripts/conversion/output/components/AiMedicalImagingAgentPage.tsx"
+    },
+    {
+      "appName": "ai_data_analysis_agent",
+      "appSlug": "ai-data-analysis-agent",
+      "componentName": "AiDataAnalysisAgentPage",
+      "analysisFile": "/workspaces/videoremix.vip2/scripts/conversion/output/analysis/ai_data_analysis_agent.json",
+      "functionFile": "/workspaces/videoremix.vip2/scripts/conversion/output/functions/ai-data-analysis-agent.ts",
+      "componentFile": "/workspaces/videoremix.vip2/scripts/conversion/output/components/AiDataAnalysisAgentPage.tsx"
+    },
+    {
+      "appName": "openai_research_agent",
+      "appSlug": "openai-research-agent",
+      "componentName": "OpenaiResearchAgentPage",
+      "analysisFile": "/workspaces/videoremix.vip2/scripts/conversion/output/analysis/openai_research_agent.json",
+      "functionFile": "/workspaces/videoremix.vip2/scripts/conversion/output/functions/openai-research-agent.ts",
+      "componentFile": "/workspaces/videoremix.vip2/scripts/conversion/output/components/OpenaiResearchAgentPage.tsx"
+    },
+    {
+      "appName": "ai_startup_trend_analysis_agent",
+      "appSlug": "ai-startup-trend-analysis-agent",
+      "componentName": "AiStartupTrendAnalysisAgentPage",
+      "analysisFile": "/workspaces/videoremix.vip2/scripts/conversion/output/analysis/ai_startup_trend_analysis_agent.json",
+      "functionFile": "/workspaces/videoremix.vip2/scripts/conversion/output/functions/ai-startup-trend-analysis-agent.ts",
+      "componentFile": "/workspaces/videoremix.vip2/scripts/conversion/output/components/AiStartupTrendAnalysisAgentPage.tsx"
+    },
+    {
+      "appName": "web_scraping_ai_agent",
+      "appSlug": "web-scraping-ai-agent",
+      "componentName": "WebScrapingAiAgentPage",
+      "analysisFile": "/workspaces/videoremix.vip2/scripts/conversion/output/analysis/web_scraping_ai_agent.json",
+      "functionFile": "/workspaces/videoremix.vip2/scripts/conversion/output/functions/web-scraping-ai-agent.ts",
+      "componentFile": "/workspaces/videoremix.vip2/scripts/conversion/output/components/WebScrapingAiAgentPage.tsx"
+    },
+    {
+      "appName": "ai_music_generator_agent",
+      "appSlug": "ai-music-generator-agent",
+      "componentName": "AiMusicGeneratorAgentPage",
+      "analysisFile": "/workspaces/videoremix.vip2/scripts/conversion/output/analysis/ai_music_generator_agent.json",
+      "functionFile": "/workspaces/videoremix.vip2/scripts/conversion/output/functions/ai-music-generator-agent.ts",
+      "componentFile": "/workspaces/videoremix.vip2/scripts/conversion/output/components/AiMusicGeneratorAgentPage.tsx"
+    },
+    {
+      "appName": "multimodal_ai_agent",
+      "appSlug": "multimodal-ai-agent",
+      "componentName": "MultimodalAiAgentPage",
+      "analysisFile": "/workspaces/videoremix.vip2/scripts/conversion/output/analysis/multimodal_ai_agent.json",
+      "functionFile": "/workspaces/videoremix.vip2/scripts/conversion/output/functions/multimodal-ai-agent.ts",
+      "componentFile": "/workspaces/videoremix.vip2/scripts/conversion/output/components/MultimodalAiAgentPage.tsx"
+    },
+    {
+      "appName": "ai_data_visualisation_agent",
+      "appSlug": "ai-data-visualisation-agent",
+      "componentName": "AiDataVisualisationAgentPage",
+      "analysisFile": "/workspaces/videoremix.vip2/scripts/conversion/output/analysis/ai_data_visualisation_agent.json",
+      "functionFile": "/workspaces/videoremix.vip2/scripts/conversion/output/functions/ai-data-visualisation-agent.ts",
+      "componentFile": "/workspaces/videoremix.vip2/scripts/conversion/output/components/AiDataVisualisationAgentPage.tsx"
+    },
+    {
+      "appName": "mixture_of_agents",
+      "appSlug": "mixture-of-agents",
+      "componentName": "MixtureOfAgentsPage",
+      "analysisFile": "/workspaces/videoremix.vip2/scripts/conversion/output/analysis/mixture_of_agents.json",
+      "functionFile": "/workspaces/videoremix.vip2/scripts/conversion/output/functions/mixture-of-agents.ts",
+      "componentFile": "/workspaces/videoremix.vip2/scripts/conversion/output/components/MixtureOfAgentsPage.tsx"
+    },
+    {
+      "appName": "ai_life_insurance_advisor_agent",
+      "appSlug": "ai-life-insurance-advisor-agent",
+      "componentName": "AiLifeInsuranceAdvisorAgentPage",
+      "analysisFile": "/workspaces/videoremix.vip2/scripts/conversion/output/analysis/ai_life_insurance_advisor_agent.json",
+      "functionFile": "/workspaces/videoremix.vip2/scripts/conversion/output/functions/ai-life-insurance-advisor-agent.ts",
+      "componentFile": "/workspaces/videoremix.vip2/scripts/conversion/output/components/AiLifeInsuranceAdvisorAgentPage.tsx"
+    },
+    {
+      "appName": "xai_finance_agent",
+      "appSlug": "xai-finance-agent",
+      "componentName": "XaiFinanceAgentPage",
+      "analysisFile": "/workspaces/videoremix.vip2/scripts/conversion/output/analysis/xai_finance_agent.json",
+      "functionFile": "/workspaces/videoremix.vip2/scripts/conversion/output/functions/xai-finance-agent.ts",
+      "componentFile": "/workspaces/videoremix.vip2/scripts/conversion/output/components/XaiFinanceAgentPage.tsx"
+    }
+  ]
+}

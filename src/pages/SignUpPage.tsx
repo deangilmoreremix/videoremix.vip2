@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import { Link, useNavigate } from "react-router-dom";
+
 import {
   Eye,
   EyeOff,
   AlertCircle,
   Sparkles,
-  Video,
+  Megaphone,
   ArrowLeft,
   CheckCircle,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase";
 import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
+import ParticleBackground from "../components/premium/ParticleBackground";
+import GradientOrb from "../components/premium/GradientOrb";
 
 const SignUpPage: React.FC = () => {
   const { signUp, user } = useAuth();
-  const navigate = useNavigate();
+
+  // Use direct window navigation instead of React Router hooks
+  const handleNavigation = (path: string) => {
+    window.location.href = path;
+  };
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -30,14 +36,14 @@ const SignUpPage: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [emailConfirmRequired, setEmailConfirmRequired] = useState(false);
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
-      navigate("/dashboard");
+      handleNavigation("/dashboard");
     }
-  }, [user, navigate]);
+  }, [user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,15 +55,15 @@ const SignUpPage: React.FC = () => {
       return;
     }
 
-    if (formData.password.length < 8) {
-      setError("Password must be at least 8 characters");
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters");
       return;
     }
 
     setLoading(true);
 
     try {
-      // Normalize email to lowercase to prevent case-sensitivity issues
+      // ALWAYS normalize email to lowercase - critical fix!
       const normalizedEmail = formData.email.toLowerCase().trim();
       const { error, user } = await signUp(normalizedEmail, formData.password, {
         first_name: formData.firstName,
@@ -67,44 +73,10 @@ const SignUpPage: React.FC = () => {
       if (error) {
         setError(error.message);
       } else {
-        // Grant profile completion achievement for new users
-        if (user) {
-          try {
-            await supabase.from("user_achievements").insert({
-              user_id: user.id,
-              achievement_type: "profile_completed",
-              metadata: {
-                completed_via: "signup",
-                first_name: formData.firstName,
-                last_name: formData.lastName,
-              },
-            });
-          } catch (achievementError) {
-            // Don't fail signup if achievement granting fails
-            console.warn(
-              "Failed to grant profile completion achievement:",
-              achievementError,
-            );
-          }
-        }
-        if (user && user.identities && user.identities.length === 0) {
-          setEmailConfirmRequired(true);
-          setSuccess(
-            "Account created! Please check your email to confirm your address.",
-          );
-        } else if (user && !user.email_confirmed_at) {
-          setEmailConfirmRequired(true);
-          setSuccess(
-            "Account created! Please check your email to confirm your address.",
-          );
-        } else {
-          setSuccess(
-            "Account created successfully! Redirecting to your dashboard...",
-          );
-          setTimeout(() => {
-            navigate("/dashboard");
-          }, 2000);
-        }
+
+        setSuccess(
+          "Account created successfully! Redirecting to your dashboard...",
+        );
       }
     } catch (err) {
       setError("An unexpected error occurred");
@@ -129,6 +101,8 @@ const SignUpPage: React.FC = () => {
       </Helmet>
 
       <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black relative overflow-hidden flex items-center justify-center py-20">
+      <ParticleBackground className="z-0" particleCount={40} />
+      <GradientOrb size={600} colorFrom="primary-600" colorTo="accent-500" blur={100} mouseFollow={true} />
         {/* Background effects */}
         <div className="absolute inset-0">
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/20 rounded-full blur-[100px]"></div>
@@ -151,13 +125,13 @@ const SignUpPage: React.FC = () => {
               transition={{ duration: 0.6 }}
               className="mb-8"
             >
-              <Link
-                to="/"
+              <a
+                href="/"
                 className="inline-flex items-center text-gray-400 hover:text-white transition-colors group"
               >
                 <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
                 Back to home
-              </Link>
+              </a>
             </motion.div>
 
             {/* Logo section */}
@@ -167,8 +141,8 @@ const SignUpPage: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-center mb-8"
             >
-              <Link
-                to="/"
+              <a
+                href="/"
                 className="inline-flex items-center justify-center space-x-2 group mb-6"
               >
                 <div className="relative">
@@ -181,7 +155,7 @@ const SignUpPage: React.FC = () => {
                     }}
                     className="absolute inset-0 bg-primary-400 rounded-full blur-lg opacity-30 group-hover:opacity-60 transition-opacity"
                   ></motion.div>
-                  <Video className="h-10 w-10 text-white relative z-10" />
+                  <Megaphone className="h-10 w-10 text-white relative z-10" />
                 </div>
                 <div className="text-left">
                   <span className="text-2xl font-bold text-white leading-none block">
@@ -191,7 +165,7 @@ const SignUpPage: React.FC = () => {
                     Marketing Personalization Platform
                   </div>
                 </div>
-              </Link>
+              </a>
 
               <MagicSparkles minSparkles={3} maxSparkles={6}>
                 <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
@@ -233,20 +207,7 @@ const SignUpPage: React.FC = () => {
                       <CheckCircle className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
                       <span>{success}</span>
                     </div>
-                    {emailConfirmRequired && (
-                      <div className="ml-8 text-sm text-green-300 space-y-1">
-                        <p>
-                          We've sent a confirmation link to{" "}
-                          <span className="font-semibold">
-                            {formData.email}
-                          </span>
-                        </p>
-                        <p className="text-xs text-green-400">
-                          Check your spam folder if you don't see it within a
-                          few minutes.
-                        </p>
-                      </div>
-                    )}
+
                   </motion.div>
                 )}
 
@@ -369,19 +330,19 @@ const SignUpPage: React.FC = () => {
 
                 <div className="text-xs text-gray-400 pt-2">
                   By creating an account, you agree to our{" "}
-                  <Link
-                    to="/terms"
+                  <a
+                    href="/terms"
                     className="text-primary-400 hover:text-primary-300"
                   >
                     Terms of Service
-                  </Link>{" "}
+                  </a>{" "}
                   and{" "}
-                  <Link
-                    to="/privacy"
+                  <a
+                    href="/privacy"
                     className="text-primary-400 hover:text-primary-300"
                   >
                     Privacy Policy
-                  </Link>
+                  </a>
                 </div>
 
                 <button
@@ -425,12 +386,12 @@ const SignUpPage: React.FC = () => {
               <div className="mt-8 text-center">
                 <p className="text-gray-400">
                   Already have an account?{" "}
-                  <Link
-                    to="/signin"
+                  <a
+                    href="/signin"
                     className="text-primary-400 hover:text-primary-300 transition-colors font-medium"
                   >
                     Sign in
-                  </Link>
+                  </a>
                 </p>
               </div>
             </motion.div>

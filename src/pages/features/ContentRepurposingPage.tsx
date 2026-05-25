@@ -58,7 +58,7 @@ const ContentRepurposingPage: React.FC = () => {
           title={feature.title}
           description={feature.description}
           image={feature.image}
-          iconName="pencil-ruler"
+          icon={React.createElement(PencilRuler)}
           videoUrl={feature.videoUrl}
         />
 

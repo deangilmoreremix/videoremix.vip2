@@ -1,0 +1,124 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": true,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 7,
+    "numberInput": 2,
+    "fileUpload": 0,
+    "selectBox": 1,
+    "button": 5,
+    "chat": 0,
+    "write": 35
+  },
+  "providers": {
+    "openai": {
+      "count": 3,
+      "imports": 2,
+      "clients": 1,
+      "models": [
+        {
+          "pattern": "gpt-4o-mini",
+          "count": 1
+        },
+        {
+          "pattern": "gpt-4o",
+          "count": 2
+        }
+      ]
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 307,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "multi-tab",
+  "inputFields": [
+    {
+      "name": "openai_api_key",
+      "label": "OpenAI API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "xai_grok_api_key",
+      "label": "xAI (Grok) API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_stock_symbol_eg_aapl_googl_tsla",
+      "label": "Enter Stock Symbol (e.g., AAPL, GOOGL, TSLA)",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "time_period",
+      "label": "Time Period",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "stock_symbol_for_news",
+      "label": "Stock Symbol for News",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "symbol",
+      "label": "Symbol",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "shares",
+      "label": "Shares",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "avg_buy_price_",
+      "label": "Avg Buy Price ($)",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "symbol_to_analyze",
+      "label": "Symbol to analyze",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "ask_about_investing_markets_or_finance",
+      "label": "Ask about investing, markets, or finance:",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "table",
+  "primaryProvider": "openai",
+  "filePath": "awesome-llm-apps/starter_ai_agents/xai_finance_agent/xai_finance_agent.py",
+  "appName": "xai-finance-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "simple",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "OPENAI_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 2,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T14:58:31.859Z",
+  "analyzerVersion": "0.1.0"
+}

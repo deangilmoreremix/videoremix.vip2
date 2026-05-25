@@ -1,0 +1,89 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 2,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 1,
+    "chat": 0,
+    "write": 8
+  },
+  "providers": {
+    "agno": {
+      "count": 8,
+      "imports": 4,
+      "clients": 4,
+      "models": [
+        {
+          "pattern": "gpt-4",
+          "count": 4
+        }
+      ]
+    },
+    "crewai": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {
+    "firecrawl": {
+      "count": 2,
+      "usage": "scraping"
+    }
+  },
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 343,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": false,
+  "hasWebSearch": true,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "enter_your_company_url_",
+      "label": "Enter your company URL :",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_a_description_of_your_company_if_url_is_not_available",
+      "label": "Enter a description of your company (if URL is not available):",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "json",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/multi_agent_apps/agent_teams/ai_competitor_intelligence_agent_team/competitor_agent_team.py",
+  "appName": "ai-competitor-intelligence-agent-team",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "FIRECRAWL_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 18,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:35.749Z",
+  "analyzerVersion": "0.1.0"
+}

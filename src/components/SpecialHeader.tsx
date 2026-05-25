@@ -12,6 +12,8 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "./ui/toast";
 import GlobalSearch from "./GlobalSearch";
+import { appGroups } from "../../data/appGroups";
+import { rawAppsData } from "../../data/appsData";
 
 interface SpecialHeaderProps {
   topOffset?: number;
@@ -45,45 +47,13 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
     setActiveDropdown(null);
   };
 
-  // Featured tools for the dropdown
-  const featuredTools = [
-    {
-      name: "Personalized AI Image Generation",
-      url: "/features/ai-image",
-      description: "Create AI-generated images",
-      icon: <span className="text-lg">🎨</span>,
-    },
-    {
-      name: "Personalized Content Generator",
-      url: "/editor/:templateId",
-      description: "Generate personalized content",
-      icon: <span className="text-lg">🎬</span>,
-    },
-    {
-      name: "Personalized Multimodal AI Creator",
-      url: "/gemini-features",
-      description: "Create with text and visual inputs",
-      icon: <span className="text-lg">🔮</span>,
-    },
-    {
-      name: "Personalized Sales Proposal Generator",
-      url: "https://proposal-ai.videoremix.vip",
-      description: "Create tailored proposals",
-      icon: <span className="text-lg">📝</span>,
-    },
-    {
-      name: "Personalized Sales Page Builder",
-      url: "https://sales-page-builder.videoremix.vip",
-      description: "Build high-converting pages",
-      icon: <span className="text-lg">🏗️</span>,
-    },
-    {
-      name: "Personalized Client Research",
-      url: "/features/client-research",
-      description: "Research clients automatically",
-      icon: <span className="text-lg">🔍</span>,
-    },
-  ];
+  // Grouped tools for the dropdown
+  const getGroupedTools = () => {
+    return appGroups.map(group => ({
+      ...group,
+      tools: rawAppsData.filter(app => app.group === group.id).slice(0, 6) // Show 6 per group
+    })).filter(group => group.tools.length > 0);
+  };
 
   return (
     <motion.header
@@ -118,7 +88,7 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                 VideoRemix.vip
               </span>
               <div className="text-xs text-primary-300">
-                PERSONALIZED MARKETING
+                AI MARKETING PLATFORM
               </div>
             </div>
           </Link>
@@ -132,12 +102,6 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
           className="hidden md:flex items-center space-x-3"
         >
           <GlobalSearch />
-          <Link
-            to="/features"
-            className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium"
-          >
-            Features
-          </Link>
 
           {/* Tools Dropdown */}
           <div
@@ -145,15 +109,17 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
             onMouseEnter={() => setActiveDropdown("tools")}
             onMouseLeave={closeDropdowns}
           >
-            <button
+            <Link
+              to="/tools"
               className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium flex items-center"
-              onClick={() => handleDropdownToggle("tools")}
+              onMouseEnter={() => setActiveDropdown("tools")}
+              onMouseLeave={closeDropdowns}
             >
-              Tools{" "}
+              Tools
               <ChevronDown
                 className={`ml-1 h-4 w-4 transition-transform duration-200 ${activeDropdown === "tools" ? "rotate-180" : ""}`}
               />
-            </button>
+            </Link>
 
             <AnimatePresence>
               {activeDropdown === "tools" && (
@@ -162,36 +128,47 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute left-0 mt-1 w-[320px] bg-black/90 backdrop-blur-md border border-gray-700 rounded-lg shadow-lg overflow-hidden z-[100]"
+                  className="absolute left-0 mt-1 w-[400px] bg-black/90 backdrop-blur-md border border-gray-700 rounded-lg shadow-lg overflow-hidden z-[100]"
                 >
                   <div className="p-4">
                     <h3 className="text-primary-400 font-medium text-sm mb-3 flex items-center">
-                      <Sparkles className="h-4 w-4 mr-1" /> Featured Tools
+                      <Sparkles className="h-4 w-4 mr-1" /> Our AI Tools
                     </h3>
 
-                    <div className="grid grid-cols-2 gap-2 mb-3">
-                      {featuredTools.map((tool, index) => (
-                        <a
-                          key={index}
-                          href={tool.url}
-                          className="block p-2 hover:bg-gray-800 rounded text-white transition-colors group"
-                        >
-                          <div className="flex items-center mb-1">
-                            <div className="mr-2">{tool.icon}</div>
-                            <span className="font-medium group-hover:text-primary-400 transition-colors text-sm">
-                              {tool.name}
-                            </span>
+                    <div className="max-h-[400px] overflow-y-auto pr-2">
+                      {getGroupedTools().map((group) => (
+                        <div key={group.id} className="mb-4 last:mb-0">
+                          <div className="flex items-center mb-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                            <span className="mr-2 w-3 h-3 flex items-center justify-center">{group.icon}</span>
+                            {group.label}
                           </div>
-                          <p className="text-gray-400 text-xs line-clamp-1">
-                            {tool.description}
-                          </p>
-                        </a>
+                          <div className="grid grid-cols-2 gap-2">
+                             {group.tools.map((tool: Record<string, unknown>) => (
+                              <a
+                                key={tool.id}
+                                href={`https://${tool.id}.videoremix.vip`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block p-2 hover:bg-gray-800 rounded text-white transition-colors group"
+                              >
+                                <div className="flex items-center mb-1">
+                                  <span className="font-medium group-hover:text-primary-400 transition-colors text-sm">
+                                    {tool.name}
+                                  </span>
+                                </div>
+                                <p className="text-gray-400 text-xs line-clamp-1">
+                                  {tool.description}
+                                </p>
+                              </a>
+                            ))}
+                          </div>
+                        </div>
                       ))}
                     </div>
 
                     <Link
                       to="/tools"
-                      className="block text-center bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition-colors mt-2"
+                      className="block text-center bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition-colors mt-3"
                     >
                       <span className="flex items-center justify-center">
                         Browse All Tools
@@ -202,12 +179,6 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                 </motion.div>
               )}
             </AnimatePresence>
-           <Link
-             to="/apps"
-             className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium"
-           >
-             Applications
-           </Link>
           </div>
 
           <Link
@@ -227,12 +198,6 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
             className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium"
           >
             FAQ
-          </Link>
-          <Link
-            to="/help"
-            className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium"
-          >
-            Help Center
           </Link>
 
           {user ? (
@@ -349,63 +314,16 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
             className="md:hidden bg-black overflow-hidden"
           >
             <div className="container mx-auto px-4 py-2 space-y-1">
-              <Link
-                to="/features"
-                className="block text-white hover:bg-gray-800 px-3 py-2 rounded-md"
-              >
-                Features
-              </Link>
-
               {/* Mobile Tools Dropdown */}
               <div>
-                <button
+                <Link
+                  to="/tools"
                   className="flex justify-between items-center w-full text-white hover:bg-gray-800 px-3 py-2 rounded-md"
-                  onClick={() => handleDropdownToggle("mobile-tools")}
+                  onClick={() => setMobileMenuOpen(false)} // Close mobile menu when navigating
                 >
                   <span>Tools</span>
-                  <ChevronDown
-                    className={`h-4 w-4 transition-transform duration-200 ${activeDropdown === "mobile-tools" ? "rotate-180" : ""}`}
-                  />
-                </button>
-
-                <AnimatePresence>
-                  {activeDropdown === "mobile-tools" && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <div className="py-2 px-4 bg-gray-900 rounded-md mt-1 mb-2 space-y-2">
-                        {featuredTools.map((tool, index) => (
-                          <a
-                            key={index}
-                            href={tool.url}
-                            className="block text-white hover:bg-gray-800 px-2 py-2 rounded text-sm"
-                          >
-                            <div className="flex items-center">
-                              <div className="mr-2">{tool.icon}</div>
-                              <span>{tool.name}</span>
-                            </div>
-                          </a>
-                        ))}
-
-                        <Link
-                          to="/tools"
-                          className="block text-center bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded text-sm transition-colors mt-2"
-                        >
-                          Browse All Tools
-                        </Link>
-                      </div>
-                    </motion.div>
-                  )}
-               <Link
-                 to="/apps"
-                 className="block text-white hover:bg-gray-800 px-3 py-2 rounded-md"
-               >
-                 Applications
-               </Link>
-                </AnimatePresence>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
               </div>
 
               <Link
@@ -425,12 +343,6 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                 className="block text-white hover:bg-gray-800 px-3 py-2 rounded-md"
               >
                 FAQ
-              </Link>
-              <Link
-                to="/help"
-                className="block text-white hover:bg-gray-800 px-3 py-2 rounded-md"
-              >
-                Help Center
               </Link>
 
               {user ? (

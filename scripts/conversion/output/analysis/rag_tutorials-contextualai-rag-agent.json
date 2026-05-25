@@ -1,0 +1,119 @@
+{
+  "hasChatInput": true,
+  "hasForm": true,
+  "hasTabs": false,
+  "hasFileUpload": true,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 10,
+    "numberInput": 0,
+    "fileUpload": 1,
+    "selectBox": 0,
+    "button": 9,
+    "chat": 4,
+    "write": 5
+  },
+  "providers": {},
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": true,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 329,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "chat",
+  "inputFields": [
+    {
+      "name": "contextual_ai_api_key",
+      "label": "Contextual AI API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "base_url",
+      "label": "Base URL",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "existing_agent_id_optional",
+      "label": "Existing Agent ID (optional)",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "existing_datastore_id_optional",
+      "label": "Existing Datastore ID (optional)",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "datastore_name",
+      "label": "Datastore Name",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "upload_pdfs_or_text_files",
+      "label": "Upload PDFs or text files",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "custom_metadata_json",
+      "label": "Custom Metadata (JSON)",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "agent_name",
+      "label": "Agent Name",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "agent_description",
+      "label": "Agent Description",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "system_prompt",
+      "label": "System Prompt",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "show_retrieval_info",
+      "label": "Show Retrieval Info",
+      "type": "checkbox",
+      "required": true
+    },
+    {
+      "name": "lmunit_rubric__unit_test",
+      "label": "LMUnit rubric / unit test",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "code",
+  "primaryProvider": "unknown",
+  "filePath": "awesome-llm-apps/rag_tutorials/contextualai_rag_agent/contextualai_rag_agent.py",
+  "appName": "contextualai-rag-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "file-processing",
+  "requiresApiKey": false,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 2,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:33.947Z",
+  "analyzerVersion": "0.1.0"
+}

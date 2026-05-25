@@ -76,7 +76,7 @@
 **Files:**
 - Modify: `src/data/appThumbnailSpecs.ts`
 
-- [x] **Step 1: Add 51 new app specifications**
+- [ ] **Step 1: Add 51 new app specifications**
 
 Create detailed specifications for each new app with:
 - Unique appId
@@ -85,7 +85,7 @@ Create detailed specifications for each new app with:
 - Key features array (3-5 key capabilities)
 - Target size { width: 800, height: 600 }
 
-- [x] **Step 2: Assign appropriate categories**
+- [ ] **Step 2: Assign appropriate categories**
 
 Based on app functionality:
 - AI-Image: AI Royal Portrait, AI Logo, OldPhoto, AITryOn, AI Age Transformation, AI Professional Makeup Generator, AI Tattoo Try-On, AI Hair Style Simulator, AI Kids-to-Adult Prediction, AI Room Declutter, AI Fitness Body Simulator, AI Pet Portrait, AI Wedding Photo, MagicSelf AI
@@ -95,11 +95,11 @@ Based on app functionality:
 - Lead-Gen: AI Real Estate Stager, Prompt Architect, ClearMark AI, User Account Registration Form, CounselMate, Intelligent Real Estate Agent, Fixera, ProFlow Plumbing, TurboGlow Auto Spa, Paws & Pals, TowMate, SwiftLink Logistics, Lumea Residence, Opulent Drive, ProFix Auto, Nova AssuranceAI, Nova Care Clinic, Tabla - ReserveAI, Dental ReserveAI
 - Branding: AI MEME (also creative)
 
-- [x] **Step 3: Validate specifications completeness**
+- [ ] **Step 3: Validate specifications completeness**
 
 Ensure all 51 apps have complete specifications matching the existing format.
 
-- [x] **Step 4: Commit new specifications**
+- [ ] **Step 4: Commit new specifications**
 
 ```bash
 git add src/data/appThumbnailSpecs.ts
@@ -113,19 +113,19 @@ git commit -m "feat: add thumbnail specifications for 51 new apps"
 **Files:**
 - Modify: `src/data/appSalesCopy.ts`
 
-- [x] **Step 1: Assign GTM Skills tonalities to new apps**
+- [ ] **Step 1: Assign GTM Skills tonalities to new apps**
 
 Assign different tonalities to maintain variety across all categories.
 
-- [x] **Step 2: Generate sales copy for all 51 apps**
+- [ ] **Step 2: Generate sales copy for all 51 apps**
 
 Create three sections for each app with appropriate tonality.
 
-- [x] **Step 3: Validate sales copy quality**
+- [ ] **Step 3: Validate sales copy quality**
 
 Ensure compelling, sales-focused copy for local businesses.
 
-- [x] **Step 4: Commit sales copy**
+- [ ] **Step 4: Commit sales copy**
 
 ```bash
 git add src/data/appSalesCopy.ts
@@ -139,19 +139,19 @@ git commit -m "feat: add sales copy for 51 new apps using GTM Skills tonalities"
 **Files:**
 - Modify: `src/data/appsData.ts`
 
-- [x] **Step 1: Add 51 new apps to rawAppsData**
+- [ ] **Step 1: Add 51 new apps to rawAppsData**
 
 Create App objects for each new app with complete metadata and sales copy integration.
 
-- [x] **Step 2: Assign appropriate icons**
+- [ ] **Step 2: Assign appropriate icons**
 
 Use appropriate Lucide React icons for each app category.
 
-- [x] **Step 3: Validate data integration**
+- [ ] **Step 3: Validate data integration**
 
 Ensure all apps integrate properly with sales copy and thumbnails.
 
-- [x] **Step 4: Commit app data integration**
+- [ ] **Step 4: Commit app data integration**
 
 ```bash
 git add src/data/appsData.ts
@@ -165,17 +165,17 @@ git commit -m "feat: integrate 51 new apps into main app data structure"
 **Files:**
 - Modify: `src/data/generatedThumbnails.ts`
 
-- [x] **Step 1: Run thumbnail generation for new apps**
+- [ ] **Step 1: Run thumbnail generation for new apps**
 
 ```bash
 npx tsx scripts/generate-app-thumbnails.js
 ```
 
-- [x] **Step 2: Verify thumbnail generation success**
+- [ ] **Step 2: Verify thumbnail generation success**
 
 Check that all 51 new apps have generated thumbnails.
 
-- [x] **Step 3: Update generatedThumbnails.ts**
+- [ ] **Step 3: Update generatedThumbnails.ts**
 
 Ensure all new thumbnails are properly recorded.
 
@@ -186,19 +186,19 @@ Ensure all new thumbnails are properly recorded.
 **Files:**
 - Test: Dashboard functionality with all new apps
 
-- [x] **Step 1: Build and run application**
+- [ ] **Step 1: Build and run application**
 
 Verify all 51 new apps work in the dashboard.
 
-- [x] **Step 2: Test dropdown functionality**
+- [ ] **Step 2: Test dropdown functionality**
 
 Ensure sales copy dropdowns work for all apps.
 
-- [x] **Step 3: Test accessibility**
+- [ ] **Step 3: Test accessibility**
 
 Verify keyboard navigation and ARIA support.
 
-- [x] **Step 4: Performance validation**
+- [ ] **Step 4: Performance validation**
 
 Check loading with 51 additional apps.
 

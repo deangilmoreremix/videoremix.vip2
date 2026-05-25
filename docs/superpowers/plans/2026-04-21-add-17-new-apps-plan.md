@@ -37,7 +37,7 @@
 **Files:**
 - Modify: `src/data/appThumbnailSpecs.ts`
 
-- [x] **Step 1: Add 17 new app specifications**
+- [ ] **Step 1: Add 17 new app specifications**
 
 Create detailed specifications for each new app with:
 - Unique appId
@@ -46,7 +46,7 @@ Create detailed specifications for each new app with:
 - Key features array (3-5 key capabilities)
 - Target size { width: 800, height: 600 }
 
-- [x] **Step 2: Assign appropriate categories**
+- [ ] **Step 2: Assign appropriate categories**
 
 Based on app functionality:
 - Video: EasyVeo, AIClip, My Podcast
@@ -55,11 +55,11 @@ Based on app functionality:
 - Lead-gen: AI Recruiter, AI Outbound, MailWise
 - Personalizer: Talk to PDF, EZScribe, AI Knowledge Base
 
-- [x] **Step 3: Validate specifications completeness**
+- [ ] **Step 3: Validate specifications completeness**
 
 Ensure all 17 apps have complete specifications matching the existing format.
 
-- [x] **Step 4: Commit new specifications**
+- [ ] **Step 4: Commit new specifications**
 
 ```bash
 git add src/data/appThumbnailSpecs.ts
@@ -73,7 +73,7 @@ git commit -m "feat: add thumbnail specifications for 17 new apps"
 **Files:**
 - Modify: `src/data/appSalesCopy.ts`
 
-- [x] **Step 1: Assign GTM Skills tonalities to new apps**
+- [ ] **Step 1: Assign GTM Skills tonalities to new apps**
 
 Assign different tonalities to maintain variety:
 - AI Headshot Studio: Steve Jobs (command attention)
@@ -94,18 +94,18 @@ Assign different tonalities to maintain variety:
 - AI Knowledge Base: Executive Briefing (boardroom ready)
 - AI Outbound: Competitive Displacement (wedge & switch)
 
-- [x] **Step 2: Generate sales copy for each app**
+- [ ] **Step 2: Generate sales copy for each app**
 
 Create three sections for each app:
 - **What it does**: Clear functionality explanation
 - **How it makes money**: Local business monetization strategies
 - **Why businesses need it**: Compelling value proposition using assigned tonality
 
-- [x] **Step 3: Validate sales copy quality**
+- [ ] **Step 3: Validate sales copy quality**
 
 Ensure each app has compelling, sales-focused copy tailored to local businesses.
 
-- [x] **Step 4: Commit sales copy**
+- [ ] **Step 4: Commit sales copy**
 
 ```bash
 git add src/data/appSalesCopy.ts
@@ -119,26 +119,26 @@ git commit -m "feat: add sales copy for 17 new apps using GTM Skills tonalities"
 **Files:**
 - Modify: `src/data/appsData.ts`
 
-- [x] **Step 1: Add new apps to rawAppsData**
+- [ ] **Step 1: Add new apps to rawAppsData**
 
 Create App objects for each of the 17 new apps with:
 - All required fields (id, name, description, category, icon, image)
 - salesCopy field linking to generated sales copy
 - Appropriate popular/new flags and metadata
 
-- [x] **Step 2: Assign appropriate icons**
+- [ ] **Step 2: Assign appropriate icons**
 
 Use existing Lucide React icons that match each app's functionality.
 
-- [x] **Step 3: Set proper categories and metadata**
+- [ ] **Step 3: Set proper categories and metadata**
 
 Ensure categories match thumbnail specifications and add relevant tags/metadata.
 
-- [x] **Step 4: Validate data integration**
+- [ ] **Step 4: Validate data integration**
 
 Check that all apps are properly integrated with sales copy and thumbnails.
 
-- [x] **Step 5: Commit app data integration**
+- [ ] **Step 5: Commit app data integration**
 
 ```bash
 git add src/data/appsData.ts
@@ -152,7 +152,7 @@ git commit -m "feat: integrate 17 new apps into main app data structure"
 **Files:**
 - Modify: `src/data/generatedThumbnails.ts`
 
-- [x] **Step 1: Run thumbnail generation for new apps**
+- [ ] **Step 1: Run thumbnail generation for new apps**
 
 ```bash
 npx tsx scripts/generate-app-thumbnails.js
@@ -160,15 +160,15 @@ npx tsx scripts/generate-app-thumbnails.js
 
 Focus on generating thumbnails for the 17 new apps using their specifications.
 
-- [x] **Step 2: Verify thumbnail generation success**
+- [ ] **Step 2: Verify thumbnail generation success**
 
 Check that all 17 new apps have successfully generated thumbnails stored in Supabase.
 
-- [x] **Step 3: Update generatedThumbnails.ts**
+- [ ] **Step 3: Update generatedThumbnails.ts**
 
 Ensure the generated thumbnails file includes all new app thumbnails.
 
-- [x] **Step 4: Test thumbnail loading**
+- [ ] **Step 4: Test thumbnail loading**
 
 Verify that new app thumbnails load correctly in the dashboard.
 
@@ -179,26 +179,26 @@ Verify that new app thumbnails load correctly in the dashboard.
 **Files:**
 - Test: Dashboard functionality with new apps
 
-- [x] **Step 1: Build and run application**
+- [ ] **Step 1: Build and run application**
 
 ```bash
 npm run build
 npm run dev
 ```
 
-- [x] **Step 2: Test dashboard display**
+- [ ] **Step 2: Test dashboard display**
 
 Verify all 17 new apps appear with correct thumbnails and information.
 
-- [x] **Step 3: Test dropdown functionality**
+- [ ] **Step 3: Test dropdown functionality**
 
 Click each new app's thumbnail to verify sales copy dropdowns work properly.
 
-- [x] **Step 4: Test accessibility**
+- [ ] **Step 4: Test accessibility**
 
 Ensure keyboard navigation and screen reader support work for new apps.
 
-- [x] **Step 5: Performance validation**
+- [ ] **Step 5: Performance validation**
 
 Check that adding 17 new apps doesn't impact loading performance.
 

@@ -1,4 +1,4 @@
-import { getAppUrl as getCentralizedAppUrl } from "../config/appUrls";
+import { getAppUrl as getCentralizedAppUrl, getAppThumbnail } from "../config/appUrls";
 
 export interface DatabaseApp {
   id: string;
@@ -7,6 +7,7 @@ export interface DatabaseApp {
   description: string;
   category: string;
   image?: string;
+  icon?: string;
   netlify_url?: string;
   custom_domain?: string;
   is_active: boolean;
@@ -15,11 +16,12 @@ export interface DatabaseApp {
   popular?: boolean;
   new?: boolean;
   coming_soon?: boolean;
-  is_new?: boolean;  // alternate name used in some DB records
   price?: number;
   sort_order: number;
   created_at: string;
   updated_at: string;
+  // New field
+  group?: string;
 }
 
 export interface ComponentApp {
@@ -35,110 +37,22 @@ export interface ComponentApp {
   new?: boolean;
   comingSoon?: boolean;
   url?: string;
-  price?: number;
+  // New field
+  group: string;
 }
 
-// Validate that all required fields are present and non-empty
-export const isValidAppData = (dbApp: Partial<DatabaseApp>): dbApp is DatabaseApp => {
-  const required: (keyof DatabaseApp)[] = [
-    "id", "name", "slug", "category",
-    "is_active", "is_featured", "is_public",
-    "sort_order", "created_at", "updated_at",
-  ];
-  return required.every(
-    (key) => dbApp[key] !== undefined && dbApp[key] !== null && String(dbApp[key]!) !== ""
-  );
-};
-
-// Safe transform that never throws — returns null for invalid data
-export const safeTransform = (dbApp: Partial<DatabaseApp>): ComponentApp | null => {
-  if (!isValidAppData(dbApp)) {
-    console.warn("[transformApp] Skipping invalid app record (missing required fields):", {
-      id: dbApp.id,
-      name: dbApp.name,
-      slug: dbApp.slug,
-    });
-    return null;
-  }
-
-  try {
-    return transformApp(dbApp as DatabaseApp);
-  } catch (err) {
-    console.warn("[transformApp] Failed to transform app:", dbApp.id, err);
-    return null;
-  }
-};
+// Fallback images for when no custom thumbnail is available
+const FALLBACK_IMAGES = [
+  "https://images.unsplash.com/photo-1616469829941-c7200edec809?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+];
 
 // Get icon name for app (used by LazyIcon component)
 export const getIconNameForApp = (app: DatabaseApp): string => {
-  // Map category to icon name - ensure we return a valid icon key
-  const categoryToIcon: Record<string, string> = {
-    // Category -> Icon mapping
-    "ai": "sparkles",
-    "ai-personalized-content": "ai-personalized-content",
-    "ai-referral-maximizer": "ai-referral-maximizer",
-    "ai-sales-maximizer": "ai-sales-maximizer",
-    "ai-screen-recorder": "ai-screen-recorder",
-    "smart-crm-closer": "smart-crm-closer",
-    "video-ai-editor": "video-ai-editor",
-    "ai-video-image": "ai-video-image",
-    "ai-skills-monetizer": "ai-skills-monetizer",
-    "ai-signature": "ai-signature",
-    "ai-template-generator": "ai-template-generator",
-    "funnelcraft-ai": "funnelcraft-ai",
-    "interactive-shopping": "interactive-shopping",
-    "personalizer-ai-profile-generator": "personalizer-ai-profile-generator",
-    "personalizer-ai-video-image-transformer": "personalizer-ai-video-image-transformer",
-    "personalizer-url-video-generation": "personalizer-url-video-generation",
-    "ai-proposal": "ai-proposal",
-    "sales-assistant-app": "sales-assistant-app",
-    "sales-page-builder": "sales-page-builder",
-    // Legacy categories
-    "sales-lead-gen": "sales-lead-gen",
-    "content-marketing": "content-marketing",
-    "video-audio-voice": "video-audio-voice",
-    "rag-knowledgebase": "rag-knowledgebase",
-    "realestate-local": "realestate-local",
-    "hr-hiring": "hr-hiring",
-    "finance-business": "finance-business",
-    "legal-compliance": "legal-compliance",
-    "coding-developer": "coding-developer",
-    "design-uiux": "design-uiux",
-    "research-education": "research-education",
-    "productivity-personal": "productivity-personal",
-  };
-
-  const category = app.category?.toLowerCase() || "";
-  const iconName = categoryToIcon[category] || category || "sparkles";
-
-  // Ensure the icon exists in our map, otherwise use fallback
-  return iconName;
-};
-
-// Validate that an active app has a verified launch target
-export const validateAppLaunchTarget = (dbApp: DatabaseApp): boolean => {
-  if (!dbApp.is_active) {
-    return true; // Inactive apps don't need validation
-  }
-
-  // Check URL priority order
-  if (dbApp.custom_domain) {
-    return true; // Custom domain is verified by admin
-  }
-
-  if (dbApp.netlify_url) {
-    return true; // Netlify URL is verified by admin
-  }
-
-  // Check centralized config
-  const centralizedUrl = getCentralizedAppUrl(dbApp.slug);
-  if (centralizedUrl !== `/app/${dbApp.slug}`) {
-    return true; // Has a centralized mapping
-  }
-
-  // No valid launch target found
-  console.warn(`Active app "${dbApp.name}" (slug: ${dbApp.slug}) has no verified launch target`);
-  return false;
+  // Check specific app slug first, then fall back to category
+  return app.slug || app.category || "ai";
 };
 
 // Transform database app to component app (pure data transformation)
@@ -159,21 +73,38 @@ export const transformApp = (dbApp: DatabaseApp): ComponentApp => {
     appUrl = getCentralizedAppUrl(dbApp.slug);
   }
 
+  // Image URL Priority Order:
+  // 1. Custom AI-generated thumbnail from APP_THUMBNAILS (new SVG thumbnails)
+  // 2. Database image field
+  // 3. Fallback to curated Unsplash images
+  const customThumbnail = getAppThumbnail(dbApp.slug);
+  const appImage = dbApp.image;
+
+  let imageUrl: string;
+  if (customThumbnail) {
+    // Use our custom SVG thumbnail
+    imageUrl = customThumbnail;
+  } else if (appImage) {
+    imageUrl = appImage;
+  } else {
+    // Fallback to a deterministic Unsplash image based on slug
+    const fallbackIndex = dbApp.slug.charCodeAt(0) % FALLBACK_IMAGES.length;
+    imageUrl = FALLBACK_IMAGES[fallbackIndex];
+  }
+
   return {
     id: dbApp.slug,
     name: dbApp.name,
     description: dbApp.description || "",
     category: dbApp.category,
     iconName: getIconNameForApp(dbApp),
-    image:
-      dbApp.image ||
-      "https://images.unsplash.com/photo-1616469829941-c7200edec809?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: imageUrl,
     isActive: dbApp.is_active,
     isPublic: dbApp.is_public,
     popular: dbApp.popular || dbApp.is_featured,
     new: dbApp.new || false,
     comingSoon: dbApp.coming_soon || false,
     url: appUrl,
-    price: dbApp.price,
+    group: dbApp.group || "uncategorized",
   };
 };

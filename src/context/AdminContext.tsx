@@ -6,7 +6,7 @@ import React, {
   useCallback,
   ReactNode,
 } from "react";
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase";
 
 interface AdminUser {
   id: string;
@@ -50,6 +50,7 @@ interface AdminProviderProps {
 }
 
 export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
+  console.log("[AdminContext] AdminProvider mounted - this should only happen on admin routes");
   const [user, setUser] = useState<AdminUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [sessionExpiry, setSessionExpiry] = useState<Date | undefined>();
@@ -207,10 +208,11 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
       lastVerificationRef.current = now;
 
       const timeoutId = setTimeout(() => {
+        console.log("AdminContext - verifyAuth timed out after 10 seconds");
         setIsLoading(false);
         setUser(null);
         isVerifyingRef.current = false;
-      }, 10000);
+      }, 30000); // Increased to 30 seconds to prevent premature timeout
 
       const {
         data: { session },
@@ -233,20 +235,15 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
 
       if (roleError) {
         console.error("AdminContext - Error fetching role:", roleError);
-        // If role fetch fails due to permissions, assume user is not admin
-        // Don't sign out, just set as regular user
-        if (roleError.code === 'PGRST116' || roleError.message?.includes('permission denied')) {
-          console.log("AdminContext - Role access denied, treating as regular user");
-          setUser(null);
-        }
+        // Don't sign out on error, just set loading to false and keep existing user
         setIsLoading(false);
         isVerifyingRef.current = false;
         return;
       }
 
       if (!roleData) {
-        console.log("AdminContext - No role found for user");
-        await supabase.auth.signOut();
+        console.log("AdminContext - No admin role found for user (this is normal for regular users)");
+        // Don't sign out - just don't set admin user
         setUser(null);
         setIsLoading(false);
         isVerifyingRef.current = false;
@@ -257,8 +254,9 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
         console.log(
           "AdminContext - User does not have admin role:",
           roleData.role,
+          "(this is normal for regular users)"
         );
-        await supabase.auth.signOut();
+        // Don't sign out regular users - just don't set admin user
         setUser(null);
         setIsLoading(false);
         isVerifyingRef.current = false;
@@ -306,7 +304,8 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
   }, [sessionExpiry, user, logout]);
 
   useEffect(() => {
-    verifyAuth();
+    // Don't automatically verify auth on mount for regular users
+    // Only verify when explicitly needed (like on admin pages)
 
     const {
       data: { subscription },
@@ -315,15 +314,14 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
         setUser(null);
         setSessionExpiry(undefined);
         setIsLoading(false);
-      } else if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
-        verifyAuth();
       }
+      // AdminContext doesn't interfere with regular user authentication
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [verifyAuth]);
+  }, []); // Remove verifyAuth dependency
 
   const value: AdminContextType = React.useMemo(
     () => ({

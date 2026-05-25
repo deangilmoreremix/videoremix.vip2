@@ -1,4 +1,5 @@
-// Auto-generated app thumbnails - Generated on 2026-04-21 - Includes 50 new app thumbnails
+// Auto-generated app thumbnails - Generated on 2026-05-03 - Includes 178 new app thumbnails
+// Updated on 2026-05-04 - Added 12 missing thumbnails for complete app coverage
 export const generatedThumbnails = [
   {
     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/promo-generator-ai-thumbnail-1776704426033.png",
@@ -122,8 +123,8 @@ export const generatedThumbnails = [
   },
   {
     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-recorder-ai-thumbnail-1776704529514.png",
-    "alt": "AI Screen Recorder - Record and enhance screen captures automatically",
-    "prompt": "Create a realistic, professional software interface thumbnail for \"AI Screen Recorder\" - Record and enhance screen captures automatically.\n\nKey features to visualize: screen recording controls, automatic enhancement filters, audio recording interface, video editing timeline, export optimization tools\n\nStyle requirements:\n- personalizer: user profile customization interface, personalized dashboard, modern UX design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+    "alt": "Professional Demo Recorder - Record and enhance screen captures automatically",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Professional Demo Recorder\" - Record and enhance screen captures automatically.\n\nKey features to visualize: screen recording controls, automatic enhancement filters, audio recording interface, video editing timeline, export optimization tools\n\nStyle requirements:\n- personalizer: user profile customization interface, personalized dashboard, modern UX design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
       "appId": "personalizer-recorder",
       "category": "personalizer",
@@ -206,8 +207,8 @@ export const generatedThumbnails = [
   },
   {
     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-referral-maximizer-ai-thumbnail-1776704597857.png",
-    "alt": "AI Referral Maximizer - Maximize your referral program with AI optimization",
-    "prompt": "Create a realistic, professional software interface thumbnail for \"AI Referral Maximizer\" - Maximize your referral program with AI optimization.\n\nKey features to visualize: referral tracking dashboard, incentive optimization AI, performance analytics, automated messaging, conversion tracking\n\nStyle requirements:\n- lead-gen: sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+    "alt": "Customer Growth Multiplier - Maximize your referral program with AI optimization",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Customer Growth Multiplier\" - Maximize your referral program with AI optimization.\n\nKey features to visualize: referral tracking dashboard, incentive optimization AI, performance analytics, automated messaging, conversion tracking\n\nStyle requirements:\n- lead-gen: sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
       "appId": "ai-referral-maximizer",
       "category": "lead-gen",
@@ -218,8 +219,8 @@ export const generatedThumbnails = [
   },
   {
     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/video-ai-editor-ai-thumbnail-1776704630431.png",
-    "alt": "Video AI Editor - Advanced AI-powered video editing with smart automation",
-    "prompt": "Create a realistic, professional software interface thumbnail for \"Video AI Editor\" - Advanced AI-powered video editing with smart automation.\n\nKey features to visualize: AI editing suggestions, smart cut detection, automated transitions, content analysis, quality enhancement\n\nStyle requirements:\n- video: professional video editing software interface, cinematic lighting, modern UI design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+    "alt": "Professional Video Studio - Advanced AI-powered video editing with smart automation",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Professional Video Studio\" - Advanced AI-powered video editing with smart automation.\n\nKey features to visualize: AI editing suggestions, smart cut detection, automated transitions, content analysis, quality enhancement\n\nStyle requirements:\n- video: professional video editing software interface, cinematic lighting, modern UI design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
       "appId": "video-ai-editor",
       "category": "video",
@@ -230,8 +231,8 @@ export const generatedThumbnails = [
   },
   {
     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/smart-crm-closer-ai-thumbnail-1776704630924.png",
-    "alt": "Smart CRM Closer - Close more deals with intelligent CRM automation",
-    "prompt": "Create a realistic, professional software interface thumbnail for \"Smart CRM Closer\" - Close more deals with intelligent CRM automation.\n\nKey features to visualize: deal pipeline visualization, AI lead scoring, automated follow-ups, performance analytics, integration dashboard\n\nStyle requirements:\n- lead-gen: sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+    "alt": "Deal Closing Intelligence - Close more deals with intelligent CRM automation",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Deal Closing Intelligence\" - Close more deals with intelligent CRM automation.\n\nKey features to visualize: deal pipeline visualization, AI lead scoring, automated follow-ups, performance analytics, integration dashboard\n\nStyle requirements:\n- lead-gen: sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
       "appId": "smart-crm-closer",
       "category": "lead-gen",
@@ -242,8 +243,8 @@ export const generatedThumbnails = [
   },
   {
     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-video-image-ai-thumbnail-1776704631265.png",
-    "alt": "AI Video & Image - Transform videos and images with AI enhancement",
-    "prompt": "Create a realistic, professional software interface thumbnail for \"AI Video & Image\" - Transform videos and images with AI enhancement.\n\nKey features to visualize: video enhancement tools, image upscaling AI, quality improvement, batch processing, preview system\n\nStyle requirements:\n- ai-image: digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+    "alt": "Expert Video & Image Engine - Transform videos and images with AI enhancement",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Expert Video & Image Engine\" - Transform videos and images with AI enhancement.\n\nKey features to visualize: video enhancement tools, image upscaling AI, quality improvement, batch processing, preview system\n\nStyle requirements:\n- ai-image: digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
       "appId": "ai-video-image",
       "category": "ai-image",
@@ -254,8 +255,8 @@ export const generatedThumbnails = [
   },
   {
     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-signature-ai-thumbnail-1776704664298.png",
-    "alt": "AI Signature - Generate professional digital signatures with AI",
-    "prompt": "Create a realistic, professional software interface thumbnail for \"AI Signature\" - Generate professional digital signatures with AI.\n\nKey features to visualize: signature style selector, customization tools, legal compliance checker, integration options, security features\n\nStyle requirements:\n- personalizer: user profile customization interface, personalized dashboard, modern UX design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+    "alt": "Professional Email Signature - Generate professional digital signatures with AI",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Professional Email Signature\" - Generate professional digital signatures with AI.\n\nKey features to visualize: signature style selector, customization tools, legal compliance checker, integration options, security features\n\nStyle requirements:\n- personalizer: user profile customization interface, personalized dashboard, modern UX design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
       "appId": "ai-signature",
       "category": "personalizer",
@@ -266,8 +267,8 @@ export const generatedThumbnails = [
   },
   {
     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-skills-monetizer-ai-thumbnail-1776704664581.png",
-    "alt": "AI Skills Monetizer - Turn your skills into profitable online businesses",
-    "prompt": "Create a realistic, professional software interface thumbnail for \"AI Skills Monetizer\" - Turn your skills into profitable online businesses.\n\nKey features to visualize: skill assessment dashboard, monetization strategy AI, course creation tools, pricing optimization, market analysis\n\nStyle requirements:\n- personalizer: user profile customization interface, personalized dashboard, modern UX design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+    "alt": "Expertise Revenue Platform - Turn your skills into profitable online businesses",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Expertise Revenue Platform\" - Turn your skills into profitable online businesses.\n\nKey features to visualize: skill assessment dashboard, monetization strategy AI, course creation tools, pricing optimization, market analysis\n\nStyle requirements:\n- personalizer: user profile customization interface, personalized dashboard, modern UX design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
       "appId": "ai-skills-monetizer",
       "category": "personalizer",
@@ -278,8 +279,8 @@ export const generatedThumbnails = [
   },
   {
     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-template-generator-ai-thumbnail-1776704665560.png",
-    "alt": "AI Template Generator - Create custom templates for any purpose with AI",
-    "prompt": "Create a realistic, professional software interface thumbnail for \"AI Template Generator\" - Create custom templates for any purpose with AI.\n\nKey features to visualize: template type selector, AI customization engine, preview system, export options, collaboration tools\n\nStyle requirements:\n- creative: creative workspace with design tools, artistic composition, innovative interface\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+    "alt": "Professional Document Studio - Create custom templates for any purpose with AI",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Professional Document Studio\" - Create custom templates for any purpose with AI.\n\nKey features to visualize: template type selector, AI customization engine, preview system, export options, collaboration tools\n\nStyle requirements:\n- creative: creative workspace with design tools, artistic composition, innovative interface\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
       "appId": "ai-template-generator",
       "category": "creative",
@@ -290,8 +291,8 @@ export const generatedThumbnails = [
   },
   {
     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-video-image-transformer-ai-thumbnail-1776704696819.png",
-    "alt": "AI Video & Image Transformer - Transform videos and images with advanced AI processing",
-    "prompt": "Create a realistic, professional software interface thumbnail for \"AI Video & Image Transformer\" - Transform videos and images with advanced AI processing.\n\nKey features to visualize: transformation pipeline, AI processing queue, quality controls, batch operations, preview system\n\nStyle requirements:\n- ai-image: digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+    "alt": "Expert Video & Image Engine Transformer - Transform videos and images with advanced AI processing",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Expert Video & Image Engine Transformer\" - Transform videos and images with advanced AI processing.\n\nKey features to visualize: transformation pipeline, AI processing queue, quality controls, batch operations, preview system\n\nStyle requirements:\n- ai-image: digital art creation tools interface, vibrant color palette, creative workspace\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
       "appId": "personalizer-video-image-transformer",
       "category": "ai-image",
@@ -314,8 +315,8 @@ export const generatedThumbnails = [
   },
   {
     "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/funnelcraft-ai-ai-thumbnail-1776704699683.png",
-    "alt": "FunnelCraft AI - Build high-converting sales funnels with AI assistance",
-    "prompt": "Create a realistic, professional software interface thumbnail for \"FunnelCraft AI\" - Build high-converting sales funnels with AI assistance.\n\nKey features to visualize: funnel builder canvas, AI optimization suggestions, conversion tracking, A/B testing, analytics dashboard\n\nStyle requirements:\n- lead-gen: sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+    "alt": "Conversion Funnel Optimizer - Build high-converting sales funnels with AI assistance",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Conversion Funnel Optimizer\" - Build high-converting sales funnels with AI assistance.\n\nKey features to visualize: funnel builder canvas, AI optimization suggestions, conversion tracking, A/B testing, analytics dashboard\n\nStyle requirements:\n- lead-gen: sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
       "appId": "funnelcraft-ai",
       "category": "lead-gen",
@@ -601,351 +602,1539 @@ export const generatedThumbnails = [
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/social-pack-ai-thumbnail-1778528415.jpg",
-    "alt": "Social Media Pack - Everything you need for social media success",
-    "prompt": "Free AI-generated stock image from Pexels showing social media app icons on smartphone screen, suitable for social media pack app thumbnail",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/1-starter-agent-thumbnail.png",
+    "alt": "1 Starter Agent - Your first AI agent for basic tasks and interactions",
+    "prompt": "Create a realistic, professional software interface thumbnail for '1 Starter Agent' - Your first AI agent for basic tasks and interactions.\n\nKey features to visualize: simple chat interface, basic AI agent setup, task automation panel, user interaction dashboard, beginner-friendly controls\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Beginner-friendly with clear onboarding elements\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
-      "appId": "social-pack",
-      "category": "creative",
-      "generatedAt": "2026-05-11T15:36:33-04:00",
-      "model": "pexels-stock",
+      "appId": "1-starter-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
       "quality": "hd"
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/business-brander-ai-thumbnail-1778528416.jpg",
-    "alt": "Business Brander Enterprise - Comprehensive branding solution for enterprises",
-    "prompt": "Free AI-generated stock image from Pexels showing YouTube channel interface, adapted for business branding app thumbnail",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/4-running-agents-thumbnail.png",
+    "alt": "4 Running Agents - Manage and monitor multiple AI agents simultaneously",
+    "prompt": "Create a realistic, professional software interface thumbnail for '4 Running Agents' - Manage and monitor multiple AI agents simultaneously.\n\nKey features to visualize: multi-agent dashboard, agent status monitors, parallel processing interface, agent coordination panel, performance metrics display\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Multi-tasking interface with status indicators\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
-      "appId": "business-brander",
-      "category": "branding",
-      "generatedAt": "2026-05-11T15:36:34-04:00",
-      "model": "pexels-stock",
+      "appId": "4-running-agents",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
       "quality": "hd"
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/video-ai-editor-ai-thumbnail-1778528417.jpg",
-    "alt": "Video AI Editor - Advanced AI-powered video editing with smart automation",
-    "prompt": "Free AI-generated stock image from Pexels showing smartphone displaying YouTube channel interface, adapted for video AI editor app thumbnail",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/5-1-in-memory-conversation-agent-thumbnail.png",
+    "alt": "5-1 In Memory Conversation Agent - AI agent with conversation memory capabilities",
+    "prompt": "Create a realistic, professional software interface thumbnail for '5-1 In Memory Conversation Agent' - AI agent with conversation memory capabilities.\n\nKey features to visualize: conversation history panel, memory management interface, context-aware chat, memory visualization, intelligent recall system\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Memory-focused interface with conversation threads\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
-      "appId": "video-ai-editor",
+      "appId": "5-1-in-memory-conversation-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/5-2-persistent-conversation-agent-thumbnail.png",
+    "alt": "5-2 Persistent Conversation Agent - AI agent with long-term conversation persistence",
+    "prompt": "Create a realistic, professional software interface thumbnail for '5-2 Persistent Conversation Agent' - AI agent with long-term conversation persistence.\n\nKey features to visualize: persistent chat interface, long-term memory storage, conversation continuity panel, data persistence controls, session management dashboard\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Persistence-focused interface with data storage indicators\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "5-2-persistent-conversation-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/6-1-agent-lifecycle-callbacks-thumbnail.png",
+    "alt": "6-1 Agent Lifecycle Callbacks - Monitor and manage AI agent lifecycle events",
+    "prompt": "Create a realistic, professional software interface thumbnail for '6-1 Agent Lifecycle Callbacks' - Monitor and manage AI agent lifecycle events.\n\nKey features to visualize: lifecycle event monitor, callback management panel, agent status dashboard, event logging interface, lifecycle visualization charts\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Event-driven interface with monitoring displays\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "6-1-agent-lifecycle-callbacks",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/6-2-ai-interaction-callbacks-thumbnail.png",
+    "alt": "6-2 LLM Interaction Callbacks - Track and manage LLM interaction events",
+    "prompt": "Create a realistic, professional software interface thumbnail for '6-2 LLM Interaction Callbacks' - Track and manage LLM interaction events.\n\nKey features to visualize: LLM interaction monitor, callback event log, model performance dashboard, interaction analytics, real-time event tracking\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Analytics-focused interface with performance metrics\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "6-2-ai-interaction-callbacks",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/6-3-tool-execution-callbacks-thumbnail.png",
+    "alt": "6-3 Tool Execution Callbacks - Monitor tool execution and callback events",
+    "prompt": "Create a realistic, professional software interface thumbnail for '6-3 Tool Execution Callbacks' - Monitor tool execution and callback events.\n\nKey features to visualize: tool execution monitor, callback event dashboard, function performance tracking, execution logs interface, tool management panel\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Execution-focused interface with tool management\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "6-3-tool-execution-callbacks",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/7-plugins-thumbnail.png",
+    "alt": "7 Plugins - Extend AI agent capabilities with custom plugins",
+    "prompt": "Create a realistic, professional software interface thumbnail for '7 Plugins' - Extend AI agent capabilities with custom plugins.\n\nKey features to visualize: plugin marketplace, extension manager, capability customization, plugin configuration panel, modular architecture dashboard\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Modular interface with extension capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "7-plugins",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/7-sessions-thumbnail.png",
+    "alt": "7 Sessions - Manage AI agent sessions and interactions",
+    "prompt": "Create a realistic, professional software interface thumbnail for '7 Sessions' - Manage AI agent sessions and interactions.\n\nKey features to visualize: session management dashboard, active session monitor, conversation tracking, session analytics panel, multi-session interface\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Session-focused interface with conversation management\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "7-sessions",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/9-1-sequential-agent-thumbnail.png",
+    "alt": "9-1 Sequential Agent - Execute AI tasks in sequential order",
+    "prompt": "Create a realistic, professional software interface thumbnail for '9-1 Sequential Agent' - Execute AI tasks in sequential order.\n\nKey features to visualize: task sequencing interface, workflow builder, step-by-step execution monitor, sequential processing dashboard, task dependency visualization\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Sequential workflow interface with progress tracking\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "9-1-sequential-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/9-2-loop-agent-thumbnail.png",
+    "alt": "9-2 Loop Agent - AI agent with iterative processing capabilities",
+    "prompt": "Create a realistic, professional software interface thumbnail for '9-2 Loop Agent' - AI agent with iterative processing capabilities.\n\nKey features to visualize: loop control panel, iteration monitoring, recursive task management, cycle tracking dashboard, iterative processing visualization\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Loop-focused interface with iteration controls\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "9-2-loop-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/9-3-parallel-agent-thumbnail.png",
+    "alt": "9-3 Parallel Agent - Execute multiple AI tasks simultaneously",
+    "prompt": "Create a realistic, professional software interface thumbnail for '9-3 Parallel Agent' - Execute multiple AI tasks simultaneously.\n\nKey features to visualize: parallel processing dashboard, concurrent task monitor, multi-threaded execution interface, performance optimization panel, resource allocation controls\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Parallel processing interface with performance metrics\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "9-3-parallel-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ag2-adaptive-research-team-thumbnail.png",
+    "alt": "AG2 Adaptive Research Team - Collaborative AI research and analysis system",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'AG2 Adaptive Research Team' - Collaborative AI research and analysis system.\n\nKey features to visualize: collaborative research dashboard, team coordination interface, adaptive analysis tools, research methodology panel, multi-agent collaboration workspace\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Team collaboration interface with research tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ag2-adaptive-research-team",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/agentic-rag-embedding-gemma-thumbnail.png",
+    "alt": "Strategic Knowledge Navigator - AI-powered retrieval augmented generation with Gemma embeddings",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Strategic Knowledge Navigator' - AI-powered retrieval augmented generation with Gemma embeddings.\n\nKey features to visualize: RAG interface, embedding visualization, knowledge retrieval panel, Gemma model integration, semantic search dashboard\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- AI/ML interface with embedding visualizations\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "agentic-rag-embedding-gemma",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/agentic-rag-gpt5-thumbnail.png",
+    "alt": "Agentic RAG GPT-5 - Advanced retrieval augmented generation with GPT-5",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Agentic RAG GPT-5' - Advanced retrieval augmented generation with GPT-5.\n\nKey features to visualize: advanced RAG dashboard, GPT-5 integration panel, knowledge base management, intelligent retrieval interface, contextual generation controls\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Advanced AI interface with knowledge management\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "agentic-rag-gpt5",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/agentic-rag-with-reasoning-thumbnail.png",
+    "alt": "Agentic RAG With Reasoning - RAG system enhanced with advanced reasoning capabilities",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Agentic RAG With Reasoning' - RAG system enhanced with advanced reasoning capabilities.\n\nKey features to visualize: reasoning-enhanced RAG interface, logical inference panel, knowledge synthesis dashboard, reasoning chain visualization, intelligent analysis tools\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Reasoning-focused interface with logical analysis\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "agentic-rag-with-reasoning",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-3dpygame-r1-thumbnail.png",
+    "alt": "AI 3D PyGame R1 - AI-powered 3D game development with PyGame",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'AI 3D PyGame R1' - AI-powered 3D game development with PyGame.\n\nKey features to visualize: 3D game development environment, PyGame integration panel, AI-assisted coding interface, 3D rendering preview, game development toolkit\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Game development interface with 3D visualization\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-3dpygame-r1",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-aqi-analysis-agent-thumbnail.png",
+    "alt": "AI AQI Analysis Agent - Analyze air quality data with AI-powered insights",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'AI AQI Analysis Agent' - Analyze air quality data with AI-powered insights.\n\nKey features to visualize: air quality data dashboard, AQI analysis panel, environmental monitoring interface, pollution tracking charts, predictive analytics display\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Environmental data interface with analytical tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-aqi-analysis-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-arxiv-agent-memory-thumbnail.png",
+    "alt": "AI ArXiv Agent Memory - AI agent for academic research with memory capabilities",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'AI ArXiv Agent Memory' - AI agent for academic research with memory capabilities.\n\nKey features to visualize: academic research dashboard, ArXiv paper browser, memory-enhanced search, citation management interface, scholarly analysis tools\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Academic research interface with memory features\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-arxiv-agent-memory",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-audio-tour-agent-thumbnail.png",
+    "alt": "Audio Experience Intelligence - Create interactive audio tours with AI assistance",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Audio Experience Intelligence' - Create interactive audio tours with AI assistance.\n\nKey features to visualize: audio tour creation studio, interactive tour builder, voice synthesis interface, location-based content editor, audio experience dashboard\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Audio-focused interface with interactive elements\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-audio-tour-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-blog-search-thumbnail.png",
+    "alt": "Content Discovery Engine - Intelligent blog content discovery and analysis",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Content Discovery Engine' - Intelligent blog content discovery and analysis.\n\nKey features to visualize: blog discovery dashboard, content analysis tools, search intelligence interface, blog ranking algorithms, content curation panel\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Search-focused interface with analytical tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-blog-search",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-blog-to-podcast-agent-thumbnail.png",
+    "alt": "Content-to-Audio Converter Pro - Transform blog content into engaging podcasts",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Content-to-Audio Converter Pro' - Transform blog content into engaging podcasts.\n\nKey features to visualize: blog-to-podcast converter, audio generation studio, content transformation interface, podcast editing tools, voice synthesis panel\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Audio-focused interface with content transformation\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-blog-to-podcast-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-breakup-recovery-agent-thumbnail.png",
+    "alt": "Emotional Support Intelligence - Supportive AI guidance for emotional healing",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Emotional Support Intelligence' - Supportive AI guidance for emotional healing.\n\nKey features to visualize: emotional support interface, recovery guidance system, wellness tracking dashboard, supportive conversation tools, healing progress monitor\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Wellness-focused interface with supportive design\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-breakup-recovery-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-chess-agent-thumbnail.png",
+    "alt": "Strategic Chess Master - Master-level chess AI opponent and trainer",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Strategic Chess Master' - Master-level chess AI opponent and trainer.\n\nKey features to visualize: chess board interface, AI opponent selection, game analysis tools, move suggestion system, chess training dashboard\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Game-focused interface with strategic analysis\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-chess-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-competitor-intelligence-agent-team-thumbnail.png",
+    "alt": "Competitive Intelligence Hub - Advanced competitor analysis and insights",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Competitive Intelligence Hub' - Advanced competitor analysis and insights.\n\nKey features to visualize: competitor analysis dashboard, intelligence gathering tools, market research interface, competitive intelligence panel, strategic insights display\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Business intelligence interface with analytical tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-competitor-intelligence-agent-team",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:18:09+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-customer-support-agent-thumbnail.png",
+    "alt": "Customer Experience Intelligence - Intelligent customer service automation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Customer Experience Intelligence' - Intelligent customer service automation.\n\nKey features to visualize: customer inquiry dashboard, automated response system, support ticket management, chat bot interface, customer satisfaction analytics\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Customer service interface with automation tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-customer-support-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-data-analysis-agent-thumbnail.png",
+    "alt": "Data Intelligence Analyst - Advanced data processing and insights generation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Data Intelligence Analyst' - Advanced data processing and insights generation.\n\nKey features to visualize: data visualization dashboard, analytics processing interface, insight generation tools, statistical analysis panel, data exploration workspace\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Data science interface with analytical capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-data-analysis-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-data-visualisation-agent-thumbnail.png",
+    "alt": "Visual Data Storyteller - Transform data into compelling visual stories",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Visual Data Storyteller' - Transform data into compelling visual stories.\n\nKey features to visualize: data visualization studio, chart generation tools, interactive dashboard builder, design customization panel, visual storytelling interface\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Creative visualization interface with design tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-data-visualisation-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-deep-research-agent-thumbnail.png",
+    "alt": "Expert Research Intelligence - Comprehensive research and analysis automation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Expert Research Intelligence' - Comprehensive research and analysis automation.\n\nKey features to visualize: research methodology dashboard, data collection interface, analysis automation tools, insight synthesis panel, comprehensive reporting system\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Research-focused interface with analytical depth\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-deep-research-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-domain-deep-research-agent-thumbnail.png",
+    "alt": "Industry Intelligence Scanner - Specialized domain expertise and research",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Industry Intelligence Scanner' - Specialized domain expertise and research.\n\nKey features to visualize: domain expertise interface, specialized research tools, knowledge base management, expert analysis dashboard, domain-specific insights panel\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Expertise-focused interface with specialized tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-domain-deep-research-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-email-gtm-outreach-agent-thumbnail.png",
+    "alt": "AI Email GTM Outreach Agent - Strategic email marketing and outreach automation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'AI Email GTM Outreach Agent' - Strategic email marketing and outreach automation.\n\nKey features to visualize: email campaign dashboard, outreach automation tools, contact management interface, performance analytics panel, personalized messaging studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Marketing automation interface with communication tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-email-gtm-outreach-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-email-gtm-reachout-agent-thumbnail.png",
+    "alt": "AI Email GTM Reachout Agent - Advanced email outreach and relationship building",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'AI Email GTM Reachout Agent' - Advanced email outreach and relationship building.\n\nKey features to visualize: relationship building dashboard, strategic outreach tools, contact relationship mapping, engagement tracking interface, personalized communication studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Relationship-focused interface with outreach automation\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-email-gtm-reachout-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-financial-coach-agent-thumbnail.png",
+    "alt": "Financial Intelligence Advisor - Personal financial guidance and planning",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Financial Intelligence Advisor' - Personal financial guidance and planning.\n\nKey features to visualize: financial planning dashboard, budget management tools, investment guidance interface, financial goal tracking, wealth management analytics\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Financial planning interface with analytical tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-financial-coach-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-fraud-investigation-agent-thumbnail.png",
+    "alt": "Risk Detection Intelligence - Advanced fraud detection and investigation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Risk Detection Intelligence' - Advanced fraud detection and investigation.\n\nKey features to visualize: fraud detection dashboard, investigation analysis tools, risk assessment interface, anomaly detection panel, security monitoring system\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Security-focused interface with investigative tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-fraud-investigation-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-game-design-agent-team-thumbnail.png",
+    "alt": "Game Development Intelligence - Collaborative game development and design",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Game Development Intelligence' - Collaborative game development and design.\n\nKey features to visualize: game design studio, collaborative development tools, level creation interface, character design panel, game testing and iteration dashboard\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Game development interface with creative collaboration tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-game-design-agent-team",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-health-fitness-agent-thumbnail.png",
+    "alt": "Health Intelligence Coach - Personalized health and fitness guidance",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Health Intelligence Coach' - Personalized health and fitness guidance.\n\nKey features to visualize: fitness planning dashboard, health tracking tools, workout recommendation system, progress monitoring interface, nutrition guidance panel\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Wellness-focused interface with health monitoring\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-health-fitness-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-journalist-agent-thumbnail.png",
+    "alt": "News Intelligence Reporter - Professional content creation and journalism",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'News Intelligence Reporter' - Professional content creation and journalism.\n\nKey features to visualize: content creation studio, research and writing tools, editorial management interface, publishing workflow dashboard, audience engagement analytics\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Journalism-focused interface with content creation tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-journalist-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-legal-agent-team-thumbnail.png",
+    "alt": "Legal Intelligence Advisor - Legal research and document automation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Legal Intelligence Advisor' - Legal research and document automation.\n\nKey features to visualize: legal research dashboard, document automation tools, case analysis interface, compliance management panel, legal document generation studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Legal-focused interface with professional document tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-legal-agent-team",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-life-insurance-advisor-agent-thumbnail.png",
+    "alt": "Insurance Intelligence Guide - Insurance planning and recommendations",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Insurance Intelligence Guide' - Insurance planning and recommendations.\n\nKey features to visualize: insurance planning dashboard, risk assessment tools, policy recommendation interface, coverage analysis panel, financial protection planning studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Insurance-focused interface with financial planning tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-life-insurance-advisor-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-medical-imaging-agent-thumbnail.png",
+    "alt": "Medical Imaging Intelligence - Medical image analysis and diagnostics",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Medical Imaging Intelligence' - Medical image analysis and diagnostics.\n\nKey features to visualize: medical imaging dashboard, diagnostic analysis tools, image processing interface, clinical decision support, medical report generation panel\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Medical-focused interface with diagnostic capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-medical-imaging-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-meeting-agent-thumbnail.png",
+    "alt": "Meeting Intelligence Recorder - Intelligent meeting management and facilitation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Meeting Intelligence Recorder' - Intelligent meeting management and facilitation.\n\nKey features to visualize: meeting scheduling dashboard, agenda creation tools, participant management interface, meeting facilitation panel, action item tracking system\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Meeting-focused interface with productivity tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-meeting-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-meme-generator-agent-browseruse-thumbnail.png",
+    "alt": "Viral Content Creator - Creative meme creation and viral content",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Viral Content Creator' - Creative meme creation and viral content.\n\nKey features to visualize: meme creation studio, viral content tools, social media integration, humor generation interface, engagement optimization dashboard\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Creative content interface with social media tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-meme-generator-agent-browseruse",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-mental-wellbeing-agent-thumbnail.png",
+    "alt": "Wellness Intelligence Companion - Mental health support and wellness guidance",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Wellness Intelligence Companion' - Mental health support and wellness guidance.\n\nKey features to visualize: mental health dashboard, wellness tracking tools, supportive conversation interface, mindfulness guidance panel, emotional wellness analytics\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Wellness-focused interface with supportive design elements\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-mental-wellbeing-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-movie-production-agent-thumbnail.png",
+    "alt": "Film Production Intelligence - Film production planning and management",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Film Production Intelligence' - Film production planning and management.\n\nKey features to visualize: production planning dashboard, script analysis tools, crew management interface, budget tracking panel, production scheduling system\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Film production interface with creative management tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-movie-production-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-music-generator-agent-thumbnail.png",
+    "alt": "Music Creation Intelligence - Creative music composition and production",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Music Creation Intelligence' - Creative music composition and production.\n\nKey features to visualize: music composition studio, audio generation tools, melody creation interface, rhythm programming panel, music production dashboard\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Music-focused interface with creative audio tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-music-generator-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-personal-finance-agent-thumbnail.png",
+    "alt": "Financial Planning Intelligence - Comprehensive personal financial management",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Financial Planning Intelligence' - Comprehensive personal financial management.\n\nKey features to visualize: financial dashboard, expense tracking tools, budget planning interface, investment monitoring panel, financial goal setting studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Finance-focused interface with personal money management\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-personal-finance-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-recipe-meal-planning-agent-thumbnail.png",
+    "alt": "Culinary Intelligence Chef - Smart meal planning and recipe generation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Culinary Intelligence Chef' - Smart meal planning and recipe generation.\n\nKey features to visualize: meal planning dashboard, recipe generation tools, nutritional analysis interface, grocery list management, cooking instruction panel\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Culinary-focused interface with meal planning tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-recipe-meal-planning-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-recruitment-agent-team-thumbnail.png",
+    "alt": "Recruitment Intelligence Platform - Intelligent hiring and talent acquisition",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Recruitment Intelligence Platform' - Intelligent hiring and talent acquisition.\n\nKey features to visualize: candidate screening dashboard, resume analysis tools, interview scheduling interface, talent matching panel, recruitment analytics studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- HR-focused interface with recruitment automation\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-recruitment-agent-team",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-services-agency-thumbnail.png",
+    "alt": "Business Services Intelligence - Business service automation and management",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Business Services Intelligence' - Business service automation and management.\n\nKey features to visualize: service management dashboard, client relationship tools, business process automation, service delivery interface, performance analytics panel\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Business service interface with client management tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-services-agency",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-startup-insight-fire1-agent-thumbnail.png",
+    "alt": "Startup Intelligence Scanner - Startup intelligence and market analysis",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Startup Intelligence Scanner' - Startup intelligence and market analysis.\n\nKey features to visualize: startup analysis dashboard, market intelligence tools, competitor research interface, trend analysis panel, investment opportunity studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Startup-focused interface with market intelligence tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-startup-insight-fire1-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-startup-trend-analysis-agent-thumbnail.png",
+    "alt": "Market Trend Intelligence - Trend analysis and market forecasting",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Market Trend Intelligence' - Trend analysis and market forecasting.\n\nKey features to visualize: trend analysis dashboard, market forecasting tools, data visualization interface, predictive analytics panel, trend monitoring studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Analytics-focused interface with trend prediction tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-startup-trend-analysis-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-system-architect-r1-thumbnail.png",
+    "alt": "Architecture Intelligence - System design and architecture planning",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Architecture Intelligence' - System design and architecture planning.\n\nKey features to visualize: system architecture dashboard, design planning tools, component modeling interface, scalability analysis panel, technical specification studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Technical architecture interface with design tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-system-architect-r1",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-teaching-agent-team-thumbnail.png",
+    "alt": "Educational Intelligence Platform - Educational content creation and delivery",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Educational Intelligence Platform' - Educational content creation and delivery.\n\nKey features to visualize: course creation dashboard, learning management tools, content delivery interface, student progress panel, educational analytics studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Education-focused interface with learning management tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-teaching-agent-team",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-tic-tac-toe-agent-thumbnail.png",
+    "alt": "Game Strategy Intelligence - Strategic game playing and learning",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Game Strategy Intelligence' - Strategic game playing and learning.\n\nKey features to visualize: game interface, strategy analysis tools, learning algorithm display, move prediction panel, game theory visualization\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Game-focused interface with strategic analysis tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-tic-tac-toe-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-travel-agent-thumbnail.png",
+    "alt": "Travel Intelligence - Personalized travel planning and booking",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Travel Intelligence' - Personalized travel planning and booking.\n\nKey features to visualize: travel planning dashboard, itinerary creation tools, destination research interface, booking management panel, personalized travel studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Travel-focused interface with planning and booking tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-travel-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-travel-agent-memory-thumbnail.png",
+    "alt": "Travel Intelligence Memory - Travel planning with personalized memory",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Travel Intelligence Memory' - Travel planning with personalized memory.\n\nKey features to visualize: personalized travel dashboard, memory-based recommendations, preference learning interface, trip history panel, customized planning studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Memory-focused travel interface with personalization\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-travel-agent-memory",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-travel-planner-mcp-agent-team-thumbnail.png",
+    "alt": "Travel Planning Intelligence Hub - Multi-agent travel coordination",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Travel Planning Intelligence Hub' - Multi-agent travel coordination.\n\nKey features to visualize: multi-agent coordination dashboard, collaborative planning tools, team communication interface, integrated booking panel, comprehensive travel management studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Multi-agent travel interface with team coordination\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-travel-planner-mcp-agent-team",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/app-thumbnail.png",
+    "alt": "App - General application interface",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'App' - General application interface.\n\nKey features to visualize: general application dashboard, versatile tool interface, adaptable workspace, multi-purpose functionality panel, customizable settings studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Versatile application interface with general-purpose tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "app",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/autonomous-rag-thumbnail.png",
+    "alt": "Self-Learning Research Engine - Self-managing retrieval augmented generation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Self-Learning Research Engine' - Self-managing retrieval augmented generation.\n\nKey features to visualize: autonomous RAG dashboard, self-learning retrieval tools, adaptive knowledge interface, intelligent indexing panel, autonomous optimization studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Autonomous AI interface with self-managing capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "autonomous-rag",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/blog-to-podcast-agent--thumbnail.png",
+    "alt": "Blog-to-Podcast Intelligence - Content transformation from blogs to podcasts",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Blog-to-Podcast Intelligence' - Content transformation from blogs to podcasts.\n\nKey features to visualize: content transformation dashboard, blog-to-podcast conversion tools, audio generation interface, content adaptation panel, multimedia publishing studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Content transformation interface with multimedia tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "blog-to-podcast-agent-",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/browser-mcp-agent-thumbnail.png",
+    "alt": "Web Browsing Intelligence - Web browsing and content extraction automation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Web Browsing Intelligence' - Web browsing and content extraction automation.\n\nKey features to visualize: web browsing dashboard, content extraction tools, automated scraping interface, data collection panel, browser automation studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Web automation interface with browsing capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "browser-mcp-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/chat-with-github-thumbnail.png",
+    "alt": "Chat With GitHub - Interactive GitHub repository analysis and discussion",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Chat With GitHub' - Interactive GitHub repository analysis and discussion.\n\nKey features to visualize: GitHub integration dashboard, repository analysis tools, code discussion interface, collaboration management panel, development insights studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Developer-focused interface with GitHub integration\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "chat-with-github",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/chat-with-gmail-thumbnail.png",
+    "alt": "Email Intelligence Assistant - Email analysis and intelligent conversation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Email Intelligence Assistant' - Email analysis and intelligent conversation.\n\nKey features to visualize: email integration dashboard, message analysis tools, intelligent response interface, communication management panel, email insights studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Email-focused interface with communication intelligence\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "chat-with-gmail",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/chat-with-pdf-thumbnail.png",
+    "alt": "Chat With PDF - Interactive PDF document analysis and discussion",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Chat With PDF' - Interactive PDF document analysis and discussion.\n\nKey features to visualize: PDF analysis dashboard, document interaction tools, content extraction interface, intelligent search panel, document insights studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Document-focused interface with PDF analysis capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "chat-with-pdf",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/chat-with-research-papers-thumbnail.png",
+    "alt": "Research Paper Analyst - Academic paper analysis and scholarly discussion",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Research Paper Analyst' - Academic paper analysis and scholarly discussion.\n\nKey features to visualize: academic paper dashboard, research analysis tools, scholarly discussion interface, citation management panel, academic insights studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Academic-focused interface with research analysis tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "chat-with-research-papers",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/chat-with-substack-thumbnail.png",
+    "alt": "Newsletter Intelligence Hub - Newsletter content analysis and engagement",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Newsletter Intelligence Hub' - Newsletter content analysis and engagement.\n\nKey features to visualize: newsletter analysis dashboard, content engagement tools, subscriber interaction interface, publication insights panel, content strategy studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Newsletter-focused interface with content analysis tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "chat-with-substack",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/chat-with-tarots-thumbnail.png",
+    "alt": "Spiritual Guidance Assistant - Mystical guidance and tarot reading experience",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Spiritual Guidance Assistant' - Mystical guidance and tarot reading experience.\n\nKey features to visualize: tarot reading dashboard, mystical guidance tools, intuitive card interface, spiritual insights panel, divination experience studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Mystical interface with tarot and divination elements\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "chat-with-tarots",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/chat-with-youtube-videos-thumbnail.png",
+    "alt": "Chat With YouTube Videos - Video content analysis and discussion",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Chat With YouTube Videos' - Video content analysis and discussion.\n\nKey features to visualize: video analysis dashboard, content discussion tools, multimedia interaction interface, video insights panel, content engagement studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Video-focused interface with multimedia analysis tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "chat-with-youtube-videos",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/contextualai-rag-agent-thumbnail.png",
+    "alt": "ContextualAI RAG Agent - Context-aware retrieval augmented generation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'ContextualAI RAG Agent' - Context-aware retrieval augmented generation.\n\nKey features to visualize: contextual RAG dashboard, context-aware retrieval tools, intelligent knowledge interface, adaptive reasoning panel, contextual insights studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Context-focused AI interface with adaptive capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "contextualai-rag-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/corrective-rag-thumbnail.png",
+    "alt": "Precision Research Corrector - Self-correcting retrieval augmented generation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Precision Research Corrector' - Self-correcting retrieval augmented generation.\n\nKey features to visualize: corrective RAG dashboard, error correction tools, self-improving interface, quality assurance panel, iterative optimization studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Quality-focused AI interface with self-correction capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "corrective-rag",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/cursor-ai-experiments-thumbnail.png",
+    "alt": "Cursor AI Experiments - AI experimentation and development platform",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Cursor AI Experiments' - AI experimentation and development platform.\n\nKey features to visualize: experimentation dashboard, AI development tools, testing interface, innovation management panel, experimental insights studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Experimental AI interface with development and testing tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "cursor-ai-experiments",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/customer-support-voice-agent-thumbnail.png",
+    "alt": "Voice Support Intelligence - Voice-based customer service automation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Voice Support Intelligence' - Voice-based customer service automation.\n\nKey features to visualize: voice support dashboard, customer interaction tools, automated response interface, voice analytics panel, customer satisfaction studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Voice-focused interface with customer service automation\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "customer-support-voice-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/deepseek-local-rag-agent-thumbnail.png",
+    "alt": "DeepSeek Local RAG Agent - Local deployment of advanced RAG system",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'DeepSeek Local RAG Agent' - Local deployment of advanced RAG system.\n\nKey features to visualize: local RAG dashboard, DeepSeek integration tools, offline knowledge interface, privacy-focused panel, local deployment studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Local AI interface with privacy and offline capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "deepseek-local-rag-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/devpulse-ai-thumbnail.png",
+    "alt": "DevPulse AI - Developer productivity and code intelligence",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'DevPulse AI' - Developer productivity and code intelligence.\n\nKey features to visualize: developer dashboard, code intelligence tools, productivity enhancement interface, development insights panel, coding assistance studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Developer-focused interface with coding intelligence\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "devpulse-ai",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/frontend-thumbnail.png",
+    "alt": "Frontend - User interface design and development",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Frontend' - User interface design and development.\n\nKey features to visualize: UI design dashboard, frontend development tools, interface creation interface, design system panel, user experience studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Frontend-focused interface with design and development tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "frontend",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/gemini-agentic-rag-thumbnail.png",
+    "alt": "Multi-Modal Research Assistant - Google's Gemini-powered RAG system",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Multi-Modal Research Assistant' - Google's Gemini-powered RAG system.\n\nKey features to visualize: Gemini RAG dashboard, Google AI integration tools, advanced knowledge interface, multimodal capabilities panel, intelligent retrieval studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Google AI interface with advanced multimodal capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "gemini-agentic-rag",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/github-mcp-agent-thumbnail.png",
+    "alt": "GitHub MCP Agent - GitHub repository management and automation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'GitHub MCP Agent' - GitHub repository management and automation.\n\nKey features to visualize: GitHub integration dashboard, repository management tools, code collaboration interface, development workflow panel, project insights studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Developer-focused interface with GitHub integration\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "github-mcp-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/gpt-oss-critique-improvement-loop-thumbnail.png",
+    "alt": "GPT OSS Critique Improvement Loop - Open-source AI critique and improvement",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'GPT OSS Critique Improvement Loop' - Open-source AI critique and improvement.\n\nKey features to visualize: critique analysis dashboard, improvement iteration tools, open-source collaboration interface, feedback management panel, continuous improvement studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Open-source focused interface with critique and improvement tools\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "gpt-oss-critique-improvement-loop",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/hybrid-search-rag-thumbnail.png",
+    "alt": "Advanced Knowledge Discovery - Combined search methodologies for RAG",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Advanced Knowledge Discovery' - Combined search methodologies for RAG.\n\nKey features to visualize: hybrid search dashboard, multi-method retrieval tools, advanced indexing interface, search optimization panel, comprehensive results studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Search-focused interface with hybrid retrieval capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "hybrid-search-rag",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/knowledge-graph-rag-citations-thumbnail.png",
+    "alt": "Citation Intelligence Network - Knowledge graph enhanced RAG with citations",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Citation Intelligence Network' - Knowledge graph enhanced RAG with citations.\n\nKey features to visualize: knowledge graph dashboard, citation management tools, graph-based retrieval interface, relationship mapping panel, cited insights studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Knowledge-focused interface with graph visualization and citations\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "knowledge-graph-rag-citations",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/llama3-1-local-rag-thumbnail.png",
+    "alt": "Llama3 1 Local RAG - Local Llama 3.1 model with RAG capabilities",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Llama3 1 Local RAG' - Local Llama 3.1 model with RAG capabilities.\n\nKey features to visualize: Llama integration dashboard, local RAG tools, offline knowledge interface, privacy-focused panel, local model management studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Local AI interface with Llama model integration\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "llama3-1-local-rag",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/llama3-stateful-chat-thumbnail.png",
+    "alt": "Llama3 Stateful Chat - Persistent conversation with Llama 3 model",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Llama3 Stateful Chat' - Persistent conversation with Llama 3 model.\n\nKey features to visualize: stateful chat dashboard, conversation persistence tools, Llama integration interface, context management panel, intelligent dialogue studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Chat-focused interface with Llama model and state persistence\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "llama3-stateful-chat",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-personalized-memory-thumbnail.png",
+    "alt": "LLM App Personalized Memory - Memory-enhanced LLM interactions",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'LLM App Personalized Memory' - Memory-enhanced LLM interactions.\n\nKey features to visualize: personalized memory dashboard, LLM interaction tools, memory management interface, adaptive learning panel, personalized insights studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Memory-focused interface with LLM personalization\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-personalized-memory",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-router-app-thumbnail.png",
+    "alt": "LLM Router App - Intelligent routing between multiple LLM models",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'LLM Router App' - Intelligent routing between multiple LLM models.\n\nKey features to visualize: LLM routing dashboard, model selection tools, intelligent distribution interface, performance optimization panel, multi-model management studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Router-focused interface with multiple LLM model management\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-router-app",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/local-ai-legal-agent-team-thumbnail.png",
+    "alt": "Local Legal Intelligence Advisor - Local legal research and document automation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Local Legal Intelligence Advisor' - Local legal research and document automation.\n\nKey features to visualize: local legal dashboard, document automation tools, privacy-focused interface, offline legal research panel, secure document management studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Local legal interface with privacy and security focus\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "local-ai-legal-agent-team",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/local-ai-reasoning-agent-py-thumbnail.png",
+    "alt": "Local Code Reasoning Intelligence Py - Local Python-based reasoning AI",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Local Code Reasoning Intelligence Py' - Local Python-based reasoning AI.\n\nKey features to visualize: reasoning dashboard, Python integration tools, logical inference interface, local AI management panel, reasoning algorithm studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Local Python interface with AI reasoning capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "local-ai-reasoning-agent-py",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/local-ai-scrapper-py-thumbnail.png",
+    "alt": "Local AI Scrapper Py - Local Python-based web scraping AI",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Local AI Scrapper Py' - Local Python-based web scraping AI.\n\nKey features to visualize: scraping dashboard, Python automation tools, data extraction interface, local processing panel, web intelligence studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Local Python interface with web scraping automation\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "local-ai-scrapper-py",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/local-chatgpt-clone-thumbnail.png",
+    "alt": "Local ChatGPT Clone - Local ChatGPT-compatible AI interface",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Local ChatGPT Clone' - Local ChatGPT-compatible AI interface.\n\nKey features to visualize: chat interface dashboard, conversational AI tools, local model integration, response management panel, intelligent dialogue studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- ChatGPT-style interface with local AI capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "local-chatgpt-clone",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/local-chatgpt-with-memory-thumbnail.png",
+    "alt": "Local ChatGPT With Memory - Memory-enhanced local ChatGPT clone",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Local ChatGPT With Memory' - Memory-enhanced local ChatGPT clone.\n\nKey features to visualize: memory-enhanced chat dashboard, conversation persistence tools, context retention interface, adaptive learning panel, personalized dialogue studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Memory-focused ChatGPT interface with local capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "local-chatgpt-with-memory",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/local-hybrid-search-rag-thumbnail.png",
+    "alt": "Local Advanced Knowledge Discovery - Local hybrid search with RAG capabilities",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Local Advanced Knowledge Discovery' - Local hybrid search with RAG capabilities.\n\nKey features to visualize: hybrid search dashboard, local RAG tools, multi-method retrieval interface, offline knowledge panel, comprehensive search studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Local hybrid search interface with RAG integration\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "local-hybrid-search-rag",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/local-travel-agent--thumbnail.png",
+    "alt": "Local Travel Agent - Local AI travel planning and booking",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Local Travel Agent' - Local AI travel planning and booking.\n\nKey features to visualize: travel planning dashboard, itinerary creation tools, local destination interface, booking management panel, personalized travel studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Local travel interface with AI planning capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "local-travel-agent-",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/mixture-of-agents--thumbnail.png",
+    "alt": "Mixture Of Agents - Ensemble of diverse AI agents",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Mixture Of Agents' - Ensemble of diverse AI agents.\n\nKey features to visualize: agent ensemble dashboard, multi-agent coordination tools, diverse capability interface, collaborative processing panel, intelligent orchestration studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Multi-agent ensemble interface with diverse AI capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "mixture-of-agents",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/mixture-of-agents--thumbnail.png",
+    "alt": "Mixture Of Agents Alternative - Alternative ensemble configuration",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Mixture Of Agents Alternative' - Alternative ensemble configuration.\n\nKey features to visualize: alternative ensemble dashboard, varied agent coordination tools, flexible capability interface, adaptive processing panel, configurable orchestration studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Alternative multi-agent ensemble interface with flexible configuration\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "mixture-of-agents-",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/multi-agent-researcher-thumbnail.png",
+    "alt": "Multi-Agent Research Intelligence - Collaborative multi-agent research system",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Multi-Agent Research Intelligence' - Collaborative multi-agent research system.\n\nKey features to visualize: research collaboration dashboard, multi-agent investigation tools, coordinated analysis interface, comprehensive findings panel, research orchestration studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Multi-agent research interface with collaborative capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "multi-agent-researcher",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/multi-ai-memory-thumbnail.png",
+    "alt": "Multi LLM Memory - Memory management across multiple LLM models",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Multi LLM Memory' - Memory management across multiple LLM models.\n\nKey features to visualize: multi-LLM memory dashboard, cross-model memory tools, unified context interface, memory synchronization panel, intelligent recall studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Multi-LLM memory interface with cross-model capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "multi-ai-memory",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/multi-mcp-agent-router-thumbnail.png",
+    "alt": "Multi-Agent Routing Intelligence - Multi-protocol agent routing system",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Multi-Agent Routing Intelligence' - Multi-protocol agent routing system.\n\nKey features to visualize: MCP routing dashboard, protocol management tools, agent distribution interface, multi-channel communication panel, intelligent routing studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Multi-protocol routing interface with agent management\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "multi-mcp-agent-router",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/multimodal-ai-agent-thumbnail.png",
+    "alt": "Multimodal Intelligence Agent - Multi-modal AI with text, image, and audio capabilities",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Multimodal Intelligence Agent' - Multi-modal AI with text, image, and audio capabilities.\n\nKey features to visualize: multimodal dashboard, cross-modal processing tools, integrated AI interface, multimedia analysis panel, versatile intelligence studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Multimodal AI interface with text, image, and audio capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "multimodal-ai-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/multimodal-coding-agent-team-thumbnail.png",
+    "alt": "Multimodal Coding Agent Team - Multi-modal coding and development assistance",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Multimodal Coding Agent Team' - Multi-modal coding and development assistance.\n\nKey features to visualize: multimodal coding dashboard, development assistance tools, integrated code interface, collaborative coding panel, intelligent development studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Multimodal coding interface with development team capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "multimodal-coding-agent-team",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/multimodal-design-agent-team-thumbnail.png",
+    "alt": "Multimodal Design Agent Team - Multi-modal design and creative assistance",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Multimodal Design Agent Team' - Multi-modal design and creative assistance.\n\nKey features to visualize: multimodal design dashboard, creative collaboration tools, integrated design interface, visual thinking panel, innovative design studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Multimodal design interface with creative team capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "multimodal-design-agent-team",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/music-generator-agent-py-thumbnail.png",
+    "alt": "Music Generator Agent Py - Python-based AI music composition",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Music Generator Agent Py' - Python-based AI music composition.\n\nKey features to visualize: music composition dashboard, Python audio tools, generative music interface, algorithmic composition panel, creative sound studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Python-based music generation interface with AI composition\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "music-generator-agent-py",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/openai-research-agent-thumbnail.png",
+    "alt": "OpenAI Research Agent - Research assistance powered by OpenAI models",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'OpenAI Research Agent' - Research assistance powered by OpenAI models.\n\nKey features to visualize: research assistance dashboard, OpenAI integration tools, intelligent analysis interface, comprehensive research panel, advanced insights studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- OpenAI-powered research interface with advanced capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "openai-research-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/product-launch-intelligence-agent-thumbnail.png",
+    "alt": "Product Launch Intelligence Agent - Product launch strategy and market intelligence",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Product Launch Intelligence Agent' - Product launch strategy and market intelligence.\n\nKey features to visualize: launch strategy dashboard, market intelligence tools, product positioning interface, competitive analysis panel, launch optimization studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Product launch interface with market intelligence capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "product-launch-intelligence-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/qwen-local-rag-thumbnail.png",
+    "alt": "Local Knowledge Intelligence - Local Qwen model with RAG capabilities",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Local Knowledge Intelligence' - Local Qwen model with RAG capabilities.\n\nKey features to visualize: Qwen RAG dashboard, local model integration tools, knowledge retrieval interface, offline AI panel, local intelligence studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Local Qwen model interface with RAG capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "qwen-local-rag",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/rag-agent-cohere-thumbnail.png",
+    "alt": "Document Intelligence Hub - Cohere-powered retrieval augmented generation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Document Intelligence Hub' - Cohere-powered retrieval augmented generation.\n\nKey features to visualize: Cohere RAG dashboard, retrieval augmentation tools, knowledge synthesis interface, intelligent generation panel, contextual AI studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Cohere-powered RAG interface with advanced retrieval\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "rag-agent-cohere",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/rag-as-a-service-thumbnail.png",
+    "alt": "RAG As A Service - Cloud-based RAG service platform",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'RAG As A Service' - Cloud-based RAG service platform.\n\nKey features to visualize: cloud RAG dashboard, service management tools, scalable retrieval interface, API integration panel, enterprise RAG studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Cloud-based RAG service interface with scalability\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "rag-as-a-service",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/rag-chain-thumbnail.png",
+    "alt": "RAG Chain - Chained RAG operations for complex queries",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'RAG Chain' - Chained RAG operations for complex queries.\n\nKey features to visualize: RAG chain dashboard, sequential processing tools, complex query interface, chained retrieval panel, multi-step reasoning studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Chained RAG interface with sequential processing capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "rag-chain",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/rag-database-routing-thumbnail.png",
+    "alt": "RAG Database Routing - Database-aware RAG with intelligent routing",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'RAG Database Routing' - Database-aware RAG with intelligent routing.\n\nKey features to visualize: database routing dashboard, intelligent query tools, multi-database interface, routing optimization panel, database-aware RAG studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Database-aware RAG interface with intelligent routing\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "rag-database-routing",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/research-agent-gemini-interaction-api-thumbnail.png",
+    "alt": "Research Agent Gemini Interaction API - Gemini-powered research with API integration",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Research Agent Gemini Interaction API' - Gemini-powered research with API integration.\n\nKey features to visualize: Gemini research dashboard, API integration tools, interactive research interface, data collection panel, API-driven insights studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Gemini-powered research interface with API capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "research-agent-gemini-interaction-api",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/resume-job-matcher-thumbnail.png",
+    "alt": "Resume Job Matcher - AI-powered resume analysis and job matching",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Resume Job Matcher' - AI-powered resume analysis and job matching.\n\nKey features to visualize: resume analysis dashboard, job matching tools, candidate evaluation interface, skill assessment panel, career optimization studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Resume-job matching interface with AI analysis\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "resume-job-matcher",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/startup-trends-agent--thumbnail.png",
+    "alt": "Startup Trends Agent - Startup market analysis and trend forecasting",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Startup Trends Agent' - Startup market analysis and trend forecasting.\n\nKey features to visualize: startup trends dashboard, market analysis tools, trend forecasting interface, competitive landscape panel, innovation insights studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Startup-focused interface with trend analysis capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "startup-trends-agent-",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/toonify-token-optimization-thumbnail.png",
+    "alt": "Toonify Token Optimization - Token-efficient AI processing and optimization",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Toonify Token Optimization' - Token-efficient AI processing and optimization.\n\nKey features to visualize: token optimization dashboard, efficiency analysis tools, processing optimization interface, cost management panel, performance tuning studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Token optimization interface with efficiency analysis\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "toonify-token-optimization",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/trust-gated-agent-team-thumbnail.png",
+    "alt": "Trust Gated Agent Team - Trust-based agent coordination and validation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Trust Gated Agent Team' - Trust-based agent coordination and validation.\n\nKey features to visualize: trust validation dashboard, agent verification tools, secure coordination interface, trust assessment panel, validated collaboration studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Trust-based agent interface with validation and security\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "trust-gated-agent-team",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/vision-rag-thumbnail.png",
+    "alt": "Visual Intelligence Hub - Visual content retrieval augmented generation",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Visual Intelligence Hub' - Visual content retrieval augmented generation.\n\nKey features to visualize: vision RAG dashboard, visual retrieval tools, image-text synthesis interface, multimodal analysis panel, visual intelligence studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Vision-focused RAG interface with visual content capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "vision-rag",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/voice-rag-openaisdk-thumbnail.png",
+    "alt": "Voice RAG OpenAI SDK - Voice-enabled RAG with OpenAI integration",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Voice RAG OpenAI SDK' - Voice-enabled RAG with OpenAI integration.\n\nKey features to visualize: voice RAG dashboard, OpenAI SDK integration tools, speech-to-text interface, voice synthesis panel, conversational AI studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Voice-enabled RAG interface with OpenAI capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "voice-rag-openaisdk",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/web-scraping-ai-agent-thumbnail.png",
+    "alt": "Web Scraping AI Agent - Intelligent web data extraction and analysis",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'Web Scraping AI Agent' - Intelligent web data extraction and analysis.\n\nKey features to visualize: web scraping dashboard, AI extraction tools, data processing interface, intelligent crawling panel, automated analysis studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Web scraping interface with AI-powered extraction\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "web-scraping-ai-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/xai-finance-agent-thumbnail.png",
+    "alt": "XAI Finance Agent - Extended AI financial analysis and management",
+    "prompt": "Create a realistic, professional software interface thumbnail for 'XAI Finance Agent' - Extended AI financial analysis and management.\n\nKey features to visualize: financial analysis dashboard, extended AI tools, investment strategy interface, market prediction panel, comprehensive finance studio\n\nStyle requirements:\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n- Extended AI finance interface with comprehensive capabilities\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "xai-finance-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-03T12:51:35+00:00",
+      "model": "dall-e-3",
+      "quality": "hd"
+    }
+  },
+  {
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-personalizedcontent-thumbnail.png",
+    "alt": "AI Sales Intelligence Pro - Create highly personalized content that speaks directly to your audience",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"AI Sales Intelligence Pro\" - Create highly personalized content that speaks directly to your audience.\n\nKey features to visualize: content personalization, audience targeting, marketing automation, custom messaging, data-driven insights\n\nStyle requirements:\n- video: professional video editing software interface, cinematic lighting, modern UI design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
+    "metadata": {
+      "appId": "ai-personalizedcontent",
       "category": "video",
-      "generatedAt": "2026-05-11T16:26:57-04:00",
-      "model": "pexels-stock",
+      "generatedAt": "2026-05-04T10:00:00+00:00",
+      "model": "dall-e-3",
       "quality": "hd"
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/promo-generator-ai-thumbnail-1778528418.jpg",
-    "alt": "Promo Generator - Generate promotional videos for your products and services",
-    "prompt": "Free AI-generated stock image from Pexels showing MacBook Pro with video editing software interface, adapted for promo generator app thumbnail",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-sales-thumbnail.png",
+    "alt": "AI Sales Email Writer - Boost your sales with intelligent AI-driven strategies",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"AI Sales Email Writer\" - Boost your sales with intelligent AI-driven strategies.\n\nKey features to visualize: email writing, sales outreach, template generation, follow-up automation, conversion optimization\n\nStyle requirements:\n- lead-gen: sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
-      "appId": "promo-generator",
-      "category": "video",
-      "generatedAt": "2026-05-11T18:26:58-04:00",
-      "model": "pexels-stock",
-      "quality": "hd"
-    }
-  },
-  {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/landing-page-ai-thumbnail-1778528419.jpg",
-    "alt": "Landing Page Creator - Create full-blown landing pages in 60 seconds",
-    "prompt": "Free AI-generated stock image from Pexels showing AI-generated graphic interface, adapted for landing page creator app thumbnail",
-    "metadata": {
-      "appId": "landing-page",
+      "appId": "ai-sales",
       "category": "lead-gen",
-      "generatedAt": "2026-05-11T18:26:59-04:00",
-      "model": "pexels-stock",
+      "generatedAt": "2026-05-04T10:00:00+00:00",
+      "model": "dall-e-3",
       "quality": "hd"
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/storyboard-ai-thumbnail-1778528498.jpg",
-    "alt": "Storyboard AI - Create professional storyboards with AI assistance",
-    "prompt": "Free AI-generated stock image from Pexels showing tablet with blank mockup screen, adapted for storyboard app thumbnail",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-proposal-thumbnail.png",
+    "alt": "Competitor Spy AI - Create winning proposals with AI-powered writing assistance",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Competitor Spy AI\" - Create winning proposals with AI-powered writing assistance.\n\nKey features to visualize: proposal generation, business writing, custom templates, competitive analysis, client presentation\n\nStyle requirements:\n- lead-gen: sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
-      "appId": "storyboard",
-      "category": "creative",
-      "generatedAt": "2026-05-11T18:38:18-04:00",
-      "model": "pexels-stock",
-      "quality": "hd"
-    }
-  },
-  {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/smart-presentations-ai-thumbnail-1778528499.jpg",
-    "alt": "Smart Presentations - Create engaging presentations with minimal effort",
-    "prompt": "Free AI-generated stock image from Pexels showing laptop displaying AI conversation interface, adapted for smart presentations app thumbnail",
-    "metadata": {
-      "appId": "smart-presentations",
-      "category": "creative",
-      "generatedAt": "2026-05-11T18:38:19-04:00",
-      "model": "pexels-stock",
-      "quality": "hd"
-    }
-  },
-  {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/interactive-shopping-ai-thumbnail-1778528500.jpg",
-    "alt": "Interactive Shopping - Create engaging interactive shopping experiences",
-    "prompt": "Free AI-generated stock image from Pexels showing OpenAI website with ChatGPT interface, adapted for interactive shopping app thumbnail",
-    "metadata": {
-      "appId": "interactive-shopping",
-      "category": "creative",
-      "generatedAt": "2026-05-11T18:38:20-04:00",
-      "model": "pexels-stock",
-      "quality": "hd"
-    }
-  },
-  {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/sales-monetizer-ai-thumbnail-1778528520.webp",
-    "alt": "AI Sales Monetizer - Convert leads into sales with AI strategies",
-    "prompt": "Free AI-generated image from Flux showing minimalist home workspace with laptop displaying online business dashboard and growth charts, adapted for sales monetizer app thumbnail",
-    "metadata": {
-      "appId": "sales-monetizer",
+      "appId": "ai-proposal",
       "category": "lead-gen",
-      "generatedAt": "2026-05-11T19:15:20-04:00",
-      "model": "flux-ai",
+      "generatedAt": "2026-05-04T10:00:00+00:00",
+      "model": "dall-e-3",
       "quality": "hd"
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-referral-maximizer-ai-thumbnail-1778528521.webp",
-    "alt": "AI Referral Maximizer - Maximize your referral program with AI optimization",
-    "prompt": "Free AI-generated image from Flux showing marketing agency with large screens displaying dashboards and loyalty rewards icons, adapted for AI referral maximizer app thumbnail",
-    "metadata": {
-      "appId": "ai-referral-maximizer",
-      "category": "lead-gen",
-      "generatedAt": "2026-05-11T19:15:21-04:00",
-      "model": "flux-ai",
-      "quality": "hd"
-    }
-  },
-  {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/smart-crm-closer-ai-thumbnail-1778528522.jpg",
-    "alt": "Smart CRM Closer - Close more deals with intelligent CRM automation",
-    "prompt": "Free AI-generated image from Flux showing modern business analytics dashboard on iMac screen in stylish office, adapted for smart CRM closer app thumbnail",
-    "metadata": {
-      "appId": "smart-crm-closer",
-      "category": "lead-gen",
-      "generatedAt": "2026-05-11T19:15:22-04:00",
-      "model": "flux-ai",
-      "quality": "hd"
-    }
-  },
-  {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/funnelcraft-ai-ai-thumbnail-1778528713.jpg",
-    "alt": "FunnelCraft AI - Build high-converting sales funnels with AI assistance",
-    "prompt": "Free AI-generated image from Flux showing innovative customer support software dashboard with colorful graphs, adapted for FunnelCraft AI app thumbnail",
-    "metadata": {
-      "appId": "funnelcraft-ai",
-      "category": "lead-gen",
-      "generatedAt": "2026-05-11T19:25:13-04:00",
-      "model": "flux-ai",
-      "quality": "hd"
-    }
-  },
-  {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/sales-assistant-app-ai-thumbnail-1778528714.webp",
-    "alt": "Sales Assistant App - Your complete AI-powered sales assistant",
-    "prompt": "Free AI-generated image from Flux showing high-tech real-time dashboard with colorful graphs for analyzing campaign performance, adapted for sales assistant app thumbnail",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/sales-assistant-app-thumbnail.png",
+    "alt": "AI Agency Builder Suite - Your complete AI sales assistance platform",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"AI Agency Builder Suite\" - Your complete AI sales assistance platform.\n\nKey features to visualize: sales assistance, client management, pipeline tracking, automated follow-ups, performance analytics\n\nStyle requirements:\n- lead-gen: sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
       "appId": "sales-assistant-app",
       "category": "lead-gen",
-      "generatedAt": "2026-05-11T19:25:14-04:00",
-      "model": "flux-ai",
+      "generatedAt": "2026-05-04T10:00:00+00:00",
+      "model": "dall-e-3",
       "quality": "hd"
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/mailwise-ai-thumbnail-1778528760.webp",
-    "alt": "MailWise - AI-powered email assistant for communication",
-    "prompt": "Free AI-generated image from Flux showing modern digital marketing agency with screens displaying engagement dashboards, adapted for MailWise app thumbnail",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/sales-page-builder-thumbnail.png",
+    "alt": "Sales Call Follow-Up AI - Build high-converting sales pages in minutes",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Sales Call Follow-Up AI\" - Build high-converting sales pages in minutes.\n\nKey features to visualize: landing page creation, conversion optimization, A/B testing, template library, analytics integration\n\nStyle requirements:\n- lead-gen: sales funnel visualization, conversion metrics dashboard\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
-      "appId": "mailwise",
+      "appId": "sales-page-builder",
       "category": "lead-gen",
-      "generatedAt": "2026-05-11T19:26:00-04:00",
-      "model": "flux-ai",
+      "generatedAt": "2026-05-04T10:00:00+00:00",
+      "model": "dall-e-3",
       "quality": "hd"
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-outbound-ai-thumbnail-1778528761.webp",
-    "alt": "AI Outbound - Sales automation for personalized outreach",
-    "prompt": "Free AI-generated image from Pixexid showing holographic marketing dashboard in darkness, adapted for AI Outbound app thumbnail",
-    "metadata": {
-      "appId": "ai-outbound",
-      "category": "lead-gen",
-      "generatedAt": "2026-05-11T19:26:01-04:00",
-      "model": "pixexid-ai",
-      "quality": "hd"
-    }
-  },
-  {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/voice-coach-ai-thumbnail-1778528770.jpg",
-    "alt": "AI Voice Coach Pro - Perfect your speaking skills with AI feedback",
-    "prompt": "Free AI-generated image from Pexels showing AI interface on screen, adapted for voice coach app thumbnail",
-    "metadata": {
-      "appId": "voice-coach",
-      "category": "personalizer",
-      "generatedAt": "2026-05-11T19:26:10-04:00",
-      "model": "pexels-stock",
-      "quality": "hd"
-    }
-  },
-  {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-recorder-ai-thumbnail-1778528780.jpg",
-    "alt": "AI Screen Recorder - Record and enhance screen captures automatically",
-    "prompt": "Free AI-generated image from Pexels showing software panel, adapted for personalizer recorder app thumbnail",
-    "metadata": {
-      "appId": "personalizer-recorder",
-      "category": "personalizer",
-      "generatedAt": "2026-05-11T19:26:20-04:00",
-      "model": "pexels-stock",
-      "quality": "hd"
-    }
-  },
-  {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/thumbnail-generator-ai-thumbnail-1778528860.jpg",
-    "alt": "AI Thumbnail Generator - Create eye-catching thumbnails that drive clicks",
-    "prompt": "Free AI-generated image from Pexels showing hand holding smartphone with AI apps, adapted for thumbnail generator app thumbnail",
-    "metadata": {
-      "appId": "thumbnail-generator",
-      "category": "personalizer",
-      "generatedAt": "2026-05-11T19:27:40-04:00",
-      "model": "pexels-stock",
-      "quality": "hd"
-    }
-  },
-  {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-profile-ai-thumbnail-1778528861.jpg",
-    "alt": "AI Profile Generator - Create optimized profiles for any platform",
-    "prompt": "Free AI-generated image from Pexels showing smartphone displaying AI interface, adapted for personalizer profile app thumbnail",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-profile-thumbnail.png",
+    "alt": "AI Documentation Writer - Generate compelling personalized profiles with AI",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"AI Documentation Writer\" - Generate compelling personalized profiles with AI.\n\nKey features to visualize: profile generation, linkedin optimization, bio writing, professional branding, content creation\n\nStyle requirements:\n- personalizer: user profile customization interface, personalized dashboard, modern UX design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
       "appId": "personalizer-profile",
       "category": "personalizer",
-      "generatedAt": "2026-05-11T19:27:41-04:00",
-      "model": "pexels-stock",
+      "generatedAt": "2026-05-04T10:00:00+00:00",
+      "model": "dall-e-3",
       "quality": "hd"
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-signature-ai-thumbnail-1778529000.jpg",
-    "alt": "AI Signature - Generate professional digital signatures with AI",
-    "prompt": "Free AI-generated image from Pexels showing webpage of AI chatbot on smartphone, adapted for AI signature app thumbnail",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-url-video-generation-thumbnail.png",
+    "alt": "Newsletter Repurposer AI - Generate personalized videos from URLs with smart templates",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Newsletter Repurposer AI\" - Generate personalized videos from URLs with smart templates.\n\nKey features to visualize: url video generation, content repurposing, template system, automated editing, multi-format export\n\nStyle requirements:\n- video: professional video editing software interface, cinematic lighting, modern UI design\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
-      "appId": "ai-signature",
-      "category": "personalizer",
-      "generatedAt": "2026-05-11T19:30:00-04:00",
-      "model": "pexels-stock",
+      "appId": "personalizer-url-video-generation",
+      "category": "video",
+      "generatedAt": "2026-05-04T10:00:00+00:00",
+      "model": "dall-e-3",
       "quality": "hd"
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-skills-monetizer-ai-thumbnail-1778529001.jpg",
-    "alt": "AI Skills Monetizer - Turn your skills into profitable online businesses",
-    "prompt": "Free AI-generated image from Pexels showing modern app interface, adapted for AI skills monetizer app thumbnail",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-product-launch-intelligence-agent-thumbnail.png",
+    "alt": "Launch Campaign Builder AI - AI-powered product launch intelligence and competitor analysis",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Launch Campaign Builder AI\" - AI-powered product launch intelligence and competitor analysis.\n\nKey features to visualize: product launch planning, market analysis, competitor research, campaign strategy, timeline management\n\nStyle requirements:\n- ai-agents: AI agent interface with automation tools\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
-      "appId": "ai-skills-monetizer",
-      "category": "personalizer",
-      "generatedAt": "2026-05-11T19:30:01-04:00",
-      "model": "pexels-stock",
+      "appId": "ai-product-launch-intelligence-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-04T10:00:00+00:00",
+      "model": "dall-e-3",
       "quality": "hd"
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-image-tools-ai-thumbnail-1778529020.jpg",
-    "alt": "AI Image Tools Collection - Access our impressive collection of AI image creation tools",
-    "prompt": "Free AI-generated image from Pexels showing close-up of DeepSeek AI interface on screen, adapted for AI image tools app thumbnail",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-real-estate-agent-team-thumbnail.png",
+    "alt": "Real Estate Marketing AI - AI-powered real estate marketing and client relations",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Real Estate Marketing AI\" - AI-powered real estate marketing and client relations.\n\nKey features to visualize: property listings, client matching, market insights, marketing automation, lead generation\n\nStyle requirements:\n- ai-agents: AI agent interface with automation tools\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
-      "appId": "ai-image-tools",
-      "category": "ai-image",
-      "generatedAt": "2026-05-11T19:30:20-04:00",
-      "model": "pexels-stock",
+      "appId": "ai-real-estate-agent-team",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-04T10:00:00+00:00",
+      "model": "dall-e-3",
       "quality": "hd"
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-art-ai-thumbnail-1778529021.jpg",
-    "alt": "AI Art Generator - Create stunning artwork with artificial intelligence",
-    "prompt": "Free AI-generated image from Pexels showing laptop screen displaying AI interface at night, adapted for AI art generator app thumbnail",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-reasoning-agent-thumbnail.png",
+    "alt": "Fraud Investigation Assistant - AI-powered reasoning and analysis for investigations",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Fraud Investigation Assistant\" - AI-powered reasoning and analysis for investigations.\n\nKey features to visualize: data analysis, pattern recognition, report generation, evidence tracking, risk assessment\n\nStyle requirements:\n- ai-agents: AI agent interface with automation tools\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
-      "appId": "ai-art",
-      "category": "ai-image",
-      "generatedAt": "2026-05-11T19:30:21-04:00",
-      "model": "pexels-stock",
+      "appId": "ai-reasoning-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-04T10:00:00+00:00",
+      "model": "dall-e-3",
       "quality": "hd"
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/bg-remover-ai-thumbnail-1778529200.jpg",
-    "alt": "AI Background Remover - Remove backgrounds with a single click",
-    "prompt": "Free AI-generated image from Pexels showing webpage of ChatGPT on smartphone, adapted for background remover app thumbnail",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/blog-to-podcast-agent--thumbnail.png",
+    "alt": "Blog To Podcast AI - Transform blog content into engaging podcasts",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Blog To Podcast AI\" - Transform blog content into engaging podcasts.\n\nKey features to visualize: content transformation, audio generation, podcast editing, multi-platform export, audience engagement\n\nStyle requirements:\n- ai-agents: AI agent interface with automation tools\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
-      "appId": "bg-remover",
-      "category": "ai-image",
-      "generatedAt": "2026-05-11T19:33:20-04:00",
-      "model": "pexels-stock",
+      "appId": "blog-to-podcast-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-04T10:00:00+00:00",
+      "model": "dall-e-3",
       "quality": "hd"
     }
   },
   {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-text-ai-editor-ai-thumbnail-1778529397.jpg",
-    "alt": "Personalizer Text AI Editor - Edit and personalize text content with AI assistance",
-    "prompt": "Free AI-generated image from Pexels showing digital interface, adapted for personalizer text AI editor app thumbnail",
+    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/local-travel-agent--thumbnail.png",
+    "alt": "Smart Local Travel Agent Hub - AI-powered local travel planning and recommendations",
+    "prompt": "Create a realistic, professional software interface thumbnail for \"Smart Local Travel Agent Hub\" - AI-powered local travel planning and recommendations.\n\nKey features to visualize: travel planning, local recommendations, itinerary creation, booking assistance, destination guides\n\nStyle requirements:\n- ai-agents: AI agent interface with automation tools\n- Professional, modern UI design\n- Clean, minimal interface\n- High-quality, realistic rendering\n- Software application screenshot style\n- No text overlays except functional UI elements\n- 4K quality, photorealistic, professional grade\n- Focus on functionality and user experience\n- Modern design trends, sleek and intuitive\n\nThe image should look like a real software application interface that users would want to use.",
     "metadata": {
-      "appId": "personalizer-text-ai-editor",
-      "category": "personalizer",
-      "generatedAt": "2026-05-11T19:36:37-04:00",
-      "model": "pexels-stock",
-      "quality": "hd"
-    }
-  },
-  {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-advanced-text-video-editor-ai-thumbnail-1778529398.jpg",
-    "alt": "Personalizer Advanced Text-Video AI Editor - Advanced AI-powered text and video editing combined",
-    "prompt": "Free AI-generated image from Pexels showing futuristic interface, adapted for personalizer advanced text-video AI editor app thumbnail",
-    "metadata": {
-      "appId": "personalizer-advanced-text-video-editor",
-      "category": "personalizer",
-      "generatedAt": "2026-05-11T19:36:38-04:00",
-      "model": "pexels-stock",
-      "quality": "hd"
-    }
-  },
-  {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-video-image-ai-thumbnail-1778529470.jpg",
-    "alt": "AI Video & Image - Transform videos and images with AI enhancement",
-    "prompt": "Free AI-generated image from Pexels showing MacBook with DeepSeek AI interface, adapted for AI video image app thumbnail",
-    "metadata": {
-      "appId": "ai-video-image",
-      "category": "ai-image",
-      "generatedAt": "2026-05-11T19:37:50-04:00",
-      "model": "pexels-stock",
-      "quality": "hd"
-    }
-  },
-  {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-writing-toolkit-ai-thumbnail-1778529471.jpg",
-    "alt": "Personalizer AI Writing Toolkit - Complete toolkit for AI-powered personalized writing",
-    "prompt": "Free AI-generated image from Pexels showing smartphone with AI apps, adapted for personalizer writing toolkit app thumbnail",
-    "metadata": {
-      "appId": "personalizer-writing-toolkit",
-      "category": "personalizer",
-      "generatedAt": "2026-05-11T19:37:51-04:00",
-      "model": "pexels-stock",
-      "quality": "hd"
-    }
-  },
-  {
-    "url": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-headshot-studio-ai-thumbnail-1778529472.jpg",
-    "alt": "AI Headshot Studio - Complete, monetization-ready platform for AI-powered photography business",
-    "prompt": "Free AI-generated image from Pexels showing app screen, adapted for AI headshot studio app thumbnail",
-    "metadata": {
-      "appId": "ai-headshot-studio",
-      "category": "personalizer",
-      "generatedAt": "2026-05-11T19:37:52-04:00",
-      "model": "pexels-stock",
+      "appId": "local-travel-agent",
+      "category": "ai-agents",
+      "generatedAt": "2026-05-04T10:00:00+00:00",
+      "model": "dall-e-3",
       "quality": "hd"
     }
   }
-];
+]

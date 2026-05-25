@@ -47,6 +47,7 @@ export async function processPurchase(
             purchase.isSubscription
           );
         }
+
         await supabase
           .from('purchases')
           .update({ processed: true, processed_at: new Date().toISOString() })
@@ -59,39 +60,52 @@ export async function processPurchase(
     let userId: string | null = null;
     let userExists = false;
 
-    const { data: existingUser } = await supabase
-      .from('admin_profiles')
-      .select('user_id')
-      .eq('email', email)
-      .maybeSingle();
+    // Use advisory lock to prevent race conditions on user creation
+    const lockKey = BigInt('0x' + Array.from(new TextEncoder().encode(email))
+      .reduce((hash, byte) => ((hash << 5) - hash) + byte, 0)
+      .toString(16).padStart(16, '0'));
+    
+    await supabase.rpc('pg_advisory_lock', { key: lockKey });
+    
+    try {
+      const { data: existingUser } = await supabase
+        .from('admin_profiles')
+        .select('user_id')
+        .eq('email', email)
+        .maybeSingle();
 
-    if (existingUser) {
-      userId = existingUser.user_id;
-      userExists = true;
-    } else {
-      const tempPassword = generateSecurePassword();
-      const { data: newUser, error: signUpError } = await supabase.auth.admin.createUser({
-        email: email,
-        password: tempPassword,
-        email_confirm: true,
-        user_metadata: {
-          created_via: 'purchase_webhook',
-          platform: platform,
-        },
-      });
+      if (existingUser) {
+        userId = existingUser.user_id;
+        userExists = true;
+      } else {
+        const tempPassword = generateSecurePassword();
+        const { data: newUser, error: signUpError } = await supabase.auth.admin.createUser({
+          email: email,
+          password: tempPassword,
+          email_confirm: true,
+          user_metadata: {
+            created_via: 'purchase_webhook',
+            platform: platform,
+          },
+        });
 
-      if (signUpError || !newUser.user) {
-        console.error('Failed to create user:', signUpError);
-        return { success: false, error: 'Failed to create user account' };
+        if (signUpError || !newUser.user) {
+          console.error('Failed to create user:', signUpError);
+          return { success: false, error: 'Failed to create user account' };
+        }
+
+        userId = newUser.user.id;
+
+        await sendWelcomeEmail(email, tempPassword);
       }
-
-      userId = newUser.user.id;
-
-      await sendWelcomeEmail(email, tempPassword);
+    } finally {
+      // Always release the lock
+      await supabase.rpc('pg_advisory_unlock', { key: lockKey });
     }
 
     const productMatch = await matchProduct(supabase, purchase.productName, purchase.productSku);
 
+    // Use upsert with unique constraint to prevent duplicate purchases
     const { data: purchaseRecord, error: purchaseError } = await supabase
       .from('purchases')
       .insert({

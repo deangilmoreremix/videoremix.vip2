@@ -1,0 +1,65 @@
+{
+  "hasChatInput": true,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": false,
+  "widgetCounts": {
+    "textInput": 0,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 0,
+    "chat": 4,
+    "write": 4
+  },
+  "providers": {
+    "agno": {
+      "count": 2,
+      "imports": 1,
+      "clients": 1,
+      "models": []
+    },
+    "crewai": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": true,
+  "usesAsyncio": true,
+  "linesOfCode": 376,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": false,
+  "hasWebSearch": true,
+  "uiType": "chat",
+  "inputFields": [],
+  "outputFormat": "markdown",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/single_agent_apps/ai_recipe_meal_planning_agent/ai_recipe_meal_planning_agent.py",
+  "appName": "ai-recipe-meal-planning-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 23,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:36.507Z",
+  "analyzerVersion": "0.1.0"
+}

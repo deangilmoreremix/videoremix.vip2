@@ -1,0 +1,118 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": true,
+  "hasFileUpload": true,
+  "hasColumns": false,
+  "hasButtons": false,
+  "widgetCounts": {
+    "textInput": 4,
+    "numberInput": 0,
+    "fileUpload": 1,
+    "selectBox": 0,
+    "button": 0,
+    "chat": 0,
+    "write": 6
+  },
+  "providers": {
+    "openai": {
+      "count": 2,
+      "imports": 1,
+      "clients": 1,
+      "models": [
+        {
+          "pattern": "gpt-4o",
+          "count": 1
+        }
+      ]
+    },
+    "agno": {
+      "count": 2,
+      "imports": 1,
+      "clients": 1,
+      "models": [
+        {
+          "pattern": "gpt-4",
+          "count": 1
+        }
+      ]
+    },
+    "langchain": {
+      "count": 14,
+      "imports": 13,
+      "clients": 1,
+      "models": []
+    },
+    "crewai": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {
+    "qdrant": {
+      "count": 3,
+      "usage": "vector-store"
+    }
+  },
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 388,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": true,
+  "hasWebSearch": true,
+  "uiType": "multi-tab",
+  "inputFields": [
+    {
+      "name": "enter_openai_api_key",
+      "label": "Enter OpenAI API Key:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_qdrant_url",
+      "label": "Enter Qdrant URL:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_qdrant_api_key",
+      "label": "Enter Qdrant API Key:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_your_question",
+      "label": "Enter your question:",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "langchain",
+  "filePath": "awesome-llm-apps/rag_tutorials/rag_database_routing/rag_database_routing.py",
+  "appName": "rag-database-routing",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "OPENAI_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 18,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:33.458Z",
+  "analyzerVersion": "0.1.0"
+}

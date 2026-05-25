@@ -1,0 +1,101 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 5,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 3,
+    "chat": 0,
+    "write": 3
+  },
+  "providers": {
+    "google": {
+      "count": 4,
+      "imports": 0,
+      "clients": 4,
+      "models": [
+        {
+          "pattern": "gemini-2.0",
+          "count": 4
+        }
+      ]
+    },
+    "langchain": {
+      "count": 10,
+      "imports": 10,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {
+    "qdrant": {
+      "count": 2,
+      "usage": "vector-store"
+    }
+  },
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 373,
+  "hasMultiAgent": false,
+  "hasTools": true,
+  "hasRAG": true,
+  "hasWebSearch": false,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "enter_your_qdrant_host_url",
+      "label": "Enter your Qdrant Host URL:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_your_qdrant_api_key",
+      "label": "Enter your Qdrant API key:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_your_gemini_api_key",
+      "label": "Enter your Gemini API key:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "link_paste_the_blog_link",
+      "label": ":link: Paste the blog link:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "bulb_enter_your_query_about_the_blog_post",
+      "label": ":bulb: Enter your query about the blog post:",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "image",
+  "primaryProvider": "langchain",
+  "filePath": "awesome-llm-apps/rag_tutorials/ai_blog_search/app.py",
+  "appName": "ai-blog-search",
+  "category": "awesome-llm-apps",
+  "complexity": "rag",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "GOOGLE_GENERATIVE_AI_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 11,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:33.639Z",
+  "analyzerVersion": "0.1.0"
+}

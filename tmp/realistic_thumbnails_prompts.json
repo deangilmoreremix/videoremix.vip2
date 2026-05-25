@@ -1,0 +1,74 @@
+{
+  "ai-personalized-content": {
+    "prompt": "A modern marketing professional in a sleek office with multiple screens, using AI software to create personalized content. Show diverse audience segments being targeted with custom messaging, personalized images, and tailored video content. Professional lighting, high-end office environment, realistic digital interfaces showing personalized content creation in action.",
+    "style": "photorealistic marketing software interface, professional office setting, diverse audience representation"
+  },
+  "funnelcraft-ai": {
+    "prompt": "A business consultant in a conference room with a large screen displaying a complete sales funnel visualization. Show the AI software building funnel steps from awareness to conversion, with lead magnets, sales pages, and upsell sequences. Realistic business environment with charts, graphs, and professional presentation setup.",
+    "style": "corporate boardroom setting, professional presentation, funnel visualization graphics, business consultant"
+  },
+  "ai-skills-monetizer": {
+    "prompt": "A skilled professional in a home office, using AI software on a laptop to package their expertise into online courses and services. Show skill assessment interfaces, course outlines, pricing calculators, and monetization dashboards. Cozy yet professional home office with books, certificates, and business planning materials.",
+    "style": "home office setting, professional development, skill monetization interfaces, entrepreneurial workspace"
+  },
+  "ai-skills-resume": {
+    "prompt": "A job seeker in a modern home office, working with AI resume optimization software on a desktop computer. Show before-and-after resume comparisons, skill gap analysis, career path suggestions, and professional headshots. Clean, organized workspace with coffee, notebook, and job search materials.",
+    "style": "modern home office, career development, resume optimization interface, professional growth"
+  },
+  "sales-page-builder": {
+    "prompt": "A digital marketer in a creative agency office, using drag-and-drop page builder software on a widescreen monitor. Show sales page templates, conversion elements, testimonial sections, and call-to-action buttons being assembled. Collaborative agency environment with design references and marketing materials.",
+    "style": "creative agency workspace, digital marketing tools, page builder interface, collaborative environment"
+  },
+  "sales-assistant-pro": {
+    "prompt": "A sales professional in a modern office, using AI-powered sales assistant software on a laptop during a client call. Show conversation intelligence, objection handling suggestions, follow-up automation, and sales pipeline management. Professional sales environment with CRM dashboards and client communication tools.",
+    "style": "sales office environment, client interaction, AI assistance interfaces, professional communication"
+  },
+  "ai-personalization-studio": {
+    "prompt": "A marketing director in a high-tech office, using advanced personalization software on multiple monitors. Show audience segmentation, personalized campaign creation, A/B testing interfaces, and performance analytics. Cutting-edge tech environment with data visualizations and marketing automation tools.",
+    "style": "high-tech marketing command center, advanced analytics, personalization dashboards, data-driven environment"
+  },
+  "ai-personalizer": {
+    "prompt": "A business owner in a cozy office, using AI personalization software to create targeted messaging. Show prospect profiles, personalized email templates, and custom content generation. Warm, professional small business environment with client photos and personalized marketing materials.",
+    "style": "small business office, personalized marketing, client-focused communication, relationship building"
+  },
+  "ai-video-transformer": {
+    "prompt": "A content creator in a modern home studio, using AI video transformation software. Show raw footage being converted into multiple formats - short clips, social media versions, and repurposed content. Professional video production setup with cameras, lighting, and editing workstations.",
+    "style": "content creation studio, video production equipment, multi-format content, creative workspace"
+  },
+  "ai-screen-recorder": {
+    "prompt": "A software trainer in a professional recording studio, using advanced screen recording software. Show tutorial creation with webcam overlay, on-screen annotations, and automatic editing. Dedicated training facility with professional microphones, green screen, and high-end computer setup.",
+    "style": "professional recording studio, training content creation, screen recording interfaces, educational environment"
+  },
+  "ai-signature": {
+    "prompt": "A business executive in a luxurious office, using AI signature creation software on a tablet. Show professional signature designs, branding elements, and email integration. Executive office with fine furniture, business cards, and professional communication tools.",
+    "style": "executive office environment, professional branding, signature design interfaces, business communication"
+  },
+  "ai-thumbnail-generator": {
+    "prompt": "A YouTube creator in a content creation space, using AI thumbnail generation software on a dual-monitor setup. Show thumbnail variations, click prediction analytics, and A/B testing results. Creative workspace with camera equipment, lighting setup, and content creation tools.",
+    "style": "YouTube creator studio, thumbnail design interfaces, performance analytics, content optimization"
+  },
+  "profile-gen": {
+    "prompt": "A career professional in a modern home office, using AI profile generation software. Show LinkedIn optimization, bio writing assistance, and professional headshot integration. Clean, organized workspace with professional documents, laptop, and career advancement materials.",
+    "style": "professional home office, career development, LinkedIn optimization, personal branding"
+  },
+  "ai-video-editor": {
+    "prompt": "A video editor in a professional editing suite, using AI-powered video editing software on high-end workstations. Show intelligent cut detection, automatic transitions, caption generation, and multi-camera editing. Professional post-production environment with monitors, editing software, and creative reference materials.",
+    "style": "professional editing studio, video production equipment, AI editing interfaces, post-production workspace"
+  },
+  "ai-referral-maximizer-pro": {
+    "prompt": "A business owner in a networking event setting, using AI referral software on a tablet. Show referral campaign dashboards, advocate identification, and automated outreach sequences. Professional networking environment with business cards, referral tracking interfaces, and relationship management tools.",
+    "style": "business networking environment, referral management interfaces, relationship building, professional connections"
+  },
+  "ai-sales-maximizer": {
+    "prompt": "A sales director in a corporate office, using AI sales intelligence software on large monitors. Show pipeline analytics, deal prediction models, sales forecasting dashboards, and performance optimization recommendations. Executive sales office with performance charts, CRM data, and strategic planning materials.",
+    "style": "corporate sales command center, advanced analytics dashboards, sales intelligence tools, executive decision making"
+  },
+  "contentai": {
+    "prompt": "A social media manager in a creative agency, using AI content planning software on multiple screens. Show content calendars, caption generation, posting schedules, and engagement analytics. Dynamic agency environment with content creation tools, social media dashboards, and creative planning materials.",
+    "style": "social media agency workspace, content planning interfaces, multi-platform management, creative collaboration"
+  },
+  "product-research-ai": {
+    "prompt": "An entrepreneur in a startup office, using AI product research software on a laptop. Show market analysis dashboards, competitor research interfaces, customer interview insights, and product validation metrics. Modern startup environment with whiteboards, research materials, and product development tools.",
+    "style": "startup office environment, product research interfaces, market analysis dashboards, entrepreneurial workspace"
+  }
+}

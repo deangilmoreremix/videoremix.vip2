@@ -1,0 +1,12 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY cost-tracker.js .
+COPY ../../data ./data
+
+RUN npm install express openai node-cron prom-client
+
+EXPOSE 9467
+
+CMD ["node", "cost-tracker.js"]

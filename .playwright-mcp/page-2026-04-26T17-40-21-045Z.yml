@@ -1,0 +1,100 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "VideoRemix.vip AI MARKETING PLATFORM" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e10]
+        - generic [ref=e13]:
+          - text: VideoRemix.vip
+          - generic [ref=e14]: AI MARKETING PLATFORM
+      - generic [ref=e15]:
+        - button "Search... K" [ref=e16] [cursor=pointer]:
+          - img [ref=e17]
+          - generic [ref=e20]: Search...
+          - generic [ref=e21]:
+            - img [ref=e22]
+            - generic [ref=e24]: K
+        - button "Tools" [ref=e26] [cursor=pointer]:
+          - text: Tools
+          - img [ref=e27]
+        - link "Pricing" [ref=e29] [cursor=pointer]:
+          - /url: /pricing
+        - link "Dashboard" [ref=e30] [cursor=pointer]:
+          - /url: /dashboard
+        - link "FAQ" [ref=e31] [cursor=pointer]:
+          - /url: /faq
+        - generic [ref=e32]:
+          - link "Sign In" [active] [ref=e33] [cursor=pointer]:
+            - /url: /signin
+          - link "Sign Up" [ref=e35] [cursor=pointer]:
+            - /url: /signup
+  - button "Enable sound effects" [ref=e36] [cursor=pointer]:
+    - img [ref=e37]
+  - generic [ref=e40]:
+    - generic [ref=e43]:
+      - img [ref=e44]
+      - generic [ref=e144]: "569"
+      - text: people online now
+    - generic [ref=e64]: Activity will appear here...
+    - link "View all activity" [ref=e51] [cursor=pointer]:
+      - /url: "#activity"
+      - text: View all activity
+      - img [ref=e52]
+  - generic [ref=e55]:
+    - heading "AI Assistant" [level=3] [ref=e56]
+    - paragraph [ref=e57]: AI assistant component placeholder
+  - main [ref=e145]:
+    - generic [ref=e150]:
+      - link "Back to home" [ref=e152] [cursor=pointer]:
+        - /url: /
+        - img [ref=e153]
+        - text: Back to home
+      - generic [ref=e155]:
+        - link "VideoRemix.vip Marketing Personalization Platform" [ref=e156] [cursor=pointer]:
+          - /url: /
+          - img [ref=e159]
+          - generic [ref=e162]:
+            - generic [ref=e163]: VideoRemix.vip
+            - generic [ref=e164]: Marketing Personalization Platform
+        - heading "Welcome Back" [level=1] [ref=e166]
+        - paragraph [ref=e167]: Sign in to continue your personalized marketing journey
+      - generic [ref=e168]:
+        - generic [ref=e169]:
+          - generic [ref=e170]:
+            - generic [ref=e171]: Email Address
+            - textbox "Email Address" [ref=e172]:
+              - /placeholder: your@email.com
+          - generic [ref=e173]:
+            - generic [ref=e174]:
+              - generic [ref=e175]: Password
+              - link "Forgot password?" [ref=e176] [cursor=pointer]:
+                - /url: /forgot-password
+            - generic [ref=e177]:
+              - textbox "Password" [ref=e178]:
+                - /placeholder: Enter your password
+              - button [ref=e179] [cursor=pointer]:
+                - img [ref=e180]
+          - button "Sign In" [ref=e183] [cursor=pointer]:
+            - text: Sign In
+            - img [ref=e184]
+        - paragraph [ref=e188]:
+          - text: Don't have an account?
+          - link "Sign up now" [ref=e189] [cursor=pointer]:
+            - /url: /signup
+      - generic [ref=e190]:
+        - heading "What you'll get with VideoRemix.vip" [level=3] [ref=e191]:
+          - img [ref=e192]
+          - text: What you'll get with VideoRemix.vip
+        - list [ref=e195]:
+          - listitem [ref=e196]:
+            - generic [ref=e197]: ✓
+            - generic [ref=e198]: Access to 37+ marketing personalization tools
+          - listitem [ref=e199]:
+            - generic [ref=e200]: ✓
+            - generic [ref=e201]: Unlimited audience segmentation
+          - listitem [ref=e202]:
+            - generic [ref=e203]: ✓
+            - generic [ref=e204]: AI-powered campaign personalization
+          - listitem [ref=e205]:
+            - generic [ref=e206]: ✓
+            - generic [ref=e207]: Multi-channel marketing automation

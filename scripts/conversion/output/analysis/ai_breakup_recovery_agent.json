@@ -1,0 +1,84 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": true,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 2,
+    "numberInput": 0,
+    "fileUpload": 1,
+    "selectBox": 0,
+    "button": 1,
+    "chat": 0,
+    "write": 8
+  },
+  "providers": {
+    "agno": {
+      "count": 8,
+      "imports": 4,
+      "clients": 4,
+      "models": []
+    },
+    "crewai": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 282,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": false,
+  "hasWebSearch": true,
+  "uiType": "file-upload",
+  "inputFields": [
+    {
+      "name": "enter_your_gemini_api_key",
+      "label": "Enter your Gemini API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "how_are_you_feeling_what_happened",
+      "label": "How are you feeling? What happened?",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "upload_screenshots_of_your_chats_optional",
+      "label": "Upload screenshots of your chats (optional)",
+      "type": "file",
+      "required": true
+    }
+  ],
+  "outputFormat": "image",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/starter_ai_agents/ai_breakup_recovery_agent/ai_breakup_recovery_agent.py",
+  "appName": "ai-breakup-recovery-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 15,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T14:58:31.698Z",
+  "analyzerVersion": "0.1.0"
+}

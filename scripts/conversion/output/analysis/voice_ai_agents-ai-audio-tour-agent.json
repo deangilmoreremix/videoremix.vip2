@@ -1,0 +1,82 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 2,
+    "numberInput": 1,
+    "fileUpload": 0,
+    "selectBox": 2,
+    "button": 2,
+    "chat": 0,
+    "write": 7
+  },
+  "providers": {
+    "openai": {
+      "count": 3,
+      "imports": 2,
+      "clients": 1,
+      "models": [
+        {
+          "pattern": "gpt-4o-mini",
+          "count": 1
+        },
+        {
+          "pattern": "gpt-4o",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": true,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": true,
+  "linesOfCode": 128,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "openai_api_key",
+      "label": "OpenAI API Key:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "tour_duration_minutes",
+      "label": "Tour Duration (minutes)",
+      "type": "range",
+      "required": true
+    },
+    {
+      "name": "guide",
+      "label": "Guide",
+      "type": "select",
+      "required": true
+    }
+  ],
+  "outputFormat": "audio",
+  "primaryProvider": "openai",
+  "filePath": "awesome-llm-apps/voice_ai_agents/ai_audio_tour_agent/ai_audio_tour_agent.py",
+  "appName": "ai-audio-tour-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "simple",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "OPENAI_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 2,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:33.422Z",
+  "analyzerVersion": "0.1.0"
+}

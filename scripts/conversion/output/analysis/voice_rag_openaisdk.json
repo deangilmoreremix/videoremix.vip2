@@ -1,0 +1,134 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": true,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 4,
+    "numberInput": 0,
+    "fileUpload": 1,
+    "selectBox": 1,
+    "button": 1,
+    "chat": 0,
+    "write": 19
+  },
+  "providers": {
+    "openai": {
+      "count": 2,
+      "imports": 1,
+      "clients": 1,
+      "models": [
+        {
+          "pattern": "gpt-4o-mini",
+          "count": 2
+        },
+        {
+          "pattern": "gpt-4o",
+          "count": 4
+        }
+      ]
+    },
+    "agno": {
+      "count": 4,
+      "imports": 2,
+      "clients": 2,
+      "models": [
+        {
+          "pattern": "gpt-4",
+          "count": 4
+        }
+      ]
+    },
+    "langchain": {
+      "count": 2,
+      "imports": 2,
+      "clients": 0,
+      "models": []
+    },
+    "crewai": {
+      "count": 2,
+      "imports": 2,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 2,
+      "imports": 2,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {
+    "qdrant": {
+      "count": 4,
+      "usage": "vector-store"
+    }
+  },
+  "usesSessionState": true,
+  "hasHistory": false,
+  "isAsync": true,
+  "usesAsyncio": true,
+  "linesOfCode": 401,
+  "hasMultiAgent": true,
+  "hasTools": false,
+  "hasRAG": true,
+  "hasWebSearch": true,
+  "uiType": "file-upload",
+  "inputFields": [
+    {
+      "name": "qdrant_url",
+      "label": "Qdrant URL",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "qdrant_api_key",
+      "label": "Qdrant API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "openai_api_key",
+      "label": "OpenAI API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "select_voice",
+      "label": "Select Voice",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "upload_pdf",
+      "label": "Upload PDF",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "what_would_you_like_to_know_about_the_documentation",
+      "label": "What would you like to know about the documentation?",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "audio",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/voice_ai_agents/voice_rag_openaisdk/rag_voice.py",
+  "appName": "voice-rag-openaisdk",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "OPENAI_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 27,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T14:57:33.770Z",
+  "analyzerVersion": "0.1.0"
+}

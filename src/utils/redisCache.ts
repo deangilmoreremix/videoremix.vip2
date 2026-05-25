@@ -1,8 +1,6 @@
 // Redis-based caching utility for admin dashboard
 // Provides caching for frequently accessed data with TTL support
 
-import { safeParseInt } from "./safeParse";
-
 interface CacheEntry<T> {
   data: T;
   timestamp: number;
@@ -30,7 +28,11 @@ class RedisCache {
   private cleanupInterval: NodeJS.Timeout | null = null;
 
   constructor() {
-    this.initializeCache();
+    // Initialize cache asynchronously without awaiting (fire and forget)
+    this.initializeCache().catch(error => {
+      console.warn("Cache initialization failed:", error.message);
+    });
+
     // Clean up expired in-memory entries every 5 minutes
     this.cleanupInterval = setInterval(
       () => {
@@ -42,9 +44,21 @@ class RedisCache {
 
   private async initializeCache(): Promise<void> {
     try {
+      // Check if we're in a Deno environment first
+      if (typeof Deno === 'undefined' || typeof Deno.env === 'undefined') {
+        console.warn("Deno environment not available, using in-memory cache");
+        return;
+      }
+
       // Try to import Redis client for Deno
-      const { createClient } =
-        await import("https://deno.land/x/redis@v0.32.0/mod.ts");
+      let createClient;
+      try {
+        const redisModule = await import("https://deno.land/x/redis@v0.32.0/mod.ts");
+        createClient = redisModule.createClient;
+      } catch (importError) {
+        console.warn("Failed to import Redis client:", importError);
+        return;
+      }
 
       const redisUrl = Deno.env.get("REDIS_URL");
       if (!redisUrl) {
@@ -52,20 +66,29 @@ class RedisCache {
         return;
       }
 
+      // Parse Redis URL safely
+      let parsedUrl;
+      try {
+        parsedUrl = new URL(redisUrl);
+      } catch (urlError) {
+        console.warn("Invalid Redis URL format:", urlError);
+        return;
+      }
+
       this.client = await createClient({
-        hostname: new URL(redisUrl).hostname,
-        port: safeParseInt(new URL(redisUrl).port, 6379),
-        password: new URL(redisUrl).password,
+        hostname: parsedUrl.hostname,
+        port: parseInt(parsedUrl.port) || 6379,
+        password: parsedUrl.password,
       });
 
       // Test connection
       await this.client.ping();
       this.isConnected = true;
       console.log("Redis cache client connected successfully");
-    } catch (error) {
+    } catch (error: any) {
       console.warn(
         "Failed to connect to Redis for caching, using in-memory cache:",
-        error.message,
+        error?.message || error,
       );
     }
   }
@@ -80,7 +103,7 @@ class RedisCache {
       }
     }
     if (cleaned > 0) {
-      console.log(`RedisCache: Cleaned up ${cleaned} expired entries`);
+      console.debug(`RedisCache: Cleaned up ${cleaned} expired entries`);
     }
   }
 
@@ -106,29 +129,23 @@ class RedisCache {
   }
 
   async set<T>(key: string, value: T, ttlSeconds: number = 300): Promise<void> {
-    // Set in Redis if connected
+    const entry: CacheEntry<T> = {
+      data: value,
+      timestamp: Date.now(),
+      ttl: ttlSeconds * 1000,
+    };
+
     if (this.isConnected && this.client) {
       try {
-        await this.client.set(key, JSON.stringify(value), {
-          ex: ttlSeconds,
-        });
+        await this.client.set(key, JSON.stringify(value), { ex: ttlSeconds });
         return;
       } catch (error) {
-        console.warn("Redis cache set failed, using in-memory:", error.message);
+        console.error("Redis cache set error:", error);
       }
     }
 
     // Fallback to in-memory cache
-    this.inMemoryCache.set(key, {
-      data: value,
-      timestamp: Date.now(),
-      ttl: ttlSeconds * 1000,
-    });
-
-    // Cleanup old entries if cache gets too large
-    if (this.inMemoryCache.size > 100) {
-      this.cleanup();
-    }
+    this.inMemoryCache.set(key, entry);
   }
 
   async delete(key: string): Promise<void> {
@@ -140,7 +157,33 @@ class RedisCache {
       }
     }
 
+    // Also remove from in-memory cache
     this.inMemoryCache.delete(key);
+  }
+
+  async exists(key: string): Promise<boolean> {
+    if (this.isConnected && this.client) {
+      try {
+        const result = await this.client.exists(key);
+        return result === 1;
+      } catch (error) {
+        console.error("Redis cache exists error:", error);
+      }
+    }
+
+    // Check in-memory cache
+    const entry = this.inMemoryCache.get(key);
+    return entry && Date.now() < entry.timestamp + entry.ttl;
+  }
+
+  async clear(): Promise<void> {
+    if (this.isConnected && this.client) {
+      // Note: This would require a pattern-based deletion in Redis
+      // For simplicity, we'll skip Redis clearing in this implementation
+    }
+
+    // Clear in-memory cache
+    this.inMemoryCache.clear();
   }
 
   getStats(): { redisConnected: boolean; inMemoryEntries: number } {
@@ -151,27 +194,23 @@ class RedisCache {
   }
 
   async disconnect(): Promise<void> {
+    if (this.client && typeof this.client.quit === "function") {
+      try {
+        await this.client.quit();
+      } catch (error) {
+        console.error("Error disconnecting Redis cache client:", error);
+      }
+    }
+    this.isConnected = false;
+
     if (this.cleanupInterval) {
       clearInterval(this.cleanupInterval);
       this.cleanupInterval = null;
     }
-
-    if (this.isConnected && this.client) {
-      try {
-        if (typeof (this.client as any).quit === "function") {
-          await (this.client as any).quit();
-        }
-      } catch (error) {
-        console.error("Error disconnecting Redis cache:", error);
-      }
-      this.isConnected = false;
-    }
-
-    this.inMemoryCache.clear();
   }
 }
 
-// Export singleton instance
+// Global cache instance
 export const redisCache = new RedisCache();
 
 // Cache key generators
@@ -190,10 +229,4 @@ export const CACHE_TTL = {
   ANNOUNCEMENTS: 10 * 60, // 10 minutes
   USER_LIST: 1 * 60, // 1 minute
   APP_ACCESS: 5 * 60, // 5 minutes
-};
-
-// Export types for external use
-export type { CacheEntry, RedisCacheClient };
-
-// Export the class for instantiation if needed
-export { RedisCache };
+} as const;

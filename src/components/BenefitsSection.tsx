@@ -10,38 +10,24 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import CountUpRaw from "react-countup";
-const CountUp = (CountUpRaw as any)?.default ?? CountUpRaw;
+import CountUpModule from "react-countup";
 import { useLandingPageContent } from "../context/LandingPageContext";
 import MagicSparkles from "./MagicSparkles";
-import { safeParseInt } from "../utils/safeParse";
+
+// Handle both CommonJS and ES module exports
+const CountUp = CountUpModule.default || CountUpModule;
 
 const BenefitsSection: React.FC = () => {
   // Get benefits data from context
-  const { benefitsFeatures, isLoading, error } = useLandingPageContent();
+  const { benefitsFeatures, isLoading } = useLandingPageContent();
 
-  // All hooks must be declared at the top before any conditional early returns.
-  // The following hooks were previously declared after loading/error/empty early
-  // returns, causing "Rendered more hooks than during the previous render".
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
-
-  // Carousel auto-advance (hoisted here for Rules of Hooks compliance).
-  // Uses a stable length (the marketingTestimonials array below has 10 items).
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % 10);
-    }, 8000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Default benefits - only used in development/preview mode
+  // Default benefits in case data isn't loaded yet
   const defaultBenefits = [
     {
-      icon: <Clock className="h-10 w-10 text-primary-400" />,
+      icon: <Clock className="h-10 w-10" />,
       title: "Create Personalized Marketing in Minutes",
       description:
-        "Our AI tools analyze your audience and automatically personalize marketing content that resonhes with each segment.",
+        "Our AI tools analyze your audience and automatically personalize marketing content that resonates with each segment.",
       stats: [
         {
           label: "Time saved vs manual marketing personalization",
@@ -51,127 +37,76 @@ const BenefitsSection: React.FC = () => {
       ],
     },
     {
-      icon: <Users className="h-10 w-10 text-primary-400" />,
+      icon: <Users className="h-10 w-10" />,
       title: "Segment Your Audience Automatically",
       description:
         "Let AI identify and group your prospects into segments for highly targeted personalized marketing.",
       stats: [
-        { label: "Increase in engagement with segmentation", value: "215%" },
+        { label: "Increase in engagement with segmentation", value: "2.3x" },
         {
           label: "Higher conversion with personalized marketing",
-          value: "183%",
+          value: "80%",
         },
       ],
     },
     {
-      icon: <Star className="h-10 w-10 text-primary-400" />,
+      icon: <Star className="h-10 w-10" />,
       title: "Personalized Marketing That Converts",
       description:
         "Customize marketing to each prospect's needs, preferences, and position in the buyer journey.",
       stats: [
-        { label: "Personalized marketing conversion rate", value: "48%" },
-        { label: "Marketing ROI increase with personalization", value: "267%" },
+        { label: "Personalized marketing conversion rate", value: "58%" },
+        { label: "Marketing ROI increase with personalization", value: "5-8x" },
       ],
     },
     {
-      icon: <Zap className="h-10 w-10 text-primary-400" />,
+      icon: <Zap className="h-10 w-10" />,
       title: "Scale Your Marketing Personalization",
       description:
-        "Create thousands of personalized marketing video variations without additional work using our automation tools.",
+         "Create thousands of personalized marketing campaign variations without additional work using our automation tools.",
       stats: [
-        { label: "Marketing variations from one video", value: "100+" },
+         { label: "Marketing variations from one campaign", value: "100+" },
         { label: "Audience segments supported", value: "Unlimited" },
       ],
     },
   ];
 
-  // Log telemetry when falling back in production
-  const isProduction = typeof window !== 'undefined' && 
-                       window.location.hostname !== 'localhost' && 
-                       window.location.hostname !== '127.0.0.1' &&
-                       !window.location.hostname.includes('preview');
-  
-  if (isProduction && 
-      (!benefitsFeatures || benefitsFeatures.length === 0) &&
-      !isLoading) {
-    console.debug('[BenefitsSection] Falling back to default content in production. CMS data unavailable.');
-  }
+  // Transform the data from Supabase to match the component's expectations
+  const benefits =
+    isLoading || !benefitsFeatures || benefitsFeatures.length === 0
+      ? defaultBenefits
+      : benefitsFeatures.map((benefit) => {
+          // Convert icon name string to actual component
+          let iconComponent;
+          switch (benefit.icon_name) {
+            case "Clock":
+              iconComponent = <Clock className="h-10 w-10" />;
+              break;
+            case "Star":
+              iconComponent = <Star className="h-10 w-10" />;
+              break;
+            case "Users":
+              iconComponent = <Users className="h-10 w-10" />;
+              break;
+            case "Zap":
+              iconComponent = <Zap className="h-10 w-10" />;
+              break;
+            default:
+              iconComponent = (
+                <Sparkles className="h-10 w-10" />
+              );
+          }
 
-  // Show loading state
-  if (isLoading) {
-    return (
-      <section id="benefits" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="flex justify-center items-center min-h-[400px]">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
-          </div>
-        </div>
-      </section>
-    );
-  }
+          return {
+            icon: iconComponent,
+            title: benefit.title,
+            description: benefit.description,
+            stats: Array.isArray(benefit.stats) ? benefit.stats : [],
+          };
+        });
 
-  // Show error state if there's an error and no data
-  if (error && (!benefitsFeatures || benefitsFeatures.length === 0)) {
-    return (
-      <section id="benefits" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-white mb-2">Unable to Load Benefits</h3>
-              <p className="text-gray-300">{error}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  // Use CMS data if available, otherwise use defaults only in dev/preview mode
-  const shouldUseDefaults = !benefitsFeatures || benefitsFeatures.length === 0;
-  const benefits = shouldUseDefaults
-    ? (isProduction ? [] : defaultBenefits)
-    : benefitsFeatures.map((benefit) => {
-        // Convert icon name string to actual component
-        let iconComponent;
-        switch (benefit.icon_name) {
-          case "Clock":
-            iconComponent = <Clock className="h-10 w-10 text-primary-400" />;
-            break;
-          case "Star":
-            iconComponent = <Star className="h-10 w-10 text-primary-400" />;
-            break;
-          case "Users":
-            iconComponent = <Users className="h-10 w-10 text-primary-400" />;
-            break;
-          case "Zap":
-            iconComponent = <Zap className="h-10 w-10 text-primary-400" />;
-            break;
-          default:
-            iconComponent = (
-              <Sparkles className="h-10 w-10 text-primary-400" />
-            );
-        }
-
-        return {
-          icon: iconComponent,
-          title: benefit.title,
-          description: benefit.description,
-          stats: Array.isArray(benefit.stats) ? benefit.stats : [],
-        };
-      });
-
-  // If in production and no benefits, show empty state
-  if (isProduction && benefits.length === 0) {
-    return (
-      <section id="benefits" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <p className="text-gray-400">Benefits information is currently unavailable.</p>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  // State for testimonials carousel
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
 
   // Testimonial data - VideoRemix platform user experiences
   const marketingTestimonials = [
@@ -197,7 +132,7 @@ const BenefitsSection: React.FC = () => {
       image: "https://randomuser.me/api/portraits/women/44.jpg",
       metrics: {
         conversion: "Time Saver",
-        engagement: "50+ Tools",
+        engagement: "20+ Apps",
         roi: "Worth It",
       },
     },
@@ -242,7 +177,7 @@ const BenefitsSection: React.FC = () => {
     },
     {
       quote:
-        "Real estate marketing needs personalization, and VideoRemix.vip delivers. We create neighborhood-specific videos that increased property inquiries by 214% in the first month.",
+         "Real estate marketing needs personalization, and VideoRemix.vip delivers. We create neighborhood-specific campaigns that increased property inquiries by 214% in the first month.",
       name: "Jessica Martinez",
       role: "Digital Marketing Manager",
       company: "Premier Properties",
@@ -255,7 +190,7 @@ const BenefitsSection: React.FC = () => {
     },
     {
       quote:
-        "As an e-commerce brand, we struggled with generic marketing. Now we create dynamic product videos customized to each customer segment increasing AOV by 37%.",
+         "As an e-commerce brand, we struggled with generic marketing. Now we create dynamic product campaigns customized to each customer segment increasing AOV by 37%.",
       name: "Ryan Thompson",
       role: "E-commerce Director",
       company: "Fashion Forward",
@@ -268,7 +203,7 @@ const BenefitsSection: React.FC = () => {
     },
     {
       quote:
-        "Higher education marketing is highly competitive. Personalized video content for different prospect segments increased our application submissions by 176% year-over-year.",
+         "Higher education marketing is highly competitive. Personalized marketing content for different prospect segments increased our application submissions by 176% year-over-year.",
       name: "Olivia Parker",
       role: "University Marketing Lead",
       company: "Global Education Institute",
@@ -281,7 +216,7 @@ const BenefitsSection: React.FC = () => {
     },
     {
       quote:
-        "Our financial services firm now delivers personalized investment advice videos to different client segments. Client acquisition costs decreased by 58% while conversions surged.",
+         "Our financial services firm now delivers personalized investment advice campaigns to different client segments. Client acquisition costs decreased by 58% while conversions surged.",
       name: "Daniel Morgan",
       role: "Client Acquisition Head",
       company: "Precision Financial Group",
@@ -294,7 +229,7 @@ const BenefitsSection: React.FC = () => {
     },
     {
       quote:
-        "For our nonprofit, personalized donor videos based on previous giving patterns increased recurring donations by 194% and major gifts by over 300%. Game-changing technology.",
+         "For our nonprofit, personalized donor campaigns based on previous giving patterns increased recurring donations by 194% and major gifts by over 300%. Game-changing technology.",
       name: "Amelia Washington",
       role: "Donor Relations Director",
       company: "Global Hope Initiative",
@@ -306,6 +241,15 @@ const BenefitsSection: React.FC = () => {
       },
     },
   ];
+
+  // Auto-advance testimonials
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveTestimonial((prev) => (prev + 1) % marketingTestimonials.length);
+    }, 8000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <section
@@ -423,10 +367,10 @@ const BenefitsSection: React.FC = () => {
                           transition={{ duration: 0.2 }}
                         >
                           <CountUp
-                            end={safeParseInt(stat.value, 0)}
-                             suffix={
-                               safeParseInt(stat.value, -1) === -1 ? stat.value : ""
-                             }
+                            end={parseInt(stat.value) || 0}
+                            suffix={
+                              isNaN(parseInt(stat.value)) ? stat.value : ""
+                            }
                             duration={2}
                           />
                         </motion.div>

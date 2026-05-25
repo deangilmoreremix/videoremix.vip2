@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" 
+     xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-ai-personalizer" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#2d2a4a"/>
+    </linearGradient>
+    <radialGradient id="glow-ai-personalizer" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" style="stop-color:#96CEB4;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#96CEB4;stop-opacity:0"/>
+    </radialGradient>
+    <filter id="shadow-ai-personalizer">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="rgba(0,0,0,0.3)"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg-ai-personalizer)"/>
+  
+  <!-- Scene Environment -->
+  
+    <!-- Small Business Office -->
+    <rect x="0" y="300" width="800" height="300" fill="#F8F9FA"/>
+    <rect x="0" y="250" width="800" height="50" fill="#E9ECEF"/>
+    
+    <!-- Wooden Desk -->
+    <rect x="200" y="380" width="300" height="20" fill="#8B4513" rx="2"/>
+    
+    <!-- Client Photos on Wall -->
+    <rect x="50" y="120" width="60" height="50" fill="#FFFFFF" stroke="#BDC3C7" stroke-width="2"/>
+    <rect x="130" y="120" width="60" height="50" fill="#FFFFFF" stroke="#BDC3C7" stroke-width="2"/>
+    <rect x="50" y="190" width="60" height="50" fill="#FFFFFF" stroke="#BDC3C7" stroke-width="2"/>
+    
+    <!-- Business Cards -->
+    <rect x="520" y="370" width="80" height="50" fill="#FFFFFF" stroke="#BDC3C7" stroke-width="1"/>
+    
+    <!-- Warm Lighting -->
+    <circle cx="400" cy="100" r="40" fill="#FFF8DC" opacity="0.5"/>
+    
+    <!-- Coffee Table Books -->
+    <rect x="550" y="360" width="25" height="35" fill="#8B4513"/>
+    <rect x="580" y="360" width="25" height="35" fill="#2C3E50"/>
+  
+  
+  <!-- Software Interface -->
+  
+    <!-- Personalization Tools Interface -->
+    <rect x="320" y="290" width="160" height="80" fill="#FFFFFF" stroke="#E1E8ED" stroke-width="1" rx="3"/>
+    <rect x="330" y="300" width="140" height="15" fill="#F8F9FA" stroke="#BDC3C7" stroke-width="1" rx="1"/>
+    <text x="400" y="312" text-anchor="middle" font-family="Arial" font-size="8" fill="#2C3E50">John Doe</text>
+    <rect x="330" y="325" width="50" height="8" fill="#667EEA" rx="1"/>
+    <text x="355" y="332" text-anchor="middle" font-family="Arial" font-size="6" fill="white">Tech</text>
+    <rect x="390" y="325" width="50" height="8" fill="#764BA2" rx="1"/>
+    <text x="415" y="332" text-anchor="middle" font-family="Arial" font-size="6" fill="white">Sales</text>
+    <rect x="330" y="340" width="110" height="6" fill="#E1E8ED" rx="1"/>
+    <rect x="330" y="350" width="90" height="6" fill="#E1E8ED" rx="1"/>
+    <rect x="330" y="360" width="70" height="6" fill="#E1E8ED" rx="1"/>
+  
+  
+  <!-- Person using the software -->
+  
+    <!-- Business Owner -->
+    <circle cx="380" cy="220" r="18" fill="#FDBCB4"/>
+    <circle cx="370" cy="210" r="3" fill="#8B4513"/>
+    <circle cx="390" cy="210" r="3" fill="#8B4513"/>
+    <path d="M375,225 Q380,235 385,225" stroke="#E8B4A2" stroke-width="2" fill="none"/>
+    <rect x="365" y="240" width="30" height="40" fill="#27AE60"/>
+    <rect x="370" y="280" width="20" height="30" fill="#2C3E50"/>
+  
+  
+  <!-- Glow effect around interface -->
+  <ellipse cx="400" cy="270" rx="180" ry="140" fill="url(#glow-ai-personalizer)"/>
+  
+  <!-- App name overlay -->
+  <rect x="0" y="480" width="800" height="120" fill="url(#bg-ai-personalizer)" opacity="0.9"/>
+  <linearGradient id="textFade-ai-personalizer" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:0"/>
+    <stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:0.8"/>
+  </linearGradient>
+  <rect x="0" y="480" width="800" height="40" fill="url(#textFade-ai-personalizer)"/>
+  
+  <!-- App name -->
+  <text x="400" y="550" 
+        text-anchor="middle" 
+        font-family="Arial, sans-serif" 
+        font-size="24" 
+        font-weight="700" 
+        fill="white"
+        filter="url(#shadow-ai-personalizer)">AI Personalizer</text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="575" 
+        text-anchor="middle" 
+        font-family="Arial, sans-serif" 
+        font-size="14" 
+        font-weight="400" 
+        fill="#94a3b8">Professional AI Tool</text>
+  
+  <!-- Subtle texture overlay -->
+  <defs>
+    <pattern id="texture-ai-personalizer" patternUnits="userSpaceOnUse" width="40" height="40">
+      <rect width="40" height="40" fill="transparent"/>
+      <circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.03)"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#texture-ai-personalizer)"/>
+</svg>

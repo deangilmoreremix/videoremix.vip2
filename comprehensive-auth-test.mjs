@@ -1,287 +1,272 @@
-// Comprehensive Authentication Production Readiness Test Suite
-// Using Superpowers Skills for 100% Verification
+#!/usr/bin/env node
+import { createClient } from '@supabase/supabase-js'
+import dotenv from 'dotenv'
 
-import { createClient } from '@supabase/supabase-js';
+dotenv.config()
 
-// Configuration
-const SUPABASE_URL = 'https://bzxohkrxcwodllketcpz.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6eG9oa3J4Y3dvZGxsa2V0Y3B6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NjYzODUsImV4cCI6MjA4OTQ0MjM4NX0.ExeLy2sWZMnLY4VToGlbqr3F4SpNmrsE9Hw0lyAhb9A';
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false
+const supabase = createClient(
+  process.env.VITE_SUPABASE_URL,
+  process.env.VITE_SUPABASE_ANON_KEY,
+  {
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
+      storage: {
+        getItem: (key) => {
+          console.log(`[Storage] Getting ${key}`)
+          const value = localStorage.getItem(key)
+          console.log(`[Storage] Got ${key}:`, value ? 'exists' : 'null')
+          return value
+        },
+        setItem: (key, value) => {
+          console.log(`[Storage] Setting ${key}`)
+          localStorage.setItem(key, value)
+        },
+        removeItem: (key) => {
+          console.log(`[Storage] Removing ${key}`)
+          localStorage.removeItem(key)
+        }
+      },
+      storageKey: "videoremix-auth"
+    }
   }
-});
+)
 
-console.log('🚀 SUPERPOWERS AUTHENTICATION PRODUCTION READINESS TEST SUITE');
-console.log('================================================================');
+console.log('🔍 Comprehensive Authentication Test\n')
 
-let testResults = {
-  total: 0,
-  passed: 0,
-  failed: 0,
-  details: {}
-};
+// Test 1: Check current session
+async function testCurrentSession() {
+  console.log('1️⃣ Testing current session...')
+  const { data: { session }, error } = await supabase.auth.getSession()
 
-async function runTest(testName, testFunction) {
-  testResults.total++;
-  console.log(`\n🧪 Running: ${testName}`);
-  
+  console.log('   Session exists:', !!session)
+  if (session) {
+    console.log('   User ID:', session.user.id)
+    console.log('   Email:', session.user.email)
+    console.log('   Expires at:', new Date(session.expires_at * 1000).toISOString())
+    console.log('   Time until expiry:', (session.expires_at * 1000 - Date.now()) / 1000, 'seconds')
+  }
+  if (error) {
+    console.log('   Error:', error.message)
+  }
+
+  return !!session
+}
+
+// Test 2: Check auth state changes
+async function testAuthStateChanges() {
+  console.log('\n2️⃣ Testing auth state changes...')
+
+  return new Promise((resolve) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('   Auth event:', event)
+      if (session) {
+        console.log('   Session user:', session.user.id)
+        console.log('   Session expires:', new Date(session.expires_at * 1000).toISOString())
+      } else {
+        console.log('   No session')
+      }
+
+      // Unsubscribe after first event
+      setTimeout(() => {
+        subscription.unsubscribe()
+        resolve()
+      }, 1000)
+    })
+  })
+}
+
+// Test 3: Test sign in/out cycle
+async function testSignInOut() {
+  console.log('\n3️⃣ Testing sign in/out cycle...')
+
+  const testEmail = `auth-test-${Date.now()}@example.com`
+  const testPassword = 'TestPass123!'
+
   try {
-    const result = await testFunction();
-    if (result.success) {
-      testResults.passed++;
-      testResults.details[testName] = 'PASS';
-      console.log(`✅ ${testName}: PASSED`);
-      if (result.message) console.log(`   ${result.message}`);
-    } else {
-      testResults.failed++;
-      testResults.details[testName] = 'FAIL';
-      console.log(`❌ ${testName}: FAILED`);
-      if (result.message) console.log(`   ${result.message}`);
-    }
-  } catch (error) {
-    testResults.failed++;
-    testResults.details[testName] = 'ERROR';
-    console.log(`❌ ${testName}: ERROR - ${error.message}`);
-  }
-}
-
-async function testEmailConfirmationDisabled() {
-  const testEmail = `test-confirm-${Date.now()}@example.com`;
-  const testPassword = 'TestPass123!';
-  
-  // Try to signup
-  const { data: signupData, error: signupError } = await supabase.auth.signUp({
-    email: testEmail,
-    password: testPassword
-  });
-  
-  if (signupError) {
-    return { success: false, message: `Signup failed: ${signupError.message}` };
-  }
-  
-  // Immediately try to login (should work without confirmation)
-  const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
-    email: testEmail,
-    password: testPassword
-  });
-  
-  if (loginError) {
-    return { success: false, message: `Login failed: ${loginError.message}` };
-  }
-  
-  // Cleanup
-  await supabase.auth.signOut();
-  
-  return { 
-    success: true, 
-    message: `User ${signupData.user?.id} signed up and logged in without email confirmation` 
-  };
-}
-
-async function testPasswordChangeFunction() {
-  const testEmail = `test-change-${Date.now()}@example.com`;
-  const oldPassword = 'OldPass123!';
-  const newPassword = 'NewPass123!';
-  
-  // Create test user
-  const { data: signupData, error: signupError } = await supabase.auth.signUp({
-    email: testEmail,
-    password: oldPassword
-  });
-  
-  if (signupError) {
-    return { success: false, message: `Signup failed: ${signupError.message}` };
-  }
-  
-  // Login with old password
-  const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
-    email: testEmail,
-    password: oldPassword
-  });
-  
-  if (loginError) {
-    return { success: false, message: `Initial login failed: ${loginError.message}` };
-  }
-  
-  // Change password using edge function
-  const { data: changeData, error: changeError } = await supabase.functions.invoke('change-user-password', {
-    body: {
+    // Sign up
+    console.log('   Signing up...')
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email: testEmail,
-      newPassword: newPassword
+      password: testPassword,
+      options: {
+        emailConfirm: false
+      }
+    })
+
+    if (signUpError) {
+      console.log('   ❌ Signup failed:', signUpError.message)
+      return false
     }
-  });
-  
-  if (changeError || !changeData?.success) {
-    return { success: false, message: `Password change failed: ${changeError?.message || changeData?.error}` };
+
+    console.log('   ✅ Signed up:', signUpData.user?.id)
+
+    // Sign in
+    console.log('   Signing in...')
+    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+      email: testEmail,
+      password: testPassword
+    })
+
+    if (signInError) {
+      console.log('   ❌ Sign in failed:', signInError.message)
+      return false
+    }
+
+    console.log('   ✅ Signed in successfully')
+
+    // Check session persistence
+    console.log('   Checking session persistence...')
+    await new Promise(resolve => setTimeout(resolve, 2000))
+
+    const { data: { session: persistedSession } } = await supabase.auth.getSession()
+    console.log('   Session persisted:', !!persistedSession)
+
+    // Sign out
+    console.log('   Signing out...')
+    const { error: signOutError } = await supabase.auth.signOut()
+
+    if (signOutError) {
+      console.log('   ❌ Sign out failed:', signOutError.message)
+      return false
+    }
+
+    console.log('   ✅ Signed out successfully')
+
+    // Check session cleared
+    const { data: { session: clearedSession } } = await supabase.auth.getSession()
+    console.log('   Session cleared:', !clearedSession)
+
+    return true
+  } catch (error) {
+    console.log('   ❌ Test failed:', error.message)
+    return false
   }
-  
-  // Logout and try login with new password
-  await supabase.auth.signOut();
-  
-  const { data: newLoginData, error: newLoginError } = await supabase.auth.signInWithPassword({
-    email: testEmail,
-    password: newPassword
-  });
-  
-  if (newLoginError) {
-    return { success: false, message: `Login with new password failed: ${newLoginError.message}` };
-  }
-  
-  // Cleanup
-  await supabase.auth.signOut();
-  
-  return { 
-    success: true, 
-    message: `Password successfully changed and new password works` 
-  };
 }
 
-async function testCaseInsensitiveEmail() {
-  const baseEmail = `test-case-${Date.now()}@example.com`;
-  const testPassword = 'TestPass123!';
-  
-  // Signup with lowercase
-  const { data: signupData, error: signupError } = await supabase.auth.signUp({
-    email: baseEmail.toLowerCase(),
-    password: testPassword
-  });
-  
-  if (signupError) {
-    return { success: false, message: `Signup failed: ${signupError.message}` };
+// Test 4: Test session refresh
+async function testSessionRefresh() {
+  console.log('\n4️⃣ Testing session refresh...')
+
+  const testEmail = `refresh-test-${Date.now()}@example.com`
+  const testPassword = 'TestPass123!'
+
+  try {
+    // Quick sign in
+    const { data: signInData } = await supabase.auth.signInWithPassword({
+      email: testEmail,
+      password: testPassword
+    })
+
+    if (!signInData.session) {
+      // Try to create user first
+      await supabase.auth.signUp({
+        email: testEmail,
+        password: testPassword,
+        options: { emailConfirm: false }
+      })
+
+      const { data: retrySignIn } = await supabase.auth.signInWithPassword({
+        email: testEmail,
+        password: testPassword
+      })
+
+      if (!retrySignIn.session) {
+        console.log('   ❌ Could not establish session')
+        return false
+      }
+    }
+
+    const originalExpiry = signInData.session?.expires_at
+    console.log('   Original expiry:', new Date(originalExpiry * 1000).toISOString())
+
+    // Refresh session
+    const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession()
+
+    if (refreshError) {
+      console.log('   ❌ Refresh failed:', refreshError.message)
+      return false
+    }
+
+    const newExpiry = refreshData.session?.expires_at
+    console.log('   New expiry:', new Date(newExpiry * 1000).toISOString())
+    console.log('   Refresh successful:', originalExpiry !== newExpiry)
+
+    await supabase.auth.signOut()
+    return true
+  } catch (error) {
+    console.log('   ❌ Refresh test failed:', error.message)
+    return false
   }
-  
-  // Try login with uppercase email
-  const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
-    email: baseEmail.toUpperCase(),
-    password: testPassword
-  });
-  
-  if (loginError) {
-    return { success: false, message: `Case-insensitive login failed: ${loginError.message}` };
-  }
-  
-  // Cleanup
-  await supabase.auth.signOut();
-  
-  return { 
-    success: true, 
-    message: `Case-insensitive email login works (${baseEmail.toUpperCase()})` 
-  };
 }
 
-async function testSessionManagement() {
-  const testEmail = `test-session-${Date.now()}@example.com`;
-  const testPassword = 'TestPass123!';
-  
-  // Signup and login
-  await supabase.auth.signUp({
-    email: testEmail,
-    password: testPassword
-  });
-  
-  const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
-    email: testEmail,
-    password: testPassword
-  });
-  
-  if (loginError) {
-    return { success: false, message: `Login failed: ${loginError.message}` };
-  }
-  
-  // Check session exists
-  const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-  
-  if (sessionError || !sessionData.session) {
-    return { success: false, message: `Session not created: ${sessionError?.message}` };
-  }
-  
-  // Test logout
-  const { error: logoutError } = await supabase.auth.signOut();
-  
-  if (logoutError) {
-    return { success: false, message: `Logout failed: ${logoutError.message}` };
-  }
-  
-  // Verify session is cleared
-  const { data: clearedSession, error: clearedError } = await supabase.auth.getSession();
-  
-  if (clearedSession.session) {
-    return { success: false, message: `Session not cleared after logout` };
-  }
-  
-  return { 
-    success: true, 
-    message: `Session management works correctly` 
-  };
-}
+// Test 5: Test storage persistence
+async function testStoragePersistence() {
+  console.log('\n5️⃣ Testing storage persistence...')
 
-async function testSecurityValidation() {
-  // Test invalid login
-  const { data: invalidData, error: invalidError } = await supabase.auth.signInWithPassword({
-    email: 'nonexistent@example.com',
-    password: 'wrongpassword'
-  });
-  
-  if (!invalidError) {
-    return { success: false, message: `Invalid login should have failed but succeeded` };
-  }
-  
-  // Test password requirements (should be enforced)
-  const { data: weakPasswordData, error: weakPasswordError } = await supabase.auth.signUp({
-    email: `weak-${Date.now()}@example.com`,
-    password: '123' // Too short
-  });
-  
-  // Supabase might not enforce client-side, but let's check the response
-  if (weakPasswordError && weakPasswordError.message.includes('password')) {
-    return { success: true, message: `Password validation working` };
-  }
-  
-  // If no error, that's also acceptable as validation might be server-side
-  return { success: true, message: `Security validation appears functional` };
-}
+  try {
+    // Check if storage is available
+    const testKey = 'test-storage-key'
+    const testValue = 'test-value-' + Date.now()
 
-async function testRateLimiting() {
-  // This is harder to test directly, but we can check if functions exist
-  // In a real production test, we'd make many rapid requests
-  
-  return { 
-    success: true, 
-    message: `Rate limiting implemented (manual verification required for full test)` 
-  };
+    localStorage.setItem(testKey, testValue)
+    const retrieved = localStorage.getItem(testKey)
+
+    console.log('   Storage available:', retrieved === testValue)
+
+    localStorage.removeItem(testKey)
+
+    // Check current auth storage
+    const authKeys = Object.keys(localStorage).filter(key => key.includes('auth') || key.includes('videoremix'))
+    console.log('   Auth storage keys:', authKeys.length)
+
+    authKeys.forEach(key => {
+      const value = localStorage.getItem(key)
+      console.log(`   ${key}: ${value ? 'present' : 'empty'}`)
+    })
+
+    return true
+  } catch (error) {
+    console.log('   ❌ Storage test failed:', error.message)
+    return false
+  }
 }
 
 // Run all tests
 async function runAllTests() {
-  await runTest('Email Confirmation Disabled', testEmailConfirmationDisabled);
-  await runTest('Password Change Function', testPasswordChangeFunction);
-  await runTest('Case Insensitive Email', testCaseInsensitiveEmail);
-  await runTest('Session Management', testSessionManagement);
-  await runTest('Security Validation', testSecurityValidation);
-  await runTest('Rate Limiting', testRateLimiting);
-  
-  // Results summary
-  console.log('\n================================================================');
-  console.log('🎯 SUPERPOWERS AUTHENTICATION TEST RESULTS');
-  console.log('================================================================');
-  console.log(`Total Tests: ${testResults.total}`);
-  console.log(`Passed: ${testResults.passed}`);
-  console.log(`Failed: ${testResults.failed}`);
-  console.log(`Success Rate: ${Math.round((testResults.passed / testResults.total) * 100)}%`);
-  
-  if (testResults.failed === 0) {
-    console.log('\n🎉 ALL TESTS PASSED - AUTHENTICATION SYSTEM IS 100% PRODUCTION READY!');
-    console.log('🚀 Superpowers authentication features fully operational');
-  } else {
-    console.log('\n⚠️  SOME TESTS FAILED - REVIEW ISSUES BEFORE PRODUCTION DEPLOYMENT');
-    console.log('Failed tests:', Object.entries(testResults.details).filter(([k,v]) => v !== 'PASS'));
+  const results = {
+    currentSession: await testCurrentSession(),
+    authStateChanges: await testAuthStateChanges(),
+    signInOut: await testSignInOut(),
+    sessionRefresh: await testSessionRefresh(),
+    storagePersistence: await testStoragePersistence()
   }
-  
-  console.log('\nTest Details:', testResults.details);
+
+  console.log('\n📊 Test Results Summary:')
+  Object.entries(results).forEach(([test, passed]) => {
+    console.log(`   ${test}: ${passed ? '✅ PASS' : '❌ FAIL'}`)
+  })
+
+  const allPassed = Object.values(results).every(Boolean)
+  console.log(`\n🏁 Overall: ${allPassed ? '✅ ALL TESTS PASSED' : '❌ SOME TESTS FAILED'}`)
+
+  if (!allPassed) {
+    console.log('\n🔧 Potential Issues:')
+    if (!results.storagePersistence) {
+      console.log('   - Local storage may be disabled or unavailable')
+    }
+    if (!results.signInOut) {
+      console.log('   - Sign in/out cycle has issues')
+    }
+    if (!results.sessionRefresh) {
+      console.log('   - Session refresh is failing')
+    }
+    console.log('   - Check browser console for additional error details')
+  }
+
+  process.exit(allPassed ? 0 : 1)
 }
 
-// Run the test suite
-runAllTests().catch(console.error);
+runDiagnostics()</content>
+<parameter name="filePath">comprehensive-auth-test.mjs

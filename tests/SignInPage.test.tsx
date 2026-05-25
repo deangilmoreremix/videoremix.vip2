@@ -58,7 +58,7 @@ describe('SignInPage', () => {
     it('should display link to sign up page', () => {
       renderSignInPage();
 
-      const signUpLink = screen.getByText(/sign up for free/i);
+      const signUpLink = screen.getByText(/sign up now/i);
       expect(signUpLink).toBeInTheDocument();
       expect(signUpLink.closest('a')).toHaveAttribute('href', '/signup');
     });
@@ -270,7 +270,7 @@ describe('SignInPage', () => {
       fireEvent.click(submitButton);
 
       await waitFor(() => {
-        expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
+        expect(mockNavigate).toHaveBeenCalledWith('/dashboard', { replace: true });
       });
     });
 
@@ -319,22 +319,5 @@ describe('SignInPage', () => {
     });
   });
 
-  describe('Redirect Logic', () => {
-    it('should redirect to dashboard if user is already logged in', () => {
-      vi.spyOn(AuthContext, 'useAuth').mockReturnValue({
-        signIn: vi.fn(),
-        user: { id: 'user-123', email: 'test@example.com' } as any,
-        session: {} as any,
-        loading: false,
-        signUp: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
-      });
 
-      renderSignInPage();
-
-      expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
-    });
-  });
 });

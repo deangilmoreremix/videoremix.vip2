@@ -1,7 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import CountUp from "react-countup";
-import { safeParseInt } from "../../utils/safeParse";
 
 interface Stat {
   value: string;

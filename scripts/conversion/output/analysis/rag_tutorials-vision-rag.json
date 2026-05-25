@@ -1,0 +1,79 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": true,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 3,
+    "numberInput": 0,
+    "fileUpload": 1,
+    "selectBox": 0,
+    "button": 2,
+    "chat": 0,
+    "write": 10
+  },
+  "providers": {
+    "google": {
+      "count": 1,
+      "imports": 0,
+      "clients": 1,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 554,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": true,
+  "hasWebSearch": false,
+  "uiType": "file-upload",
+  "inputFields": [
+    {
+      "name": "cohere_api_key",
+      "label": "Cohere API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "google_api_key_gemini",
+      "label": "Google API Key (Gemini)",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "upload_images_png_jpg_jpeg_or_pdfs",
+      "label": "Upload images (PNG, JPG, JPEG) or PDFs",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "ask_a_question_about_the_loaded_images",
+      "label": "Ask a question about the loaded images:",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "image",
+  "primaryProvider": "google",
+  "filePath": "awesome-llm-apps/rag_tutorials/vision_rag/vision_rag.py",
+  "appName": "vision-rag",
+  "category": "awesome-llm-apps",
+  "complexity": "rag",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "GOOGLE_GENERATIVE_AI_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 8,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:33.985Z",
+  "analyzerVersion": "0.1.0"
+}

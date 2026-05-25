@@ -96,8 +96,7 @@ Value: [Your PayPal webhook ID]
 OPENAI_API_KEY
 Value: [Your OpenAI API key]
 
-GEMINI_API_KEY
-Value: [Your Gemini API key]
+# Note: GEMINI_API_KEY removed - ai_medical_imaging_agent retains Google Gemini as specialized provider only
 ```
 
 **Important**:

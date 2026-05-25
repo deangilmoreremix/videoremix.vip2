@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Gift } from 'lucide-react';
+import X from 'lucide-react/dist/esm/icons/x.js';
+import Gift from 'lucide-react/dist/esm/icons/gift.js';
 
 interface ExitIntentPopupProps {
   title?: string;

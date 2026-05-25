@@ -5,65 +5,13 @@ import { useLandingPageContent } from "../context/LandingPageContext";
 
 export const FAQSection: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const { faqs, isLoading, error } = useLandingPageContent();
+  const { faqs, isLoading } = useLandingPageContent();
 
   const toggleFaq = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  // Determine if we're in production
-  const isProduction = typeof window !== 'undefined' && 
-                       window.location.hostname !== 'localhost' && 
-                       window.location.hostname !== '127.0.0.1' &&
-                       !window.location.hostname.includes('preview');
-
-  // Log telemetry when falling back in production
-  if (isProduction && 
-      (!faqs || faqs.length === 0) &&
-      !isLoading) {
-    console.warn('[FAQSection] Falling back to default content in production. CMS data unavailable.', {
-      hasError: !!error,
-      error: error,
-      faqsCount: faqs?.length || 0,
-    });
-  }
-
-  // Show loading state
-  if (isLoading) {
-    return (
-      <section id="faq" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-800 to-transparent"></div>
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="flex justify-center items-center min-h-[400px]">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  // Show error state if there's an error and no data
-  if (error && (!faqs || faqs.length === 0)) {
-    return (
-      <section id="faq" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-800 to-transparent"></div>
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-white mb-2">Unable to Load FAQs</h3>
-              <p className="text-gray-300">{error}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  // Default FAQs - only used in development/preview mode
+  // Default FAQs in case data hasn't loaded yet
   const defaultFaqs = [
     {
       question: "What is VideoRemix.vip?",
@@ -97,26 +45,9 @@ export const FAQSection: React.FC = () => {
     },
   ];
 
-  // Use faqs from Supabase if available, otherwise use defaults only in dev/preview mode
-  const displayFaqs = faqs && faqs.length > 0
-    ? faqs
-    : (isProduction ? [] : defaultFaqs);
-
-  // If in production and no FAQs, show empty state
-  if (isProduction && displayFaqs.length === 0) {
-    return (
-      <section id="faq" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-800 to-transparent"></div>
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <p className="text-gray-400">FAQs are currently unavailable.</p>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  // Use faqs from Supabase if available, otherwise use default
+  const displayFaqs =
+    !isLoading && faqs && faqs.length > 0 ? faqs : defaultFaqs;
 
   return (
     <section

@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface SalesDropdownErrorBoundaryProps {
-  children: React.ReactNode;
-  fallback?: React.ReactNode;
+  children: ReactNode;
+  fallback?: ReactNode;
 }
 
 interface SalesDropdownErrorBoundaryState {

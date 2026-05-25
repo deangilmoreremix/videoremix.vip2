@@ -1,4 +1,4 @@
-import { ImageGenerationRequest } from './aiImageGenerator';
+import { ImageGenerationRequest } from '../utils/aiImageGenerator';
 
 export const appThumbnailSpecs: ImageGenerationRequest[] = [
   {

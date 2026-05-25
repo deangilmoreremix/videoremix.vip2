@@ -20,7 +20,6 @@ import {
 } from "lucide-react";
 import { useAdmin } from "../context/AdminContext";
 import { redisCache, cacheKeys, CACHE_TTL } from "../utils/redisCache";
-import { supabase } from "../utils/supabaseClient";
 import AdminAppsManagement from "../components/admin/AdminAppsManagement";
 import AdminFeaturesManagement from "../components/admin/AdminFeaturesManagement";
 import AdminUsersManagement from "../components/admin/AdminUsersManagement";
@@ -144,10 +143,10 @@ const TAB_CONFIG: TabConfig[] = [
 
 // Error Boundary Component
 class TabErrorBoundary extends React.Component<
-  { children: React.ReactNode; tabId: string },
+  { children: ReactNode; tabId: string },
   { hasError: boolean; error: Error | null }
 > {
-  constructor(props: { children: React.ReactNode; tabId: string }) {
+  constructor(props: { children: ReactNode; tabId: string }) {
     super(props);
     this.state = { hasError: false, error: null };
   }
@@ -229,12 +228,8 @@ const useDashboardData = () => {
         }
       }
 
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-
-      if (sessionError || !session?.access_token) {
+      const token = localStorage.getItem("admin_token");
+      if (!token) {
         setError("Authentication required. Please log in.");
         setLoading(false);
         return;
@@ -244,7 +239,7 @@ const useDashboardData = () => {
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-dashboard-stats`,
         {
           headers: {
-            Authorization: `Bearer ${session.access_token}`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
@@ -398,11 +393,16 @@ const StatsCards = memo(() => {
 StatsCards.displayName = "StatsCards";
 
 const AdminDashboard: React.FC = () => {
-  const { user, isAuthenticated, isLoading, logout, sessionExpiry } =
+  const { user, isAuthenticated, isLoading, logout, sessionExpiry, verifyAuth } =
     useAdmin();
   const [activeTab, setActiveTab] = useState<TabConfig["id"]>("analytics");
   const [showTimeoutWarning, setShowTimeoutWarning] = useState(false);
   const [announcements, setAnnouncements] = useState<string>("");
+
+  // Verify admin authentication on mount
+  useEffect(() => {
+    verifyAuth();
+  }, [verifyAuth]);
 
   // Session timeout warning
   useEffect(() => {

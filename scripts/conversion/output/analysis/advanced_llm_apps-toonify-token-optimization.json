@@ -1,0 +1,82 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": true,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 1,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 4,
+    "button": 1,
+    "chat": 0,
+    "write": 22
+  },
+  "providers": {},
+  "externalServices": {
+    "tiktoken": {
+      "count": 1,
+      "usage": "integration"
+    }
+  },
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 308,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": true,
+  "uiType": "multi-tab",
+  "inputFields": [
+    {
+      "name": "llm_model",
+      "label": "LLM Model",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "toon_delimiter",
+      "label": "TOON Delimiter",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "key_folding",
+      "label": "Key Folding",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "choose_example_dataset",
+      "label": "Choose example dataset",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "json_data",
+      "label": "JSON Data",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "code",
+  "primaryProvider": "unknown",
+  "filePath": "awesome-llm-apps/advanced_llm_apps/llm_optimization_tools/toonify_token_optimization/toonify_app.py",
+  "appName": "toonify-token-optimization",
+  "category": "awesome-llm-apps",
+  "complexity": "tool-using",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 8,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:34.784Z",
+  "analyzerVersion": "0.1.0"
+}

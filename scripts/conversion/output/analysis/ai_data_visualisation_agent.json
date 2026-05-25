@@ -1,0 +1,84 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": true,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 1,
+    "numberInput": 0,
+    "fileUpload": 1,
+    "selectBox": 1,
+    "button": 1,
+    "chat": 0,
+    "write": 9
+  },
+  "providers": {
+    "together": {
+      "count": 2,
+      "imports": 1,
+      "clients": 1,
+      "models": []
+    }
+  },
+  "externalServices": {
+    "e2b": {
+      "count": 2,
+      "usage": "integration"
+    }
+  },
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 178,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "file-upload",
+  "inputFields": [
+    {
+      "name": "select_model",
+      "label": "Select Model",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "choose_a_csv_file",
+      "label": "Choose a CSV file",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "show_full_dataset",
+      "label": "Show full dataset",
+      "type": "checkbox",
+      "required": true
+    },
+    {
+      "name": "what_would_you_like_to_know_about_your_data",
+      "label": "What would you like to know about your data?",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "table",
+  "primaryProvider": "together",
+  "filePath": "awesome-llm-apps/starter_ai_agents/ai_data_visualisation_agent/ai_data_visualisation_agent.py",
+  "appName": "ai-data-visualisation-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "tool-using",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "TOGETHER_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 8,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T14:58:31.849Z",
+  "analyzerVersion": "0.1.0"
+}

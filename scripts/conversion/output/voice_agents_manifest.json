@@ -1,0 +1,107 @@
+{
+  "converted_at": "2026-04-29T14:57:40.000Z",
+  "category": "voice_ai_agents",
+  "total_apps": 3,
+  "success_count": 3,
+  "apps": [
+    {
+      "app_name": "customer-support-voice-agent",
+      "original_source": "awesome-llm-apps/voice_ai_agents/customer_support_voice_agent/customer_support_voice_agent.py",
+      "category": "voice_ai_agents",
+      "edge_function": {
+        "path": "scripts/conversion/output/functions/customer-support-voice-agent.ts",
+        "slug": "customer-support-voice-agent",
+        "template": "orchestrator",
+        "runtime": 32,
+        "deployment_type": "async-job-queue",
+        "providers": ["openai", "agno", "crewai", "openai-agents"],
+        "external_services": ["firecrawl", "qdrant"],
+        "has_audio_output": true
+      },
+      "react_component": {
+        "path": "scripts/conversion/output/components/CustomerSupportVoiceAgentPage.tsx",
+        "component_name": "CustomerSupportVoiceAgentPage",
+        "ui_type": "form",
+        "input_fields": 7,
+        "output_format": "audio"
+      },
+      "analysis": {
+        "complexity": "multi-agent",
+        "lines_of_code": 393,
+        "ui_type": "form",
+        "has_rag": true,
+        "has_web_search": true,
+        "has_multi_agent": true
+      },
+      "status": "success"
+    },
+    {
+      "app_name": "voice-rag-openaisdk",
+      "original_source": "awesome-llm-apps/voice_ai_agents/voice_rag_openaisdk/rag_voice.py",
+      "category": "voice_ai_agents",
+      "edge_function": {
+        "path": "scripts/conversion/output/functions/voice-rag-openaisdk.ts",
+        "slug": "voice-rag-openaisdk",
+        "template": "orchestrator",
+        "runtime": 27,
+        "deployment_type": "async-job-queue",
+        "providers": ["openai", "agno", "langchain", "crewai", "openai-agents"],
+        "external_services": ["qdrant"],
+        "has_audio_output": true
+      },
+      "react_component": {
+        "path": "scripts/conversion/output/components/VoiceRagOpenaisdkPage.tsx",
+        "component_name": "VoiceRagOpenaisdkPage",
+        "ui_type": "file-upload",
+        "input_fields": 6,
+        "output_format": "audio"
+      },
+      "analysis": {
+        "complexity": "multi-agent",
+        "lines_of_code": 401,
+        "ui_type": "file-upload",
+        "has_rag": true,
+        "has_web_search": true,
+        "has_multi_agent": true
+      },
+      "status": "success"
+    },
+    {
+      "app_name": "ai-audio-tour-agent",
+      "original_source": "awesome-llm-apps/voice_ai_agents/ai_audio_tour_agent/ai_audio_tour_agent.py",
+      "category": "voice_ai_agents",
+      "edge_function": {
+        "path": "scripts/conversion/output/functions/ai-audio-tour-agent.ts",
+        "slug": "ai-audio-tour-agent",
+        "template": "simple",
+        "runtime": 2,
+        "deployment_type": "synchronous",
+        "providers": ["openai"],
+        "external_services": [],
+        "has_audio_output": true
+      },
+      "react_component": {
+        "path": "scripts/conversion/output/components/AiAudioTourAgentPage.tsx",
+        "component_name": "AiAudioTourAgentPage",
+        "ui_type": "form",
+        "input_fields": 3,
+        "output_format": "audio"
+      },
+      "analysis": {
+        "complexity": "simple",
+        "lines_of_code": 128,
+        "ui_type": "form",
+        "has_rag": false,
+        "has_web_search": false,
+        "has_multi_agent": false
+      },
+      "status": "success"
+    }
+  ],
+  "notes": {
+    "audio_handling": "All 3 voice_ai_agents generate audio output (st.audio detected). Generated components should be extended with audio playback UI elements (audio player controls, downloadable audio files).",
+    "supabase_edge_functions": "Functions use Deno runtime with Supabase JS client. Deploy via supabase CLI or Netlify compatibility layer.",
+    "async_job_queue": "2 apps (customer-support-voice-agent, voice-rag-openaisdk) exceed 25s runtime and use orchestrator template; consider implementing background job processing with pg_cron or external worker.",
+    "vector_stores": "2 apps use Qdrant vector store; ensure SUPABASE_URL and pgvector extension available."
+  }
+}

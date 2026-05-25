@@ -29,7 +29,7 @@ import SparkleEffect from "./SparkleEffect";
 const comparisonPoints = [
   {
     traditional: "One-size-fits-all marketing for everyone",
-    videoRemix: "Personalized marketing videos for each audience segment",
+     videoRemix: "Personalized marketing campaigns for each audience segment",
     icon: <Users className="h-5 w-5" />,
   },
   {
@@ -44,490 +44,300 @@ const comparisonPoints = [
   },
   {
     traditional: "Static templates with limited marketing options",
-    videoRemix: "50+ personalized marketing tools for any campaign",
+    videoRemix: "20+ personalized marketing apps for any campaign",
     icon: <Wand2 className="h-5 w-5" />,
   },
 ];
 
 const SolutionSection: React.FC = () => {
   return (
-    <section id="solution" className="py-20 bg-[#0f0d2b] relative overflow-hidden">
-      <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/10 rounded-full blur-[100px]"></div>
-      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-primary-600/10 rounded-full blur-[100px]"></div>
+    <section id="solution" className="py-32 bg-[#050505] relative overflow-hidden">
+      {/* Premium background */}
+      <div className="absolute inset-0">
+        {/* Primary gradient orbs */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary-600/15 rounded-full blur-[100px]"></div>
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-accent-500/10 rounded-full blur-[100px]"></div>
+
+        {/* Radial gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-primary-900/10 via-transparent to-accent-900/10"></div>
+      </div>
 
       <div className="container mx-auto px-4 relative z-10">
+        {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto text-center mb-16"
+          transition={{ duration: 0.7 }}
+          className="max-w-5xl mx-auto text-center mb-20"
         >
-          <div className="inline-block mb-4 relative">
-            <MagicSparkles minSparkles={5} maxSparkles={10} speed="medium">
-              <div className="bg-gradient-to-r from-primary-600 to-primary-400 text-white font-bold px-6 py-2 rounded-full flex items-center">
-                <Sparkles className="mr-2 h-5 w-5" />
-                THE PERSONALIZED MARKETING REVOLUTION
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-8"
+          >
+            <MagicSparkles minSparkles={6} maxSparkles={12} speed="medium">
+              <div className="relative inline-block">
+                <div className="absolute -inset-2 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full blur-lg opacity-60"></div>
+                <div className="relative bg-gradient-to-r from-primary-600 to-accent-500 text-white font-bold px-8 py-3 rounded-full flex items-center gap-3 shadow-lg">
+                  <Sparkles className="h-5 w-5" />
+                  <span className="text-sm tracking-wide">THE SOLUTION</span>
+                </div>
               </div>
             </MagicSparkles>
-          </div>
+          </motion.div>
 
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight"
+            style={{ fontFamily: 'var(--font-display)' }}>
             Introducing{" "}
-            <span className="text-gradient relative">
+            <span className="bg-gradient-to-r from-primary-400 via-accent-400 to-primary-300 bg-clip-text text-transparent animate-gradient-shift"
+              style={{ backgroundSize: '200% auto' }}>
               VideoRemix.vip
-              <motion.div
-                className="absolute -inset-1 opacity-30 blur-md -z-10"
-                animate={{
-                  background: [
-                    "radial-gradient(circle, rgba(99,102,241,0.4) 0%, rgba(99,102,241,0) 70%)",
-                    "radial-gradient(circle, rgba(236,72,153,0.4) 0%, rgba(236,72,153,0) 70%)",
-                    "radial-gradient(circle, rgba(99,102,241,0.4) 0%, rgba(99,102,241,0) 70%)",
-                  ],
-                }}
-                transition={{ duration: 4, repeat: Infinity }}
-              />
             </span>
-            <br />
-            Your Complete Personalized Marketing Platform
           </h2>
 
-          <p className="text-xl text-gray-300">
-            Create personalized marketing videos that speak directly to each
-            viewer, driving 3X higher engagement and dramatically increasing
-            conversion rates across your marketing campaigns.
+          <p className="text-xl md:text-2xl text-gray-300 max-w-5-8xl mx-auto leading-relaxed font-light">
+            The world's most advanced AI marketing personalization platform. Create,
+            customize, and launch high-converting marketing campaigns in minutes — not days.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-          {/* Video showcase */}
+        {/* Main content grid */}
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24">
+          {/* Left - Visual showcase */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
             className="relative"
-            whileHover={{
-              scale: 1.02,
-              transition: { duration: 0.3 },
-            }}
           >
-<motion.div
-            className="bg-gradient-to-br from-primary-500/10 to-primary-700/10 p-1.5 rounded-xl overflow-hidden"
-            animate={{
-              boxShadow: [
-                "0 0 0 rgba(99, 102, 241, 0.1)",
-                "0 0 20px rgba(99, 102, 241, 0.2)",
-                "0 0 0 rgba(99, 102, 241, 0.1)",
-              ],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              repeatType: "reverse",
-            }}
-          >
-              <div className="bg-[#0f0d2b] rounded-lg overflow-hidden aspect-video relative">
-                <img
-                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                  alt="Personalized Marketing Video Interface"
-                  className="w-full h-full object-cover opacity-90"
-                />
+            {/* Main demo card */}
+            <div className="relative">
+              {/* Animated glow border */}
+              <div className="absolute -inset-1 bg-gradient-to-br from-primary-500 via-accent-500 to-primary-600 rounded-2xl opacity-50 blur-lg animate-pulse-slow"></div>
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20"></div>
-
-                {/* Personalization UI elements */}
-                <motion.div
-                  className="absolute top-4 left-4 bg-black/40 backdrop-blur-sm px-3 py-1 rounded-lg text-white text-sm flex items-center"
-                  whileHover={{
-                    scale: 1.05,
-                    x: 5,
-                    backgroundColor: "rgba(0, 0, 0, 0.6)",
-                  }}
-                >
-                  <Users className="h-4 w-4 mr-2 text-primary-400" />
-                  <span>Audience: B2B Decision Makers</span>
-                </motion.div>
-
-                <motion.div
-                  className="absolute top-4 right-4 bg-black/40 backdrop-blur-sm px-3 py-1 rounded-lg text-white text-sm flex items-center"
-                  whileHover={{
-                    scale: 1.05,
-                    x: -5,
-                    backgroundColor: "rgba(0, 0, 0, 0.6)",
-                  }}
-                >
-                  <Sparkles className="h-4 w-4 mr-2 text-primary-400" />
-                  <span>Marketing Personalization Active</span>
-                </motion.div>
-
-                {/* Video editing UI elements */}
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <div className="w-full h-1 bg-gray-700 rounded-full mb-2 overflow-hidden">
-                    <motion.div
-                      className="h-full bg-primary-500"
-                      animate={{
-                        width: ["0%", "66%", "66%"],
-                      }}
-                      transition={{
-                        duration: 2,
-                        times: [0, 0.8, 1],
-                        ease: "easeOut",
-                        repeat: Infinity,
-                        repeatDelay: 3,
-                      }}
-                    ></motion.div>
+              <div className="relative bg-gradient-to-b from-gray-900 via-gray-800/90 to-gray-900 rounded-2xl border border-gray-700/50 overflow-hidden">
+                {/* Header */}
+                <div className="bg-black/40 px-6 py-4 border-b border-gray-700/50 flex items-center gap-3">
+                  <div className="flex gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-green-500"></div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <motion.button
-                      className="text-white bg-primary-600 p-2 rounded-full"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                        />
-                      </svg>
-                    </motion.button>
-                    <div className="text-white text-sm">01:23 / 02:30</div>
+                  <div className="flex-1 text-center">
+                    <span className="text-xs text-gray-500 font-mono">video-remix-studio</span>
                   </div>
                 </div>
 
-                {/* AI Personalization overlay */}
-                <motion.div
-                  className="absolute top-14 left-1/2 transform -translate-x-1/2 bg-primary-600/50 backdrop-blur-sm rounded-lg px-3 py-1.5"
-                  initial={{ y: -40, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.8, duration: 0.6 }}
-                  whileHover={{
-                    scale: 1.05,
-                    y: -5,
-                    boxShadow: "0 10px 15px -3px rgba(99, 102, 241, 0.3)",
-                  }}
-                >
-                  <div className="flex items-center text-sm text-white">
-                    <Wand2 className="h-4 w-4 text-primary-200 mr-2" />
-                    <span>
-                      AI marketing personalization applied to this segment
-                    </span>
+                {/* Content */}
+                <div className="p-8">
+                  {/* Feature badges */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {["Personalization Engine", "AI Marketing Editing", "Analytics Dashboard"].map((badge, i) => (
+                      <span
+                        key={i}
+                        className="px-3 py-1.5 rounded-lg bg-primary-900/30 border border-primary-500/30 text-primary-300 text-xs font-medium"
+                      >
+                        {badge}
+                      </span>
+                    ))}
                   </div>
-                </motion.div>
-              </div>
-            </motion.div>
 
-            {/* Feature pills */}
-            <div className="flex flex-wrap justify-center gap-2 mt-4">
-              {[
-                "Segmented Audiences",
-                "Dynamic Marketing Content",
-                "Personalized CTAs",
-                "Conversion-Focused Messaging",
-              ].map((feature, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.6 + i * 0.1 }}
-                  className="bg-gray-800 px-3 py-1 rounded-full text-sm text-gray-300"
-                  whileHover={{
-                    y: -5,
-                    backgroundColor: "rgb(55, 65, 81)",
-                    color: "rgb(224, 231, 255)",
-                    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
-                  }}
-                >
-                  {feature}
-                </motion.div>
-              ))}
+                  {/* Mock interface */}
+                  <div className="bg-black/60 rounded-xl p-6 mb-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary-600 to-accent-500 flex items-center justify-center">
+                          <Wand2 className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <div className="text-white font-bold text-lg">Personalization Active</div>
+                          <div className="text-gray-400 text-xs">AI is customizing your marketing campaign</div>
+                        </div>
+                      </div>
+                      <div className="px-3 py-1 bg-green-500/20 text-green-400 text-xs font-bold rounded-full">
+                        LIVE
+                      </div>
+                    </div>
+
+                    {/* Progress bar */}
+                    <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden mb-4">
+                      <motion.div
+                        className="h-full bg-gradient-to-r from-primary-600 to-accent-500"
+                        animate={{ width: ["0%", "75%", "75%"] }}
+                        transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
+                      ></motion.div>
+                    </div>
+
+                    <div className="flex items-center justify-between text-sm text-gray-500">
+                      <span>Processing 12 personalization targets...</span>
+                      <span>92% complete</span>
+                    </div>
+                  </div>
+
+                  {/* Stats */}
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-white">5-8x</div>
+                      <div className="text-xs text-gray-500">ROI Boost</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-white">2.5-8x</div>
+                      <div className="text-xs text-gray-500">Engagement</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-white">5 min</div>
+                      <div className="text-xs text-gray-500">Campaign Time</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            {/* Floating badge - testing */}
+            <motion.div
+              initial={{ x: -30, y: 30, opacity: 0 }}
+              whileInView={{ x: 0, y: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+              className="absolute -left-6 top-1/3 w-36 bg-gradient-to-br from-emerald-900/40 to-green-900/30 backdrop-blur-xl border border-emerald-500/30 rounded-xl p-4 shadow-lg"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                <span className="text-[10px] font-bold text-emerald-300 uppercase">Live Result</span>
+              </div>
+              <p className="text-sm text-white font-semibold">+5-8x conversions</p>
+            </motion.div>
           </motion.div>
 
-          {/* Features/comparison */}
+          {/* Right - Text content */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="flex flex-col justify-center"
           >
-            <h3 className="text-2xl font-bold text-white mb-6">
-              How VideoRemix.vip Transforms Your Marketing With Personalization
+            <h3 className="text-5-8xl md:text-4xl font-bold text-white mb-8">
+              How{" "}
+              <span className="text-primary-400">VideoRemix.vip</span>{" "}
+              Transforms Your Marketing
             </h3>
 
-            <div className="space-y-6 mb-8">
-              {comparisonPoints.map((point, index) => (
+            {/* Feature comparison */}
+            <div className="space-y-5">
+              {[
+                {
+                  traditional: "Generic one-size-fits-all content",
+                  vr: "Personalized marketing campaigns for each audience segment",
+                  icon: <Users />,
+                },
+                {
+                  traditional: "Hours of manual work per campaign",
+                  vr: "AI-powered personalization in minutes",
+                  icon: <Clock />,
+                },
+                {
+                  traditional: "Static content that doesn't adapt",
+                  vr: "Dynamic content that adjusts to buyer journey",
+                  icon: <Target />,
+                },
+                {
+                  traditional: "Limited templates and tools",
+                  vr: "20+ AI-powered personalization apps",
+                  icon: <Wand2 />,
+                },
+              ].map((point, idx) => (
                 <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  key={idx}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                  transition={{ delay: 0.5 + idx * 0.1 }}
+                  className="grid grid-cols-2 gap-4 items-center"
                 >
-                  <motion.div
-                    className="flex items-center bg-red-900/20 p-4 rounded-lg border border-red-500/20"
-                    whileHover={{
-                      scale: 1.03,
-                      x: -5,
-                      y: -3,
-                      borderColor: "rgba(239, 68, 68, 0.4)",
-                    }}
-                  >
-                    <motion.div
-                      className="bg-red-500/20 p-2 rounded-full mr-3"
-                      whileHover={{
-                        rotate: [0, 15, -15, 0],
-                        transition: { duration: 0.5 },
-                      }}
-                    >
+                  {/* Before - red */}
+                  <div className="flex items-center gap-3 bg-red-950/20 rounded-xl p-4 border border-red-900/20">
+                    <div className="p-2 bg-red-900/40 rounded-lg flex-shrink-0">
                       <X className="h-5 w-5 text-red-500" />
-                    </motion.div>
-                    <span className="text-gray-300 text-sm">
-                      {point.traditional}
-                    </span>
-                  </motion.div>
-                  <motion.div
-                    className="flex items-center bg-green-900/20 p-4 rounded-lg border border-green-500/20 relative"
-                    whileHover={{
-                      scale: 1.03,
-                      x: 5,
-                      y: -3,
-                      borderColor: "rgba(16, 185, 129, 0.4)",
-                    }}
-                  >
-                    <MagicSparkles
-                      minSparkles={1}
-                      maxSparkles={2}
-                      speed="slow"
-                      minSize={5}
-                      maxSize={8}
-                    >
-                      <motion.div
-                        className="bg-green-500/20 p-2 rounded-full mr-3"
-                        whileHover={{
-                          rotate: [0, 15, -15, 0],
-                          scale: 1.1,
-                          transition: { duration: 0.5 },
-                        }}
-                      >
-                        <Check className="h-5 w-5 text-green-500" />
-                      </motion.div>
-                    </MagicSparkles>
-                    <span className="text-gray-300 text-sm">
-                      {point.videoRemix}
-                    </span>
-                  </motion.div>
+                    </div>
+                    <span className="text-gray-300 text-sm">{point.traditional}</span>
+                  </div>
+
+                  {/* After - green */}
+                  <div className="flex items-center gap-3 bg-green-950/20 rounded-xl p-4 border border-green-900/20">
+                    <div className="p-2 bg-green-900/40 rounded-lg flex-shrink-0">
+                      <Check className="h-5 w-5 text-green-500" />
+                    </div>
+                    <span className="text-gray-300 text-sm">{point.vr}</span>
+                  </div>
                 </motion.div>
               ))}
             </div>
 
+            {/* Highlight CTA */}
             <motion.div
-              whileHover={{
-                y: -10,
-                boxShadow: "0 20px 25px -5px rgba(79, 70, 229, 0.2)",
-                borderColor: "rgba(99, 102, 241, 0.4)",
-                transition: { duration: 0.3 },
-              }}
-              className="bg-gradient-to-r from-primary-900/40 to-primary-700/40 p-6 rounded-xl border border-primary-500/30 relative"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.9, duration: 0.6 }}
+              className="mt-10"
             >
-              <motion.div
-                className="absolute -top-2 -right-2 w-10 h-10 opacity-40"
-                whileHover={{
-                  rotate: [0, 180, 360],
-                  transition: { duration: 2, repeat: Infinity },
-                }}
-              >
-                <MagicSparkles
-                  minSparkles={2}
-                  maxSparkles={4}
-                  speed="medium"
-                  minSize={5}
-                  maxSize={10}
-                />
-              </motion.div>
-
-              <h3 className="text-xl font-bold text-white mb-4">
-                What Personalized Marketing Means For Your Business:
-              </h3>
-              <ul className="space-y-3">
-                {[
-                  "215% increase in marketing video engagement rates",
-                  "183% higher conversion rates across your marketing funnel",
-                  "67% more time spent viewing your marketing videos",
-                  "3X more shares and social amplification of your campaigns",
-                  "Stronger audience connection and measurable marketing ROI",
-                ].map((benefit, index) => (
-                  <motion.li
-                    key={index}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
-                    className="flex items-start"
-                    whileHover={{
-                      x: 10,
-                      transition: { duration: 0.2 },
-                    }}
-                  >
-                    <motion.div
-                      className="bg-primary-500/20 p-1 rounded-full mr-3 mt-1"
-                      whileHover={{
-                        rotate: [0, 15, -15, 0],
-                        scale: 1.2,
-                        transition: { duration: 0.5 },
-                      }}
-                    >
-                      <Check className="h-4 w-4 text-primary-400" />
-                    </motion.div>
-                    <span className="text-gray-300">{benefit}</span>
-                  </motion.li>
-                ))}
-              </ul>
-
-              <motion.div
-                className="mt-6"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 1 }}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <MagicSparkles minSparkles={2} maxSparkles={4} speed="fast">
-                  <motion.a
-                    href="/tools"
-                    className="inline-flex items-center bg-primary-500 hover:bg-primary-600 text-white font-semibold px-5 py-2.5 rounded-lg"
-                    whileHover={{
-                      boxShadow: "0 10px 15px -3px rgba(79, 70, 229, 0.4)",
-                    }}
-                  >
-                    <span>Explore 50+ Marketing Personalization Tools</span>
-                    <motion.div
-                      animate={{
-                        x: [0, 5, 0],
-                        transition: {
-                          repeat: Infinity,
-                          duration: 1.5,
-                          repeatType: "loop",
-                        },
-                      }}
-                    >
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </motion.div>
-                  </motion.a>
-                </MagicSparkles>
-              </motion.div>
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-primary-500 to-accent-500 rounded-xl blur opacity-60 group-hover:opacity-100 transition-opacity"></div>
+                <a
+                  href="#pricing"
+                  className="relative block bg-gradient-to-r from-primary-600 to-accent-600 hover:from-primary-500 hover:to-accent-500 text-white font-bold text-center px-8 py-4 rounded-xl shadow-lg"
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    Get Personalized Marketing Access
+                    <ArrowRight className="h-5 w-5" />
+                  </span>
+                </a>
+              </div>
             </motion.div>
           </motion.div>
         </div>
 
-        {/* Bottom CTA - Personalization Statistics */}
+        {/* Bottom stats bar */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto text-center bg-gradient-to-r from-gray-800 to-gray-900 p-8 rounded-xl border border-gray-700 relative"
-          whileHover={{
-            y: -10,
-            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.3)",
-            borderColor: "rgba(99, 102, 241, 0.4)",
-            transition: { duration: 0.3 },
-          }}
+          transition={{ delay: 0.6, duration: 0.6 }}
+          className="max-w-5xl mx-auto"
         >
-          <motion.div
-            className="absolute -top-5 -left-5 w-20 h-20 opacity-30"
-            animate={{
-              rotate: [0, 180, 360],
-              transition: { duration: 20, repeat: Infinity, ease: "linear" },
-            }}
-          >
-            <MagicSparkles minSparkles={5} maxSparkles={10} speed="medium" />
-          </motion.div>
+          <div className="relative bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 backdrop-blur-xl rounded-2xl p-8 border border-gray-700/50 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary-900/10 to-accent-900/10"></div>
+            <div className="relative z-10">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold text-white mb-2">Personalized Marketing By The Numbers</h3>
+                <p className="text-gray-400">The data is clear: personalization dramatically outperforms generic content</p>
+              </div>
 
-          <h3 className="text-2xl font-bold text-white mb-3">
-            Personalized Marketing By The Numbers
-          </h3>
-          <p className="text-gray-300 mb-6">
-            The data is clear: personalized marketing significantly outperforms
-            generic marketing
-          </p>
-
-<div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-              {[
-                { value: "215%", label: "Higher Engagement", desc: "Personalized vs generic marketing videos" },
-                { value: "183%", label: "Better Conversion", desc: "Average ROI increase with personalization" },
-                { value: "300%", label: "Marketing ROI", desc: "Performance multiplier for personalized campaigns" },
-              ].map((stat, i) => (
-                <motion.div
-                  key={i}
-                  className="bg-[#0f0d2b] p-3 rounded-lg border border-gray-700"
-                  whileHover={{
-                    scale: 1.05,
-                    y: -5,
-                    borderColor: "rgba(99, 102, 241, 0.4)",
-                    transition: { duration: 0.2 },
-                  }}
-                >
+              <div className="grid grid-cols-3 gap-6 max-w-5-8xl mx-auto">
+                {[
+                  { value: "2.5-8x", label: "Higher Engagement" },
+                  { value: "80%", label: "Better Conversions" },
+                  { value: "5-8x", label: "Marketing ROI" },
+                ].map((stat, i) => (
                   <motion.div
-                    className="text-2xl md:text-3xl font-bold text-primary-400 mb-1"
-                    whileHover={{
-                      scale: 1.1,
-                      rotate: [0, 3, -3, 0],
-                      transition: { duration: 0.5 },
-                    }}
+                    key={i}
+                    whileHover={{ y: -8 }}
+                    className="text-center"
                   >
-                    {stat.value}
+                    <div className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-primary-400 to-accent-400 bg-clip-text text-transparent mb-2">
+                      {stat.value}
+                    </div>
+                    <div className="text-sm text-gray-400">{stat.label}</div>
                   </motion.div>
-                  <div className="text-gray-300 text-sm">{stat.label}</div>
-                  <div className="text-xs text-gray-400 mt-1">{stat.desc}</div>
-                </motion.div>
-              ))}
+                ))}
+              </div>
             </div>
-
-          <motion.a
-            href="#pricing"
-            className="inline-flex items-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-6 py-3 rounded-lg"
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0 20px 25px -5px rgba(79, 70, 229, 0.4)",
-            }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <span>Get Personalized Marketing Access Today</span>
-            <motion.div
-              animate={{
-                x: [0, 5, 0],
-                transition: {
-                  repeat: Infinity,
-                  duration: 1.5,
-                  repeatType: "loop",
-                },
-              }}
-            >
-              <Copy className="ml-2 h-5 w-5" />
-            </motion.div>
-          </motion.a>
-
-          <motion.div
-            className="absolute -bottom-5 -right-5 w-20 h-20 opacity-30"
-            animate={{
-              rotate: [0, 180, 360],
-              transition: { duration: 20, repeat: Infinity, ease: "linear" },
-            }}
-          >
-            <MagicSparkles minSparkles={5} maxSparkles={10} speed="medium" />
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>

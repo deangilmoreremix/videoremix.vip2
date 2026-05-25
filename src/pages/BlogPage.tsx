@@ -113,8 +113,8 @@ const categories = [
 ];
 
 const BlogPage: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = React.useState("all");
-  const [searchQuery, setSearchQuery] = React.useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Featured post is the first item
   const featuredPost = blogPosts[0];

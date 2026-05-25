@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down.js';
 import { cn } from '@/lib/utils';
 import { SalesCopy } from '@/data/appSalesCopy';
 

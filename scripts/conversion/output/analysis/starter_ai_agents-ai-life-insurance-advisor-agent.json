@@ -1,0 +1,138 @@
+{
+  "hasChatInput": false,
+  "hasForm": true,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 4,
+    "numberInput": 6,
+    "fileUpload": 0,
+    "selectBox": 2,
+    "button": 1,
+    "chat": 0,
+    "write": 15
+  },
+  "providers": {
+    "agno": {
+      "count": 2,
+      "imports": 1,
+      "clients": 1,
+      "models": []
+    },
+    "crewai": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 415,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": false,
+  "hasWebSearch": true,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "openai_api_key",
+      "label": "OpenAI API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "firecrawl_api_key",
+      "label": "Firecrawl API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "e2b_api_key",
+      "label": "E2B API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "age",
+      "label": "Age",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "annual_income",
+      "label": "Annual Income",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "dependents",
+      "label": "Dependents",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "country__state",
+      "label": "Country / State",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "total_outstanding_debt_incl_mortgage",
+      "label": "Total Outstanding Debt (incl. mortgage)",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "savings__investments_available_to_dependents",
+      "label": "Savings & Investments available to dependents",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "existing_life_insurance",
+      "label": "Existing Life Insurance",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "currency",
+      "label": "Currency",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "income_replacement_horizon",
+      "label": "Income Replacement Horizon",
+      "type": "select",
+      "required": true
+    }
+  ],
+  "outputFormat": "json",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/starter_ai_agents/ai_life_insurance_advisor_agent/life_insurance_advisor_agent.py",
+  "appName": "ai-life-insurance-advisor-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 15,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:33.214Z",
+  "analyzerVersion": "0.1.0"
+}

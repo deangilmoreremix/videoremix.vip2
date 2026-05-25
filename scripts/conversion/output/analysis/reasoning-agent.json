@@ -1,0 +1,72 @@
+{
+  "hasChatInput": true,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 0,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 1,
+    "button": 1,
+    "chat": 4,
+    "write": 7
+  },
+  "providers": {
+    "openai": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    },
+    "ollama": {
+      "count": 2,
+      "imports": 0,
+      "clients": 2,
+      "models": [
+        {
+          "pattern": "llama3\\.",
+          "count": 2
+        }
+      ]
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": true,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 140,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "chat",
+  "inputFields": [
+    {
+      "name": "select_model",
+      "label": "Select Model",
+      "type": "select",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "ollama",
+  "filePath": "awesome-llm-apps/starter_ai_agents/ai_reasoning_agent/local_ai_reasoning_agent.py",
+  "appName": "local-ai-reasoning-agent-py",
+  "category": "awesome-llm-apps",
+  "complexity": "simple",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "OPENAI_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 2,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T13:42:14.903Z",
+  "analyzerVersion": "0.1.0"
+}

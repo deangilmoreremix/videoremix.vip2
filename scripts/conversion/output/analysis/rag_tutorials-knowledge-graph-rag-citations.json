@@ -1,0 +1,87 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": true,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 3,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 1,
+    "button": 4,
+    "chat": 0,
+    "write": 9
+  },
+  "providers": {
+    "ollama": {
+      "count": 2,
+      "imports": 2,
+      "clients": 0,
+      "models": [
+        {
+          "pattern": "llama3\\.",
+          "count": 3
+        },
+        {
+          "pattern": "mistral",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 522,
+  "hasMultiAgent": false,
+  "hasTools": false,
+  "hasRAG": true,
+  "hasWebSearch": true,
+  "uiType": "multi-tab",
+  "inputFields": [
+    {
+      "name": "choose_sample_document",
+      "label": "Choose sample document:",
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "or_paste_your_own_document",
+      "label": "Or paste your own document:",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "document_name",
+      "label": "Document name:",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "enter_your_question",
+      "label": "Enter your question:",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "ollama",
+  "filePath": "awesome-llm-apps/rag_tutorials/knowledge_graph_rag_citations/knowledge_graph_rag.py",
+  "appName": "knowledge-graph-rag-citations",
+  "category": "awesome-llm-apps",
+  "complexity": "rag",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 8,
+  "deploymentType": "synchronous",
+  "analyzedAt": "2026-04-29T16:43:33.901Z",
+  "analyzerVersion": "0.1.0"
+}

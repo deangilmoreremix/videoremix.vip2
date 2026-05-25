@@ -1,0 +1,76 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 0,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 2,
+    "chat": 0,
+    "write": 4
+  },
+  "providers": {
+    "agno": {
+      "count": 6,
+      "imports": 3,
+      "clients": 3,
+      "models": [
+        {
+          "pattern": "gpt-4",
+          "count": 2
+        }
+      ]
+    },
+    "crewai": {
+      "count": 3,
+      "imports": 3,
+      "clients": 0,
+      "models": []
+    },
+    "autogen": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 3,
+      "imports": 3,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": true,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 249,
+  "hasMultiAgent": true,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "form",
+  "inputFields": [],
+  "outputFormat": "image",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/autonomous_game_playing_agent_apps/ai_chess_agent/ai_chess_agent.py",
+  "appName": "ai-chess-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 15,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:35.142Z",
+  "analyzerVersion": "0.1.0"
+}

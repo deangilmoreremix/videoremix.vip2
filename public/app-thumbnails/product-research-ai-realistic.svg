@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" 
+     xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-product-research-ai" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#2d2a4a"/>
+    </linearGradient>
+    <radialGradient id="glow-product-research-ai" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" style="stop-color:#96CEB4;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#96CEB4;stop-opacity:0"/>
+    </radialGradient>
+    <filter id="shadow-product-research-ai">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="rgba(0,0,0,0.3)"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg-product-research-ai)"/>
+  
+  <!-- Scene Environment -->
+  
+    <!-- Startup Office -->
+    <rect x="0" y="300" width="800" height="300" fill="#F8F9FA"/>
+    <rect x="0" y="250" width="800" height="50" fill="#E9ECEF"/>
+    
+    <!-- Whiteboards with Ideas -->
+    <rect x="50" y="100" width="120" height="150" fill="#FFFFFF" stroke="#BDC3C7" stroke-width="3"/>
+    <line x1="60" y1="120" x2="160" y2="120" stroke="#2C3E50" stroke-width="2"/>
+    <line x1="60" y1="140" x2="140" y2="140" stroke="#2C3E50" stroke-width="2"/>
+    <line x1="60" y1="160" x2="155" y2="160" stroke="#2C3E50" stroke-width="2"/>
+    
+    <!-- Standing Desks -->
+    <rect x="250" y="350" width="150" height="15" fill="#BDC3C7" rx="2"/>
+    <rect x="400" y="350" width="150" height="15" fill="#BDC3C7" rx="2"/>
+    
+    <!-- Laptops on Stands -->
+    <rect x="280" y="320" width="80" height="8" fill="#34495E" rx="2"/>
+    <rect x="290" y="310" width="60" height="40" fill="#2C3E50" rx="2"/>
+    
+    <rect x="430" y="320" width="80" height="8" fill="#34495E" rx="2"/>
+    <rect x="440" y="310" width="60" height="40" fill="#2C3E50" rx="2"/>
+    
+    <!-- Product Prototypes -->
+    <rect x="600" y="350" width="40" height="30" fill="#E74C3C" rx="2"/>
+    <rect x="650" y="350" width="40" height="30" fill="#3498DB" rx="2"/>
+    
+    <!-- Coffee and Snacks -->
+    <ellipse cx="150" cy="380" rx="12" ry="6" fill="#8B4513"/>
+    <rect x="138" cy="375" width="24" height="15" fill="transparent" stroke="#8B4513" stroke-width="2"/>
+    
+    <circle cx="180" cy="380" r="8" fill="#F39C12"/>
+  
+  
+  <!-- Software Interface -->
+  
+    <!-- Market Research Interface -->
+    <rect x="320" y="290" width="160" height="80" fill="#FFFFFF" stroke="#E1E8ED" stroke-width="1" rx="3"/>
+    <circle cx="400" cy="310" r="15" fill="none" stroke="#667EEA" stroke-width="2"/>
+    <circle cx="400" cy="310" r="10" fill="none" stroke="#764BA2" stroke-width="2"/>
+    <circle cx="400" cy="310" r="5" fill="none" stroke="#F093FB" stroke-width="2"/>
+    <rect x="330" y="330" width="50" height="8" fill="#27AE60" rx="1"/>
+    <rect x="390" y="330" width="40" height="8" fill="#3498DB" rx="1"/>
+    <rect x="330" y="345" width="100" height="6" fill="#E1E8ED" rx="1"/>
+    <rect x="330" y="355" width="80" height="6" fill="#BDC3C7" rx="1"/>
+  
+  
+  <!-- Person using the software -->
+  
+    <!-- Entrepreneur -->
+    <circle cx="380" cy="220" r="18" fill="#E8B4A2"/>
+    <circle cx="370" cy="210" r="3" fill="#8B4513"/>
+    <circle cx="390" cy="210" r="3" fill="#8B4513"/>
+    <path d="M375,225 Q380,235 385,225" stroke="#D2B4A2" stroke-width="2" fill="none"/>
+    <rect x="365" y="240" width="30" height="40" fill="#F39C12"/>
+    <rect x="370" y="280" width="20" height="30" fill="#2C3E50"/>
+  
+  
+  <!-- Glow effect around interface -->
+  <ellipse cx="400" cy="270" rx="180" ry="140" fill="url(#glow-product-research-ai)"/>
+  
+  <!-- App name overlay -->
+  <rect x="0" y="480" width="800" height="120" fill="url(#bg-product-research-ai)" opacity="0.9"/>
+  <linearGradient id="textFade-product-research-ai" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:0"/>
+    <stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:0.8"/>
+  </linearGradient>
+  <rect x="0" y="480" width="800" height="40" fill="url(#textFade-product-research-ai)"/>
+  
+  <!-- App name -->
+  <text x="400" y="550" 
+        text-anchor="middle" 
+        font-family="Arial, sans-serif" 
+        font-size="24" 
+        font-weight="700" 
+        fill="white"
+        filter="url(#shadow-product-research-ai)">Product Research AI</text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="575" 
+        text-anchor="middle" 
+        font-family="Arial, sans-serif" 
+        font-size="14" 
+        font-weight="400" 
+        fill="#94a3b8">Professional AI Tool</text>
+  
+  <!-- Subtle texture overlay -->
+  <defs>
+    <pattern id="texture-product-research-ai" patternUnits="userSpaceOnUse" width="40" height="40">
+      <rect width="40" height="40" fill="transparent"/>
+      <circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.03)"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#texture-product-research-ai)"/>
+</svg>

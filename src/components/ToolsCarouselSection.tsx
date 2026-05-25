@@ -14,12 +14,6 @@ import {
   Globe,
   Bot,
   Wand2,
-  FileText,
-  Database,
-  Home,
-  BarChart,
-  Shield,
-  BookOpen,
 } from "lucide-react";
 
 import MagicSparkles from "./MagicSparkles";
@@ -27,87 +21,38 @@ import MagicSparkles from "./MagicSparkles";
 // Tool categories
 const toolCategories = [
   {
-    id: "sales-lead-gen",
-    name: "Sales & Lead Gen",
-    description: "AI tools for sales, lead generation, and prospecting",
-    color: "from-blue-500 to-indigo-600",
-    icon: <ShoppingCart className="h-5 w-5" />,
-  },
-  {
-    id: "content-marketing",
-    name: "Content & Marketing",
-    description: "Create marketing content with AI",
-    color: "from-purple-500 to-pink-600",
-    icon: <FileText className="h-5 w-5" />,
-  },
-  {
-    id: "video-audio-voice",
-    name: "Video, Audio & Voice",
-    description: "AI-powered video, audio and voice tools",
-    color: "from-red-500 to-orange-600",
+    id: "content-creation",
+    name: "Marketing Content Creation",
+     description: "Create personalized marketing content and images",
+    color: "from-purple-500 to-indigo-600",
     icon: <VideoIcon className="h-5 w-5" />,
   },
   {
-    id: "rag-knowledgebase",
-    name: "RAG & Knowledgebase",
-    description: "Document chat and knowledge management",
-    color: "from-green-500 to-emerald-600",
-    icon: <Database className="h-5 w-5" />,
-  },
-  {
-    id: "realestate-local",
-    name: "Real Estate & Local",
-    description: "Tools for real estate and local businesses",
-    color: "from-yellow-500 to-amber-600",
-    icon: <Home className="h-5 w-5" />,
-  },
-  {
-    id: "hr-hiring",
-    name: "HR & Hiring",
-    description: "AI recruitment and hiring tools",
-    color: "from-teal-500 to-cyan-600",
-    icon: <Users className="h-5 w-5" />,
-  },
-  {
-    id: "finance-business",
-    name: "Finance & Business",
-    description: "Business planning and financial analysis",
-    color: "from-indigo-500 to-blue-600",
-    icon: <BarChart className="h-5 w-5" />,
-  },
-  {
-    id: "legal-compliance",
-    name: "Legal & Compliance",
-    description: "Legal document analysis and compliance",
-    color: "from-gray-500 to-slate-600",
-    icon: <Shield className="h-5 w-5" />,
-  },
-  {
-    id: "coding-developer",
-    name: "Coding & SaaS",
-    description: "Development tools and SaaS builders",
-    color: "from-violet-500 to-purple-600",
-    icon: <Wand2 className="h-5 w-5" />,
-  },
-  {
-    id: "design-uiux",
-    name: "Design & UI/UX",
-    description: "Design tools and UI/UX assistants",
+    id: "visual-styles",
+    name: "Visual Marketing",
+    description: "Apply personalized visual treatments to marketing",
     color: "from-pink-500 to-rose-600",
     icon: <Palette className="h-5 w-5" />,
   },
   {
-    id: "research-education",
-    name: "Research & Training",
-    description: "Research assistants and training tools",
-    color: "from-cyan-500 to-blue-600",
-    icon: <BookOpen className="h-5 w-5" />,
+    id: "sales-tools",
+    name: "Sales & Marketing Tools",
+    description: "Close more deals with personalization",
+    color: "from-green-500 to-emerald-600",
+    icon: <ShoppingCart className="h-5 w-5" />,
   },
   {
-    id: "productivity-personal",
-    name: "Productivity & Personal",
-    description: "Personal assistants and productivity tools",
-    color: "from-amber-500 to-yellow-600",
+    id: "communication",
+    name: "Marketing Communication",
+    description: "Personalized marketing outreach tools",
+    color: "from-blue-500 to-cyan-600",
+    icon: <MessageSquare className="h-5 w-5" />,
+  },
+  {
+    id: "advanced-ai",
+    name: "Advanced AI Marketing",
+    description: "Cutting edge AI marketing personalization",
+    color: "from-yellow-500 to-amber-600",
     icon: <Bot className="h-5 w-5" />,
   },
 ];
@@ -127,9 +72,9 @@ const personalizationTools = [
     new: false,
   },
   {
-    id: "video-generator",
-    name: "Marketing Video Generator",
-    description: "Generate marketing videos based on audience data",
+     id: "campaign-generator",
+     name: "Marketing Campaign Generator",
+     description: "Generate marketing campaigns based on audience data",
     category: "content-creation",
     icon: <VideoIcon className="h-6 w-6" />,
     url: "https://ai-personalized-content.videoremix.vip",
@@ -420,7 +365,7 @@ const ToolsCarouselSection: React.FC = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
               One Platform.{" "}
               <span className="text-primary-400">
-                50+ Marketing Personalization Tools
+                20+ Marketing Personalization Apps
               </span>
             </h2>
           </MagicSparkles>

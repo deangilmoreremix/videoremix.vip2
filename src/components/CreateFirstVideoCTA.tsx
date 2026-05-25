@@ -1,9 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
 import {
-  Video,
+  Megaphone,
   ArrowRight,
-  FileVideo,
+  FileMegaphone,
   Wand2,
   LayoutTemplate,
   Play,
@@ -11,12 +11,9 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-interface CreateFirstVideoCTAProps {
-  variant?: "hero" | "sidebar" | "popup" | "inline";
-  className?: string;
-}
 
-const CreateFirstVideoCTA: React.FC<CreateFirstVideoCTAProps> = ({
+
+const CreateFirstVideoCTA = ({
   variant = "inline",
   className = "",
 }) => {
@@ -59,7 +56,7 @@ const CreateFirstVideoCTA: React.FC<CreateFirstVideoCTAProps> = ({
     >
       <div className="flex items-center justify-center mb-3">
         <div className="bg-gradient-to-r from-primary-500 to-primary-400 p-2.5 rounded-full">
-          <Video className="h-5 w-5 text-white" />
+          <Megaphone className="h-5 w-5 text-white" />
         </div>
       </div>
 
@@ -99,9 +96,9 @@ const CreateFirstVideoCTA: React.FC<CreateFirstVideoCTAProps> = ({
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
           <Link to="/help/create-first-video" className={getButtonClasses()}>
             {variant === "popup" ? (
-              <FileVideo className="h-5 w-5 mr-2" />
+              <LayoutTemplate className="h-5 w-5 mr-2" />
             ) : (
-              <Video className="h-5 w-5 mr-2" />
+              <Megaphone className="h-5 w-5 mr-2" />
             )}
             Create Your First Personalized Marketing Content
             <ArrowRight className="ml-2 h-4 w-4" />

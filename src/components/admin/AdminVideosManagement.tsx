@@ -9,8 +9,7 @@ import {
   AlertCircle,
   CheckCircle,
 } from "lucide-react";
-import { supabase } from "../../utils/supabaseClient";
-import { safeParseInt } from "../../utils/safeParse";
+import { supabase } from "../../utils/supabase";
 
 interface VideoItem {
   id: string;
@@ -391,7 +390,7 @@ const AdminVideosManagement: React.FC = () => {
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      duration: safeParseInt(e.target.value, 0),
+                      duration: parseInt(e.target.value),
                     })
                   }
                   className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-primary-500"

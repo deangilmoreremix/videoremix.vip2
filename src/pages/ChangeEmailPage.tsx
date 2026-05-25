@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Mail, CheckCircle, AlertCircle, Video, Loader } from "lucide-react";
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase";
 import { useAuth } from "../context/AuthContext";
 import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";

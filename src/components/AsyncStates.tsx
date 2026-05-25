@@ -1,5 +1,8 @@
-import React from 'react';
-import { Loader2, AlertCircle, RefreshCw, Inbox } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import Loader2 from 'lucide-react/dist/esm/icons/loader-2.js';
+import AlertCircle from 'lucide-react/dist/esm/icons/alert-circle.js';
+import RefreshCw from 'lucide-react/dist/esm/icons/refresh-cw.js';
+import Inbox from 'lucide-react/dist/esm/icons/inbox.js';
 import { ClassifiedError } from '../utils/errorHandling';
 
 /**
@@ -121,7 +124,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
 interface EmptyStateProps {
   title?: string;
   message?: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   action?: {
     label: string;
     onClick: () => void;
@@ -172,7 +175,7 @@ interface AsyncContentProps<T> {
   loadingMessage?: string;
   loadingSkeleton?: boolean;
   skeletonRows?: number;
-  children: (data: T) => React.ReactNode;
+  children: (data: T) => ReactNode;
   className?: string;
 }
 
@@ -188,7 +191,7 @@ export function AsyncContent<T>({
   skeletonRows = 3,
   children,
   className = '',
-}: AsyncContentProps<T>): React.ReactNode {
+}: AsyncContentProps<T>): ReactNode {
   // Loading state
   if (isLoading) {
     if (loadingSkeleton) {
@@ -218,7 +221,7 @@ export function AsyncContent<T>({
 interface AsyncButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading: boolean;
   loadingText?: string;
-  children: React.ReactNode;
+  children: ReactNode;
   variant?: 'primary' | 'secondary' | 'danger';
 }
 
@@ -259,9 +262,9 @@ export const AsyncButton: React.FC<AsyncButtonProps> = ({
  * Shows when the app is offline
  */
 export const NetworkStatusIndicator: React.FC = () => {
-  const [isOnline, setIsOnline] = React.useState(navigator.onLine);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
 

@@ -5,14 +5,13 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import {
-  getAllLandingPageContent,
+import type {
   HeroContent,
   BenefitFeature,
   Testimonial,
   FAQ,
   PricingPlan,
-} from "../utils/supabaseClient";
+} from "../utils/supabaseTypes";
 
 interface LandingPageContextType {
   hero: HeroContent | null;
@@ -39,19 +38,13 @@ const defaultContext: LandingPageContextType = {
 const LandingPageContext =
   createContext<LandingPageContextType>(defaultContext);
 
-export const useLandingPageContent = () => {
-  const context = useContext(LandingPageContext);
-  if (context === defaultContext) {
-    throw new Error("useLandingPageContent must be used within a LandingPageProvider");
-  }
-  return context;
-};
+export const useLandingPageContent = () => useContext(LandingPageContext);
 
 interface LandingPageProviderProps {
   children: ReactNode;
 }
 
-export const LandingPageProvider: React.FC<LandingPageProviderProps> = ({
+const LandingPageProvider: React.FC<LandingPageProviderProps> = ({
   children,
 }) => {
   const [content, setContent] = useState<
@@ -71,6 +64,8 @@ export const LandingPageProvider: React.FC<LandingPageProviderProps> = ({
       setIsLoading(true);
       setError(null);
 
+      // Dynamically import to break circular dependency
+      const { getAllLandingPageContent } = await import("../utils/supabaseClient");
       const data = await getAllLandingPageContent();
 
       setContent({
@@ -105,3 +100,4 @@ export const LandingPageProvider: React.FC<LandingPageProviderProps> = ({
     </LandingPageContext.Provider>
   );
 };
+export { LandingPageProvider };

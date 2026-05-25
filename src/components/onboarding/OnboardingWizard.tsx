@@ -7,7 +7,8 @@ import { getRecommendedCategories } from '../../data/onboardingMapping';
 import GoalSelectionStep from './GoalSelectionStep';
 import NicheSelectionStep from './NicheSelectionStep';
 import CategorySelectionStep from './CategorySelectionStep';
-import ToolkitStep from './ToolkitStep';
+import RecommendationsStep from './RecommendationsStep';
+import GuidedSetupStep from './GuidedSetupStep';
 import ParticleBackground from '../premium/ParticleBackground';
 import GradientOrb from '../premium/GradientOrb';
 
@@ -19,7 +20,8 @@ const STEP_TITLES: Record<WizardStep, string> = {
   1: 'Select Goals',
   2: 'Choose Niche',
   3: 'Select Categories',
-  4: 'Your Personalized Toolkit',
+  4: 'Recommendations',
+  5: 'Guided Setup',
 };
 
 const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ onComplete }) => {
@@ -102,8 +104,15 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ onComplete }) => {
         );
       case 4:
         return (
-          <ToolkitStep
+          <RecommendationsStep
             selectedCategories={answers.selectedCategories || []}
+            onContinue={nextStep}
+            onBack={prevStep}
+          />
+        );
+      case 5:
+        return (
+          <GuidedSetupStep
             onComplete={handleComplete}
             onBack={prevStep}
           />
@@ -155,9 +164,9 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ onComplete }) => {
               </button>
             </div>
            
-             {/* Progress bar */}
-             <div className="flex gap-2">
-               {[1, 2, 3, 4].map(stepNum => (
+            {/* Progress bar */}
+            <div className="flex gap-2">
+              {[1, 2, 3, 4, 5].map(stepNum => (
                 <div
                   key={stepNum}
                   className={`h-2 flex-1 rounded-full transition-all duration-500 ${

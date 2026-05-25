@@ -12,15 +12,13 @@ import {
   Target,
   Zap,
   ShoppingCart,
-  Sparkles,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useUserAccess } from "../hooks/useUserAccess";
 import { getEnhancedAppData } from "../data/enhancedAppsData";
-import { getBundleForApp } from "../data/appsData";
 import PurchaseModal from "./PurchaseModal";
 import PersonalizerDialog from "./personalizer/PersonalizerDialog";
-import LazyIcon from "./LazyIcon";
+import { Button } from "./ui/button";
 
 interface AppDetailModalProps {
   app: any;
@@ -163,17 +161,23 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
                           Purchase Now
                         </button>
                       )}
-                      <button
+                      <Button
                         onClick={() => setShowPersonalizer(true)}
-                        className="bg-gradient-to-r from-accent to-pink-500 hover:from-accent/90 hover:to-pink-500/90 text-white px-6 py-3 rounded-lg font-bold flex items-center gap-2 transition-colors"
+                        className="bg-primary-600 hover:bg-primary-700 text-white"
                       >
-                        <Sparkles className="h-5 w-5" />
                         Personalize This
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
               </div>
+
+              {/* Personalizer Dialog */}
+              <PersonalizerDialog
+                open={showPersonalizer}
+                onClose={() => setShowPersonalizer(false)}
+                appId={app?.id}
+              />
 
               {/* Content */}
               <div className="p-6">
@@ -270,11 +274,7 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
                             >
                               <div className="flex items-start gap-3">
                                 <div className="bg-primary-600 p-2 rounded-lg flex-shrink-0">
-                                  {typeof feature.iconName === "string" && feature.iconName ? (
-                                    <LazyIcon name={feature.iconName} className="h-5 w-5" />
-                                  ) : (
-                                    <Target className="h-5 w-5" />
-                                  )}
+                                  {feature.icon}
                                 </div>
                                 <div>
                                   <h4 className="text-white font-semibold mb-2">
@@ -393,15 +393,6 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
           icon: app.icon,
           price: enhancedApp.price || 97,
         }}
-        bundleInfo={getBundleForApp(app.id)}
-      />
-
-      {/* Personalizer Dialog */}
-      <PersonalizerDialog
-        open={showPersonalizer}
-        onClose={() => setShowPersonalizer(false)}
-        appId={app.id}
-        userId={user?.id}
       />
     </>
   );

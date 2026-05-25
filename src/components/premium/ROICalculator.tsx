@@ -1,187 +1,149 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Calculator, TrendingUp, DollarSign, Users, BarChart3 } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
+import TrendingUp from 'lucide-react/dist/esm/icons/trending-up.js';
+import DollarSign from 'lucide-react/dist/esm/icons/dollar-sign.js';
+import BarChart3 from 'lucide-react/dist/esm/icons/bar-chart-3.js';
+import Target from 'lucide-react/dist/esm/icons/target.js';
 
 interface ROICalculatorProps {
   className?: string;
 }
 
 const ROICalculator: React.FC<ROICalculatorProps> = ({ className = '' }) => {
-  const [monthlySpend, setMonthlySpend] = useState<number>(50000);
-  const [conversionRate, setConversionRate] = useState<number>(2.5);
-  const [averageOrderValue, setAverageOrderValue] = useState<number>(150);
-  const [personalizationLift, setPersonalizationLift] = useState<number>(80);
+  const [budget, setBudget] = useState(10000);
+  const [conversionRate, setConversionRate] = useState(2.23);
+  const [personalizationLevel, setPersonalizationLevel] = useState(50);
+  const [showResults, setShowResults] = useState(false);
 
-  // Calculate ROI
-  const monthlyVisitors = monthlySpend / 10; // Assuming $10 per visitor
-  const currentConversions = (monthlyVisitors * conversionRate) / 100;
-  const personalizedConversions = currentConversions * (1 + personalizationLift / 100);
-  const additionalRevenue = (personalizedConversions - currentConversions) * averageOrderValue;
-  const roi = ((additionalRevenue - monthlySpend * 0.1) / (monthlySpend * 0.1)) * 100; // Assuming 10% of spend on personalization
+  const results = useMemo(() => {
+    const baseConversions = budget * conversionRate / 100;
+    const personalizedMultiplier = 1 + (personalizationLevel / 100) * 1.2; // Up to 2.2x at 100%
+    const personalizedConversions = baseConversions * personalizedMultiplier;
+    const revenue = personalizedConversions * 500; // Average order value
+    const baseRevenue = baseConversions * 500;
+    const roi = ((revenue - budget) / budget) * 100;
+    const baseRoi = ((baseRevenue - budget) / budget) * 100;
+
+    return {
+      baseConversions: Math.round(baseConversions),
+      personalizedConversions: Math.round(personalizedConversions),
+      revenue: Math.round(revenue),
+      baseRevenue: Math.round(baseRevenue),
+      roi: Math.round(roi * 10) / 10,
+      baseRoi: Math.round(baseRoi * 10) / 10,
+      lift: Math.round((personalizedMultiplier - 1) * 100),
+    };
+  }, [budget, conversionRate, personalizationLevel]);
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className={`bg-[#1e1b4a] rounded-2xl p-8 border border-gray-700 ${className}`}
+      className={`bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-8 border border-gray-700 ${className}`}
     >
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 bg-primary-900/40 rounded-lg">
-          <Calculator className="h-6 w-6 text-primary-400" />
+      <div className="flex items-center mb-6">
+        <div className="bg-primary-900/50 p-3 rounded-xl mr-4">
+          <BarChart3 className="h-6 w-6 text-primary-400" />
         </div>
         <div>
-          <h3 className="text-2xl font-bold text-white">ROI Calculator</h3>
-          <p className="text-gray-400">Calculate your personalization ROI</p>
+          <h3 className="text-2xl font-bold text-white">Marketing ROI Calculator</h3>
+          <p className="text-gray-400">See the impact of personalization</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Input Section */}
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Monthly Marketing Spend ($)
-            </label>
-            <input
-              type="range"
-              min="10000"
-              max="500000"
-              step="5000"
-              value={monthlySpend}
-              onChange={(e) => setMonthlySpend(Number(e.target.value))}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-            />
-            <div className="flex justify-between text-xs text-gray-400 mt-1">
-              <span>$10K</span>
-              <span className="font-bold text-white">${monthlySpend.toLocaleString()}</span>
-              <span>$500K</span>
-            </div>
+      <div className="space-y-6 mb-8">
+        {/* Budget Slider */}
+        <div>
+          <div className="flex justify-between mb-2">
+            <label className="text-sm text-gray-300">Monthly Budget</label>
+            <span className="text-primary-400 font-bold">${budget.toLocaleString()}</span>
           </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Current Conversion Rate (%)
-            </label>
-            <input
-              type="range"
-              min="0.5"
-              max="10"
-              step="0.1"
-              value={conversionRate}
-              onChange={(e) => setConversionRate(Number(e.target.value))}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-            />
-            <div className="flex justify-between text-xs text-gray-400 mt-1">
-              <span>0.5%</span>
-              <span className="font-bold text-white">{conversionRate}%</span>
-              <span>10%</span>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Average Order Value ($)
-            </label>
-            <input
-              type="range"
-              min="25"
-              max="1000"
-              step="25"
-              value={averageOrderValue}
-              onChange={(e) => setAverageOrderValue(Number(e.target.value))}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-            />
-            <div className="flex justify-between text-xs text-gray-400 mt-1">
-              <span>$25</span>
-              <span className="font-bold text-white">${averageOrderValue}</span>
-              <span>$1000</span>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Personalization Lift (%)
-            </label>
-            <input
-              type="range"
-              min="10"
-              max="200"
-              step="5"
-              value={personalizationLift}
-              onChange={(e) => setPersonalizationLift(Number(e.target.value))}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-            />
-            <div className="flex justify-between text-xs text-gray-400 mt-1">
-              <span>10%</span>
-              <span className="font-bold text-white">{personalizationLift}%</span>
-              <span>200%</span>
-            </div>
-          </div>
+          <input
+            type="range"
+            min="1000"
+            max="100000"
+            step="1000"
+            value={budget}
+            onChange={(e) => setBudget(Number(e.target.value))}
+            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+          />
         </div>
 
-        {/* Results Section */}
-        <div className="space-y-4">
-          <div className="bg-[#0f0d2b] rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <TrendingUp className="h-4 w-4 text-green-400" />
-              <span className="text-sm text-gray-300">Additional Monthly Revenue</span>
-            </div>
-            <div className="text-2xl font-bold text-green-400">
-              ${additionalRevenue.toLocaleString()}
-            </div>
+        {/* Conversion Rate Slider */}
+        <div>
+          <div className="flex justify-between mb-2">
+            <label className="text-sm text-gray-300">Base Conversion Rate</label>
+            <span className="text-primary-400 font-bold">{conversionRate}%</span>
           </div>
+          <input
+            type="range"
+            min="0.5"
+            max="10"
+            step="0.1"
+            value={conversionRate}
+            onChange={(e) => setConversionRate(Number(e.target.value))}
+            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+          />
+        </div>
 
-          <div className="bg-[#0f0d2b] rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <BarChart3 className="h-4 w-4 text-blue-400" />
-              <span className="text-sm text-gray-300">ROI</span>
-            </div>
-            <div className="text-2xl font-bold text-blue-400">
-              {roi > 0 ? '+' : ''}{roi.toFixed(1)}%
-            </div>
+        {/* Personalization Level Slider */}
+        <div>
+          <div className="flex justify-between mb-2">
+            <label className="text-sm text-gray-300">Personalization Level</label>
+            <span className="text-green-400 font-bold">{personalizationLevel}%</span>
           </div>
-
-          <div className="bg-[#0f0d2b] rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Users className="h-4 w-4 text-purple-400" />
-              <span className="text-sm text-gray-300">Additional Conversions</span>
-            </div>
-            <div className="text-2xl font-bold text-purple-400">
-              {Math.round(personalizedConversions - currentConversions)}
-            </div>
-          </div>
-
-          <div className="bg-[#0f0d2b] rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <DollarSign className="h-4 w-4 text-yellow-400" />
-              <span className="text-sm text-gray-300">Cost of Personalization</span>
-            </div>
-            <div className="text-2xl font-bold text-yellow-400">
-              ${(monthlySpend * 0.1).toLocaleString()}
-            </div>
-          </div>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            step="5"
+            value={personalizationLevel}
+            onChange={(e) => setPersonalizationLevel(Number(e.target.value))}
+            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+          />
         </div>
       </div>
 
-      <AnimatePresence>
-        {roi > 100 && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            className="mt-6 bg-[#1e1b4a] rounded-lg p-4 border border-green-500/20"
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <TrendingUp className="h-5 w-5 text-green-400" />
-              <span className="text-lg font-bold text-green-400">Excellent ROI!</span>
+      {/* Results */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showResults ? 1 : 0 }}
+        className="bg-black/30 rounded-xl p-6 mb-6"
+      >
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-white">${results.revenue.toLocaleString()}</div>
+            <div className="text-xs text-gray-400">Personalized Revenue</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-gray-400">${results.baseRevenue.toLocaleString()}</div>
+            <div className="text-xs text-gray-400">Base Revenue</div>
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-r from-green-900/30 to-emerald-900/30 rounded-lg p-4 border border-green-700/30">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <TrendingUp className="h-5 w-5 text-green-400 mr-2" />
+              <span className="text-white font-bold">+{results.lift}% Lift</span>
             </div>
-            <p className="text-gray-300 text-sm">
-              Your personalization investment is paying off significantly. Consider scaling up your personalization efforts.
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-green-400">{results.roi}%</div>
+              <div className="text-xs text-gray-400">ROI</div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      <motion.button
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        onClick={() => setShowResults(!showResults)}
+        className="w-full bg-gradient-to-r from-primary-600 to-accent-600 hover:from-primary-500 hover:to-accent-500 text-white font-bold py-3 rounded-xl"
+      >
+        {showResults ? 'Hide Results' : 'Calculate ROI'}
+      </motion.button>
     </motion.div>
   );
 };

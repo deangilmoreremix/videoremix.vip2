@@ -1,0 +1,92 @@
+{
+  "hasChatInput": true,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": true,
+  "hasButtons": false,
+  "widgetCounts": {
+    "textInput": 0,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 0,
+    "chat": 3,
+    "write": 6
+  },
+  "providers": {
+    "google": {
+      "count": 6,
+      "imports": 3,
+      "clients": 3,
+      "models": [
+        {
+          "pattern": "gemini-2.0",
+          "count": 1
+        }
+      ]
+    },
+    "agno": {
+      "count": 6,
+      "imports": 3,
+      "clients": 3,
+      "models": []
+    },
+    "langchain": {
+      "count": 4,
+      "imports": 4,
+      "clients": 0,
+      "models": []
+    },
+    "crewai": {
+      "count": 3,
+      "imports": 3,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 3,
+      "imports": 3,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {
+    "qdrant": {
+      "count": 3,
+      "usage": "vector-store"
+    },
+    "beautifulsoup": {
+      "count": 1,
+      "usage": "integration"
+    }
+  },
+  "usesSessionState": false,
+  "hasHistory": true,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 473,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": true,
+  "hasWebSearch": true,
+  "uiType": "chat",
+  "inputFields": [],
+  "outputFormat": "image",
+  "primaryProvider": "google",
+  "filePath": "awesome-llm-apps/rag_tutorials/gemini_agentic_rag/agentic_rag_gemini.py",
+  "appName": "gemini-agentic-rag",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "GOOGLE_GENERATIVE_AI_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 21,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:33.493Z",
+  "analyzerVersion": "0.1.0"
+}

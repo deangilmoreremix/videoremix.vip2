@@ -1,0 +1,20 @@
+{
+  "name": "VideoRemix Development",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "forwardPorts": [8080, 54321, 54323],
+  "portsAttributes": {
+    "8080": {
+      "label": "Vite Dev Server",
+      "visibility": "public"
+    },
+    "54321": {
+      "label": "Supabase Local",
+      "visibility": "private"
+    },
+    "54323": {
+      "label": "Supabase Studio",
+      "visibility": "private"
+    }
+  },
+  "postCreateCommand": "cd /workspaces/videoremix.vip2 && npm install"
+}

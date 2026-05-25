@@ -1,86 +1,69 @@
+import { generatedThumbnails } from '../data/generatedThumbnails';
+
+// Build a map of AI-generated thumbnail URLs for instant lookup
+const aiThumbnailMap = new Map<string, string>();
+generatedThumbnails.forEach(thumb => {
+  aiThumbnailMap.set(thumb.metadata.appId, thumb.url);
+});
+
 /**
  * Centralized App URL Configuration
  *
- * Single source of truth for all app URLs across the platform.
+ * Single source of truth for all app URLs and thumbnail images.
  * Maps app IDs to their corresponding videoremix.vip subdomain URLs.
+ * 
+ * The 17 new apps as specified:
+ * - AI Personalized Content Hub: https://ai-personalizedcontent.videoremix.vip
+ * - FunnelCraft AI: https://ai-funnelcraft.videoremix.vip
+ * - AI Skills Monetizer: https://ai-skills-monetizer.videoremix.vip
+ * - AI Skills & Resume: https://ai-skills.videoremix.vip
+ * - Sales Page Builder: https://ai-salespage.videoremix.vip
+ * - Sales Assistant Pro: https://ai-salesassistant.videoremix.vip
+ * - AI Personalization Studio: https://ai-personalizationstudio.videoremix.vip
+ * - AI Personalizer: https://ai-personalizer.videoremix.vip
+ * - AI Video Transformer: https://ai-video-transformer.videoremix.vip
+ * - AI Screen Recorder: https://ai-screenrecorder.videoremix.vip
+ * - AI Signature: https://ai-signature.videoremix.vip
+ * - AI Thumbnail Generator: https://ai-thumbnail-generator.videoremix.vip
+ * - Profile Gen: https://ai-profilegen.videoremix.vip
+ * - AI Video Editor: https://ai-videoeditor.videoremix.vip
+ * - AI Referral Maximizer Pro: https://referrals.smartcrm.vip
+ * - AI Sales Maximizer: https://salesmax.smartcrm.vip
+ * - ContentAI: https://contentai.smartcrm.vip
+ * - Product Research AI: https://research.smartcrm.vip
  */
-import { isInternalAIApp } from "./internalAIApps";
 
 export const APP_URLS: Record<string, string> = {
-  // Personalizer Suite - ai-personalizedcontent.videoremix.vip
-  "personalizer-text-ai-editor":
-    "https://ai-personalizedcontent.videoremix.vip",
-  "personalizer-advanced-text-video-editor":
-    "https://ai-personalizedcontent.videoremix.vip",
-  "personalizer-writing-toolkit":
-    "https://ai-personalizedcontent.videoremix.vip",
-  "video-creator": "https://ai-personalizedcontent.videoremix.vip",
-  "promo-generator": "https://ai-personalizedcontent.videoremix.vip",
-  "text-to-speech": "https://ai-personalizedcontent.videoremix.vip",
-  "niche-script": "https://ai-personalizedcontent.videoremix.vip",
+  // =====================================================
+  // NEW 17 APPS - As Specified by User
+  // =====================================================
+
+  // AI Personalized Content Hub
+  "ai-personalized-content": "https://ai-personalizedcontent.videoremix.vip",
 
   // FunnelCraft AI
   "funnelcraft-ai": "https://ai-funnelcraft.videoremix.vip",
 
-  // Skills & Professional Development - ai-skills.videoremix.vip
+  // AI Skills Monetizer
   "ai-skills-monetizer": "https://ai-skills-monetizer.videoremix.vip",
+
+  // AI Skills & Resume
+  "ai-skills-resume": "https://ai-skills.videoremix.vip",
   "resume-amplifier": "https://ai-skills.videoremix.vip",
   "voice-coach": "https://ai-skills.videoremix.vip",
 
-  // Sales Page & Landing Page Creator
+  // Sales Page Builder
+  "sales-page-builder": "https://ai-salespage.videoremix.vip",
   "landing-page": "https://ai-salespage.videoremix.vip",
 
-  // Sales Assistant & Proposal Tools
+  // Sales Assistant Pro
+  "sales-assistant-pro": "https://ai-salesassistant.videoremix.vip",
   "sales-assistant-app": "https://ai-salesassistant.videoremix.vip",
   "ai-sales": "https://ai-salesassistant.videoremix.vip",
   "sales-monetizer": "https://ai-salesassistant.videoremix.vip",
 
-  // Personalization Studio Hub (Profile & General)
-  "personalizer-profile": "https://ai-personalizer.videoremix.vip",
-
-  // Video Transformer
-  "personalizer-video-image-transformer":
-    "https://ai-video-transformer.videoremix.vip",
-
-  // Screen Recorder
-  "personalizer-recorder": "https://ai-screenrecorder.videoremix.vip",
-
-  // AI Signature
-  "ai-signature": "https://ai-signature.videoremix.vip",
-
-  // Thumbnail Generator
-  "thumbnail-generator": "https://ai-thumbnail-generator.videoremix.vip",
-
-  // Additional apps that may need URLs assigned (keeping as placeholders)
-  "ai-referral-maximizer": "https://ai-personalizedcontent.videoremix.vip",
-  "smart-crm-closer": "https://ai-salesassistant.videoremix.vip",
-  "video-ai-editor": "https://ai-personalizedcontent.videoremix.vip",
-  "ai-video-image": "https://ai-video-transformer.videoremix.vip",
-  "ai-template-generator": "https://ai-personalizedcontent.videoremix.vip",
-  "interactive-shopping": "https://ai-personalizedcontent.videoremix.vip",
-  "personalizer-url-video-generation":
-    "https://ai-personalizedcontent.videoremix.vip",
-
-  // 15 New Dashboard Apps with Netlify URLs
-  "ai-personalized-content": "https://capable-mermaid-3c73fa.netlify.app/",
-  "ai-referral-maximizer-pro": "https://eloquent-kleicha-7e3a3e.netlify.app",
-  "ai-sales-maximizer": "https://magnificent-lamington-619374.netlify.app/",
-  "ai-screen-recorder": "https://adorable-arithmetic-675d28.netlify.app/",
-  "smart-crm-closer-pro": "https://stupendous-twilight-64389a.netlify.app/",
-  "video-ai-editor-pro": "https://heroic-seahorse-296f32.netlify.app/",
-  "ai-video-image-pro": "https://thriving-mochi-ecd815.netlify.app/",
-  "ai-skills-monetizer-pro": "https://roaring-mochi-39a60a.netlify.app",
-  "ai-signature-pro": "https://kaleidoscopic-tarsier-3d0a6c.netlify.app/",
-  "personalizer-profile-generator":
-    "https://endearing-churros-2ce8c6.netlify.app/",
-  "personalizer-transformer": "https://thriving-mochi-ecd815.netlify.app/",
-  "personalizer-url-templates": "https://cute-khapse-4e62cb.netlify.app/",
-  "ai-proposal-generator": "https://keen-pastelito-6b9074.netlify.app",
-  "sales-assistant-platform": "https://gentle-frangipane-ceed17.netlify.app",
-  "sales-page-builder-pro": "https://prismatic-starship-c0b4c2.netlify.app",
-
-  // Creative tools with ai-personalizationstudio hub
-  storyboard: "https://ai-personalizationstudio.videoremix.vip",
+  // AI Personalization Studio
+  "ai-personalization-studio": "https://ai-personalizationstudio.videoremix.vip",
   "ai-art": "https://ai-personalizationstudio.videoremix.vip",
   "rebrander-ai": "https://ai-personalizationstudio.videoremix.vip",
   "business-brander": "https://ai-personalizationstudio.videoremix.vip",
@@ -91,6 +74,82 @@ export const APP_URLS: Record<string, string> = {
   "smart-presentations": "https://ai-personalizationstudio.videoremix.vip",
   "interactive-outros": "https://ai-personalizationstudio.videoremix.vip",
   "social-pack": "https://ai-personalizationstudio.videoremix.vip",
+  "storyboard": "https://ai-personalizationstudio.videoremix.vip",
+
+  // AI Personalizer
+  "ai-personalizer": "https://ai-personalizer.videoremix.vip",
+  "personalizer-profile": "https://ai-personalizer.videoremix.vip",
+
+  // AI Video Transformer
+  "ai-video-transformer": "https://ai-video-transformer.videoremix.vip",
+  "personalizer-video-image-transformer": "https://ai-video-transformer.videoremix.vip",
+
+  // AI Screen Recorder
+  "ai-screen-recorder": "https://ai-screenrecorder.videoremix.vip",
+  "personalizer-recorder": "https://ai-screenrecorder.videoremix.vip",
+
+  // AI Signature
+  "ai-signature": "https://ai-signature.videoremix.vip",
+
+  // AI Thumbnail Generator
+  "ai-thumbnail-generator": "https://ai-thumbnail-generator.videoremix.vip",
+  "thumbnail-generator": "https://ai-thumbnail-generator.videoremix.vip",
+
+  // Profile Gen
+  "profile-gen": "https://ai-profilegen.videoremix.vip",
+  "personalizer-profile-generator": "https://ai-profilegen.videoremix.vip",
+
+  // AI Video Editor
+  "ai-video-editor": "https://ai-videoeditor.videoremix.vip",
+  "video-ai-editor": "https://ai-videoeditor.videoremix.vip",
+
+  // AI Referral Maximizer Pro
+  "ai-referral-maximizer-pro": "https://referrals.smartcrm.vip",
+  "ai-referral-maximizer": "https://referrals.smartcrm.vip",
+
+  // AI Sales Maximizer
+  "ai-sales-maximizer": "https://salesmax.smartcrm.vip",
+  "smart-crm-closer": "https://salesmax.smartcrm.vip",
+
+  // ContentAI
+  "contentai": "https://contentai.smartcrm.vip",
+  "ai-content": "https://contentai.smartcrm.vip",
+
+  // Product Research AI
+  "product-research-ai": "https://research.smartcrm.vip",
+};
+
+// =====================================================
+// =====================================================
+// THUMBNAIL URLs - AI-Generated thumbnails take priority
+// =====================================================
+// Note: AI-generated thumbnails (from DALL-E) are checked first in getAppThumbnail()
+// These SVG entries serve as fallbacks for apps without AI thumbnails.
+export const APP_THUMBNAILS: Record<string, string> = {
+  // These apps have AI-generated thumbnails (served from Supabase) so these are secondary fallbacks
+  "ai-personalized-content": "/app-thumbnails/ai-personalized-content-realistic.svg",
+  "funnelcraft-ai": "/app-thumbnails/funnelcraft-ai-realistic.svg",
+  "ai-skills-monetizer": "/app-thumbnails/ai-skills-monetizer-realistic.svg",
+  "ai-skills-resume": "/app-thumbnails/ai-skills-resume-realistic.svg",
+  "sales-page-builder": "/app-thumbnails/sales-page-builder-realistic.svg",
+  "sales-assistant-pro": "/app-thumbnails/sales-assistant-pro-realistic.svg",
+  "ai-personalization-studio": "/app-thumbnails/ai-personalization-studio-realistic.svg",
+  "ai-personalizer": "/app-thumbnails/ai-personalizer-realistic.svg",
+  "ai-video-transformer": "/app-thumbnails/ai-video-transformer-realistic.svg",
+  "ai-screen-recorder": "/app-thumbnails/ai-screen-recorder-realistic.svg",
+  "ai-signature": "/app-thumbnails/ai-signature-realistic.svg",
+  "ai-thumbnail-generator": "/app-thumbnails/ai-thumbnail-generator-realistic.svg",
+  "profile-gen": "/app-thumbnails/profile-gen-realistic.svg",
+  "ai-video-editor": "/app-thumbnails/ai-video-editor-realistic.svg",
+  "ai-referral-maximizer-pro": "/app-thumbnails/ai-referral-maximizer-pro-realistic.svg",
+  "ai-sales-maximizer": "/app-thumbnails/ai-sales-maximizer-realistic.svg",
+  "contentai": "/app-thumbnails/contentai-realistic.svg",
+  "product-research-ai": "/app-thumbnails/product-research-ai-realistic.svg",
+
+  // Apps without AI-generated thumbnails (maybe add them later)
+  // "video-creator": ...
+  // "ai-art": ...
+  // etc.
 };
 
 /**
@@ -99,34 +158,30 @@ export const APP_URLS: Record<string, string> = {
  * @returns The app's URL (external) or internal route fallback
  */
 export const getAppUrl = (appId: string): string => {
-  // The 95 first-party AI apps run inside the dashboard as rich React UIs
-  if (isInternalAIApp(appId)) {
-    return `/ai-app/${appId}`;
-  }
   return APP_URLS[appId] || `/app/${appId}`;
 };
 
 /**
- * Validate that all active apps have verified launch targets
- * This should be called during app loading/initialization
- * @param activeAppSlugs - Array of slugs for active apps
- * @throws Error if any active app lacks a verified launch target
+ * Get the thumbnail URL for a specific app
+ * Priority: 1) AI-generated DALL-E thumbnail, 2) Local SVG thumbnail, 3) None
+ * @param appId - The app identifier
+ * @returns The app's thumbnail URL (absolute URL for AI-generated, relative path for SVG)
  */
-export const validateActiveAppLaunchTargets = (activeAppSlugs: string[]): void => {
-  const missingMappings: string[] = [];
-
-  for (const slug of activeAppSlugs) {
-    if (!(slug in APP_URLS)) {
-      missingMappings.push(slug);
-    }
+export const getAppThumbnail = (appId: string): string => {
+  // Priority 1: AI-generated DALL-E thumbnail (if available)
+  const aiThumbnail = aiThumbnailMap.get(appId);
+  if (aiThumbnail) {
+    return aiThumbnail;
   }
-
-  if (missingMappings.length > 0) {
-    throw new Error(
-      `Active apps missing launch target mappings: ${missingMappings.join(', ')}. ` +
-      `Add these apps to APP_URLS in src/config/appUrls.ts or provide custom_domain/netlify_url in database.`
-    );
+  
+  // Priority 2: Local static SVG thumbnail
+  const localThumbnail = APP_THUMBNAILS[appId];
+  if (localThumbnail) {
+    return localThumbnail;
   }
+  
+  // Priority 3: No thumbnail available
+  return "";
 };
 
 /**
@@ -158,76 +213,19 @@ export const URL_CATEGORIES = {
   SKILLS: "https://ai-skills.videoremix.vip",
   SKILLS_MONETIZER: "https://ai-skills-monetizer.videoremix.vip",
   SALES_PAGE: "https://ai-salespage.videoremix.vip",
-  PROPOSAL: "https://ai-proposal.videoremix.vip",
   SALES_ASSISTANT: "https://ai-salesassistant.videoremix.vip",
   PERSONALIZATION_STUDIO: "https://ai-personalizationstudio.videoremix.vip",
+  PERSONALIZER: "https://ai-personalizer.videoremix.vip",
   VIDEO_TRANSFORMER: "https://ai-video-transformer.videoremix.vip",
   SCREEN_RECORDER: "https://ai-screenrecorder.videoremix.vip",
   SIGNATURE: "https://ai-signature.videoremix.vip",
   THUMBNAIL: "https://ai-thumbnail-generator.videoremix.vip",
-  PERSONALIZER: "https://ai-personalizer.videoremix.vip",
+  PROFILE_GEN: "https://ai-profilegen.videoremix.vip",
+  VIDEO_EDITOR: "https://ai-videoeditor.videoremix.vip",
+  REFERRALS: "https://referrals.smartcrm.vip",
+  SALESMAX: "https://salesmax.smartcrm.vip",
+  CONTENTAI: "https://contentai.smartcrm.vip",
+  RESEARCH: "https://research.smartcrm.vip",
 } as const;
 
 export type UrlCategory = (typeof URL_CATEGORIES)[keyof typeof URL_CATEGORIES];
-
-
-// Thumbnail mappings
-export const THUMBNAIL_URLS: Record<string, string> = {
-  "promo-generator": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/promo-generator-ai-thumbnail-1776704426033.png",
-  "video-creator": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/video-creator-ai-thumbnail-1776704425812.png",
-  "landing-page": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/landing-page-ai-thumbnail-1776704426524.png",
-  "ai-image-tools": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-image-tools-ai-thumbnail-1776704457300.png",
-  "rebrander-ai": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/rebrander-ai-ai-thumbnail-1776704460251.png",
-  "voice-coach": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/voice-coach-ai-thumbnail-1776704460733.png",
-  "storyboard": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/storyboard-ai-thumbnail-1776704492594.png",
-  "smart-presentations": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/smart-presentations-ai-thumbnail-1776704492613.png",
-  "sales-monetizer": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/sales-monetizer-ai-thumbnail-1776704494615.png",
-  "interactive-outros": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/interactive-outros-ai-thumbnail-1776704529477.png",
-  "personalizer-recorder": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-recorder-ai-thumbnail-1776704529514.png",
-  "thumbnail-generator": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/thumbnail-generator-ai-thumbnail-1776704530509.png",
-  "ai-art": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-art-ai-thumbnail-1776704561686.png",
-  "social-pack": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/social-pack-ai-thumbnail-1776704562321.png",
-  "bg-remover": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/bg-remover-ai-thumbnail-1776704565069.png",
-  "text-to-speech": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/text-to-speech-ai-thumbnail-1776704597380.png",
-  "niche-script": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/niche-script-ai-thumbnail-1776704597610.png",
-  "ai-referral-maximizer": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-referral-maximizer-ai-thumbnail-1776704597857.png",
-  "video-ai-editor": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/video-ai-editor-ai-thumbnail-1776704630431.png",
-  "smart-crm-closer": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/smart-crm-closer-ai-thumbnail-1776704630924.png",
-  "ai-video-image": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-video-image-ai-thumbnail-1776704631265.png",
-  "ai-signature": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-signature-ai-thumbnail-1776704664298.png",
-  "ai-skills-monetizer": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-skills-monetizer-ai-thumbnail-1776704664581.png",
-  "ai-template-generator": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-template-generator-ai-thumbnail-1776704665560.png",
-  "personalizer-video-image-transformer": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-video-image-transformer-ai-thumbnail-1776704696819.png",
-  "interactive-shopping": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/interactive-shopping-ai-thumbnail-1776704697742.png",
-  "funnelcraft-ai": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/funnelcraft-ai-ai-thumbnail-1776704699683.png",
-  "ai-headshot-studio": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-headshot-studio-ai-thumbnail-1776705000001.png",
-  "nano-banana-studio": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/nano-banana-studio-ai-thumbnail-1776705000002.png",
-  "seedance-v2-studio": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/seedance-v2-studio-ai-thumbnail-1776705000003.png",
-  "easyveo": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/easyveo-ai-thumbnail-1776705000004.png",
-  "aiclip": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/aiclip-ai-thumbnail-1776705000005.png",
-  "pet-product-studio": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/pet-product-studio-ai-thumbnail-1776705000006.png",
-  "resale-photo-enhancer": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/resale-photo-enhancer-ai-thumbnail-1776705000007.png",
-  "ai-recruiter": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-recruiter-ai-thumbnail-1776705000008.png",
-  "talk-to-pdf": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/talk-to-pdf-ai-thumbnail-1776705000009.png",
-  "blogger-cms": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/blogger-cms-ai-thumbnail-1776705000010.png",
-  "amazon-product-studio": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/amazon-product-studio-ai-thumbnail-1776705000011.png",
-  "ai-business-card": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-business-card-ai-thumbnail-1776705000012.png",
-  "mailwise": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/mailwise-ai-thumbnail-1776705000013.png",
-  "my-podcast": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/my-podcast-ai-thumbnail-1776705000014.png",
-  "ezscribe": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ezscribe-ai-thumbnail-1776705000015.png",
-  "ai-knowledge-base": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-knowledge-base-ai-thumbnail-1776705000016.png",
-  "ai-outbound": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-outbound-ai-thumbnail-1776705000017.png",
-  "ai-royal-portrait": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-royal-portrait-ai-thumbnail-1776705000018.png",
-  "ai-logo": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-logo-ai-thumbnail-1776705000019.png",
-  "old-photo": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/old-photo-ai-thumbnail-1776705000020.png",
-  "ai-try-on": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-try-on-ai-thumbnail-1776705000021.png",
-  "ai-age-transformation": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-age-transformation-ai-thumbnail-1776705000022.png",
-  "ai-professional-makeup-generator": "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-professional-makeup-generator-ai-thumbnail-1776705000023.png",
-};
-
-
-
-export const getThumbnailUrl = (appId: string): string => {
-  return THUMBNAIL_URLS[appId] || '';
-};
-

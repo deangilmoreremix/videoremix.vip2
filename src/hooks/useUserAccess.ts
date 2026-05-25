@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase";
 import {
   purchaseService,
   UserAppAccess,
@@ -297,11 +297,7 @@ export const useUserAccess = (): UnifiedAccessData & {
     return await purchaseService.checkUserHasAccess(user.id, appSlug);
   }, []);
 
-  const refetch = useCallback(async (forceRefresh: boolean = true) => {
-    if (forceRefresh) {
-      // Clear cache and force immediate reload
-      setLastUserId(null);
-    }
+  const refetch = useCallback(async () => {
     await loadAllAccessData();
   }, [loadAllAccessData]);
 

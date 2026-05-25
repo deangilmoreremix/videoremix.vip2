@@ -1,12 +1,69 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
+// Fetch user's API key from Supabase (user-provided keys)
+async function getUserApiKey(user_id, provider) {
+  const { data, error } = await supabase
+    .from('user_api_keys')
+    .select('encrypted_api_key')
+    .eq('user_id', user_id)
+    .eq('provider', provider)
+    .single();
+
+  if (error || !data) {
+    return null;
+  }
+  return data.encrypted_api_key;
+}
+
+// Verify JWT token to get user_id
+async function verifyUser(req) {
+  const authHeader = req.headers.get('Authorization');
+  if (!authHeader?.startsWith('Bearer ')) {
+    return null;
+  }
+  const token = authHeader.substring(7);
+  try {
+    const { data: { user } } = await supabase.auth.getUser(token);
+    if (!user) return null;
+    return { user_id: user.id };
+  } catch (e) {
+    console.error('JWT verification failed:', e);
+    return null;
+  }
+}
+
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
+
+  // Verify authentication and get user's API key
+  const { user_id } = await verifyUser(req);
+  if (!user_id) {
+    return jsonResponse({ error: 'Unauthorized' }, 401);
+  }
+
+  // Get user's openai API key
+  const userApiKey = await getUserApiKey(user_id, 'openai');
+  if (!userApiKey) {
+    return jsonResponse({ 
+      error: 'API_KEY_MISSING',
+      message: 'Please add your openai API key in your profile.',
+      provider: 'openai'
+    }, 403);
+  }
+
+  // Parse body
+  let body;
+  try {
+    body = await req.json();
+  } catch (e) {
+    // body remains undefined for non-JSON requests
+  }
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response(null, {
@@ -82,17 +139,29 @@ async function handleRequest(req: Request, supabase: any) {
   const isBulk = url.searchParams.get("bulk") === "true";
 
   if (req.method === "GET") {
-    const { data: authUsers, error: authError } = await supabase.auth.admin.listUsers();
+    // Fetch ALL users with pagination (not just first 50)
+    let allUsers = [];
+    let page = 1;
+    const perPage = 1000;
+    while (true) {
+      const { data: authUsersPage, error: authError } = await supabase.auth.admin.listUsers({ page, perPage });
 
-    if (authError) {
-      return new Response(
-        JSON.stringify({ success: false, error: authError.message }),
-        {
-          status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
+      if (authError) {
+        return new Response(
+          JSON.stringify({ success: false, error: authError.message }),
+          {
+            status: 500,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
+
+      allUsers = allUsers.concat(authUsersPage.users);
+      if (authUsersPage.users.length < perPage) break;
+      page++;
     }
+
+    const authUsers = { users: allUsers };
 
     const { data: roles } = await supabase
       .from("user_roles")
@@ -123,7 +192,6 @@ async function handleRequest(req: Request, supabase: any) {
       is_active: !user.banned_until,
       created_at: user.created_at,
       last_login: user.last_sign_in_at,
-      login_count: user.user_metadata?.login_count || 0,
       app_access: appAccessMap.get(user.id) || [],
       app_count: (appAccessMap.get(user.id) || []).length,
     }));
@@ -318,17 +386,6 @@ async function handleRequest(req: Request, supabase: any) {
 
   // Handle app access management for specific users
   if (action === "app-access") {
-    // Restrict bundle/app access management to super_admin only
-    if (roleData.role !== 'super_admin') {
-      return new Response(
-        JSON.stringify({ success: false, error: "Super admin access required for app access management" }),
-        {
-          status: 403,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
-    }
-
     if (req.method === "GET") {
       // Get app access for a specific user
       const { data: userAccess, error: accessError } = await supabase

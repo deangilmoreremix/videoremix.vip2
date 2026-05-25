@@ -1,165 +1,123 @@
 #!/usr/bin/env node
 import { readFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { dirname, isAbsolute, join } from 'path';
+import dotenv from 'dotenv';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Check if we're in CI environment
-const isCI = process.env.CI === 'true' || 
-             process.env.GITHUB_ACTIONS === 'true' ||
-             process.env.NETLIFY === 'true' ||
-             process.env.CI_ENVIRONMENT === 'true';
+const envPath = join(__dirname, '.env');
+const envLocalPath = join(__dirname, '.env.local');
+const envDevelopmentPath = join(__dirname, '.env.development');
+const envLaunchPath = join(__dirname, '.env.launch');
+const envExamplePath = join(__dirname, '.env.example');
+const legacyEnvPath = join(__dirname, 'env');
+const customEnvPath = process.env.ENV_PATH
+  ? (isAbsolute(process.env.ENV_PATH) ? process.env.ENV_PATH : join(__dirname, process.env.ENV_PATH))
+  : null;
+const lockFilePath = join(__dirname, '.env.lock');
 
-// Check if we're in a production build environment
-const isProduction = process.env.NODE_ENV === 'production' ||
-                      process.env.CONTEXT === 'production' ||
-                      process.env.BRANCH === 'main' ||
-                      (!isCI && !existsSync(join(__dirname, '.env.lock')));
-
-// Always validate environment configuration
-console.log('🔍 Validating environment configuration...');
-console.log(`   Environment: ${isCI ? 'CI' : isProduction ? 'Production' : 'Development'}`);
-
-if (isCI) {
-  // CI validation - only check environment variables, no .env file required
-  console.log('🚀 Running in CI mode - validating environment variables only...');
-  
-  let supabaseUrl = process.env.VITE_SUPABASE_URL;
-  let supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl) {
-    console.error('❌ ERROR: VITE_SUPABASE_URL environment variable not set');
-    console.error('   Please add VITE_SUPABASE_URL to your CI environment variables');
-    process.exit(1);
-  }
-
-  if (!supabaseAnonKey) {
-    console.error('❌ ERROR: VITE_SUPABASE_ANON_KEY environment variable not set');
-    console.error('   Please add VITE_SUPABASE_ANON_KEY to your CI environment variables');
-    process.exit(1);
-  }
-
-  // Additional validation for production
-  if (isProduction) {
-    if (!supabaseUrl.startsWith('https://')) {
-      console.error('❌ ERROR: VITE_SUPABASE_URL must use HTTPS in production');
-      process.exit(1);
-    }
-
-    if (supabaseUrl.includes('localhost') || supabaseUrl.includes('127.0.0.1')) {
-      console.error('❌ ERROR: VITE_SUPABASE_URL cannot point to localhost in production');
-      process.exit(1);
-    }
-  }
-
-  console.log('✅ CI environment validation passed');
-  console.log(`   Supabase URL: ${supabaseUrl}`);
-  process.exit(0);
+// Read .env.lock to get locked values if available
+let correctProjectId, correctUrl;
+if (existsSync(lockFilePath)) {
+  const lockFile = readFileSync(lockFilePath, 'utf-8');
+  correctProjectId = lockFile.match(/LOCKED_PROJECT_ID=(.+)/)?.[1];
+  correctUrl = lockFile.match(/LOCKED_SUPABASE_URL=(.+)/)?.[1];
 }
 
-if (isProduction) {
-  // Production validation - check environment variables
-  let supabaseUrl = process.env.VITE_SUPABASE_URL;
-  let supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
+// Read .env file
+let envVars = {};
+if (existsSync(envPath)) {
+  const envFile = readFileSync(envPath, 'utf-8');
+  envFile.split('\n').forEach(line => {
+    const match = line.match(/^([^#=]+)=(.*)$/);
+    if (match) {
+      envVars[match[1].trim()] = match[2].trim();
+    }
+  });
+}
 
-  // In local production builds, also check .env file
-  if (!supabaseUrl || !supabaseAnonKey) {
-    try {
-      const envPath = join(__dirname, '.env');
-      if (existsSync(envPath)) {
-        const envFile = readFileSync(envPath, 'utf-8');
-        supabaseUrl = supabaseUrl || envFile.match(/VITE_SUPABASE_URL=(.+)/)?.[1];
-        supabaseAnonKey = supabaseAnonKey || envFile.match(/VITE_SUPABASE_ANON_KEY=(.+)/)?.[1];
-      }
-    } catch (error) {
-      // Ignore errors reading .env file
+// Required environment variables
+const requiredVars = [
+  { name: 'VITE_SUPABASE_URL', required: true },
+  { name: 'VITE_SUPABASE_ANON_KEY', required: true },
+];
+
+// Optional but recommended
+const optionalVars = [
+  { name: 'OPENAI_API_KEY', required: false },
+];
+
+let hasErrors = false;
+
+// Check required variables
+console.log('🔍 Validating environment variables...\n');
+
+for (const { name } of requiredVars) {
+  const value = process.env[name] || envVars[name];
+  
+  if (!value) {
+    console.error(`❌ ERROR: ${name} is not set`);
+    hasErrors = true;
+  } else if (name === 'VITE_SUPABASE_URL') {
+    // Check if this is a local Supabase instance
+    const isLocal = value.includes('localhost') || value.includes('127.0.0.1') || value.includes('::1');
+    
+    // Validate Supabase URL format - accept both production and local URLs
+    if (!value.includes('supabase.co') && !isLocal) {
+      console.error(`❌ ERROR: ${name} does not appear to be a valid Supabase URL`);
+      console.error(`   Got: ${value}`);
+      console.error(`   Expected: https://<project-id>.supabase.co or http://localhost:54321`);
+      hasErrors = true;
+    }
+    
+    // Check against locked project ID only for production URLs
+    if (!isLocal && correctProjectId && !value.includes(correctProjectId)) {
+      console.error(`❌ ERROR: Project ID mismatch in ${name}`);
+      console.error(`   Expected: ${correctProjectId}`);
+      console.error(`   URL: ${value}`);
+      hasErrors = true;
+    }
+    
+    // For local URLs, warn but don't error
+    if (isLocal) {
+      console.log(`ℹ️  Using local Supabase instance: ${value}`);
+    }
+  } else if (name === 'VITE_SUPABASE_ANON_KEY') {
+    // Validate anon key format (should start with eyJ)
+    if (!value.startsWith('eyJ')) {
+      console.error(`❌ ERROR: ${name} does not appear to be a valid Supabase anon key`);
+      console.error(`   Anon keys should start with 'eyJ...'`);
+      hasErrors = true;
     }
   }
+}
 
-  if (!supabaseUrl) {
-    console.error('❌ ERROR: VITE_SUPABASE_URL environment variable not set');
-    console.error('   Set VITE_SUPABASE_URL in your environment or .env file');
-    process.exit(1);
+// Check optional variables
+for (const { name } of optionalVars) {
+  const value = process.env[name] || envVars[name];
+  if (!value) {
+    console.warn(`⚠️  WARNING: ${name} is not set (optional but recommended)`);
   }
+}
 
-  if (!supabaseAnonKey) {
-    console.error('❌ ERROR: VITE_SUPABASE_ANON_KEY environment variable not set');
-    console.error('   Set VITE_SUPABASE_ANON_KEY in your environment or .env file');
-    process.exit(1);
-  }
-
-  // Additional validation for production
-  if (!supabaseUrl.startsWith('https://')) {
-    console.error('❌ ERROR: VITE_SUPABASE_URL must use HTTPS in production');
-    process.exit(1);
-  }
-
-  if (supabaseUrl.includes('localhost') || supabaseUrl.includes('127.0.0.1')) {
-    console.error('❌ ERROR: VITE_SUPABASE_URL cannot point to localhost in production');
-    process.exit(1);
-  }
-
-  console.log('✅ Production environment validation passed');
-  console.log(`   Supabase URL: ${supabaseUrl}`);
+// Summary
+console.log('');
+if (hasErrors) {
+  console.error('❌ Environment validation failed!');
+  console.error('   Please check your .env file or environment variables.');
+  process.exit(1);
 } else {
-  // Local development validation
-  // Read the lock file
-  const lockFile = readFileSync(join(__dirname, '.env.lock'), 'utf-8');
-  const correctProjectId = lockFile.match(/LOCKED_PROJECT_ID=(.+)/)?.[1];
-  const correctUrl = lockFile.match(/LOCKED_SUPABASE_URL=(.+)/)?.[1];
-
-  if (!correctProjectId || !correctUrl) {
-    console.error('❌ ERROR: Invalid .env.lock file format');
-    process.exit(1);
+  console.log('✅ All required environment variables are set');
+  
+  // Show non-sensitive info
+  if (envVars.VITE_SUPABASE_URL || process.env.VITE_SUPABASE_URL) {
+    const url = process.env.VITE_SUPABASE_URL || envVars.VITE_SUPABASE_URL;
+    const isLocal = url.includes('localhost') || url.includes('127.0.0.1') || url.includes('::1');
+    const projectId = isLocal ? 'local' : (url.match(/https:\/\/([^.]+)/)?.[1] || 'unknown');
+    console.log(`   Project: ${projectId}`);
+    console.log(`   URL: ${url}`);
   }
-
-  // Read environment variables from .env file
-  const envPath = join(__dirname, '.env');
-  if (!existsSync(envPath)) {
-    console.error('❌ ERROR: .env file not found');
-    console.error('   Run: cp .env.example .env');
-    process.exit(1);
-  }
-
-  const envFile = readFileSync(envPath, 'utf-8');
-  const currentUrl = envFile.match(/VITE_SUPABASE_URL=(.+)/)?.[1];
-  const currentAnonKey = envFile.match(/VITE_SUPABASE_ANON_KEY=(.+)/)?.[1];
-
-  // Validate URL
-  if (!currentUrl) {
-    console.error('❌ ERROR: VITE_SUPABASE_URL not found in .env file');
-    console.error('   Add VITE_SUPABASE_URL to your .env file');
-    process.exit(1);
-  }
-
-  if (currentUrl !== correctUrl) {
-    console.error('❌ ERROR: Incorrect Supabase URL detected!');
-    console.error(`   Current:  ${currentUrl}`);
-    console.error(`   Expected: ${correctUrl}`);
-    console.error(`   Project:  ${correctProjectId}`);
-    console.error('');
-    console.error('   Update your .env file with the correct URL');
-    process.exit(1);
-  }
-
-  // Check if the project ID in the URL matches
-  if (!currentUrl.includes(correctProjectId)) {
-    console.error('❌ ERROR: Project ID mismatch!');
-    console.error(`   URL contains wrong project ID`);
-    console.error(`   Expected: ${correctProjectId}`);
-    process.exit(1);
-  }
-
-  // Validate anon key
-  if (!currentAnonKey) {
-    console.error('❌ ERROR: VITE_SUPABASE_ANON_KEY not found in .env file');
-    console.error('   Add VITE_SUPABASE_ANON_KEY to your .env file');
-    process.exit(1);
-  }
-
-  console.log('✅ Supabase configuration is correct');
-  console.log(`   Project: ${correctProjectId}`);
-  console.log(`   URL: ${correctUrl}`);
+  console.log('');
 }

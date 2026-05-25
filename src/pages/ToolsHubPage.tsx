@@ -34,25 +34,17 @@ import MagicSparkles from "../components/MagicSparkles";
 import { useAuth } from "../context/AuthContext";
 import usePurchases from "../hooks/usePurchases";
 import PurchaseModal from "../components/PurchaseModal";
-import { getThumbnailUrl } from "../config/appUrls";
 import { useApps } from "../hooks/useApps";
-import { getBundleForApp } from "../data/appsData";
 
 // Tool categories mapped to database categories
 const categories = [
-  { id: "all", name: "All Apps" },
-  { id: "sales-lead-gen", name: "Sales & Lead Gen" },
-  { id: "content-marketing", name: "Content & Marketing" },
-  { id: "video-audio-voice", name: "Video, Audio & Voice" },
-  { id: "rag-knowledgebase", name: "RAG & Knowledgebase" },
-  { id: "realestate-local", name: "Real Estate & Local" },
-  { id: "hr-hiring", name: "HR & Hiring" },
-  { id: "finance-business", name: "Finance & Business" },
-  { id: "legal-compliance", name: "Legal & Compliance" },
-  { id: "coding-developer", name: "Coding & SaaS" },
-  { id: "design-uiux", name: "Design & UI/UX" },
-  { id: "research-education", name: "Research & Training" },
-  { id: "productivity-personal", name: "Productivity & Personal" },
+  { id: "all", name: "All Tools" },
+  { id: "video", name: "Video Creation" },
+  { id: "ai-image", name: "AI Image" },
+  { id: "branding", name: "Branding" },
+  { id: "personalizer", name: "Personalizer" },
+  { id: "lead-gen", name: "Lead Generation" },
+  { id: "creative", name: "Creative Tools" },
 ];
 
 // Legacy tool data - now loaded from Supabase
@@ -594,20 +586,6 @@ const ToolsHubPage: React.FC = () => {
                       transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
                       className="bg-gray-800/70 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-700 hover:border-primary-500/50 transition-colors group"
                     >
-                      {/* Thumbnail Image */}
-                      <div className="relative h-32 w-full bg-gray-700/50">
-                        <img
-                          src={getThumbnailUrl(tool.id)}
-                          alt={tool.name}
-                          className="w-full h-full object-cover object-center rounded-t-xl"
-                          onError={(e) => {
-                            // Hide image on error, keep background
-                            e.currentTarget.style.display = 'none';
-                          }}
-                        />
-                        {/* Gradient overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-gray-800/80 to-transparent rounded-t-xl"></div>
-                      </div>
                       <div className="block p-6">
                         <div className="flex items-center mb-4">
                           <div className="bg-black/30 p-3 rounded-lg mr-4">
@@ -736,7 +714,7 @@ const ToolsHubPage: React.FC = () => {
                 </MagicSparkles>
 
                 <p className="text-xl text-gray-300 mb-8">
-                  Get unlimited access to all 50+ personalization tools and
+                  Get unlimited access to all 20+ personalization apps and
                   create content that delivers 3x better results than generic
                   content.
                 </p>
@@ -769,7 +747,6 @@ const ToolsHubPage: React.FC = () => {
             setSelectedApp(null);
           }}
           app={selectedApp}
-          bundleInfo={getBundleForApp(selectedApp.id)}
         />
       )}
 

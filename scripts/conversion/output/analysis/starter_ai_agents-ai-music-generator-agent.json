@@ -1,0 +1,77 @@
+{
+  "hasChatInput": false,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 1,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 2,
+    "chat": 0,
+    "write": 2
+  },
+  "providers": {
+    "agno": {
+      "count": 2,
+      "imports": 1,
+      "clients": 1,
+      "models": [
+        {
+          "pattern": "gpt-4",
+          "count": 1
+        }
+      ]
+    },
+    "crewai": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": false,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 95,
+  "hasMultiAgent": true,
+  "hasTools": true,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "form",
+  "inputFields": [
+    {
+      "name": "enter_a_music_generation_prompt",
+      "label": "Enter a music generation prompt:",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "outputFormat": "audio",
+  "primaryProvider": "agno",
+  "filePath": "awesome-llm-apps/starter_ai_agents/ai_music_generator_agent/music_generator_agent.py",
+  "appName": "ai-music-generator-agent",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 15,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:33.070Z",
+  "analyzerVersion": "0.1.0"
+}

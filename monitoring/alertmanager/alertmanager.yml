@@ -1,0 +1,161 @@
+global:
+  resolve_timeout: 5m
+  slack_api_url: '${SLACK_WEBHOOK_URL}'
+
+templates:
+  - '/etc/alertmanager/templates/*.tmpl'
+
+route:
+  group_by: ['alertname', 'cluster', 'service']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  receiver: 'slack-notifications'
+
+  routes:
+    # Critical alerts - immediate notification
+    - match:
+        severity: 'critical'
+      receiver: 'slack-critical'
+      group_wait: 10s
+      repeat_interval: 1h
+
+    # Cost alerts - separate channel
+    - match:
+        cost_category: 'daily'
+      receiver: 'slack-cost-daily'
+      continue: true
+
+    - match:
+        cost_category: 'monthly'
+      receiver: 'slack-cost-monthly'
+      continue: true
+
+    # Warning alerts - less urgent
+    - match:
+        severity: 'warning'
+      receiver: 'slack-warnings'
+      group_wait: 1m
+      repeat_interval: 6h
+
+receivers:
+  # Main alert channel
+  - name: 'slack-notifications'
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#monitoring-alerts'
+        send_resolved: true
+        title: '🚨 [{{ .Status | toUpper }}] {{ .GroupLabels.alertname }}'
+        text: |
+          {{ range .Alerts }}
+          *Alert:* {{ .Annotations.summary }}
+          *Description:* {{ .Annotations.description }}
+          *Severity:* {{ .Labels.severity }}
+          *Service:* {{ .Labels.service }}
+          *Started:* {{ .StartsAt.Format "2006-01-02 15:04:05 UTC" }}
+          *Duration:* {{ .Duration }}
+          {{ if .GeneratorURL }}*Dashboard:* {{ .GeneratorURL }}{{ end }}
+          {{ end }}
+        color: '{{ if eq .Status "firing" }}{{ if eq .CommonLabels.severity "critical" }}danger{{ else if eq .CommonLabels.severity "warning" }}warning{{ else }}good{{ end }}{{ else }}good{{ end }}'
+
+  # Critical alerts only
+  - name: 'slack-critical'
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#monitoring-alerts'
+        send_resolved: true
+        title: '🚨 [CRITICAL] {{ .GroupLabels.alertname }}'
+        text: |
+          {{ range .Alerts }}
+          *Alert:* {{ .Annotations.summary }}
+          *Description:* {{ .Annotations.description }}
+          *Service:* {{ .Labels.service }}
+          *Started:* {{ .StartsAt.Format "2006-01-02 15:04:05 UTC" }}
+          *Action Required:* {{ .Annotations.action }}
+          {{ end }}
+        color: 'danger'
+
+  # Cost alerts - daily
+  - name: 'slack-cost-daily'
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#cost-alerts'
+        send_resolved: true
+        title: '💰 Daily Cost Alert: {{ .GroupLabels.alertname }}'
+        text: |
+          {{ range .Alerts }}
+          *Daily Spend:* ${{ .Annotations.current_spend }}
+          *Threshold:* ${{ .Annotations.threshold }}
+          *Exceeded By:* ${{ .Annotations.exceeded_by }}
+          *Date:* {{ .Annotations.date }}
+          *Top Applications:* {{ .Annotations.top_apps }}
+          
+          *Action:* Review usage patterns and consider throttling or switching to lower-cost models.
+          {{ end }}
+        color: '{{ if eq .Status "firing" }}warning{{ else }}good{{ end }}'
+
+  # Cost alerts - monthly
+  - name: 'slack-cost-monthly'
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#cost-alerts'
+        send_resolved: true
+        title: '💰 Monthly Cost Alert: {{ .GroupLabels.alertname }}'
+        text: |
+          {{ range .Alerts }}
+          *Monthly Spend:* ${{ .Annotations.current_spend }}
+          *Threshold:* ${{ .Annotations.threshold }}
+          *Exceeded By:* ${{ .Annotations.exceeded_by }}
+          *Month:* {{ .Annotations.month }}
+          *Projected End-of-Month:* ${{ .Annotations.projected_total }}
+          
+          *Action:* Immediate review required. Contact OpenAI support if needed.
+          {{ end }}
+        color: 'danger'
+
+  # Warnings channel
+  - name: 'slack-warnings'
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#monitoring-alerts'
+        send_resolved: true
+        title: '⚠️ [WARNING] {{ .GroupLabels.alertname }}'
+        text: |
+          {{ range .Alerts }}
+          *Alert:* {{ .Annotations.summary }}
+          *Description:* {{ .Annotations.description }}
+          *Severity:* {{ .Labels.severity }}
+          *Service:* {{ .Labels.service }}
+          {{ end }}
+        color: 'warning'
+
+  # Fallback - Email (if configured)
+  - name: 'email-notifications'
+    email_configs:
+      - to: 'devops@videoremix.vip'
+        from: 'monitor@videoremix.vip'
+        smarthost: 'smtp.gmail.com:587'
+        auth_username: '${SMTP_USER}'
+        auth_password: '${SMTP_PASSWORD}'
+        require_tls: true
+
+inhibit_rules:
+  # Inhibit critical alerts if warning already firing for same instance
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'instance']
+
+  # Inhibit cost warnings if critical already firing
+  - source_match:
+      cost_category: 'daily'
+      severity: 'critical'
+    target_match:
+      cost_category: 'daily'
+      severity: 'warning'
+
+  # Inhibit duplicate alerts
+  - equal: ['alertname', 'cluster', 'service']
+    regex:
+      alertname: '(.*)'

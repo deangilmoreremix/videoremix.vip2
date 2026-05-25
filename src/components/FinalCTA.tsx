@@ -565,7 +565,7 @@ const FinalCTA: React.FC = () => {
                 <span className="font-medium">Full Feature Access</span>
               </motion.div>
               <p className="text-white/80 pl-7">
-                Get unlimited access to 50+ personalized marketing tools and
+                Get unlimited access to 20+ personalized marketing apps and
                 AI-powered features
               </p>
             </motion.div>

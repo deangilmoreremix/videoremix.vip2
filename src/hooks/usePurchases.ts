@@ -118,4 +118,4 @@ export const usePurchases = (): UsePurchasesReturn => {
 
 export default usePurchases;
 
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase";

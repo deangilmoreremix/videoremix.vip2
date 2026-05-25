@@ -1,0 +1,102 @@
+{
+  "hasChatInput": true,
+  "hasForm": false,
+  "hasTabs": false,
+  "hasFileUpload": false,
+  "hasColumns": false,
+  "hasButtons": true,
+  "widgetCounts": {
+    "textInput": 2,
+    "numberInput": 0,
+    "fileUpload": 0,
+    "selectBox": 0,
+    "button": 1,
+    "chat": 4,
+    "write": 5
+  },
+  "providers": {
+    "openai": {
+      "count": 3,
+      "imports": 2,
+      "clients": 1,
+      "models": []
+    },
+    "anthropic": {
+      "count": 3,
+      "imports": 2,
+      "clients": 1,
+      "models": [
+        {
+          "pattern": "claude-3.5-sonnet",
+          "count": 2
+        }
+      ]
+    },
+    "agno": {
+      "count": 2,
+      "imports": 1,
+      "clients": 1,
+      "models": [
+        {
+          "pattern": "claude-3",
+          "count": 2
+        }
+      ]
+    },
+    "crewai": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    },
+    "openai_agents": {
+      "count": 1,
+      "imports": 1,
+      "clients": 0,
+      "models": []
+    }
+  },
+  "externalServices": {},
+  "usesSessionState": false,
+  "hasHistory": true,
+  "isAsync": false,
+  "usesAsyncio": false,
+  "linesOfCode": 316,
+  "hasMultiAgent": true,
+  "hasTools": false,
+  "hasRAG": false,
+  "hasWebSearch": false,
+  "uiType": "chat",
+  "inputFields": [
+    {
+      "name": "deepseek_api_key",
+      "label": "DeepSeek API Key",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "anthropic_api_key",
+      "label": "Anthropic API Key",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputFormat": "markdown",
+  "primaryProvider": "openai",
+  "filePath": "awesome-llm-apps/advanced_ai_agents/single_agent_apps/ai_system_architect_r1/ai_system_architect_r1.py",
+  "appName": "ai-system-architect-r1",
+  "category": "awesome-llm-apps",
+  "complexity": "multi-agent",
+  "requiresApiKey": true,
+  "requiredEnvVars": [
+    "OPENAI_API_KEY",
+    "ANTHROPIC_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "estimatedRuntime": 15,
+  "deploymentType": "async-job-queue",
+  "analyzedAt": "2026-04-29T16:43:35.980Z",
+  "analyzerVersion": "0.1.0"
+}
