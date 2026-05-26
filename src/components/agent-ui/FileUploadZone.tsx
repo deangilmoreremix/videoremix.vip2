@@ -292,4 +292,4 @@ const VideoIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export { FileUploadZone };
+

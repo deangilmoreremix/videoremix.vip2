@@ -8,7 +8,7 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { ResultCard } from "@/components/agent-ui/ResultCard";
-import { Loader2, Chess, Gamepad2 } from "lucide-react";
+import { Loader2, Crown, Gamepad2 } from "lucide-react";
 
 const AiChessAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -59,7 +59,7 @@ const AiChessAgentPage: React.FC = () => {
                 <p className="text-gray-400 text-center">Click below to start a new chess game against the AI.</p>
 
                 <ActionButton type="submit" loading={loading} disabled={loading} size="lg" className="w-full">
-                  <Chess className="h-4 w-4" />
+                  <Crown className="h-4 w-4" />
                   Start New Game
                 </ActionButton>
               </form>
@@ -76,7 +76,7 @@ const AiChessAgentPage: React.FC = () => {
           {result && result.status === 'completed' && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
               <ResultCard
-                icon={<Chess className="h-5 w-5" />}
+                icon={<Crown className="h-5 w-5" />}
                 title="Game Result"
                 description={result.result}
                 variant="success"
@@ -97,7 +97,7 @@ const AiChessAgentPage: React.FC = () => {
 
           {!result && !loading && (
             <EmptyState
-              icon={<Chess className="h-16 w-16 text-gray-600" />}
+              icon={<Crown className="h-16 w-16 text-gray-600" />}
               title="Ready to Play"
               description="Start a new chess game against the AI. Make your moves and enjoy the game."
               tips={[
