@@ -23,9 +23,6 @@ const AppPage = lazy(() => import("./pages/AppPage"));
 // Generic pages
 const PricingPage = lazy(() => import("./pages/PricingPage"));
 const FAQPage = lazy(() => import("./pages/FAQPage"));
-const AboutUsPage = lazy(() => import("./pages/AboutUsPage"));
-const BlogPage = lazy(() => import("./pages/BlogPage"));
-const BlogPostPage = lazy(() => import("./pages/BlogPostPage"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
@@ -469,50 +466,6 @@ function App() {
                 <SparkleBackground>
                   <Suspense fallback={<SectionLoader />}>
                     <FAQPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
-
-          {/* About Us Page */}
-          <Route
-            path="/about"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <AboutUsPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
-
-          {/* Blog Routes */}
-          <Route
-            path="/blog"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <BlogPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
-
-          <Route
-            path="/blog/:postId"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <BlogPostPage />
                     <SpecialFooter />
                   </Suspense>
                 </SparkleBackground>

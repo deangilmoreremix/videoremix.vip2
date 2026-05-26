@@ -117,6 +117,26 @@ export const APP_URLS: Record<string, string> = {
 
   // Product Research AI
   "product-research-ai": "https://research.smartcrm.vip",
+
+  // =====================================================
+  // 16 NETLIFY SPECIAL URL APPS
+  // =====================================================
+  "ai-personalized-content-pro": "https://capable-mermaid-3c73fa.netlify.app/",
+  "ai-referral-maximizer-pro": "https://eloquent-kleicha-7e3a3e.netlify.app",
+  "ai-sales-maximizer-pro": "https://magnificent-lamington-619374.netlify.app/",
+  "ai-screen-recorder-pro": "https://adorable-arithmetic-675d28.netlify.app/",
+  "smart-crm-closer-pro": "https://stupendous-twilight-64389a.netlify.app/",
+  "video-ai-editor-pro": "https://heroic-seahorse-296f32.netlify.app/",
+  "ai-video-image-pro": "https://thriving-mochi-ecd815.netlify.app/",
+  "ai-skills-monetizer-pro": "https://roaring-mochi-39a60a.netlify.app",
+  "ai-signature-pro": "https://kaleidoscopic-tarsier-3d0a6c.netlify.app/",
+  "personalizer-profile-generator-pro": "https://endearing-churros-2ce8c6.netlify.app/",
+  "personalizer-transformer": "https://thriving-mochi-ecd815.netlify.app/",
+  "personalizer-url-templates": "https://cute-khapse-4e62cb.netlify.app/",
+  "ai-proposal-generator": "https://keen-pastelito-6b9074.netlify.app",
+  "sales-assistant-platform": "https://gentle-frangipane-ceed17.netlify.app",
+  "sales-page-builder-pro": "https://prismatic-starship-c0b4c2.netlify.app",
+  "ai-content-studio": "https://sparkling-druid-4a8b1d.netlify.app",
 };
 
 // =====================================================

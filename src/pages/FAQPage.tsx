@@ -659,11 +659,11 @@ const FAQPage: React.FC = () => {
                   </h1>
                 </MagicSparkles>
 
-                <p className="text-xl text-gray-300 mb-8">
-                  Find answers to common questions about our marketing
-                  personalization platform, tools, pricing, and how to scale
-                  your business.
-                </p>
+<p className="text-xl text-white mb-8">
+                   Find answers to common questions about our marketing
+                   personalization platform, tools, pricing, and how to scale
+                   your business.
+                 </p>
               </motion.div>
 
               {/* Search input */}
@@ -712,7 +712,7 @@ const FAQPage: React.FC = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => handlePopularSearch(query)}
-                        className="bg-gray-800 hover:bg-gray-700 text-gray-300 px-4 py-2 rounded-full text-sm transition-colors border border-gray-700"
+                        className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-full text-sm transition-colors border border-gray-700"
                       >
                         {query}
                       </motion.button>
@@ -737,15 +737,15 @@ const FAQPage: React.FC = () => {
                       className={`flex items-center w-full px-4 py-3 text-left rounded-lg transition-colors ${
                         activeCategory === "all"
                           ? "bg-primary-600 text-white"
-                          : "text-gray-300 hover:bg-gray-700/50"
-                      }`}
-                    >
-                      <Sparkles className="h-5 w-5 mr-3 flex-shrink-0" />
-                      <span>All Questions</span>
-                      {activeCategory === "all" && (
-                        <ChevronRight className="h-5 w-5 ml-auto" />
-                      )}
-                    </button>
+: "text-white hover:bg-gray-700/50"
+                       }`}
+                     >
+                       <Sparkles className="h-5 w-5 mr-3 flex-shrink-0" />
+                       <span>All Questions</span>
+                       {activeCategory === "all" && (
+                         <ChevronRight className="h-5 w-5 ml-auto" />
+                       )}
+                     </button>
 
                     {categories.map((category) => (
                       <button
@@ -754,10 +754,10 @@ const FAQPage: React.FC = () => {
                         className={`flex items-center w-full px-4 py-3 text-left rounded-lg transition-colors ${
                           activeCategory === category.id
                             ? "bg-primary-600 text-white"
-                            : "text-gray-300 hover:bg-gray-700/50"
-                        }`}
-                      >
-                        {React.cloneElement(category.icon, {
+: "text-white hover:bg-gray-700/50"
+                         }`}
+                       >
+                         {React.cloneElement(category.icon, {
                           className: "h-5 w-5 mr-3 flex-shrink-0",
                         })}
                         <span>{category.name}</span>
@@ -773,17 +773,17 @@ const FAQPage: React.FC = () => {
                     <h3 className="font-semibold text-white mb-2">
                       Can't find your answer?
                     </h3>
-                    <p className="text-gray-300 text-sm mb-4">
-                      Our support team is here to help with any questions you
-                      might have.
+<p className="text-white text-sm mb-4">
+                                       Our support team is here to help with any questions you
+                                       might have.
                     </p>
-                    <a
-                      href="/contact"
-                      className="inline-flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium px-4 py-2 rounded-lg text-sm"
-                    >
-                      <MessageSquare className="mr-2 h-4 w-4" />
-                      Contact Support
-                    </a>
+<a
+                       href="mailto:support@videoremix.vip"
+                       className="inline-flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium px-4 py-2 rounded-lg text-sm"
+                     >
+                       <Mail className="mr-2 h-4 w-4" />
+                       Email Support
+                     </a>
                   </div>
                 </div>
               </div>
@@ -810,8 +810,8 @@ const FAQPage: React.FC = () => {
                     <h2 className="text-2xl font-bold text-white mb-2">
                       {categories.find((c) => c.id === activeCategory)?.name}
                     </h2>
-                    <p className="text-gray-300">
-                      {activeCategory === "getting-started" &&
+<p className="text-white">
+                                       {activeCategory === "getting-started" &&
                         "Everything you need to know to get started with personalized marketing on VideoRemix.vip."}
                       {activeCategory === "accounts" &&
                         "Information about accounts, subscriptions, billing, and payments."}
@@ -885,14 +885,14 @@ const FAQPage: React.FC = () => {
                                 exit={{ opacity: 0, height: 0 }}
                                 transition={{ duration: 0.3 }}
                               >
-                                <div className="px-5 pb-5 border-t border-gray-700 pt-4">
-                                  <p className="text-gray-300 whitespace-pre-line break-words">
-                                    {faq.answer}
-                                  </p>
+<div className="px-5 pb-5 border-t border-gray-700 pt-4">
+                                   <p className="text-white whitespace-pre-line break-words">
+                                     {faq.answer}
+                                   </p>
 
                                   {/* Category badge */}
                                   <div className="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                    <span className="inline-flex items-center bg-gray-700/50 px-3 py-1 rounded-full text-xs text-gray-300">
+                                    <span className="inline-flex items-center bg-gray-700/50 px-3 py-1 rounded-full text-xs text-white">
                                       {
                                         categories.find(
                                           (c) => c.id === faq.category,
@@ -971,7 +971,7 @@ const FAQPage: React.FC = () => {
                       <h3 className="text-xl font-bold text-white mb-2">
                         Still have questions?
                       </h3>
-                      <p className="text-gray-300">
+                      <p className="text-white">
                         Our support team is here to help you with any questions
                         or issues.
                       </p>
@@ -1055,7 +1055,7 @@ const FAQPage: React.FC = () => {
                     <h3 className="text-xl font-bold text-white mb-2">
                       {resource.title}
                     </h3>
-                    <p className="text-gray-300 mb-6">{resource.description}</p>
+                    <p className="text-white mb-6">{resource.description}</p>
                     <div className="mt-auto">
                       <span className="text-primary-400 font-medium flex items-center">
                         Explore
@@ -1081,25 +1081,24 @@ const FAQPage: React.FC = () => {
                 </h2>
               </MagicSparkles>
 
-              <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                Create personalized marketing campaigns with our AI-powered
-                platform and 37+ specialized tools.
+<p className="text-xl text-white mb-8 max-w-2xl mx-auto">
+                 Create personalized marketing campaigns with our AI-powered
+                 platform and 37+ specialized tools.
               </p>
 
-              <motion.a
-                href="/get-started"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg shadow-primary-600/20"
-              >
-                Start Your Free Trial
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </motion.a>
+<motion.a
+                 href="/pricing"
+                 whileHover={{ scale: 1.05 }}
+                 whileTap={{ scale: 0.95 }}
+                 className="inline-flex items-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg shadow-primary-600/20"
+               >
+                 View Pricing Plans
+                 <ArrowRight className="ml-2 h-5 w-5" />
+               </motion.a>
 
-              <p className="mt-4 text-gray-400">
-                No credit card required. Start with our Free plan or upgrade
-                anytime.
-              </p>
+               <p className="mt-4 text-gray-400">
+                 Start with our Free plan or upgrade anytime.
+               </p>
 
               {/* Key features */}
               <div className="mt-12 flex flex-wrap justify-center gap-4">
@@ -1136,9 +1135,9 @@ const FAQPage: React.FC = () => {
                     <div className="text-primary-400 mr-2 flex-shrink-0">
                       {feature.icon}
                     </div>
-                    <span className="text-sm text-gray-300">
-                      {feature.text}
-                    </span>
+<span className="text-sm text-white">
+                       {feature.text}
+                     </span>
                   </div>
                 ))}
               </div>

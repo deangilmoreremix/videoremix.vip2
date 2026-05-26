@@ -12,8 +12,8 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "./ui/toast";
 import GlobalSearch from "./GlobalSearch";
-import { appGroups } from "../../data/appGroups";
-import { rawAppsData } from "../../data/appsData";
+import { appGroups } from "../data/appGroups";
+import { rawAppsData } from "../data/appsData";
 
 interface SpecialHeaderProps {
   topOffset?: number;
