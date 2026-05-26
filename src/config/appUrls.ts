@@ -100,12 +100,12 @@ export const APP_URLS: Record<string, string> = {
   "personalizer-profile-generator": "https://ai-profilegen.videoremix.vip",
 
   // AI Video Editor
-  "ai-video-editor": "https://ai-videoeditor.videoremix.vip",
+"ai-video-editor": "https://ai-videoeditor.videoremix.vip",
   "video-ai-editor": "https://ai-videoeditor.videoremix.vip",
 
   // AI Referral Maximizer Pro
-  "ai-referral-maximizer-pro": "https://referrals.smartcrm.vip",
   "ai-referral-maximizer": "https://referrals.smartcrm.vip",
+  "ai-referral-max-pro-alt": "https://referrals.smartcrm.vip",
 
   // AI Sales Maximizer
   "ai-sales-maximizer": "https://salesmax.smartcrm.vip",
@@ -130,7 +130,7 @@ export const APP_URLS: Record<string, string> = {
   "ai-video-image-pro": "https://thriving-mochi-ecd815.netlify.app/",
   "ai-skills-monetizer-pro": "https://roaring-mochi-39a60a.netlify.app",
   "ai-signature-pro": "https://kaleidoscopic-tarsier-3d0a6c.netlify.app/",
-  "personalizer-profile-generator-pro": "https://endearing-churros-2ce8c6.netlify.app/",
+  "personalizer-profile-generator-special": "https://endearing-churros-2ce8c6.netlify.app/",
   "personalizer-transformer": "https://thriving-mochi-ecd815.netlify.app/",
   "personalizer-url-templates": "https://cute-khapse-4e62cb.netlify.app/",
   "ai-proposal-generator": "https://keen-pastelito-6b9074.netlify.app",

@@ -9,7 +9,7 @@ import { ResultCard } from "@/components/agent-ui/ResultCard";
 import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
-import { Sparkles, Cards } from "lucide-react";
+import { Sparkles, Grid3X3 } from "lucide-react";
 
 const STORAGE_KEY = 'chat-with-tarots';
 
@@ -72,7 +72,7 @@ const ChatWithTarotsPage: React.FC = () => {
               className="space-y-6"
             >
               <ResultCard
-                icon={<Cards className="h-5 w-5" />}
+                icon={<Grid3X3 className="h-5 w-5" />}
                 title="Tarot Reading"
                 description={result.result}
                 variant="success"
@@ -104,7 +104,7 @@ const ChatWithTarotsPage: React.FC = () => {
           <div className="container mx-auto px-4 max-w-3xl">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
               <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-purple-600 to-violet-500 rounded-3xl mb-6">
-                <Cards className="h-10 w-10 text-white" />
+                <Grid3X3 className="h-10 w-10 text-white" />
               </div>
               <h1 className="text-4xl font-bold mb-4">Chat With Tarots</h1>
               <p className="text-xl text-gray-400">AI-powered tarot readings for insight and guidance.</p>
@@ -150,7 +150,7 @@ const ChatWithTarotsPage: React.FC = () => {
             </form>
 
             <EmptyState
-              icon={<Cards className="h-16 w-16 text-gray-600" />}
+              icon={<Grid3X3 className="h-16 w-16 text-gray-600" />}
               title="Tarot Reading"
               description="Ask a question and let the cards reveal your path"
               tips={[

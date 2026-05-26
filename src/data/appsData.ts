@@ -1651,3 +1651,5 @@ const rawAppsData: App[] = [{
 
 // Export apps data with AI-generated thumbnails where available
 export const appsData: App[] = updateAppThumbnails(rawAppsData);
+
+export { rawAppsData };
