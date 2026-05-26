@@ -136,9 +136,8 @@ export const APP_URLS: Record<string, string> = {
    "ai-proposal-generator": "https://keen-pastelito-6b9074.netlify.app",
    "sales-assistant-platform": "https://gentle-frangipane-ceed17.netlify.app",
    "sales-page-builder-pro": "https://prismatic-starship-c0b4c2.netlify.app",
-   "ai-content-studio": "https://sparkling-druid-4a8b1d.netlify.app",
-};
-};
+"ai-content-studio": "https://sparkling-druid-4a8b1d.netlify.app",
+  };
 
 // =====================================================
 // =====================================================
