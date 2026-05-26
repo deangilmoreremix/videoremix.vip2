@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ChevronUp from 'lucide-react/dist/esm/icons/chevron-up.js';
 import BarChart3 from 'lucide-react/dist/esm/icons/bar-chart-3.js';
