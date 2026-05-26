@@ -117,7 +117,7 @@ const ResearchAgentGeminiInteractionApiPage: React.FC = () => {
             </CardContent>
           </Card>
 
-          {loading && <LoadingIndicator text="Processing your research request..." />}
+          {loading && <LoadingIndicator message="Processing your research request..." />}
 
           {result && result.status === 'completed' && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>

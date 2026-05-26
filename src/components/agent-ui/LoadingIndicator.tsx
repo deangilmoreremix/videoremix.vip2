@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 
 export interface LoadingIndicatorProps {
-  message: string;
+  message?: string;
   subtext?: string;
   progress?: number; // 0-100, undefined = indeterminate
   size?: "sm" | "md" | "lg";
@@ -38,9 +38,11 @@ export function LoadingIndicator({
         <Loader2 className={cn("animate-spin text-violet-500", sizeClasses[size])} />
       </motion.div>
 
-      <p className={cn("font-medium text-white mt-4", textSize[size])}>
-        {message}
-      </p>
+      {message && (
+        <p className={cn("font-medium text-white mt-4", textSize[size])}>
+          {message}
+        </p>
+      )}
 
       {subtext && (
         <p className="text-sm text-gray-400 mt-2 max-w-md">

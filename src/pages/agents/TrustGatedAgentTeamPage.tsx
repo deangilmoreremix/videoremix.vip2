@@ -193,9 +193,9 @@ const TrustGatedAgentTeamPage: React.FC = () => {
             </CardContent>
           </Card>
 
-          {loading && (
-            <LoadingIndicator text="Processing..." />
-          )}
+{loading && (
+             <LoadingIndicator message="Processing..." />
+           )}
 
           {result && result.status === 'completed' && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
