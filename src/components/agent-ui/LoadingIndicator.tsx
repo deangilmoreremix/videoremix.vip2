@@ -4,14 +4,14 @@ import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 
 export interface LoadingIndicatorProps {
-  message: string;
+  message?: string;
   subtext?: string;
   progress?: number; // 0-100, undefined = indeterminate
   size?: "sm" | "md" | "lg";
 }
 
 export function LoadingIndicator({
-  message,
+  message = "Loading...",
   subtext,
   progress,
   size = "md",

@@ -194,7 +194,7 @@ const TrustGatedAgentTeamPage: React.FC = () => {
           </Card>
 
           {loading && (
-            <LoadingIndicator text="Processing..." />
+            <LoadingIndicator message="Processing..." />
           )}
 
           {result && result.status === 'completed' && (

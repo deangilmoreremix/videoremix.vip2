@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ChevronUp from 'lucide-react/dist/esm/icons/chevron-up.js';
 import BarChart3 from 'lucide-react/dist/esm/icons/bar-chart-3.js';
@@ -8,13 +8,13 @@ const StickyWidget: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
-  useState(() => {
+  useEffect(() => {
     const handleScroll = () => {
       setIsVisible(window.scrollY > 500);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  });
+  }, []);
 
   return (
     <AnimatePresence>
