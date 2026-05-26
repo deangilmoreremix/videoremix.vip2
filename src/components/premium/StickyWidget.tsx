@@ -5,16 +5,16 @@ import BarChart3 from 'lucide-react/dist/esm/icons/bar-chart-3.js';
 import ROICalculator from './ROICalculator';
 
 const StickyWidget: React.FC = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+   const [isExpanded, setIsExpanded] = useState(false);
+   const [isVisible, setIsVisible] = useState(false);
 
-  useState(() => {
-    const handleScroll = () => {
-      setIsVisible(window.scrollY > 500);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  });
+   useEffect(() => {
+     const handleScroll = () => {
+       setIsVisible(window.scrollY > 500);
+     };
+     window.addEventListener('scroll', handleScroll);
+     return () => window.removeEventListener('scroll', handleScroll);
+   }, []);
 
   return (
     <AnimatePresence>

@@ -13,7 +13,7 @@ const ProgressIndicator: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  });
+  }, []);
 
   return (
     <div className="fixed top-0 left-0 w-full h-1 z-50">

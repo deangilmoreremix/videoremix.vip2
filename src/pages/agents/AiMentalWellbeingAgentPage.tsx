@@ -249,7 +249,7 @@ const AiMentalWellbeingAgentPage: React.FC = () => {
               description="Take a moment to reflect on your mental health and get personalized support"
               tips={[
                 "Be honest about how you're really feeling",
-                "There's no "wrong" stress level - everyone's experience is different",
+                "There's no 'wrong' stress level - everyone's experience is different",
                 "Sharing details helps generate more relevant insights",
               ]}
             />
