@@ -1,6 +1,6 @@
 // Service Worker for caching static assets
-const CACHE_NAME = 'videoremix-v4';
-const STATIC_CACHE_NAME = 'videoremix-static-v4';
+const CACHE_NAME = 'videoremix-v5';
+const STATIC_CACHE_NAME = 'videoremix-static-v5';
 
 // Assets to cache immediately
 const STATIC_ASSETS = [
