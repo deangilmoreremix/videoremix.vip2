@@ -167,6 +167,89 @@ const AgenticRagGpt5Page = lazy(() => import("./pages/agents/AgenticRagGpt5Page"
 const AgenticRagWithReasoningPage = lazy(() => import("./pages/agents/AgenticRagWithReasoningPage"));
 const ConsultProAIPage = lazy(() => import("./pages/agents/ConsultProAIPage"));
 const LaunchRocketAIPage = lazy(() => import("./pages/agents/LaunchRocketAIPage"));
+// New apps using generic AppPage
+const AiHeadshotStudioPage = AgentAppPage;
+const AiRoyalPortraitPage = AgentAppPage;
+const AiAgeTransformationPage = AgentAppPage;
+const AiTryOnPage = AgentAppPage;
+const AiProfessionalMakeupGeneratorPage = AgentAppPage;
+const AiHairStyleSimulatorPage = AgentAppPage;
+const AiKidsToAdultPredictionPage = AgentAppPage;
+const AiRoomDeclutterPage = AgentAppPage;
+const AiFitnessBodySimulatorPage = AgentAppPage;
+const AiPetPortraitPage = AgentAppPage;
+const AiWeddingPhotoPage = AgentAppPage;
+const AiTattooTryOnPage = AgentAppPage;
+const AiLogoPage = AgentAppPage;
+const OldPhotoPage = AgentAppPage;
+const NanoBananaStudioPage = AgentAppPage;
+const SeedanceV2StudioPage = AgentAppPage;
+const EasyVeoPage = AgentAppPage;
+const AiClipPage = AgentAppPage;
+const VideoCreatorPage = AgentAppPage;
+const TextToSpeechPage = AgentAppPage;
+const NicheScriptPage = AgentAppPage;
+const PromoGeneratorPage = AgentAppPage;
+const LandingPageAgentPage = AgentAppPage;
+const AiBusinessCardPage = AgentAppPage;
+const MailwisePage = AgentAppPage;
+const MyPodcastPage = AgentAppPage;
+const EZScribePage = AgentAppPage;
+const TalkToPdfPage = AgentAppPage;
+const AiKnowledgeBasePage = AgentAppPage;
+const AiOutboundPage = AgentAppPage;
+const SalesMonetizerPage = AgentAppPage;
+const RebranderAiPage = AgentAppPage;
+const BgRemoverPage = AgentAppPage;
+const AiArtPage = AgentAppPage;
+const SocialPackPage = AgentAppPage;
+const SmartPresentationsPage = AgentAppPage;
+const InteractiveOutrosPage = AgentAppPage;
+const InteractiveShoppingPage = AgentAppPage;
+const StoryboardPage = AgentAppPage;
+const PersonalizerVideoImageTransformerPage = AgentAppPage;
+const AiTemplateGeneratorPage = AgentAppPage;
+const AiSignaturePage = AgentAppPage;
+const ThumbnailGeneratorPage = AgentAppPage;
+const VoiceCoachPage = AgentAppPage;
+const AmazonProductStudioPage = AgentAppPage;
+const ResalePhotoEnhancerPage = AgentAppPage;
+const PetProductStudioPage = AgentAppPage;
+const AiRecruiterPage = AgentAppPage;
+const BloggerCmsPage = AgentAppPage;
+const AiRealEstateStagerPage = AgentAppPage;
+const PromptArchitectPage = AgentAppPage;
+const ClearmarkAiPage = AgentAppPage;
+const AiFlashCardsPage = AgentAppPage;
+const AiGroupPhotoPage = AgentAppPage;
+const AiCharacterStudioPage = AgentAppPage;
+const LuxuryHairStudioPage = AgentAppPage;
+const AiTravelStudioPage = AgentAppPage;
+const SocialPostPage = AgentAppPage;
+const PlantVisionAiPage = AgentAppPage;
+const AiResumeBuilderPage = AgentAppPage;
+const GeoCheckerPage = AgentAppPage;
+const SolaceAiPage = AgentAppPage;
+const ReLiveAiPage = AgentAppPage;
+const AiChiropracticServicePage = AgentAppPage;
+const VeloraYogaAiPage = AgentAppPage;
+const AiKissingVideoGeneratorPage = AgentAppPage;
+const TablaReserveAiPage = AgentAppPage;
+const DentalReserveAiPage = AgentAppPage;
+const CounselMatePage = AgentAppPage;
+const FixeraPage = AgentAppPage;
+const VertexTaxStrategyPage = AgentAppPage;
+const LedgerSyncPage = AgentAppPage;
+const ProFlowPlumbingPage = AgentAppPage;
+const TurboGlowAutoSpaPage = AgentAppPage;
+const PawsPalsPage = AgentAppPage;
+const TowMatePage = AgentAppPage;
+const SwiftLinkLogisticsPage = AgentAppPage;
+const LumeaResidencePage = AgentAppPage;
+const OpulentDrivePage = AgentAppPage;
+const ProFixAutoPage = AgentAppPage;
+const NovaAssuranceAiPage = AgentAppPage;
+const NovaCareClinicPage = AgentAppPage;
 
 // Auth pages
 const SignInPage = lazy(() => import("./pages/SignInPage"));
@@ -298,6 +381,90 @@ const agentComponents = {
   'voice-rag-openaisdk': VoiceRagOpenaisdkPage,
   'web-scraping-ai-agent': WebScrapingAiAgentPage,
   'xai-finance-agent': XaiFinanceAgentPage,
+  // New apps with dedicated pages
+  'ai-headshot-studio': AiHeadshotStudioPage,
+  'ai-royal-portrait': AiRoyalPortraitPage,
+  'ai-age-transformation': AiAgeTransformationPage,
+  'ai-try-on': AiTryOnPage,
+  'ai-professional-makeup-generator': AiProfessionalMakeupGeneratorPage,
+  'ai-hair-style-simulator': AiHairStyleSimulatorPage,
+  'ai-kids-to-adult-prediction': AiKidsToAdultPredictionPage,
+  'ai-room-declutter': AiRoomDeclutterPage,
+  'ai-fitness-body-simulator': AiFitnessBodySimulatorPage,
+  'ai-pet-portrait': AiPetPortraitPage,
+  'ai-wedding-photo': AiWeddingPhotoPage,
+  'ai-tattoo-try-on': AiTattooTryOnPage,
+  'ai-logo': AiLogoPage,
+  'old-photo': OldPhotoPage,
+  'nano-banana-studio': NanoBananaStudioPage,
+  'seedance-v2-studio': SeedanceV2StudioPage,
+  'easyveo': EasyVeoPage,
+  'aiclip': AiClipPage,
+  'video-creator': VideoCreatorPage,
+  'text-to-speech': TextToSpeechPage,
+  'niche-script': NicheScriptPage,
+  'promo-generator': PromoGeneratorPage,
+  'landing-page': LandingPageAgentPage,
+  'ai-business-card': AiBusinessCardPage,
+  'mailwise': MailwisePage,
+  'my-podcast': MyPodcastPage,
+  'ezscribe': EZScribePage,
+  'talk-to-pdf': TalkToPdfPage,
+  'ai-knowledge-base': AiKnowledgeBasePage,
+  'ai-outbound': AiOutboundPage,
+  'sales-monetizer': AgentAppPage,
+  'funnelcraft-ai': AgentAppPage,
+  'rebrander-ai': RebranderAiPage,
+  'bg-remover': BgRemoverPage,
+  'ai-art': AiArtPage,
+  'social-pack': SocialPackPage,
+  'smart-presentations': SmartPresentationsPage,
+  'interactive-outros': InteractiveOutrosPage,
+  'interactive-shopping': InteractiveShoppingPage,
+  'storyboard': StoryboardPage,
+  'personalizer-video-image-transformer': PersonalizerVideoImageTransformerPage,
+  'ai-template-generator': AiTemplateGeneratorPage,
+  'ai-signature': AiSignaturePage,
+  'thumbnail-generator': ThumbnailGeneratorPage,
+  'voice-coach': VoiceCoachPage,
+  'amazon-product-studio': AmazonProductStudioPage,
+  'resale-photo-enhancer': ResalePhotoEnhancerPage,
+  'pet-product-studio': PetProductStudioPage,
+  'ai-recruiter': AiRecruiterPage,
+  'blogger-cms': BloggerCmsPage,
+  'ai-real-estate-stager': AiRealEstateStagerPage,
+  'prompt-architect': PromptArchitectPage,
+  'clearmark-ai': ClearmarkAiPage,
+  'ai-flash-cards': AiFlashCardsPage,
+  'ai-group-photo': AiGroupPhotoPage,
+  'ai-character-studio': AiCharacterStudioPage,
+  'luxury-hair-studio': LuxuryHairStudioPage,
+  'ai-travel-studio': AiTravelStudioPage,
+  'social-post': SocialPostPage,
+  'plantvision-ai': PlantVisionAiPage,
+  'ai-resume-builder': AiResumeBuilderPage,
+  'geo-checker': GeoCheckerPage,
+  'solace-ai': SolaceAiPage,
+  'relive-ai': ReLiveAiPage,
+  'ai-chiropractic-service': AiChiropracticServicePage,
+  'velora-yoga-ai': VeloraYogaAiPage,
+  'ai-kissing-video-generator': AiKissingVideoGeneratorPage,
+  'tabla-reserveai': TablaReserveAiPage,
+  'dental-reserveai': DentalReserveAiPage,
+  'counselmate': CounselMatePage,
+  'fixera': FixeraPage,
+  'vertex-tax-strategy': VertexTaxStrategyPage,
+  'ledgersync': LedgerSyncPage,
+  'proflow-plumbing': ProFlowPlumbingPage,
+  'turboglow-auto-spa': TurboGlowAutoSpaPage,
+  'paws-pals': PawsPalsPage,
+  'towmate': TowMatePage,
+  'swiftlink-logistics': SwiftLinkLogisticsPage,
+  'lumea-residence': LumeaResidencePage,
+  'opulent-drive': OpulentDrivePage,
+  'profix-auto': ProFixAutoPage,
+  'nova-assuranceai': NovaAssuranceAiPage,
+  'nova-care-clinic': NovaCareClinicPage,
 };
 
 // Agent page component for dynamic routing
