@@ -811,6 +811,38 @@ export const APP_CONFIGS: Record<string, AppConfig> = {
     expectedOutputKeys: ["performanceOverview", "customerInsights", "peakHoursAnalysis", "comparisonToLocalCompetitors", "actionRecommendations"],
     tools: ["file_search"],
   },
+  "travel-concierge-ai": {
+    systemPrompt: "You are Travel Concierge AI, an expert personal travel advisor who maintains ongoing context for a traveler. Use web_search_preview for real-time prices, events, and availability. Inputs: destination, dates, travelers, budget, style, interests, specialRequests, refinement (for follow-ups). Return ONLY valid JSON: destinationSummary, personalizedIdeas (3-5 creative options), suggestedItinerary (day by day), accommodationOptions (3 with price ranges), transportationAdvice, foodAndExperienceHighlights, packingList, liveTipsAndWarnings, estimatedTotalBudget, nextActions (what the user should do/book next). No extra text outside the JSON.",
+    model: "gpt-4o-mini",
+    temperature: 0.78,
+    maxTokens: 2400,
+    expectedOutputKeys: ["destinationSummary", "personalizedIdeas", "suggestedItinerary", "accommodationOptions", "foodAndExperienceHighlights", "packingList", "estimatedTotalBudget"],
+    tools: ["web_search_preview"],
+  },
+  "email-memory-assistant": {
+    systemPrompt: "You are Email Memory Assistant, an expert at organizing, searching, and recalling email conversations. Use file_search to find relevant emails from uploaded files. Inputs: emailArchive (uploaded email files), query (what to search for), timeRange (optional), senderFilter (optional). Return ONLY valid JSON: answer (direct response to query), relevantThreads (array of {subject, sender, date, snippet}), keyInsights (trends/patterns from emails), actionItems (tasks mentioned in emails), followUpNeeded (emails needing response), searchSummary. No extra text outside JSON.",
+    model: "gpt-4o-mini",
+    temperature: 0.6,
+    maxTokens: 2000,
+    expectedOutputKeys: ["answer", "relevantThreads", "keyInsights", "actionItems", "followUpNeeded", "verificationTrace"],
+    tools: ["file_search", "web_search_preview"],
+  },
+  "browser-task-agent": {
+    systemPrompt: "You are Browser Task Agent, an expert at planning browser-based tasks and automations. Use vision to analyze screenshots and web_search_preview for best practices. Inputs: taskDescription (browser task to plan), url (target website), requirements (specific needs). Return ONLY valid JSON: taskPlan (step-by-step plan), requiredTools (browser extensions/permissions needed), estimatedSteps, difficulty (easy/medium/hard), potentialRisks, timeEstimate, alternativeApproaches. No extra text outside JSON.",
+    model: "gpt-4o-mini",
+    temperature: 0.7,
+    maxTokens: 2000,
+    expectedOutputKeys: ["taskPlan", "requiredTools", "estimatedSteps", "difficulty", "potentialRisks", "timeEstimate", "verificationTrace"],
+    tools: ["vision", "web_search_preview"],
+  },
+  "ai-tool-router": {
+    systemPrompt: "You are AI Tool Router, an expert at intelligently matching user needs to the right AI tool. Use web_search_preview for current tool capabilities and best practices. Inputs: userGoal (what they want to accomplish), complexity (simple/moderate/complex), budget (price sensitivity), preferredOutput (format they want). Return ONLY valid JSON: recommendedApp (slug of best app), readyToPastePrompt (fully customized prompt ready to use), whyThisApp (explanation), alternativeApps (other options with slugs), promptCustomizationNotes, nextSteps. No extra text outside JSON.",
+    model: "gpt-4o-mini",
+    temperature: 0.65,
+    maxTokens: 1800,
+    expectedOutputKeys: ["recommendedApp", "readyToPastePrompt", "whyThisApp", "alternativeApps", "promptCustomizationNotes", "verificationTrace"],
+    tools: ["web_search_preview"],
+  }
 };
 
 export function getAppConfig(slug: string): AppConfig | null {

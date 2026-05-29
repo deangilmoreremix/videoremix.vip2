@@ -233,10 +233,10 @@ const FinalCTA: React.FC = () => {
   const [urgency, setUrgency] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
+  const { scrollYProgress } = useScroll();
+  const { scrollYProgress } = useScroll();
+  const { scrollYProgress } = useScroll();
+  const { scrollYProgress } = useScroll();
 
   const opacity = useTransform(
     scrollYProgress,
