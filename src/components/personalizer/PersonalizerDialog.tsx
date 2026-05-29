@@ -124,7 +124,7 @@ export default function PersonalizerDialog({
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${session?.access_token}`
         },
-        body: JSON.stringify({ targetName, targetCompany })
+        body: JSON.stringify({ targetName, targetCompany, appId, mode })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Scan failed');
@@ -141,6 +141,16 @@ export default function PersonalizerDialog({
     setError('');
     try {
       const { data: { session } } = await supabase.auth.getSession();
+      
+      // Get scan results if we have a scan_id
+      let profiles = [];
+      if (project?.scan_id) {
+        // For now, use mock profiles - in production this would fetch from the scan results
+        profiles = [
+          { platform: 'github', profileUrl: `https://github.com/${targetName}`, status: 'found' }
+        ];
+      }
+      
       const res = await fetch('/api/personalizer/generate', {
         method: 'POST',
         headers: {
@@ -148,15 +158,12 @@ export default function PersonalizerDialog({
           'Authorization': `Bearer ${session?.access_token}`
         },
         body: JSON.stringify({
+          scanId: project?.scan_id || `direct-${Date.now()}`,
           appId,
           mode,
-          targetName,
-          targetCompany,
-          manualNotes,
-          offer: defaultOffer,
-          goal: defaultGoal,
-          tone: defaultTone,
-          cta: defaultCTA
+          username: targetName,
+          profiles: profiles,
+          context: manualNotes
         })
       });
       const data = await res.json();
