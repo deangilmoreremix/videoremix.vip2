@@ -1,3 +1,8 @@
+/**
+ * AI Hiring Assistant — Production UI
+ * New VideoRemix Name: AI Hiring Assistant
+ */
+
 import React, { useState, useEffect } from "react";
 import { Users, Briefcase, Play, Loader2, ArrowRight, RefreshCw, Zap, CheckCircle2, Target, Clock } from "lucide-react";
 import type { AIAppProps } from "../types";

@@ -1,3 +1,8 @@
+/**
+ * Hiring Plan Builder — Production UI
+ * New VideoRemix Name: Hiring Plan Builder
+ */
+
 import React, { useState, useEffect } from "react";
 import { Target, Play, Loader2, ArrowRight, RefreshCw, Zap, Users, Calendar, DollarSign } from "lucide-react";
 import type { AIAppProps } from "../types";

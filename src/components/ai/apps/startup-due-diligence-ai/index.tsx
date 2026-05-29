@@ -1,3 +1,8 @@
+/**
+ * Startup Due Diligence AI — Production UI
+ * New VideoRemix Name: Startup Due Diligence AI
+ */
+
 import React, { useState, useEffect } from "react";
 import { Play, Loader2, AlertTriangle, CheckCircle2, Minus, TrendingUp } from "lucide-react";
 import type { AIAppProps } from "../types";

@@ -1,3 +1,8 @@
+/**
+ * Landing Page Copy AI — Production UI
+ * New VideoRemix Name: Landing Page Copy AI
+ */
+
 import React, { useState, useEffect } from "react";
 import { FileText, Users, Play, Loader2, ArrowRight, RefreshCw, Zap, Star, MessageSquare, Search } from "lucide-react";
 import type { AIAppProps } from "../types";

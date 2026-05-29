@@ -1,3 +1,8 @@
+/**
+ * Investment Research Assistant — Production UI
+ * New VideoRemix Name: Investment Research Assistant
+ */
+
 import React, { useState, useEffect } from "react";
 import { Play, Loader2, TrendingUp, PieChart, AlertTriangle } from "lucide-react";
 import type { AIAppProps } from "../types";

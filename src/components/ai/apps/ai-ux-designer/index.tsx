@@ -1,3 +1,8 @@
+/**
+ * AI UX Designer — Production UI
+ * New VideoRemix Name: AI UX Designer
+ */
+
 import React, { useState, useEffect } from "react";
 import { Compass, Users, Play, Loader2, Lightbulb, ArrowRight, RefreshCw, LayoutGrid, Zap, Target, Eye } from "lucide-react";
 import type { AIAppProps } from "../types";

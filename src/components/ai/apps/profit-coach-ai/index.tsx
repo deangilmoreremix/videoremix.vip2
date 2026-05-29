@@ -1,3 +1,8 @@
+/**
+ * Profit Coach AI — Production UI
+ * New VideoRemix Name: Profit Coach AI
+ */
+
 import React, { useState, useEffect } from "react";
 import { Play, Loader2, TrendingUp, Zap, Target } from "lucide-react";
 import type { AIAppProps } from "../types";

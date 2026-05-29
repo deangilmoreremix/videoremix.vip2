@@ -1,3 +1,8 @@
+/**
+ * Candidate Decision AI — Production UI
+ * New VideoRemix Name: Candidate Decision AI
+ */
+
 import React, { useState, useEffect } from "react";
 import { Users, Play, Loader2, ArrowRight, RefreshCw, Zap, CheckCircle2, AlertTriangle, Crown } from "lucide-react";
 import type { AIAppProps } from "../types";

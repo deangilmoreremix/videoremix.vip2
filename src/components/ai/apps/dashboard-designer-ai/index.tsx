@@ -1,3 +1,8 @@
+/**
+ * Dashboard Designer AI — Production UI
+ * New VideoRemix Name: Dashboard Designer AI
+ */
+
 import React, { useState, useEffect } from "react";
 import { BarChart3, Database, Play, Loader2, ArrowRight, RefreshCw, Zap, Eye, TrendingUp } from "lucide-react";
 import type { AIAppProps } from "../types";

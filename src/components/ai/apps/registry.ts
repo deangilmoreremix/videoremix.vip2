@@ -19,6 +19,7 @@ export { isInternalAIApp };
  * Batch 8 (Finance & Legal Apps) — 13 apps production-ready with custom UIs.
  * Batch 9 (HR & Hiring Apps) — 6 apps production-ready with custom UIs.
  * Batch 10 (Local & Travel Apps) — 7 apps production-ready with custom UIs.
+ * Overflow Apps — 4 apps production-ready with custom UIs.
  * All future batches/apps must follow the standards documented in _TEMPLATE.tsx.
  */
 
@@ -138,6 +139,10 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "local-business-voice-assistant": () => import("./local-business-voice-assistant"),
   "local-business-growth-advisor": () => import("./local-business-growth-advisor"),
   "local-business-analytics-ai": () => import("./local-business-analytics-ai"),
+  "travel-concierge-ai": () => import("./travel-concierge-ai"),
+  "email-memory-assistant": () => import("./email-memory-assistant"),
+  "browser-task-agent": () => import("./browser-task-agent"),
+  "ai-tool-router": () => import("./ai-tool-router"),
 };
 
 // Production-ready flag for admin / filtering
@@ -248,6 +253,21 @@ const productionReadySlugs = new Set([
   "candidate-outreach-ai",
   "interview-summary-ai",
   "hiring-plan-builder",
+
+  // Batch 10: Local & Travel Apps (7 apps — Production Ready)
+  "real-estate-marketing-ai",
+  "home-renovation-visualizer-ai",
+  "travel-planner-ai",
+  "local-tour-guide-ai",
+  "local-business-voice-assistant",
+  "local-business-growth-advisor",
+  "local-business-analytics-ai",
+
+  // Overflow apps (4 apps — Production Ready)
+  "travel-concierge-ai",
+  "email-memory-assistant",
+  "browser-task-agent",
+  "ai-tool-router",
 ]);
 
 // Apps that have full Live Voice / Realtime API support in their custom UI
@@ -263,7 +283,7 @@ export const VOICE_ENABLED_APPS = new Set([
 
 export function getAIAppComponent(slug: string): React.LazyExoticComponent<AIAppComponent> {
   if (!isInternalAIApp(slug)) {
-    throw new Error(`"${slug}" is not one of the 95 internal AI apps`);
+    throw new Error(`"${slug}" is not one of the 100 internal AI apps`);
   }
 
   const loader = registry[slug];

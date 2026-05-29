@@ -1,3 +1,8 @@
+/**
+ * AI Video Script Producer — Production UI
+ * New VideoRemix Name: AI Video Script Producer
+ */
+
 import React from "react";
 import { useRunAIApp } from "../useRunAIApp";
 
