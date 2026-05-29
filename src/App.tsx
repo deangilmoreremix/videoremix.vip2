@@ -17,7 +17,7 @@ import { NetworkStatusIndicator } from "./components/AsyncStates";
 import { Analytics } from "./utils/analytics";
 
 // Lazy loaded components for better performance
-const LandingPage = lazy(() => import("./pages/LandingPage"));
+const LandingPage = lazy(() => import("./components/premium/LandingPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
 
 // Generic pages
@@ -402,18 +402,15 @@ return (
 
         <Routes>
           {/* Landing Page Route */}
-          <Route
+<Route
             path="/"
             element={
               <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <LandingPage isMobile={isMobile} isTablet={isTablet} />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
+                <Suspense fallback={<SectionLoader />}>
+                  <LandingPage />
+                </Suspense>
               </ErrorBoundary>
-}
+            }
           />
 
           {/* Courses Page */}
