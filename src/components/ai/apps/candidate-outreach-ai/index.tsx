@@ -1,3 +1,8 @@
+/**
+ * Candidate Outreach AI — Production UI
+ * New VideoRemix Name: Candidate Outreach AI
+ */
+
 import React, { useState, useEffect } from "react";
 import { Mail, Play, Loader2, ArrowRight, RefreshCw, Zap, Send, Linkedin, Clock } from "lucide-react";
 import type { AIAppProps } from "../types";

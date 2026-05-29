@@ -1,6 +1,7 @@
 /**
  * Revenue Data Analyst AI — Production UI (Batch 8)
  * Revenue breakdown, growth analysis, churn, segmentation, forecast.
+  * New VideoRemix Name: Revenue Data Analyst AI
  */
 
 import React, { useState, useEffect } from "react";

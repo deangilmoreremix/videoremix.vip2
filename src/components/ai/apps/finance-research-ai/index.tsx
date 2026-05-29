@@ -1,3 +1,8 @@
+/**
+ * Finance Research AI — Production UI
+ * New VideoRemix Name: Finance Research AI
+ */
+
 import React, { useState, useEffect } from "react";
 import { Play, Loader2, TrendingUp } from "lucide-react";
 import type { AIAppProps } from "../types";

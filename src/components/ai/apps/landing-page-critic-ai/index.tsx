@@ -1,3 +1,8 @@
+/**
+ * Landing Page Critic AI — Production UI
+ * New VideoRemix Name: Landing Page Critic AI
+ */
+
 import React, { useState, useEffect } from "react";
 import { Target, Users, Play, Loader2, TrendingUp, AlertTriangle, CheckCircle2, Lightbulb, ArrowRight, RefreshCw, Zap, LayoutGrid, Image as LucideImage } from "lucide-react";
 import type { AIAppProps } from "../types";

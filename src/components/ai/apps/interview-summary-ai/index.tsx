@@ -1,3 +1,8 @@
+/**
+ * Interview Summary AI — Production UI
+ * New VideoRemix Name: Interview Summary AI
+ */
+
 import React, { useState, useEffect } from "react";
 import { ClipboardCheck, Play, Loader2, ArrowRight, RefreshCw, Zap, CheckCircle2, AlertTriangle, Users } from "lucide-react";
 import type { AIAppProps } from "../types";

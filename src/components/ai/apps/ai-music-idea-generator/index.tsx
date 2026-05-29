@@ -1,3 +1,8 @@
+/**
+ * AI Music Idea Generator — Production UI
+ * New VideoRemix Name: AI Music Idea Generator
+ */
+
 import React from "react";
 import { useRunAIApp } from "../useRunAIApp";
 

@@ -1,6 +1,7 @@
 /**
  * Financial Dashboard AI — Production UI (Batch 8)
  * Dashboard design, KPI definitions, visualization types, alert thresholds, layout suggestions.
+  * New VideoRemix Name: Financial Dashboard AI
  */
 
 import React, { useState, useEffect } from "react";

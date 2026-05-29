@@ -1,3 +1,8 @@
+/**
+ * Legal PDF Explainer — Production UI
+ * New VideoRemix Name: Legal PDF Explainer
+ */
+
 import React, { useState, useEffect, useRef } from "react";
 import { Play, Loader2, FileText, Upload, CheckCircle2, AlertTriangle, HelpCircle, DollarSign, X } from "lucide-react";
 import type { AIAppProps } from "../types";

@@ -1,3 +1,8 @@
+/**
+ * Policy Compliance Assistant — Production UI
+ * New VideoRemix Name: Policy Compliance Assistant
+ */
+
 import React, { useState, useEffect } from "react";
 import { Play, Loader2, CheckCircle2, AlertTriangle, FileText, Clock, Shield, Wrench, BookOpen, DollarSign } from "lucide-react";
 import type { AIAppProps } from "../types";

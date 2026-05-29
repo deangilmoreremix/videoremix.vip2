@@ -1,6 +1,7 @@
 /**
  * Contract Summary AI — Production UI (Batch 8)
  * Contract analysis with red flags, risk meter, key terms highlighted.
+  * New VideoRemix Name: Contract Summary AI
  */
 
 import React, { useState, useEffect } from "react";

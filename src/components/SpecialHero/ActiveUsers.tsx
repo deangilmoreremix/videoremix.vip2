@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Video } from "lucide-react";
 import useMeasure from "react-use-measure";
-import CountUp from "react-countup";
+import CountUpRaw from "react-countup";
+const CountUp = (CountUpRaw as any)?.default ?? CountUpRaw;
 
 const ActiveUsers = () => {
   const [countRef, { height }] = useMeasure();

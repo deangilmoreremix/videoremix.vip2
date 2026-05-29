@@ -1,3 +1,8 @@
+/**
+ * Conversion Copy Editor — Production UI
+ * New VideoRemix Name: Conversion Copy Editor
+ */
+
 import React, { useState, useEffect } from "react";
 import { Edit3, Play, Loader2, ArrowRight, RefreshCw, Zap, Eye, CheckCircle2, AlertTriangle } from "lucide-react";
 import type { AIAppProps } from "../types";

@@ -1,6 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
-import CountUp from "react-countup";
+import CountUpRaw from "react-countup";
+const CountUp = (CountUpRaw as any)?.default ?? CountUpRaw;
+import { safeParseInt } from "../../utils/safeParse";
 
 interface Stat {
   value: string;
@@ -41,7 +43,7 @@ const FeatureStats: React.FC<FeatureStatsProps> = ({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
           {stats.map((stat, index) => {
             // Parse numeric part from the value (e.g. "80%" -> 80)
-            const numericValue = parseInt(stat.value.replace(/[^0-9.]/g, ""));
+            const numericValue = safeParseInt(stat.value.replace(/[^0-9.]/g, ""));
             const suffix = stat.value.replace(/[0-9.]/g, "");
 
             return (

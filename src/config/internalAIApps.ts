@@ -1,5 +1,5 @@
 /**
- * The 95 AI-powered apps that run as first-party experiences
+ * The 100 AI-powered apps that run as first-party experiences
  * inside the VideoRemix dashboard (React + Supabase Edge Functions).
  *
  * These are distinct from the 15 legacy apps that have their own
@@ -102,7 +102,17 @@ export const INTERNAL_AI_APP_SLUGS = new Set([
   "multi-ai-memory-hub",
   "private-ai-chat-with-memory",
   "private-chatgpt-clone",
+  // Overflow apps (built with existing tool types)
+  "travel-concierge-ai",
+  "email-memory-assistant",
+  "browser-task-agent",
+  "ai-tool-router",
 ]);
+
+/**
+ * Note: notion-workspace-ai is intentionally NOT in this list
+ * because it requires Notion API integration which is not currently available.
+ */
 
 export function isInternalAIApp(slug: string): boolean {
   return INTERNAL_AI_APP_SLUGS.has(slug);

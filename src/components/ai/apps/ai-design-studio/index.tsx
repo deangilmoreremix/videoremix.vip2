@@ -1,3 +1,8 @@
+/**
+ * AI Design Studio — Production UI
+ * New VideoRemix Name: AI Design Studio
+ */
+
 import React, { useState, useEffect } from "react";
 import { Palette, Image as LucideImage, Play, Loader2, Wand2 } from "lucide-react";
 import type { AIAppProps } from "../types";

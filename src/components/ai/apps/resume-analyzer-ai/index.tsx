@@ -1,3 +1,8 @@
+/**
+ * Resume Analyzer AI — Production UI
+ * New VideoRemix Name: Resume Analyzer AI
+ */
+
 import React, { useState, useEffect } from "react";
 import { FileText, Play, Loader2, ArrowRight, RefreshCw, Zap, CheckCircle2, AlertTriangle, TrendingUp } from "lucide-react";
 import type { AIAppProps } from "../types";
