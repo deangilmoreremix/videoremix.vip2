@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronRight, ChevronLeft, Loader2, CheckCircle, AlertCircle, Image as ImageIcon, Video } from 'lucide-react';
+import { X, ChevronRight, ChevronLeft, Loader2, CheckCircle, AlertCircle, Image as ImageIcon, Video, User, Globe, Share2, Brain, FileText, GitBranch } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { createClient } from '@supabase/supabase-js';
+import PlatformCard from './PlatformCard';
+import IdentityGraphView from './IdentityGraphView';
+import ScanProgressTracker from './ScanProgressTracker';
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -63,6 +66,15 @@ const APPS = [
   { id: 'ai-video-agency', label: 'AI Video Agency' }
 ];
 
+const OUTPUT_TABS = [
+  { id: 'overview', label: 'Overview', icon: User },
+  { id: 'intelligence', label: 'Intelligence', icon: Brain },
+  { id: 'platforms', label: 'Platforms', icon: Globe },
+  { id: 'graph', label: 'Graph', icon: GitBranch },
+  { id: 'assets', label: 'Assets', icon: ImageIcon },
+  { id: 'raw', label: 'Raw Data', icon: FileText }
+];
+
 export default function PersonalizerDialog({
   open,
   onClose,
@@ -80,6 +92,7 @@ export default function PersonalizerDialog({
   theme
 }: PersonalizerDialogProps) {
   const [currentStep, setCurrentStep] = useState(1);
+  const [outputTab, setOutputTab] = useState('overview');
   const [appId, setAppId] = useState(initialAppId || 'videoremix-vip');
   const [mode, setMode] = useState(initialMode || 'cold-email');
   const [targetName, setTargetName] = useState(initialTarget || '');
@@ -89,8 +102,9 @@ export default function PersonalizerDialog({
   const [isScanning, setIsScanning] = useState(false);
   const [error, setError] = useState('');
   const [outputs, setOutputs] = useState<any[]>([]);
-  const [project, setProject] = useState<any>(null);
-  const [scanProfiles, setScanProfiles] = useState<any[]>([]);
+  const [profileData, setProfileData] = useState<any>(null);
+  const [scanEvents, setScanEvents] = useState<any[]>([]);
+  const [jobId, setJobId] = useState<string | null>(null);
   const [isGeneratingMedia, setIsGeneratingMedia] = useState(false);
   const [mediaUrl, setMediaUrl] = useState<string | null>(null);
 
@@ -107,7 +121,6 @@ export default function PersonalizerDialog({
       .eq('id', id)
       .single();
     if (data) {
-      setProject(data);
       setAppId(data.app_id);
       setMode(data.mode);
       setTargetName(data.target_name);
@@ -131,8 +144,7 @@ export default function PersonalizerDialog({
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Scan failed');
-      setScanProfiles(data.profiles || []);
-      setProject((prev: any) => ({ ...prev, scan_id: data.scanId }));
+      setScanEvents(prev => [...prev, ...(data.events || [])]);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -146,9 +158,6 @@ export default function PersonalizerDialog({
     try {
       const { data: { session } } = await supabase.auth.getSession();
       
-      // Use actual scan profiles from the API response
-      const profiles = scanProfiles.length > 0 ? scanProfiles : [];
-      
       const res = await fetch('/api/personalizer/generate', {
         method: 'POST',
         headers: {
@@ -156,11 +165,11 @@ export default function PersonalizerDialog({
           'Authorization': `Bearer ${session?.access_token}`
         },
         body: JSON.stringify({
-          scanId: project?.scan_id || `direct-${Date.now()}`,
+          scanId: jobId || `direct-${Date.now()}`,
           appId,
           mode,
           username: targetName,
-          profiles: profiles,
+          profiles: [],
           context: `${manualNotes}${targetCompany ? `\ncompany: ${targetCompany}` : ''}`,
           tone: defaultTone,
           offer: defaultOffer,
@@ -171,7 +180,7 @@ export default function PersonalizerDialog({
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Generation failed');
       setOutputs(data.outputs || []);
-      setProject(data.project);
+      setProfileData(data.profile || null);
       setCurrentStep(6);
     } catch (err: any) {
       setError(err.message);
@@ -219,11 +228,11 @@ export default function PersonalizerDialog({
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${session?.access_token}`
         },
-        body: JSON.stringify({ outputs, projectId: project?.id })
+        body: JSON.stringify({ outputs, projectId: jobId })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Save failed');
-      onSave?.(project?.id);
+      onSave?.(jobId || '');
       setCurrentStep(7);
     } catch (err: any) {
       setError(err.message);
@@ -275,6 +284,31 @@ export default function PersonalizerDialog({
             </Button>
           </div>
 
+          {/* Output Tabs (when in output step) */}
+          {currentStep === 6 && (
+            <div className="px-6 pt-4 border-b border-white/10">
+              <div className="flex flex-wrap gap-2">
+                {OUTPUT_TABS.map(tab => {
+                  const Icon = tab.icon;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setOutputTab(tab.id)}
+                      className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors ${
+                        outputTab === tab.id
+                          ? 'bg-primary-600/30 text-primary-200'
+                          : 'bg-gray-800/50 text-gray-400 hover:bg-gray-700/50'
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           <div className="flex h-[calc(90vh-80px)]">
             {/* Left Sidebar */}
             <div className="w-64 bg-[#1a1a1a] bg-opacity-50 backdrop-blur-md border-r border-white/10 p-4 overflow-y-auto">
@@ -299,11 +333,6 @@ export default function PersonalizerDialog({
                   </div>
                 ))}
               </div>
-              <div className="mt-6 pt-4 border-t border-white/10">
-                <p className="text-xs text-gray-400 font-body">Scan: {project?.scan_id ? 'Complete' : 'Not run'}</p>
-                <p className="text-xs text-gray-400 font-body">Profiles Found: {scanProfiles.length}</p>
-                <p className="text-xs text-gray-400 font-body">Project: {project?.id ? 'Active' : 'New'}</p>
-              </div>
             </div>
 
             {/* Main Panel */}
@@ -315,164 +344,179 @@ export default function PersonalizerDialog({
                 </div>
               )}
 
-              {/* Step 1: Select App & Mode */}
-              {currentStep === 1 && (
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm text-gray-300 mb-1 font-body">App</label>
-                    <select
-                      value={appId}
-                      onChange={(e) => setAppId(e.target.value)}
-                      className="w-full bg-gray-900/50 border border-white/10 rounded-lg p-2 text-white font-body focus:border-primary-500 focus:outline-none"
-                    >
-                      {APPS.map(app => (
-                        <option key={app.id} value={app.id}>{app.label}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm text-gray-300 mb-1 font-body">Mode</label>
-                    <select
-                      value={mode}
-                      onChange={(e) => setMode(e.target.value)}
-                      className="w-full bg-gray-900/50 border border-white/10 rounded-lg p-2 text-white font-body focus:border-primary-500 focus:outline-none"
-                    >
-                      {MODES.map(m => (
-                        <option key={m.id} value={m.id}>{m.label}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 2: Target Info */}
-              {currentStep === 2 && (
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm text-gray-300 mb-1 font-body">Target Name</label>
-                    <Input
-                      value={targetName}
-                      onChange={(e) => setTargetName(e.target.value)}
-                      className="bg-gray-900/50 border-white/10 text-white placeholder-gray-400 focus:border-primary-500"
-                      placeholder="johndoe"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm text-gray-300 mb-1 font-body">Target Company (Optional)</label>
-                    <Input
-                      value={targetCompany}
-                      onChange={(e) => setTargetCompany(e.target.value)}
-                      className="bg-gray-900/50 border-white/10 text-white placeholder-gray-400 focus:border-primary-500"
-                      placeholder="Acme Inc."
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Step 3: Public Scan */}
-              {currentStep === 3 && (
-                <div className="space-y-4">
-                  <p className="text-gray-300 font-body">Optional: Scan public profiles for '{targetName}'</p>
-                  <Button
-                    onClick={handleScan}
-                    disabled={isScanning || !targetName}
-                    className="bg-primary-600 hover:bg-primary-700 disabled:bg-gray-600 text-white"
-                  >
-                    {isScanning ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                    {isScanning ? 'Scanning...' : 'Run Public Scan (GitHub)'}
-                  </Button>
-                  {scanProfiles.length > 0 && (
-                    <div className="mt-4 space-y-2">
-                      <p className="text-xs text-success-300 font-body">Found {scanProfiles.length} profile(s):</p>
-                      {scanProfiles.map((profile, i) => (
-                        <div key={i} className="p-2 bg-gray-800 rounded-lg">
-                          <p className="text-sm text-gray-300 font-body">{profile.platform}: {profile.profileUrl}</p>
-                        </div>
-                      ))}
+              {/* Step 1-5: Existing flow */}
+              {currentStep < 6 && (
+                <>
+                  {currentStep === 1 && (
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm text-gray-300 mb-1 font-body">App</label>
+                        <select
+                          value={appId}
+                          onChange={(e) => setAppId(e.target.value)}
+                          className="w-full bg-gray-900/50 border border-white/10 rounded-lg p-2 text-white font-body focus:border-primary-500 focus:outline-none"
+                        >
+                          {APPS.map(app => (
+                            <option key={app.id} value={app.id}>{app.label}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm text-gray-300 mb-1 font-body">Mode</label>
+                        <select
+                          value={mode}
+                          onChange={(e) => setMode(e.target.value)}
+                          className="w-full bg-gray-900/50 border border-white/10 rounded-lg p-2 text-white font-body focus:border-primary-500 focus:outline-none"
+                        >
+                          {MODES.map(m => (
+                            <option key={m.id} value={m.id}>{m.label}</option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                   )}
-                </div>
-              )}
 
-              {/* Step 4: Manual Notes */}
-              {currentStep === 4 && (
-                <div className="space-y-4">
-                  <label className="block text-sm text-gray-300 mb-1 font-body">Manual Notes</label>
-                  <Textarea
-                    value={manualNotes}
-                    onChange={(e) => setManualNotes(e.target.value)}
-                    className="bg-gray-900/50 border-white/10 text-white placeholder-gray-400 focus:border-primary-500"
-                    placeholder="Add any additional context about the target..."
-                  />
-                </div>
-              )}
-
-              {/* Step 5: Generate */}
-              {currentStep === 5 && (
-                <div className="space-y-4">
-                  <h3 className="text-lg text-white font-display">Ready to Generate</h3>
-                  <div className="bg-[#1a1a1a] bg-opacity-50 p-4 rounded-lg border border-white/10">
-                    <p className="text-sm text-gray-300 font-body">Target: {targetName}</p>
-                    <p className="text-sm text-gray-300 font-body">Mode: {MODES.find(m => m.id === mode)?.label}</p>
-                    <p className="text-sm text-gray-300 font-body">Tone: {defaultTone}</p>
-                    {scanProfiles.length > 0 && (
-                      <p className="text-sm text-success-300 font-body">Profiles: {scanProfiles.length} found</p>
-                    )}
-                  </div>
-                  <Button
-                    onClick={handleGenerate}
-                    disabled={isGenerating || !targetName}
-                    className="bg-gradient-to-r from-primary-600 to-primary-800 hover:from-primary-500 hover:to-primary-700 disabled:bg-gray-600 text-white font-semibold"
-                  >
-                    {isGenerating ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                    {isGenerating ? 'Generating with GPT-5.5...' : 'Generate Content'}
-                  </Button>
-                  <p className="text-xs text-gray-400 font-body">Powered by OpenAI Responses API (gpt-5.5)</p>
-                </div>
-              )}
-
-              {/* Step 6: Output */}
-              {currentStep === 6 && outputs.length > 0 && (
-                <div className="space-y-4">
-                  <h3 className="text-lg text-white font-display">Generated Outputs</h3>
-                  <div className="space-y-3 max-h-96 overflow-y-auto">
-                    {outputs.map((output, idx) => (
-                      <div key={idx} className="bg-[#1a1a1a] bg-opacity-50 p-4 rounded-lg border border-white/10">
-                        <h4 className="text-sm font-bold text-primary-300 mb-2 font-body">{output.type}</h4>
-                        <p className="text-xs text-gray-400 mb-1 font-body">{output.title}</p>
-                        <pre className="text-sm text-gray-200 whitespace-pre-wrap font-body">{output.content}</pre>
+                  {currentStep === 2 && (
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm text-gray-300 mb-1 font-body">Target Name</label>
+                        <Input
+                          value={targetName}
+                          onChange={(e) => setTargetName(e.target.value)}
+                          className="bg-gray-900/50 border-white/10 text-white placeholder-gray-400 focus:border-primary-500"
+                          placeholder="johndoe"
+                        />
                       </div>
-                    ))}
-                  </div>
-                  
-                  {/* Media Generation Section */}
-                  <div className="mt-4 pt-4 border-t border-white/10">
-                    <h4 className="text-sm font-semibold text-white mb-2 font-body">Generate Visual Assets</h4>
-                    <div className="flex gap-2">
+                      <div>
+                        <label className="block text-sm text-gray-300 mb-1 font-body">Target Company (Optional)</label>
+                        <Input
+                          value={targetCompany}
+                          onChange={(e) => setTargetCompany(e.target.value)}
+                          className="bg-gray-900/50 border-white/10 text-white placeholder-gray-400 focus:border-primary-500"
+                          placeholder="Acme Inc."
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {currentStep === 3 && (
+                    <div className="space-y-4">
+                      <p className="text-gray-300 font-body">Optional: Scan public profiles for '{targetName}'</p>
                       <Button
-                        onClick={() => handleGenerateMedia('image', `Professional headshot for ${targetName}, corporate style`)}
-                        disabled={isGeneratingMedia}
-                        className="bg-purple-600 hover:bg-purple-700 text-white text-xs"
+                        onClick={handleScan}
+                        disabled={isScanning || !targetName}
+                        className="bg-primary-600 hover:bg-primary-700 disabled:bg-gray-600 text-white"
                       >
-                        <ImageIcon className="h-3 w-3 mr-1" />
-                        {isGeneratingMedia ? 'Generating...' : 'Generate Image'}
+                        {isScanning ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+                        {isScanning ? 'Scanning...' : 'Run Public Scan (GitHub)'}
                       </Button>
+                      {scanEvents.length > 0 && (
+                        <div className="mt-4">
+                          <ScanProgressTracker events={scanEvents} />
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {currentStep === 4 && (
+                    <div className="space-y-4">
+                      <label className="block text-sm text-gray-300 mb-1 font-body">Manual Notes</label>
+                      <Textarea
+                        value={manualNotes}
+                        onChange={(e) => setManualNotes(e.target.value)}
+                        className="bg-gray-900/50 border-white/10 text-white placeholder-gray-400 focus:border-primary-500"
+                        placeholder="Add any additional context about the target..."
+                      />
+                    </div>
+                  )}
+
+                  {currentStep === 5 && (
+                    <div className="space-y-4">
+                      <h3 className="text-lg text-white font-display">Ready to Generate</h3>
+                      <div className="bg-[#1a1a1a] bg-opacity-50 p-4 rounded-lg border border-white/10">
+                        <p className="text-sm text-gray-300 font-body">Target: {targetName}</p>
+                        <p className="text-sm text-gray-300 font-body">Mode: {MODES.find(m => m.id === mode)?.label}</p>
+                        <p className="text-sm text-gray-300 font-body">Tone: {defaultTone}</p>
+                      </div>
                       <Button
-                        onClick={() => handleGenerateMedia('video', `Personalized video greeting for ${targetName}`)}
-                        disabled={isGeneratingMedia}
-                        className="bg-blue-600 hover:bg-blue-700 text-white text-xs"
+                        onClick={handleGenerate}
+                        disabled={isGenerating || !targetName}
+                        className="bg-gradient-to-r from-primary-600 to-primary-800 hover:from-primary-500 hover:to-primary-700 disabled:bg-gray-600 text-white font-semibold"
                       >
-                        <Video className="h-3 w-3 mr-1" />
-                        {isGeneratingMedia ? 'Generating...' : 'Generate Video'}
+                        {isGenerating ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+                        {isGenerating ? 'Generating with GPT-5.5...' : 'Generate Content'}
                       </Button>
                     </div>
-                    {mediaUrl && (
-                      <div className="mt-3">
-                        <img src={mediaUrl} alt="Generated" className="max-w-full rounded-lg" />
-                        <p className="text-xs text-gray-400 mt-1 font-body">Muapi generated media</p>
+                  )}
+                </>
+              )}
+
+              {/* Step 6: Output with Tabs */}
+              {currentStep === 6 && (
+                <div className="space-y-4">
+                  {outputTab === 'overview' && (
+                    <div className="space-y-4">
+                      <h3 className="text-lg text-white font-display">Generated Outputs</h3>
+                      <div className="space-y-3 max-h-96 overflow-y-auto">
+                        {outputs.map((output, idx) => (
+                          <div key={idx} className="bg-[#1a1a1a] bg-opacity-50 p-4 rounded-lg border border-white/10">
+                            <h4 className="text-sm font-bold text-primary-300 mb-2 font-body">{output.type}</h4>
+                            <p className="text-xs text-gray-400 mb-1 font-body">{output.title}</p>
+                            <pre className="text-sm text-gray-200 whitespace-pre-wrap font-body line-clamp-4">
+                              {output.content}
+                            </pre>
+                          </div>
+                        ))}
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
+
+                  {outputTab === 'platforms' && (
+                    <div className="space-y-4">
+                      <h3 className="text-lg text-white font-display">Platform Profiles</h3>
+                      <div className="grid grid-cols-2 gap-3 max-h-96 overflow-y-auto">
+                        {(profileData?.platforms || []).map((platform: any, idx: number) => (
+                          <PlatformCard key={platform.id} platform={platform} index={idx} />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {outputTab === 'graph' && (
+                    <div className="space-y-4">
+                      <h3 className="text-lg text-white font-display">Identity Graph</h3>
+                      <IdentityGraphView nodes={profileData?.graph?.nodes || []} edges={profileData?.graph?.edges || []} />
+                    </div>
+                  )}
+
+                  {outputTab === 'assets' && (
+                    <div className="space-y-4">
+                      <h3 className="text-lg text-white font-display">Generate Visual Assets</h3>
+                      <div className="flex gap-2">
+                        <Button
+                          onClick={() => handleGenerateMedia('image', `Professional headshot for ${targetName}`)}
+                          disabled={isGeneratingMedia}
+                          className="bg-purple-600 hover:bg-purple-700 text-white"
+                        >
+                          <ImageIcon className="h-4 w-4 mr-2" />
+                          {isGeneratingMedia ? 'Generating...' : 'Generate Image'}
+                        </Button>
+                        <Button
+                          onClick={() => handleGenerateMedia('video', `Personalized video for ${targetName}`)}
+                          disabled={isGeneratingMedia}
+                          className="bg-blue-600 hover:bg-blue-700 text-white"
+                        >
+                          <Video className="h-4 w-4 mr-2" />
+                          {isGeneratingMedia ? 'Generating...' : 'Generate Video'}
+                        </Button>
+                      </div>
+                      {mediaUrl && (
+                        <div className="mt-4">
+                          <img src={mediaUrl} alt="Generated" className="max-w-full rounded-lg" />
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   <Button
                     onClick={handleSave}
@@ -509,35 +553,8 @@ export default function PersonalizerDialog({
               {/* Disclaimer */}
               <div className="mt-8 p-3 glass-effect bg-opacity-30 border border-white/10 rounded-lg">
                 <p className="text-xs text-gray-400 font-body">
-                  *This tool uses public or user-provided information to help generate business-relevant personalization. Results may include possible matches and should be reviewed before use. Do not use this tool for harassment, surveillance, sensitive profiling, or unlawful purposes.
+                  *This tool uses public or user-provided information. Do not use for harassment or unlawful purposes.
                 </p>
-              </div>
-            </div>
-
-            {/* Right Panel */}
-            <div className="w-72 bg-[#1a1a1a] bg-opacity-50 backdrop-blur-md border-l border-white/10 p-4 overflow-y-auto">
-              <h3 className="text-accent-secondary font-semibold mb-4 text-sm font-display">AI Suggestions</h3>
-              <div className="space-y-3">
-                <Button
-                  variant="ghost"
-                  className="w-full p-2 bg-primary-600/20 hover:bg-primary-600/30 text-sm text-primary-200 justify-start"
-                >
-                  Refine Tone
-                </Button>
-                <Button
-                  variant="ghost"
-                  className="w-full p-2 bg-primary-600/20 hover:bg-primary-600/30 text-sm text-primary-200 justify-start"
-                >
-                  Add Offer
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={() => handleGenerateMedia('image', `Personalized thumbnail for ${targetName} - ${mode} campaign`)}
-                  className="w-full p-2 bg-purple-600/20 hover:bg-purple-600/30 text-sm text-purple-200 justify-start"
-                >
-                  <ImageIcon className="h-4 w-4 mr-2" />
-                  Generate Thumbnail
-                </Button>
               </div>
             </div>
           </div>
