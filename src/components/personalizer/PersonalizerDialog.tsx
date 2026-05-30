@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronRight, ChevronLeft, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
+import { X, ChevronRight, ChevronLeft, Loader2, CheckCircle, AlertCircle, Image as ImageIcon, Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -88,8 +88,11 @@ export default function PersonalizerDialog({
   const [isGenerating, setIsGenerating] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
   const [error, setError] = useState('');
-  const [output, setOutput] = useState(null);
-  const [project, setProject] = useState(null);
+  const [outputs, setOutputs] = useState<any[]>([]);
+  const [project, setProject] = useState<any>(null);
+  const [scanProfiles, setScanProfiles] = useState<any[]>([]);
+  const [isGeneratingMedia, setIsGeneratingMedia] = useState(false);
+  const [mediaUrl, setMediaUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (open && projectId) {
@@ -128,6 +131,7 @@ export default function PersonalizerDialog({
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Scan failed');
+      setScanProfiles(data.profiles || []);
       setProject((prev: any) => ({ ...prev, scan_id: data.scanId }));
     } catch (err: any) {
       setError(err.message);
@@ -142,14 +146,8 @@ export default function PersonalizerDialog({
     try {
       const { data: { session } } = await supabase.auth.getSession();
       
-      // Get scan results if we have a scan_id
-      let profiles = [];
-      if (project?.scan_id) {
-        // For now, use mock profiles - in production this would fetch from the scan results
-        profiles = [
-          { platform: 'github', profileUrl: `https://github.com/${targetName}`, status: 'found' }
-        ];
-      }
+      // Use actual scan profiles from the API response
+      const profiles = scanProfiles.length > 0 ? scanProfiles : [];
       
       const res = await fetch('/api/personalizer/generate', {
         method: 'POST',
@@ -163,18 +161,52 @@ export default function PersonalizerDialog({
           mode,
           username: targetName,
           profiles: profiles,
-          context: manualNotes
+          context: `${manualNotes}${targetCompany ? `\ncompany: ${targetCompany}` : ''}`,
+          tone: defaultTone,
+          offer: defaultOffer,
+          goal: defaultGoal,
+          cta: defaultCTA
         })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Generation failed');
-      setOutput(data.output);
+      setOutputs(data.outputs || []);
       setProject(data.project);
       setCurrentStep(6);
     } catch (err: any) {
       setError(err.message);
     } finally {
       setIsGenerating(false);
+    }
+  };
+
+  const handleGenerateMedia = async (type: 'image' | 'video', prompt: string) => {
+    setIsGeneratingMedia(true);
+    setError('');
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch('/api/personalizer/media', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session?.access_token}`
+        },
+        body: JSON.stringify({
+          appId,
+          mode,
+          username: targetName,
+          prompt,
+          type,
+          style: 'professional'
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Media generation failed');
+      setMediaUrl(data.url);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsGeneratingMedia(false);
     }
   };
 
@@ -187,7 +219,7 @@ export default function PersonalizerDialog({
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${session?.access_token}`
         },
-        body: JSON.stringify({ projectId: project?.id, output })
+        body: JSON.stringify({ outputs, projectId: project?.id })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Save failed');
@@ -269,6 +301,7 @@ export default function PersonalizerDialog({
               </div>
               <div className="mt-6 pt-4 border-t border-white/10">
                 <p className="text-xs text-gray-400 font-body">Scan: {project?.scan_id ? 'Complete' : 'Not run'}</p>
+                <p className="text-xs text-gray-400 font-body">Profiles Found: {scanProfiles.length}</p>
                 <p className="text-xs text-gray-400 font-body">Project: {project?.id ? 'Active' : 'New'}</p>
               </div>
             </div>
@@ -321,11 +354,11 @@ export default function PersonalizerDialog({
                       value={targetName}
                       onChange={(e) => setTargetName(e.target.value)}
                       className="bg-gray-900/50 border-white/10 text-white placeholder-gray-400 focus:border-primary-500"
-                      placeholder="John Doe"
+                      placeholder="johndoe"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-300 mb-1 font-body">Target Company</label>
+                    <label className="block text-sm text-gray-300 mb-1 font-body">Target Company (Optional)</label>
                     <Input
                       value={targetCompany}
                       onChange={(e) => setTargetCompany(e.target.value)}
@@ -339,16 +372,25 @@ export default function PersonalizerDialog({
               {/* Step 3: Public Scan */}
               {currentStep === 3 && (
                 <div className="space-y-4">
-                  <p className="text-gray-300 font-body">Optional: Scan public profiles for {targetName}</p>
+                  <p className="text-gray-300 font-body">Optional: Scan public profiles for '{targetName}'</p>
                   <Button
                     onClick={handleScan}
                     disabled={isScanning || !targetName}
                     className="bg-primary-600 hover:bg-primary-700 disabled:bg-gray-600 text-white"
                   >
                     {isScanning ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                    {isScanning ? 'Scanning...' : 'Run Public Scan'}
+                    {isScanning ? 'Scanning...' : 'Run Public Scan (GitHub)'}
                   </Button>
-                  <p className="text-xs text-gray-400 font-body">Uses GitHub API only. LinkedIn/Twitter checks coming soon.</p>
+                  {scanProfiles.length > 0 && (
+                    <div className="mt-4 space-y-2">
+                      <p className="text-xs text-success-300 font-body">Found {scanProfiles.length} profile(s):</p>
+                      {scanProfiles.map((profile, i) => (
+                        <div key={i} className="p-2 bg-gray-800 rounded-lg">
+                          <p className="text-sm text-gray-300 font-body">{profile.platform}: {profile.profileUrl}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -373,6 +415,9 @@ export default function PersonalizerDialog({
                     <p className="text-sm text-gray-300 font-body">Target: {targetName}</p>
                     <p className="text-sm text-gray-300 font-body">Mode: {MODES.find(m => m.id === mode)?.label}</p>
                     <p className="text-sm text-gray-300 font-body">Tone: {defaultTone}</p>
+                    {scanProfiles.length > 0 && (
+                      <p className="text-sm text-success-300 font-body">Profiles: {scanProfiles.length} found</p>
+                    )}
                   </div>
                   <Button
                     onClick={handleGenerate}
@@ -380,21 +425,58 @@ export default function PersonalizerDialog({
                     className="bg-gradient-to-r from-primary-600 to-primary-800 hover:from-primary-500 hover:to-primary-700 disabled:bg-gray-600 text-white font-semibold"
                   >
                     {isGenerating ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                    {isGenerating ? 'Generating...' : 'Generate Content'}
+                    {isGenerating ? 'Generating with GPT-5.5...' : 'Generate Content'}
                   </Button>
+                  <p className="text-xs text-gray-400 font-body">Powered by OpenAI Responses API (gpt-5.5)</p>
                 </div>
               )}
 
               {/* Step 6: Output */}
-              {currentStep === 6 && output && (
+              {currentStep === 6 && outputs.length > 0 && (
                 <div className="space-y-4">
-                  <h3 className="text-lg text-white font-display">Generated Output</h3>
-                  <div className="bg-[#1a1a1a] bg-opacity-50 p-4 rounded-lg max-h-96 overflow-y-auto border border-white/10">
-                    <pre className="text-sm text-gray-200 whitespace-pre-wrap font-body">{JSON.stringify(output, null, 2)}</pre>
+                  <h3 className="text-lg text-white font-display">Generated Outputs</h3>
+                  <div className="space-y-3 max-h-96 overflow-y-auto">
+                    {outputs.map((output, idx) => (
+                      <div key={idx} className="bg-[#1a1a1a] bg-opacity-50 p-4 rounded-lg border border-white/10">
+                        <h4 className="text-sm font-bold text-primary-300 mb-2 font-body">{output.type}</h4>
+                        <p className="text-xs text-gray-400 mb-1 font-body">{output.title}</p>
+                        <pre className="text-sm text-gray-200 whitespace-pre-wrap font-body">{output.content}</pre>
+                      </div>
+                    ))}
                   </div>
+                  
+                  {/* Media Generation Section */}
+                  <div className="mt-4 pt-4 border-t border-white/10">
+                    <h4 className="text-sm font-semibold text-white mb-2 font-body">Generate Visual Assets</h4>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={() => handleGenerateMedia('image', `Professional headshot for ${targetName}, corporate style`)}
+                        disabled={isGeneratingMedia}
+                        className="bg-purple-600 hover:bg-purple-700 text-white text-xs"
+                      >
+                        <ImageIcon className="h-3 w-3 mr-1" />
+                        {isGeneratingMedia ? 'Generating...' : 'Generate Image'}
+                      </Button>
+                      <Button
+                        onClick={() => handleGenerateMedia('video', `Personalized video greeting for ${targetName}`)}
+                        disabled={isGeneratingMedia}
+                        className="bg-blue-600 hover:bg-blue-700 text-white text-xs"
+                      >
+                        <Video className="h-3 w-3 mr-1" />
+                        {isGeneratingMedia ? 'Generating...' : 'Generate Video'}
+                      </Button>
+                    </div>
+                    {mediaUrl && (
+                      <div className="mt-3">
+                        <img src={mediaUrl} alt="Generated" className="max-w-full rounded-lg" />
+                        <p className="text-xs text-gray-400 mt-1 font-body">Muapi generated media</p>
+                      </div>
+                    )}
+                  </div>
+
                   <Button
                     onClick={handleSave}
-                    className="bg-success hover:bg-success/90 text-white"
+                    className="bg-success hover:bg-success/90 text-white mt-4"
                   >
                     <CheckCircle className="h-4 w-4 mr-2" />
                     Save Output
@@ -448,18 +530,15 @@ export default function PersonalizerDialog({
                 >
                   Add Offer
                 </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => handleGenerateMedia('image', `Personalized thumbnail for ${targetName} - ${mode} campaign`)}
+                  className="w-full p-2 bg-purple-600/20 hover:bg-purple-600/30 text-sm text-purple-200 justify-start"
+                >
+                  <ImageIcon className="h-4 w-4 mr-2" />
+                  Generate Thumbnail
+                </Button>
               </div>
-              {output && (
-                <div className="mt-6 pt-4 border-t border-white/10">
-                  <h4 className="text-sm text-gray-300 mb-2 font-body">Send to App</h4>
-                  <Button
-                    variant="ghost"
-                    className="w-full p-2 bg-accent/30 hover:bg-accent/40 text-sm text-accent-200 justify-start"
-                  >
-                    Copy to Clipboard
-                  </Button>
-                </div>
-              )}
             </div>
           </div>
         </motion.div>
