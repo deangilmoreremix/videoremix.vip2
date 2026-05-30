@@ -1,6 +1,3 @@
-// Note: Requires 'react-flow-renderer' package
-// Install: npm install react-flow-renderer
-
 import React, { useCallback } from 'react';
 import ReactFlow, {
   Node,
@@ -10,7 +7,7 @@ import ReactFlow, {
   MiniMap,
   useNodesState,
   useEdgesState,
-} from 'react-flow-renderer';
+} from 'reactflow';
 import { motion } from 'framer-motion';
 import { IdentityGraphNode, IdentityGraphEdge } from '../../types/personalization';
 import { GitBranch, Globe, Building2, User, Share2 } from 'lucide-react';
