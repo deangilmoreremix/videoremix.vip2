@@ -93,18 +93,16 @@ export const handler: Handler = async (event) => {
     // Run profile scan with fallback
     const scanData = await runProfileScan(body.username);
 
-    // Store scan results in Supabase
-    const { data: scan, error: scanError } = await supabase
-      .from('profile_scan_results')
-      .insert({
-        user_id: body.userId || null,
-        target_name: body.username,
-        app_id: body.appId,
-        mode: body.mode,
-        scan_data: scanData
-      })
-      .select()
-      .single();
+// Store scan results in Supabase
+     const { data: scan, error: scanError } = await supabase
+       .from('profile_scan_results')
+       .insert({
+         user_id: body.userId || null,
+         target_name: body.username,
+         scan_data: scanData
+       })
+       .select()
+       .single();
 
     if (scanError) {
       console.error('Supabase scan insert error:', scanError);
