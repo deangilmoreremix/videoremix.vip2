@@ -5,6 +5,7 @@ interface ScanProspectRequest {
   username: string;
   appId: string;
   mode: string;
+  userId?: string;
 }
 
 interface ProfileResult {

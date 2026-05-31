@@ -1,4 +1,4 @@
--- Enhanced Personalization Types
+/** Enhanced Personalization Types */
 
 export interface PersonalizationProfile {
   id: string;

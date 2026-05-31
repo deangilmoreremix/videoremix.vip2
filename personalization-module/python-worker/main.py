@@ -47,8 +47,8 @@ class GraphEdge(BaseModel):
     confidence: int
 
 class GraphResult(BaseModel):
-    nodes: List[GraphNode]
-    edges: List[GraphEdge]
+    nodes: List[Dict[str, Any]]
+    edges: List[Dict[str, Any]]
 
 WORKER_KEY = None
 
@@ -153,42 +153,26 @@ async def graph_build(request: FullScanRequest, x_worker_key: Optional[str] = He
 
     try:
         # Create identity graph nodes
-        nodes: List[GraphNode] = [
-            GraphNode(id="main", nodeType="username", nodeValue=request.username, confidence=90),
+        nodes: List[Dict[str, Any]] = [
+            {"id": "main", "nodeType": "username", "nodeValue": request.username, "confidence": 90},
         ]
         
         if request.company:
-            nodes.append(GraphNode(id="company", nodeType="company", nodeValue=request.company, confidence=70))
-            nodes.append(GraphNode(
-                id="works_at",
-                nodeType="relationship",
-                nodeValue="works_at",
-                confidence=80,
-                sourceNodeId="main",
-                targetNodeId="company"
-            ))
+            nodes.append({"id": "company", "nodeType": "company", "nodeValue": request.company, "confidence": 70})
         
         if request.website:
-            nodes.append(GraphNode(id="website", nodeType="website", nodeValue=request.website, confidence=60))
-            nodes.append(GraphNode(
-                id="owns",
-                nodeType="relationship",
-                nodeValue="owns",
-                confidence=50,
-                sourceNodeId="main",
-                targetNodeId="website"
-            ))
+            nodes.append({"id": "website", "nodeType": "website", "nodeValue": request.website, "confidence": 60})
 
         # Create edges
-        edges: List[GraphEdge] = [
-            GraphEdge(sourceNodeId="main", targetNodeId="username_derived", relationshipType="same_as", confidence=80),
+        edges: List[Dict[str, Any]] = [
+            {"sourceNodeId": "main", "targetNodeId": "username_derived", "relationshipType": "same_as", "confidence": 80},
         ]
-
+        
         if request.company:
-            edges.append(GraphEdge(sourceNodeId="main", targetNodeId="company", relationshipType="works_at", confidence=70))
+            edges.append({"sourceNodeId": "main", "targetNodeId": "company", "relationshipType": "works_at", "confidence": 70})
         
         if request.website:
-            edges.append(GraphEdge(sourceNodeId="main", targetNodeId="website", relationshipType="owns", confidence=60))
+            edges.append({"sourceNodeId": "main", "targetNodeId": "website", "relationshipType": "owns", "confidence": 60})
 
         return {
             "nodes": nodes,
