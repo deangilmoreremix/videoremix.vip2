@@ -9,8 +9,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import PlatformCard from './PlatformCard';
 import IdentityGraphView from './IdentityGraphView';
 import ScanProgressTracker from './ScanProgressTracker';
-import { calculateConfidence, analyzePersonality } from '../../personalization-module/shared-client/analysisEngine';
-import type { PersonalizationProfile, PlatformProfile, IdentityGraphNode, IdentityGraphEdge, GeneratedAsset, ScanJob, ScanEvent } from '../types/personalization';
+import { calculateConfidence, analyzePersonality } from '../../../personalization-module/shared-client/analysisEngine';
+import type { PersonalizationProfile, PlatformProfile, IdentityGraphNode, IdentityGraphEdge, GeneratedAsset, ScanJob, ScanEvent } from '../../types/personalization';
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
