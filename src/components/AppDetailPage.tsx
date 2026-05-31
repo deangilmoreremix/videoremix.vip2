@@ -47,7 +47,7 @@ import { getEnhancedAppData } from "../data/enhancedAppsData";
 import { getAppUrl } from "../config/appUrls";
 import PurchaseModal from "./PurchaseModal";
 import PersonalizerDialog from "./personalizer/PersonalizerDialog";
-import { getBundleForApp } from "../data/bundleData";
+import { getBundleForApp } from "../data/appsData";
 import { AppLaunchButton } from "./AppLaunchButton";
 import { SalesDropdown } from "./ui/SalesDropdown";
 import { appSalesCopy } from "../data/appSalesCopy";

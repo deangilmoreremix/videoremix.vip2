@@ -234,6 +234,9 @@ const FinalCTA: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll();
+  const { scrollYProgress } = useScroll();
+  const { scrollYProgress } = useScroll();
+  const { scrollYProgress } = useScroll();
 
   const opacity = useTransform(
     scrollYProgress,
