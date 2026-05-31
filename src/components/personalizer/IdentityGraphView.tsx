@@ -1,13 +1,12 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import ReactFlow, {
   Node,
   Edge,
   Background,
   Controls,
   MiniMap,
-  useNodesState,
-  useEdgesState,
 } from 'reactflow';
+import 'reactflow/dist/style.css';
 import { motion } from 'framer-motion';
 import { IdentityGraphNode, IdentityGraphEdge } from '../../types/personalization';
 import { GitBranch, Globe, Building2, User, Share2 } from 'lucide-react';

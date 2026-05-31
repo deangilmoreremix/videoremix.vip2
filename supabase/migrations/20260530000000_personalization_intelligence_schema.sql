@@ -103,7 +103,24 @@ ALTER TABLE generated_assets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE scan_jobs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE scan_events ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Users can manage own scan events" ON scan_events
+-- RLS Policies (users can only access their own data)
+CREATE POLICY "Users can manage own profiles" ON personalization_profiles
+  FOR ALL USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can manage own platform profiles" ON platform_profiles
+  FOR ALL USING (EXISTS (
+    SELECT 1 FROM personalization_profiles p WHERE p.id = profile_id AND p.user_id = auth.uid()
+  ));
+
+CREATE POLICY "Users can manage own assets" ON generated_assets
+  FOR ALL USING (EXISTS (
+    SELECT 1 FROM personalization_profiles p WHERE p.id = profile_id AND p.user_id = auth.uid()
+  ));
+
+CREATE POLICY "Users can manage own scan jobs" ON scan_jobs
+  FOR ALL USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can view own scan events" ON scan_events
   FOR ALL USING (EXISTS (
     SELECT 1 FROM scan_jobs s WHERE s.id = job_id AND s.user_id = auth.uid()
   ));

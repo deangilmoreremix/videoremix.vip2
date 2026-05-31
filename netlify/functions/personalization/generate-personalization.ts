@@ -13,6 +13,7 @@ interface GeneratePersonalizationRequest {
   offer?: string;
   goal?: string;
   cta?: string;
+  userId?: string;
 }
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -130,6 +131,79 @@ export const handler: Handler = async (event) => {
     if (projectError) {
       console.error('Project save error:', projectError);
     }
+
+    // Call Python worker for intelligence pipeline (if configured)
+    const workerUrl = process.env.PERSONALIZER_WORKER_URL;
+    const workerKey = process.env.PERSONALIZER_WORKER_KEY;
+    
+    if (workerUrl && workerKey) {
+      try {
+        // Run full scan through Maigret worker
+        const scanFullRes = await fetch(`${workerUrl}/scan-full`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-worker-key': workerKey,
+          },
+          body: JSON.stringify({
+            username: body.username,
+            company: body.context?.includes('company:') ? body.context.split('company:')[1]?.split('\n')[0] : undefined,
+          }),
+        });
+        
+        if (scanFullRes.ok) {
+          const scanResult = await scanFullRes.json();
+          
+          // Store personalization profile
+          if (project) {
+            const { data: profile, error: profileError } = await supabase
+              .from('personalization_profiles')
+              .insert({
+                user_id: body.userId,
+                target_name: body.username,
+                company: body.context?.includes('company:') ? body.context.split('company:')[1]?.split('\n')[0] : null,
+                confidence_score: scanResult.confidenceScore,
+                personality_traits: scanResult.traits,
+                interests: scanResult.interests,
+                communication_style: scanResult.communicationStyle,
+                ai_summary: `Analyzed ${body.username} with ${scanResult.traits?.length || 0} traits detected`,
+                recommended_hooks: scanResult.recommendedHooks,
+                recommended_offers: scanResult.recommendedOffers,
+              })
+              .select()
+              .single();
+            
+            if (!profileError && profile) {
+              // Update project with profile reference
+              await supabase
+                .from('personalization_projects')
+                .update({ profile_data: profile })
+                .eq('id', project.id);
+            }
+          }
+        }
+
+        // Build identity graph
+        const graphRes = await fetch(`${workerUrl}/graph-build`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-worker-key': workerKey,
+          },
+          body: JSON.stringify({
+            username: body.username,
+            company: body.context?.includes('company:') ? body.context.split('company:')[1]?.split('\n')[0] : undefined,
+            website: undefined,
+          }),
+        });
+        
+        if (graphRes.ok && project) {
+          const graphData = await graphRes.json();
+          // Graph data stored for reference - nodes/edges would be stored here
+        }
+      } catch (workerErr) {
+        console.error('Worker integration error (non-fatal):', workerErr);
+      }
 
 // Save outputs to Supabase
      if (outputs.length > 0 && project) {

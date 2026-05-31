@@ -518,6 +518,54 @@ export default function PersonalizerDialog({
                     </div>
                   )}
 
+                  {outputTab === 'intelligence' && (
+                    <div className="space-y-4">
+                      <h3 className="text-lg text-white font-display">Intelligence Analysis</h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-[#1a1a1a] bg-opacity-50 p-4 rounded-lg border border-white/10">
+                          <h4 className="text-sm font-bold text-primary-300 mb-2">Personality Traits</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {profileData?.personalityTraits?.map((trait: string, i: number) => (
+                              <span key={i} className="px-2 py-1 bg-gray-700/50 rounded text-xs text-gray-300">{trait}</span>
+                            )) || <span className="text-gray-400 text-sm">No traits detected</span>}
+                          </div>
+                        </div>
+                        <div className="bg-[#1a1a1a] bg-opacity-50 p-4 rounded-lg border border-white/10">
+                          <h4 className="text-sm font-bold text-primary-300 mb-2">Interests</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {profileData?.interests?.map((interest: string, i: number) => (
+                              <span key={i} className="px-2 py-1 bg-gray-700/50 rounded text-xs text-gray-300">{interest}</span>
+                            )) || <span className="text-gray-400 text-sm">No interests detected</span>}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="bg-[#1a1a1a] bg-opacity-50 p-4 rounded-lg border border-white/10">
+                        <h4 className="text-sm font-bold text-primary-300 mb-2">AI Summary</h4>
+                        <p className="text-gray-300 text-sm">{profileData?.aiSummary || 'No AI summary available'}</p>
+                      </div>
+                      <div className="bg-[#1a1a1a] bg-opacity-50 p-4 rounded-lg border border-white/10">
+                        <h4 className="text-sm font-bold text-primary-300 mb-2">Recommended Hooks</h4>
+                        <ul className="text-gray-300 text-sm space-y-1">
+                          {profileData?.recommendedHooks?.map((hook: string, i: number) => (
+                            <li key={i} className="flex items-start gap-2">
+                              <span className="text-primary-400">•</span>
+                              {hook}
+                            </li>
+                          )) || <li className="text-gray-400">No hooks available</li>}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+
+                  {outputTab === 'raw' && (
+                    <div className="space-y-4">
+                      <h3 className="text-lg text-white font-display">Raw Data</h3>
+                      <pre className="bg-[#1a1a1a] bg-opacity-50 p-4 rounded-lg border border-white/10 text-xs text-gray-300 overflow-x-auto max-h-96">
+                        {JSON.stringify(profileData || outputs, null, 2)}
+                      </pre>
+                    </div>
+                  )}
+
                   <Button
                     onClick={handleSave}
                     className="bg-success hover:bg-success/90 text-white mt-4"
