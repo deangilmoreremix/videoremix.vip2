@@ -382,13 +382,14 @@ function App() {
      // In a production app, you might send this to an error tracking service
    };
 
-   // Determine if we should show the global personalizer (only for authenticated users, not on auth pages)
-   const isAuthPage = location.pathname.startsWith("/signin") || 
-                      location.pathname.startsWith("/signup") || 
-                      location.pathname.startsWith("/forgot-password") ||
-                      location.pathname.startsWith("/reset-password") ||
-                      location.pathname === "/pricing";
-   const showGlobalPersonalizer = user && !isAdminPage && !isAuthPage;
+// Determine if we should show the global personalizer (only for authenticated users, not on auth/landing pages)
+    const isAuthPage = location.pathname.startsWith("/signin") || 
+                       location.pathname.startsWith("/signup") || 
+                       location.pathname.startsWith("/forgot-password") ||
+                       location.pathname.startsWith("/reset-password") ||
+                       location.pathname === "/pricing" ||
+                       location.pathname === "/"; // Landing page
+    const showGlobalPersonalizer = user && !isAdminPage && !isAuthPage;
 
    return (
     <>
