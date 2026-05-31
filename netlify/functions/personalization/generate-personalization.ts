@@ -197,26 +197,27 @@ export const handler: Handler = async (event) => {
           }),
         });
         
-        if (graphRes.ok && project) {
-          const graphData = await graphRes.json();
-          // Graph data stored for reference - nodes/edges would be stored here
-        }
+if (graphRes.ok && project) {
+           const graphData = await graphRes.json();
+           // Graph data stored for reference - nodes/edges would be stored here
+         }
       } catch (workerErr) {
         console.error('Worker integration error (non-fatal):', workerErr);
       }
+    }
 
-// Save outputs to Supabase
-     if (outputs.length > 0 && project) {
-       const outputRecords = outputs.map((output: any) => ({
-         project_id: project.id,
-         output_type: output.type || 'generated_text',
-         title: output.title || 'Generated personalization',
-         content: JSON.stringify({ content: output.content || '' }), // JSONB format per schema
-         model_used: 'gpt-5.5',
-       }));
+    // Save outputs to Supabase
+    if (outputs.length > 0 && project) {
+      const outputRecords = outputs.map((output: any) => ({
+        project_id: project.id,
+        output_type: output.type || 'generated_text',
+        title: output.title || 'Generated personalization',
+        content: JSON.stringify({ content: output.content || '' }), // JSONB format per schema
+        model_used: 'gpt-5.5',
+      }));
 
-       await supabase.from('personalization_outputs').insert(outputRecords);
-     }
+      await supabase.from('personalization_outputs').insert(outputRecords);
+    }
 
     return { 
       statusCode: 200, 

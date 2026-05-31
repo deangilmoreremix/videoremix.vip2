@@ -177,7 +177,7 @@ export const handler: Handler = async (event) => {
     };
 
     // Fire-and-forget processing (don't await)
-    processPipeline(job.id).catch(err => {
+processPipeline(job.id).catch(err => {
       console.error('Background processing error:', err);
       supabase
         .from('scan_jobs')
