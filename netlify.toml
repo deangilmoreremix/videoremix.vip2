@@ -62,6 +62,17 @@
     Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
-  for = "/assets/*.woff2"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+   for = "/assets/*.woff2"
+   [headers.values]
+     Cache-Control = "public, max-age=31536000, immutable"
+
+# Personalization API routes
+[[redirects]]
+  from = "/api/personalizer/job/create"
+  to = "/.netlify/functions/personalization-scan-job-create"
+  status = 200
+
+[[redirects]]
+  from = "/api/personalizer/job/:jobId/status"
+  to = "/.netlify/functions/personalization-scan-job-status"
+  status = 200

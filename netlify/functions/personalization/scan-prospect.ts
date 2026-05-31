@@ -4,6 +4,7 @@ interface ScanProspectRequest {
   username: string;
   appId: string;
   mode: string;
+  userId?: string;
 }
 
 const workerUrl = process.env.PERSONALIZER_WORKER_URL;
