@@ -31,6 +31,7 @@ const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
 const AdminSignUp = lazy(() => import("./components/admin/AdminSignUp"));
 const SpecialFooter = lazy(() => import("./components/SpecialFooter"));
+const GlobalPersonalizerButton = lazy(() => import("./components/personalizer/GlobalPersonalizerButton"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 const CoursesPage = lazy(() => import("./pages/CoursesPage"));
 const AnalyticsDashboard = lazy(() => import("./components/AnalyticsDashboard"));
@@ -330,10 +331,22 @@ function App() {
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
 
-  // Check if we're on an admin page
-  const isAdminPage = location.pathname.startsWith("/admin");
+// Check if we're on an admin page
+   const isAdminPage = location.pathname.startsWith("/admin");
 
-  useEffect(() => {
+   // Check if we should show the global personalizer button
+   // Only show for authenticated users, NOT on landing page, admin pages, or auth pages
+   const isAuthPage = location.pathname.startsWith("/signin") ||
+                      location.pathname.startsWith("/signup") ||
+                      location.pathname.startsWith("/forgot-password") ||
+                      location.pathname.startsWith("/reset-password") ||
+                      location.pathname.startsWith("/email-confirm") ||
+                      location.pathname.startsWith("/auth-callback") ||
+                      location.pathname.startsWith("/magic-link");
+   const isLandingPage = location.pathname === "/";
+   const showGlobalPersonalizer = user && !isAdminPage && !isAuthPage && !isLandingPage;
+
+   useEffect(() => {
     const checkDevice = () => {
       setIsMobile(window.innerWidth < 640);
       setIsTablet(window.innerWidth >= 640 && window.innerWidth < 1024);
@@ -396,9 +409,14 @@ return (
 
         {!isAdminPage && <AudioPlayer />}
 
-        {!isAdminPage && <LiveActivityIndicator />}
+{!isAdminPage && <LiveActivityIndicator />}
 
-
+        {/* Global Personalizer Button - only for authenticated users, not on landing/auth pages */}
+        {!isAdminPage && showGlobalPersonalizer && (
+          <Suspense fallback={null}>
+            <GlobalPersonalizerButton />
+          </Suspense>
+        )}
 
         <Routes>
           {/* Landing Page Route */}
