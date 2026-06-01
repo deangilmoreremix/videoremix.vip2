@@ -1,5 +1,6 @@
 import { Handler } from '@netlify/functions';
 import OpenAI from 'openai';
+import { createClient } from '@supabase/supabase-js';
 
 interface GeneratePersonalizationRequest {
   scanId: string;
@@ -8,26 +9,47 @@ interface GeneratePersonalizationRequest {
   username: string;
   profiles: Array<Record<string, any>>;
   context?: string;
+  tone?: string;
+  offer?: string;
+  goal?: string;
+  cta?: string;
+  userId?: string;
 }
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-function buildPrompt(input: GeneratePersonalizationRequest): string {
-  const profileSummary = input.profiles
-    .map((profile, index) => `Profile ${index + 1}: ${profile.platform} - ${profile.profileUrl} - ${profile.status}`)
-    .join('\n');
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabase = createClient(supabaseUrl!, supabaseKey!);
 
-  return `You are a personalization engine for VideoRemix. Generate a set of personalized outputs for the target prospect.
+// Build instructions for Responses API
+function buildPersonalizationInput(input: GeneratePersonalizationRequest): string {
+  const profileSection = input.profiles.length > 0
+    ? input.profiles.map((profile, index) => 
+        `Profile ${index + 1}:
+Platform: ${profile.platform || 'unknown'}
+URL: ${profile.profileUrl || profile.url || 'N/A'}
+Status: ${profile.status || 'found'}
+Details: ${profile.bio || profile.description || 'No additional details'}`
+      ).join('\n\n')
+    : 'No public profiles found for this target.';
 
-Target username: ${input.username}
-App ID: ${input.appId}
-Mode: ${input.mode}
-Context: ${input.context || 'None'}
+  return `TARGET: ${input.username}
+COMPANY: ${input.context?.includes('company:') ? input.context.split('company:')[1]?.split('\n')[0] : 'Not specified'}
+MODE: ${input.mode}
+APP: ${input.appId}
 
-Profile discovery results:
-${profileSummary}
+PROFILES:
+${profileSection}
 
-Produce JSON with an array called outputs. Each output should include type, title, and content. Example types: video_script, email, storyboard, proposal. Use the information available to personalize the copy and deliver a concise, professional response.`;
+CONTEXT:
+- Tone: ${input.tone || 'professional'}
+- Offer: ${input.offer || 'Not specified'}
+- Goal: ${input.goal || 'Not specified'}
+- Call to Action: ${input.cta || 'Not specified'}
+- Notes: ${input.context || 'None'}
+
+Generate personalized content with multiple output types. Each output includes type, title, and content. Example types: email_content, video_script, thumbnail_text, proposal_outline, social_hook, value_proposition. Use profile information to create hooks and personalized copy.`;
 }
 
 export const handler: Handler = async (event) => {
@@ -41,20 +63,44 @@ export const handler: Handler = async (event) => {
   }
 
   try {
-    const prompt = buildPrompt(body);
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
-      messages: [
-        { role: 'system', content: 'You are a personalization assistant for VideoRemix.' },
-        { role: 'user', content: prompt },
-      ],
-      temperature: 0.7,
-      max_tokens: 1400,
+    // Use Responses API with built-in tools and structured output
+    const input = buildPersonalizationInput(body);
+
+    const response = await openai.responses.create({
+      model: 'gpt-5.5',
+      instructions: 'You are an AI personalization engine for VideoRemix.vip. Generate highly personalized, conversion-focused content for business outreach. Be professional, ethical, and focus on value propositions.',
+      input,
+      text: {
+        format: {
+          type: 'json_schema',
+          name: 'personalization_outputs',
+          strict: true,
+          schema: {
+            type: 'object',
+            properties: {
+              outputs: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    type: { type: 'string', enum: ['email_content', 'video_script', 'thumbnail_text', 'proposal_outline', 'social_hook', 'value_proposition', 'personalized_hook'] },
+                    title: { type: 'string' },
+                    content: { type: 'string' }
+                  },
+                  required: ['type', 'title', 'content']
+                }
+              }
+            },
+            required: ['outputs']
+          }
+        }
+      },
+      store: true,
     });
 
-    const content = completion.choices?.[0]?.message?.content;
+    const content = response.output_text;
     if (!content) {
-      return { statusCode: 500, body: JSON.stringify({ error: 'AI generation returned no content' }) };
+      throw new Error('AI generation returned no content');
     }
 
     let outputs;
@@ -62,11 +108,128 @@ export const handler: Handler = async (event) => {
       const parsed = JSON.parse(content);
       outputs = parsed.outputs || [];
     } catch {
-      outputs = [{ outputType: 'generated_text', title: 'Personalization result', content }];
+      outputs = [{ type: 'email_content', title: 'Personalization result', content }];
     }
 
-    return { statusCode: 200, body: JSON.stringify({ scanId: body.scanId, outputs }) };
+    // Save project to Supabase
+    const { data: project, error: projectError } = await supabase
+      .from('personalization_projects')
+      .insert({
+        user_id: body.userId || null,
+        app_id: body.appId,
+        mode: body.mode,
+        target_name: body.username,
+        target_company: body.context?.includes('company:') ? body.context.split('company:')[1]?.split('\n')[0] : null,
+        manual_notes: body.context,
+        status: 'complete',
+        scan_id: body.scanId,
+        response_id: response.id
+      })
+      .select()
+      .single();
+
+    if (projectError) {
+      console.error('Project save error:', projectError);
+    }
+
+    // Call Python worker for intelligence pipeline (if configured)
+    const workerUrl = process.env.PERSONALIZER_WORKER_URL;
+    const workerKey = process.env.PERSONALIZER_WORKER_KEY;
+    
+    if (workerUrl && workerKey) {
+      try {
+        // Run full scan through Maigret worker
+        const scanFullRes = await fetch(`${workerUrl}/scan-full`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-worker-key': workerKey,
+          },
+          body: JSON.stringify({
+            username: body.username,
+            company: body.context?.includes('company:') ? body.context.split('company:')[1]?.split('\n')[0] : undefined,
+          }),
+        });
+        
+        if (scanFullRes.ok) {
+          const scanResult = await scanFullRes.json();
+          
+          // Store personalization profile
+          if (project) {
+            const { data: profile, error: profileError } = await supabase
+              .from('personalization_profiles')
+              .insert({
+                user_id: body.userId,
+                target_name: body.username,
+                company: body.context?.includes('company:') ? body.context.split('company:')[1]?.split('\n')[0] : null,
+                confidence_score: scanResult.confidenceScore,
+                personality_traits: scanResult.traits,
+                interests: scanResult.interests,
+                communication_style: scanResult.communicationStyle,
+                ai_summary: `Analyzed ${body.username} with ${scanResult.traits?.length || 0} traits detected`,
+                recommended_hooks: scanResult.recommendedHooks,
+                recommended_offers: scanResult.recommendedOffers,
+              })
+              .select()
+              .single();
+            
+            if (!profileError && profile) {
+              // Update project with profile reference
+              await supabase
+                .from('personalization_projects')
+                .update({ profile_data: profile })
+                .eq('id', project.id);
+            }
+          }
+        }
+
+        // Build identity graph
+        const graphRes = await fetch(`${workerUrl}/graph-build`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-worker-key': workerKey,
+          },
+          body: JSON.stringify({
+            username: body.username,
+            company: body.context?.includes('company:') ? body.context.split('company:')[1]?.split('\n')[0] : undefined,
+            website: undefined,
+          }),
+        });
+        
+if (graphRes.ok && project) {
+           const graphData = await graphRes.json();
+           // Graph data stored for reference - nodes/edges would be stored here
+         }
+      } catch (workerErr) {
+        console.error('Worker integration error (non-fatal):', workerErr);
+      }
+    }
+
+    // Save outputs to Supabase
+    if (outputs.length > 0 && project) {
+      const outputRecords = outputs.map((output: any) => ({
+        project_id: project.id,
+        output_type: output.type || 'generated_text',
+        title: output.title || 'Generated personalization',
+        content: JSON.stringify({ content: output.content || '' }), // JSONB format per schema
+        model_used: 'gpt-5.5',
+      }));
+
+      await supabase.from('personalization_outputs').insert(outputRecords);
+    }
+
+    return { 
+      statusCode: 200, 
+      body: JSON.stringify({ 
+        scanId: body.scanId, 
+        outputs,
+        project: project || null,
+        responseId: response.id
+      }) 
+    };
   } catch (error: any) {
+    console.error('Generation error:', error);
     return { statusCode: 500, body: JSON.stringify({ error: 'Failed to generate personalization', details: error.message }) };
   }
 };

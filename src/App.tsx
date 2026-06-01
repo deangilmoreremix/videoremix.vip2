@@ -15,6 +15,7 @@ import { useAuth } from "./context/AuthContext";
 import { Toaster } from "./components/ui/toast";
 import { NetworkStatusIndicator } from "./components/AsyncStates";
 import { Analytics } from "./utils/analytics";
+import GlobalPersonalizerButton from "./components/personalizer/GlobalPersonalizerButton";
 
 // Lazy loaded components for better performance
 const LandingPage = lazy(() => import("./components/premium/LandingPage"));
@@ -45,6 +46,7 @@ const LocalAiScrapperPyPage = lazy(() => import("./pages/agents/LocalAiScrapperP
 const LocalTravelAgentPage = lazy(() => import("./pages/agents/LocalTravelAgentPage"));
 const QwenLocalRagPage = lazy(() => import("./pages/agents/QwenLocalRagPage"));
 const RagAgentCoherePage = lazy(() => import("./pages/agents/RagAgentCoherePage"));
+const ToolsHubPage = lazy(() => import("./pages/ToolsHubPage"));
 
 // Additional agent pages lazy imports
 const Ai3dpygameR1Page = lazy(() => import("./pages/agents/Ai3dpygameR1Page"));
@@ -388,12 +390,21 @@ function App() {
     return () => window.removeEventListener("scroll", updateTitle);
   }, []);
 
-  // Handle errors from error boundaries
-  const handleError = () => {
-    // In a production app, you might send this to an error tracking service
-  };
+// Handle errors from error boundaries
+   const handleError = () => {
+     // In a production app, you might send this to an error tracking service
+   };
 
-return (
+// Determine if we should show the global personalizer (only for authenticated users, not on auth/landing pages)
+    const isAuthPage = location.pathname.startsWith("/signin") || 
+                       location.pathname.startsWith("/signup") || 
+                       location.pathname.startsWith("/forgot-password") ||
+                       location.pathname.startsWith("/reset-password") ||
+                       location.pathname === "/pricing" ||
+                       location.pathname === "/"; // Landing page
+    const showGlobalPersonalizer = user && !isAdminPage && !isAuthPage;
+
+   return (
     <>
       <Helmet>
         <title>VideoRemix.vip - AI-Powered Marketing Personalization Platform</title>
@@ -445,7 +456,272 @@ return (
               </ErrorBoundary>
             }
           />
-         </Routes>
+
+          {/* Pricing Page */}
+          <Route
+            path="/pricing"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <PricingPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* FAQ Page */}
+          <Route
+            path="/faq"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <FAQPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* About Us Page */}
+          <Route
+            path="/about"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AboutUsPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Blog Pages */}
+          <Route
+            path="/blog"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <BlogPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/blog/:slug"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <BlogPostPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Tools Hub Page - Public access to browse tools */}
+          <Route
+            path="/tools"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <ToolsHubPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Individual App Pages */}
+          <Route
+            path="/app/:appId"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <AppPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Protected Routes - Require Authentication */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <DashboardPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <ProfilePage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/analytics"
+            element={
+              <ProtectedRoute>
+                <Suspense fallback={<SectionLoader />}>
+                  <AnalyticsDashboard />
+                </Suspense>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Suspense fallback={<SectionLoader />}>
+                  <SettingsPage />
+                </Suspense>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/personalizer"
+            element={
+              <ProtectedRoute>
+                <Suspense fallback={<SectionLoader />}>
+                  <PersonalizerPage />
+                </Suspense>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Agent Pages */}
+          <Route
+            path="/agents/:id"
+            element={
+              <ProtectedRoute>
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentPage />
+                </Suspense>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Auth pages */}
+          <Route
+            path="/signin"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <SignInPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/signup"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <SignUpPage />
+                  <SpecialFooter />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/forgot-password"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <ForgotPasswordPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/reset-password"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <ResetPassword />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/email-confirm"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <EmailConfirmPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/auth/callback"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <AuthCallback />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/magic-link"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <MagicLinkPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Admin Routes */}
+          <Route
+            path="/admin"
+            element={
+              <AdminProvider>
+                <Suspense fallback={<SectionLoader />}>
+                  <AdminDashboard />
+                </Suspense>
+              </AdminProvider>
+            }
+          />
+        </Routes>
         <Toaster />
         <MobileBottomNav />
         <NetworkStatusIndicator />
