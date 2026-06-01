@@ -16,6 +16,10 @@ import { Toaster } from "./components/ui/toast";
 import { NetworkStatusIndicator } from "./components/AsyncStates";
 import { Analytics } from "./utils/analytics";
 
+// Eager-loaded enhanced landing page (no lazy loading → fast initial render with all sections)
+// Toggle by visiting `/?variant=enhanced` to compare against the premium version.
+import EnhancedLandingPage from "./pages/EnhancedLandingPage";
+
 // Lazy loaded components for better performance
 const LandingPage = lazy(() => import("./components/premium/LandingPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
@@ -419,18 +423,39 @@ return (
         )}
 
         <Routes>
-          {/* Landing Page Route */}
-<Route
+           {/* Landing Page Route */}
+          <Route
             path="/"
             element={
               <ErrorBoundary onError={handleError}>
-                <Suspense fallback={<SectionLoader />}>
-                  <LandingPage />
-                </Suspense>
+                {(() => {
+                  // ?variant=enhanced  → use the eager-loaded enhanced page (fast, all animations, no Suspense chunks)
+                  // ?variant=premium   → use the current lazy-loaded premium page
+                  // default            → premium
+                  const params = new URLSearchParams(window.location.search);
+                  const variant = params.get('variant');
+                  if (variant === 'enhanced') {
+                    return <EnhancedLandingPage />;
+                  }
+                  return (
+                    <Suspense fallback={<SectionLoader />}>
+                      <LandingPage />
+                    </Suspense>
+                  );
+                })()}
               </ErrorBoundary>
             }
           />
-
+          
+          {/* Auth Pages */}
+           <Route path="/signin" element={<ErrorBoundary onError={handleError}><Suspense fallback={<SectionLoader />}><SignInPage /></Suspense></ErrorBoundary>></Route>
+           <Route path="/signup" element={<ErrorBoundary onError={handleError}><Suspense fallback={<SectionLoader />}> <SignUpPage /></Suspense></ErrorBoundary>></Route>
+           <Route path="/forgot-password" element={<ErrorBoundary onError={handleError}><Suspense fallback={<SectionLoader />}><ForgotPasswordPage /></Suspense></ErrorBoundary>></Route>
+           <Route path="/reset-password" element={<ErrorBoundary onError={handleError}><Suspense fallback={<SectionLoader />}><ResetPassword /></Suspense></ErrorBoundary>></Route>
+           <Route path="/email-confirm" element={<ErrorBoundary onError={handleError}><Suspense fallback={<SectionLoader />}><EmailConfirmPage /></Suspense></ErrorBoundary>></Route>
+           <Route path="/auth-callback" element={<ErrorBoundary onError={handleError}><Suspense fallback={<SectionLoader />}><AuthCallback /></Suspense></ErrorBoundary>></Route>
+           <Route path="/magic-link" element={<ErrorBoundary onError={handleError}><Suspense fallback={<SectionLoader />}><MagicLinkPage /></Suspense></ErrorBoundary>></Route>
+          
           {/* Courses Page */}
           <Route
             path="/courses"
@@ -445,7 +470,7 @@ return (
               </ErrorBoundary>
             }
           />
-         </Routes>
+          </Routes>
         <Toaster />
         <MobileBottomNav />
         <NetworkStatusIndicator />

@@ -56,20 +56,22 @@ export default defineConfig(({ mode }) => {
       manifest: true,
     },
     server: {
-      host: '0.0.0.0',
-      port: 8080,
-      strictPort: true, // Use fixed port for easier Codespaces port forwarding
-      // Configure HMR for GitHub Codespaces
-      hmr: {
-        // Use the codespace URL for WebSocket connection
-        clientPort: 443,
-        protocol: 'wss',
-      },
-      allowedHosts: ['.app.github.dev', 'localhost'],
-      watch: {
-        usePolling: false,
-        ignored: ['**/node_modules/**', '**/dist/**', '**/supabase/functions/**'],
-      },
+       host: '0.0.0.0',
+       port: 8080,
+       strictPort: true, // Use fixed port for easier Codespaces port forwarding
+       // Configure HMR for GitHub Codespaces
+       hmr: isCodespaces
+         ? {
+             // Use the codespace URL for WebSocket connection
+             clientPort: 443,
+             protocol: 'wss',
+           }
+         : undefined,
+       allowedHosts: ['.app.github.dev', 'localhost'],
+       watch: {
+         usePolling: false,
+         ignored: ['**/node_modules/**', '**/dist/**', '**/supabase/functions/**'],
+       },
       // Proxy all Supabase cloud calls to local instance
       proxy: {
         // Redirect any calls to the cloud Supabase project to local instance
