@@ -11,7 +11,7 @@ export interface LoadingIndicatorProps {
 }
 
 export function LoadingIndicator({
-  message,
+  message = "Loading...",
   subtext,
   progress,
   size = "md",
