@@ -136,6 +136,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return authError;
   }, []);
 
+  // Debug logging for auth state changes
+  const logAuthState = useCallback((action: string, details?: any) => {
+    console.log(`[Auth:${action}]`, {
+      user: user ? `${user.id} (${user.email})` : null,
+      session: session ? `expires: ${new Date(session.expires_at * 1000).toISOString()}` : null,
+      authState,
+      loading,
+      isAuthenticated,
+      timestamp: new Date().toISOString(),
+      ...details
+    });
+  }, [user, session, authState, loading, isAuthenticated]);
+
   // Refresh session proactively
   const refreshSession = useCallback(async (): Promise<boolean> => {
     if (isRefreshingRef.current) {
@@ -322,7 +335,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Set up auth state change listener
     const { data } = supabase.auth.onAuthStateChange(
       async (event: AuthChangeEvent, newSession: Session | null) => {
-        console.log("[Auth] State change event:", event);
+        logAuthState("stateChange", { event, hasSession: !!newSession, sessionUserId: newSession?.user?.id });
 
         if (!mounted) return;
 
@@ -606,6 +619,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     async (email: string, password: string) => {
       console.log("[Auth] signIn called", { email, timestamp: new Date().toISOString() });
       clearError();
+      logAuthState("signIn:start", { email });
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -624,7 +638,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       return { user: data.user, error: signInError };
     },
-    [clearError, handleAuthError]
+    [clearError, handleAuthError, logAuthState]
   );
 
   const signOut = useCallback(async () => {

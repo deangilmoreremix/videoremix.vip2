@@ -107,6 +107,12 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   console.log("[ProtectedRoute] User authenticated, allowing access to:", location.pathname);
 
   // Authenticated - render protected content
+  console.log("[ProtectedRoute] User authenticated, rendering protected content", {
+    userId: user?.id,
+    pathname: location.pathname,
+    authState,
+    isAuthenticated
+  });
   hasMadeDecisionRef.current = true;
 
   return <>{children}</>;
