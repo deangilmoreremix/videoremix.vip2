@@ -118,7 +118,7 @@ const rawAppsData: App[] = [{
     icon: React.createElement(Video),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-personalized-content-thumbnail.png",
     popular: true,
-    salesCopy: appSalesCopy['ai-personalizedcontent'] || appSalesCopy['ai-personalized-content'],
+    salesCopy: appSalesCopy['ai-personalized-content-creator'] || appSalesCopy['ai-personalizedcontent'],
   },
   {
     id: "video-ai-editor",
@@ -130,7 +130,7 @@ const rawAppsData: App[] = [{
     icon: React.createElement(Video),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/video-ai-editor-thumbnail.png",
     popular: true,
-    salesCopy: appSalesCopy['video-ai-editor'],
+    salesCopy: appSalesCopy['ai-video-editor-pro'] || appSalesCopy['video-ai-editor'],
   },
   {
     id: "ai-video-image",
@@ -142,7 +142,7 @@ const rawAppsData: App[] = [{
     icon: React.createElement(ImageIcon),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-video-image-thumbnail.png",
     new: true,
-    salesCopy: appSalesCopy['ai-video-image'],
+    salesCopy: appSalesCopy['ai-video-image-studio'] || appSalesCopy['ai-video-image'],
   },
 
   // Sales & Marketing Apps (7)
@@ -156,7 +156,7 @@ const rawAppsData: App[] = [{
     icon: React.createElement(Share2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-referral-maximizer-thumbnail.png",
     popular: true,
-    salesCopy: appSalesCopy['ai-referral-maximizer'],
+    salesCopy: appSalesCopy['referral-maximizer-ai'] || appSalesCopy['ai-referral-maximizer'],
   },
   {
     id: "ai-sales",
@@ -168,7 +168,7 @@ const rawAppsData: App[] = [{
     icon: React.createElement(TrendingUp),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-sales-maximizer-thumbnail.png",
     popular: true,
-    salesCopy: appSalesCopy['ai-sales'],
+    salesCopy: appSalesCopy['ai-sales-assistant'] || appSalesCopy['ai-sales'],
   },
   {
     id: "smart-crm-closer",
@@ -203,7 +203,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(FileText),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-proposal-thumbnail.png",
-    salesCopy: appSalesCopy['ai-proposal'],
+    salesCopy: appSalesCopy['ai-proposal-writer'] || appSalesCopy['ai-proposal'],
   },
   {
     id: "sales-assistant-app",
@@ -214,7 +214,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Users),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/sales-assistant-app-thumbnail.png",
-    salesCopy: appSalesCopy['sales-assistant-app'],
+    salesCopy: appSalesCopy['sales-assistant-ai'] || appSalesCopy['sales-assistant-app'],
   },
   {
     id: "sales-page-builder",
@@ -225,7 +225,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Layers),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/sales-page-builder-thumbnail.png",
-    salesCopy: appSalesCopy['sales-page-builder'],
+    salesCopy: appSalesCopy['sales-page-builder-ai'] || appSalesCopy['sales-page-builder'],
   },
 
   // Professional Development Apps (4)
@@ -238,7 +238,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Camera),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-screen-recorder-thumbnail.png",
-    salesCopy: appSalesCopy['personalizer-recorder'],
+    salesCopy: appSalesCopy['ai-screen-recorder-pro'] || appSalesCopy['personalizer-recorder'],
   },
   {
     id: "ai-skills-monetizer",
@@ -250,7 +250,7 @@ const rawAppsData: App[] = [{
     icon: React.createElement(DollarSign),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-skills-monetizer-thumbnail.png",
     popular: true,
-    salesCopy: appSalesCopy['ai-skills-monetizer'],
+    salesCopy: appSalesCopy['skills-monetizer-ai'] || appSalesCopy['ai-skills-monetizer'],
   },
   {
     id: "ai-signature",
@@ -261,7 +261,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(FileSignature),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-signature-thumbnail.png",
-    salesCopy: appSalesCopy['ai-signature'],
+    salesCopy: appSalesCopy['ai-signature-generator'] || appSalesCopy['ai-signature'],
   },
   {
     id: "ai-template-generator",
@@ -273,7 +273,7 @@ const rawAppsData: App[] = [{
     icon: React.createElement(LayoutTemplate),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-template-generator-thumbnail.png",
     new: true,
-    salesCopy: appSalesCopy['ai-template-generator'],
+    salesCopy: appSalesCopy['ai-template-creator'] || appSalesCopy['ai-template-generator'],
   },
 
   // Personalizer Suite Apps (3)
@@ -287,7 +287,7 @@ const rawAppsData: App[] = [{
     icon: React.createElement(UserCircle),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-profile-generator-thumbnail.png",
     popular: true,
-    salesCopy: appSalesCopy['personalizer-profile'],
+    salesCopy: appSalesCopy['profile-generator-ai'] || appSalesCopy['personalizer-profile'],
   },
   {
     id: "personalizer-video-image-transformer",
@@ -298,7 +298,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Sparkles),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-video-image-transformer-thumbnail.png",
-    salesCopy: appSalesCopy['personalizer-video-image-transformer'],
+    salesCopy: appSalesCopy['ai-media-transformer'] || appSalesCopy['personalizer-video-image-transformer'],
   },
   {
     id: "personalizer-url-video-generation",
@@ -309,9 +309,10 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Play),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/personalizer-url-video-generation-thumbnail.png",
-    salesCopy: appSalesCopy['personalizer-url-video-generation'],
+    salesCopy: appSalesCopy['url-to-video-ai'] || appSalesCopy['personalizer-url-video-generation'],
   },
-  // AI Agent Apps (117)
+
+  // AI Agent Apps (117) — RENAMED TO CUSTOMER-FRIENDLY NAMES
   {
     id: "1-starter-agent",
     name: "AI News Content Writer",
@@ -321,7 +322,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/1-starter-agent-thumbnail.png",
-    url: "/agent/1-starter-agent",
+    url: "/agent/starter-ai-agent",
   },
   {
     id: "4-running-agents",
@@ -332,7 +333,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/4-running-agents-thumbnail.png",
-    url: "/agent/4-running-agents",
+    url: "/agent/multi-agent-runner",
   },
   {
     id: "5-1-in-memory-conversation-agent",
@@ -343,7 +344,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/5-1-in-memory-conversation-agent-thumbnail.png",
-    url: "/agent/5-1-in-memory-conversation-agent",
+    url: "/agent/conversation-memory-agent",
   },
   {
     id: "5-2-persistent-conversation-agent",
@@ -354,7 +355,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/5-2-persistent-conversation-agent-thumbnail.png",
-    url: "/agent/5-2-persistent-conversation-agent",
+    url: "/agent/persistent-chat-agent",
   },
   {
     id: "6-1-agent-lifecycle-callbacks",
@@ -365,7 +366,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/6-1-agent-lifecycle-callbacks-thumbnail.png",
-    url: "/agent/6-1-agent-lifecycle-callbacks",
+    url: "/agent/agent-lifecycle-manager",
   },
   {
     id: "6-2-ai-interaction-callbacks",
@@ -387,7 +388,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/6-3-tool-execution-callbacks-thumbnail.png",
-    url: "/agent/6-3-tool-execution-callbacks",
+    url: "/agent/tool-execution-monitor",
   },
   {
     id: "7-plugins",
@@ -398,7 +399,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/7-plugins-thumbnail.png",
-    url: "/agent/7-plugins",
+    url: "/agent/agent-plugins-hub",
   },
   {
     id: "7-sessions",
@@ -409,7 +410,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/7-sessions-thumbnail.png",
-    url: "/agent/7-sessions",
+    url: "/agent/session-manager-agent",
   },
   {
     id: "9-1-sequential-agent",
@@ -420,7 +421,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/9-1-sequential-agent-thumbnail.png",
-    url: "/agent/9-1-sequential-agent",
+    url: "/agent/sequential-agent",
   },
   {
     id: "9-2-loop-agent",
@@ -431,7 +432,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/9-2-loop-agent-thumbnail.png",
-    url: "/agent/9-2-loop-agent",
+    url: "/agent/loop-agent",
   },
   {
     id: "9-3-parallel-agent",
@@ -442,7 +443,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/9-3-parallel-agent-thumbnail.png",
-    url: "/agent/9-3-parallel-agent",
+    url: "/agent/parallel-executor-agent",
   },
   {
     id: "ag2-adaptive-research-team",
@@ -453,7 +454,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ag2-adaptive-research-team-thumbnail.png",
-    url: "/agent/ag2-adaptive-research-team",
+    url: "/agent/adaptive-research-team",
   },
   {
     id: "agentic-rag-embedding-gemma",
@@ -464,7 +465,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/agentic-rag-embedding-gemma-thumbnail.png",
-    url: "/agent/agentic-rag-embedding-gemma",
+    url: "/agent/embedding-rag-agent",
   },
   {
     id: "agentic-rag-gpt5",
@@ -475,7 +476,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/agentic-rag-gpt5-thumbnail.png",
-    url: "/agent/agentic-rag-gpt5",
+    url: "/agent/gpt5-rag-assistant",
   },
   {
     id: "agentic-rag-with-reasoning",
@@ -486,7 +487,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/agentic-rag-with-reasoning-thumbnail.png",
-    url: "/agent/agentic-rag-with-reasoning",
+    url: "/agent/reasoning-rag-agent",
   },
   {
     id: "ai-3dpygame-r1",
@@ -497,7 +498,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-3dpygame-r1-thumbnail.png",
-    url: "/agent/ai-3dpygame-r1",
+    url: "/agent/3d-game-visualizer",
   },
   {
     id: "ai-aqi-analysis-agent",
@@ -508,7 +509,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-aqi-analysis-agent-thumbnail.png",
-    url: "/agent/ai-aqi-analysis-agent",
+    url: "/agent/air-quality-analyzer",
   },
   {
     id: "ai-arxiv-agent-memory",
@@ -519,7 +520,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-arxiv-agent-memory-thumbnail.png",
-    url: "/agent/ai-arxiv-agent-memory",
+    url: "/agent/arxiv-research-agent",
   },
   {
     id: "ai-audio-tour-agent",
@@ -530,7 +531,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-audio-tour-agent-thumbnail.png",
-    url: "/agent/ai-audio-tour-agent",
+    url: "/agent/audio-tour-guide-ai",
   },
   {
     id: "ai-blog-search",
@@ -541,7 +542,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-blog-search-thumbnail.png",
-    url: "/agent/ai-blog-search",
+    url: "/agent/blog-research-agent",
   },
 
   {
@@ -553,7 +554,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-breakup-recovery-agent-thumbnail.png",
-    url: "/agent/ai-breakup-recovery-agent",
+    url: "/agent/breakup-recovery-coach",
   },
   {
     id: "ai-chess-agent",
@@ -564,7 +565,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-chess-agent-thumbnail.png",
-    url: "/agent/ai-chess-agent",
+    url: "/agent/chess-master-ai",
   },
   {
     id: "ai-competitor-intelligence-agent-team",
@@ -575,7 +576,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-competitor-intelligence-agent-team-thumbnail.png",
-    url: "/agent/ai-competitor-intelligence-agent-team",
+    url: "/agent/competitor-intelligence-team",
   },
   {
     id: "ai-customer-support-agent",
@@ -586,7 +587,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-customer-support-agent-thumbnail.png",
-    url: "/agent/ai-customer-support-agent",
+    url: "/agent/customer-support-ai",
   },
   {
     id: "ai-data-analysis-agent",
@@ -597,7 +598,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-data-analysis-agent-thumbnail.png",
-    url: "/agent/ai-data-analysis-agent",
+    url: "/agent/data-analyst-ai",
   },
   {
     id: "ai-data-visualisation-agent",
@@ -608,7 +609,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-data-visualisation-agent-thumbnail.png",
-    url: "/agent/ai-data-visualisation-agent",
+    url: "/agent/data-visualization-expert",
   },
   {
     id: "ai-deep-research-agent",
@@ -619,7 +620,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-deep-research-agent-thumbnail.png",
-    url: "/agent/ai-deep-research-agent",
+    url: "/agent/deep-research-agent",
   },
   {
     id: "ai-domain-deep-research-agent",
@@ -630,7 +631,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-domain-deep-research-agent-thumbnail.png",
-    url: "/agent/ai-domain-deep-research-agent",
+    url: "/agent/domain-expert-researcher",
   },
   {
     id: "ai-email-gtm-outreach-agent",
@@ -641,7 +642,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-email-gtm-outreach-agent-thumbnail.png",
-    url: "/agent/ai-email-gtm-outreach-agent",
+    url: "/agent/email-gtm-outreach-agent",
   },
   {
     id: "ai-email-gtm-reachout-agent",
@@ -652,7 +653,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-email-gtm-reachout-agent-thumbnail.png",
-    url: "/agent/ai-email-gtm-reachout-agent",
+    url: "/agent/email-gtm-campaign-agent",
   },
   {
     id: "ai-financial-coach-agent",
@@ -663,9 +664,9 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wallet),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-financial-coach-agent-thumbnail.png",
-    url: "/agent/ai-financial-coach-agent",
+    url: "/agent/financial-coach-ai",
     price: 99,
-    salesCopy: appSalesCopy['financial-coach'],
+    salesCopy: appSalesCopy['financial-coach-ai'] || appSalesCopy['financial-coach'],
   },
   {
     id: "ai-product-launch-intelligence-agent",
@@ -676,9 +677,9 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Rocket),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-product-launch-intelligence-agent-thumbnail.png",
-    url: "/agent/ai-product-launch-intelligence-agent",
+    url: "/agent/product-launch-intelligence",
     price: 149,
-    salesCopy: appSalesCopy['product-launch-intelligence'],
+    salesCopy: appSalesCopy['product-launch-intelligence'] || appSalesCopy['product-launch-intelligence-agent'],
   },
   {
     id: "ai-fraud-investigation-agent",
@@ -689,7 +690,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-fraud-investigation-agent-thumbnail.png",
-    url: "/agent/ai-fraud-investigation-agent",
+    url: "/agent/fraud-detector-ai",
   },
   {
     id: "ai-game-design-agent-team",
@@ -700,7 +701,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-game-design-agent-team-thumbnail.png",
-    url: "/agent/ai-game-design-agent-team",
+    url: "/agent/game-design-team-ai",
   },
   {
     id: "ai-health-fitness-agent",
@@ -711,7 +712,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-health-fitness-agent-thumbnail.png",
-    url: "/agent/ai-health-fitness-agent",
+    url: "/agent/health-fitness-coach",
   },
   {
     id: "ai-journalist-agent",
@@ -722,7 +723,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-journalist-agent-thumbnail.png",
-    url: "/agent/ai-journalist-agent",
+    url: "/agent/ai-journalist",
   },
   {
     id: "ai-legal-agent-team",
@@ -733,7 +734,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-legal-agent-team-thumbnail.png",
-    url: "/agent/ai-legal-agent-team",
+    url: "/agent/legal-team-assistant",
   },
   {
     id: "ai-life-insurance-advisor-agent",
@@ -744,7 +745,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-life-insurance-advisor-agent-thumbnail.png",
-    url: "/agent/ai-life-insurance-advisor-agent",
+    url: "/agent/life-insurance-advisor",
   },
   {
     id: "ai-medical-imaging-agent",
@@ -755,7 +756,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-medical-imaging-agent-thumbnail.png",
-    url: "/agent/ai-medical-imaging-agent",
+    url: "/agent/medical-imaging-analyst",
   },
   {
     id: "ai-meeting-agent",
@@ -766,7 +767,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-meeting-agent-thumbnail.png",
-    url: "/agent/ai-meeting-agent",
+    url: "/agent/meeting-assistant-ai",
   },
   {
     id: "ai-meme-generator-agent-browseruse",
@@ -777,7 +778,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-meme-generator-agent-browseruse-thumbnail.png",
-    url: "/agent/ai-meme-generator-agent-browseruse",
+    url: "/agent/meme-generator-ai",
   },
   {
     id: "ai-mental-wellbeing-agent",
@@ -788,7 +789,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-mental-wellbeing-agent-thumbnail.png",
-    url: "/agent/ai-mental-wellbeing-agent",
+    url: "/agent/mental-wellness-coach",
   },
   {
     id: "ai-movie-production-agent",
@@ -799,7 +800,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-movie-production-agent-thumbnail.png",
-    url: "/agent/ai-movie-production-agent",
+    url: "/agent/movie-production-assistant",
   },
   {
     id: "ai-music-generator-agent",
@@ -810,7 +811,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-music-generator-agent-thumbnail.png",
-    url: "/agent/ai-music-generator-agent",
+    url: "/agent/music-composer-ai",
   },
   {
     id: "ai-personal-finance-agent",
@@ -821,7 +822,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-personal-finance-agent-thumbnail.png",
-    url: "/agent/ai-personal-finance-agent",
+    url: "/agent/personal-finance-advisor",
   },
   {
     id: "ai-real-estate-agent-team",
@@ -832,7 +833,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-real-estate-agent-team-thumbnail.png",
-    url: "/agent/ai-real-estate-agent-team",
+    url: "/agent/real-estate-team-ai",
   },
   {
     id: "ai-reasoning-agent",
@@ -843,7 +844,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-reasoning-agent-thumbnail.png",
-    url: "/agent/ai-reasoning-agent",
+    url: "/agent/reasoning-engine-ai",
   },
   {
     id: "ai-recipe-meal-planning-agent",
@@ -854,7 +855,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-recipe-meal-planning-agent-thumbnail.png",
-    url: "/agent/ai-recipe-meal-planning-agent",
+    url: "/agent/recipe-meal-planner",
   },
   {
     id: "ai-recruitment-agent-team",
@@ -865,7 +866,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-recruitment-agent-team-thumbnail.png",
-    url: "/agent/ai-recruitment-agent-team",
+    url: "/agent/recruitment-team-ai",
   },
   {
     id: "ai-services-agency",
@@ -887,7 +888,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-startup-insight-fire1-agent-thumbnail.png",
-    url: "/agent/ai-startup-insight-fire1-agent",
+    url: "/agent/startup-insights-ai",
   },
   {
     id: "ai-startup-trend-analysis-agent",
@@ -898,7 +899,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-startup-trend-analysis-agent-thumbnail.png",
-    url: "/agent/ai-startup-trend-analysis-agent",
+    url: "/agent/startup-trend-analyzer",
   },
   {
     id: "ai-system-architect-r1",
@@ -909,7 +910,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-system-architect-r1-thumbnail.png",
-    url: "/agent/ai-system-architect-r1",
+    url: "/agent/system-architect-ai",
   },
   {
     id: "ai-teaching-agent-team",
@@ -920,7 +921,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-teaching-agent-team-thumbnail.png",
-    url: "/agent/ai-teaching-agent-team",
+    url: "/agent/teaching-assistant-team",
   },
   {
     id: "ai-tic-tac-toe-agent",
@@ -931,7 +932,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-tic-tac-toe-agent-thumbnail.png",
-    url: "/agent/ai-tic-tac-toe-agent",
+    url: "/agent/tic-tac-toe-master",
   },
   {
     id: "ai-travel-agent",
@@ -942,7 +943,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-travel-agent-thumbnail.png",
-    url: "/agent/ai-travel-agent",
+    url: "/agent/travel-planner-ai",
   },
   {
     id: "ai-travel-agent-memory",
@@ -953,7 +954,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-travel-agent-memory-thumbnail.png",
-    url: "/agent/ai-travel-agent-memory",
+    url: "/agent/travel-memory-agent",
   },
   {
     id: "ai-travel-planner-mcp-agent-team",
@@ -964,7 +965,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-travel-planner-mcp-agent-team-thumbnail.png",
-    url: "/agent/ai-travel-planner-mcp-agent-team",
+    url: "/agent/travel-planning-team",
   },
   {
     id: "app",
@@ -975,7 +976,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/app-thumbnail.png",
-    url: "/agent/app",
+    url: "/agent/app-builder-ai",
   },
   {
     id: "autonomous-rag",
@@ -986,7 +987,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/autonomous-rag-thumbnail.png",
-    url: "/agent/autonomous-rag",
+    url: "/agent/autonomous-rag-system",
   },
   {
     id: "blog-to-podcast-agent",
@@ -997,7 +998,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/blog-to-podcast-agent--thumbnail.png",
-    url: "/agent/blog-to-podcast-agent",
+    url: "/agent/blog-podcast-converter",
   },
   {
     id: "browser-mcp-agent",
@@ -1008,7 +1009,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/browser-mcp-agent-thumbnail.png",
-    url: "/agent/browser-mcp-agent",
+    url: "/agent/browser-mcp-controller",
   },
   {
     id: "chat-with-github",
@@ -1019,7 +1020,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/chat-with-github-thumbnail.png",
-    url: "/agent/chat-with-github",
+    url: "/agent/github-code-chat",
   },
   {
     id: "chat-with-gmail",
@@ -1030,7 +1031,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/chat-with-gmail-thumbnail.png",
-    url: "/agent/chat-with-gmail",
+    url: "/agent/gmail-assistant",
   },
   {
     id: "chat-with-pdf",
@@ -1041,7 +1042,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/chat-with-pdf-thumbnail.png",
-    url: "/agent/chat-with-pdf",
+    url: "/agent/pdf-chat-ai",
   },
   {
     id: "chat-with-research-papers",
@@ -1052,7 +1053,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/chat-with-research-papers-thumbnail.png",
-    url: "/agent/chat-with-research-papers",
+    url: "/agent/research-paper-chat",
   },
   {
     id: "chat-with-substack",
@@ -1063,7 +1064,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/chat-with-substack-thumbnail.png",
-    url: "/agent/chat-with-substack",
+    url: "/agent/substack-chat-ai",
   },
   {
     id: "chat-with-tarots",
@@ -1074,7 +1075,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/chat-with-tarots-thumbnail.png",
-    url: "/agent/chat-with-tarots",
+    url: "/agent/tarot-reading-ai",
   },
   {
     id: "chat-with-youtube-videos",
@@ -1085,7 +1086,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/chat-with-youtube-videos-thumbnail.png",
-    url: "/agent/chat-with-youtube-videos",
+    url: "/agent/youtube-video-chat",
   },
   {
     id: "contextualai-rag-agent",
@@ -1096,7 +1097,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/contextualai-rag-agent-thumbnail.png",
-    url: "/agent/contextualai-rag-agent",
+    url: "/agent/contextual-rag-agent",
   },
   {
     id: "corrective-rag",
@@ -1107,7 +1108,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/corrective-rag-thumbnail.png",
-    url: "/agent/corrective-rag",
+    url: "/agent/corrective-rag-engine",
   },
   {
     id: "cursor-ai-experiments",
@@ -1118,7 +1119,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/cursor-ai-experiments-thumbnail.png",
-    url: "/agent/cursor-ai-experiments",
+    url: "/agent/cursor-ai-lab",
   },
   {
     id: "customer-support-voice-agent",
@@ -1129,7 +1130,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/customer-support-voice-agent-thumbnail.png",
-    url: "/agent/customer-support-voice-agent",
+    url: "/agent/voice-support-agent",
   },
   {
     id: "deepseek-local-rag-agent",
@@ -1140,7 +1141,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/deepseek-local-rag-agent-thumbnail.png",
-    url: "/agent/deepseek-local-rag-agent",
+    url: "/agent/local-deepseek-rag",
   },
   {
     id: "devpulse-ai",
@@ -1162,7 +1163,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/frontend-thumbnail.png",
-    url: "/agent/frontend",
+    url: "/agent/frontend-dev-assistant",
   },
   {
     id: "gemini-agentic-rag",
@@ -1195,7 +1196,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/gpt-oss-critique-improvement-loop-thumbnail.png",
-    url: "/agent/gpt-oss-critique-improvement-loop",
+    url: "/agent/code-review-ai",
   },
   {
     id: "hybrid-search-rag",
@@ -1217,7 +1218,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/local-ai-reasoning-agent-py-thumbnail.png",
-    url: "/agent/local-ai-reasoning-agent-py",
+    url: "/agent/local-reasoning-engine",
   },
 
     id: "qwen-local-rag",
@@ -1262,7 +1263,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/multi-mcp-agent-router-thumbnail.png",
-    url: "/agent/multi-mcp-agent-router",
+    url: "/agent/multi-mcp-router",
   },
   {
     id: "multimodal-ai-agent",
@@ -1273,7 +1274,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/multimodal-ai-agent-thumbnail.png",
-    url: "/agent/multimodal-ai-agent",
+    url: "/agent/multimodal-ai-assistant",
   },
   {
     id: "multimodal-coding-agent-team",
@@ -1284,7 +1285,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/multimodal-coding-agent-team-thumbnail.png",
-    url: "/agent/multimodal-coding-agent-team",
+    url: "/agent/multimodal-coding-team",
   },
   {
     id: "multimodal-design-agent-team",
@@ -1295,7 +1296,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/multimodal-design-agent-team-thumbnail.png",
-    url: "/agent/multimodal-design-agent-team",
+    url: "/agent/multimodal-design-team",
   },
   {
     id: "music-generator-agent-py",
@@ -1306,7 +1307,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/music-generator-agent-py-thumbnail.png",
-    url: "/agent/music-generator-agent-py",
+    url: "/agent/music-composer-ai",
   },
   {
     id: "openai-research-agent",
@@ -1317,7 +1318,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/openai-research-agent-thumbnail.png",
-    url: "/agent/openai-research-agent",
+    url: "/agent/openai-research-assistant",
   },
   {
     id: "product-launch-intelligence-agent",
@@ -1328,7 +1329,9 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/product-launch-intelligence-agent-thumbnail.png",
-    url: "/agent/product-launch-intelligence-agent",
+    url: "/agent/product-launch-intelligence",
+    price: 149,
+    salesCopy: appSalesCopy['product-launch-intelligence'] || appSalesCopy['product-launch-intelligence-agent'],
   },
   {
     id: "rag-as-a-service",
@@ -1351,7 +1354,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/rag-database-routing-thumbnail.png",
-    url: "/agent/rag-database-routing",
+    url: "/agent/rag-database-router",
   },
   {
     id: "research-agent-gemini-interaction-api",
@@ -1362,7 +1365,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/research-agent-gemini-interaction-api-thumbnail.png",
-    url: "/agent/research-agent-gemini-interaction-api",
+    url: "/agent/gemini-research-agent",
   },
   {
     id: "resume-job-matcher",
@@ -1395,7 +1398,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/toonify-token-optimization-thumbnail.png",
-    url: "/agent/toonify-token-optimization",
+    url: "/agent/token-optimizer-ai",
   },
   {
     id: "trust-gated-agent-team",
@@ -1419,7 +1422,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/voice-rag-openaisdk-thumbnail.png",
-    url: "/agent/voice-rag-openaisdk",
+    url: "/agent/voice-rag-assistant",
   },
   {
     id: "web-scraping-ai-agent",
@@ -1430,7 +1433,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/web-scraping-ai-agent-thumbnail.png",
-    url: "/agent/web-scraping-ai-agent",
+    url: "/agent/web-scraper-pro",
   },
   {
     id: "xai-finance-agent",
@@ -1441,7 +1444,7 @@ const rawAppsData: App[] = [{
     skillSlug: "brainstorming",
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/xai-finance-agent-thumbnail.png",
-    url: "/agent/xai-finance-agent",
+    url: "/agent/xai-finance-analyst",
   },
 
 ];
