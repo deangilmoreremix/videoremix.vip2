@@ -26,7 +26,7 @@ import ConversionNudge from './ConversionNudge';
 import { Sparkles, Award, Clock, Shield, Star, CheckCircle, TrendingUp, BarChart3, Users, DollarSign, Mail, Send, FileText, Users2, Globe, BookOpen, Code, Palette, GraduationCap, Brain, ExternalLink, HelpCircle, Target, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-import SpecialHero from '../SpecialHero';
+import AnimatedHero from './AnimatedHero';
 import ProblemSection from '../ProblemSection';
 import SolutionSection from '../SolutionSection';
 import FeatureMap from '../FeatureMap';
@@ -76,10 +76,8 @@ const LandingPage: React.FC = () => {
         <meta name="description" content="Create personalized marketing campaigns with AI. 100+ business apps across 12 categories. Turn AI into revenue." />
       </Helmet>
 
-      {/* 1. Special Hero (from original) */}
-      <Suspense fallback={<SectionLoader />}>
-        <SpecialHero />
-      </Suspense>
+      {/* 1. Animated Hero (rotating headline) */}
+      <AnimatedHero />
 
       {/* 2. Problem Section (from original) */}
       <Suspense fallback={<SectionLoader />}>
