@@ -46,8 +46,10 @@ const SignInPage: React.FC = () => {
     try {
       // ALWAYS normalize email to lowercase - critical fix for login issues!
       const normalizedEmail = formData.email.toLowerCase().trim();
+      console.log("[SignInPage] Attempting sign in for:", normalizedEmail);
       const { error } = await signIn(normalizedEmail, formData.password);
       if (error) {
+        console.log("[SignInPage] Sign in failed:", error.message);
         setError(error.message);
       } else {
         // Wait for auth state to stabilize before navigating
@@ -57,6 +59,7 @@ const SignInPage: React.FC = () => {
         }, 100); // Small delay to let auth state changes propagate
       }
     } catch (err) {
+      console.log("[SignInPage] Sign in error:", err);
       setError("An unexpected error occurred");
     } finally {
       setLoading(false);

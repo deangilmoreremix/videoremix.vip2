@@ -6,6 +6,37 @@
   NODE_VERSION = "20"
   NPM_VERSION = "10"
 
+# Personalization API endpoints - route to Netlify Functions
+[[redirects]]
+  from = "/api/personalizer/scan"
+  to = "/.netlify/functions/personalization-scan-prospect"
+  status = 200
+
+[[redirects]]
+  from = "/api/personalizer/generate"
+  to = "/.netlify/functions/personalization-generate-personalization"
+  status = 200
+
+[[redirects]]
+  from = "/api/personalizer/save"
+  to = "/.netlify/functions/personalization-save-results"
+  status = 200
+
+[[redirects]]
+  from = "/api/personalizer/media"
+  to = "/.netlify/functions/personalization-generate-media"
+  status = 200
+
+[[redirects]]
+  from = "/api/personalizer/job/create"
+  to = "/.netlify/functions/personalization-scan-job-create"
+  status = 200
+
+[[redirects]]
+  from = "/api/personalizer/job/:jobId/status"
+  to = "/.netlify/functions/personalization-scan-job-status"
+  status = 200
+
 [[redirects]]
   from = "/auth/*"
   to = "https://bzxohkrxcwodllketcpz.supabase.co/auth/:splat"

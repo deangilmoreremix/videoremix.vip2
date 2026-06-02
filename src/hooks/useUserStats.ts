@@ -46,6 +46,12 @@ export const useUserStats = () => {
             .eq("user_id", user.id),
         ]);
 
+        // Handle potential errors from the query
+        if (appsResult.error) {
+          console.error("Error fetching app access:", appsResult.error);
+          // Don't fail completely, just set count to 0
+        }
+
         const purchasedAppsCount = appsResult.data?.length || 0;
         const videosCreated = videosResult.data?.length || 0;
 

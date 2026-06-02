@@ -15,17 +15,39 @@ import { useAuth } from "./context/AuthContext";
 import { Toaster } from "./components/ui/toast";
 import { NetworkStatusIndicator } from "./components/AsyncStates";
 import { Analytics } from "./utils/analytics";
+import GlobalPersonalizerButton from "./components/personalizer/GlobalPersonalizerButton";
+
+// TEMP DIAGNOSTIC: retry-aware dynamic import logger (revert after root cause confirmed)
+// Helps distinguish "server already dead before import starts" vs "transform fails mid-request"
+function debugDynamicImport<T>(
+  importFn: () => Promise<{ default: T }>,
+  name: string,
+): () => Promise<{ default: T }> {
+  return async () => {
+    const t0 = Date.now();
+    const ts = new Date().toISOString();
+    console.log(`[DYNAMIC-IMPORT-DIAG] START ${name} @ ${ts}`);
+    try {
+      const mod = await importFn();
+      console.log(`[DYNAMIC-IMPORT-DIAG] SUCCESS ${name} in ${Date.now() - t0}ms`);
+      return mod;
+    } catch (err: any) {
+      console.error(`[DYNAMIC-IMPORT-DIAG] FAILED ${name} after ${Date.now() - t0}ms:`, {
+        message: err?.message,
+        stack: err?.stack?.split('\n').slice(0, 3).join('\n'),
+      });
+      throw err;
+    }
+  };
+}
 
 // Lazy loaded components for better performance
-const LandingPage = lazy(() => import("./components/premium/LandingPage"));
+const LandingPage = lazy(debugDynamicImport(() => import("./components/premium/LandingPage"), "LandingPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
 
 // Generic pages
 const PricingPage = lazy(() => import("./pages/PricingPage"));
 const FAQPage = lazy(() => import("./pages/FAQPage"));
-const AboutUsPage = lazy(() => import("./pages/AboutUsPage"));
-const BlogPage = lazy(() => import("./pages/BlogPage"));
-const BlogPostPage = lazy(() => import("./pages/BlogPostPage"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
@@ -45,6 +67,7 @@ const LocalAiScrapperPyPage = lazy(() => import("./pages/agents/LocalAiScrapperP
 const LocalTravelAgentPage = lazy(() => import("./pages/agents/LocalTravelAgentPage"));
 const QwenLocalRagPage = lazy(() => import("./pages/agents/QwenLocalRagPage"));
 const RagAgentCoherePage = lazy(() => import("./pages/agents/RagAgentCoherePage"));
+const ToolsHubPage = lazy(() => import("./pages/ToolsHubPage"));
 
 // Additional agent pages lazy imports
 const Ai3dpygameR1Page = lazy(() => import("./pages/agents/Ai3dpygameR1Page"));
@@ -168,6 +191,89 @@ const AgenticRagGpt5Page = lazy(() => import("./pages/agents/AgenticRagGpt5Page"
 const AgenticRagWithReasoningPage = lazy(() => import("./pages/agents/AgenticRagWithReasoningPage"));
 const ConsultProAIPage = lazy(() => import("./pages/agents/ConsultProAIPage"));
 const LaunchRocketAIPage = lazy(() => import("./pages/agents/LaunchRocketAIPage"));
+// New apps using generic AppPage
+const AiHeadshotStudioPage = AgentAppPage;
+const AiRoyalPortraitPage = AgentAppPage;
+const AiAgeTransformationPage = AgentAppPage;
+const AiTryOnPage = AgentAppPage;
+const AiProfessionalMakeupGeneratorPage = AgentAppPage;
+const AiHairStyleSimulatorPage = AgentAppPage;
+const AiKidsToAdultPredictionPage = AgentAppPage;
+const AiRoomDeclutterPage = AgentAppPage;
+const AiFitnessBodySimulatorPage = AgentAppPage;
+const AiPetPortraitPage = AgentAppPage;
+const AiWeddingPhotoPage = AgentAppPage;
+const AiTattooTryOnPage = AgentAppPage;
+const AiLogoPage = AgentAppPage;
+const OldPhotoPage = AgentAppPage;
+const NanoBananaStudioPage = AgentAppPage;
+const SeedanceV2StudioPage = AgentAppPage;
+const EasyVeoPage = AgentAppPage;
+const AiClipPage = AgentAppPage;
+const VideoCreatorPage = AgentAppPage;
+const TextToSpeechPage = AgentAppPage;
+const NicheScriptPage = AgentAppPage;
+const PromoGeneratorPage = AgentAppPage;
+const LandingPageAgentPage = AgentAppPage;
+const AiBusinessCardPage = AgentAppPage;
+const MailwisePage = AgentAppPage;
+const MyPodcastPage = AgentAppPage;
+const EZScribePage = AgentAppPage;
+const TalkToPdfPage = AgentAppPage;
+const AiKnowledgeBasePage = AgentAppPage;
+const AiOutboundPage = AgentAppPage;
+const SalesMonetizerPage = AgentAppPage;
+const RebranderAiPage = AgentAppPage;
+const BgRemoverPage = AgentAppPage;
+const AiArtPage = AgentAppPage;
+const SocialPackPage = AgentAppPage;
+const SmartPresentationsPage = AgentAppPage;
+const InteractiveOutrosPage = AgentAppPage;
+const InteractiveShoppingPage = AgentAppPage;
+const StoryboardPage = AgentAppPage;
+const PersonalizerVideoImageTransformerPage = AgentAppPage;
+const AiTemplateGeneratorPage = AgentAppPage;
+const AiSignaturePage = AgentAppPage;
+const ThumbnailGeneratorPage = AgentAppPage;
+const VoiceCoachPage = AgentAppPage;
+const AmazonProductStudioPage = AgentAppPage;
+const ResalePhotoEnhancerPage = AgentAppPage;
+const PetProductStudioPage = AgentAppPage;
+const AiRecruiterPage = AgentAppPage;
+const BloggerCmsPage = AgentAppPage;
+const AiRealEstateStagerPage = AgentAppPage;
+const PromptArchitectPage = AgentAppPage;
+const ClearmarkAiPage = AgentAppPage;
+const AiFlashCardsPage = AgentAppPage;
+const AiGroupPhotoPage = AgentAppPage;
+const AiCharacterStudioPage = AgentAppPage;
+const LuxuryHairStudioPage = AgentAppPage;
+const AiTravelStudioPage = AgentAppPage;
+const SocialPostPage = AgentAppPage;
+const PlantVisionAiPage = AgentAppPage;
+const AiResumeBuilderPage = AgentAppPage;
+const GeoCheckerPage = AgentAppPage;
+const SolaceAiPage = AgentAppPage;
+const ReLiveAiPage = AgentAppPage;
+const AiChiropracticServicePage = AgentAppPage;
+const VeloraYogaAiPage = AgentAppPage;
+const AiKissingVideoGeneratorPage = AgentAppPage;
+const TablaReserveAiPage = AgentAppPage;
+const DentalReserveAiPage = AgentAppPage;
+const CounselMatePage = AgentAppPage;
+const FixeraPage = AgentAppPage;
+const VertexTaxStrategyPage = AgentAppPage;
+const LedgerSyncPage = AgentAppPage;
+const ProFlowPlumbingPage = AgentAppPage;
+const TurboGlowAutoSpaPage = AgentAppPage;
+const PawsPalsPage = AgentAppPage;
+const TowMatePage = AgentAppPage;
+const SwiftLinkLogisticsPage = AgentAppPage;
+const LumeaResidencePage = AgentAppPage;
+const OpulentDrivePage = AgentAppPage;
+const ProFixAutoPage = AgentAppPage;
+const NovaAssuranceAiPage = AgentAppPage;
+const NovaCareClinicPage = AgentAppPage;
 
 // Auth pages
 const SignInPage = lazy(() => import("./pages/SignInPage"));
@@ -299,6 +405,90 @@ const agentComponents = {
   'voice-rag-openaisdk': VoiceRagOpenaisdkPage,
   'web-scraping-ai-agent': WebScrapingAiAgentPage,
   'xai-finance-agent': XaiFinanceAgentPage,
+  // New apps with dedicated pages
+  'ai-headshot-studio': AiHeadshotStudioPage,
+  'ai-royal-portrait': AiRoyalPortraitPage,
+  'ai-age-transformation': AiAgeTransformationPage,
+  'ai-try-on': AiTryOnPage,
+  'ai-professional-makeup-generator': AiProfessionalMakeupGeneratorPage,
+  'ai-hair-style-simulator': AiHairStyleSimulatorPage,
+  'ai-kids-to-adult-prediction': AiKidsToAdultPredictionPage,
+  'ai-room-declutter': AiRoomDeclutterPage,
+  'ai-fitness-body-simulator': AiFitnessBodySimulatorPage,
+  'ai-pet-portrait': AiPetPortraitPage,
+  'ai-wedding-photo': AiWeddingPhotoPage,
+  'ai-tattoo-try-on': AiTattooTryOnPage,
+  'ai-logo': AiLogoPage,
+  'old-photo': OldPhotoPage,
+  'nano-banana-studio': NanoBananaStudioPage,
+  'seedance-v2-studio': SeedanceV2StudioPage,
+  'easyveo': EasyVeoPage,
+  'aiclip': AiClipPage,
+  'video-creator': VideoCreatorPage,
+  'text-to-speech': TextToSpeechPage,
+  'niche-script': NicheScriptPage,
+  'promo-generator': PromoGeneratorPage,
+  'landing-page': LandingPageAgentPage,
+  'ai-business-card': AiBusinessCardPage,
+  'mailwise': MailwisePage,
+  'my-podcast': MyPodcastPage,
+  'ezscribe': EZScribePage,
+  'talk-to-pdf': TalkToPdfPage,
+  'ai-knowledge-base': AiKnowledgeBasePage,
+  'ai-outbound': AiOutboundPage,
+  'sales-monetizer': AgentAppPage,
+  'funnelcraft-ai': AgentAppPage,
+  'rebrander-ai': RebranderAiPage,
+  'bg-remover': BgRemoverPage,
+  'ai-art': AiArtPage,
+  'social-pack': SocialPackPage,
+  'smart-presentations': SmartPresentationsPage,
+  'interactive-outros': InteractiveOutrosPage,
+  'interactive-shopping': InteractiveShoppingPage,
+  'storyboard': StoryboardPage,
+  'personalizer-video-image-transformer': PersonalizerVideoImageTransformerPage,
+  'ai-template-generator': AiTemplateGeneratorPage,
+  'ai-signature': AiSignaturePage,
+  'thumbnail-generator': ThumbnailGeneratorPage,
+  'voice-coach': VoiceCoachPage,
+  'amazon-product-studio': AmazonProductStudioPage,
+  'resale-photo-enhancer': ResalePhotoEnhancerPage,
+  'pet-product-studio': PetProductStudioPage,
+  'ai-recruiter': AiRecruiterPage,
+  'blogger-cms': BloggerCmsPage,
+  'ai-real-estate-stager': AiRealEstateStagerPage,
+  'prompt-architect': PromptArchitectPage,
+  'clearmark-ai': ClearmarkAiPage,
+  'ai-flash-cards': AiFlashCardsPage,
+  'ai-group-photo': AiGroupPhotoPage,
+  'ai-character-studio': AiCharacterStudioPage,
+  'luxury-hair-studio': LuxuryHairStudioPage,
+  'ai-travel-studio': AiTravelStudioPage,
+  'social-post': SocialPostPage,
+  'plantvision-ai': PlantVisionAiPage,
+  'ai-resume-builder': AiResumeBuilderPage,
+  'geo-checker': GeoCheckerPage,
+  'solace-ai': SolaceAiPage,
+  'relive-ai': ReLiveAiPage,
+  'ai-chiropractic-service': AiChiropracticServicePage,
+  'velora-yoga-ai': VeloraYogaAiPage,
+  'ai-kissing-video-generator': AiKissingVideoGeneratorPage,
+  'tabla-reserveai': TablaReserveAiPage,
+  'dental-reserveai': DentalReserveAiPage,
+  'counselmate': CounselMatePage,
+  'fixera': FixeraPage,
+  'vertex-tax-strategy': VertexTaxStrategyPage,
+  'ledgersync': LedgerSyncPage,
+  'proflow-plumbing': ProFlowPlumbingPage,
+  'turboglow-auto-spa': TurboGlowAutoSpaPage,
+  'paws-pals': PawsPalsPage,
+  'towmate': TowMatePage,
+  'swiftlink-logistics': SwiftLinkLogisticsPage,
+  'lumea-residence': LumeaResidencePage,
+  'opulent-drive': OpulentDrivePage,
+  'profix-auto': ProFixAutoPage,
+  'nova-assuranceai': NovaAssuranceAiPage,
+  'nova-care-clinic': NovaCareClinicPage,
 };
 
 // Agent page component for dynamic routing
@@ -388,12 +578,21 @@ function App() {
     return () => window.removeEventListener("scroll", updateTitle);
   }, []);
 
-  // Handle errors from error boundaries
-  const handleError = () => {
-    // In a production app, you might send this to an error tracking service
-  };
+// Handle errors from error boundaries
+   const handleError = () => {
+     // In a production app, you might send this to an error tracking service
+   };
 
-return (
+// Determine if we should show the global personalizer (only for authenticated users, not on auth/landing pages)
+    const isAuthPage = location.pathname.startsWith("/signin") || 
+                       location.pathname.startsWith("/signup") || 
+                       location.pathname.startsWith("/forgot-password") ||
+                       location.pathname.startsWith("/reset-password") ||
+                       location.pathname === "/pricing" ||
+                       location.pathname === "/"; // Landing page
+    const showGlobalPersonalizer = user && !isAdminPage && !isAuthPage;
+
+   return (
     <>
       <Helmet>
         <title>VideoRemix.vip - AI-Powered Marketing Personalization Platform</title>
@@ -443,7 +642,272 @@ return (
               </ErrorBoundary>
             }
           />
-         </Routes>
+
+          {/* Pricing Page */}
+          <Route
+            path="/pricing"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <PricingPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* FAQ Page */}
+          <Route
+            path="/faq"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <FAQPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* About Us Page */}
+          <Route
+            path="/about"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AboutUsPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Blog Pages */}
+          <Route
+            path="/blog"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <BlogPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/blog/:slug"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <BlogPostPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Tools Hub Page - Public access to browse tools */}
+          <Route
+            path="/tools"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <ToolsHubPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Individual App Pages */}
+          <Route
+            path="/app/:appId"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <AppPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Protected Routes - Require Authentication */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <DashboardPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <ProfilePage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/analytics"
+            element={
+              <ProtectedRoute>
+                <Suspense fallback={<SectionLoader />}>
+                  <AnalyticsDashboard />
+                </Suspense>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Suspense fallback={<SectionLoader />}>
+                  <SettingsPage />
+                </Suspense>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/personalizer"
+            element={
+              <ProtectedRoute>
+                <Suspense fallback={<SectionLoader />}>
+                  <PersonalizerPage />
+                </Suspense>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Agent Pages */}
+          <Route
+            path="/agents/:id"
+            element={
+              <ProtectedRoute>
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentPage />
+                </Suspense>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Auth pages */}
+          <Route
+            path="/signin"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <SignInPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/signup"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <SignUpPage />
+                  <SpecialFooter />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/forgot-password"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <ForgotPasswordPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/reset-password"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <ResetPassword />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/email-confirm"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <EmailConfirmPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/auth/callback"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <AuthCallback />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/magic-link"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <MagicLinkPage />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Admin Routes */}
+          <Route
+            path="/admin"
+            element={
+              <AdminProvider>
+                <Suspense fallback={<SectionLoader />}>
+                  <AdminDashboard />
+                </Suspense>
+              </AdminProvider>
+            }
+          />
+        </Routes>
         <Toaster />
         <MobileBottomNav />
         <NetworkStatusIndicator />

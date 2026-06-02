@@ -73,7 +73,7 @@ import LazyIcon from "../LazyIcon";
 import { SalesDropdown } from '../ui/SalesDropdown';
 import SalesDropdownErrorBoundary from '../ui/SalesDropdownErrorBoundary';
 import { appSalesCopy } from '../../data/appSalesCopy';
-import { getBundleForApp } from '../../data/appsData';
+import { getBundleForApp } from '../../data/bundleData';
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Card, CardContent } from "../ui/card";

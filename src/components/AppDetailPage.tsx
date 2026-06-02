@@ -2,43 +2,46 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  Play,
-  ChevronRight,
-  Video,
-  Check,
-  Star,
-  ArrowRight,
-  Sparkles,
-  Users,
-  Clock,
-  Award,
-  Zap,
-  MessageSquare,
-  Share2,
-  Plus,
-  Minus,
-  Bookmark,
-  Heart,
-  ThumbsUp,
-  MousePointer,
-  PenTool,
-  Layers,
-  Code,
-  Moon,
-  Sun,
-  Mail,
-  Gift,
-  ExternalLink,
-  Lock,
-  BarChart2,
-  Database,
-  Home,
-  UserCheck,
-  DollarSign,
-  Shield,
-  Settings,
-  Search,
-} from "lucide-react";
+   Play,
+   ChevronRight,
+   Video,
+   Check,
+   Star,
+   ArrowRight,
+   Sparkles,
+   Users,
+   Clock,
+   Award,
+   Zap,
+   MessageSquare,
+   Share2,
+   Plus,
+   Minus,
+   Bookmark,
+   Heart,
+   ThumbsUp,
+   MousePointer,
+   PenTool,
+   Layers,
+   Code,
+   Moon,
+   Sun,
+   Mail,
+   Gift,
+   ExternalLink,
+   Lock,
+   BarChart2,
+   Database,
+   Home,
+   UserCheck,
+   DollarSign,
+   Shield,
+   Settings,
+   Search,
+   FileText,
+   Palette,
+   UserCircle,
+ } from "lucide-react";
 import MagicSparkles from "./MagicSparkles";
 import { useApps } from "../hooks/useApps";
 import { useAuth } from "../context/AuthContext";
@@ -47,7 +50,7 @@ import { getEnhancedAppData } from "../data/enhancedAppsData";
 import { getAppUrl } from "../config/appUrls";
 import PurchaseModal from "./PurchaseModal";
 import PersonalizerDialog from "./personalizer/PersonalizerDialog";
-import { getBundleForApp } from "../data/appsData";
+import { getBundleForApp } from "../data/bundleData";
 import { AppLaunchButton } from "./AppLaunchButton";
 import { SalesDropdown } from "./ui/SalesDropdown";
 import { appSalesCopy } from "../data/appSalesCopy";

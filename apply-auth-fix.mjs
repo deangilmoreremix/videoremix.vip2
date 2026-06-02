@@ -22,7 +22,7 @@ async function applyMigration() {
     console.log('🚀 Applying authentication fix migration...\n');
 
     // Read the migration file
-    const migrationSQL = readFileSync('supabase/migrations/20260202000000_fix_user_signup_login.sql', 'utf8');
+    const migrationSQL = readFileSync('CRITICAL_AUTH_FIXES.sql', 'utf8');
 
     // Execute the entire migration as a single SQL statement using REST API
     console.log('📄 Executing migration SQL...\n');

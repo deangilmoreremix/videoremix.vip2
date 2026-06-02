@@ -10,7 +10,7 @@ const toJson = async (response: Response) => {
 };
 
 export async function scanProspect(data: ScanProspectRequest): Promise<ScanProspectResponse> {
-  const response = await fetch('/.netlify/functions/personalization/scan-prospect', {
+  const response = await fetch('/api/personalizer/scan', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ export async function scanProspect(data: ScanProspectRequest): Promise<ScanProsp
 }
 
 export async function generatePersonalization(data: GeneratePersonalizationRequest): Promise<GeneratePersonalizationResponse> {
-  const response = await fetch('/.netlify/functions/personalization/generate-personalization', {
+  const response = await fetch('/api/personalizer/generate', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -37,8 +37,22 @@ export async function generatePersonalization(data: GeneratePersonalizationReque
   return toJson(response) as Promise<GeneratePersonalizationResponse>;
 }
 
+export async function generateMedia(data: { appId: string; mode: string; username: string; prompt: string; type: 'image' | 'video' }): Promise<{ url?: string }> {
+  const response = await fetch('/api/personalizer/media', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    throw new Error(`Generate media failed: ${response.status} ${response.statusText}`);
+  }
+  return toJson(response);
+}
+
 export async function saveResults(data: SaveResultsRequest): Promise<SaveResultsResponse> {
-  const response = await fetch('/.netlify/functions/personalization/save-results', {
+  const response = await fetch('/api/personalizer/save', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

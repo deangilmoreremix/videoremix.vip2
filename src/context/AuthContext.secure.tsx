@@ -165,11 +165,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return () => subscription.unsubscribe();
   }, [verifySession]);
 
-  return (
-    <AuthContext.Provider value={{ user, loading, error, signIn, signUp, signOut, refreshSession }}>
-      {children}
-    </AuthContext.Provider>
-  );
+return (
+     <AuthContext.Provider value={{ user, loading, error, signIn, signUp, signOut, refreshSession }}>
+       {children}
+     </AuthContext.Provider>
+   );
 };
-EOF'
-echo "AuthContext.secure.tsx created"

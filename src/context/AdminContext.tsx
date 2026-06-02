@@ -88,7 +88,7 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
           .maybeSingle();
 
         if (roleError || !roleData) {
-          await supabase.auth.signOut();
+          // FIX: Don't sign out - just return error, user's normal auth session stays intact
           return {
             success: false,
             error: "User does not have admin privileges",
@@ -96,7 +96,7 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
         }
 
         if (roleData.role !== "super_admin" && roleData.role !== "admin") {
-          await supabase.auth.signOut();
+          // FIX: Don't sign out - just return error, user's normal auth session stays intact
           return {
             success: false,
             error: "Access denied: Admin privileges required",
@@ -235,7 +235,8 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
 
       if (roleError) {
         console.error("AdminContext - Error fetching role:", roleError);
-        // Don't sign out on error, just set loading to false and keep existing user
+        // Don't sign out on error, just set loading to false and clear admin state
+        setUser(null);
         setIsLoading(false);
         isVerifyingRef.current = false;
         return;
