@@ -396,11 +396,6 @@ const PersonalizationWorkflowSection: React.FC = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </motion.div>
-
-            <p className="mt-4 text-gray-400 text-sm">
-              Get started with VideoRemix.vip today.
-              No credit card required.
-            </p>
           </div>
         </motion.div>
       </div>

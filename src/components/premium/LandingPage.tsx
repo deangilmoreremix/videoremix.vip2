@@ -669,20 +669,8 @@ const LandingPage: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-white/80 mb-8"
             >
-              Start your free trial today. No credit card required.
+              <span className="sr-only">Final CTA description</span>
             </motion.p>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <button className="bg-white text-primary-600 px-8 py-3 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg">
-                Start Free Trial
-              </button>
-            </motion.div>
           </div>
         </section>
       </SectionReveal>
@@ -789,12 +777,6 @@ const LandingPage: React.FC = () => {
         message="Watch a personalized demo tailored to your industry."
         cta="Book Demo"
         delaySeconds={25}
-      />
-      <ConversionNudge
-        headline="Join 12,467+ marketers"
-        message="Start your free trial. No credit card required."
-        cta="Start Free Trial"
-        delaySeconds={45}
       />
     </main>
   );

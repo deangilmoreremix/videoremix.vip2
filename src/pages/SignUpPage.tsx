@@ -410,10 +410,6 @@ const SignUpPage: React.FC = () => {
               <ul className="space-y-3 text-gray-300 text-sm">
                 <li className="flex items-start">
                   <span className="text-primary-400 mr-2">✓</span>
-                  <span>No credit card required to start</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-primary-400 mr-2">✓</span>
                   <span>Access to 37+ marketing tools immediately</span>
                 </li>
                 <li className="flex items-start">

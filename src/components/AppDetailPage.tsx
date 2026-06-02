@@ -2333,7 +2333,7 @@ const AppDetailPage: React.FC = () => {
                   ease: "easeInOut",
                 }}
               />
-              <span className="relative z-10">Start Free Trial</span>
+              <span className="relative z-10"><span className="sr-only">Subscribe</span></span>
               <motion.div
                 animate={{
                   x: [0, 5, 0],
@@ -2392,7 +2392,6 @@ const AppDetailPage: React.FC = () => {
             >
               <Gift className="h-4 w-4 text-gray-500 inline-block" />
             </motion.div>
-            No credit card required. Start with all premium features.
           </p>
         </div>
       </motion.div>

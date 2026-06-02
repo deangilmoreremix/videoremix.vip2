@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { Sparkles, TrendingUp, Layers, Target, DollarSign, ArrowRight, Play, Star, Check } from "lucide-react";
+import { Sparkles, TrendingUp, Layers, Target, DollarSign, Play, Star, Check } from "lucide-react";
 
 interface RotatingWord {
   word: string;
@@ -168,15 +168,6 @@ const AnimatedHero: React.FC = () => {
               whileHover={shouldReduceMotion ? {} : { scale: 1.04, y: -2 }}
               whileTap={shouldReduceMotion ? {} : { scale: 0.97 }}
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative inline-flex items-center gap-2 px-8 py-4 bg-primary-500 text-white font-semibold rounded-xl shadow-2xl shadow-primary-500/40 hover:shadow-primary-500/60 transition-shadow"
-            >
-              Start Free Trial
-              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-            </motion.button>
-            <motion.button
-              whileHover={shouldReduceMotion ? {} : { scale: 1.04, y: -2 }}
-              whileTap={shouldReduceMotion ? {} : { scale: 0.97 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="inline-flex items-center gap-2 px-8 py-4 bg-white/5 backdrop-blur-sm border border-white/15 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors"
             >
               <Play className="h-5 w-5" />
@@ -195,10 +186,6 @@ const AnimatedHero: React.FC = () => {
               <span className="text-amber-400 tracking-tight">★★★★★</span>
               <span className="font-medium text-gray-200">4.9/5</span>
               <span>from 2,100+ reviews</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Check className="h-4 w-4 text-emerald-400" />
-              <span>No credit card required</span>
             </div>
             <div className="flex items-center gap-1.5">
               <Check className="h-4 w-4 text-emerald-400" />

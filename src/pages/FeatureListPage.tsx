@@ -491,10 +491,6 @@ const FeatureListPage: React.FC = () => {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </motion.div>
-
-              <p className="text-gray-400 mt-4">
-                No credit card required. Start building today.
-              </p>
             </motion.div>
           </div>
         </section>

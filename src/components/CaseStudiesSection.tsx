@@ -814,10 +814,6 @@ const CaseStudiesSection: React.FC = () => {
               </motion.div>
             </a>
           </motion.div>
-
-          <p className="text-gray-400 mt-4 text-sm">
-            No credit card required • Start today • Cancel anytime
-          </p>
         </motion.div>
       </div>
 

@@ -49,7 +49,7 @@ const PricingPage: React.FC = () => {
           {
             question: "How do I get started??",
             answer:
-              "You can start with our basic plan and upgrade as needed. No credit card required to get started.",
+              "You can start with our basic plan and upgrade as needed.",
           },
           {
             question: "Do you offer refunds?",

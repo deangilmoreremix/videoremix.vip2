@@ -593,7 +593,7 @@ const FinalCTA: React.FC = () => {
                 textShadow: "0 0 8px rgba(255, 255, 255, 0.5)",
               }}
             >
-              Get started today. No credit card required.
+              <span className="sr-only">Pro plan CTA description</span>
             </motion.p>
           </motion.div>
         </div>
@@ -623,7 +623,7 @@ const FinalCTA: React.FC = () => {
               }}
               whileTap={{ scale: 0.97 }}
             >
-              Start Free Trial
+              <span className="sr-only">Primary CTA</span>
             </motion.a>
             <motion.a
               href="#questions"
