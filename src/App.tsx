@@ -420,13 +420,11 @@ return (
 
         <Routes>
           {/* Landing Page Route */}
-<Route
+          <Route
             path="/"
             element={
               <ErrorBoundary onError={handleError}>
-                <Suspense fallback={<SectionLoader />}>
-                  <LandingPage />
-                </Suspense>
+                <LandingPage />
               </ErrorBoundary>
             }
           />

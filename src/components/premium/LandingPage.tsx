@@ -25,10 +25,10 @@ import BundleShowcaseSection from './BundleShowcaseSection';
 import { Sparkles, Award, Clock, Shield, Star, CheckCircle, TrendingUp, BarChart3, Users, DollarSign, Mail, Send, FileText, Users2, Globe, BookOpen, Code, Palette, GraduationCap, Brain, ExternalLink, HelpCircle, Target, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const SpecialHero = lazy(() => import('../SpecialHero'));
-const ProblemSection = lazy(() => import('../ProblemSection'));
-const SolutionSection = lazy(() => import('../SolutionSection'));
-const FeatureMap = lazy(() => import('../FeatureMap'));
+import SpecialHero from '../SpecialHero';
+import ProblemSection from '../ProblemSection';
+import SolutionSection from '../SolutionSection';
+import FeatureMap from '../FeatureMap';
 const PersonalizationWorkflowSection = lazy(() => import('../PersonalizationWorkflowSection'));
 const ToolsCarouselSection = lazy(() => import('../ToolsCarouselSection'));
 const BenefitsSection = lazy(() => import('../BenefitsSection'));
