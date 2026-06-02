@@ -11,7 +11,6 @@ import ParallaxSection from './ParallaxSection';
 import ProgressIndicator from './ProgressIndicator';
 import StickyWidget from './StickyWidget';
 import BackToTop from './BackToTop';
-import ExitIntentPopup from './ExitIntentPopup';
 import AnimatedBorderGradient from './AnimatedBorderGradient';
 import GradientOrb from './GradientOrb';
 import AnimatedStatsCounter from './AnimatedStatsCounter';
@@ -769,7 +768,6 @@ const LandingPage: React.FC = () => {
       <ProgressIndicator />
       <StickyWidget />
       <BackToTop />
-      <ExitIntentPopup />
 
       {/* Conversion Nudges - timed popups for marketing conversions */}
       <ConversionNudge

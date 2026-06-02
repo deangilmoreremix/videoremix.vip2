@@ -1220,7 +1220,7 @@ const rawAppsData: App[] = [{
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/local-ai-reasoning-agent-py-thumbnail.png",
     url: "/agent/local-reasoning-engine",
   },
-
+  {
     id: "qwen-local-rag",
     name: "Research Intelligence Qwen Local RAG",
     description: "Advanced local search powered by Qwen for precise, context-aware knowledge retrieval.",
@@ -1410,10 +1410,8 @@ const rawAppsData: App[] = [{
     icon: React.createElement(Wand2),
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/trust-gated-agent-team-thumbnail.png",
     url: "/agent/trust-gated-agent-team",
-},
+  },
   {
-    id: "multi-ai-memory",
-    name: "Smart Multi AI Memory Studio",
     id: "voice-rag-openaisdk",
     name: "Research Intelligence Voice RAG Openaisdk",
     description: "Speak naturally to your knowledge base with voice-enabled RAG search.",

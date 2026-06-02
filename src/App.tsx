@@ -15,7 +15,6 @@ import { useAuth } from "./context/AuthContext";
 import { Toaster } from "./components/ui/toast";
 import { NetworkStatusIndicator } from "./components/AsyncStates";
 import { Analytics } from "./utils/analytics";
-import GlobalPersonalizerButton from "./components/personalizer/GlobalPersonalizerButton";
 
 // TEMP DIAGNOSTIC: retry-aware dynamic import logger (revert after root cause confirmed)
 // Helps distinguish "server already dead before import starts" vs "transform fails mid-request"
@@ -583,14 +582,7 @@ function App() {
      // In a production app, you might send this to an error tracking service
    };
 
-// Determine if we should show the global personalizer (only for authenticated users, not on auth/landing pages)
-    const isAuthPage = location.pathname.startsWith("/signin") || 
-                       location.pathname.startsWith("/signup") || 
-                       location.pathname.startsWith("/forgot-password") ||
-                       location.pathname.startsWith("/reset-password") ||
-                       location.pathname === "/pricing" ||
-                       location.pathname === "/"; // Landing page
-    const showGlobalPersonalizer = user && !isAdminPage && !isAuthPage;
+
 
    return (
     <>
