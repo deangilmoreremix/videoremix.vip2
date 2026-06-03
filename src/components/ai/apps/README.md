@@ -5,12 +5,12 @@ This folder contains the scalable system for all 95 first-party AI apps.
 ## How it works
 
 - `registry.ts` → Central map of slug → lazy component
-- `types.ts` → Shared contract every app must follow
+- `types.ts` → Shared contract every ai-design-studio must follow
 - `GenericAIApp.tsx` → Fallback UI used until a custom one is built
-- `_TEMPLATE.tsx` → Copy this when creating a new app
-- `[slug]/index.tsx` → The real custom React UI for that app (forms, logic, outputs)
+- `_TEMPLATE.tsx` → Copy this when creating a new ai-design-studio
+- `[slug]/index.tsx` → The real custom React UI for that ai-design-studio (forms, logic, outputs)
 
-## Adding a new app (fast & consistent)
+## Adding a new ai-design-studio (fast & consistent)
 
 1. Copy `_TEMPLATE.tsx` → `your-slug/index.tsx`
 2. Customize the form fields and output rendering to match the original demo

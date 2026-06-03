@@ -50,7 +50,7 @@ export interface StreamlitApp {
   userCount?: number;
 }
 
-// Icon mapping for different app categories
+// Icon mapping for different ai-design-studio categories
 const categoryIcons: Record<string, React.ReactNode> = {
   'ai-reasoning': <Brain className="h-6 w-6" />,
   'ai-chat': <MessageSquare className="h-6 w-6" />,
@@ -79,16 +79,16 @@ const categoryIcons: Record<string, React.ReactNode> = {
   'entertainment': <Star className="h-6 w-6" />,
 };
 
-// Default app data structure for Streamlit apps
+// Default ai-design-studio data structure for Streamlit apps
 const streamlitAppsData: StreamlitApp[] = [
   // AI Reasoning & Chat Apps
   {
-    id: "ai-reasoning-agent",
+    id: "risk-decision-ai",
     name: "AI Reasoning Agent",
     description: "Advanced AI agent capable of complex reasoning and problem-solving tasks",
     category: "ai-reasoning",
     icon: categoryIcons['ai-reasoning'],
-    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-reasoning-agent-thumbnail.png",
+    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/ai-design-studio-assets/thumbnails/risk-decision-ai-thumbnail.png",
     price: 29,
     features: [
       "Complex multi-step reasoning",
@@ -106,12 +106,12 @@ const streamlitAppsData: StreamlitApp[] = [
   },
 
   {
-    id: "ai-chat-with-pdf",
+    id: "ai-pdf-business-assistant",
     name: "AI PDF Chat Assistant",
     description: "Interactive AI that can read and discuss PDF documents with you",
     category: "ai-chat",
     icon: categoryIcons['ai-chat'],
-    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-pdf-chat-thumbnail.png",
+    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/ai-design-studio-assets/thumbnails/ai-pdf-chat-thumbnail.png",
     price: 39,
     features: [
       "PDF document analysis",
@@ -135,7 +135,7 @@ const streamlitAppsData: StreamlitApp[] = [
     description: "Comprehensive data analysis and visualization with AI insights",
     category: "data-analysis",
     icon: categoryIcons['data-analysis'],
-    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-data-analyst-thumbnail.png",
+    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/ai-design-studio-assets/thumbnails/ai-data-analyst-thumbnail.png",
     price: 49,
     features: [
       "Automated data cleaning",
@@ -159,7 +159,7 @@ const streamlitAppsData: StreamlitApp[] = [
     description: "Create stunning data visualizations with AI assistance",
     category: "data-visualization",
     icon: categoryIcons['data-visualization'],
-    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-data-viz-thumbnail.png",
+    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/ai-design-studio-assets/thumbnails/ai-data-viz-thumbnail.png",
     price: 35,
     features: [
       "AI-suggested chart types",
@@ -183,7 +183,7 @@ const streamlitAppsData: StreamlitApp[] = [
     description: "Generate high-quality content for blogs, social media, and marketing",
     category: "ai-chat",
     icon: categoryIcons['ai-chat'],
-    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-content-creator-thumbnail.png",
+    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/ai-design-studio-assets/thumbnails/ai-content-creator-thumbnail.png",
     price: 45,
     features: [
       "Multi-platform content generation",
@@ -208,7 +208,7 @@ const streamlitAppsData: StreamlitApp[] = [
     description: "Professional image editing and enhancement powered by AI",
     category: "ai-image",
     icon: categoryIcons['ai-image'],
-    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-image-processor-thumbnail.png",
+    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/ai-design-studio-assets/thumbnails/ai-image-processor-thumbnail.png",
     price: 55,
     features: [
       "Automatic image enhancement",
@@ -233,7 +233,7 @@ const streamlitAppsData: StreamlitApp[] = [
     description: "Comprehensive business analysis and strategic planning with AI",
     category: "business",
     icon: categoryIcons['business'],
-    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-business-analyst-thumbnail.png",
+    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/ai-design-studio-assets/thumbnails/ai-business-analyst-thumbnail.png",
     price: 69,
     features: [
       "Market analysis",
@@ -258,7 +258,7 @@ const streamlitAppsData: StreamlitApp[] = [
     description: "Personalized health and wellness guidance powered by AI",
     category: "healthcare",
     icon: categoryIcons['healthcare'],
-    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-health-advisor-thumbnail.png",
+    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/ai-design-studio-assets/thumbnails/ai-health-advisor-thumbnail.png",
     price: 39,
     features: [
       "Personalized wellness plans",
@@ -281,7 +281,7 @@ const streamlitAppsData: StreamlitApp[] = [
     description: "Intelligent financial planning and investment guidance",
     category: "finance",
     icon: categoryIcons['finance'],
-    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/ai-financial-planner-thumbnail.png",
+    image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/ai-design-studio-assets/thumbnails/ai-financial-planner-thumbnail.png",
     price: 59,
     features: [
       "Investment analysis",
@@ -301,40 +301,40 @@ const streamlitAppsData: StreamlitApp[] = [
 
 // Helper functions
 export const getStreamlitAppById = (id: string): StreamlitApp | undefined => {
-  return streamlitAppsData.find(app => app.id === id);
+  return streamlitAppsData.find(ai-design-studio => ai-design-studio.id === id);
 };
 
 export const getStreamlitAppsByCategory = (category: string): StreamlitApp[] => {
-  return streamlitAppsData.filter(app => app.category === category);
+  return streamlitAppsData.filter(ai-design-studio => ai-design-studio.category === category);
 };
 
 export const getPopularStreamlitApps = (): StreamlitApp[] => {
-  return streamlitAppsData.filter(app => app.popular);
+  return streamlitAppsData.filter(ai-design-studio => ai-design-studio.popular);
 };
 
 export const getNewStreamlitApps = (): StreamlitApp[] => {
-  return streamlitAppsData.filter(app => app.new);
+  return streamlitAppsData.filter(ai-design-studio => ai-design-studio.new);
 };
 
 export const searchStreamlitApps = (query: string): StreamlitApp[] => {
   const lowercaseQuery = query.toLowerCase();
-  return streamlitAppsData.filter(app =>
-    app.name.toLowerCase().includes(lowercaseQuery) ||
-    app.description.toLowerCase().includes(lowercaseQuery) ||
-    app.category.toLowerCase().includes(lowercaseQuery) ||
-    app.tags?.some(tag => tag.toLowerCase().includes(lowercaseQuery))
+  return streamlitAppsData.filter(ai-design-studio =>
+    ai-design-studio.name.toLowerCase().includes(lowercaseQuery) ||
+    ai-design-studio.description.toLowerCase().includes(lowercaseQuery) ||
+    ai-design-studio.category.toLowerCase().includes(lowercaseQuery) ||
+    ai-design-studio.tags?.some(tag => tag.toLowerCase().includes(lowercaseQuery))
   );
 };
 
 export const getStreamlitCategories = (): string[] => {
-  return [...new Set(streamlitAppsData.map(app => app.category))];
+  return [...new Set(streamlitAppsData.map(ai-design-studio => ai-design-studio.category))];
 };
 
 export const getStreamlitAppStats = () => {
   return {
     totalApps: streamlitAppsData.length,
-    totalUsers: streamlitAppsData.reduce((sum, app) => sum + (app.userCount || 0), 0),
-    averageRating: streamlitAppsData.reduce((sum, app) => sum + (app.rating || 0), 0) / streamlitAppsData.length,
+    totalUsers: streamlitAppsData.reduce((sum, ai-design-studio) => sum + (ai-design-studio.userCount || 0), 0),
+    averageRating: streamlitAppsData.reduce((sum, ai-design-studio) => sum + (ai-design-studio.rating || 0), 0) / streamlitAppsData.length,
     categories: getStreamlitCategories().length
   };
 };

@@ -14,7 +14,7 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
 
-const STORAGE_KEY = 'ai-legal-agent-team-form';
+const STORAGE_KEY = 'contract-summary-ai-form';
 
 const ANALYSIS_TYPE_OPTIONS = [
   { value: "contract_review", label: "Contract Review" },
@@ -67,7 +67,7 @@ const AiLegalAgentTeamPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-legal-agent-team`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/contract-summary-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })

@@ -183,10 +183,10 @@ export const gtmContent: Record<string, GTMContent> = {
   "design-uiux": {
     groupId: "design-uiux",
     targetAudience: "Marketing agencies, SaaS builders, UI/UX designers, product managers, landing page creators, e-commerce managers, freelance designers, CRO specialists.",
-    valueProposition: "Upload landing page screenshots, app wireframes, or design mockups to get AI-powered conversion feedback, UI/UX improvement suggestions, CTA optimization, and wireframe revisions that increase conversion rates by up to 30% without expensive redesigns.",
+    valueProposition: "Upload landing page screenshots, ai-design-studio wireframes, or design mockups to get AI-powered conversion feedback, UI/UX improvement suggestions, CTA optimization, and wireframe revisions that increase conversion rates by up to 30% without expensive redesigns.",
     useCases: [
       "Upload a SaaS landing page screenshot to get a conversion audit with 5 high-impact fixes (CTA placement, headline clarity, trust signal additions).",
-      "Input a mobile app wireframe to generate accessibility improvements and user flow optimizations for reduced bounce rates.",
+      "Input a mobile ai-design-studio wireframe to generate accessibility improvements and user flow optimizations for reduced bounce rates.",
       "Analyze competitor landing pages to identify design gaps and generate A/B test variations for headlines, CTAs, and hero images.",
       "Convert a rough sketch into a polished wireframe with component suggestions aligned with your brand design system."
     ],

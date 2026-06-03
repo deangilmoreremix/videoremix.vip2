@@ -69,8 +69,8 @@ const AdminAppsManagement: React.FC = () => {
   >([]);
   const [showDeleteModal, setShowDeleteModal] = useState<{
     show: boolean;
-    app: App | null;
-  }>({ show: false, app: null });
+    ai-design-studio: App | null;
+  }>({ show: false, ai-design-studio: null });
   const [operationLoading, setOperationLoading] = useState<{
     [key: string]: boolean;
   }>({});
@@ -98,7 +98,7 @@ const AdminAppsManagement: React.FC = () => {
   const filteredApps = useMemo(() => {
     return selectedApp === "all"
       ? allApps
-      : allApps.filter((app) => app.slug === selectedApp);
+      : allApps.filter((ai-design-studio) => ai-design-studio.slug === selectedApp);
   }, [allApps, selectedApp]);
 
   useEffect(() => {
@@ -199,8 +199,8 @@ const AdminAppsManagement: React.FC = () => {
         const data = await response.json();
         if (data.success) {
           setAllApps((prevApps) =>
-            prevApps.map((app) =>
-              app.id === appId ? { ...app, is_active: !currentStatus } : app,
+            prevApps.map((ai-design-studio) =>
+              ai-design-studio.id === appId ? { ...ai-design-studio, is_active: !currentStatus } : ai-design-studio,
             ),
           );
           addNotification(
@@ -208,11 +208,11 @@ const AdminAppsManagement: React.FC = () => {
             `App ${currentStatus ? "deactivated" : "activated"} successfully`,
           );
         } else {
-          setError(data.error || "Failed to toggle app status");
+          setError(data.error || "Failed to toggle ai-design-studio status");
         }
       } catch (error) {
-        console.error("Error toggling app:", error);
-        setError("Failed to toggle app status. Please try again.");
+        console.error("Error toggling ai-design-studio:", error);
+        setError("Failed to toggle ai-design-studio status. Please try again.");
       } finally {
         setToggling(null);
         setOperationLoading((prev) => ({ ...prev, [appId]: false }));
@@ -254,8 +254,8 @@ const AdminAppsManagement: React.FC = () => {
         const data = await response.json();
         if (data.success) {
           setAllApps((prevApps) =>
-            prevApps.map((app) =>
-              app.id === appId ? { ...app, is_public: !currentStatus } : app,
+            prevApps.map((ai-design-studio) =>
+              ai-design-studio.id === appId ? { ...ai-design-studio, is_public: !currentStatus } : ai-design-studio,
             ),
           );
           addNotification(
@@ -307,15 +307,15 @@ const AdminAppsManagement: React.FC = () => {
 
         const data = await response.json();
         if (data.success) {
-          setAllApps((prevApps) => prevApps.filter((app) => app.id !== appId));
+          setAllApps((prevApps) => prevApps.filter((ai-design-studio) => ai-design-studio.id !== appId));
           addNotification("success", "App deleted successfully");
-          setShowDeleteModal({ show: false, app: null });
+          setShowDeleteModal({ show: false, ai-design-studio: null });
         } else {
-          setError(data.error || "Failed to delete app");
+          setError(data.error || "Failed to delete ai-design-studio");
         }
       } catch (error) {
-        console.error("Error deleting app:", error);
-        setError("Failed to delete app. Please try again.");
+        console.error("Error deleting ai-design-studio:", error);
+        setError("Failed to delete ai-design-studio. Please try again.");
       } finally {
         setOperationLoading((prev) => ({ ...prev, [appId]: false }));
       }
@@ -323,8 +323,8 @@ const AdminAppsManagement: React.FC = () => {
     [clearMessages, addNotification],
   );
 
-  const openDeleteModal = useCallback((app: App) => {
-    setShowDeleteModal({ show: true, app });
+  const openDeleteModal = useCallback((ai-design-studio: App) => {
+    setShowDeleteModal({ show: true, ai-design-studio });
   }, []);
 
   if (loading) {
@@ -407,7 +407,7 @@ const AdminAppsManagement: React.FC = () => {
               <span className="mr-2">
                 {selectedApp === "all"
                   ? "All Apps"
-                  : allApps.find((app) => app.slug === selectedApp)?.name ||
+                  : allApps.find((ai-design-studio) => ai-design-studio.slug === selectedApp)?.name ||
                     "Select App"}
               </span>
               <ChevronDown className="h-4 w-4" />
@@ -425,18 +425,18 @@ const AdminAppsManagement: React.FC = () => {
                   >
                     All Apps
                   </button>
-                  {allApps.map((app) => (
+                  {allApps.map((ai-design-studio) => (
                     <button
-                      key={app.id}
+                      key={ai-design-studio.id}
                       onClick={() => {
-                        setSelectedApp(app.slug);
+                        setSelectedApp(ai-design-studio.slug);
                         setShowAppDropdown(false);
                       }}
                       className="w-full text-left px-4 py-2 text-white hover:bg-gray-700 transition-colors"
                     >
                       <div className="flex items-center justify-between">
-                        <span>{app.name}</span>
-                        {app.is_active ? (
+                        <span>{ai-design-studio.name}</span>
+                        {ai-design-studio.is_active ? (
                           <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                         ) : (
                           <div className="w-2 h-2 bg-red-500 rounded-full"></div>
@@ -458,9 +458,9 @@ const AdminAppsManagement: React.FC = () => {
 
       {/* Apps Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {apps.map((app) => (
+        {apps.map((ai-design-studio) => (
           <motion.div
-            key={app.id}
+            key={ai-design-studio.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-gray-800/70 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-gray-600 transition-colors"
@@ -469,10 +469,10 @@ const AdminAppsManagement: React.FC = () => {
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center space-x-3">
                 <div className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center">
-                  {app.icon_url ? (
+                  {ai-design-studio.icon_url ? (
                     <img
-                      src={app.icon_url}
-                      alt={app.name}
+                      src={ai-design-studio.icon_url}
+                      alt={ai-design-studio.name}
                       className="w-8 h-8 rounded"
                     />
                   ) : (
@@ -481,40 +481,40 @@ const AdminAppsManagement: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-white">
-                    {app.name}
+                    {ai-design-studio.name}
                   </h3>
-                  <p className="text-sm text-gray-400">{app.category}</p>
+                  <p className="text-sm text-gray-400">{ai-design-studio.category}</p>
                 </div>
               </div>
 
               {/* Status Badge */}
               <div
                 className={`px-2 py-1 rounded-full text-xs font-medium ${
-                  app.is_active
+                  ai-design-studio.is_active
                     ? "bg-green-500/20 text-green-400"
                     : "bg-red-500/20 text-red-400"
                 }`}
               >
-                {app.is_active ? "Active" : "Inactive"}
+                {ai-design-studio.is_active ? "Active" : "Inactive"}
               </div>
             </div>
 
             {/* Description */}
             <p className="text-gray-300 text-sm mb-4 line-clamp-2">
-              {app.description || "No description available"}
+              {ai-design-studio.description || "No description available"}
             </p>
 
             {/* Deployment URLs */}
             <div className="mb-4 space-y-2">
-              {app.netlify_url && (
+              {ai-design-studio.netlify_url && (
                 <div className="flex items-center text-xs bg-gray-700/50 rounded px-2 py-1.5">
                   <Globe className="h-3 w-3 text-blue-400 mr-2 flex-shrink-0" />
                   <span className="text-gray-300 truncate flex-1">
-                    {app.netlify_url}
+                    {ai-design-studio.netlify_url}
                   </span>
                   <button
                     onClick={() => {
-                      navigator.clipboard.writeText(app.netlify_url!);
+                      navigator.clipboard.writeText(ai-design-studio.netlify_url!);
                       addNotification("success", "Netlify URL copied!");
                     }}
                     className="ml-2 p-1 hover:bg-gray-600 rounded transition-colors"
@@ -523,7 +523,7 @@ const AdminAppsManagement: React.FC = () => {
                     <Copy className="h-3 w-3 text-gray-400" />
                   </button>
                   <a
-                    href={app.netlify_url}
+                    href={ai-design-studio.netlify_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="ml-1 p-1 hover:bg-gray-600 rounded transition-colors"
@@ -533,15 +533,15 @@ const AdminAppsManagement: React.FC = () => {
                   </a>
                 </div>
               )}
-              {app.custom_domain && (
+              {ai-design-studio.custom_domain && (
                 <div className="flex items-center text-xs bg-gray-700/50 rounded px-2 py-1.5">
                   <Globe className="h-3 w-3 text-green-400 mr-2 flex-shrink-0" />
                   <span className="text-gray-300 truncate flex-1">
-                    {app.custom_domain}
+                    {ai-design-studio.custom_domain}
                   </span>
                   <button
                     onClick={() => {
-                      navigator.clipboard.writeText(app.custom_domain!);
+                      navigator.clipboard.writeText(ai-design-studio.custom_domain!);
                       addNotification("success", "Custom domain copied!");
                     }}
                     className="ml-2 p-1 hover:bg-gray-600 rounded transition-colors"
@@ -550,7 +550,7 @@ const AdminAppsManagement: React.FC = () => {
                     <Copy className="h-3 w-3 text-gray-400" />
                   </button>
                   <a
-                    href={app.custom_domain}
+                    href={ai-design-studio.custom_domain}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="ml-1 p-1 hover:bg-gray-600 rounded transition-colors"
@@ -560,7 +560,7 @@ const AdminAppsManagement: React.FC = () => {
                   </a>
                 </div>
               )}
-              {!app.netlify_url && !app.custom_domain && (
+              {!ai-design-studio.netlify_url && !ai-design-studio.custom_domain && (
                 <div className="text-xs text-gray-500 italic">
                   No deployment URLs configured
                 </div>
@@ -569,18 +569,18 @@ const AdminAppsManagement: React.FC = () => {
 
             {/* Features */}
             <div className="flex items-center space-x-2 mb-4">
-              {app.is_featured && (
+              {ai-design-studio.is_featured && (
                 <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded-full">
                   Featured
                 </span>
               )}
-              {app.is_public && (
+              {ai-design-studio.is_public && (
                 <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">
                   Public
                 </span>
               )}
               <span className="px-2 py-1 bg-primary-500/20 text-primary-400 text-xs rounded-full">
-                Order: {app.sort_order}
+                Order: {ai-design-studio.sort_order}
               </span>
             </div>
 
@@ -591,11 +591,11 @@ const AdminAppsManagement: React.FC = () => {
                   <Edit className="h-4 w-4" />
                 </button>
                 <button
-                  onClick={() => openDeleteModal(app)}
-                  disabled={operationLoading[app.id]}
+                  onClick={() => openDeleteModal(ai-design-studio)}
+                  disabled={operationLoading[ai-design-studio.id]}
                   className="p-2 text-gray-400 hover:text-red-400 hover:bg-gray-700 rounded-lg transition-colors disabled:opacity-50"
                 >
-                  {operationLoading[app.id] ? (
+                  {operationLoading[ai-design-studio.id] ? (
                     <div className="w-4 h-4 border-t border-red-400 border-solid rounded-full animate-spin"></div>
                   ) : (
                     <Trash2 className="h-4 w-4" />
@@ -610,17 +610,17 @@ const AdminAppsManagement: React.FC = () => {
                   <Eye className="h-4 w-4 text-gray-400" />
                   <button
                     onClick={() =>
-                      togglePublicVisibility(app.id, app.is_public)
+                      togglePublicVisibility(ai-design-studio.id, ai-design-studio.is_public)
                     }
-                    disabled={operationLoading[app.id]}
+                    disabled={operationLoading[ai-design-studio.id]}
                     className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
-                      app.is_public ? "bg-blue-600" : "bg-gray-600"
-                    } ${operationLoading[app.id] ? "opacity-50 cursor-not-allowed" : ""}`}
-                    title={app.is_public ? "Make private" : "Make public"}
+                      ai-design-studio.is_public ? "bg-blue-600" : "bg-gray-600"
+                    } ${operationLoading[ai-design-studio.id] ? "opacity-50 cursor-not-allowed" : ""}`}
+                    title={ai-design-studio.is_public ? "Make private" : "Make public"}
                   >
                     <span
                       className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${
-                        app.is_public ? "translate-x-5" : "translate-x-1"
+                        ai-design-studio.is_public ? "translate-x-5" : "translate-x-1"
                       }`}
                     />
                   </button>
@@ -628,19 +628,19 @@ const AdminAppsManagement: React.FC = () => {
 
                 {/* Active Status Toggle */}
                 <button
-                  onClick={() => toggleApp(app.id, app.is_active)}
-                  disabled={toggling === app.id}
+                  onClick={() => toggleApp(ai-design-studio.id, ai-design-studio.is_active)}
+                  disabled={toggling === ai-design-studio.id}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
-                    app.is_active ? "bg-green-600" : "bg-gray-600"
-                  } ${toggling === app.id ? "opacity-50 cursor-not-allowed" : ""}`}
-                  title={app.is_active ? "Deactivate app" : "Activate app"}
+                    ai-design-studio.is_active ? "bg-green-600" : "bg-gray-600"
+                  } ${toggling === ai-design-studio.id ? "opacity-50 cursor-not-allowed" : ""}`}
+                  title={ai-design-studio.is_active ? "Deactivate ai-design-studio" : "Activate ai-design-studio"}
                 >
                   <span
                     className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      app.is_active ? "translate-x-6" : "translate-x-1"
+                      ai-design-studio.is_active ? "translate-x-6" : "translate-x-1"
                     }`}
                   />
-                  {toggling === app.id && (
+                  {toggling === ai-design-studio.id && (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="w-3 h-3 border-t border-white border-solid rounded-full animate-spin"></div>
                     </div>
@@ -734,7 +734,7 @@ const AdminAppsManagement: React.FC = () => {
       )}
 
       {/* Delete Confirmation Modal */}
-      {showDeleteModal.show && showDeleteModal.app && (
+      {showDeleteModal.show && showDeleteModal.ai-design-studio && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -749,24 +749,24 @@ const AdminAppsManagement: React.FC = () => {
             </div>
             <p className="text-gray-300 mb-6">
               Are you sure you want to delete{" "}
-              <strong>{showDeleteModal.app.name}</strong>? This action cannot be
+              <strong>{showDeleteModal.ai-design-studio.name}</strong>? This action cannot be
               undone and will remove all associated data.
             </p>
             <div className="flex space-x-3">
               <button
-                onClick={() => setShowDeleteModal({ show: false, app: null })}
+                onClick={() => setShowDeleteModal({ show: false, ai-design-studio: null })}
                 className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={() =>
-                  showDeleteModal.app && deleteApp(showDeleteModal.app.id)
+                  showDeleteModal.ai-design-studio && deleteApp(showDeleteModal.ai-design-studio.id)
                 }
-                disabled={operationLoading[showDeleteModal.app.id]}
+                disabled={operationLoading[showDeleteModal.ai-design-studio.id]}
                 className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
               >
-                {operationLoading[showDeleteModal.app.id]
+                {operationLoading[showDeleteModal.ai-design-studio.id]
                   ? "Deleting..."
                   : "Delete App"}
               </button>

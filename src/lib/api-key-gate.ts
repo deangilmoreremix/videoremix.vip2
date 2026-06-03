@@ -3,7 +3,7 @@
  * Shared utility for checking and requiring user API keys before accessing apps.
  *
  * This library provides functions to:
- * - Check if user has required API keys for a given app
+ * - Check if user has required API keys for a given ai-design-studio
  * - Show modal if keys are missing
  * - Save user API keys to Supabase
  * - Retrieve user keys for backend calls
@@ -13,7 +13,7 @@
  * import { useApiKeyGate } from '@/lib/api-key-gate';
  *
  * const AppPage = () => {
- *   const { checkAccess, showModal, setShowModal } = useApiKeyGate('ai-blog-to-podcast-agent');
+ *   const { checkAccess, showModal, setShowModal } = useApiKeyGate('ai-dashboard-designer-ai');
  *   // ...
  * };
  * ```
@@ -53,13 +53,13 @@ export const PROVIDER_INFO: Record<string, { name: string; hint: string; signupU
   },
   gemini: {
     name: 'Google Gemini',
-    hint: 'Get your API key from aistudio.google.com/app/apikey',
-    signupUrl: 'https://aistudio.google.com/app/apikey',
+    hint: 'Get your API key from aistudio.google.com/ai-design-studio/apikey',
+    signupUrl: 'https://aistudio.google.com/ai-design-studio/apikey',
   },
   elevenlabs: {
     name: 'ElevenLabs',
-    hint: 'Get your API key from elevenlabs.io/app/speech-synthesis',
-    signupUrl: 'https://elevenlabs.io/app/speech-synthesis',
+    hint: 'Get your API key from elevenlabs.io/ai-design-studio/speech-synthesis',
+    signupUrl: 'https://elevenlabs.io/ai-design-studio/speech-synthesis',
   },
   cohere: {
     name: 'Cohere',
@@ -86,7 +86,7 @@ async function encryptKey(key: string): Promise<string> {
   return key;
 }
 
-// Fetch required providers for an app from Supabase
+// Fetch required providers for an ai-design-studio from Supabase
 async function fetchAppRequirements(supabase: any, appId: string): Promise<string[]> {
   const { data, error } = await supabase
     .from('app_api_requirements')
@@ -95,7 +95,7 @@ async function fetchAppRequirements(supabase: any, appId: string): Promise<strin
     .single();
 
   if (error || !data) {
-    console.warn(`No API requirements found for app: ${appId}`);
+    console.warn(`No API requirements found for ai-design-studio: ${appId}`);
     return [];
   }
 

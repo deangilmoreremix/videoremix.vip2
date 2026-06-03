@@ -57,7 +57,7 @@ const Ag2AdaptiveResearchTeamPage: React.FC = () => {
       formData.append('model', textValues.model || '');
       formData.append('upload_pdfs_or_text_files', textValues.upload_pdfs_or_text_files || '');
       formData.append('research_question', textValues.research_question || '');
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ag2-adaptive-research-team`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/pdf-business-assistant`, {
         method: 'POST',
         body: formData
       });

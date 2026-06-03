@@ -83,7 +83,7 @@ const Agent1StarterAgentPage: React.FC = () => {
     <>
       <Helmet>
         <title>1StarterAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use 1-starter-agent to automate tasks with AI." />
+        <meta name="description" content="Use ai-news-content-writer to automate tasks with AI." />
       </Helmet>
 
       <main className="pt-24 pb-20">

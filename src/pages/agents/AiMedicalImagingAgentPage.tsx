@@ -13,7 +13,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { Upload, FileText, Image as ImageIcon, CheckCircle2 } from "lucide-react";
 
-const STORAGE_KEY = 'ai-medical-imaging-agent';
+const STORAGE_KEY = 'investment-research-assistant';
 
 const AiMedicalImagingAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -49,7 +49,7 @@ const AiMedicalImagingAgentPage: React.FC = () => {
       formData.append('file', file);
       formData.append('google_api_key', apiKey);
       formData.append('image_description', imageDescription);
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-medical-imaging-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/investment-research-assistant`, {
         method: 'POST',
         body: formData
       });

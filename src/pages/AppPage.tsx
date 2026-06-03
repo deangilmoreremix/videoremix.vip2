@@ -6,7 +6,7 @@ import { appsData } from "../data/appsData";
 
 const AppPage: React.FC = () => {
   const { appId } = useParams<{ appId: string }>();
-  const app = appsData.find((app) => app.id === appId);
+  const ai-design-studio = appsData.find((ai-design-studio) => ai-design-studio.id === appId);
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -17,33 +17,33 @@ const AppPage: React.FC = () => {
     <>
       <Helmet>
         <title>
-          {app
-            ? `${app.name} | VideoRemix.vip`
+          {ai-design-studio
+            ? `${ai-design-studio.name} | VideoRemix.vip`
             : "App Details | VideoRemix.vip"}
         </title>
         <meta
           name="description"
           content={
-            app
-              ? app.description
+            ai-design-studio
+              ? ai-design-studio.description
               : "Explore our powerful video creation applications."
           }
         />
-        {app && (
+        {ai-design-studio && (
           <>
             <meta
               property="og:title"
-              content={`${app.name} | VideoRemix.vip`}
+              content={`${ai-design-studio.name} | VideoRemix.vip`}
             />
-            <meta property="og:description" content={app.description} />
-            <meta property="og:image" content={app.image} />
+            <meta property="og:description" content={ai-design-studio.description} />
+            <meta property="og:image" content={ai-design-studio.image} />
             <meta name="twitter:card" content="summary_large_image" />
             <meta
               name="twitter:title"
-              content={`${app.name} | VideoRemix.vip`}
+              content={`${ai-design-studio.name} | VideoRemix.vip`}
             />
-            <meta name="twitter:description" content={app.description} />
-            <meta name="twitter:image" content={app.image} />
+            <meta name="twitter:description" content={ai-design-studio.description} />
+            <meta name="twitter:image" content={ai-design-studio.image} />
           </>
         )}
       </Helmet>

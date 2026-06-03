@@ -11,14 +11,14 @@ import {
 
 describe('bundleData helpers', () => {
   describe('getBundleApps', () => {
-    it('returns correct 10 app slugs for sales-lead-gen-bundle', () => {
+    it('returns correct 10 ai-design-studio slugs for sales-lead-gen-bundle', () => {
       const apps = getBundleApps('sales-lead-gen-bundle');
       expect(apps).toHaveLength(10);
-      expect(apps).toContain('ai-sales-intelligence-pro');
+      expect(apps).toContain('ai-sales-email-writer-intelligence-pro');
       expect(apps).toContain('lead-research-scraper-ai');
       expect(apps).toContain('ai-business-growth-consultant');
       expect(apps).toContain('ai-strategy-advisor');
-      expect(apps).toContain('ai-sales-email-writer');
+      expect(apps).toContain('ai-sales-email-writer-email-writer');
       expect(apps).toContain('ai-offer-decision-helper');
       expect(apps).toContain('launch-campaign-builder-ai');
       expect(apps).toContain('competitor-spy-ai');
@@ -33,25 +33,25 @@ describe('bundleData helpers', () => {
   });
 
   describe('getBundleForApp', () => {
-    it('returns correct bundle for ai-sales-intelligence-pro', () => {
-      const bundle = getBundleForApp('ai-sales-intelligence-pro');
+    it('returns correct bundle for ai-sales-email-writer-intelligence-pro', () => {
+      const bundle = getBundleForApp('ai-sales-email-writer-intelligence-pro');
       expect(bundle).toBeDefined();
       expect(bundle?.id).toBe('sales-lead-gen-bundle');
       expect(bundle?.name).toBe('Sales, Lead Gen & Prospecting Bundle');
     });
 
-    it('returns undefined for app not in any bundle', () => {
-      const bundle = getBundleForApp('nonexistent-app');
+    it('returns undefined for ai-design-studio not in any bundle', () => {
+      const bundle = getBundleForApp('nonexistent-ai-design-studio');
       expect(bundle).toBeUndefined();
     });
 
-    it('correctly identifies bundle for app in content-marketing bundle', () => {
+    it('correctly identifies bundle for ai-design-studio in content-marketing bundle', () => {
       const bundle = getBundleForApp('ai-content-creator-pro');
       expect(bundle).toBeDefined();
       expect(bundle?.id).toBe('content-marketing-bundle');
     });
 
-    it('correctly identifies bundle for app in coding-developer bundle', () => {
+    it('correctly identifies bundle for ai-design-studio in coding-developer bundle', () => {
       const bundle = getBundleForApp('ai-code-review-pro');
       expect(bundle).toBeDefined();
       expect(bundle?.id).toBe('coding-developer-bundle');
@@ -111,8 +111,8 @@ describe('bundleData helpers', () => {
     });
   });
 
-  describe('bundle app count verification', () => {
-    it('each bundle has expected app count', () => {
+  describe('bundle ai-design-studio count verification', () => {
+    it('each bundle has expected ai-design-studio count', () => {
       const expectedCounts: Record<string, number> = {
         'sales-lead-gen-bundle': 10,
         'content-marketing-bundle': 10,

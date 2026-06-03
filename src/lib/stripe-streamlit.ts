@@ -57,7 +57,7 @@ export const getStreamlitPricingTiers = () => {
       price: 29,
       originalPrice: 49,
       features: [
-        "Core Streamlit app functionality",
+        "Core Streamlit ai-design-studio functionality",
         "Basic customer support",
         "All future updates included",
         "Community access"

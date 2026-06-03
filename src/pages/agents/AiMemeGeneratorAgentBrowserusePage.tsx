@@ -47,7 +47,7 @@ const AiMemeGeneratorAgentBrowserusePage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-meme-generator-agent-browseruse`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/revenue-data-analyst-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

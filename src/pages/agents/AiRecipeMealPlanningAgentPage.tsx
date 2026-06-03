@@ -46,7 +46,7 @@ const AiRecipeMealPlanningAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-recipe-meal-planning-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/risk-decision-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

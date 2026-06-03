@@ -27,7 +27,7 @@ const Ai3dpygameR1Page: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem('ai-3dpygame-r1-state');
+    const saved = localStorage.getItem('video-knowledge-assistant-state');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -37,7 +37,7 @@ const Ai3dpygameR1Page: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('ai-3dpygame-r1-state', JSON.stringify(formData));
+    localStorage.setItem('video-knowledge-assistant-state', JSON.stringify(formData));
   }, [formData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,7 +49,7 @@ const Ai3dpygameR1Page: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-3dpygame-r1`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/video-knowledge-assistant`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
@@ -57,7 +57,7 @@ const Ai3dpygameR1Page: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);
-      localStorage.removeItem('ai-3dpygame-r1-state');
+      localStorage.removeItem('video-knowledge-assistant-state');
     } catch (err: any) {
       setError(err.message || 'An error occurred');
     } finally {
@@ -69,7 +69,7 @@ const Ai3dpygameR1Page: React.FC = () => {
     <>
       <Helmet>
         <title>Ai3dpygameR1 - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-3dpygame-r1 to automate tasks with AI." />
+        <meta name="description" content="Use video-knowledge-assistant to automate tasks with AI." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

@@ -15,7 +15,7 @@ import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Film, Clapperboard, Clock, Users, Sparkles, CheckCircle2 } from "lucide-react";
 
-const STORAGE_KEY = 'ai-movie-production-agent';
+const STORAGE_KEY = 'ai-video-script-producer';
 
 const AiMovieProductionAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -49,7 +49,7 @@ const AiMovieProductionAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-movie-production-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-video-script-producer`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

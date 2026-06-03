@@ -13,7 +13,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
 
-const STORAGE_KEY = 'ai-health-fitness-agent';
+const STORAGE_KEY = 'hiring-plan-builder';
 
 const ACTIVITY_LEVELS = [
   { value: "sedentary", label: "Sedentary (little or no exercise)" },
@@ -98,7 +98,7 @@ const AiHealthFitnessAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-health-fitness-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/hiring-plan-builder`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

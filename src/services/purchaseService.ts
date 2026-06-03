@@ -51,7 +51,7 @@ export interface ProductCatalog {
 
 export const purchaseService = {
   /**
-   * Check if user has access to a specific app
+   * Check if user has access to a specific ai-design-studio
    */
   async checkUserHasAccess(userId: string, appSlug: string): Promise<boolean> {
     try {
@@ -90,7 +90,7 @@ export const purchaseService = {
    */
   async getUserPurchasedApps(userId: string): Promise<string[]> {
     try {
-      // Get direct app access
+      // Get direct ai-design-studio access
       const { data: directAccess, error: directError } = await supabase
         .from("user_app_access")
         .select("app_slug")
@@ -98,7 +98,7 @@ export const purchaseService = {
         .eq("is_active", true);
 
       if (directError) {
-        console.error("Error fetching user direct app access:", directError);
+        console.error("Error fetching user direct ai-design-studio access:", directError);
       }
 
       // Check for bundle purchases
@@ -132,7 +132,7 @@ export const purchaseService = {
 
       // Add bundle access - all LLM agent apps
       if (bundlePurchases && bundlePurchases.length > 0) {
-        // Import the app bundling utility dynamically to avoid circular imports
+        // Import the ai-design-studio bundling utility dynamically to avoid circular imports
         const { CONVERTED_LLM_AGENT_APPS } = await import("../utils/appBundling");
         appSlugs.push(...CONVERTED_LLM_AGENT_APPS);
       }
@@ -146,7 +146,7 @@ export const purchaseService = {
   },
 
   /**
-   * Get full user app access details
+   * Get full user ai-design-studio access details
    */
   async getUserAppAccessDetails(userId: string): Promise<UserAppAccess[]> {
     try {
@@ -158,7 +158,7 @@ export const purchaseService = {
         .order("granted_at", { ascending: false });
 
       if (error) {
-        console.error("Error fetching user app access details:", error);
+        console.error("Error fetching user ai-design-studio access details:", error);
         return [];
       }
 
@@ -216,7 +216,7 @@ export const purchaseService = {
   },
 
   /**
-   * Record a new purchase and grant app access
+   * Record a new purchase and grant ai-design-studio access
    * Uses safeMutation to prevent duplicate purchases
    * 
    * NOTE: The idempotency implementation uses client-side caching which helps prevent
@@ -286,7 +286,7 @@ export const purchaseService = {
           throw purchaseError;
         }
 
-        // Grant app access if userId and appSlugs provided
+        // Grant ai-design-studio access if userId and appSlugs provided
         if (userId && appSlugs.length > 0 && purchase) {
           const accessRecords = appSlugs.map((appSlug) => ({
             user_id: userId,
@@ -301,7 +301,7 @@ export const purchaseService = {
             .insert(accessRecords);
 
           if (accessError) {
-            console.error("Error granting app access:", accessError);
+            console.error("Error granting ai-design-studio access:", accessError);
             throw accessError;
           }
         }
@@ -332,7 +332,7 @@ export const purchaseService = {
   },
 
   /**
-   * Grant app access to a user (for admin use or post-purchase processing)
+   * Grant ai-design-studio access to a user (for admin use or post-purchase processing)
    */
   async grantAppAccess(
     userId: string,
@@ -356,7 +356,7 @@ export const purchaseService = {
         .insert(accessRecords);
 
       if (error) {
-        console.error("Error granting app access:", error);
+        console.error("Error granting ai-design-studio access:", error);
         return { success: false, error: error.message };
       }
 
@@ -368,7 +368,7 @@ export const purchaseService = {
   },
 
   /**
-   * Revoke app access from a user
+   * Revoke ai-design-studio access from a user
    */
   async revokeAppAccess(
     userId: string,
@@ -382,7 +382,7 @@ export const purchaseService = {
         .eq("app_slug", appSlug);
 
       if (error) {
-        console.error("Error revoking app access:", error);
+        console.error("Error revoking ai-design-studio access:", error);
         return { success: false, error: error.message };
       }
 

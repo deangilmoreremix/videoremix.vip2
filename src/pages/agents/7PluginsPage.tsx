@@ -72,7 +72,7 @@ const Agent7PluginsPage: React.FC = () => {
     <>
       <Helmet>
         <title>7Plugins - VideoRemix.vip</title>
-        <meta name="description" content="Use 7-plugins to automate tasks with AI." />
+        <meta name="description" content="Use talk-to-your-business-ai to automate tasks with AI." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

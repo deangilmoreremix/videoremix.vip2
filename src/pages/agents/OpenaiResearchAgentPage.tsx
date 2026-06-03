@@ -21,7 +21,7 @@ const OpenaiResearchAgentPage: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    const saved = localStorage.getItem('openai-research-agent-data');
+    const saved = localStorage.getItem('research-assistant-ai-data');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -31,7 +31,7 @@ const OpenaiResearchAgentPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('openai-research-agent-data', JSON.stringify({ topic }));
+    localStorage.setItem('research-assistant-ai-data', JSON.stringify({ topic }));
   }, [topic]);
 
   const handleSubmit = async (tabKey: string, data: any) => {
@@ -42,7 +42,7 @@ const OpenaiResearchAgentPage: React.FC = () => {
     setLoading(tabKey);
     setErrors(prev => ({ ...prev, [tabKey]: null }));
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/openai-research-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/research-assistant-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...data, mode: tabKey, userId: user?.id })
@@ -50,7 +50,7 @@ const OpenaiResearchAgentPage: React.FC = () => {
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || 'Failed');
       setResults(prev => ({ ...prev, [tabKey]: result }));
-      localStorage.removeItem('openai-research-agent-data');
+      localStorage.removeItem('research-assistant-ai-data');
     } catch (err: any) {
       setErrors(prev => ({ ...prev, [tabKey]: err.message }));
     } finally {
@@ -69,7 +69,7 @@ const OpenaiResearchAgentPage: React.FC = () => {
     <>
       <Helmet>
         <title>OpenaiResearchAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use openai-research-agent to automate tasks with AI." />
+        <meta name="description" content="Use research-assistant-ai to automate tasks with AI." />
       </Helmet>
 
       <main className="pt-24 pb-20">

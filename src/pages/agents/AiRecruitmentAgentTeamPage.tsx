@@ -14,7 +14,7 @@ import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Users, Briefcase, Mail, Video, Upload, FileText, CheckCircle2, UserPlus } from "lucide-react";
 
-const STORAGE_KEY = 'ai-recruitment-agent-team';
+const STORAGE_KEY = 'ai-hiring-assistant';
 
 const AiRecruitmentAgentTeamPage: React.FC = () => {
   const { user } = useAuth();
@@ -67,7 +67,7 @@ const AiRecruitmentAgentTeamPage: React.FC = () => {
       formDataToSend.append('select_the_role_you', formData.roleToFill);
       formDataToSend.append('upload_your_resume_pdf', formData.resumePdf);
       formDataToSend.append('candidate', formData.candidate);
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-recruitment-agent-team`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-hiring-assistant`, {
         method: 'POST',
         body: formDataToSend
       });
@@ -203,14 +203,14 @@ const AiRecruitmentAgentTeamPage: React.FC = () => {
                       value={formData.zoomClientId}
                       onChange={(v) => updateField('zoomClientId', v)}
                       placeholder="Your Zoom client ID"
-                      helperText="From Zoom app credentials"
+                      helperText="From Zoom ai-design-studio credentials"
                     />
                   </div>
                   <ApiKeyInput
                     label="Zoom Client Secret"
                     value={formData.zoomClientSecret}
                     onChange={(v) => updateField('zoomClientSecret', v)}
-                    helperText="From Zoom app credentials"
+                    helperText="From Zoom ai-design-studio credentials"
                   />
                 </FormSection>
 
@@ -229,7 +229,7 @@ const AiRecruitmentAgentTeamPage: React.FC = () => {
                       label="Email App Password"
                       value={formData.emailAppPassword}
                       onChange={(v) => updateField('emailAppPassword', v)}
-                      helperText="Gmail app-specific password"
+                      helperText="Gmail ai-design-studio-specific password"
                       required
                     />
                   </div>

@@ -21,7 +21,7 @@ const RagAsAServicePage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/rag-as-a-service`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/business-knowledgebase-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
@@ -40,7 +40,7 @@ const RagAsAServicePage: React.FC = () => {
     <>
       <Helmet>
         <title>RagAsAService - VideoRemix.vip</title>
-        <meta name="description" content="Use rag-as-a-service to automate tasks with AI." />
+        <meta name="description" content="Use business-knowledgebase-ai to automate tasks with AI." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

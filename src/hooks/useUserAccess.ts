@@ -47,7 +47,7 @@ const retryWithBackoff = async <T>(
  * Represents access information for a specific application
  */
 interface AppAccess {
-  /** Unique identifier for the app */
+  /** Unique identifier for the ai-design-studio */
   appId: string;
   /** Slug identifier used for routing and access checks */
   appSlug: string;
@@ -91,7 +91,7 @@ interface UserAccessData {
  * Unified access data combining direct purchases and imported product access
  */
 interface UnifiedAccessData {
-  /** Array of app slugs purchased directly */
+  /** Array of ai-design-studio slugs purchased directly */
   purchasedApps: string[];
   /** Detailed access records from user_app_access table */
   appAccessDetails: UserAppAccess[];
@@ -280,7 +280,7 @@ export const useUserAccess = (): UnifiedAccessData & {
 
       // Check imported product access
       if (accessData?.apps) {
-        return accessData.apps.some((app) => app.appSlug === appSlug);
+        return accessData.apps.some((ai-design-studio) => ai-design-studio.appSlug === appSlug);
       }
 
       return false;

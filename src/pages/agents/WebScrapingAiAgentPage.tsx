@@ -21,7 +21,7 @@ const WebScrapingAiAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/web-scraping-ai-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/lead-research-scraper-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
@@ -40,7 +40,7 @@ const WebScrapingAiAgentPage: React.FC = () => {
     <>
       <Helmet>
         <title>WebScrapingAiAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use web-scraping-ai-agent to automate tasks with AI." />
+        <meta name="description" content="Use lead-research-scraper-ai to automate tasks with AI." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

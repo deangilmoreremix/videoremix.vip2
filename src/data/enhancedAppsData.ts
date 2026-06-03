@@ -41,7 +41,7 @@ import {
 } from "lucide-react";
 
 export const enhancedAppDetails: Record<string, any> = {
-  "ai-referral-maximizer": {
+  "ai-strategy-advisor": {
     longDescription:
       "Transform your referral program into a revenue-generating powerhouse with AI-driven optimization. Our intelligent system analyzes referral patterns, identifies high-value advocates, and automates personalized outreach to maximize conversions.",
     benefits: [
@@ -191,7 +191,7 @@ export const enhancedAppDetails: Record<string, any> = {
     ],
   },
 
-  "smart-crm-closer": {
+  "ai-offer-decision-helper": {
     longDescription:
       "Close deals faster with AI-powered CRM intelligence that predicts buying signals, automates follow-ups, and optimizes your sales pipeline. Never miss an opportunity with smart notifications and automated nurture sequences.",
     benefits: [
@@ -341,7 +341,7 @@ export const enhancedAppDetails: Record<string, any> = {
     ],
   },
 
-  "video-ai-editor": {
+  "lead-research-scraper-ai": {
     longDescription:
       "Professional video editing powered by artificial intelligence. Automatically cut, trim, enhance, and polish your videos with advanced AI algorithms. Perfect for content creators, marketers, and businesses who need high-quality videos without the time investment.",
     benefits: [
@@ -486,7 +486,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
 
-  "ai-template-generator": {
+  "ai-content-editor": {
     longDescription:
       "Create custom templates for any purpose with AI assistance. From business documents to design templates, generate professional, on-brand templates in minutes. Perfect for agencies, businesses, and creators who need consistent, high-quality templates.",
     benefits: [
@@ -779,7 +779,7 @@ export const enhancedAppDetails: Record<string, any> = {
     ],
   },
   "ai-personalized-content": {
-    longDescription: "Create personalized marketing content that feels custom-built for every prospect. Smart Content Personalizer Hub helps business owners, agencies, and marketers turn ordinary content into highly targeted personalized assets. Instead of sending generic messages, images, or campaigns, users can create content that speaks directly to the individual, business, niche, or audience they want to reach. This app is designed to help users create personalized images, personalized video-style messaging, custom outreach content, sales assets, profile-based marketing copy, and campaign ideas that feel more relevant and engaging. Whether someone is reaching out to local businesses, following up with leads, creating client campaigns, or building a high-converting sales experience, Smart Content Personalizer Hub gives them a faster way to create content that grabs attention and makes prospects feel like the message was made specifically for them.",
+    longDescription: "Create personalized marketing content that feels custom-built for every prospect. Smart Content Personalizer Hub helps business owners, agencies, and marketers turn ordinary content into highly targeted personalized assets. Instead of sending generic messages, images, or campaigns, users can create content that speaks directly to the individual, business, niche, or audience they want to reach. This ai-design-studio is designed to help users create personalized images, personalized video-style messaging, custom outreach content, sales assets, profile-based marketing copy, and campaign ideas that feel more relevant and engaging. Whether someone is reaching out to local businesses, following up with leads, creating client campaigns, or building a high-converting sales experience, Smart Content Personalizer Hub gives them a faster way to create content that grabs attention and makes prospects feel like the message was made specifically for them.",
     benefits: [
       "Create highly targeted personalized content",
       "Turn generic messages into custom assets",
@@ -834,8 +834,8 @@ export const enhancedAppDetails: Record<string, any> = {
     tags: ["personalization", "marketing", "content", "outreach", "sales"],
   },
 
-  "funnelcraft-ai": {
-    longDescription: "Build smarter funnels faster with AI-powered funnel strategy, structure, and copy. Conversion Funnel Optimizer helps users turn ideas, offers, products, and services into organized sales funnels. Instead of trying to figure out every page, section, headline, offer angle, and call to action manually, users can use AI to map out the entire funnel journey from first impression to conversion. This app helps users create funnel concepts, opt-in pages, lead magnets, sales pages, offer stacks, upsell ideas, thank-you pages, email follow-ups, and conversion-focused messaging. It gives entrepreneurs and agencies a faster way to build funnels that are not just attractive, but strategically designed to guide visitors toward taking action.",
+  "launch-campaign-builder-ai": {
+    longDescription: "Build smarter funnels faster with AI-powered funnel strategy, structure, and copy. Conversion Funnel Optimizer helps users turn ideas, offers, products, and services into organized sales funnels. Instead of trying to figure out every page, section, headline, offer angle, and call to action manually, users can use AI to map out the entire funnel journey from first impression to conversion. This ai-design-studio helps users create funnel concepts, opt-in pages, lead magnets, sales pages, offer stacks, upsell ideas, thank-you pages, email follow-ups, and conversion-focused messaging. It gives entrepreneurs and agencies a faster way to build funnels that are not just attractive, but strategically designed to guide visitors toward taking action.",
     benefits: [
       "Build complete sales funnels with AI assistance",
       "Strategic funnel structure and copy",
@@ -890,8 +890,8 @@ export const enhancedAppDetails: Record<string, any> = {
     tags: ["funnels", "sales", "strategy", "conversion", "marketing"],
   },
 
-  "ai-skills-monetizer": {
-    longDescription: "Turn your knowledge, experience, and skills into income-generating offers. Expertise Revenue Platform helps users discover how to turn what they already know into something they can sell. Many people have valuable skills, experience, stories, and knowledge, but they struggle to package those abilities into a clear offer. This app helps solve that problem. Users can identify their strongest skills, uncover profitable service ideas, create offer positioning, build packages, define target audiences, and generate messaging that makes their skills easier to sell. It can help someone move from 'I know how to do this' to 'Here is a service, product, or offer I can monetize.'",
+  "daily-content-engine-ai": {
+    longDescription: "Turn your knowledge, experience, and skills into income-generating offers. Expertise Revenue Platform helps users discover how to turn what they already know into something they can sell. Many people have valuable skills, experience, stories, and knowledge, but they struggle to package those abilities into a clear offer. This ai-design-studio helps solve that problem. Users can identify their strongest skills, uncover profitable service ideas, create offer positioning, build packages, define target audiences, and generate messaging that makes their skills easier to sell. It can help someone move from 'I know how to do this' to 'Here is a service, product, or offer I can monetize.'",
     benefits: [
       "Turn skills into profitable offers",
       "Package expertise for maximum value",
@@ -1002,8 +1002,8 @@ export const enhancedAppDetails: Record<string, any> = {
     tags: ["resume", "skills", "career", "job-search", "professional-development"],
   },
 
-  "sales-page-builder": {
-    longDescription: "Create high-converting sales pages without staring at a blank screen. High-Converting Landing Pages helps users create persuasive sales pages for products, services, courses, software, coaching programs, and agency offers. Instead of struggling with headlines, sections, sales copy, benefit bullets, testimonials, bonuses, guarantees, and calls to action, users can generate a structured sales page with AI assistance. This app is built to help users organize their offer into a complete landing page that explains the problem, presents the solution, builds desire, removes objections, and encourages visitors to buy, sign up, register, or book a call.",
+  "sales-call-follow-up-ai": {
+    longDescription: "Create high-converting sales pages without staring at a blank screen. High-Converting Landing Pages helps users create persuasive sales pages for products, services, courses, software, coaching programs, and agency offers. Instead of struggling with headlines, sections, sales copy, benefit bullets, testimonials, bonuses, guarantees, and calls to action, users can generate a structured sales page with AI assistance. This ai-design-studio is built to help users organize their offer into a complete landing page that explains the problem, presents the solution, builds desire, removes objections, and encourages visitors to buy, sign up, register, or book a call.",
     benefits: [
       "High-converting sales page templates",
       "AI-powered copy generation",
@@ -1059,7 +1059,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
   "sales-assistant-pro": {
-    longDescription: "Get AI-powered help with sales conversations, objections, follow-ups, and closing strategies. Sales Assistant Pro gives users a smarter way to handle sales conversations. Instead of guessing what to say to a prospect, how to respond to objections, or how to follow up after a conversation, users can use AI to generate better sales guidance and messaging. The app helps with sales frameworks, prospect qualification, objection handling, follow-up messages, discovery questions, sales call preparation, closing angles, and lead communication. It acts like a digital sales coach that helps users think through the sales process and communicate with more confidence.",
+    longDescription: "Get AI-powered help with sales conversations, objections, follow-ups, and closing strategies. Sales Assistant Pro gives users a smarter way to handle sales conversations. Instead of guessing what to say to a prospect, how to respond to objections, or how to follow up after a conversation, users can use AI to generate better sales guidance and messaging. The ai-design-studio helps with sales frameworks, prospect qualification, objection handling, follow-up messages, discovery questions, sales call preparation, closing angles, and lead communication. It acts like a digital sales coach that helps users think through the sales process and communicate with more confidence.",
     benefits: [
       "AI-powered sales conversation guidance",
       "Objection handling strategies",
@@ -1115,7 +1115,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
   "ai-personalization-studio": {
-    longDescription: "Build personalized outreach and marketing campaigns at scale. AI Personalization Studio gives users a creative workspace for building personalized marketing and sales assets. Instead of creating one generic message for everyone, users can generate content that adapts to different prospects, audiences, industries, pain points, and campaign goals. This app can help create personalized intros, outreach messages, email copy, sales scripts, profile-based content, video ideas, campaign angles, and custom marketing assets. It is designed for users who want to make their communication feel more human, relevant, and targeted.",
+    longDescription: "Build personalized outreach and marketing campaigns at scale. AI Personalization Studio gives users a creative workspace for building personalized marketing and sales assets. Instead of creating one generic message for everyone, users can generate content that adapts to different prospects, audiences, industries, pain points, and campaign goals. This ai-design-studio can help create personalized intros, outreach messages, email copy, sales scripts, profile-based content, video ideas, campaign angles, and custom marketing assets. It is designed for users who want to make their communication feel more human, relevant, and targeted.",
     benefits: [
       "Scale personalized marketing campaigns",
       "Human-like communication at scale",
@@ -1171,7 +1171,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
   "ai-personalizer": {
-    longDescription: "Transform basic prospect details into personalized messages, offers, and sales content. AI Personalizer is designed to help users create personalized content quickly from simple information. A user can enter details about a prospect, business, niche, product, or audience, and the app helps turn that information into custom messaging that feels more specific and relevant. This can be used for cold outreach, client follow-up, personalized video scripts, email introductions, sales messages, LinkedIn outreach, direct messages, and local business campaigns. Instead of sending the same message to everyone, users can create communication that feels tailored to the person or business they want to reach.",
+    longDescription: "Transform basic prospect details into personalized messages, offers, and sales content. AI Personalizer is designed to help users create personalized content quickly from simple information. A user can enter details about a prospect, business, niche, product, or audience, and the ai-design-studio helps turn that information into custom messaging that feels more specific and relevant. This can be used for cold outreach, client follow-up, personalized video scripts, email introductions, sales messages, LinkedIn outreach, direct messages, and local business campaigns. Instead of sending the same message to everyone, users can create communication that feels tailored to the person or business they want to reach.",
     benefits: [
       "Quick personalization from basic details",
       "Custom messaging for every prospect",
@@ -1227,7 +1227,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
   "ai-video-transformer": {
-    longDescription: "Turn one video into multiple powerful marketing assets. AI Video Transformer helps users repurpose, improve, and reimagine video content with AI. Instead of letting one video sit in one format, users can transform it into new versions for different platforms, audiences, and campaigns. The app can be positioned as a tool for turning existing videos into short-form clips, social posts, promotional assets, video concepts, captions, alternate scripts, hooks, summaries, and campaign-ready content. It helps creators and agencies get more value from every video they create.",
+    longDescription: "Turn one video into multiple powerful marketing assets. AI Video Transformer helps users repurpose, improve, and reimagine video content with AI. Instead of letting one video sit in one format, users can transform it into new versions for different platforms, audiences, and campaigns. The ai-design-studio can be positioned as a tool for turning existing videos into short-form clips, social posts, promotional assets, video concepts, captions, alternate scripts, hooks, summaries, and campaign-ready content. It helps creators and agencies get more value from every video they create.",
     benefits: [
       "Maximize video content ROI",
       "Multi-platform repurposing",
@@ -1283,7 +1283,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
   "ai-screen-recorder": {
-    longDescription: "Record tutorials, demos, walkthroughs, and training videos with AI-powered content support. Professional Demo Recorder helps users capture their screen and turn that recording into useful business content. It is perfect for product demos, software walkthroughs, training videos, onboarding lessons, course content, support tutorials, and client presentations. The power of this app goes beyond basic recording. With AI positioning, it can help users turn screen recordings into summaries, captions, scripts, descriptions, follow-up content, documentation, and marketing assets.",
+    longDescription: "Record tutorials, demos, walkthroughs, and training videos with AI-powered content support. Professional Demo Recorder helps users capture their screen and turn that recording into useful business content. It is perfect for product demos, software walkthroughs, training videos, onboarding lessons, course content, support tutorials, and client presentations. The power of this ai-design-studio goes beyond basic recording. With AI positioning, it can help users turn screen recordings into summaries, captions, scripts, descriptions, follow-up content, documentation, and marketing assets.",
     benefits: [
       "Professional screen recording",
       "AI-powered content enhancement",
@@ -1338,8 +1338,8 @@ export const enhancedAppDetails: Record<string, any> = {
     tags: ["screen-recording", "tutorials", "training", "demos", "content"],
   },
 
-  "ai-signature": {
-    longDescription: "Turn every email into a branded marketing opportunity. Professional Email Signature helps users create professional, modern, and conversion-focused email signatures. Instead of using a plain name and phone number at the bottom of an email, users can create branded signatures that promote their business, offers, booking links, social profiles, videos, and calls to action. This app is ideal for entrepreneurs, agencies, consultants, sales teams, and business owners who want their everyday emails to work harder. A well-designed email signature can build trust, increase clicks, promote offers, and make every message look more professional.",
+  "ai-content-creator-pro": {
+    longDescription: "Turn every email into a branded marketing opportunity. Professional Email Signature helps users create professional, modern, and conversion-focused email signatures. Instead of using a plain name and phone number at the bottom of an email, users can create branded signatures that promote their business, offers, booking links, social profiles, videos, and calls to action. This ai-design-studio is ideal for entrepreneurs, agencies, consultants, sales teams, and business owners who want their everyday emails to work harder. A well-designed email signature can build trust, increase clicks, promote offers, and make every message look more professional.",
     benefits: [
       "Professional email branding",
       "Marketing through every email",
@@ -1395,7 +1395,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
   "ai-thumbnail-generator": {
-    longDescription: "Create scroll-stopping thumbnails that get more clicks. AI Thumbnail Generator helps users create attention-grabbing thumbnail ideas and visuals for videos, webinars, social content, courses, ads, and promotional campaigns. Instead of guessing what will make someone stop scrolling, users can generate thumbnail concepts built around curiosity, emotion, clarity, and visual impact. The app can help create thumbnail headlines, design ideas, image prompts, layout concepts, facial expression ideas, color direction, and multiple creative variations for different platforms.",
+    longDescription: "Create scroll-stopping thumbnails that get more clicks. AI Thumbnail Generator helps users create attention-grabbing thumbnail ideas and visuals for videos, webinars, social content, courses, ads, and promotional campaigns. Instead of guessing what will make someone stop scrolling, users can generate thumbnail concepts built around curiosity, emotion, clarity, and visual impact. The ai-design-studio can help create thumbnail headlines, design ideas, image prompts, layout concepts, facial expression ideas, color direction, and multiple creative variations for different platforms.",
     benefits: [
       "Higher click-through rates",
       "Attention-grabbing visuals",
@@ -1451,7 +1451,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
   "profile-gen": {
-    longDescription: "Create polished professional profiles, bios, and positioning statements in minutes. Profile Gen helps users turn basic personal or business information into strong, professional profile copy. Whether someone needs a LinkedIn bio, creator profile, founder bio, speaker bio, agency profile, consultant description, or short introduction, this app helps generate clear and persuasive positioning. The app is useful for people who struggle to explain what they do in a way that sounds professional, confident, and valuable. It can create short bios, long-form profiles, social media descriptions, authority positioning, and niche-specific personal branding copy.",
+    longDescription: "Create polished professional profiles, bios, and positioning statements in minutes. Profile Gen helps users turn basic personal or business information into strong, professional profile copy. Whether someone needs a LinkedIn bio, creator profile, founder bio, speaker bio, agency profile, consultant description, or short introduction, this ai-design-studio helps generate clear and persuasive positioning. The ai-design-studio is useful for people who struggle to explain what they do in a way that sounds professional, confident, and valuable. It can create short bios, long-form profiles, social media descriptions, authority positioning, and niche-specific personal branding copy.",
     benefits: [
       "Professional profile creation",
       "Authority positioning",
@@ -1507,7 +1507,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
   "ai-video-editor": {
-    longDescription: "Edit, improve, and repurpose videos faster with AI assistance. AI Video Editor helps users turn raw footage into more polished video content. It is designed for creators, marketers, agencies, course builders, and business owners who need to edit videos without getting overwhelmed by complicated editing software. The app can support workflows such as trimming clips, organizing scenes, generating edits, preparing social-ready videos, creating captions, improving video flow, and transforming raw content into finished marketing assets.",
+    longDescription: "Edit, improve, and repurpose videos faster with AI assistance. AI Video Editor helps users turn raw footage into more polished video content. It is designed for creators, marketers, agencies, course builders, and business owners who need to edit videos without getting overwhelmed by complicated editing software. The ai-design-studio can support workflows such as trimming clips, organizing scenes, generating edits, preparing social-ready videos, creating captions, improving video flow, and transforming raw content into finished marketing assets.",
     benefits: [
       "Fast video editing without complexity",
       "AI-powered editing assistance",
@@ -1562,8 +1562,8 @@ export const enhancedAppDetails: Record<string, any> = {
     tags: ["video-editing", "content-creation", "captions", "social-media", "marketing"],
   },
 
-  "ai-referral-maximizer-pro": {
-    longDescription: "Turn happy customers into a repeatable referral engine. Customer Growth Multiplier Pro helps businesses generate more referrals from the customers, partners, contacts, and advocates they already have. Instead of waiting for word-of-mouth to happen randomly, this app helps users create a structured referral strategy powered by AI. The app can help generate referral campaigns, outreach messages, customer follow-ups, partner referral scripts, incentive ideas, referral request emails, and campaign sequences designed to encourage more introductions and recommendations.",
+  "ai-strategy-advisor-pro": {
+    longDescription: "Turn happy customers into a repeatable referral engine. Customer Growth Multiplier Pro helps businesses generate more referrals from the customers, partners, contacts, and advocates they already have. Instead of waiting for word-of-mouth to happen randomly, this ai-design-studio helps users create a structured referral strategy powered by AI. The ai-design-studio can help generate referral campaigns, outreach messages, customer follow-ups, partner referral scripts, incentive ideas, referral request emails, and campaign sequences designed to encourage more introductions and recommendations.",
     benefits: [
       "Structured referral system",
       "AI-powered campaign creation",
@@ -1618,8 +1618,8 @@ export const enhancedAppDetails: Record<string, any> = {
     tags: ["referrals", "marketing", "customers", "growth", "automation"],
   },
 
-  "ai-sales-maximizer": {
-    longDescription: "Find more revenue opportunities inside your sales pipeline. Revenue Acceleration Engine helps users improve sales performance by analyzing opportunities, improving sales messaging, and identifying ways to increase conversions. Instead of simply tracking contacts and deals, this app helps users think strategically about how to move prospects closer to buying. The app can help with deal analysis, pipeline improvement, objection strategy, follow-up planning, sales forecasting, conversion optimization, and revenue-focused recommendations. For business owners, sales teams, agencies, and SmartCRM users, Revenue Acceleration Engine acts like a sales intelligence assistant built to help increase close rates and revenue.",
+  "ai-sales-email-writer-maximizer": {
+    longDescription: "Find more revenue opportunities inside your sales pipeline. Revenue Acceleration Engine helps users improve sales performance by analyzing opportunities, improving sales messaging, and identifying ways to increase conversions. Instead of simply tracking contacts and deals, this ai-design-studio helps users think strategically about how to move prospects closer to buying. The ai-design-studio can help with deal analysis, pipeline improvement, objection strategy, follow-up planning, sales forecasting, conversion optimization, and revenue-focused recommendations. For business owners, sales teams, agencies, and SmartCRM users, Revenue Acceleration Engine acts like a sales intelligence assistant built to help increase close rates and revenue.",
     benefits: [
       "AI-powered sales intelligence",
       "Pipeline optimization",
@@ -1731,7 +1731,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 
   "product-research-ai": {
-    longDescription: "Research product ideas, competitors, markets, and offers faster with AI. Product Research AI helps entrepreneurs, marketers, agencies, and product creators turn raw ideas into clearer business opportunities. Instead of guessing whether a product is worth building or how it should be positioned, users can use AI to research the market, understand customer problems, analyze competitors, and shape a stronger offer. The app can help users explore product ideas, identify target customers, compare competitors, discover pain points, generate feature ideas, create positioning angles, and organize research into a more useful product strategy.",
+    longDescription: "Research product ideas, competitors, markets, and offers faster with AI. Product Research AI helps entrepreneurs, marketers, agencies, and product creators turn raw ideas into clearer business opportunities. Instead of guessing whether a product is worth building or how it should be positioned, users can use AI to research the market, understand customer problems, analyze competitors, and shape a stronger offer. The ai-design-studio can help users explore product ideas, identify target customers, compare competitors, discover pain points, generate feature ideas, create positioning angles, and organize research into a more useful product strategy.",
     benefits: [
       "Faster product validation",
       "Market research automation",
@@ -1787,7 +1787,7 @@ export const enhancedAppDetails: Record<string, any> = {
   },
 };
 
-// Helper function to merge enhanced data with basic app data
+// Helper function to merge enhanced data with basic ai-design-studio data
 export function getEnhancedAppData(appId: string, basicData: any) {
   const enhanced = enhancedAppDetails[appId];
   if (!enhanced) {

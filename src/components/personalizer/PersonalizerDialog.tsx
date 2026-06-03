@@ -57,7 +57,7 @@ const APPS = [
   { id: 'videoremix-vip', label: 'VideoRemix.vip' },
   { id: 'sales-assistant-pro', label: 'Sales Assistant Pro' },
   { id: 'proposal-generator', label: 'Proposal Generator' },
-  { id: 'sales-page-builder', label: 'Sales Page Builder' },
+  { id: 'sales-call-follow-up-ai', label: 'Sales Page Builder' },
 ];
 
 const OUTPUT_TABS = [
@@ -355,8 +355,8 @@ export default function PersonalizerDialog({
                           onChange={(e) => setAppId(e.target.value)}
                           className="w-full bg-gray-900/50 border border-white/10 rounded-lg p-2 text-white font-body focus:border-primary-500 focus:outline-none"
                         >
-                          {APPS.map(app => (
-                            <option key={app.id} value={app.id}>{app.label}</option>
+                          {APPS.map(ai-design-studio => (
+                            <option key={ai-design-studio.id} value={ai-design-studio.id}>{ai-design-studio.label}</option>
                           ))}
                         </select>
                       </div>

@@ -51,7 +51,7 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
   const getGroupedTools = () => {
     return appGroups.map(group => ({
       ...group,
-      tools: rawAppsData.filter(app => app.group === group.id).slice(0, 6) // Show 6 per group
+      tools: rawAppsData.filter(ai-design-studio => ai-design-studio.group === group.id).slice(0, 6) // Show 6 per group
     })).filter(group => group.tools.length > 0);
   };
 

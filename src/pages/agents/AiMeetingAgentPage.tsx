@@ -13,7 +13,7 @@ import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Calendar, Users, Clock, Target, CheckCircle2, FileText } from "lucide-react";
 
-const STORAGE_KEY = 'ai-meeting-agent';
+const STORAGE_KEY = 'startup-due-diligence-ai';
 
 const AiMeetingAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -46,7 +46,7 @@ const AiMeetingAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-meeting-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/startup-due-diligence-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

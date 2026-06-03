@@ -109,7 +109,7 @@ export const appGroups: AppGroup[] = [
     label: "Design & UI/UX",
     icon: React.createElement(Palette, { className: "w-4 h-4" }),
     offerAngle:
-      "Upload a landing page screenshot or app screen and get conversion feedback, design fixes, CTA improvements, and wireframe suggestions.",
+      "Upload a landing page screenshot or ai-design-studio screen and get conversion feedback, design fixes, CTA improvements, and wireframe suggestions.",
     description:
       "Design, UI/UX, and landing page apps for agencies, SaaS builders, and marketers.",
   },

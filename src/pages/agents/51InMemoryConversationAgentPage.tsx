@@ -95,7 +95,7 @@ const Agent51InMemoryConversationAgentPage: React.FC = () => {
     <>
       <Helmet>
         <title>51InMemoryConversationAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use 5-1-in-memory-conversation-agent to automate tasks with AI." />
+        <meta name="description" content="Use ai-music-jingle-assistant to automate tasks with AI." />
       </Helmet>
 
       <main className="pt-24 pb-20">

@@ -28,10 +28,10 @@ describe("agentKeyRequirements", () => {
 
   describe("AGENT_KEY_REQUIREMENTS", () => {
     it("should have requirements for common agents", () => {
-      expect(AGENT_KEY_REQUIREMENTS["ai-reasoning-agent"]).toBeDefined();
-      expect(AGENT_KEY_REQUIREMENTS["chat-with-github"]).toBeDefined();
-      expect(AGENT_KEY_REQUIREMENTS["openai-research-agent"]).toBeDefined();
-      expect(AGENT_KEY_REQUIREMENTS["web-scraping-ai-agent"]).toBeDefined();
+      expect(AGENT_KEY_REQUIREMENTS["risk-decision-ai"]).toBeDefined();
+      expect(AGENT_KEY_REQUIREMENTS["github-repo-assistant"]).toBeDefined();
+      expect(AGENT_KEY_REQUIREMENTS["research-assistant-ai"]).toBeDefined();
+      expect(AGENT_KEY_REQUIREMENTS["lead-research-scraper-ai"]).toBeDefined();
     });
 
     it("should have a default fallback", () => {
@@ -42,8 +42,8 @@ describe("agentKeyRequirements", () => {
 
   describe("getAgentKeyRequirements", () => {
     it("should return correct requirements for known agent", () => {
-      const result = getAgentKeyRequirements("ai-reasoning-agent");
-      expect(result.agentSlug).toBe("ai-reasoning-agent");
+      const result = getAgentKeyRequirements("risk-decision-ai");
+      expect(result.agentSlug).toBe("risk-decision-ai");
       expect(result.requiredKeys).toContain("OPENAI_API_KEY");
     });
 
@@ -54,7 +54,7 @@ describe("agentKeyRequirements", () => {
     });
 
     it("should return complex requirements for research agent", () => {
-      const result = getAgentKeyRequirements("openai-research-agent");
+      const result = getAgentKeyRequirements("research-assistant-ai");
       expect(result.requiredKeys).toContain("OPENAI_API_KEY");
       expect(result.requiredKeys).toContain("EXA_API_KEY");
       expect(result.requiredKeys).toContain("FIRECRAWL_API_KEY");
@@ -67,7 +67,7 @@ describe("agentKeyRequirements", () => {
         OPENAI_API_KEY: "sk-test123",
         EXA_API_KEY: "exa-test123",
       };
-      const result = checkAgentKeys("openai-research-agent", storedKeys);
+      const result = checkAgentKeys("research-assistant-ai", storedKeys);
       expect(result.hasAllKeys).toBe(true);
       expect(result.missingKeys).toHaveLength(0);
     });
@@ -76,7 +76,7 @@ describe("agentKeyRequirements", () => {
       const storedKeys = {
         OPENAI_API_KEY: "sk-test123",
       };
-      const result = checkAgentKeys("openai-research-agent", storedKeys);
+      const result = checkAgentKeys("research-assistant-ai", storedKeys);
       expect(result.hasAllKeys).toBe(false);
       expect(result.missingKeys).toContain("EXA_API_KEY");
       expect(result.missingKeys).toContain("FIRECRAWL_API_KEY");
@@ -88,7 +88,7 @@ describe("agentKeyRequirements", () => {
         EXA_API_KEY: "exa-test",
         FIRECRAWL_API_KEY: "firecrawl-test",
       };
-      const result = checkAgentKeys("openai-research-agent", storedKeys);
+      const result = checkAgentKeys("research-assistant-ai", storedKeys);
       expect(result.hasAllKeys).toBe(false);
       expect(result.missingKeys).toContain("OPENAI_API_KEY");
     });

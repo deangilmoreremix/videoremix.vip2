@@ -6,11 +6,11 @@
  * individual Netlify deployments (with videoremix.vip custom domains).
  */
 export const INTERNAL_AI_APP_SLUGS = new Set([
-  "ai-sales-intelligence-pro",
+  "ai-sales-email-writer-intelligence-pro",
   "lead-research-scraper-ai",
   "ai-business-growth-consultant",
   "ai-strategy-advisor",
-  "ai-sales-email-writer",
+  "ai-sales-email-writer-email-writer",
   "ai-offer-decision-helper",
   "launch-campaign-builder-ai",
   "competitor-spy-ai",
@@ -74,7 +74,7 @@ export const INTERNAL_AI_APP_SLUGS = new Set([
   "claim-checker-ai",
   "fraud-investigation-assistant",
   "risk-decision-ai",
-  "ai-app-builder-assistant",
+  "ai-ai-design-studio-builder-assistant",
   "ai-saas-architect",
   "ai-code-review-pro",
   "ai-bug-fixer",

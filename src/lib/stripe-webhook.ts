@@ -81,7 +81,7 @@ export async function handleStripeWebhook(req: Request, res: Response) {
               console.log(`Granted bundle access to ${CONVERTED_LLM_AGENT_APPS.length} apps`);
             }
           } else {
-            // Grant access to single app
+            // Grant access to single ai-design-studio
             const { error: accessError } = await supabase
               .from('user_app_access')
               .insert({
@@ -94,7 +94,7 @@ export async function handleStripeWebhook(req: Request, res: Response) {
               });
 
             if (accessError) {
-              console.error('Error granting single app access:', accessError);
+              console.error('Error granting single ai-design-studio access:', accessError);
             } else {
               console.log(`Granted access to ${appId}`);
             }

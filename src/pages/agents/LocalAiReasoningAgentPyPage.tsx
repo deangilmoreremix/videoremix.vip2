@@ -31,7 +31,7 @@ const LocalAiReasoningAgentPyPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/local-ai-reasoning-agent-py`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/local-risk-decision-ai-py`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -56,7 +56,7 @@ const LocalAiReasoningAgentPyPage: React.FC = () => {
     <>
       <Helmet>
         <title>LocalAiReasoningAgentPy - VideoRemix.vip</title>
-        <meta name="description" content="Use local-ai-reasoning-agent-py to automate tasks with AI." />
+        <meta name="description" content="Use local-risk-decision-ai-py to automate tasks with AI." />
       </Helmet>
 
       <main className="pt-24 pb-20">

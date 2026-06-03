@@ -5,7 +5,7 @@
 import type { ExtendedSalesCopy } from './appSalesCopy';
 
 export const extendedSalesCopy: Record<string, any> = {
-  "ai-personalizedcontent": {
+  "ai-sales-email-writer-intelligence-pro": {
     "tagline": "Transform Your Video with AI Sales Intelligence Pro",
     "summary": "AI Sales Intelligence Pro revolutionizes video workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Sales Intelligence Pro leverages advanced AI to streamline video processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in video creation.",
@@ -49,7 +49,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "video-ai-editor": {
+  "lead-research-scraper-ai": {
     "tagline": "Transform Your Video with Lead Research Scraper AI",
     "summary": "Lead Research Scraper AI revolutionizes video workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Lead Research Scraper AI leverages advanced AI to streamline video processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in video creation.",
@@ -93,7 +93,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-video-image": {
+  "ai-business-growth-consultant": {
     "tagline": "Transform Your AI Image with AI Business Growth Consultant",
     "summary": "AI Business Growth Consultant revolutionizes ai image workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Business Growth Consultant leverages advanced AI to streamline ai image processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai image creation.",
@@ -137,7 +137,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-referral-maximizer": {
+  "ai-strategy-advisor": {
     "tagline": "Transform Your Lead Gen with AI Strategy Advisor",
     "summary": "AI Strategy Advisor revolutionizes lead gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Strategy Advisor leverages advanced AI to streamline lead gen processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in lead gen creation.",
@@ -181,7 +181,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-sales": {
+  "ai-sales-email-writer-email-writer": {
     "tagline": "Transform Your Lead Gen with AI Sales Email Writer",
     "summary": "AI Sales Email Writer revolutionizes lead gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Sales Email Writer leverages advanced AI to streamline lead gen processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in lead gen creation.",
@@ -225,7 +225,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "smart-crm-closer": {
+  "ai-offer-decision-helper": {
     "tagline": "Transform Your Lead Gen with AI Offer Decision Helper",
     "summary": "AI Offer Decision Helper revolutionizes lead gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Offer Decision Helper leverages advanced AI to streamline lead gen processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in lead gen creation.",
@@ -269,7 +269,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "funnelcraft-ai": {
+  "launch-campaign-builder-ai": {
     "tagline": "Transform Your Lead Gen with Launch Campaign Builder AI",
     "summary": "Launch Campaign Builder AI revolutionizes lead gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Launch Campaign Builder AI leverages advanced AI to streamline lead gen processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in lead gen creation.",
@@ -313,7 +313,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-proposal": {
+  "competitor-spy-ai": {
     "tagline": "Transform Your Lead Gen with Competitor Spy AI",
     "summary": "Competitor Spy AI revolutionizes lead gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Competitor Spy AI leverages advanced AI to streamline lead gen processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in lead gen creation.",
@@ -357,7 +357,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "sales-assistant-app": {
+  "ai-agency-builder-suite": {
     "tagline": "Transform Your Lead Gen with AI Dictation Assistant",
     "summary": "AI Dictation Assistant revolutionizes lead gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Dictation Assistant leverages advanced AI to streamline lead gen processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in lead gen creation.",
@@ -401,7 +401,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "sales-page-builder": {
+  "sales-call-follow-up-ai": {
     "tagline": "Transform Your Lead Gen with Sales Call Follow-Up AI",
     "summary": "Sales Call Follow-Up AI revolutionizes lead gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Sales Call Follow-Up AI leverages advanced AI to streamline lead gen processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in lead gen creation.",
@@ -445,7 +445,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "personalizer-recorder": {
+  "blog-to-podcast-ai": {
     "tagline": "Transform Your Personalizer with Blog To Podcast AI",
     "summary": "Blog To Podcast AI revolutionizes personalizer workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Blog To Podcast AI leverages advanced AI to streamline personalizer processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in personalizer creation.",
@@ -489,7 +489,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-skills-monetizer": {
+  "daily-content-engine-ai": {
     "tagline": "Transform Your Personalizer with Daily Content Engine AI",
     "summary": "Daily Content Engine AI revolutionizes personalizer workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Daily Content Engine AI leverages advanced AI to streamline personalizer processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in personalizer creation.",
@@ -533,7 +533,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-signature": {
+  "ai-content-creator-pro": {
     "tagline": "Transform Your Personalizer with AI Content Creator Pro",
     "summary": "AI Content Creator Pro revolutionizes personalizer workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Content Creator Pro leverages advanced AI to streamline personalizer processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in personalizer creation.",
@@ -577,7 +577,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-template-generator": {
+  "ai-content-editor": {
     "tagline": "Transform Your Creative with AI Content Editor",
     "summary": "AI Content Editor revolutionizes creative workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Content Editor leverages advanced AI to streamline creative processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in creative creation.",
@@ -621,7 +621,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "personalizer-profile": {
+  "ai-documentation-writer": {
     "tagline": "Transform Your Personalizer with AI Documentation Writer",
     "summary": "AI Documentation Writer revolutionizes personalizer workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Documentation Writer leverages advanced AI to streamline personalizer processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in personalizer creation.",
@@ -665,7 +665,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "personalizer-video-image-transformer": {
+  "youtube-repurposer-ai": {
     "tagline": "Transform Your AI Image with YouTube Repurposer AI",
     "summary": "YouTube Repurposer AI revolutionizes ai image workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "YouTube Repurposer AI leverages advanced AI to streamline ai image processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai image creation.",
@@ -709,7 +709,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "personalizer-url-video-generation": {
+  "newsletter-repurposer-ai": {
     "tagline": "Transform Your Video with Newsletter Repurposer AI",
     "summary": "Newsletter Repurposer AI revolutionizes video workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Newsletter Repurposer AI leverages advanced AI to streamline video processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in video creation.",
@@ -753,7 +753,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "1-starter-agent": {
+  "ai-news-content-writer": {
     "tagline": "Transform Your AI Agents with AI News Content Writer",
     "summary": "AI News Content Writer revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI News Content Writer leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -797,7 +797,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "4-running-agents": {
+  "ai-video-script-producer": {
     "tagline": "Transform Your AI Agents with AI Video Script Producer",
     "summary": "AI Video Script Producer revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Video Script Producer leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -841,7 +841,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "5-1-in-memory-conversation-agent": {
+  "ai-music-jingle-assistant": {
     "tagline": "Transform Your AI Agents with AI Music & Jingle Assistant",
     "summary": "AI Music & Jingle Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Music & Jingle Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -885,7 +885,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "5-2-persistent-conversation-agent": {
+  "ai-film-producer": {
     "tagline": "Transform Your AI Agents with AI Film Producer",
     "summary": "AI Film Producer revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Film Producer leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -929,7 +929,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "6-1-agent-lifecycle-callbacks": {
+  "podcast-creator-ai": {
     "tagline": "Transform Your AI Agents with Podcast Creator AI",
     "summary": "Podcast Creator AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Podcast Creator AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -973,7 +973,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "6-2-ai-interaction-callbacks": {
+  "news-to-podcast-ai": {
     "tagline": "Transform Your AI Agents with News-To-Podcast AI",
     "summary": "News-To-Podcast AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "News-To-Podcast AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1017,7 +1017,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "6-3-tool-execution-callbacks": {
+  "ai-voice-support-agent": {
     "tagline": "Transform Your AI Agents with AI Voice Support Agent",
     "summary": "AI Voice Support Agent revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Voice Support Agent leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1061,7 +1061,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "7-plugins": {
+  "talk-to-your-business-ai": {
     "tagline": "Transform Your AI Agents with Talk To Your Business AI",
     "summary": "Talk To Your Business AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Talk To Your Business AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1105,7 +1105,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "7-sessions": {
+  "ai-audio-guide-creator": {
     "tagline": "Transform Your AI Agents with AI Audio Guide Creator",
     "summary": "AI Audio Guide Creator revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Audio Guide Creator leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1149,7 +1149,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "9-1-sequential-agent": {
+  "ai-intake-voice-agent": {
     "tagline": "Transform Your AI Agents with AI Intake Voice Agent",
     "summary": "AI Intake Voice Agent revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Intake Voice Agent leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1193,7 +1193,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "9-2-loop-agent": {
+  "ai-dictation-assistant": {
     "tagline": "Transform Your AI Agents with AI Dictation Assistant",
     "summary": "AI Dictation Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Dictation Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1237,7 +1237,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "9-3-parallel-agent": {
+  "business-knowledgebase-ai": {
     "tagline": "Transform Your AI Agents with Business Knowledgebase AI",
     "summary": "Business Knowledgebase AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Business Knowledgebase AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1281,7 +1281,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ag2-adaptive-research-team": {
+  "pdf-business-assistant": {
     "tagline": "Transform Your AI Agents with PDF Business Assistant",
     "summary": "PDF Business Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "PDF Business Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1325,7 +1325,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "agentic-rag-embedding-gemma": {
+  "research-paper-assistant": {
     "tagline": "Transform Your AI Agents with Research Paper Assistant",
     "summary": "Research Paper Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Research Paper Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1369,7 +1369,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "agentic-rag-gpt5": {
+  "codebase-chat-ai": {
     "tagline": "Transform Your AI Agents with Codebase Chat AI",
     "summary": "Codebase Chat AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Codebase Chat AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1413,7 +1413,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "agentic-rag-with-reasoning": {
+  "gmail-intelligence-ai": {
     "tagline": "Transform Your AI Agents with Gmail Intelligence AI",
     "summary": "Gmail Intelligence AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Gmail Intelligence AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1457,7 +1457,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-3dpygame-r1": {
+  "video-knowledge-assistant": {
     "tagline": "Transform Your AI Agents with Video Knowledge Assistant",
     "summary": "Video Knowledge Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Video Knowledge Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1501,7 +1501,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-aqi-analysis-agent": {
+  "blog-knowledge-search-ai": {
     "tagline": "Transform Your AI Agents with Blog Knowledge Search AI",
     "summary": "Blog Knowledge Search AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Blog Knowledge Search AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1545,7 +1545,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-arxiv-agent-memory": {
+  "research-memory-assistant": {
     "tagline": "Transform Your AI Agents with Research Memory Assistant",
     "summary": "Research Memory Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Research Memory Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1589,7 +1589,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-audio-tour-agent": {
+  "ai-audio-guide-creator": {
     "tagline": "Transform Your AI Agents with Local Tour Guide AI",
     "summary": "Local Tour Guide AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Local Tour Guide AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1633,7 +1633,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-blog-search": {
+  "blog-knowledge-search-ai": {
     "tagline": "Transform Your AI Agents with Blog Knowledge Search AI",
     "summary": "Blog Knowledge Search AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Blog Knowledge Search AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1677,7 +1677,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-blog-to-podcast-agent": {
+  "ai-dashboard-designer-ai": {
     "tagline": "Transform Your AI Agents with Podcast Creator AI",
     "summary": "Podcast Creator AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Podcast Creator AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1721,7 +1721,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-breakup-recovery-agent": {
+  "multimodal-knowledge-ai": {
     "tagline": "Transform Your AI Agents with Multimodal Knowledge AI",
     "summary": "Multimodal Knowledge AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Multimodal Knowledge AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1765,7 +1765,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-chess-agent": {
+  "ai-knowledgebase-debugger": {
     "tagline": "Transform Your AI Agents with AI Knowledgebase Debugger",
     "summary": "AI Knowledgebase Debugger revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Knowledgebase Debugger leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1809,7 +1809,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-competitor-intelligence-agent-team": {
+  "competitor-spy-ai": {
     "tagline": "Transform Your AI Agents with Competitor Spy AI",
     "summary": "Competitor Spy AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Competitor Spy AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1853,7 +1853,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-customer-support-agent": {
+  "home-renovation-visualizer-ai": {
     "tagline": "Transform Your AI Agents with Home Renovation Visualizer AI",
     "summary": "Home Renovation Visualizer AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Home Renovation Visualizer AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1897,7 +1897,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-data-analysis-agent": {
+  "local-business-analytics-ai": {
     "tagline": "Transform Your AI Agents with Revenue Data Analyst AI",
     "summary": "Revenue Data Analyst AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Revenue Data Analyst AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1941,7 +1941,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-data-visualisation-agent": {
+  "local-tour-guide-ai": {
     "tagline": "Transform Your AI Agents with Local Tour Guide AI",
     "summary": "Local Tour Guide AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Local Tour Guide AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -1985,7 +1985,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-deep-research-agent": {
+  "deep-research-pro": {
     "tagline": "Transform Your AI Agents with Deep Research Pro",
     "summary": "Deep Research Pro revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Deep Research Pro leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2029,7 +2029,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-domain-deep-research-agent": {
+  "local-business-growth-advisor": {
     "tagline": "Transform Your AI Agents with Local Business Growth Advisor",
     "summary": "Local Business Growth Advisor revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Local Business Growth Advisor leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2073,7 +2073,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-email-gtm-outreach-agent": {
+  "candidate-outreach-ai": {
     "tagline": "Transform Your AI Agents with Local Business Analytics AI",
     "summary": "Local Business Analytics AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Local Business Analytics AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2117,7 +2117,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-email-gtm-reachout-agent": {
+  "candidate-outreach-ai": {
     "tagline": "Transform Your AI Agents with AI Hiring Assistant",
     "summary": "AI Hiring Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Hiring Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2161,7 +2161,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-financial-coach-agent": {
+  "profit-coach-ai": {
     "tagline": "Transform Your AI Agents with Profit Coach AI",
     "summary": "Profit Coach AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Profit Coach AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2205,7 +2205,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-product-launch-intelligence-agent": {
+  "launch-campaign-builder-ai": {
     "tagline": "Transform Your AI Agents with Launch Campaign Builder AI",
     "summary": "Launch Campaign Builder AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Launch Campaign Builder AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2249,7 +2249,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-fraud-investigation-agent": {
+  "fraud-investigation-assistant": {
     "tagline": "Transform Your AI Agents with Fraud Investigation Assistant",
     "summary": "Fraud Investigation Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Fraud Investigation Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2293,7 +2293,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-game-design-agent-team": {
+  "interview-summary-ai": {
     "tagline": "Transform Your AI Agents with Interview Summary AI",
     "summary": "Interview Summary AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Interview Summary AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2337,7 +2337,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-health-fitness-agent": {
+  "hiring-plan-builder": {
     "tagline": "Transform Your AI Agents with Hiring Plan Builder",
     "summary": "Hiring Plan Builder revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Hiring Plan Builder leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2381,7 +2381,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-journalist-agent": {
+  "ai-news-content-writer": {
     "tagline": "Transform Your AI Agents with AI News Content Writer",
     "summary": "AI News Content Writer revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI News Content Writer leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2425,7 +2425,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-legal-agent-team": {
+  "contract-summary-ai": {
     "tagline": "Transform Your AI Agents with Contract Summary AI",
     "summary": "Contract Summary AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Contract Summary AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2469,7 +2469,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-life-insurance-advisor-agent": {
+  "ai-intake-voice-agent": {
     "tagline": "Transform Your AI Agents with Profit Coach AI",
     "summary": "Profit Coach AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Profit Coach AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2513,7 +2513,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-medical-imaging-agent": {
+  "investment-research-assistant": {
     "tagline": "Transform Your AI Agents with Investement Research Assistant",
     "summary": "Investement Research Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Investement Research Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2557,7 +2557,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-meeting-agent": {
+  "startup-due-diligence-ai": {
     "tagline": "Transform Your AI Agents with Startup Due Diligence AI",
     "summary": "Startup Due Diligence AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Startup Due Diligence AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2601,7 +2601,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-meme-generator-agent-browseruse": {
+  "revenue-data-analyst-ai": {
     "tagline": "Transform Your AI Agents with Revenue Data Analyst AI",
     "summary": "Revenue Data Analyst AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Revenue Data Analyst AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2645,7 +2645,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-mental-wellbeing-agent": {
+  "financial-dashboard-ai": {
     "tagline": "Transform Your AI Agents with Financial Dashboard AI",
     "summary": "Financial Dashboard AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Financial Dashboard AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2689,7 +2689,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-movie-production-agent": {
+  "ai-video-script-producer": {
     "tagline": "Transform Your AI Agents with AI Film Producer",
     "summary": "AI Film Producer revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Film Producer leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2733,7 +2733,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-music-generator-agent": {
+  "ai-music-jingle-assistant": {
     "tagline": "Transform Your AI Agents with AI Music & Jingle Assistant",
     "summary": "AI Music & Jingle Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Music & Jingle Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2777,7 +2777,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-personal-finance-agent": {
+  "policy-compliance-assistant": {
     "tagline": "Transform Your AI Agents with Policy & Compliance Assistant",
     "summary": "Policy & Compliance Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Policy & Compliance Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2821,7 +2821,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-real-estate-agent-team": {
+  "real-estate-marketing-ai": {
     "tagline": "Transform Your AI Agents with Real Estate Marketing AI",
     "summary": "Real Estate Marketing AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Real Estate Marketing AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2865,7 +2865,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-reasoning-agent": {
+  "risk-decision-ai": {
     "tagline": "Transform Your AI Agents with Fraud Investigation Assistant",
     "summary": "Fraud Investigation Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Fraud Investigation Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2909,7 +2909,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-recipe-meal-planning-agent": {
+  "risk-decision-ai": {
     "tagline": "Transform Your AI Agents with Risk Decision AI",
     "summary": "Risk Decision AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Risk Decision AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2953,7 +2953,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-recruitment-agent-team": {
+  "ai-hiring-assistant": {
     "tagline": "Transform Your AI Agents with AI Hiring Assistant",
     "summary": "AI Hiring Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Hiring Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -2997,7 +2997,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-services-agency": {
+  "ai-agency-builder-suite": {
     "tagline": "Transform Your AI Agents with AI Agency Builder Suite",
     "summary": "AI Agency Builder Suite revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Agency Builder Suite leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3041,7 +3041,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-startup-insight-fire1-agent": {
+  "ai-code-review-pro": {
     "tagline": "Transform Your AI Agents with AI Code Review Pro",
     "summary": "AI Code Review Pro revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Code Review Pro leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3085,7 +3085,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-startup-trend-analysis-agent": {
+  "ai-bug-fixer": {
     "tagline": "Transform Your AI Agents with AI Bug Fixer",
     "summary": "AI Bug Fixer revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Bug Fixer leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3129,7 +3129,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-system-architect-r1": {
+  "ai-fullstack-builder": {
     "tagline": "Transform Your AI Agents with AI SaaS Architect",
     "summary": "AI SaaS Architect revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI SaaS Architect leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3173,7 +3173,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-teaching-agent-team": {
+  "ai-course-creator-assistant": {
     "tagline": "Transform Your AI Agents with AI Course Creator Assistant",
     "summary": "AI Course Creator Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Course Creator Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3217,7 +3217,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-tic-tac-toe-agent": {
+  "github-repo-assistant": {
     "tagline": "Transform Your AI Agents with GitHub Repo Assistant",
     "summary": "GitHub Repo Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "GitHub Repo Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3305,7 +3305,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-travel-agent-memory": {
+  "build-plan-generator": {
     "tagline": "Transform Your AI Agents with Travel Concierge AI",
     "summary": "Travel Concierge AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Travel Concierge AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3349,7 +3349,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-travel-planner-mcp-agent-team": {
+  "travel-planner-ai": {
     "tagline": "Transform Your AI Agents with Travel Planner AI",
     "summary": "Travel Planner AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Travel Planner AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3393,7 +3393,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "app": {
+  "ai-design-studio": {
     "tagline": "Transform Your AI Agents with AI Design Studio",
     "summary": "AI Design Studio revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Design Studio leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3437,7 +3437,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "autonomous-rag": {
+  "landing-page-critic-ai": {
     "tagline": "Transform Your AI Agents with Landing Page Critic AI",
     "summary": "Landing Page Critic AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Landing Page Critic AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3481,7 +3481,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "blog-to-podcast-agent": {
+  "dashboard-designer-ai": {
     "tagline": "Transform Your AI Agents with AI UX Designer",
     "summary": "AI UX Designer revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI UX Designer leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3569,7 +3569,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "chat-with-github": {
+  "github-repo-assistant": {
     "tagline": "Transform Your AI Agents with GitHub Repo Assistant",
     "summary": "GitHub Repo Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "GitHub Repo Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3613,7 +3613,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "chat-with-gmail": {
+  "gmail-intelligence-ai": {
     "tagline": "Transform Your AI Agents with Email Memory Assistant",
     "summary": "Email Memory Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Email Memory Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3657,7 +3657,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "chat-with-pdf": {
+  "pdf-business-assistant": {
     "tagline": "Transform Your AI Agents with Legal PDF Explainer",
     "summary": "Legal PDF Explainer revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Legal PDF Explainer leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3701,7 +3701,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "chat-with-research-papers": {
+  "research-paper-assistant": {
     "tagline": "Transform Your AI Agents with Research Paper Assistant",
     "summary": "Research Paper Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Research Paper Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3745,7 +3745,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "chat-with-substack": {
+  "newsletter-repurposer-ai": {
     "tagline": "Transform Your AI Agents with Newsletter Repurposer AI",
     "summary": "Newsletter Repurposer AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Newsletter Repurposer AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3789,7 +3789,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "chat-with-tarots": {
+  "academic-research-ai": {
     "tagline": "Transform Your AI Agents with AI Course Creator Assistant",
     "summary": "AI Course Creator Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Course Creator Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3833,7 +3833,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "chat-with-youtube-videos": {
+  "video-knowledge-assistant": {
     "tagline": "Transform Your AI Agents with Video Knowledge Assistant",
     "summary": "Video Knowledge Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Video Knowledge Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3877,7 +3877,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "contextualai-rag-agent": {
+  "market-research-ai": {
     "tagline": "Transform Your AI Agents with Market Research AI",
     "summary": "Market Research AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Market Research AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3921,7 +3921,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "corrective-rag": {
+  "fact-check-ai": {
     "tagline": "Transform Your AI Agents with Fact Check AI",
     "summary": "Fact Check AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Fact Check AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -3965,7 +3965,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "cursor-ai-experiments": {
+  "personal-ai-memory-assistant": {
     "tagline": "Transform Your AI Agents with Research Memory Assistant",
     "summary": "Research Memory Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Research Memory Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -4009,7 +4009,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "customer-support-voice-agent": {
+  "local-business-voice-assistant": {
     "tagline": "Transform Your AI Agents with Local Business Voice Assistant",
     "summary": "Local Business Voice Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Local Business Voice Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -4053,7 +4053,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "deepseek-local-rag-agent": {
+  "multi-ai-memory-hub": {
     "tagline": "Transform Your AI Agents with Multi-AI Memory Hub",
     "summary": "Multi-AI Memory Hub revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Multi-AI Memory Hub leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -4097,7 +4097,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "devpulse-ai": {
+  "personal-ai-memory-assistant": {
     "tagline": "Transform Your AI Agents with Private AI Chat With Memory",
     "summary": "Private AI Chat With Memory revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Private AI Chat With Memory leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -4141,7 +4141,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "frontend": {
+  "private-chatgpt-clone": {
     "tagline": "Transform Your AI Agents with Private ChatGPT Clone",
     "summary": "Private ChatGPT Clone revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Private ChatGPT Clone leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -4229,7 +4229,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "github-mcp-agent": {
+  "github-automation-agent": {
     "tagline": "Transform Your AI Agents with GitHub Automation Agent",
     "summary": "GitHub Automation Agent revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "GitHub Automation Agent leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -4317,7 +4317,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "hybrid-search-rag": {
+  "smart-search-ai": {
     "tagline": "Transform Your AI Agents with Smart Search AI",
     "summary": "Smart Search AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Smart Search AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -4361,7 +4361,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "local-ai-reasoning-agent-py": {
+  "local-risk-decision-ai-py": {
     "tagline": "Transform Your AI Agents with Expert Local AI Reasoning Agent Py Studio",
     "summary": "Expert Local AI Reasoning Agent Py Studio revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Expert Local AI Reasoning Agent Py Studio leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -4581,7 +4581,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "blog-to-podcast-agent-": {
+  "dashboard-designer-ai-": {
     "tagline": "Transform Your AI Agents with Content Intelligence Blog To Podcast Agent",
     "summary": "Content Intelligence Blog To Podcast Agent revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Content Intelligence Blog To Podcast Agent leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -4801,7 +4801,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-router-app": {
+  "ai-router-ai-design-studio": {
     "tagline": "Transform Your AI Agents with Expert Router App Engine",
     "summary": "Expert Router App Engine revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Expert Router App Engine leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -4845,7 +4845,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "local-ai-legal-agent-team": {
+  "local-contract-summary-ai": {
     "tagline": "Transform Your AI Agents with Professional Local AI Legal Agent Team Studio",
     "summary": "Professional Local AI Legal Agent Team Studio revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Professional Local AI Legal Agent Team Studio leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -4977,7 +4977,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "local-hybrid-search-rag": {
+  "local-smart-search-ai": {
     "tagline": "Transform Your AI Agents with Research Intelligence Local Hybrid Search RAG",
     "summary": "Research Intelligence Local Hybrid Search RAG revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Research Intelligence Local Hybrid Search RAG leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -5329,7 +5329,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "multimodal-coding-agent-team": {
+  "ai-app-builder-assistant": {
     "tagline": "Transform Your AI Agents with AI App Builder Assistant",
     "summary": "AI App Builder Assistant revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI App Builder Assistant leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -5373,7 +5373,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "multimodal-design-agent-team": {
+  "ai-design-studio": {
     "tagline": "Transform Your AI Agents with AI Design Studio",
     "summary": "AI Design Studio revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Design Studio leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -5461,7 +5461,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "openai-research-agent": {
+  "research-assistant-ai": {
     "tagline": "Transform Your AI Agents with Research Assistant AI",
     "summary": "Research Assistant AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Research Assistant AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -5549,7 +5549,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "rag-as-a-service": {
+  "business-knowledgebase-ai": {
     "tagline": "Transform Your AI Agents with Business Knowledgebase AI",
     "summary": "Business Knowledgebase AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Business Knowledgebase AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -5989,7 +5989,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "web-scraping-ai-agent": {
+  "lead-research-scraper-ai": {
     "tagline": "Transform Your AI Agents with Lead Research Scraper AI",
     "summary": "Lead Research Scraper AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Lead Research Scraper AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",
@@ -6033,7 +6033,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "xai-finance-agent": {
+  "finance-research-ai": {
     "tagline": "Transform Your AI Agents with Finance Research AI",
     "summary": "Finance Research AI revolutionizes ai agents workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "Finance Research AI leverages advanced AI to streamline ai agents processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in ai agents creation.",

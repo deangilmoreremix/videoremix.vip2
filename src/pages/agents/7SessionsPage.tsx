@@ -39,7 +39,7 @@ const Agent7SessionsPage: React.FC = () => {
     <>
       <Helmet>
         <title>7Sessions - VideoRemix.vip</title>
-        <meta name="description" content="Use 7-sessions to automate tasks with AI." />
+        <meta name="description" content="Use ai-audio-guide-creator to automate tasks with AI." />
       </Helmet>
 
       <main className="pt-24 pb-20">

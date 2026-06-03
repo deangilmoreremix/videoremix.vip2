@@ -12,7 +12,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 
-const STORAGE_KEY = 'blog-to-podcast-agent-form';
+const STORAGE_KEY = 'dashboard-designer-ai-form';
 
 const BlogToPodcastAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -43,7 +43,7 @@ const BlogToPodcastAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/blog-to-podcast-agent-`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/dashboard-designer-ai-`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
@@ -69,7 +69,7 @@ const BlogToPodcastAgentPage: React.FC = () => {
     <>
       <Helmet>
         <title>BlogToPodcastAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use blog-to-podcast-agent to convert blog posts into podcast audio." />
+        <meta name="description" content="Use dashboard-designer-ai to convert blog posts into podcast audio." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

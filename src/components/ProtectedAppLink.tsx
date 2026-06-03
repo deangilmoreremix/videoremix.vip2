@@ -53,7 +53,7 @@ const ProtectedAppLink: React.FC<ProtectedAppLinkProps> = ({
         }
       }
     } catch (error) {
-      console.error("Error checking app access:", error);
+      console.error("Error checking ai-design-studio access:", error);
       if (onPurchaseRequired) {
         onPurchaseRequired();
       }

@@ -20,7 +20,7 @@ const AiStartupInsightFire1AgentPage: React.FC = () => {
   const handleSubmit = async (tabKey: string, data: any) => {
     setLoading(tabKey);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-startup-insight-fire1-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-code-review-pro`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...data, mode: tabKey, userId: user?.id })
@@ -39,7 +39,7 @@ const AiStartupInsightFire1AgentPage: React.FC = () => {
     <>
       <Helmet>
         <title>AiStartupInsightFire1Agent - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-startup-insight-fire1-agent to automate tasks with AI." />
+        <meta name="description" content="Use ai-code-review-pro to automate tasks with AI." />
       </Helmet>
 
       <main className="pt-24 pb-20">

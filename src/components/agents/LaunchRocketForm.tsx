@@ -34,7 +34,7 @@ type LaunchIntelligenceForm = z.infer<typeof launchIntelligenceSchema>;
 
 const marketOptions = [
   { value: 'b2b-saas', label: 'B2B SaaS' },
-  { value: 'consumer-app', label: 'Consumer App' },
+  { value: 'consumer-ai-design-studio', label: 'Consumer App' },
   { value: 'hardware', label: 'Hardware/IoT' },
   { value: 'marketplace', label: 'Marketplace' },
   { value: 'fintech', label: 'Fintech' },

@@ -13,7 +13,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
 
-const STORAGE_KEY = 'ai-life-insurance-advisor-agent';
+const STORAGE_KEY = 'ai-intake-voice-agent';
 
 const CURRENCY_OPTIONS = [
   { value: "USD", label: "USD - US Dollar" },
@@ -91,7 +91,7 @@ const AiLifeInsuranceAdvisorAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-life-insurance-advisor-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-intake-voice-agent`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -289,7 +289,7 @@ const _legacyTools = [
   },
 ];
 
-// Map legacy tool IDs to app slugs for featured collections
+// Map legacy tool IDs to ai-design-studio slugs for featured collections
 const featuredToolIds = [
   "ai-creative-studio",
   "ai-image",
@@ -310,17 +310,17 @@ const featuredCollections = [
   {
     title: "Visual Content Creation",
     description: "Transform ideas into stunning visual content",
-    tools: ["ai-art", "bg-remover", "ai-video-image", "thumbnail-generator"],
+    tools: ["ai-art", "bg-remover", "ai-business-growth-consultant", "thumbnail-generator"],
     icon: <Palette className="h-10 w-10 text-purple-400" />,
   },
   {
     title: "Sales Acceleration",
     description: "Close more deals with intelligent sales tools",
     tools: [
-      "smart-crm-closer",
-      "funnelcraft-ai",
-      "sales-assistant-app",
-      "ai-referral-maximizer",
+      "ai-offer-decision-helper",
+      "launch-campaign-builder-ai",
+      "ai-agency-builder-suite",
+      "ai-strategy-advisor",
     ],
     icon: <ShoppingCart className="h-10 w-10 text-green-400" />,
   },
@@ -746,7 +746,7 @@ const ToolsHubPage: React.FC = () => {
             setPurchaseModalOpen(false);
             setSelectedApp(null);
           }}
-          app={selectedApp}
+          ai-design-studio={selectedApp}
         />
       )}
 

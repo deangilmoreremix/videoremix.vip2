@@ -480,7 +480,7 @@ const faqData = [
   {
     question: "My problem isn't listed here. How do I get help?",
     answer:
-      "Our support team is ready to help! For technical issues, please visit our Help Center for detailed guides or contact support directly through the chat icon in the bottom right corner of the app. You can also email support@videoremix.vip with details about your issue. Pro and Business users receive priority support with faster response times.",
+      "Our support team is ready to help! For technical issues, please visit our Help Center for detailed guides or contact support directly through the chat icon in the bottom right corner of the ai-design-studio. You can also email support@videoremix.vip with details about your issue. Pro and Business users receive priority support with faster response times.",
     category: "troubleshooting",
   },
 

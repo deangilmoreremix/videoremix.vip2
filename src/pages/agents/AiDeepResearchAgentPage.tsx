@@ -13,7 +13,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
 
-const STORAGE_KEY = 'ai-deep-research-agent';
+const STORAGE_KEY = 'deep-research-pro';
 
 const AiDeepResearchAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -49,7 +49,7 @@ const AiDeepResearchAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-deep-research-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/deep-research-pro`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

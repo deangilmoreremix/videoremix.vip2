@@ -15,7 +15,7 @@ import { FormSection } from "@/components/agent-ui/FormSection";
 import { FileUploadZone } from "@/components/agent-ui/FileUploadZone";
 import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
 
-const STORAGE_KEY = 'chat-with-pdf-form';
+const STORAGE_KEY = 'pdf-business-assistant-form';
 
 const ChatWithPdfPage: React.FC = () => {
   const { user } = useAuth();
@@ -61,7 +61,7 @@ const ChatWithPdfPage: React.FC = () => {
       formData.append('file', file);
       formData.append('upload_a_pdf_file', textValues.upload_a_pdf_file || '');
       formData.append('ask_a_question_about_the_pdf', textValues.ask_a_question_about_the_pdf || '');
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-with-pdf`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/pdf-business-assistant`, {
         method: 'POST',
         body: formData
       });
@@ -88,7 +88,7 @@ const ChatWithPdfPage: React.FC = () => {
     <>
       <Helmet>
         <title>ChatWithPdf - VideoRemix.vip</title>
-        <meta name="description" content="Use chat-with-pdf to ask questions about your PDF documents." />
+        <meta name="description" content="Use pdf-business-assistant to ask questions about your PDF documents." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

@@ -22,7 +22,7 @@ const AiChessAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chess-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-knowledgebase-debugger`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
@@ -41,7 +41,7 @@ const AiChessAgentPage: React.FC = () => {
     <>
       <Helmet>
         <title>AiChessAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-chess-agent to play chess with AI." />
+        <meta name="description" content="Use ai-knowledgebase-debugger to play chess with AI." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

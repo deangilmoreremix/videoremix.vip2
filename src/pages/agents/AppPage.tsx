@@ -20,7 +20,7 @@ const AppPage: React.FC = () => {
   const handleSubmit = async (tabKey: string, data: any) => {
     setLoading(tabKey);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/app`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-design-studio`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...data, mode: tabKey, userId: user?.id })
@@ -39,14 +39,14 @@ const AppPage: React.FC = () => {
     <>
       <Helmet>
         <title>App - VideoRemix.vip</title>
-        <meta name="description" content="Use app to automate tasks with AI." />
+        <meta name="description" content="Use ai-design-studio to automate tasks with AI." />
       </Helmet>
 
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-4">App</h1>
-            <p className="text-xl text-gray-400">AI-powered app.</p>
+            <p className="text-xl text-gray-400">AI-powered ai-design-studio.</p>
           </motion.div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="max-w-4xl mx-auto">

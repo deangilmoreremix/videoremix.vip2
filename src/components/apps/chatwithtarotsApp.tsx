@@ -30,7 +30,7 @@ export const chatwithtarotsApp: React.FC<chatwithtarotsAppProps> = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">chat-with-tarots</h1>
+      <h1 className="text-2xl font-bold mb-6">academic-research-ai</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <Select

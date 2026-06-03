@@ -13,7 +13,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 
-const STORAGE_KEY = 'ai-travel-planner-mcp-agent-team-form';
+const STORAGE_KEY = 'travel-planner-ai-form';
 
 const AiTravelPlannerMcpAgentTeamPage: React.FC = () => {
   const { user } = useAuth();
@@ -53,7 +53,7 @@ const AiTravelPlannerMcpAgentTeamPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-travel-planner-mcp-agent-team`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/travel-planner-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
@@ -88,7 +88,7 @@ const AiTravelPlannerMcpAgentTeamPage: React.FC = () => {
     <>
       <Helmet>
         <title>AiTravelPlannerMcpAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-travel-planner-mcp-agent-team to plan trips with AI." />
+        <meta name="description" content="Use travel-planner-ai to plan trips with AI." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

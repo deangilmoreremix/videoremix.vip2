@@ -13,7 +13,7 @@ import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
 
-const STORAGE_KEY = 'chat-with-gmail-form';
+const STORAGE_KEY = 'gmail-intelligence-ai-form';
 
 const ChatWithGmailPage: React.FC = () => {
   const { user } = useAuth();
@@ -51,7 +51,7 @@ const ChatWithGmailPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-with-gmail`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/gmail-intelligence-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
@@ -77,7 +77,7 @@ const ChatWithGmailPage: React.FC = () => {
     <>
       <Helmet>
         <title>ChatWithGmail - VideoRemix.vip</title>
-        <meta name="description" content="Use chat-with-gmail to ask questions about your emails." />
+        <meta name="description" content="Use gmail-intelligence-ai to ask questions about your emails." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

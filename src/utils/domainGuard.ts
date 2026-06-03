@@ -29,8 +29,8 @@ const config: DomainConfig = {
   allowedDomains: [
     "localhost:5173",
     "localhost:3000",
-    "videoremix.vip2.netlify.app",
-    "videoremix.vip2.vercel.app",
+    "videoremix.vip2.netlify.ai-design-studio",
+    "videoremix.vip2.vercel.ai-design-studio",
     "videoremix.vip",
     "www.videoremix.vip",
   ],
@@ -76,7 +76,7 @@ export function validateOrigin(): ValidationResult {
     if (origin === domain || hostname === domain) {
       return true;
     }
-    // Subdomain match (e.g., "app.videoremix.vip" matches "videoremix.vip")
+    // Subdomain match (e.g., "ai-design-studio.videoremix.vip" matches "videoremix.vip")
     if (domain.startsWith("*.") && hostname.endsWith(domain.slice(1))) {
       return true;
     }
@@ -245,7 +245,7 @@ if (import.meta.env.PROD) {
   const report = getSecurityReport();
   if (!report.allValid) {
     console.error("🔒 Security Alert: Invalid security configuration detected");
-    // You could block the app here if desired:
+    // You could block the ai-design-studio here if desired:
     // throw new Error('Security check failed');
   }
 }

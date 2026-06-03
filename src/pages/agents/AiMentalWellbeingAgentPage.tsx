@@ -13,7 +13,7 @@ import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Heart, Brain, Users, Activity, CheckCircle2, Lightbulb } from "lucide-react";
 
-const STORAGE_KEY = 'ai-mental-wellbeing-agent';
+const STORAGE_KEY = 'financial-dashboard-ai';
 
 const AiMentalWellbeingAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -46,7 +46,7 @@ const AiMentalWellbeingAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-mental-wellbeing-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/financial-dashboard-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

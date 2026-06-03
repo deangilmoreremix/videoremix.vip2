@@ -12,7 +12,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { Upload, FileText, Sparkles, Search } from "lucide-react";
 
-const STORAGE_KEY = 'corrective-rag';
+const STORAGE_KEY = 'fact-check-ai';
 
 const CorrectiveRagPage: React.FC = () => {
   const { user } = useAuth();
@@ -50,7 +50,7 @@ const CorrectiveRagPage: React.FC = () => {
       Object.entries(textValues).forEach(([key, value]) => {
         if (value) formData.append(key, value);
       });
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/corrective-rag`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/fact-check-ai`, {
         method: 'POST',
         body: formData
       });

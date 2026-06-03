@@ -13,7 +13,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
 
-const STORAGE_KEY = 'ai-email-gtm-outreach-agent';
+const STORAGE_KEY = 'candidate-outreach-ai';
 
 const EMAIL_STYLE_OPTIONS = [
   { value: "professional", label: "Professional" },
@@ -71,7 +71,7 @@ const AiEmailGtmOutreachAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-email-gtm-outreach-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/candidate-outreach-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

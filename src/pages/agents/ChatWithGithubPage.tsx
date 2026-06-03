@@ -13,7 +13,7 @@ import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
 
-const STORAGE_KEY = 'chat-with-github-form';
+const STORAGE_KEY = 'github-repo-assistant-form';
 
 const ChatWithGithubPage: React.FC = () => {
   const { user } = useAuth();
@@ -52,7 +52,7 @@ const ChatWithGithubPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-with-github`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/github-repo-assistant`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
@@ -78,7 +78,7 @@ const ChatWithGithubPage: React.FC = () => {
     <>
       <Helmet>
         <title>ChatWithGithub - VideoRemix.vip</title>
-        <meta name="description" content="Use chat-with-github to ask questions about any GitHub repository." />
+        <meta name="description" content="Use github-repo-assistant to ask questions about any GitHub repository." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

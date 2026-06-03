@@ -15,7 +15,7 @@ interface SearchResult {
   id: string;
   title: string;
   description: string;
-  category: "app" | "page" | "feature";
+  category: "ai-design-studio" | "page" | "feature";
   path: string;
   icon?: string;
   isExternal?: boolean;
@@ -114,20 +114,20 @@ const GlobalSearch: React.FC = () => {
     const searchQuery = query.toLowerCase();
     const appResults: SearchResult[] = apps
       .filter(
-        (app) =>
-          app.name.toLowerCase().includes(searchQuery) ||
-          app.description?.toLowerCase().includes(searchQuery) ||
-          app.category?.toLowerCase().includes(searchQuery),
+        (ai-design-studio) =>
+          ai-design-studio.name.toLowerCase().includes(searchQuery) ||
+          ai-design-studio.description?.toLowerCase().includes(searchQuery) ||
+          ai-design-studio.category?.toLowerCase().includes(searchQuery),
       )
       .slice(0, 5)
-      .map((app) => ({
-        id: app.id,
-        title: app.name,
-        description: app.description || "",
-        category: "app" as const,
-        path: `/app/${app.id}`,
-        icon: app.icon,
-        isExternal: app.url ? true : false,
+      .map((ai-design-studio) => ({
+        id: ai-design-studio.id,
+        title: ai-design-studio.name,
+        description: ai-design-studio.description || "",
+        category: "ai-design-studio" as const,
+        path: `/ai-design-studio/${ai-design-studio.id}`,
+        icon: ai-design-studio.icon,
+        isExternal: ai-design-studio.url ? true : false,
       }));
 
     const pageResults: SearchResult[] = pages
@@ -173,7 +173,7 @@ const GlobalSearch: React.FC = () => {
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case "app":
+      case "ai-design-studio":
         return <Hash className="h-4 w-4" />;
       case "page":
         return <ArrowRight className="h-4 w-4" />;
@@ -276,7 +276,7 @@ const GlobalSearch: React.FC = () => {
                         >
                           <div
                             className={`p-2 rounded-lg ${
-                              result.category === "app"
+                              result.category === "ai-design-studio"
                                 ? "bg-primary-500/20"
                                 : "bg-gray-700"
                             }`}

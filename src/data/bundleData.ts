@@ -21,11 +21,11 @@ export const bundles: Bundle[] = [
     price: 397,
     priceCents: 39700,
     apps: [
-      'ai-sales-intelligence-pro',
+      'ai-sales-email-writer-intelligence-pro',
       'lead-research-scraper-ai',
       'ai-business-growth-consultant',
       'ai-strategy-advisor',
-      'ai-sales-email-writer',
+      'ai-sales-email-writer-email-writer',
       'ai-offer-decision-helper',
       'launch-campaign-builder-ai',
       'competitor-spy-ai',
@@ -250,7 +250,7 @@ export const bundles: Bundle[] = [
     price: 397,
     priceCents: 39700,
     apps: [
-      'ai-app-builder-assistant',
+      'ai-ai-design-studio-builder-assistant',
       'ai-saas-architect',
       'ai-code-review-pro',
       'ai-bug-fixer',
@@ -380,10 +380,10 @@ export const getBundleForApp = (appSlug: string): Bundle | undefined => {
 };
 
 export const getTotalAppCount = (): number => {
-  // Get unique app slugs from all bundles (since bundles define all available apps)
+  // Get unique ai-design-studio slugs from all bundles (since bundles define all available apps)
   const allApps = new Set<string>();
   bundles.forEach(bundle => {
-    bundle.apps.forEach(app => allApps.add(app));
+    bundle.apps.forEach(ai-design-studio => allApps.add(ai-design-studio));
   });
   return allApps.size;
 };

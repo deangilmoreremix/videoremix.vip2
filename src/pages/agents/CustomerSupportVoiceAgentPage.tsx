@@ -12,7 +12,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { Mic, Sparkles, Headphones, FileText } from "lucide-react";
 
-const STORAGE_KEY = 'customer-support-voice-agent';
+const STORAGE_KEY = 'local-business-voice-assistant';
 
 const CustomerSupportVoiceAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -55,7 +55,7 @@ const CustomerSupportVoiceAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/customer-support-voice-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/local-business-voice-assistant`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
