@@ -92,7 +92,7 @@ if (data && data.length > 0) {
 
 // Get the latest modification timestamp for caching
         const latestModified = data.reduce(
-          (latest, app) => (app.updated_at > latest ? app.updated_at : latest),
+          (latest, ai-design-studio) => (ai-design-studio.updated_at > latest ? ai-design-studio.updated_at : latest),
           data[0]?.updated_at || new Date().toISOString(),
         );
 

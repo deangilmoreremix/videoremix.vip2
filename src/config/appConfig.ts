@@ -35,7 +35,7 @@ export const appConfig = {
 
   // LLM Performance optimization
   LLM: {
-    // Default app type configurations (overridden per-request)
+    // Default ai-design-studio type configurations (overridden per-request)
     DEFAULT_APP_TYPE: 'default',
     // Embedding batch size
     EMBEDDING_BATCH_SIZE: 50, // Process up to 50 embeddings per batch

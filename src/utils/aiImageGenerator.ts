@@ -137,7 +137,7 @@ The image should look like a real software application interface that users woul
       const fileName = `thumbnails/${appId}-ai-thumbnail-${Date.now()}.png`;
 
       const { data, error } = await this.supabase.storage
-        .from('app-assets')
+        .from('ai-design-studio-assets')
         .upload(fileName, buffer, {
           contentType: 'image/png',
           upsert: true
@@ -150,7 +150,7 @@ The image should look like a real software application interface that users woul
 
       // Get public URL
       const { data: publicUrlData } = this.supabase.storage
-        .from('app-assets')
+        .from('ai-design-studio-assets')
         .getPublicUrl(fileName);
 
       console.log(`✅ Stored image: ${publicUrlData.publicUrl}`);

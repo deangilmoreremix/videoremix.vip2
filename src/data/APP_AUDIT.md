@@ -27,7 +27,7 @@ Ensure all 116 apps have complete UI, controls, and all features before producti
 
 ### 3. Controls & Interactivity
 - [ ] All interactive elements work (buttons, forms, inputs)
-- [ ] Navigation between app sections functions
+- [ ] Navigation between ai-design-studio sections functions
 - [ ] Purchase flow complete
 - [ ] Backend API endpoints exist and respond
 - [ ] Error handling present
@@ -70,7 +70,7 @@ Ensure all 116 apps have complete UI, controls, and all features before producti
 ### 9. Technical Quality
 - [ ] No console errors
 - [ ] No TypeScript errors
-- [ ] No lint errors for app-specific code
+- [ ] No lint errors for ai-design-studio-specific code
 - [ ] Loading states implemented
 - [ ] Error boundaries present
 
@@ -82,9 +82,9 @@ Ensure all 116 apps have complete UI, controls, and all features before producti
 
 ## Audit Results (Pending)
 
-Run the audit script to generate pass/fail for each app:
+Run the audit script to generate pass/fail for each ai-design-studio:
 ```bash
-node scripts/audit-app-readiness.mjs
+node scripts/audit-ai-design-studio-readiness.mjs
 ```
 
 ## Known Issues
@@ -99,7 +99,7 @@ node scripts/audit-app-readiness.mjs
 
 ## Next Steps
 1. Run automated audit script
-2. Review failures per app
+2. Review failures per ai-design-studio
 3. Fix missing elements
 4. Manual spot-check 20% sample
 5. Sign-off on production readiness

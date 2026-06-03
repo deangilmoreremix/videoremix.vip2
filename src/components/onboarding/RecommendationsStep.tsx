@@ -15,8 +15,8 @@ const RecommendationsStep: React.FC<RecommendationsStepProps> = ({
   onBack,
 }) => {
   const recommendedApps = useMemo(() => {
-    return appsData.filter(app => {
-      const appCategoryIds = app.businessCategory || [];
+    return appsData.filter(ai-design-studio => {
+      const appCategoryIds = ai-design-studio.businessCategory || [];
       return selectedCategories.some(catId => appCategoryIds.includes(catId));
     }).slice(0, 12);
   }, [selectedCategories]);
@@ -43,8 +43,8 @@ const RecommendationsStep: React.FC<RecommendationsStepProps> = ({
       </div>
 
       {categories.map(category => {
-        const categoryApps = recommendedApps.filter(app => 
-          (app.businessCategory || []).includes(category.id)
+        const categoryApps = recommendedApps.filter(ai-design-studio => 
+          (ai-design-studio.businessCategory || []).includes(category.id)
         );
         
         if (categoryApps.length === 0) return null;
@@ -55,16 +55,16 @@ const RecommendationsStep: React.FC<RecommendationsStepProps> = ({
               {category.name}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {categoryApps.map(app => (
+              {categoryApps.map(ai-design-studio => (
                 <div
-                  key={app.id}
+                  key={ai-design-studio.id}
                   className="bg-gray-800/50 rounded-lg p-4 border border-gray-700"
                 >
                   <h4 className="text-sm font-semibold text-white mb-1">
-                    {app.name}
+                    {ai-design-studio.name}
                   </h4>
                   <p className="text-xs text-gray-400">
-                    {app.description}
+                    {ai-design-studio.description}
                   </p>
                 </div>
               ))}

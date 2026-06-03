@@ -34,7 +34,7 @@ const MultimodalCodingAgentTeamPage: React.FC = () => {
       formData.append('e2b_api_key', textValues.e2b_api_key || '');
       formData.append('upload_an_image_of_your_coding_problem_optional', textValues.upload_an_image_of_your_coding_problem_optional || '');
       formData.append('or_type_your_coding_problem_here', textValues.or_type_your_coding_problem_here || '');
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/multimodal-coding-agent-team`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-app-builder-assistant`, {
         method: 'POST',
         body: formData
       });
@@ -52,7 +52,7 @@ const MultimodalCodingAgentTeamPage: React.FC = () => {
     <>
       <Helmet>
         <title>MultimodalCodingAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use multimodal-coding-agent-team to automate tasks with AI." />
+        <meta name="description" content="Use ai-app-builder-assistant to automate tasks with AI." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

@@ -14,7 +14,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
 
-const STORAGE_KEY = 'ai-data-visualisation-agent';
+const STORAGE_KEY = 'local-tour-guide-ai';
 
 const MODEL_OPTIONS = [
   { value: "gpt-4o", label: "GPT-4o" },
@@ -70,7 +70,7 @@ const AiDataVisualisationAgentPage: React.FC = () => {
       formData.append('choose_a_csv_file', csvPath);
       formData.append('show_full_dataset', showFullDataset ? "yes" : "no");
       formData.append('what_would_you_like_to_know_about_your_data', query);
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-data-visualisation-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/local-tour-guide-ai`, {
         method: 'POST',
         body: formData
       });

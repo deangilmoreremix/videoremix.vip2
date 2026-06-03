@@ -23,7 +23,7 @@ const AiRouterAppPage: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem('ai-router-app-messages');
+    const saved = localStorage.getItem('ai-router-ai-design-studio-messages');
     if (saved) {
       try { setMessages(JSON.parse(saved)); } catch {}
     }
@@ -31,7 +31,7 @@ const AiRouterAppPage: React.FC = () => {
 
   useEffect(() => {
     if (messages.length > 0) {
-      localStorage.setItem('ai-router-app-messages', JSON.stringify(messages));
+      localStorage.setItem('ai-router-ai-design-studio-messages', JSON.stringify(messages));
     }
   }, [messages]);
 
@@ -46,7 +46,7 @@ const AiRouterAppPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-router-app`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-router-ai-design-studio`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -58,7 +58,7 @@ const AiRouterAppPage: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setMessages(prev => [...prev, { role: 'assistant', content: data.response || data.result || '' }]);
-      localStorage.removeItem('ai-router-app-messages');
+      localStorage.removeItem('ai-router-ai-design-studio-messages');
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -68,7 +68,7 @@ const AiRouterAppPage: React.FC = () => {
 
   const clearChat = () => {
     setMessages([]);
-    localStorage.removeItem('ai-router-app-messages');
+    localStorage.removeItem('ai-router-ai-design-studio-messages');
   };
 
   const examplePrompts = [

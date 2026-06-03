@@ -13,7 +13,7 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 
-const STORAGE_KEY = 'ai-financial-coach-agent-form';
+const STORAGE_KEY = 'profit-coach-ai-form';
 
 const EXPENSE_ENTRY_OPTIONS = [
   { value: "manual", label: "Manual Entry" },
@@ -69,7 +69,7 @@ const AiFinancialCoachAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-financial-coach-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/profit-coach-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

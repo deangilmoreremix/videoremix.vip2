@@ -43,7 +43,7 @@ const AiBlogToPodcastAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-blog-to-podcast-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-dashboard-designer-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
@@ -63,7 +63,7 @@ const AiBlogToPodcastAgentPage: React.FC = () => {
     <>
       <Helmet>
         <title>AiBlogToPodcastAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-blog-to-podcast-agent to convert blog posts to podcast audio." />
+        <meta name="description" content="Use ai-dashboard-designer-ai to convert blog posts to podcast audio." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

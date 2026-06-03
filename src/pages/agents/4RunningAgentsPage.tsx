@@ -39,7 +39,7 @@ const Agent4RunningAgentsPage: React.FC = () => {
     <>
       <Helmet>
         <title>4RunningAgents - VideoRemix.vip</title>
-        <meta name="description" content="Use 4-running-agents to automate tasks with AI." />
+        <meta name="description" content="Use ai-video-script-producer to automate tasks with AI." />
       </Helmet>
 
       <main className="pt-24 pb-20">

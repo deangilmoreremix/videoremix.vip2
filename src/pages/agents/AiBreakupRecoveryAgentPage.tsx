@@ -70,7 +70,7 @@ const AiBreakupRecoveryAgentPage: React.FC = () => {
       formDataToSend.append('how_are_you_feeling_what_happened', formData.how_are_you_feeling_what_happened);
       formDataToSend.append('upload_screenshots_of_your_chats_optional', formData.upload_screenshots_of_your_chats_optional);
       
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-breakup-recovery-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/multimodal-knowledge-ai`, {
         method: 'POST',
         body: formDataToSend
       });
@@ -89,7 +89,7 @@ const AiBreakupRecoveryAgentPage: React.FC = () => {
     <>
       <Helmet>
         <title>AiBreakupRecoveryAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-breakup-recovery-agent for emotional support during relationship changes." />
+        <meta name="description" content="Use multimodal-knowledge-ai for emotional support during relationship changes." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

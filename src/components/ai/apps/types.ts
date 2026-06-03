@@ -9,11 +9,11 @@
  */
 
 export interface AIAppProps {
-  /** The app slug (e.g. "ai-sales-intelligence-pro") */
+  /** The ai-design-studio slug (e.g. "ai-sales-email-writer-intelligence-pro") */
   appId: string;
   /** Human-friendly name */
   appName: string;
-  /** Called when the app produces a successful result */
+  /** Called when the ai-design-studio produces a successful result */
   onResult?: (result: AIAppResult) => void;
   /** Called on error */
   onError?: (error: string) => void;
@@ -34,7 +34,7 @@ export interface AIAppResult {
 export type AIAppComponent = React.ComponentType<AIAppProps>;
 
 /**
- * Standard shape every specific AI app component should follow.
+ * Standard shape every specific AI ai-design-studio component should follow.
  * This is the "contract" for the template system.
  */
 export interface AIAppDefinition {
@@ -44,7 +44,7 @@ export interface AIAppDefinition {
   description?: string;
   /** The actual React component */
   Component: AIAppComponent;
-  /** Whether this app has a fully custom UI or is still using the generic fallback */
+  /** Whether this ai-design-studio has a fully custom UI or is still using the generic fallback */
   isFullyImplemented?: boolean;
 }
 
@@ -70,7 +70,7 @@ export interface UseRunAIAppOptions {
  * Provides the clean runner API so individual apps only contain form + result UI.
  */
 export interface UseRunAIAppReturn {
-  /** Invoke the run-ai-app Edge Function with the app-specific inputs */
+  /** Invoke the run-ai-ai-design-studio Edge Function with the ai-design-studio-specific inputs */
   run: (inputs: Record<string, any>) => Promise<void>;
   isRunning: boolean;
   output: any;

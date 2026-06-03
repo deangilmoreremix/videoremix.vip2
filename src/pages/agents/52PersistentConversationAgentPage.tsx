@@ -92,7 +92,7 @@ const Agent52PersistentConversationAgentPage: React.FC = () => {
       <>
         <Helmet>
           <title>52PersistentConversationAgent - VideoRemix.vip</title>
-          <meta name="description" content="Use 5-2-persistent-conversation-agent to automate tasks with AI." />
+          <meta name="description" content="Use ai-film-producer to automate tasks with AI." />
         </Helmet>
 
         <main className="pt-24 pb-20">
@@ -161,7 +161,7 @@ const Agent52PersistentConversationAgentPage: React.FC = () => {
     <>
       <Helmet>
         <title>52PersistentConversationAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use 5-2-persistent-conversation-agent to automate tasks with AI." />
+        <meta name="description" content="Use ai-film-producer to automate tasks with AI." />
       </Helmet>
 
       <main className="pt-24 pb-20">

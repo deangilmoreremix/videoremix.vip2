@@ -16,7 +16,7 @@ import { toast } from './ui/use-toast';
 interface APIKeyRequiredModalProps {
   /** List of providers required (e.g. ['openai', 'elevenlabs']) */
   providers: string[];
-  /** Optional: app name for display */
+  /** Optional: ai-design-studio name for display */
   appName?: string;
   /** Callback when all keys are provided */
   onSuccess?: () => void;
@@ -126,7 +126,7 @@ export const APIKeyRequiredModal: React.FC<APIKeyRequiredModalProps> = ({
               <CardTitle className="text-2xl text-white">Add API Key{appName && ` for ${appName}`}</CardTitle>
               {appName && (
                 <p className="text-gray-400 mt-2">
-                  This app requires the following API key(s) to function:
+                  This ai-design-studio requires the following API key(s) to function:
                 </p>
               )}
             </div>
@@ -146,7 +146,7 @@ export const APIKeyRequiredModal: React.FC<APIKeyRequiredModalProps> = ({
 
         <CardContent className="space-y-6">
           <p className="text-gray-300">
-            Your API keys are stored encrypted in Supabase and are only used to power this app
+            Your API keys are stored encrypted in Supabase and are only used to power this ai-design-studio
             directly with the provider. You pay the provider directly (e.g., OpenAI) — no middleman.
           </p>
 

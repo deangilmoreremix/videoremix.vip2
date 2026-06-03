@@ -10,7 +10,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { Upload, Sparkles, Layout } from "lucide-react";
 
-const STORAGE_KEY = 'frontend-agent';
+const STORAGE_KEY = 'private-chatgpt-clone-agent';
 
 const FrontendPage: React.FC = () => {
   const { user } = useAuth();
@@ -42,7 +42,7 @@ const FrontendPage: React.FC = () => {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/frontend`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/private-chatgpt-clone`, {
         method: 'POST',
         body: formData
       });
@@ -92,7 +92,7 @@ const FrontendPage: React.FC = () => {
   }
 
   if (loading) {
-    return <LoadingIndicator message="Processing frontend..." subtext="Analyzing frontend code and structure" />;
+    return <LoadingIndicator message="Processing private-chatgpt-clone..." subtext="Analyzing private-chatgpt-clone code and structure" />;
   }
 
   if (!result && !loading) {
@@ -108,18 +108,18 @@ const FrontendPage: React.FC = () => {
                 <Layout className="h-10 w-10 text-white" />
               </div>
               <h1 className="text-4xl font-bold mb-4">Frontend Agent</h1>
-              <p className="text-xl text-gray-400">AI-powered frontend code analysis and generation.</p>
+              <p className="text-xl text-gray-400">AI-powered private-chatgpt-clone code analysis and generation.</p>
             </motion.div>
 
             <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto">
               <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6 space-y-6">
-                <FormSection title="File Upload" description="Upload your frontend code or design file">
+                <FormSection title="File Upload" description="Upload your private-chatgpt-clone code or design file">
                   <FileUploadZone
                     accept=".tsx,.jsx,.ts,.js,.figma,.sketch"
                     maxSize={10 * 1024 * 1024}
                     onFileSelect={setFile}
                     selectedFile={file}
-                    helperText="Upload frontend code files (TSX, JSX, TS, JS) or design files (Figma, Sketch up to 10MB)"
+                    helperText="Upload private-chatgpt-clone code files (TSX, JSX, TS, JS) or design files (Figma, Sketch up to 10MB)"
                   />
                 </FormSection>
               </div>
@@ -139,7 +139,7 @@ const FrontendPage: React.FC = () => {
             <EmptyState
               icon={<Layout className="h-16 w-16 text-gray-600" />}
               title="Frontend Code Analysis"
-              description="Upload your frontend code and get AI-powered insights"
+              description="Upload your private-chatgpt-clone code and get AI-powered insights"
               tips={[
                 "Upload React, Vue, or Angular component files",
                 "You can also upload Figma or Sketch files for design analysis",

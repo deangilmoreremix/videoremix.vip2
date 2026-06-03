@@ -329,7 +329,7 @@ const FinancialCoachPage: React.FC = () => {
                       title="No transaction data yet"
                       description="Upload your bank statement or expense CSV file to begin receiving AI-powered financial insights and personalized recommendations."
                       tips={[
-                        "Export a CSV from your bank's website or app",
+                        "Export a CSV from your bank's website or ai-design-studio",
                         "Ensure the file has date, description, category, and amount columns",
                         "Include a type column (income/expense) for best results"
                       ]}

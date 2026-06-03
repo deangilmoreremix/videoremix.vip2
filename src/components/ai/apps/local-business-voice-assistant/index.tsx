@@ -1,7 +1,7 @@
 /**
  * Local Business Voice Assistant — Production UI (Batch 10)
  * New VideoRemix Name: Local Business Voice Assistant
- * Note: This is a TEXT app, not voice realtime — just a form UI.
+ * Note: This is a TEXT ai-design-studio, not voice realtime — just a form UI.
  */
 
 import React, { useState, useEffect } from "react";

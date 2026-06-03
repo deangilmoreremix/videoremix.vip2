@@ -35,7 +35,7 @@ const MultimodalDesignAgentTeamPage: React.FC = () => {
       formData.append('select_analysis_types', textValues.select_analysis_types || '');
       formData.append('focus_areas', textValues.focus_areas || '');
       formData.append('additional_context', textValues.additional_context || '');
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/multimodal-design-agent-team`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-design-studio`, {
         method: 'POST',
         body: formData
       });
@@ -53,7 +53,7 @@ const MultimodalDesignAgentTeamPage: React.FC = () => {
     <>
       <Helmet>
         <title>MultimodalDesignAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use multimodal-design-agent-team to automate tasks with AI." />
+        <meta name="description" content="Use ai-design-studio to automate tasks with AI." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

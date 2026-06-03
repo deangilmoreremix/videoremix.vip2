@@ -8,12 +8,12 @@
  * - Always include " * New VideoRemix Name: Exact Name" comment at top
  * - Destructure onReset from AIAppProps; pass { onResult, onError, onReset } to useRunAIApp
  * - Use ResultActions primitive for all "New XXX" / optional Clear buttons (reduces drift)
- * - Error strategy: runner-only — never render {error} locally in app (forward only via onError; runner uses ErrorState)
+ * - Error strategy: runner-only — never render {error} locally in ai-design-studio (forward only via onError; runner uses ErrorState)
  * - No window.location.reload() ever — use reset() + local state clears if needed for "Clear All"
  * - Prefer primitives: StructuredResult, PromptTextarea, BasicFileUpload, ResultActions, ErrorState/LoadingState where fits
  * - Runner provides stable useCallback handlers; keep your local handlers simple
  * - Keep form visible (disabled) during run; show result toggle on output presence
- * - After edit, run tsc and verify in /ai-app/:slug
+ * - After edit, run tsc and verify in /ai-ai-design-studio/:slug
  */
 
 import React, { useState, useEffect } from "react";
@@ -38,7 +38,7 @@ export default function YourAppName({ appId, appName, onResult, onError, onRunni
     if (!inputValue.trim()) return;
     await run({
       prompt: inputValue,
-      // add any other fields your app needs
+      // add any other fields your ai-design-studio needs
     });
   };
 

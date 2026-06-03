@@ -23,7 +23,7 @@ const AiReasoningAgentPage: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem('ai-reasoning-agent-messages');
+    const saved = localStorage.getItem('risk-decision-ai-messages');
     if (saved) {
       try { setMessages(JSON.parse(saved)); } catch {}
     }
@@ -31,7 +31,7 @@ const AiReasoningAgentPage: React.FC = () => {
 
   useEffect(() => {
     if (messages.length > 0) {
-      localStorage.setItem('ai-reasoning-agent-messages', JSON.stringify(messages));
+      localStorage.setItem('risk-decision-ai-messages', JSON.stringify(messages));
     }
   }, [messages]);
 
@@ -46,7 +46,7 @@ const AiReasoningAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-reasoning-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/risk-decision-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -58,7 +58,7 @@ const AiReasoningAgentPage: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setMessages(prev => [...prev, { role: 'assistant', content: data.response || data.result || '' }]);
-      localStorage.removeItem('ai-reasoning-agent-messages');
+      localStorage.removeItem('risk-decision-ai-messages');
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -68,7 +68,7 @@ const AiReasoningAgentPage: React.FC = () => {
 
   const clearChat = () => {
     setMessages([]);
-    localStorage.removeItem('ai-reasoning-agent-messages');
+    localStorage.removeItem('risk-decision-ai-messages');
   };
 
   const examplePrompts = [

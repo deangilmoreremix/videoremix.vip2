@@ -9,7 +9,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { FileText, Sparkles, Video } from "lucide-react";
 
-const STORAGE_KEY = 'chat-with-youtube-videos';
+const STORAGE_KEY = 'video-knowledge-assistant';
 
 const ChatWithYoutubeVideosPage: React.FC = () => {
   const { user } = useAuth();
@@ -48,7 +48,7 @@ const ChatWithYoutubeVideosPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-with-youtube-videos`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/video-knowledge-assistant`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })

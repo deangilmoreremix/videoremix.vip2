@@ -2,7 +2,7 @@
  * RealtimeVoiceSession
  *
  * Production-grade live voice component for OpenAI Realtime API via our existing
- * Supabase Edge Function (run-ai-app?mode=realtime). No additional servers required.
+ * Supabase Edge Function (run-ai-ai-design-studio?mode=realtime). No additional servers required.
  *
  * Features:
  * - Browser mic → 24kHz PCM16 base64 → Edge Function proxy → OpenAI Realtime
@@ -11,7 +11,7 @@
  * - Speech activity indicators, interruption support, clean connect/disconnect
  * - Fully self-contained (uses only Web Audio API + native WebSocket)
  *
- * Usage in an app:
+ * Usage in an ai-design-studio:
  *   <RealtimeVoiceSession
  *     appId="ai-intake-voice-agent"
  *     voice="shimmer"
@@ -34,7 +34,7 @@ interface RealtimeVoiceSessionProps {
   className?: string;
 }
 
-const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/run-ai-app`;
+const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/run-ai-ai-design-studio`;
 
 export const RealtimeVoiceSession: React.FC<RealtimeVoiceSessionProps> = ({
   appId,
@@ -382,7 +382,7 @@ export const RealtimeVoiceSession: React.FC<RealtimeVoiceSessionProps> = ({
 
       {status === "listening" || status === "speaking" ? (
         <div className="text-center text-xs text-gray-500 pt-2">
-          Tip: Speak naturally. The AI follows the app instructions and will try to return structured data at the end.
+          Tip: Speak naturally. The AI follows the ai-design-studio instructions and will try to return structured data at the end.
         </div>
       ) : null}
     </div>

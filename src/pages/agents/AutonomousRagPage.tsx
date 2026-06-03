@@ -13,7 +13,7 @@ import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
 
-const STORAGE_KEY = 'autonomous-rag-form';
+const STORAGE_KEY = 'landing-page-critic-ai-form';
 
 const AutonomousRagPage: React.FC = () => {
   const { user } = useAuth();
@@ -44,7 +44,7 @@ const AutonomousRagPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/autonomous-rag`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/landing-page-critic-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
@@ -70,7 +70,7 @@ const AutonomousRagPage: React.FC = () => {
     <>
       <Helmet>
         <title>AutonomousRag - VideoRemix.vip</title>
-        <meta name="description" content="Use autonomous-rag to get AI-powered answers from your documents." />
+        <meta name="description" content="Use landing-page-critic-ai to get AI-powered answers from your documents." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

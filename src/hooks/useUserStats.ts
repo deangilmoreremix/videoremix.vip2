@@ -48,7 +48,7 @@ export const useUserStats = () => {
 
         // Handle potential errors from the query
         if (appsResult.error) {
-          console.error("Error fetching app access:", appsResult.error);
+          console.error("Error fetching ai-design-studio access:", appsResult.error);
           // Don't fail completely, just set count to 0
         }
 

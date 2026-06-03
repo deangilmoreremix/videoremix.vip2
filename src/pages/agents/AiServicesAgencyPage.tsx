@@ -13,7 +13,7 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 
-const STORAGE_KEY = 'ai-services-agency-form';
+const STORAGE_KEY = 'ai-agency-builder-suite-form';
 
 const PROJECT_TYPE_OPTIONS = [
   { value: "web_app", label: "Web Application" },
@@ -92,7 +92,7 @@ const AiServicesAgencyPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-services-agency`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-agency-builder-suite`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })

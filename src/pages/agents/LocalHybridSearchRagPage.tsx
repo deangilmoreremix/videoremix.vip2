@@ -31,7 +31,7 @@ const LocalHybridSearchRagPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/local-hybrid-search-rag`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/local-smart-search-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -56,7 +56,7 @@ const LocalHybridSearchRagPage: React.FC = () => {
     <>
       <Helmet>
         <title>LocalHybridSearchRag - VideoRemix.vip</title>
-        <meta name="description" content="Use local-hybrid-search-rag to automate tasks with AI." />
+        <meta name="description" content="Use local-smart-search-ai to automate tasks with AI." />
       </Helmet>
 
       <main className="pt-24 pb-20">

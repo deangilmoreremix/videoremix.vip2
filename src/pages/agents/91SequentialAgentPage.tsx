@@ -90,7 +90,7 @@ const Agent91SequentialAgentPage: React.FC = () => {
                   name="enter_a_business_opportunity_to_analyze"
                   value={formData.enter_a_business_opportunity_to_analyze}
                   onChange={(val) => setFormData({ ...formData, enter_a_business_opportunity_to_analyze: val })}
-                  placeholder="Describe a potential business opportunity... e.g., 'A new mobile app that helps small businesses manage their social media presence with AI-generated content suggestions, scheduling, and analytics tracking'"
+                  placeholder="Describe a potential business opportunity... e.g., 'A new mobile ai-design-studio that helps small businesses manage their social media presence with AI-generated content suggestions, scheduling, and analytics tracking'"
                   helperText="Be specific about the market, target audience, and value proposition for best analysis results"
                   rows={5}
                   required

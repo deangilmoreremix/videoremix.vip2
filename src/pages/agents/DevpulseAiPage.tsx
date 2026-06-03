@@ -19,7 +19,7 @@ const DevpulseAiPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/devpulse-ai`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/personal-ai-memory-assistant`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user?.id })

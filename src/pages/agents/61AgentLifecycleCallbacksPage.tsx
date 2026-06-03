@@ -77,7 +77,7 @@ const Agent61AgentLifecycleCallbacksPage: React.FC = () => {
     <>
       <Helmet>
         <title>61AgentLifecycleCallbacks - VideoRemix.vip</title>
-        <meta name="description" content="Use 6-1-agent-lifecycle-callbacks to automate tasks with AI." />
+        <meta name="description" content="Use podcast-creator-ai to automate tasks with AI." />
       </Helmet>
 
       <main className="pt-24 pb-20">

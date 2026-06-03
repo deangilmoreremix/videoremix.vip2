@@ -20,7 +20,7 @@ const LocalAiLegalAgentTeamPage: React.FC = () => {
   const handleSubmit = async (tabKey: string, data: any) => {
     setLoading(tabKey);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/local-ai-legal-agent-team`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/local-contract-summary-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...data, mode: tabKey, userId: user?.id })
@@ -39,7 +39,7 @@ const LocalAiLegalAgentTeamPage: React.FC = () => {
     <>
       <Helmet>
         <title>LocalAiLegalAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use local-ai-legal-agent-team to automate tasks with AI." />
+        <meta name="description" content="Use local-contract-summary-ai to automate tasks with AI." />
       </Helmet>
 
       <main className="pt-24 pb-20">

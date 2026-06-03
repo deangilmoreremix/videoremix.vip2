@@ -19,7 +19,7 @@ import {
   HelpCircle,
 } from "lucide-react";
 
-// Mock article data - in a real app this would come from an API or CMS
+// Mock article data - in a real ai-design-studio this would come from an API or CMS
 const articles = [
   {
     id: "what-is-videoremix",
@@ -531,7 +531,7 @@ const HelpArticlePage: React.FC = () => {
 
   // Simulate fetching article data
   useEffect(() => {
-    // In a real app, this would be an API call
+    // In a real ai-design-studio, this would be an API call
     setLoading(true);
 
     // Simulate network delay
@@ -713,7 +713,7 @@ const HelpArticlePage: React.FC = () => {
                       className="flex items-center text-primary-400 hover:text-primary-300 transition-colors"
                       onClick={() => {
                         navigator.clipboard.writeText(window.location.href);
-                        // In a real app, you would show a toast notification
+                        // In a real ai-design-studio, you would show a toast notification
                         alert("Link copied to clipboard!");
                       }}
                     >

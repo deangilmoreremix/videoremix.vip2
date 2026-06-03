@@ -42,7 +42,7 @@ const LockedAppOverlay: React.FC<LockedAppOverlayProps> = ({
             <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
             <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
           </div>
-          <div className="text-gray-400 text-xs mb-2">Unlock this app for:</div>
+          <div className="text-gray-400 text-xs mb-2">Unlock this ai-design-studio for:</div>
           <div className="text-3xl font-bold text-white mb-1">${appPrice}</div>
           <div className="text-gray-400 text-xs">
             One-time payment, lifetime access

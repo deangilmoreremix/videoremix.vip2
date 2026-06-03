@@ -23,7 +23,7 @@ const HybridSearchRagPage: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem('hybrid-search-rag-messages');
+    const saved = localStorage.getItem('smart-search-ai-messages');
     if (saved) {
       try { setMessages(JSON.parse(saved)); } catch {}
     }
@@ -31,7 +31,7 @@ const HybridSearchRagPage: React.FC = () => {
 
   useEffect(() => {
     if (messages.length > 0) {
-      localStorage.setItem('hybrid-search-rag-messages', JSON.stringify(messages));
+      localStorage.setItem('smart-search-ai-messages', JSON.stringify(messages));
     }
   }, [messages]);
 
@@ -46,7 +46,7 @@ const HybridSearchRagPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/hybrid-search-rag`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/smart-search-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -58,7 +58,7 @@ const HybridSearchRagPage: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setMessages(prev => [...prev, { role: 'assistant', content: data.response || data.result || '' }]);
-      localStorage.removeItem('hybrid-search-rag-messages');
+      localStorage.removeItem('smart-search-ai-messages');
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -68,7 +68,7 @@ const HybridSearchRagPage: React.FC = () => {
 
   const clearChat = () => {
     setMessages([]);
-    localStorage.removeItem('hybrid-search-rag-messages');
+    localStorage.removeItem('smart-search-ai-messages');
   };
 
   const examplePrompts = [

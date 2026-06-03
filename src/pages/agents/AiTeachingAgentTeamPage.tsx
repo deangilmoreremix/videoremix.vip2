@@ -12,7 +12,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 
-const STORAGE_KEY = 'ai-teaching-agent-team-form';
+const STORAGE_KEY = 'ai-course-creator-assistant-form';
 
 const AiTeachingAgentTeamPage: React.FC = () => {
   const { user } = useAuth();
@@ -48,7 +48,7 @@ const AiTeachingAgentTeamPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-teaching-agent-team`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-course-creator-assistant`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
@@ -74,7 +74,7 @@ const AiTeachingAgentTeamPage: React.FC = () => {
     <>
       <Helmet>
         <title>AiTeachingAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-teaching-agent-team to automate tasks with AI." />
+        <meta name="description" content="Use ai-course-creator-assistant to automate tasks with AI." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

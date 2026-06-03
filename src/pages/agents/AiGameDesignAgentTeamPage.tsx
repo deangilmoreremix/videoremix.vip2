@@ -15,7 +15,7 @@ import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 
-const STORAGE_KEY = 'ai-game-design-agent-team-form';
+const STORAGE_KEY = 'interview-summary-ai-form';
 
 const GAME_TYPE_OPTIONS = [
   { value: "action", label: "Action" },
@@ -135,7 +135,7 @@ const AiGameDesignAgentTeamPage: React.FC = () => {
     setError(null);
     setRetryLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-game-design-agent-team`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/interview-summary-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
@@ -216,7 +216,7 @@ const AiGameDesignAgentTeamPage: React.FC = () => {
     <>
       <Helmet>
         <title>AiGameDesignAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-game-design-agent-team to automate tasks with AI." />
+        <meta name="description" content="Use interview-summary-ai to automate tasks with AI." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

@@ -154,7 +154,7 @@ const FeatureAnalyticsDashboard: React.FC = () => {
           .sort((a, b) => b!.views - a!.views)
           .slice(0, 5) || [];
 
-      // Trending features (mock calculation - in real app, compare to previous period)
+      // Trending features (mock calculation - in real ai-design-studio, compare to previous period)
       const trendingFeatures = topFeatures.slice(0, 3).map((f) => ({
         id: f!.id,
         name: f!.name,

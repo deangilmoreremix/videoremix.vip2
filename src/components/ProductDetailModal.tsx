@@ -35,7 +35,7 @@ interface ExtendedSalesCopy {
 }
 
 interface ProductDetailModalProps {
-  app: {
+  ai-design-studio: {
     id: string;
     name: string;
     description: string;
@@ -53,7 +53,7 @@ const PRICING = {
   single: {
     price: 37,
     name: 'Single App Lifetime',
-    description: 'Lifetime access to this app'
+    description: 'Lifetime access to this ai-design-studio'
   },
   bundle: {
     price: 597,
@@ -90,7 +90,7 @@ const CATEGORY_COLORS = {
 };
 
 export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
-  app,
+  ai-design-studio,
   isOpen,
   onClose,
   onPurchase,
@@ -104,8 +104,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const contentRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
 
-  // Check if this app is an LLM agent (eligible for bundle)
-  const isLlmAgentApp = isConvertedLlmAgent(app.id);
+  // Check if this ai-design-studio is an LLM agent (eligible for bundle)
+  const isLlmAgentApp = isConvertedLlmAgent(ai-design-studio.id);
   const bundleInfo = getBundlePricing();
 
   // Handle keyboard navigation
@@ -146,8 +146,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
           },
           body: JSON.stringify({
-            appId: selectedTier === 'bundle' ? 'all-apps-bundle' : app.id,
-            appName: selectedTier === 'bundle' ? `All Apps Bundle (${bundleInfo.totalApps} apps)` : app.name,
+            appId: selectedTier === 'bundle' ? 'all-apps-bundle' : ai-design-studio.id,
+            appName: selectedTier === 'bundle' ? `All Apps Bundle (${bundleInfo.totalApps} apps)` : ai-design-studio.name,
             price: tier.price,
             tier: selectedTier,
             userId: user?.id || 'guest',
@@ -166,7 +166,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
       const { url } = await response.json();
 
       if (url) {
-        Analytics.trackPurchaseStart(app.id, tier.price, { tier: selectedTier, guest: !user });
+        Analytics.trackPurchaseStart(ai-design-studio.id, tier.price, { tier: selectedTier, guest: !user });
         window.location.href = url;
       } else {
         throw new Error("No checkout URL received");
@@ -183,9 +183,9 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   if (!isOpen) return null;
 
   // Generate extended sales copy using GTM tonalities if not provided
-  const extendedCopy = app.extendedCopy || generateExtendedSalesCopy(app);
+  const extendedCopy = ai-design-studio.extendedCopy || generateExtendedSalesCopy(ai-design-studio);
 
-  const colors = CATEGORY_COLORS[app.category] || CATEGORY_COLORS['AI Tools'];
+  const colors = CATEGORY_COLORS[ai-design-studio.category] || CATEGORY_COLORS['AI Tools'];
 
   const { scrollYProgress } = useScroll({ container: contentRef.current });
 
@@ -220,10 +220,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         {/* Header */}
         <motion.div className="flex items-center justify-between p-6 border-b" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
           <div className="flex items-center space-x-4">
-            <div className="text-4xl" aria-hidden="true">{app.icon}</div>
+            <div className="text-4xl" aria-hidden="true">{ai-design-studio.icon}</div>
             <div>
-              <h2 id="modal-title" className="text-2xl font-bold text-gray-900">{app.name}</h2>
-              <p className="text-gray-600">{app.category}</p>
+              <h2 id="modal-title" className="text-2xl font-bold text-gray-900">{ai-design-studio.name}</h2>
+              <p className="text-gray-600">{ai-design-studio.category}</p>
             </div>
           </div>
           <motion.button
@@ -246,7 +246,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           </p>
           <div className="flex space-x-4">
             <motion.button
-              onClick={() => onPurchase(app.id)}
+              onClick={() => onPurchase(ai-design-studio.id)}
               className="text-white px-8 py-3 rounded-lg font-semibold flex items-center space-x-2"
               style={{ backgroundColor: colors.primary }}
               whileHover={{ scale: 1.05, y: -2, boxShadow: `0 10px 25px ${colors.primary}40` }}
@@ -491,7 +491,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               Ready to transform your workflow?
             </div>
             <motion.button
-              onClick={() => onPurchase(app.id)}
+              onClick={() => onPurchase(ai-design-studio.id)}
               className="text-white px-8 py-3 rounded-lg font-semibold flex items-center space-x-2"
               style={{ backgroundColor: colors.primary }}
               whileHover={{ scale: 1.05, y: -2, boxShadow: `0 10px 25px ${colors.primary}40` }}
@@ -508,7 +508,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 };
 
 // Helper function to generate extended sales copy using GTM tonalities
-function generateExtendedSalesCopy(app: any): ExtendedSalesCopy {
+function generateExtendedSalesCopy(ai-design-studio: any): ExtendedSalesCopy {
   const tonalities = {
     'AI Tools': {
       hero: 'Transform Your Workflow with AI Power',
@@ -524,17 +524,17 @@ function generateExtendedSalesCopy(app: any): ExtendedSalesCopy {
     }
   };
 
-  const categoryTone = tonalities[app.category] || tonalities['AI Tools'];
+  const categoryTone = tonalities[ai-design-studio.category] || tonalities['AI Tools'];
 
   return {
     heroHeadline: categoryTone.hero,
-    subheadline: `${app.description} - Powered by advanced AI to deliver professional results.`,
-    whatItDoes: `${app.name} leverages cutting-edge AI technology to ${app.description.toLowerCase()}. Experience the future of automation with our intelligent solution.`,
+    subheadline: `${ai-design-studio.description} - Powered by advanced AI to deliver professional results.`,
+    whatItDoes: `${ai-design-studio.name} leverages cutting-edge AI technology to ${ai-design-studio.description.toLowerCase()}. Experience the future of automation with our intelligent solution.`,
     howToProfit: {
       localBusiness: `Boost your business efficiency by 300% while reducing costs. ${categoryTone.profit} and focus on growing your business.`,
       individual: `Save time and money on professional services. Get expert-level results at a fraction of the cost. ${categoryTone.profit} and achieve more.`
     },
-    whyYouNeedIt: `In today's fast-paced world, staying competitive requires leveraging AI. ${app.name} gives you the edge with professional-grade AI capabilities that were once only available to large corporations.`,
+    whyYouNeedIt: `In today's fast-paced world, staying competitive requires leveraging AI. ${ai-design-studio.name} gives you the edge with professional-grade AI capabilities that were once only available to large corporations.`,
     howItWorks: `Simply input your requirements, and our AI processes the information using advanced algorithms to deliver high-quality results. No technical expertise required.`,
     features: [
       'Advanced AI algorithms for superior results',

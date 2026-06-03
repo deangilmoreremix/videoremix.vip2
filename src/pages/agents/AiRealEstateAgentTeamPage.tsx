@@ -14,7 +14,7 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
 
-const STORAGE_KEY = 'ai-real-estate-agent-team-form';
+const STORAGE_KEY = 'real-estate-marketing-ai-form';
 
 const PROPERTY_TYPE_OPTIONS = [
   { value: "single_family", label: "Single Family Home" },
@@ -90,7 +90,7 @@ const AiRealEstateAgentTeamPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-real-estate-agent-team`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/real-estate-marketing-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })

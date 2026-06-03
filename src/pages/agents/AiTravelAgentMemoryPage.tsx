@@ -23,7 +23,7 @@ const AiTravelAgentMemoryPage: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem('ai-travel-agent-memory-messages');
+    const saved = localStorage.getItem('build-plan-generator-messages');
     if (saved) {
       try { setMessages(JSON.parse(saved)); } catch {}
     }
@@ -31,7 +31,7 @@ const AiTravelAgentMemoryPage: React.FC = () => {
 
   useEffect(() => {
     if (messages.length > 0) {
-      localStorage.setItem('ai-travel-agent-memory-messages', JSON.stringify(messages));
+      localStorage.setItem('build-plan-generator-messages', JSON.stringify(messages));
     }
   }, [messages]);
 
@@ -46,7 +46,7 @@ const AiTravelAgentMemoryPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-travel-agent-memory`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/build-plan-generator`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -58,7 +58,7 @@ const AiTravelAgentMemoryPage: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setMessages(prev => [...prev, { role: 'assistant', content: data.response || data.result || '' }]);
-      localStorage.removeItem('ai-travel-agent-memory-messages');
+      localStorage.removeItem('build-plan-generator-messages');
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -68,7 +68,7 @@ const AiTravelAgentMemoryPage: React.FC = () => {
 
   const clearChat = () => {
     setMessages([]);
-    localStorage.removeItem('ai-travel-agent-memory-messages');
+    localStorage.removeItem('build-plan-generator-messages');
   };
 
   const examplePrompts = [

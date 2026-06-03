@@ -64,52 +64,52 @@ export const ALL_API_KEY_TYPES: ApiKeyType[] = [
 // Derived from analyzing form fields across all agent pages
 export const AGENT_KEY_REQUIREMENTS: Record<string, ApiKeyType[]> = {
   // OpenAI-based agents
-  "ai-deep-research-agent": ["OPENAI_API_KEY", "FIRECRAWL_API_KEY"],
-  "ai-email-gtm-reachout-agent": ["OPENAI_API_KEY"],
-  "ai-startup-insight-fire1-agent": ["OPENAI_API_KEY", "FIRECRAWL_API_KEY"],
-  "openai-research-agent": ["OPENAI_API_KEY"],
+  "deep-research-pro": ["OPENAI_API_KEY", "FIRECRAWL_API_KEY"],
+  "candidate-outreach-ai": ["OPENAI_API_KEY"],
+  "ai-code-review-pro": ["OPENAI_API_KEY", "FIRECRAWL_API_KEY"],
+  "research-assistant-ai": ["OPENAI_API_KEY"],
   "product-launch-intelligence-agent": ["OPENAI_API_KEY", "FIRECRAWL_API_KEY"],
   "rag-database-routing": ["OPENAI_API_KEY"],
   "multi-agent-researcher": ["OPENAI_API_KEY"],
-  "llm-app-personized-memory": ["OPENAI_API_KEY"],
-  "cursor-ai-experiments": ["OPENAI_API_KEY"],
+  "llm-ai-design-studio-personized-memory": ["OPENAI_API_KEY"],
+  "personal-ai-memory-assistant": ["OPENAI_API_KEY"],
 
   // Anthropic-based agents
-  "rag-as-a-service": ["ANTHROPIC_API_KEY", "RAGIE_API_KEY"],
+  "business-knowledgebase-ai": ["ANTHROPIC_API_KEY", "RAGIE_API_KEY"],
      "multi-ai-memory": ["OPENAI_API_KEY", "ANTHROPIC_API_KEY"],
-  "corrective-rag": ["OPENAI_API_KEY", "ANTHROPIC_API_KEY"],
+  "fact-check-ai": ["OPENAI_API_KEY", "ANTHROPIC_API_KEY"],
 
   // Google/Gemini agents
   "gemini-agentic-rag": ["GOOGLE_GENERATIVE_AI_KEY"],
   "vision-rag": ["GOOGLE_GENERATIVE_AI_KEY"],
   "research-agent-gemini-interaction-api": ["GOOGLE_GENERATIVE_AI_KEY"],
   "rag-chain": ["GOOGLE_GENERATIVE_AI_KEY"],
-  "multimodal-design-agent-team": ["GOOGLE_GENERATIVE_AI_KEY"],
+  "ai-design-studio": ["GOOGLE_GENERATIVE_AI_KEY"],
 
   // Multimodal coding with multiple keys
-  "multimodal-coding-agent-team": ["OPENAI_API_KEY", "GOOGLE_GENERATIVE_AI_KEY", "E2B_API_KEY"],
+  "ai-app-builder-assistant": ["OPENAI_API_KEY", "GOOGLE_GENERATIVE_AI_KEY", "E2B_API_KEY"],
 
   // Together AI
   "mixture-of-agents": ["TOGETHER_API_KEY"],
 
   // xAI Grok
-  "xai-finance-agent": ["OPENAI_API_KEY", "XAI_GROK_API_KEY"],
+  "finance-research-ai": ["OPENAI_API_KEY", "XAI_GROK_API_KEY"],
 
   // Voice & RAG with Qdrant
   "voice-rag-openaisdk": ["OPENAI_API_KEY", "COHERE_API_KEY"],
 
   // Web scraping / Firecrawl
   "web-scraping-agent": ["FIRECRAWL_API_KEY"],
-  "customer-support-voice-agent": ["OPENAI_API_KEY", "FIRECRAWL_API_KEY"],
+  "local-business-voice-assistant": ["OPENAI_API_KEY", "FIRECRAWL_API_KEY"],
 
   // Travel with Google Maps
-  "ai-travel-planner-mcp-agent-team": ["OPENAI_API_KEY"],
+  "travel-planner-ai": ["OPENAI_API_KEY"],
 
   // Teaching agent with multiple integrations
-  "ai-teaching-agent-team": ["OPENAI_API_KEY"],
+  "ai-course-creator-assistant": ["OPENAI_API_KEY"],
 
   // GitHub MCP
-  "github-mcp-agent": ["OPENAI_API_KEY"],
+  "github-automation-agent": ["OPENAI_API_KEY"],
 
   // Default fallback for agents without explicit requirements
   // They will use a minimal set

@@ -13,7 +13,7 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 
-const STORAGE_KEY = 'ai-data-analysis-agent';
+const STORAGE_KEY = 'local-business-analytics-ai';
 
 const AiDataAnalysisAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -60,7 +60,7 @@ const AiDataAnalysisAgentPage: React.FC = () => {
       formData.append('enter_your_openai_api_key', apiKey);
       formData.append('upload_a_csv_or_excel_file', csvPath);
       formData.append('ask_a_query_about_the_data', query);
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-data-analysis-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/local-business-analytics-ai`, {
         method: 'POST',
         body: formData
       });

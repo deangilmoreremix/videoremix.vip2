@@ -13,7 +13,7 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 
-const STORAGE_KEY = 'ai-email-gtm-reachout-agent';
+const STORAGE_KEY = 'candidate-outreach-ai';
 
 const AiEmailGtmReachoutAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -63,7 +63,7 @@ const AiEmailGtmReachoutAgentPage: React.FC = () => {
     setLoading(activeTab);
     setErrors(prev => ({ ...prev, [activeTab]: "" }));
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-email-gtm-reachout-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/candidate-outreach-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, mode: activeTab, userId: user?.id })

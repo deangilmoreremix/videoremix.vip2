@@ -9,7 +9,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { FileCode, Sparkles, Lightbulb } from "lucide-react";
 
-const STORAGE_KEY = 'cursor-ai-experiments';
+const STORAGE_KEY = 'personal-ai-memory-assistant';
 
 const CursorAiExperimentsPage: React.FC = () => {
   const { user } = useAuth();
@@ -44,7 +44,7 @@ const CursorAiExperimentsPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cursor-ai-experiments`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/personal-ai-memory-assistant`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })

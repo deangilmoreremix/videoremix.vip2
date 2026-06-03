@@ -11,7 +11,7 @@ export const newAppThumbnailSpecs: ImageGenerationRequest[] = [
     targetSize: { width: 800, height: 600 }
   },
   {
-    appId: 'funnelcraft-ai',
+    appId: 'launch-campaign-builder-ai',
     appName: 'Conversion Funnel Optimizer',
     description: 'Build high-converting sales funnels with AI assistance',
     category: 'lead-gen',
@@ -19,7 +19,7 @@ export const newAppThumbnailSpecs: ImageGenerationRequest[] = [
     targetSize: { width: 800, height: 600 }
   },
   {
-    appId: 'ai-skills-monetizer',
+    appId: 'daily-content-engine-ai',
     appName: 'Expertise Revenue Platform',
     description: 'Turn your skills into profitable online businesses',
     category: 'personalizer',
@@ -35,7 +35,7 @@ export const newAppThumbnailSpecs: ImageGenerationRequest[] = [
     targetSize: { width: 800, height: 600 }
   },
   {
-    appId: 'sales-page-builder',
+    appId: 'sales-call-follow-up-ai',
     appName: 'High-Converting Landing Pages',
     description: 'Build high-converting sales pages in minutes',
     category: 'lead-gen',
@@ -83,7 +83,7 @@ export const newAppThumbnailSpecs: ImageGenerationRequest[] = [
     targetSize: { width: 800, height: 600 }
   },
   {
-    appId: 'ai-signature',
+    appId: 'ai-content-creator-pro',
     appName: 'Professional Email Signature',
     description: 'Generate professional digital signatures',
     category: 'personalizer',
@@ -115,7 +115,7 @@ export const newAppThumbnailSpecs: ImageGenerationRequest[] = [
     targetSize: { width: 800, height: 600 }
   },
   {
-    appId: 'ai-referral-maximizer-pro',
+    appId: 'ai-strategy-advisor-pro',
     appName: 'Customer Growth Multiplier Pro',
     description: 'Maximize your referral program with AI',
     category: 'lead-gen',
@@ -123,7 +123,7 @@ export const newAppThumbnailSpecs: ImageGenerationRequest[] = [
     targetSize: { width: 800, height: 600 }
   },
   {
-    appId: 'ai-sales-maximizer',
+    appId: 'ai-sales-email-writer-maximizer',
     appName: 'Revenue Acceleration Engine',
     description: 'Boost your sales performance with AI insights',
     category: 'lead-gen',

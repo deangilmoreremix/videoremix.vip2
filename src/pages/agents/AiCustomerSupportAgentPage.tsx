@@ -55,7 +55,7 @@ const AiCustomerSupportAgentPage: React.FC = () => {
     setError(null);
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-customer-support-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/home-renovation-visualizer-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -96,7 +96,7 @@ const AiCustomerSupportAgentPage: React.FC = () => {
     <>
       <Helmet>
         <title>AiCustomerSupportAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-customer-support-agent to automate tasks with AI." />
+        <meta name="description" content="Use home-renovation-visualizer-ai to automate tasks with AI." />
       </Helmet>
 
       <main className="pt-24 pb-20">

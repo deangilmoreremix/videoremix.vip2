@@ -7,7 +7,7 @@ import type { UseRunAIAppOptions, UseRunAIAppReturn, ConversationMessage } from 
  * Supports streaming responses via WebSocket (with SSE fallback), multi-turn conversation context, and auto-retry.
  *
  * Centralizes the duplicated ~25-35 lines of useState + supabase.functions.invoke + try/catch + onResult/onError
- * that previously lived in every app component (and GenericAIApp).
+ * that previously lived in every ai-design-studio component (and GenericAIApp).
  */
 export function useRunAIApp(
   slug: string,
@@ -101,7 +101,7 @@ export function useRunAIApp(
       abortControllerRef.current = new AbortController();
 
       const response = await fetch(
-        `${supabase.supabaseUrl}/functions/v1/run-ai-app`,
+        `${supabase.supabaseUrl}/functions/v1/run-ai-ai-design-studio`,
         {
           method: "POST",
           headers: {
@@ -204,7 +204,7 @@ export function useRunAIApp(
 
       const attemptRun = async (): Promise<void> => {
         try {
-          const wsUrl = `${supabase.supabaseUrl}/functions/v1/run-ai-app/websocket`
+          const wsUrl = `${supabase.supabaseUrl}/functions/v1/run-ai-ai-design-studio/websocket`
             .replace("https://", "wss://")
             .replace("http://", "ws://");
 
@@ -321,7 +321,7 @@ export function useRunAIApp(
         });
       } catch (err: any) {
         const msg =
-          err?.message || err?.error || "Failed to run AI app";
+          err?.message || err?.error || "Failed to run AI ai-design-studio";
         const suggestion = parseErrorSuggestion(msg);
 
         if (autoRetry && retryCountRef.current < maxRetries) {

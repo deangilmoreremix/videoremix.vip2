@@ -29,7 +29,7 @@ const AiBlogSearchPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem('ai-blog-search-state');
+    const saved = localStorage.getItem('blog-knowledge-search-ai-state');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -39,7 +39,7 @@ const AiBlogSearchPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('ai-blog-search-state', JSON.stringify(formData));
+    localStorage.setItem('blog-knowledge-search-ai-state', JSON.stringify(formData));
   }, [formData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -51,7 +51,7 @@ const AiBlogSearchPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-blog-search`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/blog-knowledge-search-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
@@ -59,7 +59,7 @@ const AiBlogSearchPage: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);
-      localStorage.removeItem('ai-blog-search-state');
+      localStorage.removeItem('blog-knowledge-search-ai-state');
     } catch (err: any) {
       setError(err.message || 'An error occurred');
     } finally {
@@ -71,7 +71,7 @@ const AiBlogSearchPage: React.FC = () => {
     <>
       <Helmet>
         <title>AiBlogSearch - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-blog-search to search and analyze blog posts with AI." />
+        <meta name="description" content="Use blog-knowledge-search-ai to search and analyze blog posts with AI." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

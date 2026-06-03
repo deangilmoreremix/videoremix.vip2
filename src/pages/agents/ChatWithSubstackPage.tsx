@@ -9,7 +9,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { FileText, Sparkles, Mail } from "lucide-react";
 
-const STORAGE_KEY = 'chat-with-substack';
+const STORAGE_KEY = 'newsletter-repurposer-ai';
 
 const ChatWithSubstackPage: React.FC = () => {
   const { user } = useAuth();
@@ -48,7 +48,7 @@ const ChatWithSubstackPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-with-substack`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/newsletter-repurposer-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })

@@ -45,9 +45,9 @@ const PublicAppSearch: React.FC = () => {
 
   // Filter apps based on visibility, search, and category
   const filteredApps = useMemo(() => {
-    let result = apps.filter((app) => {
+    let result = apps.filter((ai-design-studio) => {
       // Public apps are visible to everyone
-      if (app.isPublic) return true;
+      if (ai-design-studio.isPublic) return true;
 
       // Private apps only visible to logged-in users
       return user && true; // Could add more complex logic here
@@ -57,10 +57,10 @@ const PublicAppSearch: React.FC = () => {
     if (sanitizedSearchQuery) {
       const query = sanitizedSearchQuery.toLowerCase();
       result = result.filter(
-        (app) =>
-          app.name.toLowerCase().includes(query) ||
-          app.description.toLowerCase().includes(query) ||
-          app.category.toLowerCase().includes(query),
+        (ai-design-studio) =>
+          ai-design-studio.name.toLowerCase().includes(query) ||
+          ai-design-studio.description.toLowerCase().includes(query) ||
+          ai-design-studio.category.toLowerCase().includes(query),
       );
     }
 
@@ -69,7 +69,7 @@ const PublicAppSearch: React.FC = () => {
       selectedCategory !== "all" &&
       categories.some((cat) => cat.id === selectedCategory)
     ) {
-      result = result.filter((app) => app.category === selectedCategory);
+      result = result.filter((ai-design-studio) => ai-design-studio.category === selectedCategory);
     }
 
     return result;
@@ -237,14 +237,14 @@ const PublicAppSearch: React.FC = () => {
                 {(searchQuery || selectedCategory !== "all") && (
                   <span className="text-primary-400 ml-2">
                     (filtered from{" "}
-                    {apps.filter((app) => app.isPublic || user).length} total)
+                    {apps.filter((ai-design-studio) => ai-design-studio.isPublic || user).length} total)
                   </span>
                 )}
               </span>
             )}
           </div>
 
-          {!user && filteredApps.some((app) => !app.isPublic) && (
+          {!user && filteredApps.some((ai-design-studio) => !ai-design-studio.isPublic) && (
             <div className="text-sm text-gray-500 flex items-center">
               <Lock className="h-4 w-4 mr-1" />
               Some tools require sign-in
@@ -255,13 +255,13 @@ const PublicAppSearch: React.FC = () => {
         {/* Apps Grid */}
         {filteredApps.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredApps.map((app, index) => {
-              const canAccess = app.isPublic || user;
+            {filteredApps.map((ai-design-studio, index) => {
+              const canAccess = ai-design-studio.isPublic || user;
               const isPreview = !canAccess;
 
               return (
                 <motion.div
-                  key={app.id}
+                  key={ai-design-studio.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.05 * index }}
@@ -283,7 +283,7 @@ const PublicAppSearch: React.FC = () => {
                           } transition-colors`}
                         >
                           <LazyIcon
-                            name={app.iconName}
+                            name={ai-design-studio.iconName}
                             className={`h-5 w-5 ${
                               isPreview ? "text-gray-500" : "text-primary-400"
                             }`}
@@ -297,16 +297,16 @@ const PublicAppSearch: React.FC = () => {
                                 : "text-white group-hover:text-primary-400"
                             } transition-colors`}
                           >
-                            {app.name}
+                            {ai-design-studio.name}
                           </h3>
                           <div className="flex items-center space-x-2 mt-1">
-                            {app.popular && (
+                            {ai-design-studio.popular && (
                               <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-yellow-500/10 text-yellow-400">
                                 <Star className="h-3 w-3 mr-1" />
                                 Popular
                               </span>
                             )}
-                            {app.new && (
+                            {ai-design-studio.new && (
                               <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-green-500/10 text-green-400">
                                 <Sparkles className="h-3 w-3 mr-1" />
                                 New
@@ -322,18 +322,18 @@ const PublicAppSearch: React.FC = () => {
 
                     {/* Description */}
                     <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                      {app.description}
+                      {ai-design-studio.description}
                     </p>
 
                     {/* Footer */}
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-gray-500 uppercase tracking-wide">
-                        {app.category}
+                        {ai-design-studio.category}
                       </span>
 
                       {canAccess ? (
                         <Link
-                          to={`/app/${app.id}`}
+                          to={`/ai-design-studio/${ai-design-studio.id}`}
                           className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition-colors"
                         >
                           Open

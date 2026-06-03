@@ -20,7 +20,7 @@ const XaiFinanceAgentPage: React.FC = () => {
   const handleSubmit = async (tabKey: string, data: any) => {
     setLoading(tabKey);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/xai-finance-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/finance-research-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...data, mode: tabKey, userId: user?.id })
@@ -39,7 +39,7 @@ const XaiFinanceAgentPage: React.FC = () => {
     <>
       <Helmet>
         <title>XaiFinanceAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use xai-finance-agent to automate tasks with AI." />
+        <meta name="description" content="Use finance-research-ai to automate tasks with AI." />
       </Helmet>
 
       <main className="pt-24 pb-20">

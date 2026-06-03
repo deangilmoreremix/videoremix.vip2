@@ -41,7 +41,7 @@ const AgenticRagEmbeddingGemmaPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/agentic-rag-embedding-gemma`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/research-paper-assistant`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })

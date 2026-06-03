@@ -18,9 +18,9 @@ import { appsData } from "../data/appsData";
 
 // The 17 New Apps
 const newApps = [
-  { name: "AI Personalized Content Hub", url: "https://ai-personalizedcontent.videoremix.vip" },
+  { name: "AI Personalized Content Hub", url: "https://ai-sales-email-writer-intelligence-pro.videoremix.vip" },
   { name: "FunnelCraft AI", url: "https://ai-funnelcraft.videoremix.vip" },
-  { name: "AI Skills Monetizer", url: "https://ai-skills-monetizer.videoremix.vip" },
+  { name: "AI Skills Monetizer", url: "https://daily-content-engine-ai.videoremix.vip" },
   { name: "AI Skills & Resume", url: "https://ai-skills.videoremix.vip" },
   { name: "Sales Page Builder", url: "https://ai-salespage.videoremix.vip" },
   { name: "Sales Assistant Pro", url: "https://ai-salesassistant.videoremix.vip" },
@@ -28,7 +28,7 @@ const newApps = [
   { name: "AI Personalizer", url: "https://ai-personalizer.videoremix.vip" },
   { name: "AI Video Transformer", url: "https://ai-video-transformer.videoremix.vip" },
   { name: "AI Screen Recorder", url: "https://ai-screenrecorder.videoremix.vip" },
-  { name: "AI Signature", url: "https://ai-signature.videoremix.vip" },
+  { name: "AI Signature", url: "https://ai-content-creator-pro.videoremix.vip" },
   { name: "AI Thumbnail Generator", url: "https://ai-thumbnail-generator.videoremix.vip" },
   { name: "Profile Gen", url: "https://ai-profilegen.videoremix.vip" },
   { name: "AI Video Editor", url: "https://ai-videoeditor.videoremix.vip" },
@@ -194,16 +194,16 @@ const SpecialFooter: React.FC = () => {
           <div className="space-y-3 col-span-2">
             <h3 className="text-white font-semibold mb-4">AI Marketing Tools</h3>
             <ul className="space-y-2">
-              {newApps.slice(0, 8).map((app, i) => (
+              {newApps.slice(0, 8).map((ai-design-studio, i) => (
                 <li key={i}>
                   <a
-                    href={app.url}
+                    href={ai-design-studio.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-white transition-colors inline-flex items-center"
                   >
                     <ChevronRight className="h-3 w-3 mr-1" />
-                    {app.name}
+                    {ai-design-studio.name}
                   </a>
                 </li>
               ))}

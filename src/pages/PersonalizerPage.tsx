@@ -3,7 +3,7 @@ import PersonalizerDialog from '../components/personalizer/PersonalizerDialog';
 
 export default function PersonalizerPage() {
   const [searchParams] = useSearchParams();
-  const appId = searchParams.get('app') || undefined;
+  const appId = searchParams.get('ai-design-studio') || undefined;
   const mode = searchParams.get('mode') || undefined;
   const initialTarget = searchParams.get('target') || undefined;
 

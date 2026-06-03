@@ -9,7 +9,7 @@
 ## Pricing Structure
 | Tier | Price | Description |
 |------|-------|-------------|
-| Standard | $97 | Base app price |
+| Standard | $97 | Base ai-design-studio price |
 | Premium | $197 | 15 premium apps with enhanced features |
 | Bundle | $397 | 12 category bundles (10 apps each) |
 
@@ -17,21 +17,21 @@
 
 ### Sales & Personalizer Apps
 1. ai-personalized-content
-2. ai-referral-maximizer-pro
-3. ai-sales-maximizer
-4. ai-signature-pro
-5. personalizer-profile-generator
+2. ai-strategy-advisor-pro
+3. ai-sales-email-writer-maximizer
+4. ai-content-creator-pro-pro
+5. ai-documentation-writer-generator
 6. personalizer-transformer
 7. personalizer-url-templates
-8. ai-proposal-generator
+8. competitor-spy-ai-generator
 9. sales-assistant-platform
-10. sales-page-builder-pro
+10. sales-call-follow-up-ai-pro
 
 ### Media & Content Apps
 11. ai-screen-recorder
-12. video-ai-editor-pro
-13. ai-video-image-pro
-14. ai-skills-monetizer-pro
+12. lead-research-scraper-ai-pro
+13. ai-business-growth-consultant-pro
+14. daily-content-engine-ai-pro
 
 **Total Premium Apps: 15**
 
@@ -54,9 +54,9 @@ Organized by category. See `appsData.ts` for full list with IDs, names, and desc
 - design-uiux: 6 apps
 - sales: 5 apps (non-premium)
 - video: 2 apps (non-premium)
-- lead-gen: 1 app
-- ai-image: 1 app
-- page: 1 app
+- lead-gen: 1 ai-design-studio
+- ai-image: 1 ai-design-studio
+- page: 1 ai-design-studio
 
 **Total Standard Apps: 101**
 

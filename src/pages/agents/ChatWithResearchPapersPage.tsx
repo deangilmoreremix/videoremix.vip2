@@ -9,7 +9,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { FileText, Sparkles, Search } from "lucide-react";
 
-const STORAGE_KEY = 'chat-with-research-papers';
+const STORAGE_KEY = 'research-paper-assistant';
 
 const ChatWithResearchPapersPage: React.FC = () => {
   const { user } = useAuth();
@@ -44,7 +44,7 @@ const ChatWithResearchPapersPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-with-research-papers`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/research-paper-assistant`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })

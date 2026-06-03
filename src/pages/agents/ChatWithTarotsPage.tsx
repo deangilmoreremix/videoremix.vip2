@@ -11,7 +11,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { Sparkles, Grid3X3 } from "lucide-react";
 
-const STORAGE_KEY = 'chat-with-tarots';
+const STORAGE_KEY = 'academic-research-ai';
 
 const ChatWithTarotsPage: React.FC = () => {
   const { user } = useAuth();
@@ -42,7 +42,7 @@ const ChatWithTarotsPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-with-tarots`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/academic-research-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })

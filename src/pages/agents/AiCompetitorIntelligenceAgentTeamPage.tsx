@@ -46,7 +46,7 @@ const AiCompetitorIntelligenceAgentTeamPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-competitor-intelligence-agent-team`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/competitor-spy-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, userId: user?.id })
@@ -66,7 +66,7 @@ const AiCompetitorIntelligenceAgentTeamPage: React.FC = () => {
     <>
       <Helmet>
         <title>AiCompetitorIntelligenceAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-competitor-intelligence-agent-team to analyze competitors with AI." />
+        <meta name="description" content="Use competitor-spy-ai to analyze competitors with AI." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

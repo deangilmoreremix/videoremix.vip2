@@ -326,11 +326,11 @@ export function createPurchaseIdempotencyKey(
 }
 
 /**
- * Create a unique idempotency key for granting app access
+ * Create a unique idempotency key for granting ai-design-studio access
  */
 export function createAppAccessIdempotencyKey(
   userId: string,
   appSlug: string
 ): string {
-  return `app-access-${userId}-${appSlug}`;
+  return `ai-design-studio-access-${userId}-${appSlug}`;
 }

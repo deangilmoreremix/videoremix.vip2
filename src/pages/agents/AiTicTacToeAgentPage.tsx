@@ -10,7 +10,7 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 
-const STORAGE_KEY = 'ai-tic-tac-toe-agent-form';
+const STORAGE_KEY = 'github-repo-assistant-form';
 
 const AiTicTacToeAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -32,7 +32,7 @@ const AiTicTacToeAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-tic-tac-toe-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/github-repo-assistant`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user?.id })
@@ -58,7 +58,7 @@ const AiTicTacToeAgentPage: React.FC = () => {
     <>
       <Helmet>
         <title>AiTicTacToeAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-tic-tac-toe-agent to play an AI-powered Tic Tac Toe game." />
+        <meta name="description" content="Use github-repo-assistant to play an AI-powered Tic Tac Toe game." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

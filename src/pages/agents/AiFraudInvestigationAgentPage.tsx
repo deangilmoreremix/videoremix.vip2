@@ -12,7 +12,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
 
-const STORAGE_KEY = 'ai-fraud-investigation-agent';
+const STORAGE_KEY = 'fraud-investigation-assistant';
 
 const MODEL_OPTIONS = [
   { value: "gpt-4o", label: "GPT-4o" },
@@ -120,7 +120,7 @@ const AiFraudInvestigationAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-fraud-investigation-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/fraud-investigation-assistant`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

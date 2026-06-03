@@ -11,7 +11,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { TrendingUp, Rocket, Sparkles, CheckCircle2, Lightbulb, Target } from "lucide-react";
 
-const STORAGE_KEY = 'ai-startup-trend-analysis-agent';
+const STORAGE_KEY = 'ai-bug-fixer';
 
 const AiStartupTrendAnalysisAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -40,7 +40,7 @@ const AiStartupTrendAnalysisAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-startup-trend-analysis-agent`, {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-bug-fixer`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
