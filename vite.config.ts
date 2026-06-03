@@ -59,26 +59,28 @@ export default defineConfig(({ mode }) => {
       host: '0.0.0.0',
       port: 8080,
       strictPort: true, // Use fixed port for easier Codespaces port forwarding
-      // Configure HMR for GitHub Codespaces
-      hmr: {
-        // Use the codespace URL for WebSocket connection
-        clientPort: 443,
-        protocol: 'wss',
-      },
-      allowedHosts: ['.app.github.dev', 'localhost'],
+      // Allow LAN IPs for local network access (e.g. 192.168.1.94)
+      allowedHosts: [
+        '.app.github.dev',
+        'localhost',
+        /^192\.168\.\d+\.\d+$/,
+        /^10\.\d+\.\d+\.\d+$/,
+      ],
       watch: {
         usePolling: false,
         ignored: ['**/node_modules/**', '**/dist/**', '**/supabase/functions/**'],
       },
+      // Configure HMR for GitHub Codespaces; default (no config) for localhost/LAN
+      ...(isCodespaces
+        ? { hmr: { clientPort: 443, protocol: 'wss' } }
+        : {}),
       // Proxy all Supabase cloud calls to local instance
       proxy: {
-        // Redirect any calls to the cloud Supabase project to local instance
         '^https://bzxohkrxcwodllketcpz.supabase.co': {
           target: 'http://127.0.0.1:54321',
           changeOrigin: true,
           rewrite: (path) => path.replace('^https://bzxohkrxcwodllketcpz.supabase.co', ''),
         },
-        // Also proxy Supabase functions
         '^/functions': {
           target: 'http://127.0.0.1:54321',
           changeOrigin: true,

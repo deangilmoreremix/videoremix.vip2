@@ -11,7 +11,6 @@ import ParallaxSection from './ParallaxSection';
 import ProgressIndicator from './ProgressIndicator';
 import StickyWidget from './StickyWidget';
 import BackToTop from './BackToTop';
-import ExitIntentPopup from './ExitIntentPopup';
 import AnimatedBorderGradient from './AnimatedBorderGradient';
 import GradientOrb from './GradientOrb';
 import AnimatedStatsCounter from './AnimatedStatsCounter';
@@ -662,27 +661,27 @@ const LandingPage: React.FC = () => {
             >
               Ready to 3x Your Marketing ROI?
             </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-white/80 mb-8"
-            >
-              Start your free trial today. No credit card required.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <button className="bg-white text-primary-600 px-8 py-3 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg">
-                Start Free Trial
-              </button>
-            </motion.div>
+<motion.p
+               initial={{ opacity: 0, y: 10 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               viewport={{ once: true }}
+               transition={{ duration: 0.5, delay: 0.1 }}
+               className="text-white/80 mb-8"
+             >
+               Join 12,467+ marketers transforming their marketing with AI personalization.
+             </motion.p>
+             <motion.div
+               initial={{ opacity: 0, scale: 0.9 }}
+               whileInView={{ opacity: 1, scale: 1 }}
+               viewport={{ once: true }}
+               transition={{ duration: 0.5, delay: 0.2 }}
+               whileHover={{ scale: 1.05 }}
+               whileTap={{ scale: 0.95 }}
+             >
+               <button className="bg-white text-primary-600 px-8 py-3 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg">
+                 Get Started
+               </button>
+             </motion.div>
           </div>
         </section>
       </SectionReveal>
@@ -781,19 +780,12 @@ const LandingPage: React.FC = () => {
       <ProgressIndicator />
       <StickyWidget />
       <BackToTop />
-      <ExitIntentPopup />
 
       {/* Conversion Nudges - timed popups for marketing conversions */}
       <ConversionNudge
-        headline="See it live in 60 seconds"
-        message="Watch a personalized demo tailored to your industry."
-        cta="Book Demo"
-        delaySeconds={25}
-      />
-      <ConversionNudge
-        headline="Join 12,467+ marketers"
-        message="Start your free trial. No credit card required."
-        cta="Start Free Trial"
+        headline="Ready to get started?"
+        message="Join 12,467+ marketers already boosting their ROI with VideoRemix."
+        cta="Get Started"
         delaySeconds={45}
       />
     </main>

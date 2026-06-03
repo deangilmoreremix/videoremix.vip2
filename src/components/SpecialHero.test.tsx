@@ -17,7 +17,7 @@ const mockHeroData = {
   title: 'Custom Hero Title from CMS',
   subtitle: 'Custom hero subtitle from CMS for testing purposes',
   description: 'Benefit one from CMS\nBenefit two from CMS\nBenefit three from CMS',
-  primary_button_text: 'Start Free Trial',
+  primary_button_text: 'Get Started',
   primary_button_url: '/custom-signup',
   secondary_button_text: 'Learn More',
   secondary_button_url: '/about',
@@ -56,10 +56,10 @@ describe('SpecialHero', () => {
     // Assert that the provider-supplied copy is displayed
     expect(screen.getByText('Custom Hero Title from CMS')).toBeInTheDocument();
     expect(screen.getByText('Custom hero subtitle from CMS for testing purposes')).toBeInTheDocument();
-    expect(screen.getByText('Start Free Trial')).toBeInTheDocument();
+    expect(screen.getByText('Get Started')).toBeInTheDocument();
     
     // Check that the button links to the correct URL
-    const ctaButton = screen.getByRole('link', { name: /Start Free Trial/i });
+    const ctaButton = screen.getByRole('link', { name: /Get Started/i });
     expect(ctaButton).toHaveAttribute('href', '/custom-signup');
   });
 

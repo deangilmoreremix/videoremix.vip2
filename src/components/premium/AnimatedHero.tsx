@@ -164,15 +164,15 @@ const AnimatedHero: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
           >
-            <motion.button
-              whileHover={shouldReduceMotion ? {} : { scale: 1.04, y: -2 }}
-              whileTap={shouldReduceMotion ? {} : { scale: 0.97 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative inline-flex items-center gap-2 px-8 py-4 bg-primary-500 text-white font-semibold rounded-xl shadow-2xl shadow-primary-500/40 hover:shadow-primary-500/60 transition-shadow"
-            >
-              Start Free Trial
-              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-            </motion.button>
+<motion.button
+               whileHover={shouldReduceMotion ? {} : { scale: 1.04, y: -2 }}
+               whileTap={shouldReduceMotion ? {} : { scale: 0.97 }}
+               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+               className="group relative inline-flex items-center gap-2 px-8 py-4 bg-primary-500 text-white font-semibold rounded-xl shadow-2xl shadow-primary-500/40 hover:shadow-primary-500/60 transition-shadow"
+             >
+               Get Started
+               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+             </motion.button>
             <motion.button
               whileHover={shouldReduceMotion ? {} : { scale: 1.04, y: -2 }}
               whileTap={shouldReduceMotion ? {} : { scale: 0.97 }}
@@ -198,7 +198,7 @@ const AnimatedHero: React.FC = () => {
             </div>
             <div className="flex items-center gap-1.5">
               <Check className="h-4 w-4 text-emerald-400" />
-              <span>No credit card required</span>
+              <span>Enterprise-ready</span>
             </div>
             <div className="flex items-center gap-1.5">
               <Check className="h-4 w-4 text-emerald-400" />

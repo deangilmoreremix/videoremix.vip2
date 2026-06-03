@@ -599,32 +599,32 @@ const FinalCTA: React.FC = () => {
         </div>
 
         <div className="text-center max-w-3xl mx-auto">
-          <motion.h3
-            className="text-2xl font-bold mb-4"
-            whileHover={{
-              scale: 1.05,
-              textShadow: "0 0 8px rgba(255, 255, 255, 0.5)",
-            }}
-          >
-            Join Our Community of 10,000+ Video Creators
-          </motion.h3>
-          <p className="text-lg mb-8">
-            Don't miss this opportunity to transform your video creation process
-            and start producing professional content that drives real results
-            for your business or brand.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <motion.a
-              href="#signup"
-              className="btn bg-white text-primary-600 hover:bg-gray-100 font-semibold text-lg px-10 py-4 rounded-lg"
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 20px 25px -5px rgba(255, 255, 255, 0.2)",
-              }}
-              whileTap={{ scale: 0.97 }}
-            >
-              Start Free Trial
-            </motion.a>
+<motion.h3
+             className="text-2xl font-bold mb-4"
+             whileHover={{
+               scale: 1.05,
+               textShadow: "0 0 8px rgba(255, 255, 255, 0.5)",
+             }}
+           >
+             Join Our Community of 10,000+ Video Creators
+           </motion.h3>
+           <p className="text-lg mb-8">
+             Don't miss this opportunity to transform your video creation process
+             and start producing professional content that drives real results
+             for your business or brand.
+           </p>
+           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+             <motion.a
+               href="#signup"
+               className="btn bg-white text-primary-600 hover:bg-gray-100 font-semibold text-lg px-10 py-4 rounded-lg"
+               whileHover={{
+                 scale: 1.05,
+                 boxShadow: "0 20px 25px -5px rgba(255, 255, 255, 0.2)",
+               }}
+               whileTap={{ scale: 0.97 }}
+             >
+               Get Started
+             </motion.a>
             <motion.a
               href="#questions"
               className="btn bg-transparent border border-white text-white hover:bg-white/10 text-lg px-10 py-4 rounded-lg"

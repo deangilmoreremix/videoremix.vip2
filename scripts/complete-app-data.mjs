@@ -78,7 +78,7 @@ function generateContent(app) {
 
   // Generate faqs array (5-8 items)
   content.faqs = [
-    { question: 'Is there a free trial?', answer: 'Yes, all apps come with a free tier or trial period so you can test before purchasing.' },
+    { question: 'How does pricing work?', answer: 'One-time payment for lifetime access. All apps include a free tier to get started.' },
     { question: 'How does billing work?', answer: 'One-time payment for lifetime access. No subscriptions or hidden fees.' },
     { question: 'Can I get a refund?', answer: '30-day money-back guarantee. Full refund if you are not completely satisfied.' },
     { question: 'What integrations are supported?', answer: 'Works with popular tools and platforms. Contact support for specific integration requests.' },

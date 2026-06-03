@@ -62,7 +62,7 @@ const GuaranteeSection: React.FC = () => {
 
                 <div className="md:w-2/3 md:pl-8">
                   <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 text-center md:text-left">
-                    Risk-Free Trial with Full Platform Support
+                    Satisfaction Guaranteed with Full Platform Support
                   </h3>
 
                   <p className="text-gray-300 mb-6">
@@ -114,7 +114,7 @@ const GuaranteeSection: React.FC = () => {
                         boxShadow: "0 20px 25px -5px rgba(79, 70, 229, 0.3)",
                       }}
                     >
-                      <span>Try Risk-Free Today</span>
+                      <span>Get Started Today</span>
                       <motion.div
                         animate={{
                           x: [0, 5, 0],

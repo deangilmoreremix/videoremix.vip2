@@ -2333,7 +2333,7 @@ const AppDetailPage: React.FC = () => {
                   ease: "easeInOut",
                 }}
               />
-              <span className="relative z-10">Start Free Trial</span>
+              <span className="relative z-10">Get Started</span>
               <motion.div
                 animate={{
                   x: [0, 5, 0],

@@ -88,26 +88,26 @@ const toolCategories = [
   },
 ];
 
-// Featured apps to highlight (by slug) - aligned with 95-app VideoRemix catalog
+// Featured apps to highlight (by slug)
 const featuredApps = [
-  "ai-sales-intelligence-pro",
-  "lead-research-scraper-ai",
-  "ai-strategy-advisor",
-  "ai-agency-builder-suite",
-  "blog-to-podcast-ai",
-  "daily-content-engine-ai",
-  "ai-content-creator-pro",
-  "ai-documentation-writer",
-  "youtube-repurposer-ai",
-  "ai-video-script-producer",
-  "ai-voice-support-agent",
-  "ai-audio-guide-creator",
-  "business-knowledgebase-ai",
-  "pdf-business-assistant",
-  "smart-search-ai",
-  "real-estate-marketing-ai",
-  "ai-hiring-assistant",
-  "finance-research-ai",
+  "ai-personalized-content",
+  "funnelcraft-ai",
+  "ai-skills-monetizer",
+  "resume-amplifier",
+  "landing-page",
+  "sales-assistant-app",
+  "ai-art",
+  "personalizer-profile",
+  "personalizer-video-image-transformer",
+  "personalizer-recorder",
+  "ai-signature",
+  "thumbnail-generator",
+  "personalizer-profile-generator",
+  "video-ai-editor",
+  "ai-referral-maximizer-pro",
+  "ai-sales-maximizer",
+  "ai-content",
+  "product-research-ai",
 ];
 
 // Apps that should show "Coming Soon" label
@@ -182,79 +182,7 @@ const comingSoonApps = [
   "Lumea Residence",
 ];
 
-// Apps that should show "Coming Soon" label
-const comingSoonApps = [
-  "AI Headshot Studio",
-  "Nano Banana Studio",
-  "Seedance V2 Studio",
-  "EasyVeo",
-  "AIClip",
-  "Pet Product Studio",
-  "Resale Photo Enhancer",
-  "AI Recruiter",
-  "Talk to PDF",
-  "Blogger CMS",
-  "Amazon Product Studio",
-  "AI Business Card",
-  "MailWise",
-  "My Podcast",
-  "EZScribe",
-  "AI Knowledge Base",
-  "AI Outbound",
-  "AI Royal Portrait",
-  "AI MEME",
-  "AI Real Estate Stager",
-  "AI Logo",
-  "OldPhoto",
-  "AITryOn",
-  "AI Age Transformation",
-  "AI Professional Makeup Generator",
-  "AI Flash Cards",
-  "AI Group Photo",
-  "AI Tattoo Try-On",
-  "AI Hair Style Simulator",
-  "AI Kids-to-Adult Prediction",
-  "AI Room Declutter",
-  "AI Fitness Body Simulator",
-  "AI Pet Portrait",
-  "AI Kissing Video Generator",
-  "Chat with PDF",
-  "AI Travel Studio",
-  "Prompt Architect",
-  "ClearMark AI",
-  "PlantVision AI",
-  "AI Wedding Photo",
-  "User Account Registration Form",
-  "Social Post",
-  "MagicSelf AI",
-  "AI Resume Builder",
-  "GEO Checker",
-  "AI Character Studio",
-  "Luxury Hair Studio",
-  "ProFlow Plumbing",
-  "Solace AI",
-  "ReLive AI",
-  "AI Chiropractic Service",
-  "Tabla - ReserveAI",
-  "Dental ReserveAI",
-  "CounselMate",
-  "Intelligent Real Estate Agent",
-  "Fixera",
-  "Velora - Yoga AI",
-  "Nova AssuranceAI",
-  "TurboGlow Auto Spa",
-  "Paws & Pals",
-  "Vertex Tax Strategy",
-  "LedgerSync",
-  "Nova Care Clinic",
-  "Opulent Drive",
-  "ProFix Auto",
-  "TowMate",
-  "SwiftLink Logistics",
-  "Lumea Residence",
-];
-
-// Fallback image URLs to use when an ai-design-studio image fails to load
+// Fallback image URLs to use when an app image fails to load
 const fallbackImages = [
   "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
   "https://images.unsplash.com/photo-1550751827-4bd374c3f58e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
@@ -333,16 +261,16 @@ const AppGallerySection: React.FC = () => {
 
     // Apply category filter
     if (selectedCategory !== "all") {
-      result = result.filter((ai-design-studio) => ai-design-studio.category === selectedCategory);
+      result = result.filter((app) => app.category === selectedCategory);
     }
 
     // Apply search filter
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       result = result.filter(
-        (ai-design-studio) =>
-          ai-design-studio.name.toLowerCase().includes(query) ||
-          ai-design-studio.description.toLowerCase().includes(query),
+        (app) =>
+          app.name.toLowerCase().includes(query) ||
+          app.description.toLowerCase().includes(query),
       );
     }
 
@@ -410,7 +338,7 @@ const AppGallerySection: React.FC = () => {
       // Get the current error count or 0 if first error
       const currentErrorCount = prev[appId] || 0;
 
-      // Increment error count for this ai-design-studio
+      // Increment error count for this app
       return {
         ...prev,
         [appId]: currentErrorCount + 1,
@@ -418,17 +346,17 @@ const AppGallerySection: React.FC = () => {
     });
 
     // Track image load error
-    Analytics.trackError(`Image load failed for ai-design-studio ${appId}`, 'image_load_error', appId);
+    Analytics.trackError(`Image load failed for app ${appId}`, 'image_load_error', appId);
   };
 
-  // Get a fallback image URL based on ai-design-studio ID
+  // Get a fallback image URL based on app ID
   const getFallbackImage = (appId: string | undefined, errorCount: number = 0) => {
     // Handle undefined appId
     if (!appId || typeof appId !== 'string') {
       return fallbackImages[0]; // Default fallback
     }
 
-    // Start with a deterministic fallback based on ai-design-studio ID
+    // Start with a deterministic fallback based on app ID
     const index = appId.charCodeAt(0) % fallbackImages.length;
 
     // If multiple errors, cycle through fallbacks
@@ -462,7 +390,7 @@ const AppGallerySection: React.FC = () => {
 
   // Get featured apps
   const getFeaturedApps = () => {
-    return appsData.filter((ai-design-studio) => featuredApps.includes(ai-design-studio.id));
+    return appsData.filter((app) => featuredApps.includes(app.id));
   };
 
   // Animated cards with staggered entrance
@@ -596,9 +524,9 @@ const AppGallerySection: React.FC = () => {
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {getFeaturedApps().map((ai-design-studio, index) => (
+            {getFeaturedApps().map((app, index) => (
               <motion.div
-                key={ai-design-studio.id}
+                key={app.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
@@ -612,39 +540,39 @@ const AppGallerySection: React.FC = () => {
                 <div className="absolute top-0 left-0 right-0 px-4 py-3 bg-gradient-to-b from-black/70 to-transparent z-20 flex justify-between items-start">
                   <div className="max-w-[70%]">
                     <h4 className="text-white font-bold truncate">
-                      Personalized {ai-design-studio.name}
+                      Personalized {app.name}
                     </h4>
                     <p className="text-gray-300 text-sm truncate">
-                      Tailored {ai-design-studio.description.toLowerCase()}
+                      Tailored {app.description.toLowerCase()}
                     </p>
                   </div>
 
                    <div className="flex space-x-2">
-                     {comingSoonApps.includes(ai-design-studio.name) && (
+                     {comingSoonApps.includes(app.name) && (
                        <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">
                          COMING SOON
                        </span>
                      )}
                      {user && (
                        <>
-                         {hasAccessToApp(ai-design-studio.id) && ai-design-studio.isActive ? (
+                         {hasAccessToApp(app.id) && app.isActive ? (
                            <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
                              <Check className="h-3 w-3" /> OWNED
                            </span>
                          ) : (
                            <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
                              <Lock className="h-3 w-3" />{" "}
-                             {ai-design-studio.isActive ? "LOCKED" : "INACTIVE"}
+                             {app.isActive ? "LOCKED" : "INACTIVE"}
                            </span>
                          )}
                        </>
                      )}
-                     {ai-design-studio.popular && (
+                     {app.popular && (
                        <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded-full font-bold mb-1">
                          POPULAR
                        </span>
                      )}
-                     {ai-design-studio.new && (
+                     {app.new && (
                        <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded-full font-bold">
                          NEW
                        </span>
@@ -656,13 +584,13 @@ const AppGallerySection: React.FC = () => {
                 <div className="w-full aspect-video">
                   <img
                     src={
-                      imageErrors[ai-design-studio.id]
-                        ? getFallbackImage(ai-design-studio.id, imageErrors[ai-design-studio.id])
-                        : ai-design-studio.image
+                      imageErrors[app.id]
+                        ? getFallbackImage(app.id, imageErrors[app.id])
+                        : app.image
                     }
-                    alt={ai-design-studio.name}
-                    className={`w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out ${user && !hasAccessToApp(ai-design-studio.id) ? "grayscale opacity-60" : ""}`}
-                    onError={() => handleImageError(ai-design-studio.id)}
+                    alt={app.name}
+                    className={`w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out ${user && !hasAccessToApp(app.id) ? "grayscale opacity-60" : ""}`}
+                    onError={() => handleImageError(app.id)}
                   />
 
                   {/* Gradient overlay */}
@@ -670,7 +598,7 @@ const AppGallerySection: React.FC = () => {
                 </div>
 
                 {/* Lock overlay for unpurchased apps */}
-                {user && !hasAccessToApp(ai-design-studio.id) && (
+                {user && !hasAccessToApp(app.id) && (
                   <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
                     <div className="text-center">
                       <Lock className="h-8 w-8 text-white mx-auto mb-2" />
@@ -683,11 +611,11 @@ const AppGallerySection: React.FC = () => {
 
                 {/* Hover overlay with action button */}
                 <div
-                  className={`absolute inset-0 bg-primary-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center ${user && !hasAccessToApp(ai-design-studio.id) ? "pointer-events-none" : ""}`}
+                  className={`absolute inset-0 bg-primary-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center ${user && !hasAccessToApp(app.id) ? "pointer-events-none" : ""}`}
                 >
-                  {ai-design-studio.url && shouldOpenInNewTab(ai-design-studio.url) ? (
+                  {app.url && shouldOpenInNewTab(app.url) ? (
                     <motion.a
-                      href={ai-design-studio.url}
+                      href={app.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.05 }}
@@ -699,7 +627,7 @@ const AppGallerySection: React.FC = () => {
                     </motion.a>
                   ) : (
                     <motion.a
-                      href={ai-design-studio.url || `/ai-design-studio/${ai-design-studio.id}`}
+                      href={app.url || `/app/${app.id}`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className="bg-white text-gray-900 px-6 py-3 rounded-lg font-bold flex items-center"
@@ -715,7 +643,7 @@ const AppGallerySection: React.FC = () => {
                   <div className="flex items-center">
                     <div className="p-2 bg-gray-800/80 rounded-full mr-3">
                       <LazyIcon
-                        name={ai-design-studio.iconName}
+                        name={app.iconName}
                         className="w-5 h-5 text-primary-400"
                       />
                     </div>
@@ -724,7 +652,7 @@ const AppGallerySection: React.FC = () => {
                       <span className="truncate">
                         Personalized{" "}
                         {
-                          toolCategories.find((c) => c.id === ai-design-studio.category)
+                          toolCategories.find((c) => c.id === app.category)
                             ?.label
                         }
                       </span>
@@ -901,17 +829,17 @@ const AppGallerySection: React.FC = () => {
               className="flex space-x-4 px-1"
               style={{ width: "max-content" }}
             >
-              {filteredApps.map((ai-design-studio) => {
-                const appUrl = ai-design-studio.url || `/ai-design-studio/${ai-design-studio.id}`;
+              {filteredApps.map((app) => {
+                const appUrl = app.url || `/app/${app.id}`;
                 const isExternal = shouldOpenInNewTab(appUrl);
 
                 return (
                   <motion.div
-                    key={ai-design-studio.id}
+                    key={app.id}
                     whileHover={{ y: -10 }}
                     className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 w-[280px] flex-shrink-0 group hover:border-primary-500/50 transition-colors"
-                    onMouseEnter={() => Analytics.trackCardHover(ai-design-studio.id, hasAccessToApp(ai-design-studio.id))}
-                    onClick={() => Analytics.trackCardClick(ai-design-studio.id, hasAccessToApp(ai-design-studio.id))}
+                    onMouseEnter={() => Analytics.trackCardHover(app.id, hasAccessToApp(app.id))}
+                    onClick={() => Analytics.trackCardClick(app.id, hasAccessToApp(app.id))}
                   >
                     <a
                       href={appUrl}
@@ -923,14 +851,14 @@ const AppGallerySection: React.FC = () => {
                       <div className="relative h-[160px]">
                         <img
                           src={
-                            imageErrors[ai-design-studio.id]
-                              ? getFallbackImage(ai-design-studio.id, imageErrors[ai-design-studio.id])
-                              : ai-design-studio.image
+                            imageErrors[app.id]
+                              ? getFallbackImage(app.id, imageErrors[app.id])
+                              : app.image
                           }
-                          alt={ai-design-studio.name}
+                          alt={app.name}
                           className="w-full h-full object-cover"
-                          onError={() => handleImageError(ai-design-studio.id)}
-                          onLoad={() => PerformanceMonitor.trackImageLoad(ai-design-studio.id, ai-design-studio.image)}
+                          onError={() => handleImageError(app.id)}
+                          onLoad={() => PerformanceMonitor.trackImageLoad(app.id, app.image)}
                         />
 
                         {/* Overlay with personalization focus */}
@@ -943,31 +871,31 @@ const AppGallerySection: React.FC = () => {
 
                          {/* Status badges */}
                          <div className="absolute top-3 right-3 flex flex-col space-y-1 items-end">
-                           {comingSoonApps.includes(ai-design-studio.name) && (
+                           {comingSoonApps.includes(app.name) && (
                              <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded font-bold">
                                COMING SOON
                              </span>
                            )}
                            {user && (
                              <>
-                               {hasAccessToApp(ai-design-studio.id) && ai-design-studio.isActive ? (
+                               {hasAccessToApp(app.id) && app.isActive ? (
                                  <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
                                    <Check className="h-3 w-3" /> OWNED
                                  </span>
                                ) : (
                                  <span className="bg-gray-600 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
                                    <Lock className="h-3 w-3" />{" "}
-                                   {ai-design-studio.isActive ? "LOCKED" : "INACTIVE"}
+                                   {app.isActive ? "LOCKED" : "INACTIVE"}
                                  </span>
                                )}
                              </>
                            )}
-                           {ai-design-studio.popular && (
+                           {app.popular && (
                              <span className="bg-yellow-500 text-black text-xs px-2 py-0.5 rounded font-bold">
                                POPULAR
                              </span>
                            )}
-                           {ai-design-studio.new && (
+                           {app.new && (
                              <span className="bg-green-500 text-black text-xs px-2 py-0.5 rounded font-bold">
                                NEW
                              </span>
@@ -977,16 +905,16 @@ const AppGallerySection: React.FC = () => {
 
                       <div className="p-4">
                         <h4 className="text-white font-bold text-lg group-hover:text-primary-400 transition-colors">
-                          {ai-design-studio.name}
+                          {app.name}
                         </h4>
                         <p className="text-gray-400 text-sm mb-3">
-                          {ai-design-studio.description}
+                          {app.description}
                         </p>
 
                         <div className="flex justify-between items-center">
                           <div className="flex items-center">
                             <LazyIcon
-                              name={ai-design-studio.iconName}
+                              name={app.iconName}
                               className="w-4 h-4 text-primary-400 mr-1"
                             />
                             <span className="text-gray-500 text-xs">
@@ -1021,21 +949,21 @@ const AppGallerySection: React.FC = () => {
                   : "space-y-4"
               }
             >
-              {filteredApps.map((ai-design-studio) => {
-                const appUrl = ai-design-studio.url || `/ai-design-studio/${ai-design-studio.id}`;
+              {filteredApps.map((app) => {
+                const appUrl = app.url || `/app/${app.id}`;
                 const isExternal = shouldOpenInNewTab(appUrl);
 
                 return (
                   <motion.div
-                    key={ai-design-studio.id}
+                    key={app.id}
                     variants={itemVariants}
                     className={`relative cursor-pointer ${
                       viewMode === "grid"
                         ? "group bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-primary-500/50 transition-colors shadow-lg"
                         : "flex bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-primary-500/50 transition-colors shadow-lg"
-                    } ${expandedApps.has(ai-design-studio.id) ? "border-primary-500" : ""}`}
-                    onMouseEnter={() => Analytics.trackCardHover(ai-design-studio.id, hasAccessToApp(ai-design-studio.id))}
-                    onClick={() => toggleAppExpansion(ai-design-studio.id)}
+                    } ${expandedApps.has(app.id) ? "border-primary-500" : ""}`}
+                    onMouseEnter={() => Analytics.trackCardHover(app.id, hasAccessToApp(app.id))}
+                    onClick={() => toggleAppExpansion(app.id)}
                   >
                     {/* App image */}
                     <div
@@ -1048,18 +976,18 @@ const AppGallerySection: React.FC = () => {
                       <div className="relative h-full">
                         <img
                           src={
-                            imageErrors[ai-design-studio.id]
-                              ? getFallbackImage(ai-design-studio.id, imageErrors[ai-design-studio.id])
-                              : ai-design-studio.image
+                            imageErrors[app.id]
+                              ? getFallbackImage(app.id, imageErrors[app.id])
+                              : app.image
                           }
-                          alt={ai-design-studio.name}
+                          alt={app.name}
                           className={`object-cover ${
                             viewMode === "grid"
                               ? "w-full h-full"
                               : "w-32 h-full"
-                          } ${user && !hasAccessToApp(ai-design-studio.id) ? "grayscale opacity-60" : ""}`}
-                          onError={() => handleImageError(ai-design-studio.id)}
-                          onLoad={() => PerformanceMonitor.trackImageLoad(ai-design-studio.id, ai-design-studio.image)}
+                          } ${user && !hasAccessToApp(app.id) ? "grayscale opacity-60" : ""}`}
+                          onError={() => handleImageError(app.id)}
+                          onLoad={() => PerformanceMonitor.trackImageLoad(app.id, app.image)}
                         />
 
                         {/* Personalization marker */}
@@ -1069,31 +997,31 @@ const AppGallerySection: React.FC = () => {
 
                          {/* Status badges */}
                          <div className="absolute top-2 right-2">
-                           {comingSoonApps.includes(ai-design-studio.name) && (
+                           {comingSoonApps.includes(app.name) && (
                              <div className="bg-orange-500 text-xs text-white px-1.5 py-0.5 rounded font-bold mb-1">
                                COMING SOON
                              </div>
                            )}
                            {user && (
                              <>
-                               {hasAccessToApp(ai-design-studio.id) && ai-design-studio.isActive ? (
+                               {hasAccessToApp(app.id) && app.isActive ? (
                                  <div className="bg-green-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
                                    <Check className="h-3 w-3" /> OWNED
                                  </div>
                                ) : (
                                  <div className="bg-gray-600 text-xs text-white px-1.5 py-0.5 rounded flex items-center gap-1 mb-1">
                                    <Lock className="h-3 w-3" />{" "}
-                                   {ai-design-studio.isActive ? "LOCKED" : "INACTIVE"}
+                                   {app.isActive ? "LOCKED" : "INACTIVE"}
                                  </div>
                                )}
                              </>
                            )}
-                           {ai-design-studio.popular && (
+                           {app.popular && (
                              <div className="bg-yellow-500 text-xs text-black px-1.5 py-0.5 rounded font-bold mb-1">
                                POPULAR
                              </div>
                            )}
-                           {ai-design-studio.new && (
+                           {app.new && (
                              <div className="bg-green-500 text-xs text-black px-1.5 py-0.5 rounded font-bold">
                                NEW
                              </div>
@@ -1107,22 +1035,22 @@ const AppGallerySection: React.FC = () => {
                       className={viewMode === "grid" ? "p-4" : "p-4 flex-grow"}
                     >
                       <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary-400 transition-colors break-words">
-                        {ai-design-studio.name}
+                        {app.name}
                       </h3>
                       <p className="text-gray-300 text-sm mb-4 break-words">
-                        Personalized {ai-design-studio.description.toLowerCase()}
+                        Personalized {app.description.toLowerCase()}
                       </p>
 
-                      {/* Link to ai-design-studio details */}
+                      {/* Link to app details */}
                       <div className="flex justify-between items-center">
                         <div className="flex items-center text-xs text-gray-400">
                           <LazyIcon
-                            name={ai-design-studio.iconName}
+                            name={app.iconName}
                             className="h-4 w-4 text-primary-400 mr-1"
                           />
                           <span>
                             {
-                              toolCategories.find((c) => c.id === ai-design-studio.category)
+                              toolCategories.find((c) => c.id === app.category)
                                 ?.label
                             }
                           </span>
@@ -1143,7 +1071,7 @@ const AppGallerySection: React.FC = () => {
 
                       {/* Lock overlay for unpurchased apps */}
                       {user &&
-                        !hasAccessToApp(ai-design-studio.id) &&
+                        !hasAccessToApp(app.id) &&
                         viewMode === "grid" && (
                           <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10 rounded-xl">
                             <div className="text-center">
@@ -1158,7 +1086,7 @@ const AppGallerySection: React.FC = () => {
                       {/* Hover effect for grid view */}
                       {viewMode === "grid" && (
                         <div
-                          className={`absolute inset-0 bg-primary-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center ${user && !hasAccessToApp(ai-design-studio.id) ? "pointer-events-none" : ""}`}
+                          className={`absolute inset-0 bg-primary-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center ${user && !hasAccessToApp(app.id) ? "pointer-events-none" : ""}`}
                         >
                           <a
                             href={appUrl}
@@ -1172,7 +1100,7 @@ const AppGallerySection: React.FC = () => {
                           </a>
 
                           {/* User count for popular apps */}
-                          {ai-design-studio.popular && (
+                          {app.popular && (
                             <div className="mt-3 flex items-center text-white text-sm">
                               <Users className="h-4 w-4 mr-1" />
                               <span>Used by 1,200+ creators</span>
@@ -1192,7 +1120,7 @@ const AppGallerySection: React.FC = () => {
                       )}
 
                       {/* GTM Content Expansion */}
-                      {expandedApps.has(ai-design-studio.id) && gtmContent[ai-design-studio.group] && (
+                      {expandedApps.has(app.id) && gtmContent[app.group] && (
                         <div className="px-4 pb-4 border-t border-gray-700 mt-2 pt-3">
                           <div className="text-xs text-gray-400 mb-2 flex items-center">
                             <Sparkles className="h-3 w-3 mr-1 text-primary-400" />
@@ -1202,20 +1130,20 @@ const AppGallerySection: React.FC = () => {
                           {/* Target Audience */}
                           <div className="mb-3">
                             <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Target Audience</div>
-                            <div className="text-sm text-gray-200">{gtmContent[ai-design-studio.group].targetAudience}</div>
+                            <div className="text-sm text-gray-200">{gtmContent[app.group].targetAudience}</div>
                           </div>
                           
                           {/* Value Proposition */}
                           <div className="mb-3">
                             <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Value Proposition</div>
-                            <div className="text-sm text-gray-200">{gtmContent[ai-design-studio.group].valueProposition}</div>
+                            <div className="text-sm text-gray-200">{gtmContent[app.group].valueProposition}</div>
                           </div>
                           
                           {/* Use Cases */}
                           <div className="mb-3">
                             <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Use Cases</div>
                             <ul className="text-sm text-gray-200 space-y-1">
-                              {gtmContent[ai-design-studio.group].useCases.map((useCase, idx) => (
+                              {gtmContent[app.group].useCases.map((useCase, idx) => (
                                 <li key={idx} className="flex items-start">
                                   <span className="text-primary-400 mr-2">•</span>
                                   {useCase}
@@ -1227,19 +1155,19 @@ const AppGallerySection: React.FC = () => {
                           {/* Competitive Differentiation */}
                           <div className="mb-3">
                             <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Competitive Difference</div>
-                            <div className="text-sm text-gray-200">{gtmContent[ai-design-studio.group].competitiveDiff}</div>
+                            <div className="text-sm text-gray-200">{gtmContent[app.group].competitiveDiff}</div>
                           </div>
                           
                           {/* Pricing Rationale */}
                           <div className="mb-3">
                             <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Pricing</div>
-                            <div className="text-sm text-gray-200">{gtmContent[ai-design-studio.group].pricingRationale}</div>
+                            <div className="text-sm text-gray-200">{gtmContent[app.group].pricingRationale}</div>
                           </div>
                           
                           {/* Integration Points */}
                           <div className="mb-3">
                             <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Integrations</div>
-                            <div className="text-sm text-gray-200">{gtmContent[ai-design-studio.group].integrationPoints.join(", ")}</div>
+                            <div className="text-sm text-gray-200">{gtmContent[app.group].integrationPoints.join(", ")}</div>
                           </div>
                         </div>
                       )}

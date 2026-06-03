@@ -662,49 +662,6 @@ function App() {
             }
           />
 
-          {/* About Us Page */}
-          <Route
-            path="/about"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <AboutUsPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
-
-          {/* Blog Pages */}
-          <Route
-            path="/blog"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <BlogPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
-          <Route
-            path="/blog/:slug"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <BlogPostPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
-
           {/* Tools Hub Page - Public access to browse tools */}
           <Route
             path="/tools"
