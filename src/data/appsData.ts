@@ -1220,7 +1220,7 @@ const rawAppsData: App[] = [{
     image: "https://bzxohkrxcwodllketcpz.supabase.co/storage/v1/object/public/app-assets/thumbnails/local-ai-reasoning-agent-py-thumbnail.png",
     url: "/agent/local-reasoning-engine",
   },
-
+  {
     id: "qwen-local-rag",
     name: "Research Intelligence Qwen Local RAG",
     description: "Advanced local search powered by Qwen for precise, context-aware knowledge retrieval.",
