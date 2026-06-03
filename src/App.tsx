@@ -15,7 +15,6 @@ import { useAuth } from "./context/AuthContext";
 import { Toaster } from "./components/ui/toast";
 import { NetworkStatusIndicator } from "./components/AsyncStates";
 import { Analytics } from "./utils/analytics";
-import GlobalPersonalizerButton from "./components/personalizer/GlobalPersonalizerButton";
 
 // TEMP DIAGNOSTIC: retry-aware dynamic import logger (revert after root cause confirmed)
 // Helps distinguish "server already dead before import starts" vs "transform fails mid-request"
@@ -53,7 +52,6 @@ const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
 const AdminSignUp = lazy(() => import("./components/admin/AdminSignUp"));
 const SpecialFooter = lazy(() => import("./components/SpecialFooter"));
-const GlobalPersonalizerButton = lazy(() => import("./components/personalizer/GlobalPersonalizerButton"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 const CoursesPage = lazy(() => import("./pages/CoursesPage"));
 const AnalyticsDashboard = lazy(() => import("./components/AnalyticsDashboard"));
@@ -583,17 +581,8 @@ function App() {
      // In a production app, you might send this to an error tracking service
    };
 
-// Determine if we should show the global personalizer (only for authenticated users, not on auth/landing pages)
-    const isAuthPage = location.pathname.startsWith("/signin") || 
-                       location.pathname.startsWith("/signup") || 
-                       location.pathname.startsWith("/forgot-password") ||
-                       location.pathname.startsWith("/reset-password") ||
-                       location.pathname === "/pricing" ||
-                       location.pathname === "/"; // Landing page
-    const showGlobalPersonalizer = user && !isAdminPage && !isAuthPage;
-
-   return (
-    <>
+    return (
+     <>
       <Helmet>
         <title>VideoRemix.vip - AI-Powered Marketing Personalization Platform</title>
         <meta name="description" content="Create personalized marketing content that converts with AI-powered tools. Transform your campaigns with VideoRemix.vip's marketing personalization platform." />
