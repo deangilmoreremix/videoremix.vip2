@@ -88,26 +88,26 @@ const toolCategories = [
   },
 ];
 
-// Featured apps to highlight (by slug)
+// Featured apps to highlight (by slug) - aligned with 95-app VideoRemix catalog
 const featuredApps = [
-  "ai-personalized-content",
-  "launch-campaign-builder-ai",
-  "daily-content-engine-ai",
-  "resume-amplifier",
-  "landing-page",
+  "ai-sales-intelligence-pro",
+  "lead-research-scraper-ai",
+  "ai-strategy-advisor",
   "ai-agency-builder-suite",
-  "ai-art",
+  "blog-to-podcast-ai",
+  "daily-content-engine-ai",
+  "ai-content-creator-pro",
   "ai-documentation-writer",
   "youtube-repurposer-ai",
-  "blog-to-podcast-ai",
-  "ai-content-creator-pro",
-  "thumbnail-generator",
-  "ai-documentation-writer-generator",
-  "lead-research-scraper-ai",
-  "ai-strategy-advisor-pro",
-  "ai-sales-email-writer-maximizer",
-  "ai-content",
-  "product-research-ai",
+  "ai-video-script-producer",
+  "ai-voice-support-agent",
+  "ai-audio-guide-creator",
+  "business-knowledgebase-ai",
+  "pdf-business-assistant",
+  "smart-search-ai",
+  "real-estate-marketing-ai",
+  "ai-hiring-assistant",
+  "finance-research-ai",
 ];
 
 // Apps that should show "Coming Soon" label
