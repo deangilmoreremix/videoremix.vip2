@@ -121,15 +121,19 @@ class PerformanceMonitor {
     };
   }
 
-  // Memory usage monitoring
-  trackMemoryUsage() {
-    if ('memory' in performance) {
-      const memInfo = (performance as any).memory;
-      this.trackMetric('memory_used', memInfo.usedJSHeapSize);
-      this.trackMetric('memory_total', memInfo.totalJSHeapSize);
-      this.trackMetric('memory_limit', memInfo.jsHeapSizeLimit);
-    }
-  }
+// Memory usage monitoring
+   trackMemoryUsage() {
+     if ('memory' in performance) {
+       const memInfo = (performance as any).memory;
+       // Only log if memory usage exceeds 80% of limit to reduce noise
+       const usagePercent = (memInfo.usedJSHeapSize / memInfo.jsHeapSizeLimit) * 100;
+       if (usagePercent > 80) {
+         this.trackMetric('memory_used', memInfo.usedJSHeapSize);
+         this.trackMetric('memory_total', memInfo.totalJSHeapSize);
+         console.warn(`⚠️ High memory usage: ${Math.round(usagePercent)}%`);
+       }
+     }
+   }
 
   // Get diagnostics report
   getDiagnostics() {

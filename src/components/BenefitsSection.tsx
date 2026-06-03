@@ -71,14 +71,16 @@ const BenefitsSection: React.FC = () => {
     },
   ];
 
-  // Transform the data from Supabase to match the component's expectations
+// Transform the data from Supabase to match the component's expectations
   const benefits =
     isLoading || !benefitsFeatures || benefitsFeatures.length === 0
       ? defaultBenefits
       : benefitsFeatures.map((benefit) => {
           // Convert icon name string to actual component
+          // Schema uses 'icon' field, fallback to default if not available
           let iconComponent;
-          switch (benefit.icon_name) {
+          const iconName = benefit.icon || 'Sparkles'; // Use icon field, fallback to Sparkles
+          switch (iconName) {
             case "Clock":
               iconComponent = <Clock className="h-10 w-10" />;
               break;
@@ -101,7 +103,7 @@ const BenefitsSection: React.FC = () => {
             icon: iconComponent,
             title: benefit.title,
             description: benefit.description,
-            stats: Array.isArray(benefit.stats) ? benefit.stats : [],
+            stats: [], // stats not in schema, using empty array for component compatibility
           };
         });
 

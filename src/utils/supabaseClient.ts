@@ -3,20 +3,46 @@ import { supabase as canonicalSupabase } from "./supabase";
 
 export const supabase: SupabaseClient = canonicalSupabase;
 
+// Helper function to check if error is a permission error
+function isPermissionError(error: any): boolean {
+  if (!error) return false;
+  const msg = (error.message || '').toLowerCase();
+  const code = error.code || '';
+  return msg.includes('permission') || msg.includes('rls') || code === 'PGRST4250';
+}
+
+// Simple retry wrapper for fetch operations
+async function fetchWithRetry<T>(fn: () => Promise<T>, maxAttempts: number = 3): Promise<T> {
+  let lastError: any;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await fn();
+    } catch (error: any) {
+      lastError = error;
+      if (attempt >= maxAttempts) break;
+      // Wait before retry with exponential backoff
+      await new Promise(resolve => setTimeout(resolve, Math.min(1000 * Math.pow(2, attempt - 1), 5000)));
+    }
+  }
+  throw lastError;
+}
+
 // Hero section types
 export interface HeroContent {
   id: string;
   title: string;
   subtitle: string;
   description: string;
-  primary_button_text: string;
-  primary_button_url: string;
-  secondary_button_text: string;
-  secondary_button_url: string;
+  cta_text: string; // Maps to primary_button_text
+  cta_link: string; // Maps to primary_button_url
   background_image_url: string;
-  enabled: boolean;
+  is_active: boolean;
+  sort_order?: number;
   created_at: string;
   updated_at: string;
+  // Aliases for component compatibility
+  primary_button_text?: string; // Alias for cta_text
+  primary_button_url?: string; // Alias for cta_link
 }
 
 // Benefits/Features types
@@ -24,11 +50,8 @@ export interface BenefitFeature {
   id: string;
   title: string;
   description: string;
-  icon_name: string;
-  stats: {
-    label: string;
-    value: string;
-  }[];
+  icon: string; // Changed from icon_name to match schema
+  // stats is not in schema, using icon field instead
   enabled: boolean;
   created_at: string;
   updated_at: string;

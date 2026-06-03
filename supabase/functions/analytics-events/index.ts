@@ -27,9 +27,10 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Use service_role key for writes (bypasses RLS)
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? Deno.env.get('SUPABASE_ANON_KEY') ?? '',
       {
         global: {
           headers: { Authorization: req.headers.get('Authorization')! },
@@ -52,15 +53,49 @@ Deno.serve(async (req) => {
       throw new Error('No valid events provided')
     }
 
-    // Insert events into analytics table
-    const { data, error } = await supabaseClient
-      .from('analytics_events')
-      .insert(validEvents.map((event: AnalyticsEvent) => ({
-        ...event,
-        created_at: new Date().toISOString(),
-        ip_address: req.headers.get('CF-Connecting-IP') || req.headers.get('X-Forwarded-For') || 'unknown',
-        user_agent: req.headers.get('User-Agent') || 'unknown',
-      })))
+// Insert events into analytics table (using admin_analytics_events which exists in schema)
+     // Note: We map event types to match the table's CHECK constraint
+     const eventTypeMap: Record<string, string> = {
+       'page_view': 'user_login',
+       'page_hidden': 'admin_action',
+       'page_visible': 'admin_action',
+       'error': 'admin_action',
+       'performance': 'admin_action',
+       'user_interaction': 'admin_action',
+       'modal_opened': 'app_access_granted',
+       'modal_closed': 'admin_action',
+       'card_hovered': 'admin_action',
+       'card_clicked': 'admin_action',
+       'section_viewed': 'admin_action',
+       'cta_clicked': 'admin_action',
+       'purchase_start': 'purchase_completed',
+       'purchase_complete': 'purchase_completed',
+       'image_load_success': 'admin_action',
+       'image_load_error': 'admin_action',
+     };
+
+     const { data, error } = await supabaseClient
+       .from('admin_analytics_events')
+       .insert(validEvents.map((event: AnalyticsEvent) => ({
+         event_type: eventTypeMap[event.event_type] || 'admin_action',
+         entity_type: event.app_id ? 'app' : 'page',
+         entity_id: event.app_id || null,
+         user_id: event.user_id || null,
+         admin_id: event.user_id || null,
+         metadata: {
+           original_event_type: event.event_type,
+           event_name: event.event_name,
+           session_id: event.session_id,
+           url: event.url,
+           user_agent: req.headers.get('User-Agent')?.substring(0, 255) || 'unknown',
+           referrer: event.referrer,
+           performance_metric: event.performance_metric,
+           performance_value: event.performance_value,
+           error_message: event.error_message,
+           timestamp: event.timestamp,
+         },
+         created_at: new Date().toISOString(),
+       })))
 
     if (error) {
       console.error('Database error:', error)

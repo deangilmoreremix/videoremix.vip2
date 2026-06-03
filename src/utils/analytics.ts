@@ -52,6 +52,7 @@ class EventQueue {
   private static readonly BATCH_SIZE = 10;
   private static readonly FLUSH_INTERVAL = 30000; // 30 seconds
   private static intervalId: number | null = null;
+  private static maxRetries: Record<string, number> = {}; // Track retry counts per event
 
   static addEvent(event: AnalyticsEvent): void {
     this.queue.push(event);
@@ -74,30 +75,47 @@ class EventQueue {
     // Send to analytics endpoint
     this.sendToAnalytics(events).catch(error => {
       console.error('Analytics flush failed:', error);
-      // Re-queue events on failure
-      this.queue.unshift(...events);
+      // Re-queue events on failure, but only if under retry limit
+      events.forEach(event => {
+        const key = `${event.event_name}_${event.timestamp}`;
+        const retries = this.maxRetries[key] || 0;
+        if (retries < 3) {
+          this.maxRetries[key] = retries + 1;
+          this.queue.push(event);
+        }
+      });
     });
   }
 
   private static async sendToAnalytics(events: AnalyticsEvent[]): Promise<void> {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analytics-events`, {
+      // Check if analytics endpoint is available
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      
+      if (!supabaseUrl || !anonKey) {
+        console.warn('Analytics not configured - skipping event');
+        return; // Don't throw, don't store in localStorage
+      }
+
+      const response = await fetch(`${supabaseUrl}/functions/v1/analytics-events`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'Authorization': `Bearer ${anonKey}`,
         },
         body: JSON.stringify({ events }),
       });
 
       if (!response.ok) {
-        throw new Error(`Analytics API error: ${response.status}`);
+        // Don't store failed events - prevents localStorage explosion
+        console.warn(`Analytics API error: ${response.status} - event discarded`);
+        return;
       }
     } catch (error) {
-      // Store in localStorage as fallback for offline functionality
-      const existing = JSON.parse(localStorage.getItem('analytics_queue') || '[]');
-      localStorage.setItem('analytics_queue', JSON.stringify([...existing, ...events]));
-      throw error;
+      // Network error - don't store to prevent localStorage explosion
+      console.warn('Analytics send failed (network):', error);
+      return;
     }
   }
 
