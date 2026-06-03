@@ -71,63 +71,9 @@ export const useApps = () => {
       if (!forceRefresh) {
         const cachedApps = getCachedApps();
         if (cachedApps) {
-          // Validate cache with server
-          try {
-            console.log("[useApps] Validating cache with server...");
-            const { data: serverLastModified, error: validationError } =
-              await supabase
-                .from("apps")
-                .select("updated_at")
-                .order("updated_at", { ascending: false })
-                .limit(1);
-
-            console.log("[useApps] Cache validation response:", {
-              data: serverLastModified,
-              error: validationError,
-              errorCode: validationError?.code,
-              errorMessage: validationError?.message,
-              errorDetails: validationError?.details,
-            });
-
-            // Handle 406 error (RLS or empty result)
-            if (validationError) {
-              console.warn(
-                "[useApps] Cache validation failed due to RLS or empty table:",
-                validationError,
-              );
-              // Continue to fetch fresh data - this is expected when RLS blocks access or table is empty
-            } else if (serverLastModified && serverLastModified.length > 0) {
-              const cached = localStorage.getItem(APPS_CACHE_KEY);
-              if (cached) {
-                const cacheData: CacheData = JSON.parse(cached);
-                // If server data is newer, don't use cache
-                if (
-                  serverLastModified[0]?.updated_at &&
-                  serverLastModified[0].updated_at > cacheData.lastModified
-                ) {
-                  // Cache is stale, continue to fetch fresh data
-                  console.log(
-                    "[useApps] Cache is stale, fetching fresh data...",
-                  );
-                } else {
-                  // Cache is valid
-                  console.log("[useApps] Cache is valid, using cached data");
-                  setApps(cachedApps);
-                  setLoading(false);
-                  return;
-                }
-              }
-            } else {
-              // Empty result or no data
-              console.log("[useApps] Empty result or no data available");
-            }
-          } catch (validationError) {
-            console.warn(
-              "Cache validation failed, fetching fresh data:",
-              validationError,
-            );
-            // Continue to fetch fresh data
-          }
+          setApps(cachedApps);
+          setLoading(false);
+          return;
         }
       }
 

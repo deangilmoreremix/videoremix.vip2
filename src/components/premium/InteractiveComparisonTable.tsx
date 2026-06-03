@@ -63,7 +63,7 @@ const InteractiveComparisonTable: React.FC<ComparisonTableProps> = ({
                 onHoverStart={() => setHoveredRow(index)}
                 onHoverEnd={() => setHoveredRow(null)}
                 animate={{
-                  backgroundColor: hoveredRow === index ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
+                  backgroundColor: hoveredRow === index ? 'rgba(99, 102, 241, 0.1)' : 'rgba(0, 0, 0, 0)',
                 }}
                 transition={{ duration: 0.2 }}
               >
