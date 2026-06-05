@@ -77,6 +77,9 @@ import { getBundleForApp } from '../../data/bundleData';
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Card, CardContent } from "../ui/card";
+import { appGroups } from "../../data/appGroups";
+
+
 
 // Define TrendingUp component
 const TrendingUp: React.FC<{ className?: string }> = (props) => (
@@ -97,102 +100,6 @@ const TrendingUp: React.FC<{ className?: string }> = (props) => (
   </svg>
 );
 
-// =====================================================
-// PRODUCTION BATCHES — Single source of truth for grouping
-// These match the 10 production batches shipped across 2026
-// =====================================================
-const productionBatches = [
-  {
-    id: "batch-1",
-    number: 1,
-    name: "Sales, Lead Gen & Prospecting",
-    description: "AI that turns cold outreach into closed deals at scale",
-    categories: ["sales-lead-gen", "sales"],
-    accent: "#6366f1",
-  },
-  {
-    id: "batch-2",
-    number: 2,
-    name: "Content Creation & Marketing",
-    description: "High-velocity content engines that 3-5x engagement",
-    categories: ["content-marketing"],
-    accent: "#ec4899",
-  },
-  {
-    id: "batch-3",
-    number: 3,
-    name: "Video, Audio & Voice AI",
-    description: "Cinematic video, voice, and audio production in minutes",
-    categories: ["video-audio-voice", "video"],
-    accent: "#8b5cf6",
-  },
-  {
-    id: "batch-4",
-    number: 4,
-    name: "RAG, Knowledgebase & Document Intelligence",
-    description: "Enterprise-grade retrieval and document reasoning",
-    categories: ["rag-knowledgebase"],
-    accent: "#14b8a6",
-  },
-  {
-    id: "batch-5",
-    number: 5,
-    name: "Research, Analysis & Education",
-    description: "Deep research and insight generation at unprecedented speed",
-    categories: ["research-education"],
-    accent: "#f59e0b",
-  },
-  {
-    id: "batch-6",
-    number: 6,
-    name: "Developer, Code & SaaS Tools",
-    description: "AI pair programmers and full-stack acceleration",
-    categories: ["coding-developer"],
-    accent: "#3b82f6",
-  },
-  {
-    id: "batch-7",
-    number: 7,
-    name: "Design, UI/UX & Creative Systems",
-    description: "Professional-grade design and interface intelligence",
-    categories: ["design-uiux", "ai-image", "personalizer"],
-    accent: "#a855f7",
-  },
-  {
-    id: "batch-8",
-    number: 8,
-    name: "Finance, Legal & Compliance",
-    description: "Risk, contracts, due diligence, and financial intelligence",
-    categories: ["finance-business", "legal-compliance"],
-    accent: "#10b981",
-  },
-  {
-    id: "batch-9",
-    number: 9,
-    name: "HR, Hiring & Talent",
-    description: "Recruiting, interviewing, and workforce optimization",
-    categories: ["hr-hiring"],
-    accent: "#ef4444",
-  },
-  {
-    id: "batch-10",
-    number: 10,
-    name: "Local, Real Estate & Travel",
-    description: "Hyper-local intelligence and experience design",
-    categories: ["realestate-local", "productivity-personal", "page", "lead-gen"],
-    accent: "#06b6d4",
-  },
-];
-
-// Legacy category filter (kept for backward compat in other parts)
-const toolCategories = [
-  { id: "all", label: "All Batches", iconName: "layers" },
-  ...productionBatches.map((b) => ({
-    id: b.id,
-    label: b.name,
-    iconName: "layers",
-  })),
-];
 
 // Featured apps to highlight
 const featuredApps = [
@@ -251,56 +158,52 @@ const getAppUrl = (appId: string, apps: any[] = []) => {
 };
 
 // =====================================================
-// Batch resolution — maps any ai-design-studio to its production batch
+// Group Apps — maps any ai-design-studio to its app group
 // =====================================================
-const getBatchForApp = (ai-design-studio: any) => {
+const getGroupForApp = (ai-design-studio: any) => {
   if (!ai-design-studio) return null;
-  const cat = ai-design-studio.category;
+  const groupId = ai-design-studio.group;
 
-  for (const batch of productionBatches) {
-    if (batch.categories.includes(cat)) {
-      return batch;
-    }
-  }
-  // Fallback for unknown categories
+  const group = appGroups.find((g) => g.id === groupId);
+  if (group) return group;
+
   return {
-    id: "batch-uncategorized",
-    number: 99,
-    name: "Other Tools",
+    id: "uncategorized",
+    label: "Other Tools",
+    icon: <Layers className="w-4 h-4" />,
+    offerAngle: "Additional powerful utilities",
     description: "Additional powerful utilities",
-    accent: "#64748b",
   };
 };
 
-// Group apps by their production batch (used for the main layout)
-const groupAppsByBatch = (apps: any[]) => {
-  const groups: Record<string, { batch: any; apps: any[] }> = {};
+// Group apps by their app group (used for the main layout)
+const groupAppsByGroup = (apps: any[]) => {
+  const groups: Record<string, { group: any; apps: any[] }> = {};
 
-  productionBatches.forEach((batch) => {
-    groups[batch.id] = { batch, apps: [] };
+  appGroups.forEach((group) => {
+    groups[group.id] = { group, apps: [] };
   });
   // Fallback bucket
-  groups["batch-uncategorized"] = {
-    batch: {
-      id: "batch-uncategorized",
-      number: 99,
-      name: "Other Tools",
+  groups["uncategorized"] = {
+    group: {
+      id: "uncategorized",
+      label: "Other Tools",
+      icon: <Layers className="w-4 h-4" />,
+      offerAngle: "Additional powerful utilities",
       description: "Additional powerful utilities",
-      accent: "#64748b",
     },
     apps: [],
   };
 
   apps.forEach((ai-design-studio) => {
-    const batch = getBatchForApp(ai-design-studio);
-    const key = batch.id;
+    const group = getGroupForApp(ai-design-studio);
+    const key = group.id;
     if (groups[key]) {
       groups[key].apps.push(ai-design-studio);
     }
   });
 
-  // Return only batches that have apps (or always show all 10 for marketing)
-  return Object.values(groups).filter((g) => g.apps.length > 0 || g.batch.number < 11);
+  return Object.values(groups).filter((g) => g.apps.length > 0);
 };
 
 // Toggle GTM expansion for a specific ai-design-studio card (premium micro-interaction)
@@ -322,7 +225,7 @@ const DashboardToolsSection: React.FC = () => {
 
   const purchasedApps = accessData?.apps.map((ai-design-studio) => ai-design-studio.appSlug) || [];
   const hasAnyPurchases = purchasedApps.length > 0;
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedGroup, setSelectedGroup] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   // Per-card GTM expansion state (for premium dashboard experience)
   const [expandedGTM, setExpandedGTM] = useState<Record<string, boolean>>({});
@@ -364,7 +267,6 @@ const DashboardToolsSection: React.FC = () => {
 
     return fallbackImages[adjustedIndex];
   };
-
 
 
 
@@ -463,45 +365,44 @@ const DashboardToolsSection: React.FC = () => {
         </motion.div>
 
         {/* =====================================================
-             PREMIUM BATCH FILTER — 1M-dollar dashboard level
+             PREMIUM GROUP FILTER — 1M-dollar dashboard level
              Elegant, scrollable, confident
           ===================================================== */}
         <div className="max-w-6xl mx-auto mb-12">
           <div className="flex items-center justify-between mb-4 px-1">
             <div>
-              <div className="text-xs font-semibold tracking-[3px] text-primary-400/70 uppercase">Production Batches</div>
-              <div className="text-2xl font-semibold text-white tracking-tight">Organized by the 10 batches we actually shipped</div>
+              <div className="text-xs font-semibold tracking-[3px] text-primary-400/70 uppercase">Tool Groups</div>
+              <div className="text-2xl font-semibold text-white tracking-tight">Organized by the 12 groups we ship</div>
             </div>
             <div className="hidden md:block text-sm text-gray-500">
-              {appsData.length} tools across 10 production batches
+              {appsData.length} tools across 12 groups
             </div>
           </div>
 
-          {/* Elegant batch pills */}
+          {/* Elegant group pills */}
           <div className="flex gap-2 overflow-x-auto pb-4 hide-scrollbar snap-x snap-mandatory">
             <button
-              onClick={() => setSelectedCategory("all")}
+              onClick={() => setSelectedGroup("all")}
               className={`snap-start px-5 py-2.5 rounded-2xl text-sm font-medium whitespace-nowrap transition-all border ${
-                selectedCategory === "all"
+                selectedGroup === "all"
                   ? "bg-white text-black border-white shadow-lg"
                   : "bg-gray-900/60 border-gray-800 text-gray-300 hover:bg-gray-800 hover:text-white"
               }`}
             >
-              All Batches
+              All Groups
             </button>
-            {productionBatches.map((batch) => (
+            {appGroups.map((group) => (
               <button
-                key={batch.id}
-                onClick={() => setSelectedCategory(batch.id)}
+                key={group.id}
+                onClick={() => setSelectedGroup(group.id)}
                 className={`snap-start px-5 py-2.5 rounded-2xl text-sm font-medium whitespace-nowrap transition-all flex items-center gap-2 border ${
-                  selectedCategory === batch.id
+                  selectedGroup === group.id
                     ? "bg-white text-black border-white shadow-lg"
                     : "bg-gray-900/60 border-gray-800 text-gray-300 hover:bg-gray-800 hover:text-white"
                 }`}
               >
-                <span className="font-mono text-[10px] opacity-60">BATCH</span>
-                <span className="font-semibold tabular-nums">{String(batch.number).padStart(2, "0")}</span>
-                <span className="hidden lg:inline text-xs opacity-70">— {batch.name.split(" & ")[0]}</span>
+                <span className="opacity-70">{group.icon}</span>
+                <span className="hidden lg:inline text-xs opacity-70">{group.label}</span>
               </button>
             ))}
           </div>
@@ -513,7 +414,7 @@ const DashboardToolsSection: React.FC = () => {
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
             <Input
               type="text"
-              placeholder="Search across all batches..."
+              placeholder="Search across all groups..."
               className="pl-12 h-12 bg-gray-900/50 border-gray-800 focus:border-primary-500 rounded-3xl text-base"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -530,24 +431,24 @@ const DashboardToolsSection: React.FC = () => {
         </div>
 
         {/* =====================================================
-             BATCH-GROUPED APP GRID — The heart of the premium dashboard
+             GROUPED APP GRID — The heart of the premium dashboard
              This is what makes it feel like a $1M product
           ===================================================== */}
         <div className="max-w-7xl mx-auto space-y-20">
-          {groupAppsByBatch(appsData).map(({ batch, apps: batchApps }, batchIndex) => {
-            // Apply search filter within the batch
-            let filteredApps = batchApps;
+          {groupAppsByGroup(appsData).map(({ group, apps: groupApps }, groupIndex) => {
+            // Apply search filter within the group
+            let filteredApps = groupApps;
             if (searchQuery.trim()) {
               const q = searchQuery.toLowerCase();
-              filteredApps = batchApps.filter(
+              filteredApps = groupApps.filter(
                 (ai-design-studio) =>
                   ai-design-studio.name.toLowerCase().includes(q) ||
                   ai-design-studio.description.toLowerCase().includes(q)
               );
             }
 
-            // Filter by selected batch
-            if (selectedCategory !== "all" && selectedCategory !== batch.id) {
+            // Filter by selected group
+            if (selectedGroup !== "all" && selectedGroup !== group.id) {
               return null;
             }
 
@@ -555,24 +456,23 @@ const DashboardToolsSection: React.FC = () => {
 
             return (
               <motion.div
-                key={batch.id}
+                key={group.id}
                 initial={{ opacity: 0, y: 40 }}
                 animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-                transition={{ duration: 0.6, delay: 0.05 * batchIndex }}
+                transition={{ duration: 0.6, delay: 0.05 * groupIndex }}
                 className="group"
               >
-                {/* Luxurious Batch Header with delight */}
+                {/* Luxurious Group Header with delight */}
                 <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-8 px-1">
                   <div className="flex items-center gap-4">
                     <div
                       className="flex h-9 w-9 items-center justify-center rounded-2xl font-mono text-sm font-semibold tracking-[1px] text-white shadow-inner"
-                      style={{ backgroundColor: `${batch.accent}22`, color: batch.accent }}
                     >
-                      {String(batch.number).padStart(2, "0")}
+                      {group.icon}
                     </div>
                     <div>
-                      <div className="text-[13px] font-semibold tracking-[3px] text-white/50">PRODUCTION BATCH {batch.number}</div>
-                      <h3 className="text-3xl font-semibold tracking-tighter text-white">{batch.name}</h3>
+                      <h3 className="text-3xl font-semibold tracking-tighter text-white">{group.label}</h3>
+                      <p className="text-sm text-gray-400 mt-1">{group.description}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 text-sm text-gray-400 md:pb-1">
@@ -581,8 +481,6 @@ const DashboardToolsSection: React.FC = () => {
                     <span className="font-medium text-emerald-400">
                       {filteredApps.filter((a) => user && hasAccessToApp(a.id)).length} owned
                     </span>
-                    <span className="hidden md:inline text-white/30">·</span>
-                    <span className="hidden md:inline">{batch.description}</span>
                   </div>
                 </div>
 
@@ -590,7 +488,7 @@ const DashboardToolsSection: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
                   {filteredApps.slice(0, 12).map((ai-design-studio, index) => {
                     const isPurchased = user && hasAccessToApp(ai-design-studio.id);
-                    const currentBatch = getBatchForApp(ai-design-studio);
+                    const currentGroup = getGroupForApp(ai-design-studio);
                     const handleAppClick = (e: React.MouseEvent) => {
                       if (!isPurchased) {
                         e.preventDefault();
@@ -639,12 +537,11 @@ const DashboardToolsSection: React.FC = () => {
                             )}
                           </div>
 
-                          {/* Subtle batch indicator on image */}
+                          {/* Subtle group indicator on image */}
                           <div
                             className="absolute bottom-4 left-4 rounded-full px-2.5 py-px text-[10px] font-medium tracking-[1.5px] text-white/70"
-                            style={{ backgroundColor: `${currentBatch.accent}30` }}
                           >
-                            BATCH {currentBatch.number}
+                            {currentGroup.label}
                           </div>
                         </div>
 
@@ -686,7 +583,7 @@ const DashboardToolsSection: React.FC = () => {
                             <div className="mt-4 flex items-center justify-between text-sm">
                               <div className="flex items-center gap-2 text-xs text-gray-500">
                                 <LazyIcon name={ai-design-studio.iconName} className="h-4 w-4 text-primary-400" />
-                                <span>{currentBatch.name.split(" & ")[0]}</span>
+                                <span>{currentGroup.label}</span>
                               </div>
 
                               <span className="flex items-center gap-1 text-primary-400 font-medium group-hover/card:gap-1.5 transition-all">
@@ -715,10 +612,10 @@ const DashboardToolsSection: React.FC = () => {
                   })}
                 </div>
 
-                {/* Elegant "more in this batch" footer */}
+                {/* Elegant "more in this group" footer */}
                 {filteredApps.length > 12 && (
                   <div className="mt-5 text-center text-sm text-primary-400/70 hover:text-primary-400 transition-colors cursor-pointer">
-                    +{filteredApps.length - 12} more tools in this batch →
+                    +{filteredApps.length - 12} more tools in this group →
                   </div>
                 )}
               </motion.div>
@@ -733,7 +630,7 @@ const DashboardToolsSection: React.FC = () => {
         {(!user || !hasAnyPurchases) && (
           <div className="max-w-2xl mx-auto pt-8 text-center">
             <div className="inline-flex items-center gap-2 text-xs tracking-[3px] text-primary-400/70 font-medium mb-3">START YOUR COLLECTION</div>
-            <h4 className="text-3xl font-semibold tracking-tighter text-white mb-3">Own the complete 10-batch library</h4>
+            <h4 className="text-3xl font-semibold tracking-tighter text-white mb-3">Own the complete tool library</h4>
             <p className="text-gray-400 mb-8 max-w-md mx-auto">
               Every tool above is available as a lifetime purchase. Unlock the full system and start delivering personalized work at scale.
             </p>
@@ -745,7 +642,6 @@ const DashboardToolsSection: React.FC = () => {
             </a>
           </div>
         )}
-
 
 
 
@@ -809,6 +705,7 @@ const DashboardToolsSection: React.FC = () => {
 
         .line-clamp-2 {
           display: -webkit-box;
+          -webkit-line-clamp: 2;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
