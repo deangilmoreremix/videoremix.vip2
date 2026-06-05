@@ -7,7 +7,7 @@ import { ClassifiedError } from '../utils/errorHandling';
 
 /**
  * Loading Spinner Component
- * Shows a consistent loading indicator across the ai-design-studio
+ * Shows a consistent loading indicator across the app
  */
 interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg';
@@ -259,7 +259,7 @@ export const AsyncButton: React.FC<AsyncButtonProps> = ({
 
 /**
  * Network Status Indicator
- * Shows when the ai-design-studio is offline
+ * Shows when the app is offline
  */
 export const NetworkStatusIndicator: React.FC = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);

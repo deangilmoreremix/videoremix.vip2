@@ -5,17 +5,17 @@ export function updateAppThumbnails(appsData: any[]) {
     generatedThumbnails.map(img => [img.metadata.appId, img])
   );
 
-  return appsData.map(ai-design-studio => {
-    const thumbnail = thumbnailMap.get(ai-design-studio.id);
+  return appsData.map(app => {
+    const thumbnail = thumbnailMap.get(app.id);
     if (thumbnail) {
       return {
-        ...ai-design-studio,
+        ...app,
         image: thumbnail.url,
         thumbnailAlt: thumbnail.alt,
         generatedThumbnail: true
       };
     }
-    return ai-design-studio;
+    return app;
   });
 }
 
@@ -39,12 +39,12 @@ export function validateThumbnailCoverage(appsData: any[]) {
     missing: []
   };
 
-  appsData.forEach(ai-design-studio => {
-    if (thumbnailMap.has(ai-design-studio.id)) {
+  appsData.forEach(app => {
+    if (thumbnailMap.has(app.id)) {
       coverage.withThumbnails++;
     } else {
       coverage.withoutThumbnails++;
-      coverage.missing.push(ai-design-studio.id);
+      coverage.missing.push(app.id);
     }
   });
 

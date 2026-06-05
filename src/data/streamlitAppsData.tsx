@@ -301,40 +301,40 @@ const streamlitAppsData: StreamlitApp[] = [
 
 // Helper functions
 export const getStreamlitAppById = (id: string): StreamlitApp | undefined => {
-  return streamlitAppsData.find(ai-design-studio => ai-design-studio.id === id);
+  return streamlitAppsData.find(app => app.id === id);
 };
 
 export const getStreamlitAppsByCategory = (category: string): StreamlitApp[] => {
-  return streamlitAppsData.filter(ai-design-studio => ai-design-studio.category === category);
+  return streamlitAppsData.filter(app => app.category === category);
 };
 
 export const getPopularStreamlitApps = (): StreamlitApp[] => {
-  return streamlitAppsData.filter(ai-design-studio => ai-design-studio.popular);
+  return streamlitAppsData.filter(app => app.popular);
 };
 
 export const getNewStreamlitApps = (): StreamlitApp[] => {
-  return streamlitAppsData.filter(ai-design-studio => ai-design-studio.new);
+  return streamlitAppsData.filter(app => app.new);
 };
 
 export const searchStreamlitApps = (query: string): StreamlitApp[] => {
   const lowercaseQuery = query.toLowerCase();
-  return streamlitAppsData.filter(ai-design-studio =>
-    ai-design-studio.name.toLowerCase().includes(lowercaseQuery) ||
-    ai-design-studio.description.toLowerCase().includes(lowercaseQuery) ||
-    ai-design-studio.category.toLowerCase().includes(lowercaseQuery) ||
-    ai-design-studio.tags?.some(tag => tag.toLowerCase().includes(lowercaseQuery))
+  return streamlitAppsData.filter(app =>
+    app.name.toLowerCase().includes(lowercaseQuery) ||
+    app.description.toLowerCase().includes(lowercaseQuery) ||
+    app.category.toLowerCase().includes(lowercaseQuery) ||
+    app.tags?.some(tag => tag.toLowerCase().includes(lowercaseQuery))
   );
 };
 
 export const getStreamlitCategories = (): string[] => {
-  return [...new Set(streamlitAppsData.map(ai-design-studio => ai-design-studio.category))];
+  return [...new Set(streamlitAppsData.map(app => app.category))];
 };
 
 export const getStreamlitAppStats = () => {
   return {
     totalApps: streamlitAppsData.length,
-    totalUsers: streamlitAppsData.reduce((sum, ai-design-studio) => sum + (ai-design-studio.userCount || 0), 0),
-    averageRating: streamlitAppsData.reduce((sum, ai-design-studio) => sum + (ai-design-studio.rating || 0), 0) / streamlitAppsData.length,
+    totalUsers: streamlitAppsData.reduce((sum, app) => sum + (app.userCount || 0), 0),
+    averageRating: streamlitAppsData.reduce((sum, app) => sum + (app.rating || 0), 0) / streamlitAppsData.length,
     categories: getStreamlitCategories().length
   };
 };

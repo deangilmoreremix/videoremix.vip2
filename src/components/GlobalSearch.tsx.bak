@@ -114,20 +114,20 @@ const GlobalSearch: React.FC = () => {
     const searchQuery = query.toLowerCase();
     const appResults: SearchResult[] = apps
       .filter(
-        (app) =>
-          app.name.toLowerCase().includes(searchQuery) ||
-          app.description?.toLowerCase().includes(searchQuery) ||
-          app.category?.toLowerCase().includes(searchQuery),
+        (ai-design-studio) =>
+          ai-design-studio.name.toLowerCase().includes(searchQuery) ||
+          ai-design-studio.description?.toLowerCase().includes(searchQuery) ||
+          ai-design-studio.category?.toLowerCase().includes(searchQuery),
       )
       .slice(0, 5)
-      .map((app) => ({
-        id: app.id,
-        title: app.name,
-        description: app.description || "",
+      .map((ai-design-studio) => ({
+        id: ai-design-studio.id,
+        title: ai-design-studio.name,
+        description: ai-design-studio.description || "",
         category: "ai-design-studio" as const,
         path: `/ai-design-studio/${ai-design-studio.id}`,
-        icon: app.icon,
-        isExternal: app.url ? true : false,
+        icon: ai-design-studio.icon,
+        isExternal: ai-design-studio.url ? true : false,
       }));
 
     const pageResults: SearchResult[] = pages

@@ -34,7 +34,7 @@ export interface AIAppResult {
 export type AIAppComponent = React.ComponentType<AIAppProps>;
 
 /**
- * Standard shape every specific AI ai-design-studio component should follow.
+ * Standard shape every specific AI app component should follow.
  * This is the "contract" for the template system.
  */
 export interface AIAppDefinition {

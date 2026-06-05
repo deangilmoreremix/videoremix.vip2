@@ -117,7 +117,7 @@ export function useAgentApi(appId: string) {
 }
 
 /**
- * Standalone function to check if user has required API keys for an ai-design-studio
+ * Standalone function to check if user has required API keys for an app
  * (without calling the actual function)
  */
 export async function userHasApiKeys(supabase: any, appId: string): Promise<boolean> {
@@ -151,7 +151,7 @@ export async function userHasApiKeys(supabase: any, appId: string): Promise<bool
 }
 
 /**
- * Get list of missing providers for an ai-design-studio
+ * Get list of missing providers for an app
  */
 export async function getMissingProviders(supabase: any, appId: string): Promise<string[]> {
   const {

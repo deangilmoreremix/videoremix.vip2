@@ -9,8 +9,8 @@ generatedThumbnails.forEach(thumb => {
 /**
  * Centralized App URL Configuration
  *
- * Single source of truth for all ai-design-studio URLs and thumbnail images.
- * Maps ai-design-studio IDs to their corresponding videoremix.vip subdomain URLs.
+ * Single source of truth for all app URLs and thumbnail images.
+ * Maps app IDs to their corresponding videoremix.vip subdomain URLs.
  * 
  * The 17 new apps as specified:
  * - AI Personalized Content Hub: https://ai-sales-email-writer-intelligence-pro.videoremix.vip
@@ -173,19 +173,19 @@ export const APP_THUMBNAILS: Record<string, string> = {
 };
 
 /**
- * Get the URL for a specific ai-design-studio
- * @param appId - The ai-design-studio identifier
- * @returns The ai-design-studio's URL (external) or internal route fallback
+ * Get the URL for a specific app
+ * @param appId - The app identifier
+ * @returns The app's URL (external) or internal route fallback
  */
 export const getAppUrl = (appId: string): string => {
   return APP_URLS[appId] || `/ai-design-studio/${appId}`;
 };
 
 /**
- * Get the thumbnail URL for a specific ai-design-studio
+ * Get the thumbnail URL for a specific app
  * Priority: 1) AI-generated DALL-E thumbnail, 2) Local SVG thumbnail, 3) None
- * @param appId - The ai-design-studio identifier
- * @returns The ai-design-studio's thumbnail URL (absolute URL for AI-generated, relative path for SVG)
+ * @param appId - The app identifier
+ * @returns The app's thumbnail URL (absolute URL for AI-generated, relative path for SVG)
  */
 export const getAppThumbnail = (appId: string): string => {
   // Priority 1: AI-generated DALL-E thumbnail (if available)
@@ -205,18 +205,18 @@ export const getAppThumbnail = (appId: string): string => {
 };
 
 /**
- * Check if an ai-design-studio has an external URL
- * @param appId - The ai-design-studio identifier
- * @returns True if the ai-design-studio uses an external URL
+ * Check if an app has an external URL
+ * @param appId - The app identifier
+ * @returns True if the app uses an external URL
  */
 export const isExternalUrl = (appId: string): boolean => {
   return appId in APP_URLS && APP_URLS[appId].startsWith("https://");
 };
 
 /**
- * Get all apps that share the same URL (multi-ai-design-studio hubs)
+ * Get all apps that share the same URL (multi-app hubs)
  * @param url - The URL to check
- * @returns Array of ai-design-studio IDs that use this URL
+ * @returns Array of app IDs that use this URL
  */
 export const getAppsForUrl = (url: string): string[] => {
   return Object.entries(APP_URLS)

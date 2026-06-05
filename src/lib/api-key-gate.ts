@@ -3,7 +3,7 @@
  * Shared utility for checking and requiring user API keys before accessing apps.
  *
  * This library provides functions to:
- * - Check if user has required API keys for a given ai-design-studio
+ * - Check if user has required API keys for a given app
  * - Show modal if keys are missing
  * - Save user API keys to Supabase
  * - Retrieve user keys for backend calls

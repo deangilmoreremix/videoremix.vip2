@@ -129,7 +129,7 @@ export const AppCardSkeleton: React.FC = () => (
 );
 
 /**
- * Grid of ai-design-studio card skeletons
+ * Grid of app card skeletons
  */
 export const AppGridSkeleton: React.FC<{ count?: number }> = ({
   count = 6,

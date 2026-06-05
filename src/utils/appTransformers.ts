@@ -50,9 +50,9 @@ const FALLBACK_IMAGES = [
 ];
 
 // Get icon name for ai-design-studio (used by LazyIcon component)
-export const getIconNameForApp = (ai-design-studio: DatabaseApp): string => {
+export const getIconNameForApp = (app: DatabaseApp): string => {
   // Check specific ai-design-studio slug first, then fall back to category
-  return ai-design-studio.slug || ai-design-studio.category || "ai";
+  return app.slug || app.category || "ai";
 };
 
 // Transform database ai-design-studio to component ai-design-studio (pure data transformation)

@@ -162,11 +162,11 @@ export const isAppIncludedInBundle = (appId: string): boolean => {
 };
 
 export const getVideoRemixCoreApps = (apps: App[]): App[] => {
-  return apps.filter(ai-design-studio => isVideoRemixCoreApp(ai-design-studio.id));
+  return apps.filter(app => isVideoRemixCoreApp(app.id));
 };
 
 export const getLlmAgentApps = (apps: App[]): App[] => {
-  return apps.filter(ai-design-studio => isConvertedLlmAgent(ai-design-studio.id));
+  return apps.filter(app => isConvertedLlmAgent(app.id));
 };
 
 export const getBundlePricing = () => {

@@ -21,13 +21,13 @@ import PersonalizerDialog from "./personalizer/PersonalizerDialog";
 import { Button } from "./ui/button";
 
 interface AppDetailModalProps {
-  ai-design-studio: any;
+  app: any;
   isOpen: boolean;
   onClose: () => void;
 }
 
 const AppDetailModal: React.FC<AppDetailModalProps> = ({
-  ai-design-studio,
+  app,
   isOpen,
   onClose,
 }) => {
@@ -40,8 +40,8 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
   >("overview");
 
   // Get enhanced ai-design-studio data
-  const enhancedApp = getEnhancedAppData(ai-design-studio.id, ai-design-studio);
-  const isOwned = user && hasAccessToApp(ai-design-studio.id);
+  const enhancedApp = getEnhancedAppData(app.id, app);
+  const isOwned = user && hasAccessToApp(app.id);
 
   // Handle escape key
   useEffect(() => {
@@ -60,7 +60,7 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
     };
   }, [isOpen, onClose]);
 
-  if (!ai-design-studio) return null;
+  if (!app) return null;
 
   return (
     <>
@@ -84,8 +84,8 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
               {/* Header */}
               <div className="relative h-64 bg-gradient-to-br from-primary-600 to-primary-800">
                 <img
-                  src={ai-design-studio.image}
-                  alt={ai-design-studio.name}
+                  src={app.image}
+                  alt={app.name}
                   className="w-full h-full object-cover opacity-20"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -104,7 +104,7 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         <h1 className="text-3xl font-bold text-white">
-                          {ai-design-studio.name}
+                          {app.name}
                         </h1>
                         {user && (
                           <>
@@ -121,7 +121,7 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
                         )}
                       </div>
                       <p className="text-gray-200 text-lg mb-4">
-                        {ai-design-studio.description}
+                        {app.description}
                       </p>
                       <div className="flex items-center gap-4 text-sm text-gray-300">
                         <span className="flex items-center gap-1">
@@ -144,7 +144,7 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
                     <div className="flex gap-3">
                       {isOwned ? (
                         <a
-                          href={ai-design-studio.url}
+                          href={app.url}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="bg-white text-gray-900 px-6 py-3 rounded-lg font-bold flex items-center gap-2 hover:bg-gray-100 transition-colors"
@@ -176,7 +176,7 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
               <PersonalizerDialog
                 open={showPersonalizer}
                 onClose={() => setShowPersonalizer(false)}
-                appId={ai-design-studio?.id}
+                appId={app?.id}
               />
 
               {/* Content */}
@@ -385,12 +385,12 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
       <PurchaseModal
         isOpen={showPurchaseModal}
         onClose={() => setShowPurchaseModal(false)}
-        ai-design-studio={{
-          id: ai-design-studio.id,
-          name: ai-design-studio.name,
-          description: ai-design-studio.description,
-          image: ai-design-studio.image,
-          icon: ai-design-studio.icon,
+        app={{
+          id: app.id,
+          name: app.name,
+          description: app.description,
+          image: app.image,
+          icon: app.icon,
           price: enhancedApp.price || 97,
         }}
       />

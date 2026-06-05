@@ -7,7 +7,7 @@ import type { UseRunAIAppOptions, UseRunAIAppReturn, ConversationMessage } from 
  * Supports streaming responses via WebSocket (with SSE fallback), multi-turn conversation context, and auto-retry.
  *
  * Centralizes the duplicated ~25-35 lines of useState + supabase.functions.invoke + try/catch + onResult/onError
- * that previously lived in every ai-design-studio component (and GenericAIApp).
+ * that previously lived in every app component (and GenericAIApp).
  */
 export function useRunAIApp(
   slug: string,

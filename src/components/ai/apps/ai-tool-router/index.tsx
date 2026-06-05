@@ -72,12 +72,12 @@ export default function AIToolRouter({ appId, appName, onResult, onError, onRunn
         </div>
         <div>
           <h2 className="text-2xl font-semibold">{appName}</h2>
-          <p className="text-sm text-gray-400 -mt-0.5">The intelligent router for the entire 95-ai-design-studio Internal AI Suite</p>
+          <p className="text-sm text-gray-400 -mt-0.5">The intelligent router for the entire 95-app Internal AI Suite</p>
         </div>
       </div>
 
       <p className="text-gray-400 max-w-3xl">
-        Describe what you want to accomplish in plain English (or paste a brief/document). The router analyzes your goal against all 95 specialized AI apps and returns the optimal route — which ai-design-studio(s) to use, in what order, plus copy-paste ready prompts tailored to your exact request.
+        Describe what you want to accomplish in plain English (or paste a brief/document). The router analyzes your goal against all 95 specialized AI apps and returns the optimal route — which app(s) to use, in what order, plus copy-paste ready prompts tailored to your exact request.
       </p>
 
       {!output ? (

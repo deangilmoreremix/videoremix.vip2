@@ -96,7 +96,7 @@ const AdminFeaturesManagement: React.FC = () => {
       return allFeatures;
     }
     // Find the ai-design-studio ID for the selected ai-design-studio slug
-    const selectedAppData = apps.find((ai-design-studio) => ai-design-studio.slug === selectedApp);
+    const selectedAppData = apps.find((app) => app.slug === selectedApp);
     return selectedAppData
       ? allFeatures.filter(
           (feature) => feature.parent_app_id === selectedAppData.id,
@@ -600,7 +600,7 @@ const AdminFeaturesManagement: React.FC = () => {
             Features Management
           </h2>
           <p className="text-gray-400">
-            Control which features are available for each ai-design-studio
+            Control which features are available for each app
           </p>
         </div>
         <div className="flex items-center space-x-4">
@@ -613,7 +613,7 @@ const AdminFeaturesManagement: React.FC = () => {
               <span className="mr-2">
                 {selectedApp === "all"
                   ? "All Features"
-                  : apps.find((ai-design-studio) => ai-design-studio.slug === selectedApp)?.name ||
+                  : apps.find((app) => app.slug === selectedApp)?.name ||
                     "Select App"}
               </span>
               <ChevronDown className="h-4 w-4" />
@@ -631,18 +631,18 @@ const AdminFeaturesManagement: React.FC = () => {
                   >
                     All Features
                   </button>
-                  {apps.map((ai-design-studio) => (
+                  {apps.map((app) => (
                     <button
-                      key={ai-design-studio.id}
+                      key={app.id}
                       onClick={() => {
-                        setSelectedApp(ai-design-studio.slug);
+                        setSelectedApp(app.slug);
                         setShowAppDropdown(false);
                       }}
                       className="w-full text-left px-4 py-2 text-white hover:bg-gray-700 transition-colors"
                     >
                       <div className="flex items-center justify-between">
-                        <span>{ai-design-studio.name}</span>
-                        {ai-design-studio.is_active ? (
+                        <span>{app.name}</span>
+                        {app.is_active ? (
                           <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                         ) : (
                           <div className="w-2 h-2 bg-red-500 rounded-full"></div>
@@ -903,10 +903,10 @@ const AdminFeaturesManagement: React.FC = () => {
                 >
                   <option value="">Select Parent App</option>
                   {apps
-                    .filter((ai-design-studio) => ai-design-studio.item_type === "ai-design-studio")
-                    .map((ai-design-studio) => (
-                      <option key={ai-design-studio.id} value={ai-design-studio.id}>
-                        {ai-design-studio.name} ({ai-design-studio.slug})
+                    .filter((app) => app.item_type === "ai-design-studio")
+                    .map((app) => (
+                      <option key={app.id} value={app.id}>
+                        {app.name} ({app.slug})
                       </option>
                     ))}
                 </select>
@@ -1042,10 +1042,10 @@ const AdminFeaturesManagement: React.FC = () => {
                 >
                   <option value="">Select Parent App</option>
                   {apps
-                    .filter((ai-design-studio) => ai-design-studio.item_type === "ai-design-studio")
-                    .map((ai-design-studio) => (
-                      <option key={ai-design-studio.id} value={ai-design-studio.id}>
-                        {ai-design-studio.name} ({ai-design-studio.slug})
+                    .filter((app) => app.item_type === "ai-design-studio")
+                    .map((app) => (
+                      <option key={app.id} value={app.id}>
+                        {app.name} ({app.slug})
                       </option>
                     ))}
                 </select>

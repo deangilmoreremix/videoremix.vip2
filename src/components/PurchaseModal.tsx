@@ -16,7 +16,7 @@ import { ABTestUtils } from "../utils/abTesting";
 interface PurchaseModalProps {
   isOpen: boolean;
   onClose: () => void;
-  ai-design-studio: {
+  app: {
     id: string;
     name: string;
     description: string;
@@ -31,7 +31,7 @@ interface PurchaseModalProps {
 const PurchaseModal: React.FC<PurchaseModalProps> = ({
   isOpen,
   onClose,
-  ai-design-studio,
+  app,
   showBundleOption = true,
 }) => {
   const { user } = useAuth();
@@ -84,7 +84,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
     "Money-back guarantee",
   ];
 
-  const features = ai-design-studio.features || defaultFeatures;
+  const features = app.features || defaultFeatures;
 
   // Track modal open/close
   useEffect(() => {
@@ -92,26 +92,26 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
       setModalOpenTime(Date.now());
       const variant = ABTestUtils.getCtaButtonText(user?.id);
       setCtaVariant(variant);
-      Analytics.trackModalOpen(ai-design-studio.id, 'purchase');
-      PerformanceMonitor.trackAnimationSmoothness(ai-design-studio.id, 'modal_open');
+      Analytics.trackModalOpen(app.id, 'purchase');
+      PerformanceMonitor.trackAnimationSmoothness(app.id, 'modal_open');
     } else if (modalOpenTime) {
       const duration = Date.now() - modalOpenTime;
-      Analytics.trackModalClose(ai-design-studio.id, 'purchase', duration);
+      Analytics.trackModalClose(app.id, 'purchase', duration);
       setModalOpenTime(null);
     }
-  }, [isOpen, ai-design-studio.id, modalOpenTime, user?.id]);
+  }, [isOpen, app.id, modalOpenTime, user?.id]);
 
   // Track modal load time
   useEffect(() => {
     if (isOpen) {
-      const endTracking = PerformanceMonitor.trackModalLoadTime(ai-design-studio.id);
+      const endTracking = PerformanceMonitor.trackModalLoadTime(app.id);
       return endTracking;
     }
-  }, [isOpen, ai-design-studio.id]);
+  }, [isOpen, app.id]);
 
   const handlePurchase = async () => {
     // Track CTA click with A/B test variant
-    Analytics.trackCtaClick(ai-design-studio.id, 'purchase_now', {
+    Analytics.trackCtaClick(app.id, 'purchase_now', {
       price: currentTier.price,
       tier: selectedTier,
       user_logged_in: !!user,
@@ -121,14 +121,14 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
     ABTestUtils.trackCtaClick('cta_button_text', ctaVariant);
 
     if (!user) {
-      Analytics.trackEvent('signin_redirect', { from_modal: true, app_id: ai-design-studio.id });
+      Analytics.trackEvent('signin_redirect', { from_modal: true, app_id: app.id });
       onClose();
       document.dispatchEvent(new CustomEvent("open-signin-modal"));
       return;
     }
 
     // Track purchase start
-    Analytics.trackPurchaseStart(ai-design-studio.id, currentTier.price, { tier: selectedTier });
+    Analytics.trackPurchaseStart(app.id, currentTier.price, { tier: selectedTier });
 
     setLoading(true);
     setError(null);
@@ -143,8 +143,8 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
             Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
           },
           body: JSON.stringify({
-            appId: ai-design-studio.id,
-            appName: ai-design-studio.name,
+            appId: app.id,
+            appName: app.name,
             price: currentTier.price,
             tier: selectedTier,
             userId: user.id,
@@ -162,7 +162,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
       const { url } = await response.json();
 
       if (url) {
-        Analytics.trackPurchaseComplete(ai-design-studio.id, currentTier.price, { tier: selectedTier });
+        Analytics.trackPurchaseComplete(app.id, currentTier.price, { tier: selectedTier });
         ABTestUtils.trackPurchase('cta_button_text', ctaVariant, currentTier.price);
         window.location.href = url;
       } else {
@@ -170,7 +170,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
       }
     } catch (err: any) {
       console.error("Error creating checkout session:", err);
-      Analytics.trackError(`Purchase failed: ${err.message}`, 'checkout_error', ai-design-studio.id);
+      Analytics.trackError(`Purchase failed: ${err.message}`, 'checkout_error', app.id);
       setError(err.message || "Failed to start checkout. Please try again.");
       setLoading(false);
     }
@@ -206,8 +206,8 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
             <div className="overflow-y-auto max-h-[90vh]">
               <div className="relative h-48 overflow-hidden">
                 <img
-                  src={ai-design-studio.image}
-                  alt={ai-design-studio.name}
+                  src={app.image}
+                  alt={app.name}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent" />
@@ -215,17 +215,17 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="p-3 bg-gray-800/80 backdrop-blur-sm rounded-xl">
-                      {React.isValidElement(ai-design-studio.icon)
-                        ? React.cloneElement(ai-design-studio.icon as React.ReactElement, {
+                      {React.isValidElement(app.icon)
+                        ? React.cloneElement(app.icon as React.ReactElement, {
                             className: "h-6 w-6 text-primary-400",
                           })
                         : null}
                     </div>
                     <h2 className="text-3xl font-bold text-white">
-                      {ai-design-studio.name}
+                      {app.name}
                     </h2>
                   </div>
-                  <p className="text-gray-300 text-lg">{ai-design-studio.description}</p>
+                  <p className="text-gray-300 text-lg">{app.description}</p>
                 </div>
               </div>
 
@@ -326,7 +326,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
                     30-Day Money-Back Guarantee
                   </h4>
                   <p className="text-gray-400 text-sm">
-                    Try {ai-design-studio.name} risk-free. If you're not completely satisfied
+                    Try {app.name} risk-free. If you're not completely satisfied
                     within 30 days, we'll refund your purchase—no questions
                     asked.
                   </p>

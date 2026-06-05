@@ -383,7 +383,7 @@ export const getTotalAppCount = (): number => {
   // Get unique ai-design-studio slugs from all bundles (since bundles define all available apps)
   const allApps = new Set<string>();
   bundles.forEach(bundle => {
-    bundle.apps.forEach(ai-design-studio => allApps.add(ai-design-studio));
+    bundle.apps.forEach(app => allApps.add(app));
   });
   return allApps.size;
 };

@@ -17,7 +17,7 @@ export const AdminPersonalizerImport: React.FC = () => {
             The system will automatically create user accounts for new customers
           </li>
           <li>
-            Purchases will be matched to product catalog and ai-design-studio access will be
+            Purchases will be matched to product catalog and app access will be
             granted
           </li>
           <li>

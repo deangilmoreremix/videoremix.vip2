@@ -17,7 +17,7 @@ const AIAppRunnerPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const ai-design-studio = appsData.find((a) => a.id === slug);
+  const app = appsData.find((a) => a.id === slug);
 
   const [lastResult, setLastResult] = useState<any>(null);
   const [isRunning, setIsRunning] = useState(false);
@@ -45,12 +45,12 @@ const AIAppRunnerPage: React.FC = () => {
     }
   }, [user]);
 
-  if (!slug || !isInternalAIApp(slug) || !ai-design-studio) {
+  if (!slug || !isInternalAIApp(slug) || !app) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#0a0a0a] text-white">
         <div className="text-center">
           <h1 className="text-2xl font-bold">App not found</h1>
-          <p className="mt-2 text-gray-400">This AI ai-design-studio is not available or you don't have access yet.</p>
+          <p className="mt-2 text-gray-400">This AI app is not available or you don't have access yet.</p>
           <button onClick={() => navigate("/apps")} className="mt-4 rounded-lg bg-primary-600 px-6 py-2 text-white hover:bg-primary-500">
             Browse all apps
           </button>
@@ -87,7 +87,7 @@ const AIAppRunnerPage: React.FC = () => {
    * Save to Project
    * Stores result JSON in Supabase Storage at: user-workspaces/{userId}/ai-runs/{slug}/{ts}.json
    *
-   * REQUIRED SUPABASE SETUP (see supabase/functions/run-ai-ai-design-studio/STORAGE-SETUP.md):
+   * REQUIRED SUPABASE SETUP (see supabase/functions/run-ai-app/STORAGE-SETUP.md):
    * - Create private bucket "user-workspaces"
    * - Add RLS policies allowing authenticated users to manage objects under their own userId folder
    *
@@ -153,7 +153,7 @@ const AIAppRunnerPage: React.FC = () => {
 
   return (
     <AIAppShell
-      appName={ai-design-studio.name}
+      appName={app.name}
       appSlug={slug}
       onSave={handleSaveToProject}
       onDownload={handleDownload}
@@ -175,7 +175,7 @@ const AIAppRunnerPage: React.FC = () => {
       {isRunning && (
         <div className="mb-4 flex items-center gap-2 rounded-lg border border-primary-900 bg-primary-950/20 px-4 py-2.5 text-sm text-primary-300">
           <Loader2 className="h-4 w-4 animate-spin" />
-          <span>Running {ai-design-studio.name}… (10-30s) — form inputs are disabled</span>
+          <span>Running {app.name}… (10-30s) — form inputs are disabled</span>
         </div>
       )}
 
@@ -184,7 +184,7 @@ const AIAppRunnerPage: React.FC = () => {
           <>
             <AppComponent
               appId={slug}
-              appName={ai-design-studio.name}
+              appName={app.name}
               onResult={handleResult}
               onError={handleError}
               onRunningChange={handleRunningChange}
@@ -203,7 +203,7 @@ const AIAppRunnerPage: React.FC = () => {
             ) : (
               <div className="flex flex-col items-center justify-center py-16 text-gray-500">
                 <p className="text-lg mb-2">No results yet</p>
-                <p className="text-sm">Run the ai-design-studio to see results here</p>
+                <p className="text-sm">Run the app to see results here</p>
                 <button
                   onClick={() => setActiveTab("input")}
                   className="mt-4 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-500 transition-colors"

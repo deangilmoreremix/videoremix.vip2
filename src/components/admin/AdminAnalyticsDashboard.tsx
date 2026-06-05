@@ -309,19 +309,19 @@ const AdminAnalyticsDashboard: React.FC = () => {
                 Top Apps by Users
               </h3>
               <div className="space-y-3">
-                {analytics.analytics.topApps.slice(0, 5).map((ai-design-studio, index) => (
+                {analytics.analytics.topApps.slice(0, 5).map((app, index) => (
                   <div
-                    key={ai-design-studio.app_slug}
+                    key={app.app_slug}
                     className="flex items-center justify-between"
                   >
                     <div className="flex items-center">
                       <span className="text-gray-400 font-medium mr-3">
                         {index + 1}
                       </span>
-                      <span className="text-white">{ai-design-studio.app_slug}</span>
+                      <span className="text-white">{app.app_slug}</span>
                     </div>
                     <span className="text-blue-400 font-semibold">
-                      {ai-design-studio.user_count} users
+                      {app.user_count} users
                     </span>
                   </div>
                 ))}

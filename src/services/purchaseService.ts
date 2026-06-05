@@ -51,7 +51,7 @@ export interface ProductCatalog {
 
 export const purchaseService = {
   /**
-   * Check if user has access to a specific ai-design-studio
+   * Check if user has access to a specific app
    */
   async checkUserHasAccess(userId: string, appSlug: string): Promise<boolean> {
     try {
@@ -146,7 +146,7 @@ export const purchaseService = {
   },
 
   /**
-   * Get full user ai-design-studio access details
+   * Get full user app access details
    */
   async getUserAppAccessDetails(userId: string): Promise<UserAppAccess[]> {
     try {
@@ -216,7 +216,7 @@ export const purchaseService = {
   },
 
   /**
-   * Record a new purchase and grant ai-design-studio access
+   * Record a new purchase and grant app access
    * Uses safeMutation to prevent duplicate purchases
    * 
    * NOTE: The idempotency implementation uses client-side caching which helps prevent
@@ -332,7 +332,7 @@ export const purchaseService = {
   },
 
   /**
-   * Grant ai-design-studio access to a user (for admin use or post-purchase processing)
+   * Grant app access to a user (for admin use or post-purchase processing)
    */
   async grantAppAccess(
     userId: string,
@@ -368,7 +368,7 @@ export const purchaseService = {
   },
 
   /**
-   * Revoke ai-design-studio access from a user
+   * Revoke app access from a user
    */
   async revokeAppAccess(
     userId: string,

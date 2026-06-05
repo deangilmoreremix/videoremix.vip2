@@ -31,8 +31,8 @@ const newAppsList = [
 
 // Helper function to get ai-design-studio URL
 const getAppUrl = (appId: string, apps: any[]) => {
-  const ai-design-studio = apps.find((a) => a.id === appId);
-  return ai-design-studio?.url || `/ai-design-studio/${appId}`;
+  const app = apps.find((a) => a.id === appId);
+  return app?.url || `/ai-design-studio/${appId}`;
 };
 
 const DashboardPersonalizerSection: React.FC = () => {
@@ -41,9 +41,9 @@ const DashboardPersonalizerSection: React.FC = () => {
   const { apps: appsData, loading: appsLoading } = useApps();
 
   const personalizerApps = appsData.filter(
-    (ai-design-studio) =>
-      newAppsList.includes(ai-design-studio.id) &&
-      (!user || purchasedApps.includes(ai-design-studio.id)),
+    (app) =>
+      newAppsList.includes(app.id) &&
+      (!user || purchasedApps.includes(app.id)),
   );
 
   if (!user || !hasAnyPurchases || personalizerApps.length === 0) {
@@ -97,9 +97,9 @@ const DashboardPersonalizerSection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {personalizerApps.slice(0, 9).map((ai-design-studio, index) => (
+            {personalizerApps.slice(0, 9).map((app, index) => (
               <motion.div
-                key={ai-design-studio.id}
+                key={app.id}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -110,8 +110,8 @@ const DashboardPersonalizerSection: React.FC = () => {
                 <a href={`/ai-design-studio/${ai-design-studio.id}`} className="block">
                   <div className="relative h-[200px] overflow-hidden">
                     <img
-                      src={ai-design-studio.image}
-                      alt={ai-design-studio.name}
+                      src={app.image}
+                      alt={app.name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
 
@@ -122,13 +122,13 @@ const DashboardPersonalizerSection: React.FC = () => {
                       AI Tool
                     </div>
 
-                    {ai-design-studio.popular && (
+                    {app.popular && (
                       <div className="absolute top-3 right-3 bg-gradient-to-r from-amber-500 to-yellow-500 text-black text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                         POPULAR
                       </div>
                     )}
 
-                    {ai-design-studio.new && (
+                    {app.new && (
                       <div className="absolute top-3 right-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                         NEW
                       </div>
@@ -137,16 +137,16 @@ const DashboardPersonalizerSection: React.FC = () => {
 
                   <div className="p-5">
                     <h4 className="text-white font-bold text-xl mb-2 group-hover:text-primary-400 transition-colors line-clamp-1">
-                      {ai-design-studio.name}
+                      {app.name}
                     </h4>
                     <p className="text-gray-400 text-sm mb-5 leading-relaxed line-clamp-2">
-                      {ai-design-studio.description}
+                      {app.description}
                     </p>
 
                     <div className="flex justify-between items-center">
                       <div className="flex items-center">
-                        {React.isValidElement(ai-design-studio.icon) ? (
-                          React.cloneElement(ai-design-studio.icon as React.ReactElement, {
+                        {React.isValidElement(app.icon) ? (
+                          React.cloneElement(app.icon as React.ReactElement, {
                             className: "h-4 w-4 text-primary-400 mr-2",
                           })
                         ) : (
@@ -176,7 +176,7 @@ const DashboardPersonalizerSection: React.FC = () => {
                     className="bg-gradient-to-r from-primary-600 to-accent-500 text-white font-bold py-3 px-8 rounded-xl flex items-center shadow-xl shadow-primary-900/50"
                     onClick={(e) => {
                       e.preventDefault();
-                      window.location.href = getAppUrl(ai-design-studio.id, appsData);
+                      window.location.href = getAppUrl(app.id, appsData);
                     }}
                   >
                     <Wand2 className="h-5 w-5 mr-2" />

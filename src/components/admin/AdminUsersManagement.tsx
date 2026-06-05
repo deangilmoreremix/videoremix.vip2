@@ -1032,21 +1032,21 @@ const AdminUsersManagement: React.FC = () => {
                     {expandedUsers.has(user.id) && (
                       <div className="bg-gray-900/50 rounded-lg p-3 border border-gray-600">
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                          {allApps.slice(0, 12).map((ai-design-studio) => {
-                            const hasAccess = (user.app_access || []).includes(ai-design-studio.slug);
+                          {allApps.slice(0, 12).map((app) => {
+                            const hasAccess = (user.app_access || []).includes(app.slug);
                             const toggleKey = `${user.id}-${ai-design-studio.slug}`;
                             const isToggling = togglingApp === toggleKey;
 
                             return (
                               <div
-                                key={ai-design-studio.slug}
+                                key={app.slug}
                                 className="flex items-center justify-between p-2 bg-gray-800/50 rounded border border-gray-700"
                               >
-                                <span className="text-xs text-gray-300 truncate mr-2" title={ai-design-studio.name}>
-                                  {ai-design-studio.name}
+                                <span className="text-xs text-gray-300 truncate mr-2" title={app.name}>
+                                  {app.name}
                                 </span>
                                 <button
-                                  onClick={() => toggleUserAppAccess(user.id, ai-design-studio.slug, hasAccess)}
+                                  onClick={() => toggleUserAppAccess(user.id, app.slug, hasAccess)}
                                   disabled={isToggling}
                                   className={`relative inline-flex h-5 w-8 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:cursor-not-allowed ${
                                     hasAccess ? "bg-primary-600 hover:bg-primary-700" : "bg-gray-600 hover:bg-gray-500"
@@ -1409,7 +1409,7 @@ user3@example.com,Bob,Johnson,user`}
                     <div className="flex space-x-2">
                       <button
                         onClick={() =>
-                          setUserAppAccess(availableApps.map((ai-design-studio) => ai-design-studio.slug))
+                          setUserAppAccess(availableApps.map((app) => app.slug))
                         }
                         className="text-xs px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded transition-colors"
                       >
@@ -1428,9 +1428,9 @@ user3@example.com,Bob,Johnson,user`}
                 {/* Group apps by category */}
                 {Object.entries(
                   availableApps.reduce(
-                    (acc, ai-design-studio) => {
-                      if (!acc[ai-design-studio.category]) acc[ai-design-studio.category] = [];
-                      acc[ai-design-studio.category].push(ai-design-studio);
+                    (acc, app) => {
+                      if (!acc[app.category]) acc[app.category] = [];
+                      acc[app.category].push(app);
                       return acc;
                     },
                     {} as Record<string, typeof availableApps>,
@@ -1441,17 +1441,17 @@ user3@example.com,Bob,Johnson,user`}
                       {category.replace(/-/g, " ")}
                     </h4>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                      {apps.map((ai-design-studio) => (
+                      {apps.map((app) => (
                         <button
-                          key={ai-design-studio.slug}
-                          onClick={() => toggleAppAccess(ai-design-studio.slug)}
+                          key={app.slug}
+                          onClick={() => toggleAppAccess(app.slug)}
                           className={`p-3 rounded-lg text-left transition-all ${
-                            userAppAccess.includes(ai-design-studio.slug)
+                            userAppAccess.includes(app.slug)
                               ? "bg-purple-600/20 border-2 border-purple-500 text-white"
                               : "bg-gray-700 border-2 border-transparent text-gray-300 hover:bg-gray-600"
                           }`}
                         >
-                          <div className="text-sm font-medium">{ai-design-studio.name}</div>
+                          <div className="text-sm font-medium">{app.name}</div>
                         </button>
                       ))}
                     </div>
@@ -1583,7 +1583,7 @@ user3@example.com,Bob,Johnson,user`}
 
                 {availableFeatures.length === 0 && (
                   <div className="text-center py-10 text-gray-400">
-                    No features available. User must have ai-design-studio access first.
+                    No features available. User must have app access first.
                   </div>
                 )}
 

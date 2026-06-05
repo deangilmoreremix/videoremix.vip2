@@ -416,10 +416,10 @@ const AdminProductMapping: React.FC = () => {
                   }
                   className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
                 >
-                  <option value="">Choose an ai-design-studio...</option>
-                  {apps.map((ai-design-studio) => (
-                    <option key={ai-design-studio.id} value={ai-design-studio.id}>
-                      {ai-design-studio.name}
+                  <option value="">Choose an app...</option>
+                  {apps.map((app) => (
+                    <option key={app.id} value={app.id}>
+                      {app.name}
                     </option>
                   ))}
                 </select>

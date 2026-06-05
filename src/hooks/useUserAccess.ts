@@ -280,7 +280,7 @@ export const useUserAccess = (): UnifiedAccessData & {
 
       // Check imported product access
       if (accessData?.apps) {
-        return accessData.apps.some((ai-design-studio) => ai-design-studio.appSlug === appSlug);
+        return accessData.apps.some((app) => app.appSlug === appSlug);
       }
 
       return false;

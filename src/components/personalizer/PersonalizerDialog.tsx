@@ -355,8 +355,8 @@ export default function PersonalizerDialog({
                           onChange={(e) => setAppId(e.target.value)}
                           className="w-full bg-gray-900/50 border border-white/10 rounded-lg p-2 text-white font-body focus:border-primary-500 focus:outline-none"
                         >
-                          {APPS.map(ai-design-studio => (
-                            <option key={ai-design-studio.id} value={ai-design-studio.id}>{ai-design-studio.label}</option>
+                          {APPS.map(app => (
+                            <option key={app.id} value={app.id}>{app.label}</option>
                           ))}
                         </select>
                       </div>
