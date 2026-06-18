@@ -13,7 +13,14 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { FileUploadZone } from "@/components/agent-ui/FileUploadZone";
+
+import { createClient } from "@supabase/supabase-js";
 import { Loader2, Heart, Upload, FileText, X } from "lucide-react";
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
 
 const AiBreakupRecoveryAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -57,25 +64,33 @@ const AiBreakupRecoveryAgentPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file) {
-      setError('Please upload a file');
-      return;
-    }
     setLoading(true);
     setError(null);
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('file', file);
-      formDataToSend.append('enter_your_gemini_api_key', formData.enter_your_gemini_api_key);
-      formDataToSend.append('how_are_you_feeling_what_happened', formData.how_are_you_feeling_what_happened);
-      formDataToSend.append('upload_screenshots_of_your_chats_optional', formData.upload_screenshots_of_your_chats_optional);
-      
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/multimodal-knowledge-ai`, {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.access_token) {
+        setError('Please sign in to use this app.');
+        setLoading(false);
+        return;
+      }
+
+      const runInput: Record<string, unknown> = { situation: formData.how_are_you_feeling_what_happened };
+      if (file) {
+        runInput.images = [file];
+      }
+
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/run-app`, {
         method: 'POST',
-        body: formDataToSend
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`,
+          'Content-Type': 'application/json',
+          'X-App-Id': 'ai-breakup-recovery-agent',
+          'X-Tenant-Id': (user as any)?.tenantId || undefined,
+        },
+        body: JSON.stringify({ input: runInput }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed');
+      if (!res.ok) throw new Error(data.error || data.message || 'Failed');
       setResult(data);
       localStorage.removeItem('ai-breakup-recovery-state');
     } catch (err: any) {
