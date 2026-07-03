@@ -15,6 +15,7 @@ import { useAuth } from "./context/AuthContext";
 import { Toaster } from "./components/ui/toast";
 import { NetworkStatusIndicator } from "./components/AsyncStates";
 import { Analytics } from "./utils/analytics";
+import GlobalPersonalizerButton from "./components/personalizer/GlobalPersonalizerButton";
 
 // TEMP DIAGNOSTIC: retry-aware dynamic import logger (revert after root cause confirmed)
 // Helps distinguish "server already dead before import starts" vs "transform fails mid-request"
@@ -597,16 +598,16 @@ function App() {
 
         {!isAdminPage && <AudioPlayer />}
 
-{!isAdminPage && <LiveActivityIndicator />}
+ {!isAdminPage && <LiveActivityIndicator />}
 
-        {/* Global Personalizer Button - only for authenticated users, not on landing/auth pages */}
-        {!isAdminPage && showGlobalPersonalizer && (
-          <Suspense fallback={null}>
-            <GlobalPersonalizerButton />
-          </Suspense>
-        )}
+         {/* Global Personalizer Button - only for authenticated users, not on landing/auth pages */}
+         {!isAdminPage && showGlobalPersonalizer && (
+           <Suspense fallback={null}>
+             <GlobalPersonalizerButton />
+           </Suspense>
+         )}
 
-        <Routes>
+         <Routes>
           {/* Landing Page Route */}
           <Route
             path="/"

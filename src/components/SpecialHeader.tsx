@@ -14,10 +14,21 @@ import { toast } from "./ui/toast";
 import GlobalSearch from "./GlobalSearch";
 import { appGroups } from "../data/appGroups";
 import { rawAppsData } from "../data/appsData";
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/clerk-react";
+import { useClerkSync, isClerkConfigured } from "../lib/clerkSync";
 
-interface SpecialHeaderProps {
-  topOffset?: number;
-}
+// Clerk is configured in the environment
+const clerkActive = isClerkConfigured();
+
+const ClerkHeader: React.FC = () => {
+  const { ensureSupabaseSessionFromClerk } = useClerkSync();
+
+  useEffect(() => {
+    ensureSupabaseSessionFromClerk();
+  }, [ensureSupabaseSessionFromClerk]);
+
+  return null;
+};
 
 const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
   const { user, signOut } = useAuth();
@@ -38,22 +49,6 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const handleDropdownToggle = (dropdown: string) => {
-    setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
-  };
-
-  const closeDropdowns = () => {
-    setActiveDropdown(null);
-  };
-
-  // Grouped tools for the dropdown
-  const getGroupedTools = () => {
-    return appGroups.map(group => ({
-      ...group,
-      tools: rawAppsData.filter(ai-design-studio => ai-design-studio.group === group.id).slice(0, 6) // Show 6 per group
-    })).filter(group => group.tools.length > 0);
-  };
 
   return (
     <motion.header
@@ -93,6 +88,8 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
             </div>
           </Link>
         </motion.div>
+
+        {clerkActive && <ClerkHeader />}
 
         {/* Navigation Actions */}
         <motion.div
@@ -225,7 +222,7 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                     </Link>
                     <button
                       onClick={async () => {
-                        if (signingOut) return; // Prevent multiple clicks
+                        if (signingOut) return;
                         setSigningOut(true);
                         try {
                           const { error } = await signOut();
@@ -255,6 +252,34 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                   </div>
                 </div>
               )}
+            </div>
+          ) : clerkActive ? (
+            <div className="ml-3 flex items-center space-x-2">
+              <SignedOut>
+                <SignInButton fallbackRedirectUrl={"/dashboard"} mode="modal">
+                  <span className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium cursor-pointer">
+                    Sign In
+                  </span>
+                </SignInButton>
+                <SignUpButton fallbackRedirectUrl={"/dashboard"} mode="modal">
+                  <span className="bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 px-4 py-2 rounded-full text-sm font-medium text-white inline-block cursor-pointer">
+                    Sign Up
+                  </span>
+                </SignUpButton>
+              </SignedOut>
+              <SignedIn>
+                <UserButton
+                  afterSignOutUrl={"/"}
+                  userProfileMode="modal"
+                  appearance={{
+                    elements: {
+                      userButtonPopoverCard: "bg-black/90 border border-gray-700 text-white",
+                      userPreviewMainIdentifier: "text-white",
+                      userButtonPopoverFooter: "hidden",
+                    },
+                  }}
+                />
+              </SignedIn>
             </div>
           ) : (
             <div className="ml-3 flex items-center space-x-2">
@@ -358,7 +383,7 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                   </Link>
                   <button
                     onClick={async () => {
-                      if (signingOut) return; // Prevent multiple clicks
+                      if (signingOut) return;
                       setSigningOut(true);
                       try {
                         const { error } = await signOut();
@@ -383,6 +408,63 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                     ) : (
                       <LogOut className="h-4 w-4 mr-2" />
                     )}
+                    {signingOut ? "Signing Out..." : "Sign Out"}
+                  </button>
+                </div>
+              ) : clerkActive ? (
+                <div className="border-t border-gray-700 pt-2 mt-2">
+                  <SignedOut>
+                    <Link
+                      to="/signin"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block w-full text-left text-white hover:bg-gray-800 px-3 py-2 rounded-md"
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      to="/signup"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block w-full text-left text-white bg-primary-600 hover:bg-primary-700 px-3 py-2 rounded-md"
+                    >
+                      Sign Up
+                    </Link>
+                  </SignedOut>
+                  <SignedIn>
+                    <div className="px-3 py-2 text-white text-sm">
+                      Signed in with Clerk
+                    </div>
+                    <Link
+                      to="/profile"
+                      className="block text-white hover:bg-gray-800 px-3 py-2 rounded-md"
+                    >
+                      Profile Settings
+                    </Link>
+                    <button
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="w-full text-left text-white hover:bg-gray-800 px-3 py-2 rounded-md"
+                    >
+                      Sign Out
+                    </button>
+                  </SignedIn>
+                </div>
+              ) : (
+                <div className="border-t border-gray-700 pt-2 mt-2 space-y-2">
+                  <Link
+                    to="/signin"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block w-full text-left text-white hover:bg-gray-800 px-3 py-2 rounded-md"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/signup"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block w-full text-left text-white bg-primary-600 hover:bg-primary-700 px-3 py-2 rounded-md"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              )}
                     {signingOut ? "Signing Out..." : "Sign Out"}
                   </button>
                 </div>

@@ -4,10 +4,17 @@ import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "./context/AuthContext";
 import { ModalsProvider } from "./components/ModalsProvider";
-import { LandingPageProvider } from "./context/LandingPageContext";
+import { LandingPageProvider } from "./context/LandingPageProvider";
 import GlobalErrorBoundary from "./components/GlobalErrorBoundary";
 import App from "./App";
+import { ClerkProvider } from "@clerk/clerk-react";
 import "./index.css";
+
+const clerkPublishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+if (!clerkPublishableKey) {
+  console.warn('[Clerk] VITE_CLERK_PUBLISHABLE_KEY is missing; Clerk auth controls will be unavailable.');
+}
 
 const LoadingScreen = () => (
   <div className="fixed inset-0 flex items-center justify-center bg-gray-900 text-white">
@@ -32,20 +39,22 @@ if (root) {
       >
         <HelmetProvider>
           <LandingPageProvider>
-            <BrowserRouter
-              future={{
-                v7_startTransition: true,
-                v7_relativeSplatPath: true,
-              }}
-            >
-              <AuthProvider>
-                <ModalsProvider>
-                  <Suspense fallback={<LoadingScreen />}>
-                    <App />
-                  </Suspense>
-                </ModalsProvider>
-              </AuthProvider>
-            </BrowserRouter>
+              <BrowserRouter
+                future={{
+                  v7_startTransition: true,
+                  v7_relativeSplatPath: true,
+                }}
+              >
+                <ClerkProvider publishableKey={clerkPublishableKey || ""}>
+                  <AuthProvider>
+                    <ModalsProvider>
+                      <Suspense fallback={<LoadingScreen />}>
+                        <App />
+                      </Suspense>
+                    </ModalsProvider>
+                  </AuthProvider>
+                </ClerkProvider>
+              </BrowserRouter>
           </LandingPageProvider>
         </HelmetProvider>
       </GlobalErrorBoundary>
