@@ -18,6 +18,7 @@ import ParticleBackground from "../components/premium/ParticleBackground";
 import GradientOrb from "../components/premium/GradientOrb";
 import { SignInButton } from "@clerk/clerk-react";
 import { isClerkConfigured } from "../lib/clerkSync";
+import { Link } from "react-router-dom";
 
 const clerkActive = isClerkConfigured();
 
@@ -157,8 +158,8 @@ const SignInPage: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="bg-gray-800/70 backdrop-blur-md rounded-2xl p-8 border border-gray-700 shadow-2xl"
             >
-              {clerkActive && (
-                <div className="mb-8">
+              {clerkActive ? (
+                <div className="space-y-6">
                   <SignInButton
                     mode="modal"
                     fallbackRedirectUrl="/dashboard"
@@ -180,34 +181,137 @@ const SignInPage: React.FC = () => {
                       },
                     }}
                   >
-                    <span className="w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white py-4 px-6 rounded-lg font-semibutoinline-flex items-center justify-center cursor-pointer">
-                      Continue with Clerk
+                    <span className="w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white py-4 px-6 rounded-lg font-semibold inline-flex items-center justify-center cursor-pointer">
+                      Sign in with Clerk
                     </span>
                   </SignInButton>
-                </div>
-              )}
 
-              {clerkActive && (
-                <div className="relative mb-8">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-700"></div>
+                  <div className="relative mb-2">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-gray-700"></div>
+                    </div>
+                    <div className="relative flex justify-center text-sm">
+                      <span className="px-2 bg-gray-800/70 text-gray-400">or</span>
+                    </div>
                   </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-gray-800/70 text-gray-400">or continue with email</span>
-                  </div>
-                </div>
-              )}
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {error && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="bg-red-500/20 border border-red-500/50 text-red-400 p-4 rounded-lg flex items-start"
+                  <p className="text-center text-sm text-gray-400">
+                    Having trouble? You can use the{" "}
+                    <Link to="/signin" className="text-primary-400 hover:text-primary-300 font-medium">
+                      email sign-in form
+                    </Link>{" "}
+                    below.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {error && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="bg-red-500/20 border border-red-500/50 text-red-400 p-4 rounded-lg flex items-start"
+                    >
+                      <AlertCircle className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
+                      <span>{error}</span>
+                    </motion.div>
+                  )}
+
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-gray-300 mb-2"
+                    >
+                      Email Address
+                    </label>
+                    <input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleInputChange("email")}
+                      className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                      placeholder="your@email.com"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <label
+                        htmlFor="password"
+                        className="block text-sm font-medium text-gray-300"
+                      >
+                        Password
+                      </label>
+                      <a
+                        href="/forgot-password"
+                        className="text-sm text-primary-400 hover:text-primary-300 transition-colors"
+                      >
+                        Forgot password?
+                      </a>
+                    </div>
+                    <div className="relative">
+                      <input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        value={formData.password}
+                        onChange={handleInputChange("password")}
+                        className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 pr-12 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                        placeholder="Enter your password"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5 w-5" />
+                        ) : (
+                          <Eye className="h-5 w-5" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 disabled:from-primary-800 disabled:to-primary-700 disabled:opacity-50 text-white py-4 px-6 rounded-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-800 shadow-lg shadow-primary-600/20 flex items-center justify-center"
                   >
-                    <AlertCircle className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
-                    <span>{error}</span>
-                  </motion.div>
+                    {loading ? (
+                      <>
+                        <svg
+                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                        Signing In...
+                      </>
+                    ) : (
+                      <>
+                        Sign In
+                        <Sparkles className="ml-2 h-5 w-5" />
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
+            </motion.div>
                 )}
 
                 <div>
