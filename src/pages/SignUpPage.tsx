@@ -17,11 +17,14 @@ import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
 import ParticleBackground from "../components/premium/ParticleBackground";
 import GradientOrb from "../components/premium/GradientOrb";
+import { SignUpButton } from "@clerk/clerk-react";
+import { isClerkConfigured } from "../lib/clerkSync";
+
+const clerkActive = isClerkConfigured();
 
 const SignUpPage: React.FC = () => {
   const { signUp, user } = useAuth();
 
-  // Use direct window navigation instead of React Router hooks
   const handleNavigation = (path: string) => {
     window.location.href = path;
   };
@@ -63,7 +66,6 @@ const SignUpPage: React.FC = () => {
     setLoading(true);
 
     try {
-      // ALWAYS normalize email to lowercase - critical fix!
       const normalizedEmail = formData.email.toLowerCase().trim();
       const { error, user } = await signUp(normalizedEmail, formData.password, {
         first_name: formData.firstName,
@@ -73,7 +75,6 @@ const SignUpPage: React.FC = () => {
       if (error) {
         setError(error.message);
       } else {
-
         setSuccess(
           "Account created successfully! Redirecting to your dashboard...",
         );
@@ -103,7 +104,6 @@ const SignUpPage: React.FC = () => {
       <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black relative overflow-hidden flex items-center justify-center py-20">
       <ParticleBackground className="z-0" particleCount={40} />
       <GradientOrb size={600} colorFrom="primary-600" colorTo="accent-500" blur={100} mouseFollow={true} />
-        {/* Background effects */}
         <div className="absolute inset-0">
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/20 rounded-full blur-[100px]"></div>
           <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-primary-600/20 rounded-full blur-[100px]"></div>
@@ -118,7 +118,6 @@ const SignUpPage: React.FC = () => {
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-md mx-auto">
-            {/* Back to home link */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -134,7 +133,6 @@ const SignUpPage: React.FC = () => {
               </a>
             </motion.div>
 
-            {/* Logo section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -178,13 +176,53 @@ const SignUpPage: React.FC = () => {
               </p>
             </motion.div>
 
-            {/* Sign-up form card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="bg-gray-800/70 backdrop-blur-md rounded-2xl p-8 border border-gray-700 shadow-2xl"
             >
+              {clerkActive && (
+                <div className="mb-8">
+                  <SignUpButton
+                    mode="modal"
+                    fallbackRedirectUrl="/dashboard"
+                    forceRedirectUrl="/dashboard"
+                    appearance={{
+                      elements: {
+                        formButtonPrimary:
+                          "w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white py-4 px-6 rounded-lg font-semibold shadow-lg shadow-primary-600/20",
+                        card: "bg-transparent shadow-none border-none",
+                        headerTitle: "text-white",
+                        headerSubtitle: "text-gray-300",
+                        socialButtonsBlockButton:
+                          "bg-gray-700 hover:bg-gray-600 border border-gray-600 text-white",
+                        formFieldInput:
+                          "bg-gray-700/50 border border-gray-600 rounded-lg text-white",
+                        footerActionLink: "text-primary-400 hover:text-primary-300",
+                        identityPreviewText: "text-white",
+                        formFieldLabel: "text-gray-300",
+                      },
+                    }}
+                  >
+                    <span className="w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white py-4 px-6 rounded-lg font-semibold inline-flex items-center justify-center cursor-pointer">
+                      Create account with Clerk
+                    </span>
+                  </SignUpButton>
+                </div>
+              )}
+
+              {clerkActive && (
+                <div className="relative mb-8">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-700"></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-gray-800/70 text-gray-400">or continue with email</span>
+                  </div>
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} className="space-y-5">
                 {error && (
                   <motion.div
@@ -396,7 +434,6 @@ const SignUpPage: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Benefits section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
