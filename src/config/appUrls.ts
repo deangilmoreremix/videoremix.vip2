@@ -183,25 +183,14 @@ export const getAppUrl = (appId: string): string => {
 
 /**
  * Get the thumbnail URL for a specific ai-design-studio
- * Priority: 1) AI-generated DALL-E thumbnail, 2) Local SVG thumbnail, 3) None
+ * Priority: 1) Local SVG thumbnail (in /public/app-thumbnails/), 2) APP_THUMBNAILS map, 3) None
  * @param appId - The ai-design-studio identifier
- * @returns The ai-design-studio's thumbnail URL (absolute URL for AI-generated, relative path for SVG)
+ * @returns The ai-design-studio's thumbnail URL (relative path for local SVGs)
  */
 export const getAppThumbnail = (appId: string): string => {
-  // Priority 1: AI-generated DALL-E thumbnail (if available)
-  const aiThumbnail = aiThumbnailMap.get(appId);
-  if (aiThumbnail) {
-    return aiThumbnail;
-  }
-  
-  // Priority 2: Local static SVG thumbnail
-  const localThumbnail = APP_THUMBNAILS[appId];
-  if (localThumbnail) {
-    return localThumbnail;
-  }
-  
-  // Priority 3: No thumbnail available
-  return "";
+  // Priority 1: Local SVG in /public/app-thumbnails/{appId}.svg
+  // This is the primary source - all apps have a local SVG
+  return `/app-thumbnails/${appId}.svg`;
 };
 
 /**

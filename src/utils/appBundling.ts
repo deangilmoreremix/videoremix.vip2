@@ -3,7 +3,7 @@ import { App } from './appsData';
 // VideoRemix Core Apps (EXCLUDED from $597 bundle - premium video tools)
 export const VIDEO_REMIX_CORE_APPS = [
   // Core VideoRemix personalized video/content tools
-  'ai-sales-email-writer-intelligence-pro',                    // Smart Content Personalizer
+  'ai-sales-intelligence-pro',                    // Smart Content Personalizer
   'lead-research-scraper-ai',                          // Professional Video Studio
   'ai-business-growth-consultant',                           // Expert Video & Image Engine
   'blog-to-podcast-ai',                    // Personalization Recorder
@@ -20,7 +20,7 @@ export const VIDEO_REMIX_CORE_APPS = [
 export const CONVERTED_LLM_AGENT_APPS = [
   // AI Agents and Tools (converted from LLM repos)
   'ai-strategy-advisor',
-  'ai-sales-email-writer-email-writer',
+  'ai-sales-email-writer',
   'ai-offer-decision-helper',
   'launch-campaign-builder-ai',
   'competitor-spy-ai',

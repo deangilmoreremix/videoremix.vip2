@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="bg-rag-as-a-service" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EC4899"/>
+      <stop offset="100%" stop-color="#DB2777"/>
+    </linearGradient>
+    <linearGradient id="overlay-rag-as-a-service" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(0,0,0,0)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.4)"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg-rag-as-a-service)"/>
+  <rect width="800" height="450" fill="url(#overlay-rag-as-a-service)"/>
+  <circle cx="650" cy="100" r="120" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="150" cy="380" r="80" fill="rgba(255,255,255,0.06)"/>
+  <text x="400" y="225" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="700" fill="white" opacity="0.95">Business Knowledgebase AI</text>
+  <text x="400" y="260" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="400" fill="rgba(255,255,255,0.7)">rag-knowledgebase</text>
+</svg>

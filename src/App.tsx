@@ -43,6 +43,7 @@ function debugDynamicImport<T>(
 // Lazy loaded components for better performance
 const LandingPage = lazy(debugDynamicImport(() => import("./components/premium/LandingPage"), "LandingPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
+const AIAppRunnerPage = lazy(() => import("./pages/AIAppRunnerPage"));
 
 // Generic pages
 const PricingPage = lazy(() => import("./pages/PricingPage"));
@@ -66,6 +67,7 @@ const LocalTravelAgentPage = lazy(() => import("./pages/agents/LocalTravelAgentP
 const QwenLocalRagPage = lazy(() => import("./pages/agents/QwenLocalRagPage"));
 const RagAgentCoherePage = lazy(() => import("./pages/agents/RagAgentCoherePage"));
 const ToolsHubPage = lazy(() => import("./pages/ToolsHubPage"));
+const ApplicationsPage = lazy(() => import("./pages/ApplicationsPage"));
 
 // Additional agent pages lazy imports
 const Ai3dpygameR1Page = lazy(() => import("./pages/agents/Ai3dpygameR1Page"));
@@ -677,6 +679,21 @@ function App() {
             }
           />
 
+          {/* Applications Page - All apps visible to everyone, locked/owned badges shown */}
+          <Route
+            path="/apps"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <ApplicationsPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
+              </ErrorBoundary>
+            }
+          />
+
           {/* Individual App Pages */}
           <Route
             path="/ai-design-studio/:appId"
@@ -686,6 +703,22 @@ function App() {
                   <AppPage />
                 </Suspense>
               </ErrorBoundary>
+            }
+          />
+
+          {/* AI App Runner - where users actually run the 100 internal AI apps */}
+          <Route
+            path="/ai-runner/:slug"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <SparkleBackground>
+                    <Suspense fallback={<SectionLoader />}>
+                      <AIAppRunnerPage />
+                    </Suspense>
+                  </SparkleBackground>
+                </ErrorBoundary>
+              </ProtectedRoute>
             }
           />
 

@@ -2,7 +2,7 @@
  * RealtimeVoiceSession
  *
  * Production-grade live voice component for OpenAI Realtime API via our existing
- * Supabase Edge Function (run-ai-ai-design-studio?mode=realtime). No additional servers required.
+ * Supabase Edge Function (run-ai-app?mode=realtime). No additional servers required.
  *
  * Features:
  * - Browser mic → 24kHz PCM16 base64 → Edge Function proxy → OpenAI Realtime
@@ -34,7 +34,7 @@ interface RealtimeVoiceSessionProps {
   className?: string;
 }
 
-const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/run-ai-ai-design-studio`;
+const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/run-ai-app`;
 
 export const RealtimeVoiceSession: React.FC<RealtimeVoiceSessionProps> = ({
   appId,

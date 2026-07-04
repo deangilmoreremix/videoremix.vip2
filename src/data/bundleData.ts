@@ -21,11 +21,11 @@ export const bundles: Bundle[] = [
     price: 397,
     priceCents: 39700,
     apps: [
-      'ai-sales-email-writer-intelligence-pro',
+      'ai-sales-intelligence-pro',
       'lead-research-scraper-ai',
       'ai-business-growth-consultant',
       'ai-strategy-advisor',
-      'ai-sales-email-writer-email-writer',
+      'ai-sales-email-writer',
       'ai-offer-decision-helper',
       'launch-campaign-builder-ai',
       'competitor-spy-ai',
@@ -250,7 +250,7 @@ export const bundles: Bundle[] = [
     price: 397,
     priceCents: 39700,
     apps: [
-      'ai-ai-design-studio-builder-assistant',
+      'ai-app-builder-assistant',
       'ai-saas-architect',
       'ai-code-review-pro',
       'ai-bug-fixer',

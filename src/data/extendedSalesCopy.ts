@@ -5,7 +5,7 @@
 import type { ExtendedSalesCopy } from './appSalesCopy';
 
 export const extendedSalesCopy: Record<string, any> = {
-  "ai-sales-email-writer-intelligence-pro": {
+  "ai-sales-intelligence-pro": {
     "tagline": "Transform Your Video with AI Sales Intelligence Pro",
     "summary": "AI Sales Intelligence Pro revolutionizes video workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Sales Intelligence Pro leverages advanced AI to streamline video processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in video creation.",
@@ -181,7 +181,7 @@ export const extendedSalesCopy: Record<string, any> = {
       }
     ]
   },
-  "ai-sales-email-writer-email-writer": {
+  "ai-sales-email-writer": {
     "tagline": "Transform Your Lead Gen with AI Sales Email Writer",
     "summary": "AI Sales Email Writer revolutionizes lead gen workflows with AI-powered automation. Deliver professional results in minutes, not hours.",
     "whatItDoes": "AI Sales Email Writer leverages advanced AI to streamline lead gen processes. It automates complex tasks, enhances quality, and scales your output exponentially. Perfect for professionals seeking efficiency and excellence in lead gen creation.",

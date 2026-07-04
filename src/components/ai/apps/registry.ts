@@ -25,11 +25,11 @@ export { isInternalAIApp };
 
 const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   // === Batch 1: Sales, Lead Gen & Prospecting (10 apps - Production Ready) ===
-  "ai-sales-email-writer-intelligence-pro": () => import("./ai-sales-email-writer-intelligence-pro"),
+  "ai-sales-intelligence-pro": () => import("./ai-sales-intelligence-pro"),
   "lead-research-scraper-ai": () => import("./lead-research-scraper-ai"),
   "ai-business-growth-consultant": () => import("./ai-business-growth-consultant"),
   "ai-strategy-advisor": () => import("./ai-strategy-advisor"),
-  "ai-sales-email-writer-email-writer": () => import("./ai-sales-email-writer-email-writer"),
+  "ai-sales-email-writer": () => import("./ai-sales-email-writer"),
   "ai-offer-decision-helper": () => import("./ai-offer-decision-helper"),
   "launch-campaign-builder-ai": () => import("./launch-campaign-builder-ai"),
   "competitor-spy-ai": () => import("./competitor-spy-ai"),
@@ -89,7 +89,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "private-chatgpt-clone": () => import("./private-chatgpt-clone"),
 
   // === Batch 6: Developer & Code Apps (10 apps - Production Ready) ===
-  "ai-ai-design-studio-builder-assistant": () => import("./ai-ai-design-studio-builder-assistant"),
+  "ai-app-builder-assistant": () => import("./ai-app-builder-assistant"),
   "ai-saas-architect": () => import("./ai-saas-architect"),
   "ai-code-review-pro": () => import("./ai-code-review-pro"),
   "ai-bug-fixer": () => import("./ai-bug-fixer"),
@@ -148,11 +148,11 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
 // Production-ready flag for admin / filtering
 const productionReadySlugs = new Set([
   // Batch 1 (10)
-  "ai-sales-email-writer-intelligence-pro",
+  "ai-sales-intelligence-pro",
   "lead-research-scraper-ai",
   "ai-business-growth-consultant",
   "ai-strategy-advisor",
-  "ai-sales-email-writer-email-writer",
+  "ai-sales-email-writer",
   "ai-offer-decision-helper",
   "launch-campaign-builder-ai",
   "competitor-spy-ai",
@@ -212,7 +212,7 @@ const productionReadySlugs = new Set([
   "private-chatgpt-clone",
 
   // Batch 6 (10)
-  "ai-ai-design-studio-builder-assistant",
+  "ai-app-builder-assistant",
   "ai-saas-architect",
   "ai-code-review-pro",
   "ai-bug-fixer",
@@ -271,12 +271,12 @@ const productionReadySlugs = new Set([
 ]);
 
 // Apps that have full Live Voice / Realtime API support in their custom UI
-// (uses the existing run-ai-ai-design-studio Edge Function with ?mode=realtime — no extra servers)
+// (uses the existing run-ai-app Edge Function with ?mode=realtime — no extra servers)
 export const VOICE_ENABLED_APPS = new Set([
   "ai-intake-voice-agent",
   "ai-dictation-assistant",
   // Batch 6 developer/planning apps that declare realtime (wired below)
-  "ai-ai-design-studio-builder-assistant",
+  "ai-app-builder-assistant",
   "build-plan-generator",
   "sprint-planner-ai",
 ]);

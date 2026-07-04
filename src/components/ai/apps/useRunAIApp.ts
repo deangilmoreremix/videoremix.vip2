@@ -80,6 +80,16 @@ export function useRunAIApp(
     setConversationHistory([]);
   }, []);
 
+  // Helper to get the current access token from Supabase
+  const getAccessToken = useCallback(async (): Promise<string> => {
+    try {
+      const { data } = await supabase.supabaseClient.auth.getSession();
+      return data?.session?.access_token ?? "";
+    } catch {
+      return "";
+    }
+  }, []);
+
   const buildMultiTurnContext = useCallback((): string => {
     if (!enableMultiTurn || conversationHistory.length === 0) {
       return "";
@@ -100,13 +110,14 @@ export function useRunAIApp(
 
       abortControllerRef.current = new AbortController();
 
+      const accessToken = await getAccessToken();
       const response = await fetch(
-        `${supabase.supabaseUrl}/functions/v1/run-ai-ai-design-studio`,
+        `${supabase.supabaseUrl}/functions/v1/run-ai-app`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${supabase.supabaseClient.auth.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
           body: JSON.stringify({ appSlug: slug, inputs: finalInputs, stream: true }),
           signal: abortControllerRef.current.signal,
@@ -204,9 +215,11 @@ export function useRunAIApp(
 
       const attemptRun = async (): Promise<void> => {
         try {
-          const wsUrl = `${supabase.supabaseUrl}/functions/v1/run-ai-ai-design-studio/websocket`
+          const wsUrl = `${supabase.supabaseUrl}/functions/v1/run-ai-app/websocket`
             .replace("https://", "wss://")
             .replace("http://", "ws://");
+
+          const accessToken = await getAccessToken();
 
           return new Promise((resolve, reject) => {
             const ws = new WebSocket(wsUrl);
@@ -221,7 +234,7 @@ export function useRunAIApp(
                   appSlug: slug,
                   inputs: finalInputs,
                   stream: true,
-                  accessToken: supabase.supabaseClient.auth.accessToken,
+                  accessToken,
                 })
               );
             };
@@ -321,7 +334,7 @@ export function useRunAIApp(
         });
       } catch (err: any) {
         const msg =
-          err?.message || err?.error || "Failed to run AI ai-design-studio";
+          err?.message || err?.error || "Failed to run AI app";
         const suggestion = parseErrorSuggestion(msg);
 
         if (autoRetry && retryCountRef.current < maxRetries) {

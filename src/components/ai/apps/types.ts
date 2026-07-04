@@ -9,7 +9,7 @@
  */
 
 export interface AIAppProps {
-  /** The ai-design-studio slug (e.g. "ai-sales-email-writer-intelligence-pro") */
+  /** The app slug (e.g. "ai-sales-intelligence-pro") */
   appId: string;
   /** Human-friendly name */
   appName: string;
@@ -70,7 +70,7 @@ export interface UseRunAIAppOptions {
  * Provides the clean runner API so individual apps only contain form + result UI.
  */
 export interface UseRunAIAppReturn {
-  /** Invoke the run-ai-ai-design-studio Edge Function with the ai-design-studio-specific inputs */
+  /** Invoke the run-ai-app Edge Function with the app-specific inputs */
   run: (inputs: Record<string, any>) => Promise<void>;
   isRunning: boolean;
   output: any;
