@@ -96,7 +96,7 @@ const AdminFeaturesManagement: React.FC = () => {
       return allFeatures;
     }
     // Find the ai-design-studio ID for the selected ai-design-studio slug
-    const selectedAppData = apps.find((ai-design-studio) => ai-design-studio.slug === selectedApp);
+    const selectedAppData = apps.find((app) => app.slug === selectedApp);
     return selectedAppData
       ? allFeatures.filter(
           (feature) => feature.parent_app_id === selectedAppData.id,
@@ -613,7 +613,7 @@ const AdminFeaturesManagement: React.FC = () => {
               <span className="mr-2">
                 {selectedApp === "all"
                   ? "All Features"
-                  : apps.find((ai-design-studio) => ai-design-studio.slug === selectedApp)?.name ||
+                  : apps.find((app) => app.slug === selectedApp)?.name ||
                     "Select App"}
               </span>
               <ChevronDown className="h-4 w-4" />
@@ -631,11 +631,11 @@ const AdminFeaturesManagement: React.FC = () => {
                   >
                     All Features
                   </button>
-                  {apps.map((ai-design-studio) => (
+                  {apps.map((app) => (
                     <button
                       key={ai-design-studio.id}
                       onClick={() => {
-                        setSelectedApp(ai-design-studio.slug);
+                        setSelectedApp(app.slug);
                         setShowAppDropdown(false);
                       }}
                       className="w-full text-left px-4 py-2 text-white hover:bg-gray-700 transition-colors"
@@ -903,8 +903,8 @@ const AdminFeaturesManagement: React.FC = () => {
                 >
                   <option value="">Select Parent App</option>
                   {apps
-                    .filter((ai-design-studio) => ai-design-studio.item_type === "ai-design-studio")
-                    .map((ai-design-studio) => (
+                    .filter((app) => app.item_type === "ai-design-studio")
+                    .map((app) => (
                       <option key={ai-design-studio.id} value={ai-design-studio.id}>
                         {ai-design-studio.name} ({ai-design-studio.slug})
                       </option>
@@ -1042,8 +1042,8 @@ const AdminFeaturesManagement: React.FC = () => {
                 >
                   <option value="">Select Parent App</option>
                   {apps
-                    .filter((ai-design-studio) => ai-design-studio.item_type === "ai-design-studio")
-                    .map((ai-design-studio) => (
+                    .filter((app) => app.item_type === "ai-design-studio")
+                    .map((app) => (
                       <option key={ai-design-studio.id} value={ai-design-studio.id}>
                         {ai-design-studio.name} ({ai-design-studio.slug})
                       </option>

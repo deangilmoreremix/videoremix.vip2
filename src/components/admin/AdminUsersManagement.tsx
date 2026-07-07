@@ -13,6 +13,7 @@ import {
   X,
   Key,
   Settings,
+  History,
 } from "lucide-react";
 import { supabase } from "../../utils/supabase";
 
@@ -83,7 +84,7 @@ const AdminUsersManagement: React.FC = () => {
   const [loadingApps, setLoadingApps] = useState(false);
   const [savingAppAccess, setSavingAppAccess] = useState(false);
 
-  // Direct ai-design-studio toggle states
+  // Direct app toggle states
   const [togglingApp, setTogglingApp] = useState<string | null>(null);
   const [allApps, setAllApps] = useState<App[]>([]);
   const [loadingAllApps, setLoadingAllApps] = useState(false);
@@ -107,6 +108,12 @@ const AdminUsersManagement: React.FC = () => {
 
   // App toggle expansion states
   const [expandedUsers, setExpandedUsers] = useState<Set<string>>(new Set());
+
+  // Audit log modal state
+  const [showAuditLogModal, setShowAuditLogModal] = useState(false);
+  const [selectedUserForAudit, setSelectedUserForAudit] = useState<User | null>(null);
+  const [auditLogs, setAuditLogs] = useState<any[]>([]);
+  const [loadingAuditLogs, setLoadingAuditLogs] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -484,7 +491,7 @@ const AdminUsersManagement: React.FC = () => {
       const token = session.access_token;
 
       const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${user.id}/ai-design-studio-access`,
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${user.id}/app-access`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -503,11 +510,11 @@ const AdminUsersManagement: React.FC = () => {
           data.data.user_access.map((a: any) => a.app_slug) || [],
         );
       } else {
-        setError(data.error || "Failed to load ai-design-studio access data");
+        setError(data.error || "Failed to load app access data");
       }
     } catch (error) {
-      console.error("Error fetching ai-design-studio access:", error);
-      setError("Failed to load ai-design-studio access data. Please try again.");
+      console.error("Error fetching app access:", error);
+      setError("Failed to load app access data. Please try again.");
     } finally {
       setLoadingApps(false);
     }
@@ -523,7 +530,7 @@ const AdminUsersManagement: React.FC = () => {
     });
   };
 
-  // Direct ai-design-studio toggle for individual users with rate limiting and error recovery
+  // Direct app toggle for individual users with rate limiting and error recovery
   const toggleUserAppAccess = async (userId: string, appSlug: string, currentAccess: boolean) => {
     const toggleKey = `${userId}-${appSlug}`;
 
@@ -567,7 +574,7 @@ const AdminUsersManagement: React.FC = () => {
       const token = session.access_token;
 
       const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${userId}/ai-design-studio-access`,
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${userId}/app-access`,
         {
           method: currentAccess ? "DELETE" : "POST",
           headers: {
@@ -591,13 +598,13 @@ const AdminUsersManagement: React.FC = () => {
       } else {
         // Revert optimistic update on business logic error
         setUsers(previousUsers);
-        throw new Error(data.error || `Failed to ${currentAccess ? 'remove' : 'grant'} ai-design-studio access`);
+        throw new Error(data.error || `Failed to ${currentAccess ? 'remove' : 'grant'} app access`);
       }
     } catch (error: any) {
       // Revert optimistic update on any error
       setUsers(previousUsers);
-      console.error("Error toggling ai-design-studio access:", error);
-      setError(error.message || `Failed to ${currentAccess ? 'remove' : 'grant'} ai-design-studio access. Please try again.`);
+      console.error("Error toggling app access:", error);
+      setError(error.message || `Failed to ${currentAccess ? 'remove' : 'grant'} app access. Please try again.`);
     } finally {
       setTogglingApp(null);
     }
@@ -623,7 +630,7 @@ const AdminUsersManagement: React.FC = () => {
       // Grant access to selected apps
       if (userAppAccess.length > 0) {
         const grantResponse = await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${selectedUserForApps.id}/ai-design-studio-access`,
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${selectedUserForApps.id}/app-access`,
           {
             method: "POST",
             headers: {
@@ -647,7 +654,7 @@ const AdminUsersManagement: React.FC = () => {
 
       if (toRevoke.length > 0) {
         const revokeResponse = await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${selectedUserForApps.id}/ai-design-studio-access`,
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${selectedUserForApps.id}/app-access`,
           {
             method: "DELETE",
             headers: {
@@ -669,8 +676,8 @@ const AdminUsersManagement: React.FC = () => {
       // Refresh users list
       await fetchUsers();
     } catch (error) {
-      console.error("Error saving ai-design-studio access:", error);
-      setError("Failed to update ai-design-studio access. Please try again.");
+      console.error("Error saving app access:", error);
+      setError("Failed to update app access. Please try again.");
     } finally {
       setSavingAppAccess(false);
     }
@@ -744,6 +751,52 @@ const AdminUsersManagement: React.FC = () => {
       }
       return newSet;
     });
+  };
+
+  const fetchAuditLogs = async (userId: string) => {
+    setLoadingAuditLogs(true);
+    try {
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
+      if (sessionError || !session) {
+        setError("Authentication required");
+        return;
+      }
+      const token = session.access_token;
+
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-audit-log?userId=${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        setAuditLogs(data.data || []);
+      } else {
+        setError(data.error || "Failed to load audit logs");
+      }
+    } catch (error) {
+      console.error("Error fetching audit logs:", error);
+      setError("Failed to load audit logs. Please try again.");
+    } finally {
+      setLoadingAuditLogs(false);
+    }
+  };
+
+  const openAuditLogModal = async (user: User) => {
+    setSelectedUserForAudit(user);
+    setShowAuditLogModal(true);
+    await fetchAuditLogs(user.id);
   };
 
   const saveFeatureAccess = async () => {
@@ -1032,27 +1085,27 @@ const AdminUsersManagement: React.FC = () => {
                     {expandedUsers.has(user.id) && (
                       <div className="bg-gray-900/50 rounded-lg p-3 border border-gray-600">
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                          {allApps.slice(0, 12).map((ai-design-studio) => {
-                            const hasAccess = (user.app_access || []).includes(ai-design-studio.slug);
-                            const toggleKey = `${user.id}-${ai-design-studio.slug}`;
+                          {allApps.slice(0, 12).map((app) => {
+                            const hasAccess = (user.app_access || []).includes(app.slug);
+                            const toggleKey = `${user.id}-${app.slug}`;
                             const isToggling = togglingApp === toggleKey;
 
                             return (
                               <div
-                                key={ai-design-studio.slug}
+                                key={app.slug}
                                 className="flex items-center justify-between p-2 bg-gray-800/50 rounded border border-gray-700"
                               >
-                                <span className="text-xs text-gray-300 truncate mr-2" title={ai-design-studio.name}>
-                                  {ai-design-studio.name}
+                                <span className="text-xs text-gray-300 truncate mr-2" title={app.name}>
+                                  {app.name}
                                 </span>
                                 <button
-                                  onClick={() => toggleUserAppAccess(user.id, ai-design-studio.slug, hasAccess)}
+                                  onClick={() => toggleUserAppAccess(user.id, app.slug, hasAccess)}
                                   disabled={isToggling}
                                   className={`relative inline-flex h-5 w-8 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:cursor-not-allowed ${
                                     hasAccess ? "bg-primary-600 hover:bg-primary-700" : "bg-gray-600 hover:bg-gray-500"
                                   } ${isToggling ? "opacity-50" : ""}`}
-                                  title={`${hasAccess ? "Remove" : "Grant"} access to ${ai-design-studio.name}`}
-                                  aria-label={`${hasAccess ? "Remove" : "Grant"} access to ${ai-design-studio.name}`}
+                                  title={`${hasAccess ? "Remove" : "Grant"} access to ${app.name}`}
+                                  aria-label={`${hasAccess ? "Remove" : "Grant"} access to ${app.name}`}
                                 >
                                   <span
                                     className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${
@@ -1095,7 +1148,7 @@ const AdminUsersManagement: React.FC = () => {
                 <button
                   onClick={() => openAppAccessModal(user)}
                   className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-xs rounded-lg flex items-center transition-colors"
-                  title="Manage ai-design-studio access"
+                  title="Manage app access"
                 >
                   <Key className="h-3 w-3 mr-1" />
                   Manage Apps
@@ -1107,6 +1160,14 @@ const AdminUsersManagement: React.FC = () => {
                 >
                   <Settings className="h-3 w-3 mr-1" />
                   Manage Features
+                </button>
+                <button
+                  onClick={() => openAuditLogModal(user)}
+                  className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white text-xs rounded-lg flex items-center transition-colors"
+                  title="View audit log"
+                >
+                  <History className="h-3 w-3 mr-1" />
+                  Audit Log
                 </button>
                 <button
                   onClick={() => {
@@ -1409,7 +1470,7 @@ user3@example.com,Bob,Johnson,user`}
                     <div className="flex space-x-2">
                       <button
                         onClick={() =>
-                          setUserAppAccess(availableApps.map((ai-design-studio) => ai-design-studio.slug))
+                          setUserAppAccess(availableApps.map((app) => app.slug))
                         }
                         className="text-xs px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded transition-colors"
                       >
@@ -1428,9 +1489,9 @@ user3@example.com,Bob,Johnson,user`}
                 {/* Group apps by category */}
                 {Object.entries(
                   availableApps.reduce(
-                    (acc, ai-design-studio) => {
-                      if (!acc[ai-design-studio.category]) acc[ai-design-studio.category] = [];
-                      acc[ai-design-studio.category].push(ai-design-studio);
+                    (acc, app) => {
+                      if (!acc[app.category]) acc[app.category] = [];
+                      acc[app.category].push(app);
                       return acc;
                     },
                     {} as Record<string, typeof availableApps>,
@@ -1441,17 +1502,17 @@ user3@example.com,Bob,Johnson,user`}
                       {category.replace(/-/g, " ")}
                     </h4>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                      {apps.map((ai-design-studio) => (
+                      {apps.map((app) => (
                         <button
-                          key={ai-design-studio.slug}
-                          onClick={() => toggleAppAccess(ai-design-studio.slug)}
+                          key={app.slug}
+                          onClick={() => toggleAppAccess(app.slug)}
                           className={`p-3 rounded-lg text-left transition-all ${
-                            userAppAccess.includes(ai-design-studio.slug)
+                            userAppAccess.includes(app.slug)
                               ? "bg-purple-600/20 border-2 border-purple-500 text-white"
                               : "bg-gray-700 border-2 border-transparent text-gray-300 hover:bg-gray-600"
                           }`}
                         >
-                          <div className="text-sm font-medium">{ai-design-studio.name}</div>
+                          <div className="text-sm font-medium">{app.name}</div>
                         </button>
                       ))}
                     </div>
@@ -1542,7 +1603,7 @@ user3@example.com,Bob,Johnson,user`}
                   </div>
                 </div>
 
-                {/* Group features by ai-design-studio */}
+                {/* Group features by app */}
                 {Object.entries(
                   availableFeatures.reduce(
                     (acc, feature) => {
@@ -1581,27 +1642,93 @@ user3@example.com,Bob,Johnson,user`}
                   </div>
                 ))}
 
-                {availableFeatures.length === 0 && (
+{availableFeatures.length === 0 && (
+                <div className="text-center py-10 text-gray-400">
+                  No features available. User must have app access first.
+                </div>
+              )}
+
+              <div className="flex space-x-3 mt-6 pt-4 border-t border-gray-700">
+                <button
+                  onClick={() => setShowFeatureAccessModal(false)}
+                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={saveFeatureAccess}
+                  disabled={savingFeatureAccess}
+                  className="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
+                >
+                  {savingFeatureAccess ? "Saving..." : "Save Changes"}
+                </button>
+              </div>
+            </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Audit Log Modal */}
+      {showAuditLogModal && selectedUserForAudit && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-xl p-6 w-full max-w-3xl mx-4 max-h-[80vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="text-xl font-bold text-white">Audit Log</h3>
+                <p className="text-sm text-gray-400 mt-1">
+                  {selectedUserForAudit.first_name && selectedUserForAudit.last_name
+                    ? `${selectedUserForAudit.first_name} ${selectedUserForAudit.last_name}`
+                    : selectedUserForAudit.email}
+                </p>
+              </div>
+              <button
+                onClick={() => setShowAuditLogModal(false)}
+                className="text-gray-400 hover:text-white"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {loadingAuditLogs ? (
+              <div className="flex justify-center items-center py-20">
+                <div className="w-8 h-8 border-t-2 border-blue-500 border-solid rounded-full animate-spin"></div>
+              </div>
+            ) : (
+              <>
+                {auditLogs.length === 0 ? (
                   <div className="text-center py-10 text-gray-400">
-                    No features available. User must have ai-design-studio access first.
+                    No audit logs found for this user.
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {auditLogs.map((log) => (
+                      <div
+                        key={log.id}
+                        className="bg-gray-900/50 rounded-lg p-3 border border-gray-700"
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-sm font-medium text-white">
+                            {log.action.replace(/_/g, " ")}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            {new Date(log.created_at).toLocaleString()}
+                          </span>
+                        </div>
+                        <div className="text-xs text-gray-400">
+                          {log.resource_type}: {log.resource_id || "N/A"}
+                        </div>
+                        {log.details && (
+                          <div className="mt-2 text-xs bg-gray-800/50 p-2 rounded">
+                            <pre className="text-gray-300 whitespace-pre-wrap">
+                              {JSON.stringify(log.details, null, 2)}
+                            </pre>
+                          </div>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 )}
-
-                <div className="flex space-x-3 mt-6 pt-4 border-t border-gray-700">
-                  <button
-                    onClick={() => setShowFeatureAccessModal(false)}
-                    className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={saveFeatureAccess}
-                    disabled={savingFeatureAccess}
-                    className="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
-                  >
-                    {savingFeatureAccess ? "Saving..." : "Save Changes"}
-                  </button>
-                </div>
               </>
             )}
           </div>

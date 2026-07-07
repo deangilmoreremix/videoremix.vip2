@@ -89,8 +89,8 @@ describe('SignUpPage', () => {
     it('should display benefits section', () => {
       renderSignUpPage();
 
-      expect(screen.getByText(/start your free account today/i)).toBeInTheDocument();
-      expect(screen.getByText(/no credit card required/i)).toBeInTheDocument();
+      expect(screen.getByText(/you'll get with VideoRemix.vip/i)).toBeInTheDocument();
+      expect(screen.getByText(/37\+ marketing personalization tools/i)).toBeInTheDocument();
     });
   });
 
@@ -378,9 +378,7 @@ describe('SignUpPage', () => {
 
       vi.advanceTimersByTime(2000);
 
-      await waitFor(() => {
-        expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
-      });
+      expect(window.location.href).toBe('/dashboard');
 
       vi.useRealTimers();
     });
@@ -401,7 +399,7 @@ describe('SignUpPage', () => {
 
       renderSignUpPage();
 
-      expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
+      expect(window.location.href).toBe('/dashboard');
     });
   });
 });

@@ -1,7 +1,7 @@
 import { renderHook, waitFor, act } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { AuthProvider, useAuth } from '../src/context/AuthContext';
-import { supabase } from '../src/utils/supabaseClient';
+import { supabase } from '../src/utils/supabase';
 import React from 'react';
 
 vi.mock('../src/utils/supabaseClient', () => ({
@@ -15,6 +15,9 @@ vi.mock('../src/utils/supabaseClient', () => ({
       resetPasswordForEmail: vi.fn(),
       updateUser: vi.fn(),
     },
+    from: vi.fn(() => ({
+      upsert: vi.fn().mockResolvedValue({ error: null }),
+    })),
   },
 }));
 
@@ -142,9 +145,10 @@ describe('AuthContext', () => {
       expect(supabase.auth.signUp).toHaveBeenCalledWith({
         email: 'newuser@example.com',
         password: 'password123',
-        options: {
+        options: expect.objectContaining({
           data: { first_name: 'John', last_name: 'Doe' },
-        },
+          emailRedirectTo: expect.stringContaining('/'),
+        }),
       });
 
       expect(signUpResult).toEqual({
@@ -341,8 +345,9 @@ describe('AuthContext', () => {
         resetResult = await result.current.resetPassword('test@example.com');
       });
 
-      expect(supabase.auth.resetPasswordForEmail).toHaveBeenCalledWith('test@example.com');
-      expect(resetResult).toEqual({ error: null });
+      expect(supabase.auth.resetPasswordForEmail).toHaveBeenCalledWith('test@example.com', expect.objectContaining({
+        redirectTo: expect.stringContaining('/'),
+      }));
     });
 
     it('should handle password reset errors', async () => {

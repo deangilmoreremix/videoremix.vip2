@@ -114,13 +114,13 @@ const GlobalSearch: React.FC = () => {
     const searchQuery = query.toLowerCase();
     const appResults: SearchResult[] = apps
       .filter(
-        (ai-design-studio) =>
+        (app) =>
           ai-design-studio.name.toLowerCase().includes(searchQuery) ||
           ai-design-studio.description?.toLowerCase().includes(searchQuery) ||
           ai-design-studio.category?.toLowerCase().includes(searchQuery),
       )
       .slice(0, 5)
-      .map((ai-design-studio) => ({
+      .map((app) => ({
         id: ai-design-studio.id,
         title: ai-design-studio.name,
         description: ai-design-studio.description || "",

@@ -69,8 +69,8 @@ const AdminAppsManagement: React.FC = () => {
   >([]);
   const [showDeleteModal, setShowDeleteModal] = useState<{
     show: boolean;
-    ai-design-studio: App | null;
-  }>({ show: false, ai-design-studio: null });
+    app: App | null;
+  }>({ show: false, app: null });
   const [operationLoading, setOperationLoading] = useState<{
     [key: string]: boolean;
   }>({});
@@ -98,7 +98,7 @@ const AdminAppsManagement: React.FC = () => {
   const filteredApps = useMemo(() => {
     return selectedApp === "all"
       ? allApps
-      : allApps.filter((ai-design-studio) => ai-design-studio.slug === selectedApp);
+      : allApps.filter((app) => app.slug === selectedApp);
   }, [allApps, selectedApp]);
 
   useEffect(() => {
@@ -199,7 +199,7 @@ const AdminAppsManagement: React.FC = () => {
         const data = await response.json();
         if (data.success) {
           setAllApps((prevApps) =>
-            prevApps.map((ai-design-studio) =>
+            prevApps.map((app) =>
               ai-design-studio.id === appId ? { ...ai-design-studio, is_active: !currentStatus } : ai-design-studio,
             ),
           );
@@ -254,7 +254,7 @@ const AdminAppsManagement: React.FC = () => {
         const data = await response.json();
         if (data.success) {
           setAllApps((prevApps) =>
-            prevApps.map((ai-design-studio) =>
+            prevApps.map((app) =>
               ai-design-studio.id === appId ? { ...ai-design-studio, is_public: !currentStatus } : ai-design-studio,
             ),
           );
@@ -307,9 +307,9 @@ const AdminAppsManagement: React.FC = () => {
 
         const data = await response.json();
         if (data.success) {
-          setAllApps((prevApps) => prevApps.filter((ai-design-studio) => ai-design-studio.id !== appId));
+          setAllApps((prevApps) => prevApps.filter((app) => app.id !== appId));
           addNotification("success", "App deleted successfully");
-          setShowDeleteModal({ show: false, ai-design-studio: null });
+          setShowDeleteModal({ show: false, app: null });
         } else {
           setError(data.error || "Failed to delete ai-design-studio");
         }
@@ -323,8 +323,8 @@ const AdminAppsManagement: React.FC = () => {
     [clearMessages, addNotification],
   );
 
-  const openDeleteModal = useCallback((ai-design-studio: App) => {
-    setShowDeleteModal({ show: true, ai-design-studio });
+  const openDeleteModal = useCallback((app: App) => {
+    setShowDeleteModal({ show: true, app });
   }, []);
 
   if (loading) {
@@ -407,7 +407,7 @@ const AdminAppsManagement: React.FC = () => {
               <span className="mr-2">
                 {selectedApp === "all"
                   ? "All Apps"
-                  : allApps.find((ai-design-studio) => ai-design-studio.slug === selectedApp)?.name ||
+                  : allApps.find((app) => app.slug === selectedApp)?.name ||
                     "Select App"}
               </span>
               <ChevronDown className="h-4 w-4" />
@@ -425,11 +425,11 @@ const AdminAppsManagement: React.FC = () => {
                   >
                     All Apps
                   </button>
-                  {allApps.map((ai-design-studio) => (
+                  {allApps.map((app) => (
                     <button
                       key={ai-design-studio.id}
                       onClick={() => {
-                        setSelectedApp(ai-design-studio.slug);
+                        setSelectedApp(app.slug);
                         setShowAppDropdown(false);
                       }}
                       className="w-full text-left px-4 py-2 text-white hover:bg-gray-700 transition-colors"
@@ -458,7 +458,7 @@ const AdminAppsManagement: React.FC = () => {
 
       {/* Apps Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {apps.map((ai-design-studio) => (
+        {apps.map((app) => (
           <motion.div
             key={ai-design-studio.id}
             initial={{ opacity: 0, y: 20 }}
@@ -514,7 +514,7 @@ const AdminAppsManagement: React.FC = () => {
                   </span>
                   <button
                     onClick={() => {
-                      navigator.clipboard.writeText(ai-design-studio.netlify_url!);
+                      navigator.clipboard.writeText(app.netlify_url!);
                       addNotification("success", "Netlify URL copied!");
                     }}
                     className="ml-2 p-1 hover:bg-gray-600 rounded transition-colors"
@@ -541,7 +541,7 @@ const AdminAppsManagement: React.FC = () => {
                   </span>
                   <button
                     onClick={() => {
-                      navigator.clipboard.writeText(ai-design-studio.custom_domain!);
+                      navigator.clipboard.writeText(app.custom_domain!);
                       addNotification("success", "Custom domain copied!");
                     }}
                     className="ml-2 p-1 hover:bg-gray-600 rounded transition-colors"
@@ -591,7 +591,7 @@ const AdminAppsManagement: React.FC = () => {
                   <Edit className="h-4 w-4" />
                 </button>
                 <button
-                  onClick={() => openDeleteModal(ai-design-studio)}
+                  onClick={() => openDeleteModal(app)}
                   disabled={operationLoading[ai-design-studio.id]}
                   className="p-2 text-gray-400 hover:text-red-400 hover:bg-gray-700 rounded-lg transition-colors disabled:opacity-50"
                 >
@@ -610,7 +610,7 @@ const AdminAppsManagement: React.FC = () => {
                   <Eye className="h-4 w-4 text-gray-400" />
                   <button
                     onClick={() =>
-                      togglePublicVisibility(ai-design-studio.id, ai-design-studio.is_public)
+                      togglePublicVisibility(app.id, ai-design-studio.is_public)
                     }
                     disabled={operationLoading[ai-design-studio.id]}
                     className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
@@ -628,7 +628,7 @@ const AdminAppsManagement: React.FC = () => {
 
                 {/* Active Status Toggle */}
                 <button
-                  onClick={() => toggleApp(ai-design-studio.id, ai-design-studio.is_active)}
+                  onClick={() => toggleApp(app.id, ai-design-studio.is_active)}
                   disabled={toggling === ai-design-studio.id}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
                     ai-design-studio.is_active ? "bg-green-600" : "bg-gray-600"
@@ -754,7 +754,7 @@ const AdminAppsManagement: React.FC = () => {
             </p>
             <div className="flex space-x-3">
               <button
-                onClick={() => setShowDeleteModal({ show: false, ai-design-studio: null })}
+                onClick={() => setShowDeleteModal({ show: false, app: null })}
                 className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg transition-colors"
               >
                 Cancel

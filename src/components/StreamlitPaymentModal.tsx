@@ -38,7 +38,7 @@ interface StreamlitApp {
 interface StreamlitPaymentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  ai-design-studio: StreamlitApp;
+  app: StreamlitApp;
   selectedTier?: 'basic' | 'pro' | 'enterprise';
   onTierChange?: (tier: 'basic' | 'pro' | 'enterprise') => void;
 }
@@ -49,7 +49,7 @@ const pricingTiers = {
     price: 29,
     originalPrice: 49,
     features: [
-      "Core Streamlit ai-design-studio functionality",
+      "Core Streamlit app functionality",
       "Basic customer support",
       "All future updates included",
       "Community access"
@@ -96,7 +96,7 @@ const pricingTiers = {
 const StreamlitPaymentModal: React.FC<StreamlitPaymentModalProps> = ({
   isOpen,
   onClose,
-  ai-design-studio,
+  app,
   selectedTier = 'basic',
   onTierChange
 }) => {
@@ -116,28 +116,28 @@ const StreamlitPaymentModal: React.FC<StreamlitPaymentModalProps> = ({
       setModalOpenTime(Date.now());
       const variant = ABTestUtils.getCtaButtonText(user?.id);
       setCtaVariant(variant);
-      Analytics.trackModalOpen(ai-design-studio.id, 'streamlit_purchase');
-      PerformanceMonitor.trackAnimationSmoothness(ai-design-studio.id, 'streamlit_modal_open');
+      Analytics.trackModalOpen(app.id, 'streamlit_purchase');
+      PerformanceMonitor.trackAnimationSmoothness(app.id, 'streamlit_modal_open');
     } else if (modalOpenTime) {
       const duration = Date.now() - modalOpenTime;
-      Analytics.trackModalClose(ai-design-studio.id, 'streamlit_purchase', duration);
+      Analytics.trackModalClose(app.id, 'streamlit_purchase', duration);
       setModalOpenTime(null);
     }
-  }, [isOpen, ai-design-studio.id, modalOpenTime, user?.id]);
+  }, [isOpen, app.id, modalOpenTime, user?.id]);
 
   // Track modal load time
   useEffect(() => {
     if (isOpen) {
-      const endTracking = PerformanceMonitor.trackModalLoadTime(ai-design-studio.id);
+      const endTracking = PerformanceMonitor.trackModalLoadTime(app.id);
       return endTracking;
     }
-  }, [isOpen, ai-design-studio.id]);
+  }, [isOpen, app.id]);
 
   const handlePurchase = async (tier: keyof typeof pricingTiers = selectedTier) => {
     const tierData = pricingTiers[tier];
 
     // Track CTA click with A/B test variant
-    Analytics.trackCtaClick(ai-design-studio.id, 'streamlit_purchase_now', {
+    Analytics.trackCtaClick(app.id, 'streamlit_purchase_now', {
       price: tierData.price,
       tier,
       user_logged_in: !!user,
@@ -149,7 +149,7 @@ const StreamlitPaymentModal: React.FC<StreamlitPaymentModalProps> = ({
     if (!user) {
       Analytics.trackEvent('signin_redirect', {
         from_modal: true,
-        app_id: ai-design-studio.id,
+        app_id: app.id,
         purchase_type: 'streamlit'
       });
       onClose();
@@ -158,15 +158,15 @@ const StreamlitPaymentModal: React.FC<StreamlitPaymentModalProps> = ({
     }
 
     // Track purchase start
-    Analytics.trackPurchaseStart(ai-design-studio.id, tierData.price, { tier, type: 'streamlit' });
+    Analytics.trackPurchaseStart(app.id, tierData.price, { tier, type: 'streamlit' });
 
     setLoading(true);
     setError(null);
 
     try {
       const { url } = await createStreamlitCheckoutSession({
-        appId: ai-design-studio.id,
-        appName: ai-design-studio.name,
+        appId: app.id,
+        appName: app.name,
         tier,
         price: tierData.price,
         userId: user.id,
@@ -174,7 +174,7 @@ const StreamlitPaymentModal: React.FC<StreamlitPaymentModalProps> = ({
       });
 
       if (url) {
-        Analytics.trackPurchaseComplete(ai-design-studio.id, tierData.price, { tier, type: 'streamlit' });
+        Analytics.trackPurchaseComplete(app.id, tierData.price, { tier, type: 'streamlit' });
         ABTestUtils.trackPurchase('streamlit_cta_button_text', ctaVariant, tierData.price);
         window.location.href = url;
       } else {
@@ -182,7 +182,7 @@ const StreamlitPaymentModal: React.FC<StreamlitPaymentModalProps> = ({
       }
     } catch (err: any) {
       console.error("Error creating Streamlit checkout session:", err);
-      Analytics.trackError(`Streamlit purchase failed: ${err.message}`, 'streamlit_checkout_error', ai-design-studio.id);
+      Analytics.trackError(`Streamlit purchase failed: ${err.message}`, 'streamlit_checkout_error', app.id);
       setError(err.message || "Failed to start checkout. Please try again.");
       setLoading(false);
     }
@@ -248,23 +248,23 @@ const StreamlitPaymentModal: React.FC<StreamlitPaymentModalProps> = ({
                       >
                         <div className="flex items-center gap-3 mb-4">
                           <div className="p-3 bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-600/30">
-                            {React.isValidElement(ai-design-studio.icon)
-                              ? React.cloneElement(ai-design-studio.icon as React.ReactElement, {
+                            {React.isValidElement(app.icon)
+                              ? React.cloneElement(app.icon as React.ReactElement, {
                                   className: "h-8 w-8 text-primary-400",
                                 })
                               : <Code className="h-8 w-8 text-primary-400" />}
                           </div>
                           <div>
                             <h2 className="text-2xl md:text-3xl font-bold text-white">
-                              {ai-design-studio.name}
+                              {app.name}
                             </h2>
                             <p className="text-primary-300 font-medium uppercase text-sm tracking-wider">
-                              {ai-design-studio.category.replace('-', ' ')}
+                              {app.category.replace('-', ' ')}
                             </p>
                           </div>
                         </div>
                         <p className="text-gray-300 text-lg leading-relaxed">
-                          {ai-design-studio.description}
+                          {app.description}
                         </p>
                         <div className="flex items-center gap-4 mt-4">
                           <div className="flex items-center gap-1">
@@ -290,8 +290,8 @@ const StreamlitPaymentModal: React.FC<StreamlitPaymentModalProps> = ({
                         <div className="relative bg-gray-800/40 backdrop-blur-sm rounded-xl p-4 border border-gray-600/30">
                           <div className="aspect-video bg-gray-900 rounded-lg overflow-hidden">
                             <img
-                              src={ai-design-studio.demoImage || ai-design-studio.image}
-                              alt={`${ai-design-studio.name} preview`}
+                              src={app.demoImage || app.image}
+                              alt={`${app.name} preview`}
                               className="w-full h-full object-cover"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />

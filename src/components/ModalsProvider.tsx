@@ -1,10 +1,8 @@
-import { useState, useEffect, createContext, useContext, ReactNode, FC } from "react";
+import { useState, createContext, useContext, ReactNode, FC } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { X } from "lucide-react";
-import CreateFirstVideoCTA from "./CreateFirstVideoCTA";
 
 // Types
-type ModalType = 'createFirstVideo' | 'featuredAnnouncement' | 'newFeature' | 'pricing';
+type ModalType = 'featuredAnnouncement' | 'newFeature' | 'pricing';
 
 interface ModalsContextType {
   showModal: (type: ModalType) => void;
@@ -30,7 +28,6 @@ export const ModalsProvider: React.FC<{ children: ReactNode }> = ({
   const [visibleModals, setVisibleModals] = useState<
     Record<ModalType, boolean>
   >({
-    createFirstVideo: false,
     featuredAnnouncement: false,
     newFeature: false,
     pricing: false,
@@ -55,30 +52,11 @@ export const ModalsProvider: React.FC<{ children: ReactNode }> = ({
   // Hide all modals
   const hideAllModals = () => {
     setVisibleModals({
-      createFirstVideo: false,
       featuredAnnouncement: false,
       newFeature: false,
       pricing: false,
     });
   };
-
-  // Show the create first video modal to new users
-  useEffect(() => {
-    const hasSeenCreateFirstVideo = localStorage.getItem(
-      "hasSeenCreateFirstVideo",
-    );
-
-    // Only show to new users who haven't seen it before
-    if (!hasSeenCreateFirstVideo) {
-      // Wait a bit before showing the modal
-      const timeoutId = setTimeout(() => {
-        showModal("createFirstVideo");
-        localStorage.setItem("hasSeenCreateFirstVideo", "true");
-      }, 30000); // Show after 30 seconds
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, []);
 
   return (
     <ModalsContext.Provider
@@ -92,21 +70,6 @@ export const ModalsProvider: React.FC<{ children: ReactNode }> = ({
 
       {/* Modal overlays */}
       <AnimatePresence>
-        {/* Create First Video modal */}
-        {visibleModals.createFirstVideo && (
-          <ModalOverlay onClose={() => hideModal("createFirstVideo")}>
-            <div className="relative">
-              <button
-                onClick={() => hideModal("createFirstVideo")}
-                className="absolute -top-2 -right-2 bg-gray-800 text-white p-1 rounded-full hover:bg-gray-700 transition-colors z-10"
-              >
-                <X className="h-4 w-4" />
-              </button>
-              <CreateFirstVideoCTA variant="popup" />
-            </div>
-          </ModalOverlay>
-        )}
-
         {/* Other modals will go here */}
       </AnimatePresence>
     </ModalsContext.Provider>

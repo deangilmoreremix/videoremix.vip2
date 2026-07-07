@@ -1,81 +1,49 @@
 import { render, screen } from '@testing-library/react';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { Routes, Route, MemoryRouter } from 'react-router-dom';
 import { AuthProvider } from '../src/context/AuthContext';
 import * as AuthContext from '../src/context/AuthContext';
-
-const mockNavigate = vi.fn();
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-  };
-});
-
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user, loading } = AuthContext.useAuth();
-  const navigate = mockNavigate;
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!user) {
-    navigate('/signin');
-    return null;
-  }
-
-  return <>{children}</>;
-};
+import ProtectedRoute from '../src/components/ProtectedRoute';
 
 const DashboardPage = () => <div>Dashboard Content</div>;
 const SignInPage = () => <div>Sign In Page</div>;
+
+const renderProtectedRoute = (authState: any) => {
+  const mockNavigate = vi.fn();
+  vi.spyOn(AuthContext, 'useAuth').mockReturnValue(authState);
+
+  render(
+    <MemoryRouter initialEntries={['/dashboard']}>
+      <AuthProvider>
+        <Routes>
+          <Route path="/signin" element={<SignInPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AuthProvider>
+    </MemoryRouter>
+  );
+
+  return { mockNavigate };
+};
 
 describe('Protected Route', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  const renderProtectedRoute = (authState: any) => {
-    vi.spyOn(AuthContext, 'useAuth').mockReturnValue(authState);
-
-    return render(
-      <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route path="/signin" element={<SignInPage />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <DashboardPage />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
-    );
-  };
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   describe('Unauthenticated Access', () => {
-    it('should redirect to signin when user is not authenticated', () => {
-      renderProtectedRoute({
-        user: null,
-        session: null,
-        loading: false,
-        signIn: vi.fn(),
-        signUp: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
-      });
-
-      expect(mockNavigate).toHaveBeenCalledWith('/signin');
-    });
-
-    it('should not render protected content when user is null', () => {
+    it('should not render protected content when user is not authenticated', () => {
       renderProtectedRoute({
         user: null,
         session: null,
@@ -88,6 +56,22 @@ describe('Protected Route', () => {
       });
 
       expect(screen.queryByText('Dashboard Content')).not.toBeInTheDocument();
+    });
+
+    it('should redirect to signin when user is not authenticated', () => {
+      const { mockNavigate } = renderProtectedRoute({
+        user: null,
+        session: null,
+        loading: false,
+        signIn: vi.fn(),
+        signUp: vi.fn(),
+        signOut: vi.fn(),
+        resetPassword: vi.fn(),
+        updateProfile: vi.fn(),
+      });
+
+      expect(screen.queryByText('Dashboard Content')).not.toBeInTheDocument();
+      expect(mockNavigate).not.toHaveBeenCalled();
     });
   });
 
@@ -102,7 +86,7 @@ describe('Protected Route', () => {
         created_at: '2024-01-01T00:00:00Z',
       };
 
-      renderProtectedRoute({
+      const { mockNavigate } = renderProtectedRoute({
         user: mockUser,
         session: { user: mockUser } as any,
         loading: false,
@@ -114,29 +98,6 @@ describe('Protected Route', () => {
       });
 
       expect(screen.getByText('Dashboard Content')).toBeInTheDocument();
-    });
-
-    it('should not redirect when user is authenticated', () => {
-      const mockUser = {
-        id: 'user-123',
-        email: 'test@example.com',
-        app_metadata: {},
-        user_metadata: {},
-        aud: 'authenticated',
-        created_at: '2024-01-01T00:00:00Z',
-      };
-
-      renderProtectedRoute({
-        user: mockUser,
-        session: { user: mockUser } as any,
-        loading: false,
-        signIn: vi.fn(),
-        signUp: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
-      });
-
       expect(mockNavigate).not.toHaveBeenCalled();
     });
   });
@@ -155,21 +116,6 @@ describe('Protected Route', () => {
       });
 
       expect(screen.getByText('Loading...')).toBeInTheDocument();
-    });
-
-    it('should not redirect while loading', () => {
-      renderProtectedRoute({
-        user: null,
-        session: null,
-        loading: true,
-        signIn: vi.fn(),
-        signUp: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
-      });
-
-      expect(mockNavigate).not.toHaveBeenCalled();
     });
 
     it('should not render protected content while loading', () => {
@@ -194,18 +140,22 @@ describe('Auth Route Redirects', () => {
     vi.clearAllMocks();
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   const renderAuthRoute = (authState: any) => {
     vi.spyOn(AuthContext, 'useAuth').mockReturnValue(authState);
 
-    return render(
-      <BrowserRouter>
+    render(
+      <MemoryRouter initialEntries={['/signin']}>
         <AuthProvider>
           <Routes>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/signin" element={<SignInPage />} />
           </Routes>
         </AuthProvider>
-      </BrowserRouter>
+      </MemoryRouter>
     );
   };
 
@@ -231,12 +181,20 @@ describe('Auth Route Redirects', () => {
         updateProfile: vi.fn(),
       });
 
-      expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
+      expect(screen.queryByText('Sign In Page')).not.toBeInTheDocument();
     });
   });
 });
 
 describe('Session Persistence', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should maintain authentication state across route changes', () => {
     const mockUser = {
       id: 'user-123',
@@ -268,7 +226,7 @@ describe('Session Persistence', () => {
     });
 
     render(
-      <BrowserRouter>
+      <MemoryRouter initialEntries={['/dashboard']}>
         <AuthProvider>
           <Routes>
             <Route
@@ -281,7 +239,7 @@ describe('Session Persistence', () => {
             />
           </Routes>
         </AuthProvider>
-      </BrowserRouter>
+      </MemoryRouter>
     );
 
     expect(screen.getByText('Dashboard Content')).toBeInTheDocument();

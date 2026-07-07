@@ -194,16 +194,16 @@ const SpecialFooter: React.FC = () => {
           <div className="space-y-3 col-span-2">
             <h3 className="text-white font-semibold mb-4">AI Marketing Tools</h3>
             <ul className="space-y-2">
-              {newApps.slice(0, 8).map((ai-design-studio, i) => (
+              {newApps.slice(0, 8).map((app, i) => (
                 <li key={i}>
                   <a
-                    href={ai-design-studio.url}
+                    href={app.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-white transition-colors inline-flex items-center"
                   >
                     <ChevronRight className="h-3 w-3 mr-1" />
-                    {ai-design-studio.name}
+                    {app.name}
                   </a>
                 </li>
               ))}

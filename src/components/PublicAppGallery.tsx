@@ -13,7 +13,7 @@ const PublicAppGallery: React.FC = () => {
 
   // Get featured public apps
   const featuredPublicApps = apps
-    .filter((ai-design-studio) => ai-design-studio.isPublic && (ai-design-studio.popular || ai-design-studio.new))
+    .filter((app) => app.isPublic && (app.popular || ai-design-studio.new))
     .slice(0, 6); // Show top 6
 
   if (loading) {
@@ -73,7 +73,7 @@ const PublicAppGallery: React.FC = () => {
 
         {/* Apps Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {featuredPublicApps.map((ai-design-studio, index) => (
+          {featuredPublicApps.map((app, index) => (
             <motion.div
               key={ai-design-studio.id}
               initial={{ opacity: 0, y: 20 }}

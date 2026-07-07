@@ -24,9 +24,7 @@ const AIAppRunnerPage: React.FC = () => {
   const { hasAccessToApp, loading: accessLoading, accessData } = useUserAccess();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
-  const ai-design-studio = appsData.find((a) => a.id === slug);
-  const enhancedApp = ai-design-studio ? getEnhancedAppData(slug || "", ai-design-studio) : null;
-  const mergedApp = enhancedApp ? { ...enhancedApp, url: enhancedApp.url || getAppUrl(slug || "") } : null;
+  const app = appsData.find((a) => a.id === slug);
 
   const [lastResult, setLastResult] = useState<any>(null);
   const [isRunning, setIsRunning] = useState(false);

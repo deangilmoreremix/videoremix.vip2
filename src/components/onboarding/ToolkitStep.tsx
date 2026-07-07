@@ -38,9 +38,9 @@ const ToolkitStep: React.FC<ToolkitStepProps> = ({
   const recommendedApps = useMemo(() => {
     if (!selectedCategories.length) return [];
     
-    return appsData.filter(ai-design-studio => {
+    return appsData.filter(app => {
       // App has single category field
-      const category = ai-design-studio.category || '';
+      const category = app.category || '';
       return selectedCategories.includes(category);
     }).slice(0, 12);
   }, [selectedCategories]);
@@ -137,8 +137,8 @@ const ToolkitStep: React.FC<ToolkitStepProps> = ({
       </div>
 
       {categories.map(category => {
-        const categoryApps = recommendedApps.filter(ai-design-studio => {
-          const category = ai-design-studio.category || '';
+        const categoryApps = recommendedApps.filter(app => {
+          const category = app.category || '';
           return category === categoryItem.id;
         });
         
@@ -151,11 +151,11 @@ const ToolkitStep: React.FC<ToolkitStepProps> = ({
               {category.name}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {categoryApps.map(ai-design-studio => {
-                const isOwned = hasAccessToApp(ai-design-studio.id);
+              {categoryApps.map(app => {
+                const isOwned = hasAccessToApp(app.id);
                 return (
                   <motion.div
-                    key={ai-design-studio.id}
+                    key={app.id}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     className={`
@@ -184,21 +184,21 @@ const ToolkitStep: React.FC<ToolkitStepProps> = ({
                         p-2 rounded-lg
                         ${isOwned ? 'bg-[#cc785c]/20' : 'bg-gray-700'}
                       `}>
-                        {ai-design-studio.icon}
+                        {app.icon}
                       </div>
                       <div className="flex-1">
                         <h4 className="text-sm font-semibold text-white mb-1">
-                          {ai-design-studio.name}
+                          {app.name}
                         </h4>
                         <p className="text-xs text-gray-400 line-clamp-2">
-                          {ai-design-studio.description}
+                          {app.description}
                         </p>
                       </div>
                     </div>
 
                     {isOwned ? (
                       <button
-                        onClick={() => handleOpenApp(ai-design-studio.id)}
+                        onClick={() => handleOpenApp(app.id)}
                         className="w-full px-4 py-2 bg-[#cc785c] hover:bg-[#cc785c]/80 text-white text-sm rounded-lg transition-all flex items-center justify-center gap-2"
                       >
                         <ExternalLink className="h-4 w-4" />

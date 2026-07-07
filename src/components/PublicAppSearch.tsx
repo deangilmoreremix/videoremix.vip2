@@ -45,9 +45,9 @@ const PublicAppSearch: React.FC = () => {
 
   // Filter apps based on visibility, search, and category
   const filteredApps = useMemo(() => {
-    let result = apps.filter((ai-design-studio) => {
+    let result = apps.filter((app) => {
       // Public apps are visible to everyone
-      if (ai-design-studio.isPublic) return true;
+      if (app.isPublic) return true;
 
       // Private apps only visible to logged-in users
       return user && true; // Could add more complex logic here
@@ -57,7 +57,7 @@ const PublicAppSearch: React.FC = () => {
     if (sanitizedSearchQuery) {
       const query = sanitizedSearchQuery.toLowerCase();
       result = result.filter(
-        (ai-design-studio) =>
+        (app) =>
           ai-design-studio.name.toLowerCase().includes(query) ||
           ai-design-studio.description.toLowerCase().includes(query) ||
           ai-design-studio.category.toLowerCase().includes(query),
@@ -69,7 +69,7 @@ const PublicAppSearch: React.FC = () => {
       selectedCategory !== "all" &&
       categories.some((cat) => cat.id === selectedCategory)
     ) {
-      result = result.filter((ai-design-studio) => ai-design-studio.category === selectedCategory);
+      result = result.filter((app) => app.category === selectedCategory);
     }
 
     return result;
@@ -237,14 +237,14 @@ const PublicAppSearch: React.FC = () => {
                 {(searchQuery || selectedCategory !== "all") && (
                   <span className="text-primary-400 ml-2">
                     (filtered from{" "}
-                    {apps.filter((ai-design-studio) => ai-design-studio.isPublic || user).length} total)
+                    {apps.filter((app) => app.isPublic || user).length} total)
                   </span>
                 )}
               </span>
             )}
           </div>
 
-          {!user && filteredApps.some((ai-design-studio) => !ai-design-studio.isPublic) && (
+          {!user && filteredApps.some((app) => !ai-design-studio.isPublic) && (
             <div className="text-sm text-gray-500 flex items-center">
               <Lock className="h-4 w-4 mr-1" />
               Some tools require sign-in
@@ -255,7 +255,7 @@ const PublicAppSearch: React.FC = () => {
         {/* Apps Grid */}
         {filteredApps.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredApps.map((ai-design-studio, index) => {
+            {filteredApps.map((app, index) => {
               const canAccess = ai-design-studio.isPublic || user;
               const isPreview = !canAccess;
 

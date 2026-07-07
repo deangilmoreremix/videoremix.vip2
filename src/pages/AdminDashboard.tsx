@@ -17,6 +17,7 @@ import {
   Link2,
   History,
   TrendingUp,
+  Key,
 } from "lucide-react";
 import { useAdmin } from "../context/AdminContext";
 import { redisCache, cacheKeys, CACHE_TTL } from "../utils/redisCache";
@@ -31,6 +32,7 @@ import AdminCSVImport from "../components/admin/AdminCSVImport";
 import AdminProductMapping from "../components/admin/AdminProductMapping";
 import AdminImportHistory from "../components/admin/AdminImportHistory";
 import AdminAnalyticsDashboard from "../components/admin/AdminAnalyticsDashboard";
+import { AdminRolesManagement } from "../components/admin/AdminRolesManagement";
 
 // Types and Interfaces
 interface DashboardStats {
@@ -45,6 +47,7 @@ interface TabConfig {
     | "apps"
     | "features"
     | "users"
+    | "roles"
     | "purchases"
     | "import"
     | "subscriptions"
@@ -96,6 +99,12 @@ const TAB_CONFIG: TabConfig[] = [
     label: "Users Management",
     icon: Users,
     component: AdminUsersManagement,
+  },
+  {
+    id: "roles",
+    label: "Roles & Permissions",
+    icon: Key,
+    component: AdminRolesManagement,
   },
   {
     id: "purchases",

@@ -116,27 +116,46 @@ export const AGENT_KEY_REQUIREMENTS: Record<string, ApiKeyType[]> = {
   "default": ["OPENAI_API_KEY"],
 };
 
+export interface AgentKeyRequirements {
+  agentSlug: string;
+  requiredKeys: ApiKeyType[];
+}
+
+export const AVAILABLE_API_KEYS: Record<string, { name: string; description: string; key: string }> = {
+  OPENAI_API_KEY: { name: 'OpenAI', description: 'GPT-4', key: import.meta.env.VITE_OPENAI_API_KEY ?? '' },
+  ANTHROPIC_API_KEY: { name: 'Anthropic', description: 'Claude', key: import.meta.env.VITE_ANTHROPIC_API_KEY ?? '' },
+  GOOGLE_GENERATIVE_AI_KEY: { name: 'Google AI', description: 'Gemini', key: import.meta.env.VITE_GOOGLE_GENERATIVE_AI_KEY ?? '' },
+  EXA_API_KEY: { name: 'Exa', description: 'AI search', key: import.meta.env.VITE_EXA_API_KEY ?? '' },
+  FIRECRAWL_API_KEY: { name: 'Firecrawl', description: 'Web scraping', key: import.meta.env.VITE_FIRECRAWL_API_KEY ?? '' },
+  TOGETHER_API_KEY: { name: 'Together AI', description: 'Together models', key: import.meta.env.VITE_TOGETHER_API_KEY ?? '' },
+  XAI_GROK_API_KEY: { name: 'xAI', description: 'Grok', key: import.meta.env.VITE_XAI_GROK_API_KEY ?? '' },
+  COHERE_API_KEY: { name: 'Cohere', description: 'Cohere embeddings', key: import.meta.env.VITE_COHERE_API_KEY ?? '' },
+  RAGIE_API_KEY: { name: 'Ragie', description: 'RAG service', key: import.meta.env.VITE_RAGIE_API_KEY ?? '' },
+  E2B_API_KEY: { name: 'E2B', description: 'Sandbox', key: import.meta.env.VITE_E2B_API_KEY ?? '' },
+};
+
 /**
  * Get required API key types for a given agent slug
  */
-export function getRequiredKeysForAgent(agentSlug: string): ApiKeyType[] {
+export function getAgentKeyRequirements(agentSlug: string): AgentKeyRequirements {
   const slug = agentSlug.toLowerCase();
-  return AGENT_KEY_REQUIREMENTS[slug] || AGENT_KEY_REQUIREMENTS["default"] || [];
+  return {
+    agentSlug: AGENT_KEY_REQUIREMENTS[slug] ? slug : 'default',
+    requiredKeys: AGENT_KEY_REQUIREMENTS[slug] || AGENT_KEY_REQUIREMENTS['default'] || [],
+  };
 }
 
 /**
- * Check if an agent requires a specific API key type
+ * Check whether the supplied storedKeys satisfy the required keys for an agent.
  */
-export function doesAgentRequireKey(agentSlug: string, keyType: ApiKeyType): boolean {
-  const requiredKeys = getRequiredKeysForAgent(agentSlug);
-  return requiredKeys.includes(keyType);
-}
-
-/**
- * Get all agents that require a specific API key
- */
-export function getAgentsRequiringKey(keyType: ApiKeyType): string[] {
-  return Object.entries(AGENT_KEY_REQUIREMENTS)
-    .filter(([, keys]) => keys.includes(keyType))
-    .map(([slug]) => slug);
+export function checkAgentKeys(
+  agentSlug: string,
+  storedKeys: Record<string, string>
+): { hasAllKeys: boolean; missingKeys: ApiKeyType[] } {
+  const requiredKeys = getAgentKeyRequirements(agentSlug).requiredKeys;
+  const missingKeys = requiredKeys.filter((key) => !storedKeys[key]?.trim());
+  return {
+    hasAllKeys: missingKeys.length === 0,
+    missingKeys,
+  };
 }

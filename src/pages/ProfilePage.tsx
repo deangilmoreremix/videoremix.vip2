@@ -536,12 +536,12 @@ const ProfilePage: React.FC = () => {
                                       </p>
                                       <div className="flex flex-wrap gap-1">
                                         {purchase.product.apps_granted.map(
-                                          (ai-design-studio, index) => (
+                                          (app, index) => (
                                             <span
                                               key={index}
                                               className="px-2 py-1 bg-blue-500/10 text-blue-300 rounded text-xs border border-blue-500/20"
                                             >
-                                              {ai-design-studio}
+                                              {app}
                                             </span>
                                           ),
                                         )}

@@ -11,38 +11,38 @@ import { isExternalUrl } from "../config/appUrls";
  * AppLaunchButton
  *
  * Extracted from the giant IIFE inside AppDetailPage.tsx (the 167-line conditional
- * for external Netlify vs internal /ai-ai-design-studio/ runner vs default pricing).
+ * for external Netlify vs internal /ai-app/ runner vs default pricing).
  *
  * Encapsulates the decision tree + auth/access checks so the detail page JSX stays clean.
  * Used for both the legacy 15 external apps and the 95 internal AI apps.
  */
 interface AppLaunchButtonProps {
-  ai-design-studio: any;
+  app: any;
   onPurchaseClick: () => void;
 }
 
-export const AppLaunchButton: React.FC<AppLaunchButtonProps> = ({ ai-design-studio, onPurchaseClick }) => {
+export const AppLaunchButton: React.FC<AppLaunchButtonProps> = ({ app, onPurchaseClick }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { hasAccessToApp } = useUserAccess();
 
-  const isOwned = !!user && hasAccessToApp(ai-design-studio.slug || ai-design-studio.id);
-  const appId = ai-design-studio.id || ai-design-studio.slug || "";
-  const isInternalRunner = (ai-design-studio.url?.startsWith("/ai-runner/") || ai-design-studio.url?.startsWith("/ai-ai-design-studio/")) && isInternalAIApp(appId);
+  const isOwned = !!user && hasAccessToApp(app.slug || app.id);
+  const appId = app.id || app.slug || "";
+  const isInternalRunner = app.url?.startsWith("/ai-app/") && isInternalAIApp(appId);
 
-  if (ai-design-studio.url && isExternalUrl(appId)) {
+  if (app.url && isExternalUrl(appId)) {
     // Legacy 15 apps - external Netlify sites
     if (isOwned) {
       return (
         <motion.a
-          href={ai-design-studio.url}
+          href={app.url}
           target="_blank"
           rel="noopener noreferrer"
           whileHover={{ scale: 1.05, boxShadow: "0 10px 25px -5px rgba(79, 70, 229, 0.4)" }}
           whileTap={{ scale: 0.95 }}
           className="inline-flex items-center justify-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg relative overflow-hidden"
         >
-          <span className="relative z-10">Launch {ai-design-studio.name}</span>
+          <span className="relative z-10">Launch {app.name}</span>
           <ExternalLink className="ml-2 h-5 w-5" />
         </motion.a>
       );
@@ -55,7 +55,7 @@ export const AppLaunchButton: React.FC<AppLaunchButtonProps> = ({ ai-design-stud
           className="inline-flex items-center justify-center bg-gradient-to-r from-gray-600 to-gray-500 hover:from-primary-600 hover:to-primary-500 text-white font-bold px-8 py-4 rounded-lg shadow-lg"
         >
           <Lock className="mr-2 h-5 w-5" />
-          Get Access to {ai-design-studio.name}
+          Get Access to {app.name}
         </motion.button>
       );
     }
@@ -66,12 +66,12 @@ export const AppLaunchButton: React.FC<AppLaunchButtonProps> = ({ ai-design-stud
     if (isOwned) {
       return (
         <motion.button
-          onClick={() => navigate(ai-design-studio.url!)}
+          onClick={() => navigate(app.url!)}
           whileHover={{ scale: 1.05, boxShadow: "0 10px 25px -5px rgba(79, 70, 229, 0.4)" }}
           whileTap={{ scale: 0.95 }}
           className="inline-flex items-center justify-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg relative overflow-hidden"
         >
-          <span className="relative z-10">Launch {ai-design-studio.name}</span>
+          <span className="relative z-10">Launch {app.name}</span>
         </motion.button>
       );
     } else {
@@ -83,7 +83,7 @@ export const AppLaunchButton: React.FC<AppLaunchButtonProps> = ({ ai-design-stud
           className="inline-flex items-center justify-center bg-gradient-to-r from-gray-600 to-gray-500 hover:from-primary-600 hover:to-primary-500 text-white font-bold px-8 py-4 rounded-lg shadow-lg"
         >
           <Lock className="mr-2 h-5 w-5" />
-          Get Access to {ai-design-studio.name}
+          Get Access to {app.name}
         </motion.button>
       );
     }
@@ -97,7 +97,7 @@ export const AppLaunchButton: React.FC<AppLaunchButtonProps> = ({ ai-design-stud
       whileTap={{ scale: 0.95 }}
       className="inline-flex items-center justify-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg relative overflow-hidden"
     >
-      <span className="relative z-10">Try {ai-design-studio.name} Now</span>
+      <span className="relative z-10">Try {app.name} Now</span>
       <ArrowRight className="ml-2 h-5 w-5" />
     </motion.button>
   );

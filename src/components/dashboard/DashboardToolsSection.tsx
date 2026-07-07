@@ -246,16 +246,16 @@ const getAppUrl = (appId: string, apps: any[] = []) => {
   if (!apps || apps.length === 0) {
     return `/ai-design-studio/${appId}`;
   }
-  const ai-design-studio = apps.find((a) => a.id === appId);
-  return ai-design-studio?.url || `/ai-design-studio/${appId}`;
+  const foundApp = apps.find((a) => a.id === appId);
+  return foundApp?.url || `/ai-design-studio/${appId}`;
 };
 
 // =====================================================
-// Batch resolution — maps any ai-design-studio to its production batch
+// Batch resolution — maps any app to its production batch
 // =====================================================
-const getBatchForApp = (ai-design-studio: any) => {
-  if (!ai-design-studio) return null;
-  const cat = ai-design-studio.category;
+const getBatchForApp = (app: any) => {
+  if (!app) return null;
+  const cat = app.category;
 
   for (const batch of productionBatches) {
     if (batch.categories.includes(cat)) {
@@ -291,11 +291,11 @@ const groupAppsByBatch = (apps: any[]) => {
     apps: [],
   };
 
-  apps.forEach((ai-design-studio) => {
-    const batch = getBatchForApp(ai-design-studio);
+  apps.forEach((app) => {
+    const batch = getBatchForApp(app);
     const key = batch.id;
     if (groups[key]) {
-      groups[key].apps.push(ai-design-studio);
+      groups[key].apps.push(app);
     }
   });
 
@@ -320,7 +320,7 @@ const DashboardToolsSection: React.FC = () => {
   } = useUserAccess();
   const { apps: appsData, loading: appsLoading } = useApps();
 
-  const purchasedApps = accessData?.apps.map((ai-design-studio) => ai-design-studio.appSlug) || [];
+  const purchasedApps = accessData?.apps.map((app) => app.appSlug) || [];
   const hasAnyPurchases = purchasedApps.length > 0;
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -374,7 +374,7 @@ const DashboardToolsSection: React.FC = () => {
     if (!appsData || appsData.length === 0) {
       return [];
     }
-    return appsData.filter((ai-design-studio) => featuredApps.includes(ai-design-studio.id));
+    return appsData.filter((app) => featuredApps.includes(app.id));
   };
 
 
@@ -540,9 +540,9 @@ const DashboardToolsSection: React.FC = () => {
             if (searchQuery.trim()) {
               const q = searchQuery.toLowerCase();
               filteredApps = batchApps.filter(
-                (ai-design-studio) =>
-                  ai-design-studio.name.toLowerCase().includes(q) ||
-                  ai-design-studio.description.toLowerCase().includes(q)
+                (app) =>
+                  app.name.toLowerCase().includes(q) ||
+                  app.description.toLowerCase().includes(q)
               );
             }
 
@@ -588,20 +588,20 @@ const DashboardToolsSection: React.FC = () => {
 
                 {/* Premium Card Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
-                  {filteredApps.slice(0, 12).map((ai-design-studio, index) => {
-                    const isPurchased = user && hasAccessToApp(ai-design-studio.id);
-                    const currentBatch = getBatchForApp(ai-design-studio);
+                  {filteredApps.slice(0, 12).map((app, index) => {
+                    const isPurchased = user && hasAccessToApp(app.id);
+                    const currentBatch = getBatchForApp(app);
                     const handleAppClick = (e: React.MouseEvent) => {
                       if (!isPurchased) {
                         e.preventDefault();
-                        setSelectedAppForPurchase(ai-design-studio);
+                        setSelectedAppForPurchase(app);
                         setPurchaseModalOpen(true);
                       }
                     };
 
                     return (
                       <motion.div
-                        key={ai-design-studio.id}
+                        key={app.id}
                         initial={{ opacity: 0, y: 24 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.45, delay: 0.03 * index }}
@@ -612,10 +612,10 @@ const DashboardToolsSection: React.FC = () => {
                         {/* Refined Image Treatment */}
                         <div className="relative aspect-video w-full overflow-hidden">
                           <img
-                            src={imageErrors[ai-design-studio.id] ? getFallbackImage(ai-design-studio.id, imageErrors[ai-design-studio.id]) : ai-design-studio.image}
-                            alt={ai-design-studio.name}
+                            src={imageErrors[app.id] ? getFallbackImage(app.id, imageErrors[app.id]) : app.image}
+                            alt={app.name}
                             className="h-full w-full object-cover transition-transform duration-[800ms] group-hover/card:scale-[1.06]"
-                            onError={() => handleImageError(ai-design-studio.id)}
+                            onError={() => handleImageError(app.id)}
                           />
                           {/* Sophisticated gradient + subtle vignette */}
                           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/70 to-black" />
@@ -631,10 +631,10 @@ const DashboardToolsSection: React.FC = () => {
                                 <Lock className="h-3 w-3" /> AVAILABLE
                               </div>
                             )}
-                            {ai-design-studio.popular && (
+                            {app.popular && (
                               <div className="rounded-full bg-amber-400 px-2.5 py-px text-[9px] font-bold tracking-[1px] text-black">POPULAR</div>
                             )}
-                            {ai-design-studio.new && (
+                            {app.new && (
                               <div className="rounded-full bg-primary-500 px-2.5 py-px text-[9px] font-bold tracking-[1px] text-white">NEW</div>
                             )}
                           </div>
@@ -652,10 +652,10 @@ const DashboardToolsSection: React.FC = () => {
                         <div className="flex flex-1 flex-col p-6">
                           <div className="mb-3">
                             <h4 className="text-[17px] font-semibold leading-tight tracking-[-0.2px] text-white group-hover/card:text-primary-400 transition-colors">
-                              {ai-design-studio.name}
+                              {app.name}
                             </h4>
                             <p className="mt-2 line-clamp-3 text-[13.5px] leading-snug text-gray-400">
-                              {ai-design-studio.description}
+                              {app.description}
                             </p>
                           </div>
 
@@ -664,28 +664,28 @@ const DashboardToolsSection: React.FC = () => {
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                toggleGTM(ai-design-studio.id);
+                                toggleGTM(app.id);
                               }}
                               className="mb-2 flex w-full items-center justify-between text-left text-xs font-semibold uppercase tracking-[1.5px] text-primary-400/80 hover:text-primary-400 transition-colors"
                             >
                               <span>Monetization &amp; GTM Insights</span>
                               <span className="text-[10px] font-normal opacity-60">
-                                {expandedGTM[ai-design-studio.id] ? "HIDE" : "SHOW"}
+                                {expandedGTM[app.id] ? "HIDE" : "SHOW"}
                               </span>
                             </button>
 
                             <SalesDropdownErrorBoundary>
                               <SalesDropdown
-                                salesCopy={appSalesCopy[ai-design-studio.id]}
-                                isExpanded={!!expandedGTM[ai-design-studio.id]}
-                                onToggle={() => toggleGTM(ai-design-studio.id)}
-                                appId={ai-design-studio.id}
+                                salesCopy={appSalesCopy[app.id]}
+                                isExpanded={!!expandedGTM[app.id]}
+                                onToggle={() => toggleGTM(app.id)}
+                                appId={app.id}
                               />
                             </SalesDropdownErrorBoundary>
 
                             <div className="mt-4 flex items-center justify-between text-sm">
                               <div className="flex items-center gap-2 text-xs text-gray-500">
-                                <LazyIcon name={ai-design-studio.iconName} className="h-4 w-4 text-primary-400" />
+                                <LazyIcon name={app.iconName} className="h-4 w-4 text-primary-400" />
                                 <span>{currentBatch.name.split(" & ")[0]}</span>
                               </div>
 

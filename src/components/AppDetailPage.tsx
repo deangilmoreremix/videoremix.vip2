@@ -147,7 +147,7 @@ const AppDetailPage: React.FC = () => {
   const { apps: appsData, loading: appsLoading } = useApps();
   const { user } = useAuth();
   const { hasAccessToApp, isLoading: accessLoading } = useUserAccess();
-  const [ai-design-studio, setApp] = useState<any>(null);
+  const [app, setApp] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<
     "overview" | "features" | "how-it-works" | "faq"
@@ -163,7 +163,7 @@ const AppDetailPage: React.FC = () => {
   useEffect(() => {
     if (!appsLoading && appsData.length > 0) {
       // Find the ai-design-studio data matching the appId
-      const foundApp = appsData.find((ai-design-studio) => ai-design-studio.id === appId);
+      const foundApp = appsData.find((app) => app.id === appId);
       // Merge with enhanced data if available
       let enhancedApp = foundApp
         ? getEnhancedAppData(appId || "", foundApp)
@@ -226,7 +226,7 @@ const AppDetailPage: React.FC = () => {
   };
 
   // Resolve GTM sales copy from static catalog (the 95 live DB apps don't carry it)
-  const gtmSalesCopy = ai-design-studio ? (ai-design-studio.salesCopy || appSalesCopy[ai-design-studio.id] || appSalesCopy[ai-design-studio.slug]) : undefined;
+  const gtmSalesCopy = ai-design-studio ? (app.salesCopy || appSalesCopy[app.id] || appSalesCopy[app.slug]) : undefined;
 
   return (
     <div className="pt-32 pb-20">
@@ -325,17 +325,17 @@ const AppDetailPage: React.FC = () => {
                   colors={["#6366f1", "#818cf8", "#f472b6", "#ec4899"]}
                 >
                   <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 break-words">
-                    {ai-design-studio.name}
+                    {app.name}
                   </h1>
                 </MagicSparkles>
 
                 <p className="text-xl text-gray-300 mb-8 break-words leading-relaxed">
-                  {ai-design-studio.description}
+                  {app.description}
                 </p>
 
-                {ai-design-studio.tags && (
+                {app.tags && (
                   <div className="flex flex-wrap gap-4 mb-8">
-                    {ai-design-studio.tags.map((tag: string, index: number) => (
+                    {app.tags.map((tag: string, index: number) => (
                       <motion.span
                         key={index}
                         className="bg-gray-800 px-3 py-1 rounded-full text-gray-300 text-sm"
@@ -485,8 +485,8 @@ const AppDetailPage: React.FC = () => {
                       if (navigator.share) {
                         navigator
                           .share({
-                            title: `${ai-design-studio.name} | VideoRemix.vip`,
-                            text: ai-design-studio.description,
+                            title: `${app.name} | VideoRemix.vip`,
+                            text: app.description,
                             url: window.location.href,
                           })
                           .catch((error) =>
@@ -523,8 +523,8 @@ const AppDetailPage: React.FC = () => {
                 />
 
                 <img
-                  src={ai-design-studio.demoImage || ai-design-studio.image}
-                  alt={ai-design-studio.name}
+                  src={app.demoImage || app.image}
+                  alt={app.name}
                   className="w-full aspect-video object-cover rounded-lg relative z-10"
                 />
 
@@ -536,7 +536,7 @@ const AppDetailPage: React.FC = () => {
                   transition={{ delay: 0.5 }}
                 >
                   {/* Icons based on ai-design-studio category - add animation to each */}
-                  {ai-design-studio.category === "sales-lead-gen" && (
+                  {app.category === "sales-lead-gen" && (
                     <motion.div
                       animate={{ scale: [1, 1.2, 1] }}
                       transition={{
@@ -548,7 +548,7 @@ const AppDetailPage: React.FC = () => {
                       <BarChart2 className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {ai-design-studio.category === "content-marketing" && (
+                  {app.category === "content-marketing" && (
                     <motion.div
                       animate={{ y: [0, -3, 0] }}
                       transition={{
@@ -560,7 +560,7 @@ const AppDetailPage: React.FC = () => {
                       <FileText className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {ai-design-studio.category === "video-audio-voice" && (
+                  {app.category === "video-audio-voice" && (
                     <motion.div
                       animate={{ scale: [1, 1.2, 1] }}
                       transition={{
@@ -572,7 +572,7 @@ const AppDetailPage: React.FC = () => {
                       <Video className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {ai-design-studio.category === "rag-knowledgebase" && (
+                  {app.category === "rag-knowledgebase" && (
                     <motion.div
                       animate={{ rotate: [0, 15, 0, -15, 0] }}
                       transition={{
@@ -584,7 +584,7 @@ const AppDetailPage: React.FC = () => {
                       <Database className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {ai-design-studio.category === "realestate-local" && (
+                  {app.category === "realestate-local" && (
                     <motion.div
                       animate={{ y: [0, -3, 0] }}
                       transition={{
@@ -596,7 +596,7 @@ const AppDetailPage: React.FC = () => {
                       <Home className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {ai-design-studio.category === "hr-hiring" && (
+                  {app.category === "hr-hiring" && (
                     <motion.div
                       animate={{ scale: [1, 1.3, 1] }}
                       transition={{
@@ -608,7 +608,7 @@ const AppDetailPage: React.FC = () => {
                       <UserCheck className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {ai-design-studio.category === "finance-business" && (
+                  {app.category === "finance-business" && (
                     <motion.div
                       animate={{ rotateY: [0, 180, 0] }}
                       transition={{
@@ -620,7 +620,7 @@ const AppDetailPage: React.FC = () => {
                       <DollarSign className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {ai-design-studio.category === "legal-compliance" && (
+                  {app.category === "legal-compliance" && (
                     <motion.div
                       animate={{ rotate: [0, 360] }}
                       transition={{
@@ -632,7 +632,7 @@ const AppDetailPage: React.FC = () => {
                       <Shield className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {ai-design-studio.category === "coding-developer" && (
+                  {app.category === "coding-developer" && (
                     <motion.div
                       animate={{ scale: [1, 1.2, 1] }}
                       transition={{
@@ -644,7 +644,7 @@ const AppDetailPage: React.FC = () => {
                       <Settings className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {ai-design-studio.category === "design-uiux" && (
+                  {app.category === "design-uiux" && (
                     <motion.div
                       animate={{ rotate: [0, 15, 0, -15, 0] }}
                       transition={{
@@ -656,7 +656,7 @@ const AppDetailPage: React.FC = () => {
                       <Palette className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {ai-design-studio.category === "research-education" && (
+                  {app.category === "research-education" && (
                     <motion.div
                       animate={{ y: [0, -3, 0] }}
                       transition={{
@@ -668,7 +668,7 @@ const AppDetailPage: React.FC = () => {
                       <Search className="h-4 w-4 text-primary-400" />
                     </motion.div>
                   )}
-                  {ai-design-studio.category === "productivity-personal" && (
+                  {app.category === "productivity-personal" && (
                     <motion.div
                       animate={{ scale: [1, 1.3, 1] }}
                       transition={{
@@ -730,7 +730,7 @@ const AppDetailPage: React.FC = () => {
 
                 {/* Status badges */}
                 <div className="absolute top-4 left-4 flex flex-col items-start gap-2 z-20">
-                  {ai-design-studio.popular && (
+                  {app.popular && (
                     <motion.span
                       className="bg-yellow-500 text-black px-3 py-1 rounded-full font-bold text-sm flex items-center"
                       initial={{ x: -50, opacity: 0 }}
@@ -741,7 +741,7 @@ const AppDetailPage: React.FC = () => {
                       POPULAR
                     </motion.span>
                   )}
-                  {ai-design-studio.new && (
+                  {app.new && (
                     <motion.span
                       className="bg-green-500 text-black px-3 py-1 rounded-full font-bold text-sm flex items-center"
                       initial={{ x: -50, opacity: 0 }}
@@ -862,10 +862,10 @@ const AppDetailPage: React.FC = () => {
                 className="mb-16"
               >
                 <h2 className="text-3xl font-bold text-white mb-6 break-words">
-                  About {ai-design-studio.name}
+                  About {app.name}
                 </h2>
                 <p className="text-xl text-gray-300 mb-8 leading-relaxed break-words">
-                  {ai-design-studio.description} With {ai-design-studio.name}, you can create
+                  {app.description} With {app.name}, you can create
                   professional-quality content in minutes instead of hours,
                   without requiring any technical expertise or expensive
                   equipment. Our innovative AI-powered platform handles the
@@ -885,7 +885,7 @@ const AppDetailPage: React.FC = () => {
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
                   {(
-                    ai-design-studio.benefits || [
+                    app.benefits || [
                       "Save 90% of your production time",
                       "No technical skills required",
                       "Professional quality results",
@@ -939,7 +939,7 @@ const AppDetailPage: React.FC = () => {
                      salesCopy={gtmSalesCopy}
                      isExpanded={showGtmExpanded}
                      onToggle={() => setShowGtmExpanded(!showGtmExpanded)}
-                     appId={ai-design-studio.id}
+                     appId={app.id}
                    />
                  </div>
 
@@ -950,7 +950,7 @@ const AppDetailPage: React.FC = () => {
                      <h4 className="font-semibold text-white">Stripe Payouts Built In</h4>
                    </div>
                    <p className="text-sm text-gray-300 leading-relaxed">
-                     When you deliver services with {ai-design-studio.name}, your clients pay you directly through Stripe. 
+                     When you deliver services with {app.name}, your clients pay you directly through Stripe. 
                      Funds land in your Stripe balance in 2 business days (or instant with Stripe Connect). 
                      100% of the revenue you earn from using this ai-design-studio flows to you — no middleman on the service revenue.
                    </p>
@@ -1003,10 +1003,10 @@ const AppDetailPage: React.FC = () => {
 
                   {/* Content */}
                   <h3 className="text-2xl font-bold text-white mb-4 break-words relative z-10">
-                    Ready to try {ai-design-studio.name}?
+                    Ready to try {app.name}?
                   </h3>
                   <p className="text-xl text-gray-300 mb-6 break-words relative z-10">
-                    Join thousands of creators who are already using {ai-design-studio.name}{" "}
+                    Join thousands of creators who are already using {app.name}{" "}
                     to transform their video content.
                   </p>
                   <motion.button
@@ -1046,7 +1046,7 @@ const AppDetailPage: React.FC = () => {
               </motion.div>
 
               {/* Testimonials with enhanced effects */}
-              {ai-design-studio.testimonials && ai-design-studio.testimonials.length > 0 && (
+              {app.testimonials && app.testimonials.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1054,7 +1054,7 @@ const AppDetailPage: React.FC = () => {
                   transition={{ duration: 0.7 }}
                 >
                   <h2 className="text-3xl font-bold text-white mb-8 text-center break-words">
-                    What Users Say About {ai-design-studio.name}
+                    What Users Say About {app.name}
                   </h2>
 
                   <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 relative">
@@ -1075,7 +1075,7 @@ const AppDetailPage: React.FC = () => {
                       delay={1.2}
                     />
                     // @ts-expect-error
-                    {ai-design-studio.testimonials.map((testimonial, index) => (
+                    {app.testimonials.map((testimonial, index) => (
                       <motion.div
                         key={index}
                         className="p-8 border-b border-gray-700 last:border-b-0"
@@ -1193,7 +1193,7 @@ const AppDetailPage: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                Powerful Features of {ai-design-studio.name}
+                Powerful Features of {app.name}
                 <motion.div
                   className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary-500/20 via-primary-500/80 to-primary-500/20 rounded-full"
                   initial={{ scaleX: 0 }}
@@ -1202,14 +1202,14 @@ const AppDetailPage: React.FC = () => {
                 />
               </motion.h2>
               <p className="text-xl text-gray-300 break-words">
-                Explore the innovative capabilities that make {ai-design-studio.name} an
+                Explore the innovative capabilities that make {app.name} an
                 essential tool in your creative arsenal.
               </p>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {(
-                ai-design-studio.features || [
+                app.features || [
                   {
                     title: "AI-Powered Creation",
                     description:
@@ -1326,7 +1326,7 @@ const AppDetailPage: React.FC = () => {
                 transition={{ duration: 0.5 }}
               >
                 <span className="relative">
-                  Why Choose {ai-design-studio.name}?
+                  Why Choose {app.name}?
                   <motion.div
                     className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 h-1 bg-primary-500/40 rounded-full"
                     initial={{ width: 0 }}
@@ -1569,7 +1569,7 @@ const AppDetailPage: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                How {ai-design-studio.name} Works
+                How {app.name} Works
                 <motion.div
                   className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary-500 to-transparent"
                   initial={{ scaleX: 0, opacity: 0 }}
@@ -1595,7 +1595,7 @@ const AppDetailPage: React.FC = () => {
                 />
 
                 {(
-                  ai-design-studio.steps || [
+                  app.steps || [
                     {
                       title: "Choose Your Starting Point",
                       description:
@@ -1660,7 +1660,7 @@ const AppDetailPage: React.FC = () => {
                     </p>
 
                     {/* Animated connector lines between steps */}
-                    {index < (ai-design-studio.steps?.length || 4) - 1 && (
+                    {index < (app.steps?.length || 4) - 1 && (
                       <>
                         {/* Horizontal connector (desktop) */}
                         <motion.div
@@ -1696,7 +1696,7 @@ const AppDetailPage: React.FC = () => {
             </div>
 
             {/* Use Cases with enhanced animations */}
-            {ai-design-studio.useCases && ai-design-studio.useCases.length > 0 && (
+            {app.useCases && app.useCases.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1711,12 +1711,12 @@ const AppDetailPage: React.FC = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6 }}
                 >
-                  What Can You Create With {ai-design-studio.name}?
+                  What Can You Create With {app.name}?
                 </motion.h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   // @ts-expect-error
-                  {ai-design-studio.useCases.map((useCase, index) => (
+                  {app.useCases.map((useCase, index) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, y: 20 }}
@@ -1807,8 +1807,8 @@ const AppDetailPage: React.FC = () => {
 
                 <div className="aspect-video relative z-10">
                   <img
-                    src={ai-design-studio.demoImage || ai-design-studio.image}
-                    alt={`${ai-design-studio.name} Demo`}
+                    src={app.demoImage || app.image}
+                    alt={`${app.name} Demo`}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
@@ -1867,11 +1867,11 @@ const AppDetailPage: React.FC = () => {
                       repeatDelay: 2,
                     }}
                   >
-                    See {ai-design-studio.name} in Action
+                    See {app.name} in Action
                   </motion.h3>
                   <p className="text-gray-300 break-words">
                     Watch how easy it is to create professional videos with{" "}
-                    {ai-design-studio.name}
+                    {app.name}
                   </p>
                 </div>
               </div>
@@ -1925,17 +1925,17 @@ const AppDetailPage: React.FC = () => {
                 </h2>
               </MagicSparkles>
               <p className="text-xl text-gray-300 break-words">
-                Get answers to common questions about {ai-design-studio.name}
+                Get answers to common questions about {app.name}
               </p>
             </motion.div>
 
             <div className="max-w-3xl mx-auto">
               <div className="space-y-4">
                 {(
-                  ai-design-studio.faqs || [
+                  app.faqs || [
                     {
-                      question: `What is ${ai-design-studio.name}?`,
-                      answer: `${ai-design-studio.name} is a specialized ai-design-studio within the VideoRemix.vip platform that focuses on ${ai-design-studio.description.toLowerCase()}. It provides a streamlined workflow for this specific use case, making it easier than ever to create professional content.`,
+                      question: `What is ${app.name}?`,
+                      answer: `${app.name} is a specialized ai-design-studio within the VideoRemix.vip platform that focuses on ${app.description.toLowerCase()}. It provides a streamlined workflow for this specific use case, making it easier than ever to create professional content.`,
                     },
                     {
                       question:
@@ -2063,7 +2063,7 @@ const AppDetailPage: React.FC = () => {
                 className="mt-12 text-center"
               >
                 <p className="text-gray-300 mb-6 break-words">
-                  Have more questions about {ai-design-studio.name}?
+                  Have more questions about {app.name}?
                 </p>
 
                 <motion.div
@@ -2139,7 +2139,7 @@ const AppDetailPage: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {appsData
-              .filter((a) => a.id !== ai-design-studio.id)
+              .filter((a) => a.id !== app.id)
               .slice(0, 4)
               .map((relatedApp, index) => (
                 <motion.div
@@ -2307,7 +2307,7 @@ const AppDetailPage: React.FC = () => {
 
           <p className="text-xl text-gray-300 mb-8 break-words relative z-10">
             Join thousands of creators and businesses who have revolutionized
-            their workflow with {ai-design-studio.name}.
+            their workflow with {app.name}.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
@@ -2403,7 +2403,7 @@ const AppDetailPage: React.FC = () => {
           isOpen={showPurchaseModal}
           onClose={() => setShowPurchaseModal(false)}
           ai-design-studio={ai-design-studio}
-          bundleInfo={getBundleForApp(ai-design-studio.id)}
+          bundleInfo={getBundleForApp(app.id)}
         />
       )}
 

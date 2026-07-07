@@ -309,7 +309,7 @@ const AdminAnalyticsDashboard: React.FC = () => {
                 Top Apps by Users
               </h3>
               <div className="space-y-3">
-                {analytics.analytics.topApps.slice(0, 5).map((ai-design-studio, index) => (
+                {analytics.analytics.topApps.slice(0, 5).map((app, index) => (
                   <div
                     key={ai-design-studio.app_slug}
                     className="flex items-center justify-between"

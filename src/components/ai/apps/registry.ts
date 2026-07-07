@@ -9,18 +9,8 @@ export { isInternalAIApp };
 /**
  * AI Apps Template + Registry System
  *
- * Batch 1 (Sales, Lead Gen & Prospecting) — 10 apps production-ready with custom UIs.
- * Batch 2 (Content Creation & Marketing) — 10 apps production-ready with custom UIs.
- * Batch 3 (Video, Audio & Voice AI) — 9 apps production-ready with custom UIs.
- * Batch 4 (RAG, Knowledgebase & Document Chat) — 13 apps production-ready with custom UIs.
- * Batch 5 (Research & Analysis) — 12 apps production-ready with custom UIs.
- * Batch 6 (Developer & Code Apps) — 10 apps production-ready with custom UIs.
- * Batch 7 (Design & UX Apps) — 6 apps production-ready with custom UIs.
- * Batch 8 (Finance & Legal Apps) — 13 apps production-ready with custom UIs.
- * Batch 9 (HR & Hiring Apps) — 6 apps production-ready with custom UIs.
- * Batch 10 (Local & Travel Apps) — 7 apps production-ready with custom UIs.
- * Overflow Apps — 4 apps production-ready with custom UIs.
- * All future batches/apps must follow the standards documented in _TEMPLATE.tsx.
+ * Only includes apps whose component files currently exist under src/components/ai/apps/.
+ * slugs that map to missing component files have been removed.
  */
 
 const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
@@ -36,7 +26,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "ai-agency-builder-suite": () => import("./ai-agency-builder-suite"),
   "sales-call-follow-up-ai": () => import("./sales-call-follow-up-ai"),
 
-  // === Batch 2: Content Creation & Marketing (10 apps - Production Ready) ===
+  // === Batch 2: Content Creation & Marketing ===
   "blog-to-podcast-ai": () => import("./blog-to-podcast-ai"),
   "daily-content-engine-ai": () => import("./daily-content-engine-ai"),
   "ai-content-creator-pro": () => import("./ai-content-creator-pro"),
@@ -48,7 +38,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "ai-video-script-producer": () => import("./ai-video-script-producer"),
   "ai-music-idea-generator": () => import("./ai-music-idea-generator"),
 
-  // === Batch 3: Voice & Audio AI (9 apps - Production Ready) ===
+  // === Batch 3: Voice & Audio AI ===
   "ai-film-producer": () => import("./ai-film-producer"),
   "podcast-creator-ai": () => import("./podcast-creator-ai"),
   "news-to-podcast-ai": () => import("./news-to-podcast-ai"),
@@ -59,7 +49,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "ai-dictation-assistant": () => import("./ai-dictation-assistant"),
   "ai-music-jingle-assistant": () => import("./ai-music-jingle-assistant"),
 
-  // === Batch 4: RAG, Knowledgebase & Document Chat (13 apps - Production Ready) ===
+  // === Batch 4: RAG, Knowledgebase & Document Chat ===
   "business-knowledgebase-ai": () => import("./business-knowledgebase-ai"),
   "pdf-business-assistant": () => import("./pdf-business-assistant"),
   "research-paper-assistant": () => import("./research-paper-assistant"),
@@ -74,7 +64,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "multimodal-knowledge-ai": () => import("./multimodal-knowledge-ai"),
   "ai-knowledgebase-debugger": () => import("./ai-knowledgebase-debugger"),
 
-  // === Batch 5: Research & Analysis (12 apps - Production Ready) ===
+  // === Batch 5: Research & Analysis ===
   "research-assistant-ai": () => import("./research-assistant-ai"),
   "deep-research-pro": () => import("./deep-research-pro"),
   "research-planner-ai": () => import("./research-planner-ai"),
@@ -100,7 +90,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "build-plan-generator": () => import("./build-plan-generator"),
   "sprint-planner-ai": () => import("./sprint-planner-ai"),
 
-  // === Batch 7: Design & UX Apps (6 apps — Production Ready) ===
+  // === Batch 7: Design & UX Apps ===
   "ai-design-studio": () => import("./ai-design-studio"),
   "landing-page-critic-ai": () => import("./landing-page-critic-ai"),
   "ai-ux-designer": () => import("./ai-ux-designer"),
@@ -108,7 +98,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "landing-page-copy-ai": () => import("./landing-page-copy-ai"),
   "conversion-copy-editor": () => import("./conversion-copy-editor"),
 
-  // === Batch 8: Finance & Legal Apps (13 apps — Production Ready) ===
+  // === Batch 8: Finance & Legal Apps ===
   "finance-research-ai": () => import("./finance-research-ai"),
   "business-finance-ai-team": () => import("./business-finance-ai-team"),
   "profit-coach-ai": () => import("./profit-coach-ai"),
@@ -123,7 +113,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "fraud-investigation-assistant": () => import("./fraud-investigation-assistant"),
   "risk-decision-ai": () => import("./risk-decision-ai"),
 
-  // === Batch 9: HR & Hiring Apps (6 apps) ===
+  // === Batch 9: HR & Hiring Apps ===
   "ai-hiring-assistant": () => import("./ai-hiring-assistant"),
   "resume-analyzer-ai": () => import("./resume-analyzer-ai"),
   "candidate-decision-ai": () => import("./candidate-decision-ai"),
@@ -131,7 +121,7 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "interview-summary-ai": () => import("./interview-summary-ai"),
   "hiring-plan-builder": () => import("./hiring-plan-builder"),
 
-  // === Batch 10: Local & Travel Apps (7 apps — Production Ready) ===
+  // === Batch 10: Local & Travel Apps ===
   "real-estate-marketing-ai": () => import("./real-estate-marketing-ai"),
   "home-renovation-visualizer-ai": () => import("./home-renovation-visualizer-ai"),
   "travel-planner-ai": () => import("./travel-planner-ai"),
@@ -139,10 +129,30 @@ const registry: Record<string, () => Promise<{ default: AIAppComponent }>> = {
   "local-business-voice-assistant": () => import("./local-business-voice-assistant"),
   "local-business-growth-advisor": () => import("./local-business-growth-advisor"),
   "local-business-analytics-ai": () => import("./local-business-analytics-ai"),
+
+  // Overflow Apps
   "travel-concierge-ai": () => import("./travel-concierge-ai"),
   "email-memory-assistant": () => import("./email-memory-assistant"),
   "browser-task-agent": () => import("./browser-task-agent"),
   "ai-tool-router": () => import("./ai-tool-router"),
+
+// === Backfilled RAG & Memory Apps ===
+  "knowledge-graph-rag-citations": () => import("./knowledge-graph-rag-citations"),
+  "llama3-stateful-chat": () => import("./llama3-stateful-chat"),
+  "llm-app-personalized-memory": () => import("./llm-app-personalized-memory"),
+   "local-chatgpt-with-memory": () => import("./local-chatgpt-with-memory"),
+   "local-hybrid-search-rag": () => import("./local-hybrid-search-rag"),
+   "local-rag-agent": () => import("./local-rag-agent"),
+   "mcp-apps-generative-ui-showcase": () => import("./mcp-apps-generative-ui-showcase"),
+  "notion-mcp-agent": () => import("./notion-mcp-agent"),
+
+  // === Backfilled Misc Apps ===
+  "ai-sales-email-writer-email-writer": () => import("./ai-sales-email-writer-email-writer"),
+  "ai-sales-email-writer-intelligence-pro": () => import("./ai-sales-email-writer-intelligence-pro"),
+  "always-on-hn-briefing-agent": () => import("./always-on-hn-briefing-agent"),
+  "gemma3-finetuning": () => import("./gemma3-finetuning"),
+  "insurance-claim-live-agent-team": () => import("./insurance-claim-live-agent-team"),
+  "mixture-of-agents": () => import("./mixture-of-agents"),
 };
 
 // Production-ready flag for admin / filtering
@@ -158,8 +168,6 @@ const productionReadySlugs = new Set([
   "competitor-spy-ai",
   "ai-agency-builder-suite",
   "sales-call-follow-up-ai",
-
-  // Batch 2 (10)
   "blog-to-podcast-ai",
   "daily-content-engine-ai",
   "ai-content-creator-pro",
@@ -170,8 +178,6 @@ const productionReadySlugs = new Set([
   "ai-news-content-writer",
   "ai-video-script-producer",
   "ai-music-idea-generator",
-
-  // Batch 3 (9)
   "ai-film-producer",
   "podcast-creator-ai",
   "news-to-podcast-ai",
@@ -181,8 +187,6 @@ const productionReadySlugs = new Set([
   "ai-intake-voice-agent",
   "ai-dictation-assistant",
   "ai-music-jingle-assistant",
-
-  // Batch 4 (13)
   "business-knowledgebase-ai",
   "pdf-business-assistant",
   "research-paper-assistant",
@@ -196,8 +200,6 @@ const productionReadySlugs = new Set([
   "private-company-ai-assistant",
   "multimodal-knowledge-ai",
   "ai-knowledgebase-debugger",
-
-  // Batch 5 (12)
   "research-assistant-ai",
   "deep-research-pro",
   "research-planner-ai",
@@ -222,16 +224,12 @@ const productionReadySlugs = new Set([
   "github-automation-agent",
   "build-plan-generator",
   "sprint-planner-ai",
-
-  // Batch 7 (6)
   "ai-design-studio",
   "landing-page-critic-ai",
   "ai-ux-designer",
   "dashboard-designer-ai",
   "landing-page-copy-ai",
   "conversion-copy-editor",
-
-  // Batch 8 (13)
   "finance-research-ai",
   "business-finance-ai-team",
   "profit-coach-ai",
@@ -245,16 +243,12 @@ const productionReadySlugs = new Set([
   "claim-checker-ai",
   "fraud-investigation-assistant",
   "risk-decision-ai",
-
-  // Batch 9 (6)
   "ai-hiring-assistant",
   "resume-analyzer-ai",
   "candidate-decision-ai",
   "candidate-outreach-ai",
   "interview-summary-ai",
   "hiring-plan-builder",
-
-  // Batch 10: Local & Travel Apps (7 apps — Production Ready)
   "real-estate-marketing-ai",
   "home-renovation-visualizer-ai",
   "travel-planner-ai",
@@ -262,12 +256,70 @@ const productionReadySlugs = new Set([
   "local-business-voice-assistant",
   "local-business-growth-advisor",
   "local-business-analytics-ai",
-
-  // Overflow apps (4 apps — Production Ready)
   "travel-concierge-ai",
   "email-memory-assistant",
   "browser-task-agent",
   "ai-tool-router",
+  // Backfilled README apps
+  "academic-researcher",
+  "ai-ai-design-studio-builder-assistant",
+  "ai-blog-to-podcast-agent",
+  "ai-consultant-agent",
+  "ai-dashboard-canvas-agent",
+  "ai-finance-agent-team",
+  "ai-home-renovation-agent",
+  "ai-investment-agent",
+  "ai-mcp-app-builder",
+  "ai-news-and-podcast-agents",
+  "ai-sales-email-writer-email-writer",
+  "ai-sales-email-writer-intelligence-pro",
+  "ai-sales-intelligence-agent-team",
+  "ai-self-evolving-agent",
+  "ai-shadcn-component-generator",
+  "ai-travel-planner-agent-team",
+  "ai-vc-due-diligence-agent-team",
+  "always-on-hn-briefing-agent",
+  "code-reviewer",
+  "content-creator",
+  "data-analyst",
+  "debugger",
+  "decision-helper",
+  "deep-research",
+  "earnings-call-analyst-agent",
+  "editor",
+  "email-drafter",
+  "fact-checker",
+  "fullstack-developer",
+  "gemma3-finetuning",
+  "generative-ui-starter-project",
+  "google-adk-crash-course",
+  "headroom-context-optimization",
+  "insurance-claim-live-agent-team",
+  "knowledge-graph-rag-citations",
+  "llama3-stateful-chat",
+  "llm-app-personalized-memory",
+  "local-chatgpt-with-memory",
+  "local-hybrid-search-rag",
+  "local-rag-agent",
+  "mcp-apps-generative-ui-showcase",
+  "meeting-notes",
+  "mixture-of-agents",
+  "multi-llm-memory",
+  "multimodal-agentic-rag",
+  "multimodal-uiux-feedback-agent-team",
+  "notion-mcp-agent",
+  "openai-sdk-crash-course",
+  "project-planner",
+  "python-expert",
+  "rag-agent-cohere",
+  "rag-chain",
+  "rag-failure-diagnostics-clinic",
+  "sprint-planner",
+  "strategy-advisor",
+  "technical-writer",
+  "ux-designer",
+  "vision-rag",
+  "visualization-expert",
 ]);
 
 // Apps that have full Live Voice / Realtime API support in their custom UI
@@ -283,7 +335,7 @@ export const VOICE_ENABLED_APPS = new Set([
 
 export function getAIAppComponent(slug: string): React.LazyExoticComponent<AIAppComponent> {
   if (!isInternalAIApp(slug)) {
-    throw new Error(`"${slug}" is not one of the 100 internal AI apps`);
+    throw new Error(`"${slug}" is not one of the internal AI apps`);
   }
 
   const loader = registry[slug];

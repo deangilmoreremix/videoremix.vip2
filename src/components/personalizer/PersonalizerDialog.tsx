@@ -355,8 +355,8 @@ export default function PersonalizerDialog({
                           onChange={(e) => setAppId(e.target.value)}
                           className="w-full bg-gray-900/50 border border-white/10 rounded-lg p-2 text-white font-body focus:border-primary-500 focus:outline-none"
                         >
-                          {APPS.map(ai-design-studio => (
-                            <option key={ai-design-studio.id} value={ai-design-studio.id}>{ai-design-studio.label}</option>
+                          {APPS.map(app => (
+                            <option key={app.id} value={app.id}>{app.label}</option>
                           ))}
                         </select>
                       </div>
@@ -469,47 +469,8 @@ export default function PersonalizerDialog({
                       </div>
                     </div>
                   )}
-
-              {/* Step 3: Public Scan */}
-              {currentStep === 3 && (
-                <div className="space-y-4">
-                  <p className="text-gray-300 font-body">Optional: Scan public profiles for {targetName}</p>
-                  <Button
-                    onClick={handleScan}
-                    disabled={isScanning || !targetName}
-                    className="bg-primary-600 hover:bg-primary-700 disabled:bg-gray-600 text-white"
-                  >
-                    {isScanning ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                    {isScanning ? 'Scanning...' : 'Run Public Scan'}
-                  </Button>
-                  <p className="text-xs text-gray-400 font-body">Uses GitHub API. Full Maigret integration coming soon.</p>
-
-                  {profiles.length > 0 && (
-                    <div className="mt-4">
-                      <h4 className="text-sm text-gray-300 mb-2 font-body">Found Profiles ({profiles.length})</h4>
-                      <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
-                        {profiles.map((profile, index) => (
-                          <PlatformCard key={index} profile={profile} />
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Step 4: Manual Notes */}
-              {currentStep === 4 && (
-                <div className="space-y-4">
-                  <label className="block text-sm text-gray-300 mb-1 font-body">Manual Notes</label>
-                  <Textarea
-                    value={manualNotes}
-                    onChange={(e) => setManualNotes(e.target.value)}
-                    className="bg-gray-900/50 border-white/10 text-white placeholder-gray-400 focus:border-primary-500"
-                    placeholder="Add any additional context about the target..."
-                    rows={6}
-                  />
-                </div>
-              )}
+                  </div>
+                )}
 
                   {outputTab === 'assets' && (
                     <div className="space-y-4">

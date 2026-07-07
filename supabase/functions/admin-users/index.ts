@@ -1,6 +1,30 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
+// Audit logging helper
+async function logAudit(
+  supabase: any,
+  userId: string,
+  adminId: string,
+  action: string,
+  resourceType: string,
+  resourceId: string | null,
+  details: any = null
+) {
+  try {
+    await supabase.from("audit_log").insert({
+      user_id: userId,
+      admin_id: adminId,
+      action,
+      resource_type: resourceType,
+      resource_id: resourceId,
+      details,
+    });
+  } catch (err) {
+    console.warn("Failed to log audit:", err);
+  }
+}
+
 // Fetch user's API key from Supabase (user-provided keys)
 async function getUserApiKey(user_id, provider) {
   const { data, error } = await supabase
@@ -108,7 +132,14 @@ Deno.serve(async (req: Request) => {
       .eq("user_id", user.id)
       .maybeSingle();
 
-    if (!roleData || (roleData.role !== 'super_admin' && roleData.role !== 'admin')) {
+    // Get admin ID from user
+    const { data: adminRole } = await supabase
+      .from("user_roles")
+      .select("user_id")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (!adminRole || (adminRole.role !== 'super_admin' && adminRole.role !== 'admin')) {
       return new Response(
         JSON.stringify({ success: false, error: "Admin access required" }),
         {
@@ -118,7 +149,9 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    return handleRequest(req, supabase);
+    const adminId = user.id;
+
+    return handleRequest(req, supabase, adminId);
   } catch (error) {
     console.error("Error:", error);
     return new Response(
@@ -131,7 +164,7 @@ Deno.serve(async (req: Request) => {
   }
 });
 
-async function handleRequest(req: Request, supabase: any) {
+async function handleRequest(req: Request, supabase: any, adminId: string) {
   const url = new URL(req.url);
   const pathParts = url.pathname.split("/").filter(Boolean);
   const userId = pathParts[pathParts.length - 2];
@@ -240,6 +273,17 @@ async function handleRequest(req: Request, supabase: any) {
           }
         );
       }
+
+      // Log audit: user status toggle
+      await logAudit(
+        supabase,
+        updateUserId,
+        adminId,
+        body.is_active ? "user_activated" : "user_deactivated",
+        "user",
+        updateUserId,
+        { email: user.email, is_active: body.is_active }
+      );
     }
 
     return new Response(
@@ -322,22 +366,33 @@ async function handleRequest(req: Request, supabase: any) {
       },
     });
 
-    if (createError) {
-      return new Response(
-        JSON.stringify({ success: false, error: createError.message }),
-        {
-          status: 400,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
-    }
+if (createError) {
+       return new Response(
+         JSON.stringify({ success: false, error: createError.message }),
+         {
+           status: 400,
+           headers: { ...corsHeaders, "Content-Type": "application/json" },
+         }
+       );
+     }
 
-    await supabase
-      .from("user_roles")
-      .insert({
-        user_id: newUser.user.id,
-        role: body.role || "user",
-      });
+     await supabase
+       .from("user_roles")
+       .insert({
+         user_id: newUser.user.id,
+         role: body.role || "user",
+       });
+
+     // Log audit: user created
+     await logAudit(
+       supabase,
+       newUser.user.id,
+       adminId,
+       "user_created",
+       "user",
+       newUser.user.id,
+       { email: newUser.user.email, role: body.role || "user" }
+     );
 
     return new Response(
       JSON.stringify({
@@ -365,15 +420,26 @@ async function handleRequest(req: Request, supabase: any) {
 
     const { error: deleteError } = await supabase.auth.admin.deleteUser(deleteUserId);
 
-    if (deleteError) {
-      return new Response(
-        JSON.stringify({ success: false, error: deleteError.message }),
-        {
-          status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
-    }
+if (deleteError) {
+       return new Response(
+         JSON.stringify({ success: false, error: deleteError.message }),
+         {
+           status: 500,
+           headers: { ...corsHeaders, "Content-Type": "application/json" },
+         }
+       );
+     }
+
+     // Log audit: user deleted
+     await logAudit(
+       supabase,
+       deleteUserId,
+       adminId,
+       "user_deleted",
+       "user",
+       deleteUserId,
+       { message: "User account deleted" }
+     );
 
     return new Response(
       JSON.stringify({ success: true }),
@@ -482,6 +548,17 @@ async function handleRequest(req: Request, supabase: any) {
         );
       }
 
+      // Log audit: app access granted
+      await logAudit(
+        supabase,
+        userId,
+        adminId,
+        "app_access_granted",
+        "user_app_access",
+        userId,
+        { app_slugs: app_slugs, access_type }
+      );
+
       return new Response(
         JSON.stringify({
           success: true,
@@ -524,6 +601,17 @@ async function handleRequest(req: Request, supabase: any) {
           }
         );
       }
+
+      // Log audit: app access revoked
+      await logAudit(
+        supabase,
+        userId,
+        adminId,
+        "app_access_revoked",
+        "user_app_access",
+        userId,
+        { app_slugs: app_slugs }
+      );
 
       return new Response(
         JSON.stringify({
