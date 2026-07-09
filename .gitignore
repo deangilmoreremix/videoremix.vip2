@@ -33,3 +33,9 @@ dist-ssr
 
 # Local Netlify folder
 .netlify
+
+# Scratch / investigation artifacts (not for commit)
+.playwright-mcp/
+scripts/_*.mjs
+scripts/_*.json
+src/data/appsData.ts.clean*

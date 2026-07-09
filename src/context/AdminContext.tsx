@@ -146,9 +146,20 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
       }
       try {
         setIsLoading(true);
-        const result = await signInResource.create({ identifier: email, password });
+        const result = await signInResource.create({ strategy: "password", identifier: email, password });
         if (result.status !== "complete") {
-          return { success: false, error: "Sign in requires additional steps." };
+          console.warn("[Admin] Sign-in returned non-complete status:", result.status, result);
+          
+          let message = "Sign in requires additional steps.";
+          if (result.status === "needs_second_factor") {
+            message = "Sign in requires multi-factor authentication. Please enter your verification code.";
+          } else if (result.status === "needs_new_password") {
+            message = "Sign in requires a password reset. Please use the forgot password flow.";
+          } else if (result.status === "needs_first_factor") {
+            message = "Sign in requires additional verification. Please check your email or phone.";
+          }
+          
+          return { success: false, error: message };
         }
         await setSignInActive({ session: result.createdSessionId });
         // The useEffect on clerkUser will fetch the role once the user is set.

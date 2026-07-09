@@ -29,16 +29,21 @@ function primaryEmail(data: {
   return emails[0]?.email_address ?? null;
 }
 
-function buildProfile(data: any) {
-  const fullName = [data.first_name, data.last_name]
-    .filter(Boolean)
-    .join(" ")
-    .trim();
+/**
+ * Build the app_users row from a Clerk user.created / user.updated payload.
+ * The real Clerk user mapping table in this project is public.app_users
+ * (id text, clerk_user_id text, email text, first_name text, last_name text,
+ * image_url text). We set both `id` and `clerk_user_id` to the Clerk user
+ * id so the RLS policy `id = auth.jwt() ->> 'sub'` matches on read.
+ */
+function buildAppUser(data: any) {
   return {
-    user_id: data.id,
+    id: data.id,
+    clerk_user_id: data.id,
     email: primaryEmail(data),
-    full_name: fullName || null,
-    avatar_url: data.image_url || null,
+    first_name: data.first_name ?? null,
+    last_name: data.last_name ?? null,
+    image_url: data.image_url ?? null,
     updated_at: new Date().toISOString(),
   };
 }
@@ -94,16 +99,16 @@ serve(async (req) => {
       case "user.created":
       case "user.updated": {
         const { error } = await supabase
-          .from("profiles")
-          .upsert(buildProfile(evt.data), { onConflict: "user_id" });
+          .from("app_users")
+          .upsert(buildAppUser(evt.data), { onConflict: "clerk_user_id" });
         if (error) throw error;
         break;
       }
       case "user.deleted": {
         const { error } = await supabase
-          .from("profiles")
+          .from("app_users")
           .delete()
-          .eq("user_id", evt.data.id);
+          .eq("clerk_user_id", evt.data.id);
         if (error) throw error;
         break;
       }
@@ -114,8 +119,8 @@ serve(async (req) => {
 
     return new Response(JSON.stringify({ received: true }), {
       status: 200,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+      headers: { ...corsHeaders, "Content-Type": "application/json" } },
+    );
   } catch (err) {
     console.error("Sync error:", err);
     return new Response(

@@ -90,35 +90,33 @@ const toAppUser = (clerkUser: any): AppUser | null => {
 };
 
 const upsertSupabaseProfileFromClerkUser = async (clerkUserId: string, appUser: AppUser) => {
-  if (!appUser?.email) return;
+  if (!clerkUserId || !appUser?.email) return;
 
-  const { data: existing, error: fetchError } = await supabase
-    .from("profiles")
-    .select("user_id")
-    .eq("user_id", clerkUserId)
-    .maybeSingle();
+  // The real Clerk user mapping table is public.app_users
+  // (id text, clerk_user_id text, email text, first_name text, last_name text,
+  // image_url text). We set both `id` and `clerk_user_id` to the Clerk user id
+  // so the RLS policy `id = auth.jwt() ->> 'sub'` matches on read.
+  const firstName = (appUser.user_metadata?.first_name as string | undefined) ?? null;
+  const lastName = (appUser.user_metadata?.last_name as string | undefined) ?? null;
+  const imageUrl = (appUser.user_metadata?.image_url as string | undefined) ?? null;
 
-  if (fetchError) {
-    console.warn("[Auth] Profile sync query failed:", fetchError.message);
-    return;
-  }
+  const { error } = await supabase
+    .from("app_users")
+    .upsert(
+      {
+        id: clerkUserId,
+        clerk_user_id: clerkUserId,
+        email: appUser.email,
+        first_name: firstName,
+        last_name: lastName,
+        image_url: imageUrl,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "clerk_user_id" },
+    );
 
-  if (!existing) {
-    const { error: insertError } = await supabase.from("profiles").insert({
-      user_id: clerkUserId,
-      email: appUser.email,
-      full_name: (appUser.user_metadata?.full_name as string | undefined) || null,
-      avatar_url: (appUser.user_metadata?.image_url as string | undefined) || "",
-      bio: "",
-      company: "",
-      website: "",
-      onboarding_answers: null,
-      onboarding_completed_at: null,
-    });
-
-    if (insertError) {
-      console.warn("[Auth] Profile sync insert failed:", insertError.message);
-    }
+  if (error) {
+    console.warn("[Auth] app_users sync failed:", error.message);
   }
 };
 
@@ -187,8 +185,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       if (clerkUser.user.id && syncedRef.current !== clerkUser.user.id) {
         syncedRef.current = clerkUser.user.id;
-        upsertSupabaseProfileFromClerkUser(clerkUser.user.id, toAppUser(clerkUser.user)).catch((err) => {
-          console.warn("[Auth] Profile sync error:", err);
+        const appUser = toAppUser(clerkUser.user);
+        upsertSupabaseProfileFromClerkUser(clerkUser.user.id, appUser).catch((err) => {
+          console.warn("[Auth] app_users sync error:", err);
         });
       }
     } else {
@@ -221,13 +220,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       try {
         const result = await signInResource.create({
+          strategy: "password",
           identifier: email,
           password,
         });
 
         if (result.status !== "complete") {
           setAuthState("unauthenticated");
-          return { user: null, error: new Error("Sign in requires additional steps. Please follow the on-screen instructions.") };
+          console.warn("[Auth] Sign-in returned non-complete status:", result.status, result);
+          
+          let message = "Sign in requires additional steps. Please follow the on-screen instructions.";
+          if (result.status === "needs_second_factor") {
+            message = "Sign in requires multi-factor authentication. Please enter your verification code.";
+          } else if (result.status === "needs_new_password") {
+            message = "Sign in requires a password reset. Please use the forgot password flow.";
+          } else if (result.status === "needs_first_factor") {
+            message = "Sign in requires additional verification. Please check your email or phone.";
+          }
+          
+          return { user: null, error: new Error(message) };
         }
 
         await setSignInActive({ session: result.createdSessionId });
