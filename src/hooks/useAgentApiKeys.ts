@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../utils/supabase";
+import { useUser } from "../providers/ClerkProvider";
 import { checkAgentKeys, getAgentKeyRequirements, AgentKeyRequirements, AVAILABLE_API_KEYS } from "../utils/agentKeyRequirements";
 import { Loader2, AlertCircle, Settings } from "lucide-react";
 import { Button } from "../components/ui/button";
@@ -11,6 +12,7 @@ import { Button } from "../components/ui/button";
  */
 export function useAgentApiKeys(agentSlug: string) {
   const navigate = useNavigate();
+  const { user: clerkUser } = useUser();
 
   const checkKeys = useCallback(async (): Promise<{
     hasAllKeys: boolean;
@@ -23,12 +25,11 @@ export function useAgentApiKeys(agentSlug: string) {
 
     // Try Supabase first
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
+      if (clerkUser?.id) {
         const { data } = await supabase
           .from("user_settings")
           .select("api_keys")
-          .eq("user_id", user.id)
+          .eq("user_id", clerkUser.id)
           .single();
 
         if (data?.api_keys) {

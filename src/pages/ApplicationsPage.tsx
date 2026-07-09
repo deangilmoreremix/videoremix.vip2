@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useApps } from '../hooks/useApps';
 import { useAuth } from '../context/AuthContext';
@@ -7,11 +7,28 @@ import { useUserAccess } from '../hooks/useUserAccess';
 import LazyIcon from '../components/LazyIcon';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
+import PurchaseModal from '../components/PurchaseModal';
+import { ComponentApp } from '../utils/appTransformers';
 
 const ApplicationsPage: React.FC = () => {
   const { apps, loading, error } = useApps();
   const { user } = useAuth();
   const { hasAccessToApp } = useUserAccess();
+  const navigate = useNavigate();
+  const [purchaseModalOpen, setPurchaseModalOpen] = useState(false);
+  const [selectedAppForPurchase, setSelectedAppForPurchase] = useState<ComponentApp | null>(null);
+
+  // All apps are visible to everyone, but using an app requires ownership.
+  // Owned apps open the runner; unowned apps open the purchase prompt.
+  const handleAppClick = (app: ComponentApp) => {
+    const isOwned = !!user && hasAccessToApp(app.id);
+    if (isOwned) {
+      navigate(`/ai-design-studio/${app.id}`);
+    } else {
+      setSelectedAppForPurchase(app);
+      setPurchaseModalOpen(true);
+    }
+  };
 
   if (loading) {
     return (
@@ -84,7 +101,7 @@ const ApplicationsPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {apps.map((app, index) => {
             const isPurchased = user && hasAccessToApp(app.id);
-            
+
             return (
               <motion.div
                 key={app.id}
@@ -92,6 +109,8 @@ const ApplicationsPage: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
                 whileHover={{ y: -5 }}
+                onClick={() => handleAppClick(app)}
+                className="cursor-pointer"
               >
                 <Card className="overflow-hidden bg-gray-800 border-gray-700 hover:border-primary-500/50 transition-all duration-300 h-full">
                   {/* App Image */}
@@ -181,15 +200,17 @@ const ApplicationsPage: React.FC = () => {
                         <span className="text-gray-400 text-sm ml-1">/ai-design-studio</span>
                       </div>
                       
-                      <Link to={`/ai-design-studio/${app.id}`}>
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          className="border-primary-500 text-primary-400 hover:bg-primary-500/10"
-                        >
-                          {isPurchased ? 'Open' : 'View Details'}
-                        </Button>
-                      </Link>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleAppClick(app);
+                        }}
+                        className="border-primary-500 text-primary-400 hover:bg-primary-500/10"
+                      >
+                        {isPurchased ? 'Open' : 'Get Access'}
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
@@ -198,6 +219,18 @@ const ApplicationsPage: React.FC = () => {
           })}
         </div>
       </section>
+
+      {/* Purchase prompt — shown when a non-owner clicks an app */}
+      {selectedAppForPurchase && (
+        <PurchaseModal
+          isOpen={purchaseModalOpen}
+          onClose={() => {
+            setPurchaseModalOpen(false);
+            setSelectedAppForPurchase(null);
+          }}
+          app={selectedAppForPurchase}
+        />
+      )}
     </div>
   );
 };

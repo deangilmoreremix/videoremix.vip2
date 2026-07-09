@@ -138,8 +138,8 @@ const ToolkitStep: React.FC<ToolkitStepProps> = ({
 
       {categories.map(category => {
         const categoryApps = recommendedApps.filter(app => {
-          const category = app.category || '';
-          return category === categoryItem.id;
+          const appCategory = app.category || '';
+          return appCategory === categoryItem.id;
         });
         
         if (categoryApps.length === 0) return null;

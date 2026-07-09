@@ -6,7 +6,7 @@ import { appsData } from "../data/appsData";
 
 const AppPage: React.FC = () => {
   const { appId } = useParams<{ appId: string }>();
-  const app = appsData.find((app) => app.id === appId);
+  const app = appsData.find((a) => a.id === appId);
 
   // Scroll to top when component mounts
   useEffect(() => {

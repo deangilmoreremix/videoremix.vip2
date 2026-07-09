@@ -16,6 +16,7 @@ import {
   Loader,
 } from "lucide-react";
 import { supabase } from "../../utils/supabase";
+import { useSupabaseToken } from "../../hooks/useSupabaseToken";
 
 interface Purchase {
   id: string;
@@ -42,6 +43,7 @@ interface Product {
 }
 
 const AdminPurchasesManagement: React.FC = () => {
+  const getToken = useSupabaseToken();
   const [purchases, setPurchases] = useState<Purchase[]>([]);
   const [allPurchases, setAllPurchases] = useState<Purchase[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -95,15 +97,12 @@ const AdminPurchasesManagement: React.FC = () => {
   const fetchPurchases = async () => {
     try {
       clearMessages();
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-purchases`,
@@ -169,15 +168,12 @@ const AdminPurchasesManagement: React.FC = () => {
     clearMessages();
 
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       const lines = importData.trim().split("\n");
       const purchasesToImport = lines
@@ -306,15 +302,12 @@ const AdminPurchasesManagement: React.FC = () => {
     clearMessages();
 
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/stripe-sync?action=start`,

@@ -24,6 +24,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import { Mic, MicOff, Volume2, VolumeX, Loader2, X } from "lucide-react";
 import { supabase } from "../../../utils/supabaseClient";
 import { Button } from "../../ui/button";
+import { useSupabaseToken } from "../../../hooks/useSupabaseToken";
 
 interface RealtimeVoiceSessionProps {
   appId: string;
@@ -44,6 +45,7 @@ export const RealtimeVoiceSession: React.FC<RealtimeVoiceSessionProps> = ({
   onEnd,
   className = "",
 }) => {
+  const getToken = useSupabaseToken();
   const [status, setStatus] = useState<"idle" | "connecting" | "connected" | "listening" | "speaking" | "error">("idle");
   const [isMuted, setIsMuted] = useState(false);
   const [liveTranscript, setLiveTranscript] = useState("");
@@ -60,14 +62,13 @@ export const RealtimeVoiceSession: React.FC<RealtimeVoiceSessionProps> = ({
 
   // Get current access token for authenticated WS connection (query param because browser WS can't set custom headers easily)
   const getAccessToken = async (): Promise<string | null> => {
-    const { data: { session } } = await supabase.auth.getSession();
-    return session?.access_token ?? null;
+    return await getToken();
   };
 
   const stopEverything = useCallback(() => {
     // Close WS
     if (wsRef.current) {
-      try { wsRef.current.close(); } catch {}
+      try { wsRef.current.close(); } catch { /* ignore close errors */ }
       wsRef.current = null;
     }
 

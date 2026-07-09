@@ -28,7 +28,7 @@ export const AppLaunchButton: React.FC<AppLaunchButtonProps> = ({ app, onPurchas
 
   const isOwned = !!user && hasAccessToApp(app.slug || app.id);
   const appId = app.id || app.slug || "";
-  const isInternalRunner = app.url?.startsWith("/ai-app/") && isInternalAIApp(appId);
+  const isInternalRunner = (app.url?.startsWith("/ai-runner/") || app.url?.startsWith("/ai-ai-design-studio/")) && isInternalAIApp(appId);
 
   if (app.url && isExternalUrl(appId)) {
     // Legacy 15 apps - external Netlify sites

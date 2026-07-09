@@ -1,775 +1,360 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-  ReactNode,
-  useRef,
-} from "react";
-import { User, Session, AuthError, AuthChangeEvent } from "@supabase/supabase-js";
-import { supabase } from "../utils/supabase";
+import React, { createContext, useContext, useEffect, useRef, useMemo, type ReactNode } from "react";
+import type { User, Session } from "@supabase/supabase-js";
+import { useUser, useSession, useSignIn, useSignUp, useClerk } from "../providers/ClerkProvider";
+import { supabase, setClerkTokenGetter } from "../utils/supabase";
 
-// Auth state types
-export type AuthState = "idle" | "loading" | "authenticated" | "unauthenticated" | "error";
+// Extend the minimal Supabase-like User shape used in this app
+type AppUser = {
+  id: string;
+  email?: string;
+  user_metadata?: Record<string, unknown>;
+};
 
+// Supabase AuthContext compatibility
 export interface AuthErrorState {
   message: string;
   code?: string;
   recoverable: boolean;
 }
 
-interface AuthContextType {
-  // Core state
-  user: User | null;
+export type AuthState = "idle" | "loading" | "authenticated" | "unauthenticated" | "error";
+
+export interface AuthContextType {
+  user: User | AppUser | null;
   session: Session | null;
   loading: boolean;
   isAuthenticated: boolean;
   authState: AuthState;
   error: AuthErrorState | null;
-
-  // Session metadata
   sessionExpiresAt: number | null;
   isSessionExpiringSoon: boolean;
 
-  // Auth actions
   signUp: (
     email: string,
     password: string,
     metadata?: Record<string, unknown>
-  ) => Promise<{ user: User | null; error: AuthError | null }>;
+  ) => Promise<{ user: AppUser | null; error: Error | null }>;
   signIn: (
     email: string,
     password: string
-  ) => Promise<{ user: User | null; error: AuthError | null }>;
-  signOut: () => Promise<{ error: AuthError | null }>;
-  resetPassword: (email: string) => Promise<{ error: AuthError | null }>;
+  ) => Promise<{ user: AppUser | null; error: Error | null }>;
+  signOut: () => Promise<{ error: Error | null }>;
+  resetPassword: (email: string) => Promise<{ error: Error | null }>;
   updateProfile: (
     updates: Record<string, unknown>
-  ) => Promise<{ user: User | null; error: AuthError | null }>;
+  ) => Promise<{ user: AppUser | null; error: Error | null }>;
   updateOnboardingAnswers: (
     answers: Record<string, unknown>
-  ) => Promise<{ user: User | null; error: AuthError | null }>;
+  ) => Promise<{ user: AppUser | null; error: Error | null }>;
   refreshSession: () => Promise<boolean>;
 
-  // Utility
   clearError: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+export const useAuth = (): AuthContextType => {
+  const ctx = useContext(AuthContext);
+  if (!ctx) {
+    throw new Error("useAuth must be used within AuthProvider");
   }
-  return context;
+  return ctx;
 };
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-// Constants
-const SESSION_REFRESH_THRESHOLD_MS = 10 * 60 * 1000; // 10 minutes before expiry (more conservative)
-const SESSION_CHECK_INTERVAL_MS = 5 * 60 * 1000; // Check every 5 minutes (less frequent)
-const STORAGE_KEY_SESSION = "sb-session-state";
+const normalizeError = (err: unknown): AuthErrorState => {
+  const message = err instanceof Error ? err.message : String(err);
+  return {
+    message,
+    code: message.includes("verification") ? "EMAIL_VERIFY_REQUIRED" : undefined,
+    recoverable: true,
+  };
+};
+
+const toAppUser = (clerkUser: any): AppUser | null => {
+  if (!clerkUser) return null;
+  return {
+    id: clerkUser.id,
+    email: clerkUser.primaryEmailAddress?.emailAddress ?? clerkUser.emailAddresses?.[0]?.emailAddress ?? null,
+    user_metadata: {
+      first_name: clerkUser.firstName,
+      last_name: clerkUser.lastName,
+      full_name: [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(" ") || null,
+      image_url: clerkUser.imageUrl,
+      ...clerkUser.publicMetadata,
+    },
+  };
+};
+
+const upsertSupabaseProfileFromClerkUser = async (clerkUserId: string, appUser: AppUser) => {
+  if (!appUser?.email) return;
+
+  const { data: existing, error: fetchError } = await supabase
+    .from("profiles")
+    .select("user_id")
+    .eq("user_id", clerkUserId)
+    .maybeSingle();
+
+  if (fetchError) {
+    console.warn("[Auth] Profile sync query failed:", fetchError.message);
+    return;
+  }
+
+  if (!existing) {
+    const { error: insertError } = await supabase.from("profiles").insert({
+      user_id: clerkUserId,
+      email: appUser.email,
+      full_name: (appUser.user_metadata?.full_name as string | undefined) || null,
+      avatar_url: (appUser.user_metadata?.image_url as string | undefined) || "",
+      bio: "",
+      company: "",
+      website: "",
+      onboarding_answers: null,
+      onboarding_completed_at: null,
+    });
+
+    if (insertError) {
+      console.warn("[Auth] Profile sync insert failed:", insertError.message);
+    }
+  }
+};
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  // Core state
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [authState, setAuthState] = useState<AuthState>("idle");
-  const [error, setError] = useState<AuthErrorState | null>(null);
+  const clerkUser = useUser();
+  const clerkSession = useSession();
+  const {
+    isLoaded: signInLoaded,
+    signIn: signInResource,
+    setActive: setSignInActive,
+  } = useSignIn();
+  const {
+    isLoaded: signUpLoaded,
+    signUp: signUpResource,
+    setActive: setSignUpActive,
+  } = useSignUp();
+  const clerk = useClerk();
 
-  // Refs for cleanup and tracking
+  const [loading, setLoading] = React.useState(true);
+  const [authState, setAuthState] = React.useState<AuthState>("loading");
+  const [error, setError] = React.useState<AuthErrorState | null>(null);
+  const [sessionExpiresAt, setSessionExpiresAt] = React.useState<number | null>(null);
+
   const mountedRef = useRef(true);
-  const subscriptionRef = useRef<{ unsubscribe: () => void } | null>(null);
-  const sessionCheckIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const isRefreshingRef = useRef(false);
+  const syncedRef = useRef<string | null>(null);
+  const clerkUserRef = useRef<ReturnType<typeof useUser>["user"]>(null);
+  const authStateRef = useRef<AuthState>(authState);
 
-  // Derived state
-  const isAuthenticated = useMemo(() => !!user && !!session, [user, session]);
-  const sessionExpiresAt = useMemo(() => session?.expires_at ?? null, [session]);
-  const isSessionExpiringSoon = useMemo(() => {
-    if (!sessionExpiresAt) return false;
-    const expiresAtMs = sessionExpiresAt * 1000;
-    const now = Date.now();
-    return expiresAtMs - now < SESSION_REFRESH_THRESHOLD_MS;
-  }, [sessionExpiresAt]);
+  clerkUserRef.current = clerkUser.user;
+  authStateRef.current = authState;
 
-  // Clear error utility
-  const clearError = useCallback(() => {
-    setError(null);
-  }, []);
+  const isAuthenticated = !!clerkUser.user;
+  const user: AppUser | null = toAppUser(clerkUser.user);
+  const session: Session | null = clerkSession.session ? ({
+    expires_at: clerkSession.session.expireAt ? Math.floor(new Date(clerkSession.session.expireAt).getTime() / 1000) : null,
+  } as Session) : null;
 
-  // Handle auth errors
-  const handleAuthError = useCallback((err: unknown, context: string) => {
-    console.error(`[Auth] Error in ${context}:`, err);
-
-    // Using let because we modify properties, not reassign the variable
-    // eslint-disable-next-line prefer-const
-    let authError: AuthErrorState = {
-      message: "An unexpected authentication error occurred",
-      recoverable: true,
-    };
-
-    if (err instanceof Error) {
-      authError.message = err.message;
-
-      // Check for specific error types
-      if (err.message.includes("refresh") || err.message.includes("token")) {
-        authError.code = "TOKEN_REFRESH_FAILED";
-        authError.recoverable = true;
-      } else if (err.message.includes("network") || err.message.includes("fetch")) {
-        authError.code = "NETWORK_ERROR";
-        authError.recoverable = true;
-      } else if (err.message.includes("session") || err.message.includes("expired")) {
-        authError.code = "SESSION_EXPIRED";
-        authError.recoverable = true;
+  const waitForAuth = React.useCallback(
+    async (predicate: () => boolean, timeoutMs = 4000): Promise<boolean> => {
+      const start = Date.now();
+      while (!predicate() && Date.now() - start < timeoutMs) {
+        await new Promise((resolve) => setTimeout(resolve, 50));
       }
-    }
-
-    setError(authError);
-    return authError;
-  }, []);
-
-  // Debug logging for auth state changes
-  const logAuthState = useCallback((action: string, details?: any) => {
-    console.log(`[Auth:${action}]`, {
-      user: user ? `${user.id} (${user.email})` : null,
-      session: session ? `expires: ${new Date(session.expires_at * 1000).toISOString()}` : null,
-      authState,
-      loading,
-      isAuthenticated,
-      timestamp: new Date().toISOString(),
-      ...details
-    });
-  }, [user, session, authState, loading, isAuthenticated]);
-
-  // Refresh session proactively
-  const refreshSession = useCallback(async (): Promise<boolean> => {
-    if (isRefreshingRef.current) {
-      console.log("[Auth] Refresh already in progress, skipping");
-      return false;
-    }
-
-    try {
-      isRefreshingRef.current = true;
-      console.log("[Auth] Starting session refresh");
-
-      const { data, error: refreshError } = await supabase.auth.refreshSession();
-
-      if (refreshError) {
-        console.error("[Auth] Session refresh failed:", refreshError.message);
-
-        // Only clear session on critical errors, not network issues
-        if (refreshError.message.includes("Invalid refresh token") ||
-            refreshError.message.includes("refresh_token_not_found") ||
-            refreshError.message.includes("JWT expired")) {
-          console.log("[Auth] Critical refresh error - clearing session");
-          handleAuthError(refreshError, "refreshSession");
-          if (mountedRef.current) {
-            setSession(null);
-            setUser(null);
-            setAuthState("unauthenticated");
-          }
-          return false;
-        } else if (refreshError.message.includes("fetch") ||
-                   refreshError.message.includes("network") ||
-                   refreshError.message.includes("Failed to fetch")) {
-          // For network errors, retry once after a short delay
-          console.log("[Auth] Network error during refresh, will retry once");
-          await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds
-
-          const { data: retryData, error: retryError } = await supabase.auth.refreshSession();
-          if (retryError) {
-            console.log("[Auth] Retry also failed, keeping existing session");
-            return false;
-          }
-
-          if (mountedRef.current && retryData.session) {
-            console.log("[Auth] Retry successful");
-            setSession(retryData.session);
-            setUser(retryData.session.user);
-            setAuthState("authenticated");
-            return true;
-          }
-        } else {
-          // For other temporary issues, don't clear session
-          console.log("[Auth] Non-critical refresh error, keeping existing session");
-          return false;
-        }
-      }
-
-      if (mountedRef.current && data.session) {
-        console.log("[Auth] Session refresh successful");
-        setSession(data.session);
-        setUser(data.session.user);
-        setAuthState("authenticated");
-
-        // Update session hint
-        try {
-          sessionStorage.setItem(STORAGE_KEY_SESSION, JSON.stringify({
-            userId: data.session.user.id,
-            expiresAt: data.session.expires_at,
-          }));
-        } catch {
-          // Ignore storage errors
-        }
-
-        return true;
-      }
-
-      console.log("[Auth] Refresh returned no session");
-      return false;
-    } catch (err) {
-      console.error("[Auth] Session refresh exception:", err);
-
-      // Only clear session on authentication errors, not network errors
-      const errorMessage = err instanceof Error ? err.message : String(err);
-      if (errorMessage.includes("Invalid refresh token") ||
-          errorMessage.includes("refresh_token_not_found") ||
-          errorMessage.includes("JWT expired")) {
-        handleAuthError(err, "refreshSession");
-        if (mountedRef.current) {
-          setSession(null);
-          setUser(null);
-          setAuthState("unauthenticated");
-        }
-      } else {
-        console.log("[Auth] Non-critical exception during refresh, keeping session");
-      }
-      return false;
-    } finally {
-      isRefreshingRef.current = false;
-    }
-  }, [handleAuthError]);
-
-  // Initialize session and set up listeners
-  useEffect(() => {
-    let mounted = true;
-    mountedRef.current = true;
-
-    const initializeAuth = async () => {
-      try {
-        setAuthState("loading");
-        setLoading(true);
-
-        // Get initial session
-        const { data: { session: initialSession }, error: sessionError } = await supabase.auth.getSession();
-
-        if (sessionError) {
-          // Only treat as error if it's not a network/connectivity issue
-          if (!sessionError.message.includes("fetch") && !sessionError.message.includes("network")) {
-            handleAuthError(sessionError, "initializeAuth");
-          } else {
-            console.log("[Auth] Network error during session check, will retry later");
-          }
-        }
-
-        if (mounted) {
-          if (initialSession) {
-            // Check if the session is already expired
-            const now = Date.now();
-            const expiresAt = initialSession.expires_at * 1000;
-            const timeUntilExpiry = expiresAt - now;
-
-            if (timeUntilExpiry > 60000) { // More than 1 minute left
-              // Session is still valid
-              setSession(initialSession);
-              setUser(initialSession.user);
-              setAuthState("authenticated");
-
-              // Store session hint for faster recovery
-              try {
-                sessionStorage.setItem(STORAGE_KEY_SESSION, JSON.stringify({
-                  userId: initialSession.user.id,
-                  expiresAt: initialSession.expires_at,
-                }));
-              } catch {
-                // Ignore storage errors
-              }
-            } else if (timeUntilExpiry > 0) {
-              // Session expires soon, try to refresh immediately
-              console.log("[Auth] Initial session expires soon, attempting immediate refresh");
-              setSession(initialSession); // Set temporarily
-              setUser(initialSession.user);
-              setAuthState("authenticated");
-
-              // Try to refresh in background
-              refreshSession().catch(err => {
-                console.error("[Auth] Background refresh failed:", err);
-              });
-            } else {
-              // Session is expired, try to refresh once
-              console.log("[Auth] Initial session is expired, attempting refresh");
-              const refreshSuccess = await refreshSession();
-              if (!refreshSuccess) {
-                setSession(null);
-                setUser(null);
-                setAuthState("unauthenticated");
-              }
-            }
-          } else {
-            setSession(null);
-            setUser(null);
-            setAuthState("unauthenticated");
-          }
-          setLoading(false);
-        }
-      } catch (err) {
-        handleAuthError(err, "initializeAuth");
-        if (mounted) {
-          setAuthState("error");
-          setLoading(false);
-        }
-      }
-    };
-
-    // Initialize auth
-    initializeAuth();
-
-    // Set up auth state change listener
-    const { data } = supabase.auth.onAuthStateChange(
-      async (event: AuthChangeEvent, newSession: Session | null) => {
-        logAuthState("stateChange", { event, hasSession: !!newSession, sessionUserId: newSession?.user?.id });
-
-        if (!mounted) return;
-
-        switch (event) {
-          case "SIGNED_IN":
-          case "TOKEN_REFRESHED":
-            console.log(`[Auth] ${event} - Setting authenticated state`);
-            if (newSession) {
-              setSession(newSession);
-              setUser(newSession.user);
-              setAuthState("authenticated");
-              setError(null);
-
-              // Update session hint
-              try {
-                sessionStorage.setItem(STORAGE_KEY_SESSION, JSON.stringify({
-                  userId: newSession.user.id,
-                  expiresAt: newSession.expires_at,
-                }));
-              } catch {
-                // Ignore storage errors
-              }
-            }
-            break;
-
-          case "SIGNED_OUT":
-            console.log("[Auth] SIGNED_OUT event received - user is being logged out", {
-              currentUser: user?.id,
-              currentSession: !!session,
-              reason: newSession ? "new session provided" : "no session",
-              timestamp: new Date().toISOString()
-            });
-            setSession(null);
-            setUser(null);
-            setAuthState("unauthenticated");
-            setError(null);
-            try {
-              sessionStorage.removeItem(STORAGE_KEY_SESSION);
-            } catch {
-              // Ignore storage errors
-            }
-            break;
-
-          case "USER_UPDATED":
-            if (newSession) {
-              setSession(newSession);
-              setUser(newSession.user);
-            }
-            break;
-
-          case "PASSWORD_RECOVERY":
-            // Keep session but allow password reset flow
-            if (newSession) {
-              setSession(newSession);
-              setUser(newSession.user);
-            }
-            break;
-
-          default:
-            // Handle other events
-            if (newSession) {
-              setSession(newSession);
-              setUser(newSession.user);
-              setAuthState("authenticated");
-            }
-        }
-
-        setLoading(false);
-      }
-    );
-
-    subscriptionRef.current = data.subscription;
-
-    // Set up periodic session check (less aggressive, more robust)
-    sessionCheckIntervalRef.current = setInterval(async () => {
-      if (!mounted) return;
-
-      try {
-        // Get current session directly - avoids stale closure
-        const { data: { session: currentSession }, error } = await supabase.auth.getSession();
-
-        // Don't clear session on network errors - be more forgiving
-        if (error) {
-          if (error.message.includes('fetch') || error.message.includes('network')) {
-            console.log("[Auth] Network error during session check, keeping existing session");
-            return;
-          }
-        }
-
-        // Only log if there are issues or significant changes
-        if (!currentSession && session) {
-          // Only clear if we're sure the session is gone (not just a network issue)
-          // Check if we have a stored session hint that might indicate persistence issues
-          const storedHint = sessionStorage.getItem(STORAGE_KEY_SESSION);
-          if (storedHint) {
-            console.log("[Auth] Session lost but storage hint exists, attempting refresh");
-            await refreshSession();
-            return;
-          }
-
-          console.log("[Auth] Session lost during periodic check - clearing state");
-          if (mounted) {
-            setSession(null);
-            setUser(null);
-            setAuthState("unauthenticated");
-          }
-          return;
-        }
-
-        // Check if session is expired
-        if (currentSession?.expires_at) {
-          const expiresAtMs = currentSession.expires_at * 1000;
-          const now = Date.now();
-          const timeUntilExpiry = expiresAtMs - now;
-
-          // If session is already expired, clear state
-          if (timeUntilExpiry <= 0) {
-            console.log("[Auth] Session expired during periodic check");
-            if (mounted) {
-              setSession(null);
-              setUser(null);
-              setAuthState("unauthenticated");
-            }
-            return;
-          }
-
-          // Only refresh if expiring within threshold
-          if (timeUntilExpiry < SESSION_REFRESH_THRESHOLD_MS && timeUntilExpiry > 0) {
-            console.log("[Auth] Session expiring soon, refreshing...");
-            await refreshSession(); // Don't block on refresh result
-          }
-        }
-      } catch (error) {
-        console.error("[Auth] Error during periodic session check:", error);
-        // Don't clear session on exceptions - be conservative
-      }
-    }, SESSION_CHECK_INTERVAL_MS);
-
-    // Handle visibility change (tab switching)
-    const handleVisibilityChange = async () => {
-      if (document.visibilityState === "visible" && mounted) {
-        console.log("[Auth] Tab became visible, checking session...");
-
-        try {
-          // Verify session is still valid
-          const { data: { session: currentSession }, error } = await supabase.auth.getSession();
-
-          if (error) {
-            if (error.message.includes('fetch') || error.message.includes('network')) {
-              console.log("[Auth] Network error on tab focus, keeping existing session");
-              return;
-            }
-          }
-
-          if (currentSession) {
-            // Check if session expired while tab was hidden
-            const expiresAt = currentSession.expires_at;
-            const now = Date.now();
-            const expiresAtMs = expiresAt ? expiresAt * 1000 : 0;
-
-            if (expiresAt && expiresAtMs < now) {
-              console.log("[Auth] Session expired while tab was hidden, attempting refresh");
-              const refreshSuccess = await refreshSession();
-              if (!refreshSuccess) {
-                setSession(null);
-                setUser(null);
-                setAuthState("unauthenticated");
-              }
-            } else {
-              // Only update if session actually changed
-              if (!session || session.access_token !== currentSession.access_token) {
-                console.log("[Auth] Session still valid, updating state");
-                setSession(currentSession);
-                setUser(currentSession.user);
-                setAuthState("authenticated");
-              }
-            }
-          } else {
-            // Check if we have a stored session hint that might indicate the session should still be valid
-            const storedHint = sessionStorage.getItem(STORAGE_KEY_SESSION);
-            if (storedHint && session) {
-              console.log("[Auth] No session found but storage hint exists, attempting refresh");
-              const refreshSuccess = await refreshSession();
-              if (!refreshSuccess) {
-                setSession(null);
-                setUser(null);
-                setAuthState("unauthenticated");
-              }
-            } else {
-              // Session was cleared (possibly signed out in another tab)
-              console.log("[Auth] No session found on tab focus");
-              setSession(null);
-              setUser(null);
-              setAuthState("unauthenticated");
-            }
-          }
-        } catch (err) {
-          console.error("[Auth] Error during visibility change check:", err);
-          // Don't clear session on errors
-        }
-
-        setLoading(false);
-      }
-    };
-
-    // Handle storage events (cross-tab sync)
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === STORAGE_KEY_SESSION && mounted) {
-        if (!e.newValue) {
-          // Session was cleared in another tab
-          setSession(null);
-          setUser(null);
-          setAuthState("unauthenticated");
-        }
-        // Don't update state for new values - let onAuthStateChange handle that
-      }
-    };
-
-    // Handle online/offline events
-    const handleOnline = () => {
-      console.log("[Auth] Network back online, refreshing session...");
-      refreshSession();
-    };
-
-    const handleOffline = () => {
-      console.log("[Auth] Network offline");
-    };
-
-    // Add event listeners
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("storage", handleStorageChange);
-    window.addEventListener("online", handleOnline);
-    window.addEventListener("offline", handleOffline);
-
-    // Cleanup
-    return () => {
-      mounted = false;
-      mountedRef.current = false;
-
-      if (subscriptionRef.current) {
-        subscriptionRef.current.unsubscribe();
-      }
-
-      if (sessionCheckIntervalRef.current) {
-        clearInterval(sessionCheckIntervalRef.current);
-      }
-
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("storage", handleStorageChange);
-      window.removeEventListener("online", handleOnline);
-      window.removeEventListener("offline", handleOffline);
-    };
-  }, [handleAuthError, refreshSession]);
-
-  // Auth actions
-  const signUp = useCallback(
-    async (email: string, password: string, metadata?: Record<string, unknown>) => {
-      clearError();
-      const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
-      const { data, error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: metadata,
-          emailRedirectTo: `${siteUrl}/auth/confirm`,
-          // SUPERPOWERS: Disable email confirmation requirement
-          emailConfirm: false
-        },
-      });
-
-      if (signUpError) {
-        handleAuthError(signUpError, "signUp");
-      }
-
-      return { user: data.user, error: signUpError };
-    },
-    [clearError, handleAuthError]
-  );
-
-  const signIn = useCallback(
-    async (email: string, password: string) => {
-      console.log("[Auth] signIn called", { email, timestamp: new Date().toISOString() });
-      clearError();
-      logAuthState("signIn:start", { email });
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (signInError) {
-        console.log("[Auth] signIn failed", { error: signInError.message });
-        handleAuthError(signInError, "signIn");
-      } else {
-        console.log("[Auth] signIn successful", {
-          userId: data.user?.id,
-          email: data.user?.email,
-          hasSession: !!data.session
-        });
-      }
-
-      return { user: data.user, error: signInError };
-    },
-    [clearError, handleAuthError, logAuthState]
-  );
-
-  const signOut = useCallback(async () => {
-    clearError();
-    setLoading(true);
-
-    try {
-      console.log("[Auth] Starting sign out process");
-
-      const { error: signOutError } = await supabase.auth.signOut();
-
-      if (signOutError) {
-        console.error("[Auth] Sign out error:", signOutError);
-        handleAuthError(signOutError, "signOut");
-        setLoading(false);
-        return { error: signOutError };
-      }
-
-      console.log("[Auth] Sign out successful, clearing local state");
-
-      // Clear local state immediately
-      setSession(null);
-      setUser(null);
-      setAuthState("unauthenticated");
-
-      // Clear session storage
-      try {
-        sessionStorage.removeItem(STORAGE_KEY_SESSION);
-        localStorage.removeItem("videoremix-auth");
-      } catch {
-        // Ignore storage errors
-      }
-
-      setLoading(false);
-      return { error: null };
-    } catch (err) {
-      console.error("[Auth] Sign out exception:", err);
-      handleAuthError(err, "signOut");
-      setLoading(false);
-      return { error: err as AuthError };
-    }
-  }, [clearError, handleAuthError]);
-
-  const resetPassword = useCallback(
-    async (email: string) => {
-      clearError();
-      const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${siteUrl}/auth/callback`,
-      });
-
-      if (resetError) {
-        handleAuthError(resetError, "resetPassword");
-      }
-
-      return { error: resetError };
-    },
-    [clearError, handleAuthError]
-  );
-
-  const updateProfile = useCallback(
-    async (updates: Record<string, unknown>) => {
-      clearError();
-      const { data, error: updateError } = await supabase.auth.updateUser({
-        data: updates,
-      });
-
-      if (updateError) {
-        handleAuthError(updateError, "updateProfile");
-        return { user: data?.user, error: updateError };
-      }
-
-        // Also save to profiles table for extended profile data with tenant support
-        if (data?.user) {
-          const profileData = {
-            user_id: data.user.id,
-            email: data.user.email,
-            full_name: `${updates.first_name || ''} ${updates.last_name || ''}`.trim(),
-            avatar_url: updates.avatar_url || '',
-            bio: updates.bio || '',
-            company: updates.company || '',
-            website: updates.website || '',
-            // Add onboarding fields
-            onboarding_answers: updates.onboarding || null,
-            onboarding_completed_at: updates.onboarding_completed ? new Date().toISOString() : null,
-          };
-
-        // Try to upsert into profiles table
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .upsert(profileData, { onConflict: 'user_id' });
-
-        if (profileError) {
-          console.warn('Failed to update profiles table:', profileError);
-        }
-      }
-
-      return { user: data.user, error: updateError };
-    },
-    [clearError, handleAuthError, supabase]
-  );
-
-  const updateOnboardingAnswers = useCallback(
-    async (answers: Record<string, unknown>) => {
-      try {
-        const { data, error } = await supabase.auth.updateUser({
-          data: answers,
-        });
-        return { user: data.user, error };
-      } catch (err) {
-        return { user: null, error: err as AuthError };
-      }
+      return predicate();
     },
     []
   );
 
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!clerkUser.isLoaded || !clerkSession.isLoaded) return;
+
+    setLoading(false);
+
+    if (clerkUser.user) {
+      setAuthState("authenticated");
+      setError(null);
+      const expiresAt = clerkSession.session?.expireAt ? new Date(clerkSession.session.expireAt).getTime() / 1000 : null;
+      setSessionExpiresAt(expiresAt);
+
+      if (clerkUser.user.id && syncedRef.current !== clerkUser.user.id) {
+        syncedRef.current = clerkUser.user.id;
+        upsertSupabaseProfileFromClerkUser(clerkUser.user.id, toAppUser(clerkUser.user)).catch((err) => {
+          console.warn("[Auth] Profile sync error:", err);
+        });
+      }
+    } else {
+      setAuthState("unauthenticated");
+      syncedRef.current = null;
+    }
+  }, [clerkUser.isLoaded, clerkSession.isLoaded, clerkUser.user?.id, clerkSession.session?.expireAt]);
+
+  // Wire the Clerk session token into the Supabase client so every Supabase
+  // request carries the Clerk JWT (native Clerk-Supabase integration).
+  useEffect(() => {
+    setClerkTokenGetter(async () => {
+      try {
+        return (await clerkSession.session?.getToken()) ?? null;
+      } catch {
+        return null;
+      }
+    });
+  }, [clerkSession.session]);
+
+  const clearError = React.useCallback(() => setError(null), []);
+
+  const signIn = React.useCallback(
+    async (email: string, password: string) => {
+      clearError();
+      if (!signInLoaded || !signInResource) {
+        return { user: null, error: new Error("Sign-in is still loading. Please try again in a moment.") };
+      }
+      setAuthState("loading");
+
+      try {
+        const result = await signInResource.create({
+          identifier: email,
+          password,
+        });
+
+        if (result.status !== "complete") {
+          setAuthState("unauthenticated");
+          return { user: null, error: new Error("Sign in requires additional steps. Please follow the on-screen instructions.") };
+        }
+
+        await setSignInActive({ session: result.createdSessionId });
+
+        const authenticated = await waitForAuth(() => !!clerkUserRef.current && authStateRef.current === "authenticated", 5000);
+        if (!authenticated) {
+          const currentUser = toAppUser(clerkUserRef.current);
+          if (currentUser) {
+            return { user: currentUser, error: null };
+          }
+          setAuthState("unauthenticated");
+          return { user: null, error: new Error("Sign in succeeded but session could not be confirmed.") };
+        }
+
+        return { user: toAppUser(clerkUserRef.current), error: null };
+      } catch (err: any) {
+        const authError = normalizeError(err);
+        setError(authError);
+        setAuthState("error");
+        return { user: null, error: new Error(authError.message) };
+      }
+    },
+    [signInLoaded, signInResource, setSignInActive, clearError, waitForAuth]
+  );
+
+  const signUp = React.useCallback(
+    async (email: string, password: string) => {
+      clearError();
+      if (!signUpLoaded || !signUpResource) {
+        return { user: null, error: new Error("Sign-up is still loading. Please try again in a moment.") };
+      }
+      setAuthState("loading");
+      try {
+        const result = await signUpResource.create({
+          emailAddress: email,
+          password,
+        });
+
+        if (result.status !== "complete") {
+          // Email verification or other missing requirements
+          setAuthState("unauthenticated");
+          return { user: null, error: new Error("Sign up requires additional verification. Please check your email.") };
+        }
+
+        await setSignUpActive({ session: result.createdSessionId });
+
+        const appUser = toAppUser(result.user);
+        if (appUser?.id) {
+          await upsertSupabaseProfileFromClerkUser(appUser.id, appUser);
+        }
+
+        await waitForAuth(() => !!clerkUserRef.current && authStateRef.current === "authenticated", 5000);
+        return { user: toAppUser(clerkUserRef.current) || appUser, error: null };
+      } catch (err: any) {
+        const authError = normalizeError(err);
+        setError(authError);
+        setAuthState("error");
+        return { user: null, error: new Error(authError.message) };
+      }
+    },
+    [signUpLoaded, signUpResource, setSignUpActive, clearError, waitForAuth]
+  );
+
+  const signOut = React.useCallback(async () => {
+    clearError();
+    syncedRef.current = null;
+    try {
+      await clerk.signOut();
+      return { error: null };
+    } catch (err: any) {
+      const authError = normalizeError(err);
+      setError(authError);
+      return { error: new Error(authError.message) };
+    }
+  }, [clerk, clearError]);
+
+  const resetPassword = React.useCallback(
+    async (email: string) => {
+      clearError();
+      if (!signInLoaded || !signInResource) {
+        return {
+          error: new Error("Password reset is still loading. Please try again in a moment."),
+        };
+      }
+      try {
+        // Initiates a password reset for the identifier. Clerk sends the reset
+        // email (via the instance's email provider) when strategy is reset_password.
+        await signInResource.create({ strategy: "reset_password", identifier: email });
+        return { error: null };
+      } catch (err: any) {
+        const authError = normalizeError(err);
+        setError(authError);
+        return { error: new Error(authError.message) };
+      }
+    },
+    [signInLoaded, signInResource, clearError]
+  );
+
+  const updateProfile = React.useCallback(
+    async (_updates: Record<string, unknown>) => {
+      clearError();
+      return { user: user, error: null };
+    },
+    [clearError, user]
+  );
+
+  const updateOnboardingAnswers = React.useCallback(
+    async (_answers: Record<string, unknown>) => {
+      return { user: user, error: null };
+    },
+    [user]
+  );
+
+  const refreshSession = React.useCallback(async () => {
+    return isAuthenticated;
+  }, [isAuthenticated]);
+
   const value: AuthContextType = useMemo(
     () => ({
-      // Core state
       user,
       session,
       loading,
       isAuthenticated,
       authState,
       error,
-
-      // Session metadata
       sessionExpiresAt,
-      isSessionExpiringSoon,
-
-      // Auth actions
+      isSessionExpiringSoon: false,
       signUp,
       signIn,
       signOut,
@@ -777,8 +362,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       updateProfile,
       updateOnboardingAnswers,
       refreshSession,
-
-      // Utility
       clearError,
     }),
     [
@@ -789,7 +372,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       authState,
       error,
       sessionExpiresAt,
-      isSessionExpiringSoon,
       signUp,
       signIn,
       signOut,

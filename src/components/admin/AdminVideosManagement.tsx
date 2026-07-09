@@ -10,6 +10,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { supabase } from "../../utils/supabase";
+import { useSupabaseToken } from "../../hooks/useSupabaseToken";
 
 interface VideoItem {
   id: string;
@@ -23,6 +24,7 @@ interface VideoItem {
 }
 
 const AdminVideosManagement: React.FC = () => {
+  const getToken = useSupabaseToken();
   const [videos, setVideos] = useState<VideoItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -51,15 +53,12 @@ const AdminVideosManagement: React.FC = () => {
   const fetchVideos = async () => {
     try {
       clearMessages();
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-videos`,
@@ -132,15 +131,12 @@ const AdminVideosManagement: React.FC = () => {
     clearMessages();
 
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       const url = editingVideo
         ? `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-videos/${editingVideo.id}`
@@ -178,15 +174,12 @@ const AdminVideosManagement: React.FC = () => {
 
     try {
       clearMessages();
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-videos/${videoId}`,

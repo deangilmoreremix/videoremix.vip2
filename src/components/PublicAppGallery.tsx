@@ -13,7 +13,7 @@ const PublicAppGallery: React.FC = () => {
 
   // Get featured public apps
   const featuredPublicApps = apps
-    .filter((app) => app.isPublic && (app.popular || ai-design-studio.new))
+    .filter((app) => app.isPublic && (app.popular || app.new))
     .slice(0, 6); // Show top 6
 
   if (loading) {
@@ -75,7 +75,7 @@ const PublicAppGallery: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {featuredPublicApps.map((app, index) => (
             <motion.div
-              key={ai-design-studio.id}
+              key={app.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 * index }}
@@ -87,22 +87,22 @@ const PublicAppGallery: React.FC = () => {
                   <div className="flex items-center space-x-3">
                     <div className="p-2 bg-primary-500/10 rounded-lg">
                       <LazyIcon
-                        name={ai-design-studio.iconName}
+                        name={app.iconName}
                         className="h-6 w-6 text-primary-400"
                       />
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-white group-hover:text-primary-400 transition-colors">
-                        {ai-design-studio.name}
+                        {app.name}
                       </h3>
                       <div className="flex items-center space-x-2 mt-1">
-                        {ai-design-studio.popular && (
+                        {app.popular && (
                           <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
                             <Star className="h-3 w-3 mr-1" />
                             Popular
                           </span>
                         )}
-                        {ai-design-studio.new && (
+                        {app.new && (
                           <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">
                             <Sparkles className="h-3 w-3 mr-1" />
                             New
@@ -114,17 +114,17 @@ const PublicAppGallery: React.FC = () => {
                 </div>
 
                 <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                  {ai-design-studio.description}
+                  {app.description}
                 </p>
 
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-500 uppercase tracking-wide">
-                    {ai-design-studio.category}
+                    {app.category}
                   </span>
 
                   {user ? (
                     <Link
-                      to={`/ai-design-studio/${ai-design-studio.id}`}
+                      to={`/ai-design-studio/${app.id}`}
                       className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition-colors group-hover:shadow-lg group-hover:shadow-primary-500/25"
                     >
                       Open Tool

@@ -25,6 +25,8 @@ const AIAppRunnerPage: React.FC = () => {
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
   const app = appsData.find((a) => a.id === slug);
+  const enhancedApp = app ? getEnhancedAppData(slug || "", app) : null;
+  const mergedApp = enhancedApp ? { ...enhancedApp, url: enhancedApp.url || getAppUrl(slug || "") } : null;
 
   const [lastResult, setLastResult] = useState<any>(null);
   const [isRunning, setIsRunning] = useState(false);
@@ -52,7 +54,7 @@ const AIAppRunnerPage: React.FC = () => {
     }
   }, [user]);
 
-  if (!slug || !isInternalAIApp(slug) || !ai-design-studio) {
+  if (!slug || !isInternalAIApp(slug) || !app) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#0a0a0a] text-white">
         <div className="text-center">
@@ -148,13 +150,13 @@ const AIAppRunnerPage: React.FC = () => {
         </div>
         {showPurchaseModal && (
           <PurchaseModal
-            ai-design-studio={{
-              id: mergedApp?.id || ai-design-studio.id,
-              name: mergedApp?.name || ai-design-studio.name,
-              description: mergedApp?.description || ai-design-studio.description || "",
-              image: mergedApp?.image || ai-design-studio.image || "",
-              icon: mergedApp?.icon || ai-design-studio.icon,
-              price: mergedApp?.price || ai-design-studio.price,
+            app={{
+              id: mergedApp?.id || app.id,
+              name: mergedApp?.name || app.name,
+              description: mergedApp?.description || app.description || "",
+              image: mergedApp?.image || app.image || "",
+              icon: mergedApp?.icon || app.icon,
+              price: mergedApp?.price || app.price,
               features: mergedApp?.benefits,
             }}
             isOpen={showPurchaseModal}
@@ -259,7 +261,7 @@ const AIAppRunnerPage: React.FC = () => {
 
   return (
     <AIAppShell
-      appName={mergedApp?.name || ai-design-studio.name}
+      appName={mergedApp?.name || app.name}
       appSlug={slug}
       onSave={handleSaveToProject}
       onDownload={handleDownload}
@@ -281,7 +283,7 @@ const AIAppRunnerPage: React.FC = () => {
       {isRunning && (
         <div className="mb-4 flex items-center gap-2 rounded-lg border border-primary-900 bg-primary-950/20 px-4 py-2.5 text-sm text-primary-300">
           <Loader2 className="h-4 w-4 animate-spin" />
-          <span>Running {mergedApp?.name || ai-design-studio.name}… (10-30s) — form inputs are disabled</span>
+          <span>Running {mergedApp?.name || app.name}… (10-30s) — form inputs are disabled</span>
         </div>
       )}
 
@@ -290,7 +292,7 @@ const AIAppRunnerPage: React.FC = () => {
           <>
             <AppComponent
               appId={slug}
-              appName={mergedApp?.name || ai-design-studio.name}
+              appName={mergedApp?.name || app.name}
               onResult={handleResult}
               onError={handleError}
               onRunningChange={handleRunningChange}

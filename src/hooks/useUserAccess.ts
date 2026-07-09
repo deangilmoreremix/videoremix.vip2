@@ -6,6 +6,7 @@ import {
   Purchase,
 } from "../services/purchaseService";
 import { appConfig } from "../config/appConfig";
+import { useUser, useSession } from "../providers/ClerkProvider";
 
 /**
  * Utility function for retry logic with exponential backoff
@@ -111,6 +112,9 @@ export const useUserAccess = (): UnifiedAccessData & {
   refetch: () => Promise<void>;
   hasAnyPurchases: boolean;
 } => {
+  const { user: clerkUser } = useUser();
+  const { session: clerkSession } = useSession();
+
   const [purchasedApps, setPurchasedApps] = useState<string[]>([]);
   const [appAccessDetails, setAppAccessDetails] = useState<UserAppAccess[]>([]);
   const [purchases, setPurchases] = useState<Purchase[]>([]);
@@ -129,9 +133,7 @@ export const useUserAccess = (): UnifiedAccessData & {
 
   const loadPurchaseData = useCallback(async () => {
     try {
-      const {
-        data: { user },
-      } = await retryWithBackoff(() => supabase.auth.getUser());
+      const user = clerkUser;
 
       if (!user) {
         setPurchasedApps([]);
@@ -156,25 +158,24 @@ export const useUserAccess = (): UnifiedAccessData & {
       // Don't set global error for individual failures - let loadAllAccessData handle it
       throw err; // Re-throw to let Promise.allSettled handle it
     }
-  }, []);
+  }, [clerkUser?.id]);
 
   const loadUserAccess = useCallback(async () => {
     setError(null);
 
     try {
-      const {
-        data: { user },
-      } = await retryWithBackoff(() => supabase.auth.getUser());
+      const user = clerkUser;
 
       if (!user) {
         setAccessData(null);
         return;
       }
 
-      const { data: session } = await retryWithBackoff(() =>
-        supabase.auth.getSession(),
-      );
-      if (!session?.session?.access_token) {
+      const accessToken = clerkSession
+        ? await clerkSession.getToken().catch(() => null)
+        : null;
+
+      if (!accessToken) {
         setAccessData(null);
         return;
       }
@@ -185,7 +186,7 @@ export const useUserAccess = (): UnifiedAccessData & {
           {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${session.session.access_token}`,
+              Authorization: `Bearer ${accessToken}`,
               "Content-Type": "application/json",
             },
           },
@@ -210,13 +211,11 @@ export const useUserAccess = (): UnifiedAccessData & {
       // Don't expose internal error details to users
       throw err; // Re-throw to let Promise.allSettled handle it
     }
-  }, []);
+  }, [clerkUser?.id, clerkSession]);
 
   const loadAllAccessData = useCallback(async () => {
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+      const user = clerkUser;
 
       // Skip if user hasn't changed (prevents unnecessary re-fetches)
       if (lastUserId === (user?.id || null)) {
@@ -246,27 +245,11 @@ export const useUserAccess = (): UnifiedAccessData & {
       setLoading(false);
       setLoadingStates({ purchaseData: false, accessData: false });
     }
-  }, [loadPurchaseData, loadUserAccess, lastUserId]);
+  }, [loadPurchaseData, loadUserAccess, lastUserId, clerkUser?.id]);
 
   useEffect(() => {
     loadAllAccessData();
-
-    const { data: authListener } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
-        loadAllAccessData();
-      } else if (event === "SIGNED_OUT") {
-        setLastUserId(null);
-        setPurchasedApps([]);
-        setAppAccessDetails([]);
-        setPurchases([]);
-        setAccessData(null);
-      }
-    });
-
-    return () => {
-      authListener.subscription.unsubscribe();
-    };
-  }, [loadAllAccessData]);
+  }, [loadAllAccessData, clerkUser?.id, clerkSession?.expireAt]);
 
   // Unified access checking - combines both direct purchases and imported product access
   const hasAccessToApp = useCallback(
@@ -289,13 +272,11 @@ export const useUserAccess = (): UnifiedAccessData & {
   );
 
   const checkAccess = useCallback(async (appSlug: string): Promise<boolean> => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const user = clerkUser;
     if (!user) return false;
 
     return await purchaseService.checkUserHasAccess(user.id, appSlug);
-  }, []);
+  }, [clerkUser?.id]);
 
   const refetch = useCallback(async () => {
     await loadAllAccessData();

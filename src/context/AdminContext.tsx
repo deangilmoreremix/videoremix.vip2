@@ -5,7 +5,10 @@ import React, {
   useEffect,
   useCallback,
   ReactNode,
+  useMemo,
+  useRef,
 } from "react";
+import { useUser, useSession, useSignIn, useSignUp, useClerk } from "../providers/ClerkProvider";
 import { supabase } from "../utils/supabase";
 
 interface AdminUser {
@@ -50,101 +53,124 @@ interface AdminProviderProps {
 }
 
 export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
-  console.log("[AdminContext] AdminProvider mounted - this should only happen on admin routes");
+  const clerk = useClerk();
+  const clerkUser = useUser();
+  const clerkSession = useSession();
+  const { isLoaded: signInLoaded, signIn: signInResource, setActive: setSignInActive } = useSignIn();
+  const { isLoaded: signUpLoaded, signUp: signUpResource } = useSignUp();
+
   const [user, setUser] = useState<AdminUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [sessionExpiry, setSessionExpiry] = useState<Date | undefined>();
-  const isVerifyingRef = React.useRef(false);
-  const lastVerificationRef = React.useRef<number>(0);
-  const VERIFICATION_COOLDOWN = 2000;
-  const SESSION_TIMEOUT_MS = 8 * 60 * 60 * 1000; // 8 hours
+  const isFetchingRoleRef = useRef(false);
+
+  const SESSION_TIMEOUT_MS = 8 * 60 * 60 * 1000;
+
+  // Fetch the admin role for the current Clerk user from user_roles (keyed by Clerk user ID).
+  // The supabase client sends the Clerk JWT via the accessToken callback set in AuthContext.
+  const fetchAndSetRole = useCallback(
+    async (clerkUserId: string, clerkUserEmail: string | null | undefined, clerkCreatedAt: string | undefined) => {
+      if (isFetchingRoleRef.current) return null;
+      isFetchingRoleRef.current = true;
+      try {
+        const { data: roleData, error: roleError } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", clerkUserId)
+          .maybeSingle();
+
+        if (roleError) {
+          console.warn(
+            "AdminContext - user_roles lookup failed:",
+            roleError.message,
+          );
+          return null;
+        }
+
+        const role = roleData?.role;
+        if (!role || (role !== "super_admin" && role !== "admin")) {
+          return null;
+        }
+
+        const adminUser: AdminUser = {
+          id: clerkUserId,
+          email: clerkUserEmail || "",
+          role,
+          is_active: true,
+          permissions: {},
+          created_at: clerkCreatedAt || new Date().toISOString(),
+          last_login: new Date().toISOString(),
+        };
+        setUser(adminUser);
+        setSessionExpiry(new Date(Date.now() + SESSION_TIMEOUT_MS));
+        return adminUser;
+      } finally {
+        isFetchingRoleRef.current = false;
+      }
+    },
+    [],
+  );
+
+  // When the Clerk user changes, fetch the admin role.
+  useEffect(() => {
+    let cancelled = false;
+    const sync = async () => {
+      if (!clerkUser.isLoaded) {
+        return;
+      }
+      if (!clerkUser.user) {
+        setUser(null);
+        setSessionExpiry(undefined);
+        setIsLoading(false);
+        return;
+      }
+      const u = clerkUser.user;
+      const email = u.primaryEmailAddress?.emailAddress || u.emailAddresses?.[0]?.emailAddress;
+      const createdAt = u.createdAt ? new Date(u.createdAt).toISOString() : undefined;
+      await fetchAndSetRole(u.id, email, createdAt);
+      if (!cancelled) setIsLoading(false);
+    };
+    sync();
+    return () => {
+      cancelled = true;
+    };
+  }, [clerkUser.isLoaded, clerkUser.user?.id, fetchAndSetRole]);
 
   const login = useCallback(
     async (
       email: string,
       password: string,
     ): Promise<{ success: boolean; error?: string }> => {
+      if (!signInLoaded || !signInResource) {
+        return { success: false, error: "Sign-in is still loading. Please try again." };
+      }
       try {
         setIsLoading(true);
-
-        const { data: authData, error: authError } =
-          await supabase.auth.signInWithPassword({
-            email,
-            password,
-          });
-
-        if (authError) {
-          return { success: false, error: authError.message };
+        const result = await signInResource.create({ identifier: email, password });
+        if (result.status !== "complete") {
+          return { success: false, error: "Sign in requires additional steps." };
         }
-
-        if (!authData.user || !authData.session) {
-          return { success: false, error: "Authentication failed" };
+        await setSignInActive({ session: result.createdSessionId });
+        // The useEffect on clerkUser will fetch the role once the user is set.
+        // Wait briefly for the role to resolve so the caller can rely on admin state.
+        const u = clerkUser.user;
+        if (u) {
+          const emailAddr = u.primaryEmailAddress?.emailAddress || u.emailAddresses?.[0]?.emailAddress;
+          const createdAt = u.createdAt ? new Date(u.createdAt).toISOString() : undefined;
+          const admin = await fetchAndSetRole(u.id, emailAddr, createdAt);
+          if (!admin) {
+            return { success: false, error: "User does not have admin privileges" };
+          }
         }
-
-        const { data: roleData, error: roleError } = await supabase
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", authData.user.id)
-          .maybeSingle();
-
-        if (roleError || !roleData) {
-          // FIX: Don't sign out - just return error, user's normal auth session stays intact
-          return {
-            success: false,
-            error: "User does not have admin privileges",
-          };
-        }
-
-        if (roleData.role !== "super_admin" && roleData.role !== "admin") {
-          // FIX: Don't sign out - just return error, user's normal auth session stays intact
-          return {
-            success: false,
-            error: "Access denied: Admin privileges required",
-          };
-        }
-
-        const adminUser: AdminUser = {
-          id: authData.user.id,
-          email: authData.user.email!,
-          role: roleData.role,
-          is_active: true,
-          permissions: {},
-          created_at: authData.user.created_at,
-          last_login: new Date().toISOString(),
-        };
-
-        // Set session expiry
-        const expiry = new Date(Date.now() + SESSION_TIMEOUT_MS);
-        setSessionExpiry(expiry);
-
-        console.log(
-          "AdminContext - Login successful, setting user:",
-          adminUser,
-        );
-        console.log("AdminContext - Session exists:", !!authData.session);
-        console.log("AdminContext - Session expires:", expiry.toISOString());
-        setUser(adminUser);
-
-        // Verify session was persisted
-        setTimeout(async () => {
-          const {
-            data: { session },
-          } = await supabase.auth.getSession();
-          console.log(
-            "AdminContext - Session persisted after login:",
-            !!session,
-          );
-        }, 100);
-
         return { success: true };
-      } catch (error) {
-        console.error("Login error:", error);
-        return { success: false, error: "Network error occurred" };
+      } catch (err: any) {
+        const message = err?.errors?.[0]?.message || err?.message || "Sign in failed";
+        return { success: false, error: message };
       } finally {
         setIsLoading(false);
       }
     },
-    [],
+    [signInLoaded, signInResource, setSignInActive, clerkUser.user, fetchAndSetRole],
   );
 
   const signup = useCallback(
@@ -152,179 +178,76 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
       email: string,
       password: string,
     ): Promise<{ success: boolean; error?: string }> => {
+      if (!signUpLoaded || !signUpResource) {
+        return { success: false, error: "Sign-up is still loading. Please try again." };
+      }
       try {
         setIsLoading(true);
-
-        const { data: authData, error: authError } = await supabase.auth.signUp(
-          {
-            email,
-            password,
-          },
-        );
-
-        if (authError) {
-          return { success: false, error: authError.message };
+        const result = await signUpResource.create({ emailAddress: email, password });
+        if (result.status === "complete") {
+          return { success: true };
         }
-
-        if (!authData.user) {
-          return { success: false, error: "Sign up failed" };
-        }
-
-        return { success: true };
-      } catch (error) {
-        console.error("Sign up error:", error);
-        return { success: false, error: "Network error occurred" };
+        return { success: false, error: "Sign up requires additional verification." };
+      } catch (err: any) {
+        const message = err?.errors?.[0]?.message || err?.message || "Sign up failed";
+        return { success: false, error: message };
       } finally {
         setIsLoading(false);
       }
     },
-    [],
+    [signUpLoaded, signUpResource],
   );
 
   const logout = useCallback(async (): Promise<void> => {
     try {
-      await supabase.auth.signOut();
+      await clerk.signOut();
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
       setUser(null);
       setSessionExpiry(undefined);
     }
-  }, []);
+  }, [clerk]);
 
   const verifyAuth = useCallback(async (): Promise<void> => {
-    const now = Date.now();
-
-    if (isVerifyingRef.current) {
+    if (!clerkUser.isLoaded) {
+      setIsLoading(true);
       return;
     }
-
-    if (now - lastVerificationRef.current < VERIFICATION_COOLDOWN) {
-      return;
-    }
-
-    try {
-      isVerifyingRef.current = true;
-      lastVerificationRef.current = now;
-
-      const timeoutId = setTimeout(() => {
-        console.log("AdminContext - verifyAuth timed out after 10 seconds");
-        setIsLoading(false);
-        setUser(null);
-        isVerifyingRef.current = false;
-      }, 30000); // Increased to 30 seconds to prevent premature timeout
-
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.getSession();
-      clearTimeout(timeoutId);
-
-      if (error || !session) {
-        setUser(null);
-        setIsLoading(false);
-        isVerifyingRef.current = false;
-        return;
-      }
-
-      const { data: roleData, error: roleError } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", session.user.id)
-        .maybeSingle();
-
-      if (roleError) {
-        console.error("AdminContext - Error fetching role:", roleError);
-        // Don't sign out on error, just set loading to false and clear admin state
-        setUser(null);
-        setIsLoading(false);
-        isVerifyingRef.current = false;
-        return;
-      }
-
-      if (!roleData) {
-        console.log("AdminContext - No admin role found for user (this is normal for regular users)");
-        // Don't sign out - just don't set admin user
-        setUser(null);
-        setIsLoading(false);
-        isVerifyingRef.current = false;
-        return;
-      }
-
-      if (roleData.role !== "super_admin" && roleData.role !== "admin") {
-        console.log(
-          "AdminContext - User does not have admin role:",
-          roleData.role,
-          "(this is normal for regular users)"
-        );
-        // Don't sign out regular users - just don't set admin user
-        setUser(null);
-        setIsLoading(false);
-        isVerifyingRef.current = false;
-        return;
-      }
-
-      const adminUser: AdminUser = {
-        id: session.user.id,
-        email: session.user.email!,
-        role: roleData.role,
-        is_active: true,
-        permissions: {},
-        created_at: session.user.created_at,
-      };
-
-      setUser(adminUser);
-      setIsLoading(false);
-      isVerifyingRef.current = false;
-    } catch (error) {
-      console.error("AdminContext - Auth verification error:", error);
+    if (!clerkUser.user) {
       setUser(null);
       setIsLoading(false);
-      isVerifyingRef.current = false;
+      return;
     }
-  }, []);
+    setIsLoading(true);
+    const u = clerkUser.user;
+    const email = u.primaryEmailAddress?.emailAddress || u.emailAddresses?.[0]?.emailAddress;
+    const createdAt = u.createdAt ? new Date(u.createdAt).toISOString() : undefined;
+    await fetchAndSetRole(u.id, email, createdAt);
+    setIsLoading(false);
+  }, [clerkUser.isLoaded, clerkUser.user, fetchAndSetRole]);
 
   // Session timeout checker
   useEffect(() => {
     if (!sessionExpiry || !user) return;
-
-    const checkSessionTimeout = () => {
+    const check = () => {
       if (new Date() > sessionExpiry) {
-        console.log("AdminContext - Session expired, logging out");
         logout();
       }
     };
-
-    // Check immediately
-    checkSessionTimeout();
-
-    // Set up interval to check every minute
-    const interval = setInterval(checkSessionTimeout, 60 * 1000);
-
+    check();
+    const interval = setInterval(check, 60 * 1000);
     return () => clearInterval(interval);
   }, [sessionExpiry, user, logout]);
 
+  // Keep the Clerk session active and the supabase token wired.
   useEffect(() => {
-    // Don't automatically verify auth on mount for regular users
-    // Only verify when explicitly needed (like on admin pages)
+    // No-op; AuthContext already wires the Clerk token to the supabase client.
+    // This effect exists so the AdminProvider re-renders when the Clerk session changes,
+    // keeping admin state in sync via the clerkUser useEffect above.
+  }, [clerkSession.session?.id]);
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_OUT") {
-        setUser(null);
-        setSessionExpiry(undefined);
-        setIsLoading(false);
-      }
-      // AdminContext doesn't interfere with regular user authentication
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []); // Remove verifyAuth dependency
-
-  const value: AdminContextType = React.useMemo(
+  const value: AdminContextType = useMemo(
     () => ({
       user,
       isLoading,

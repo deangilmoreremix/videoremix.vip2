@@ -190,7 +190,7 @@ function countInputs(content: string): number {
 
 function analyzePlaceholders(content: string): { total: number; empty: number; descriptive: number } {
   const inputMatches = content.match(/<Input[^>]*>/gi) || [];
-  let total = inputMatches.length;
+  const total = inputMatches.length;
   let empty = 0;
   let descriptive = 0;
 

@@ -58,9 +58,9 @@ const PublicAppSearch: React.FC = () => {
       const query = sanitizedSearchQuery.toLowerCase();
       result = result.filter(
         (app) =>
-          ai-design-studio.name.toLowerCase().includes(query) ||
-          ai-design-studio.description.toLowerCase().includes(query) ||
-          ai-design-studio.category.toLowerCase().includes(query),
+          app.name.toLowerCase().includes(query) ||
+          app.description.toLowerCase().includes(query) ||
+          app.category.toLowerCase().includes(query),
       );
     }
 
@@ -244,7 +244,7 @@ const PublicAppSearch: React.FC = () => {
             )}
           </div>
 
-          {!user && filteredApps.some((app) => !ai-design-studio.isPublic) && (
+          {!user && filteredApps.some((app) => !app.isPublic) && (
             <div className="text-sm text-gray-500 flex items-center">
               <Lock className="h-4 w-4 mr-1" />
               Some tools require sign-in
@@ -256,12 +256,12 @@ const PublicAppSearch: React.FC = () => {
         {filteredApps.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredApps.map((app, index) => {
-              const canAccess = ai-design-studio.isPublic || user;
+              const canAccess = app.isPublic || user;
               const isPreview = !canAccess;
 
               return (
                 <motion.div
-                  key={ai-design-studio.id}
+                  key={app.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.05 * index }}
@@ -283,7 +283,7 @@ const PublicAppSearch: React.FC = () => {
                           } transition-colors`}
                         >
                           <LazyIcon
-                            name={ai-design-studio.iconName}
+                            name={app.iconName}
                             className={`h-5 w-5 ${
                               isPreview ? "text-gray-500" : "text-primary-400"
                             }`}
@@ -297,16 +297,16 @@ const PublicAppSearch: React.FC = () => {
                                 : "text-white group-hover:text-primary-400"
                             } transition-colors`}
                           >
-                            {ai-design-studio.name}
+                            {app.name}
                           </h3>
                           <div className="flex items-center space-x-2 mt-1">
-                            {ai-design-studio.popular && (
+                            {app.popular && (
                               <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-yellow-500/10 text-yellow-400">
                                 <Star className="h-3 w-3 mr-1" />
                                 Popular
                               </span>
                             )}
-                            {ai-design-studio.new && (
+                            {app.new && (
                               <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-green-500/10 text-green-400">
                                 <Sparkles className="h-3 w-3 mr-1" />
                                 New
@@ -322,18 +322,18 @@ const PublicAppSearch: React.FC = () => {
 
                     {/* Description */}
                     <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                      {ai-design-studio.description}
+                      {app.description}
                     </p>
 
                     {/* Footer */}
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-gray-500 uppercase tracking-wide">
-                        {ai-design-studio.category}
+                        {app.category}
                       </span>
 
                       {canAccess ? (
                         <Link
-                          to={`/ai-design-studio/${ai-design-studio.id}`}
+                          to={`/ai-design-studio/${app.id}`}
                           className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition-colors"
                         >
                           Open

@@ -20,8 +20,8 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
-import { createClient } from '@supabase/supabase-js';
+import { useUser as useClerkUser } from '../providers/ClerkProvider';
+import { supabase } from '../utils/supabase';
 
 // Types
 export interface ApiKeyRequirement {
@@ -103,11 +103,11 @@ async function fetchAppRequirements(supabase: any, appId: string): Promise<strin
 }
 
 // Fetch user's API keys from Supabase
-async function fetchUserApiKeys(supabase: any): Promise<Record<string, string>> {
+async function fetchUserApiKeys(supabase: any, userId: string): Promise<Record<string, string>> {
   const { data, error } = await supabase
     .from('user_api_keys')
     .select('provider, encrypted_api_key')
-    .eq('user_id', (await supabase.auth.getUser()).data.user?.id);
+    .eq('user_id', userId);
 
   if (error || !data) {
     return {};
@@ -123,18 +123,18 @@ async function fetchUserApiKeys(supabase: any): Promise<Record<string, string>> 
 // Save user API key (upsert)
 export async function saveUserApiKey(
   supabase: any,
+  userId: string,
   provider: string,
   key: string
 ): Promise<boolean> {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error('Not authenticated');
+  if (!userId) throw new Error('Not authenticated');
 
   const encryptedKey = await encryptKey(key);
 
   const { error } = await supabase
     .from('user_api_keys')
     .upsert({
-      user_id: user.id,
+      user_id: userId,
       provider,
       encrypted_api_key: encryptedKey,
       updated_at: new Date().toISOString(),
@@ -149,11 +149,11 @@ export async function saveUserApiKey(
 }
 
 // Get user's API key for a provider
-export async function getUserApiKey(supabase: any, provider: string): Promise<string | null> {
+export async function getUserApiKey(supabase: any, userId: string, provider: string): Promise<string | null> {
   const { data, error } = await supabase
     .from('user_api_keys')
     .select('encrypted_api_key')
-    .eq('user_id', (await supabase.auth.getUser()).data.user?.id)
+    .eq('user_id', userId)
     .eq('provider', provider)
     .single();
 
@@ -187,9 +187,8 @@ export async function testApiKey(provider: string, key: string): Promise<boolean
 }
 
 // Main check function
-export async function checkApiKeyAccess(supabase: any, appId: string): Promise<boolean> {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return false;
+export async function checkApiKeyAccess(supabase: any, appId: string, userId: string): Promise<boolean> {
+  if (!userId) return false;
 
   const requiredProviders = await fetchAppRequirements(supabase, appId);
   if (requiredProviders.length === 0) {
@@ -197,7 +196,7 @@ export async function checkApiKeyAccess(supabase: any, appId: string): Promise<b
     return true;
   }
 
-  const userKeys = await fetchUserApiKeys(supabase);
+  const userKeys = await fetchUserApiKeys(supabase, userId);
 
   // Check all required providers are present
   return requiredProviders.every((provider: string) => !!userKeys[provider]);
@@ -205,8 +204,7 @@ export async function checkApiKeyAccess(supabase: any, appId: string): Promise<b
 
 // React Hook
 export function useApiKeyGate(appId: string | null): ApiKeyGateContextType {
-  const supabase = useSupabaseClient();
-  const { user } = useUser();
+  const { user } = useClerkUser();
   const [hasAccess, setHasAccess] = useState(false);
   const [checking, setChecking] = useState(true);
   const [missingProviders, setMissingProviders] = useState<string[]>([]);
@@ -219,12 +217,12 @@ export function useApiKeyGate(appId: string | null): ApiKeyGateContextType {
     }
 
     try {
-      const accessible = await checkApiKeyAccess(supabase, appId);
+      const accessible = await checkApiKeyAccess(supabase, appId, user.id);
       setHasAccess(accessible);
 
       if (!accessible) {
         const required = await fetchAppRequirements(supabase, appId);
-        const userKeys = await fetchUserApiKeys(supabase);
+        const userKeys = await fetchUserApiKeys(supabase, user.id);
         const missing = required.filter((p) => !userKeys[p]);
         setMissingProviders(missing);
       }

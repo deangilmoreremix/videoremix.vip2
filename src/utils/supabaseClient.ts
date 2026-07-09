@@ -277,49 +277,7 @@ export async function getAllLandingPageContent() {
 }
 
 // Video-related utility functions
-async function getUserVideos(): Promise<Video[]> {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new Error("User not authenticated");
-
-  const { data, error } = await supabase
-    .from("videos")
-    .select("*")
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error("Error fetching videos:", error);
-    return [];
-  }
-
-  return data as Video[];
-}
-
-async function getVideoById(id: string): Promise<Video | null> {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new Error("User not authenticated");
-
-  const { data, error } = await supabase
-    .from("videos")
-    .select("*")
-    .eq("id", id)
-    .eq("user_id", user.id)
-    .single();
-
-  if (error) {
-    if (error.code === "PGRST116") return null;
-    console.error("Error fetching video:", error);
-    return null;
-  }
-
-  return data as Video;
-}
-
-async function getPublicVideos(): Promise<Video[]> {
+export async function getPublicVideos(): Promise<Video[]> {
   const { data, error } = await supabase
     .from("videos")
     .select("*")
@@ -335,7 +293,7 @@ async function getPublicVideos(): Promise<Video[]> {
   return data as Video[];
 }
 
-async function getHomepageVideos(): Promise<Video[]> {
+export async function getHomepageVideos(): Promise<Video[]> {
   const { data, error } = await supabase
     .from("videos")
     .select("*")
@@ -353,7 +311,7 @@ async function getHomepageVideos(): Promise<Video[]> {
   return data as Video[];
 }
 
-async function getFeaturedVideos(): Promise<Video[]> {
+export async function getFeaturedVideos(): Promise<Video[]> {
   const { data, error } = await supabase
     .from("videos")
     .select("*")
@@ -370,11 +328,3 @@ async function getFeaturedVideos(): Promise<Video[]> {
 
   return data as Video[];
 }
-
-export {
-  getUserVideos,
-  getVideoById,
-  getPublicVideos,
-  getHomepageVideos,
-  getFeaturedVideos,
-};

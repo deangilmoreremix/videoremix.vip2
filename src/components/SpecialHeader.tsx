@@ -4,27 +4,27 @@ import {
   ChevronDown,
   ArrowRight,
   Sparkles,
-  User,
-  LogOut,
 } from "lucide-react";
+import { UserButton } from "@clerk/clerk-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { toast } from "./ui/toast";
 import GlobalSearch from "./GlobalSearch";
 import { appGroups } from "../data/appGroups";
-import { rawAppsData } from "../data/appsData";
+
+const clerkAppearance = {
+  variables: { colorPrimary: "#6366f1", borderRadius: "0.5rem" },
+};
 
 interface SpecialHeaderProps {
   topOffset?: number;
 }
 
 const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [signingOut, setSigningOut] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -201,60 +201,11 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
           </Link>
 
           {user ? (
-            <div className="relative ml-3">
-              <button
-                onClick={() => handleDropdownToggle("user")}
-                className="flex items-center space-x-2 text-white/80 hover:text-white px-3 py-2 text-sm font-medium"
-              >
-                <User className="h-4 w-4" />
-                <span>{user.user_metadata?.first_name || user.email}</span>
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform duration-200 ${activeDropdown === "user" ? "rotate-180" : ""}`}
-                />
-              </button>
-
-              {activeDropdown === "user" && (
-                <div className="absolute right-0 mt-2 w-48 bg-black/90 backdrop-blur-md border border-gray-700 rounded-lg shadow-lg z-[100]">
-                  <div className="py-1">
-                    <Link
-                      to="/profile"
-                      className="block px-4 py-2 text-white hover:bg-gray-800 transition-colors"
-                      onClick={closeDropdowns}
-                    >
-                      Profile Settings
-                    </Link>
-                    <button
-                      onClick={async () => {
-                        if (signingOut) return; // Prevent multiple clicks
-                        setSigningOut(true);
-                        try {
-                          const { error } = await signOut();
-                          if (error) {
-                            toast({
-                              title: "Sign Out Failed",
-                              description: error.message,
-                              variant: "destructive",
-                            });
-                          } else {
-                            closeDropdowns();
-                          }
-                        } finally {
-                          setSigningOut(false);
-                        }
-                      }}
-                      disabled={signingOut}
-                      className="w-full text-left px-4 py-2 text-white hover:bg-gray-800 transition-colors flex items-center disabled:opacity-50"
-                    >
-                      {signingOut ? (
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      ) : (
-                        <LogOut className="h-4 w-4 mr-2" />
-                      )}
-                      {signingOut ? "Signing Out..." : "Sign Out"}
-                    </button>
-                  </div>
-                </div>
-              )}
+            <div className="ml-3 flex items-center">
+              <UserButton
+                appearance={clerkAppearance}
+                afterSignOutUrl="/"
+              />
             </div>
           ) : (
             <div className="ml-3 flex items-center space-x-2">
@@ -346,45 +297,11 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
               </Link>
 
               {user ? (
-                <div className="border-t border-gray-700 pt-2 mt-2">
-                  <div className="px-3 py-2 text-white text-sm">
-                    Signed in as: {user.user_metadata?.first_name || user.email}
-                  </div>
-                  <Link
-                    to="/profile"
-                    className="block text-white hover:bg-gray-800 px-3 py-2 rounded-md"
-                  >
-                    Profile Settings
-                  </Link>
-                  <button
-                    onClick={async () => {
-                      if (signingOut) return; // Prevent multiple clicks
-                      setSigningOut(true);
-                      try {
-                        const { error } = await signOut();
-                        if (error) {
-                          toast({
-                            title: "Sign Out Failed",
-                            description: error.message,
-                            variant: "destructive",
-                          });
-                        } else {
-                          setMobileMenuOpen(false);
-                        }
-                      } finally {
-                        setSigningOut(false);
-                      }
-                    }}
-                    disabled={signingOut}
-                    className="w-full text-left text-white hover:bg-gray-800 px-3 py-2 rounded-md flex items-center disabled:opacity-50"
-                  >
-                    {signingOut ? (
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    ) : (
-                      <LogOut className="h-4 w-4 mr-2" />
-                    )}
-                    {signingOut ? "Signing Out..." : "Sign Out"}
-                  </button>
+                <div className="border-t border-gray-700 pt-2 mt-2 flex items-center gap-3">
+                  <UserButton
+                    appearance={clerkAppearance}
+                    afterSignOutUrl="/"
+                  />
                 </div>
               ) : (
                 <div className="border-t border-gray-700 pt-2 mt-2 space-y-2">

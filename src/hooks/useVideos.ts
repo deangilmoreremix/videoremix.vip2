@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { VideoService } from "../services/videoService";
+import { useUser } from "../providers/ClerkProvider";
 import type {
   Video,
   VideoUploadData,
@@ -7,6 +8,7 @@ import type {
 } from "../utils/supabaseTypes";
 
 export const useVideos = () => {
+  const { user: clerkUser } = useUser();
   const [videos, setVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -15,7 +17,11 @@ export const useVideos = () => {
     try {
       setLoading(true);
       setError(null);
-      const data = await VideoService.getUserVideos();
+      if (!clerkUser?.id) {
+        setVideos([]);
+        return;
+      }
+      const data = await VideoService.getUserVideos(clerkUser.id);
       setVideos(data);
     } catch (err) {
       console.error("Error fetching videos:", err);
@@ -23,13 +29,16 @@ export const useVideos = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [clerkUser?.id]);
 
   const uploadVideo = useCallback(
     async (uploadData: VideoUploadData): Promise<Video> => {
       try {
         setError(null);
-        const newVideo = await VideoService.uploadVideo(uploadData);
+        if (!clerkUser?.id) {
+          throw new Error("User not authenticated");
+        }
+        const newVideo = await VideoService.uploadVideo(clerkUser.id, uploadData);
         // Add to local state
         setVideos((prev) => [newVideo, ...prev]);
         return newVideo;
@@ -41,14 +50,17 @@ export const useVideos = () => {
         throw err;
       }
     },
-    [],
+    [clerkUser?.id],
   );
 
   const updateVideo = useCallback(
     async (id: string, updates: VideoUpdateData): Promise<Video> => {
       try {
         setError(null);
-        const updatedVideo = await VideoService.updateVideo(id, updates);
+        if (!clerkUser?.id) {
+          throw new Error("User not authenticated");
+        }
+        const updatedVideo = await VideoService.updateVideo(id, clerkUser.id, updates);
         // Update local state
         setVideos((prev) =>
           prev.map((video) => (video.id === id ? updatedVideo : video)),
@@ -62,28 +74,35 @@ export const useVideos = () => {
         throw err;
       }
     },
-    [],
+    [clerkUser?.id],
   );
 
   const deleteVideo = useCallback(async (id: string): Promise<void> => {
     try {
       setError(null);
-      await VideoService.deleteVideo(id);
+      if (!clerkUser?.id) {
+        throw new Error("User not authenticated");
+      }
+      await VideoService.deleteVideo(id, clerkUser.id);
       // Remove from local state
       setVideos((prev) => prev.filter((video) => video.id !== id));
     } catch (err) {
       console.error("Error deleting video:", err);
-      const errorMessage = err instanceof Error ? err.message : "Delete failed";
+      const errorMessage =
+        err instanceof Error ? err.message : "Delete failed";
       setError(errorMessage);
       throw err;
     }
-  }, []);
+  }, [clerkUser?.id]);
 
   const getVideoById = useCallback(
     async (id: string): Promise<Video | null> => {
       try {
         setError(null);
-        return await VideoService.getVideoById(id);
+        if (!clerkUser?.id) {
+          return null;
+        }
+        return await VideoService.getVideoById(id, clerkUser.id);
       } catch (err) {
         console.error("Error fetching video:", err);
         const errorMessage =
@@ -92,7 +111,7 @@ export const useVideos = () => {
         throw err;
       }
     },
-    [],
+    [clerkUser?.id],
   );
 
   const getVideoUrl = useCallback((filePath: string): string => {

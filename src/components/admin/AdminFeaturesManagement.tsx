@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { supabase } from "../../utils/supabase";
 import { useAdmin } from "../../context/AdminContext";
+import { useSupabaseToken } from "../../hooks/useSupabaseToken";
 
 interface Feature {
   id: string;
@@ -31,6 +32,7 @@ interface Feature {
 }
 
 const AdminFeaturesManagement: React.FC = () => {
+  const getToken = useSupabaseToken();
   const { user } = useAdmin();
   const [features, setFeatures] = useState<Feature[]>([]);
   const [allFeatures, setAllFeatures] = useState<Feature[]>([]);
@@ -95,7 +97,7 @@ const AdminFeaturesManagement: React.FC = () => {
     if (selectedApp === "all") {
       return allFeatures;
     }
-    // Find the ai-design-studio ID for the selected ai-design-studio slug
+    // Find the app ID for the selected app slug
     const selectedAppData = apps.find((app) => app.slug === selectedApp);
     return selectedAppData
       ? allFeatures.filter(
@@ -117,12 +119,9 @@ const AdminFeaturesManagement: React.FC = () => {
   const fetchFeatures = useCallback(async () => {
     try {
       clearMessages();
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
+      const token = await getToken();
 
-      if (sessionError || !session) {
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
@@ -131,7 +130,7 @@ const AdminFeaturesManagement: React.FC = () => {
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-features`,
         {
           headers: {
-            Authorization: `Bearer ${session.access_token}`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
@@ -158,10 +157,7 @@ const AdminFeaturesManagement: React.FC = () => {
 
   const fetchApps = useCallback(async () => {
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
+      const token = await getToken();
 
       if (sessionError || !session) return;
 
@@ -169,7 +165,7 @@ const AdminFeaturesManagement: React.FC = () => {
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-apps`,
         {
           headers: {
-            Authorization: `Bearer ${session.access_token}`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
@@ -216,15 +212,12 @@ const AdminFeaturesManagement: React.FC = () => {
     setOperationLoading((prev) => ({ ...prev, create: true }));
 
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       let parsedConfig = {};
       try {
@@ -283,15 +276,12 @@ const AdminFeaturesManagement: React.FC = () => {
     }));
 
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       let parsedConfig = {};
       try {
@@ -354,15 +344,12 @@ const AdminFeaturesManagement: React.FC = () => {
       setOperationLoading((prev) => ({ ...prev, [featureId]: true }));
 
       try {
-        const {
-          data: { session },
-          error: sessionError,
-        } = await supabase.auth.getSession();
-        if (sessionError || !session) {
+        const token = await getToken();
+        if (!token) {
           setError("Authentication required. Please log in again.");
           return;
         }
-        const token = session.access_token;
+        
 
         const response = await fetch(
           `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-features/${featureId}/toggle`,
@@ -411,15 +398,12 @@ const AdminFeaturesManagement: React.FC = () => {
       setOperationLoading((prev) => ({ ...prev, [featureId]: true }));
 
       try {
-        const {
-          data: { session },
-          error: sessionError,
-        } = await supabase.auth.getSession();
-        if (sessionError || !session) {
+        const token = await getToken();
+        if (!token) {
           setError("Authentication required. Please log in again.");
           return;
         }
-        const token = session.access_token;
+        
 
         const response = await fetch(
           `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-features`,
@@ -600,7 +584,7 @@ const AdminFeaturesManagement: React.FC = () => {
             Features Management
           </h2>
           <p className="text-gray-400">
-            Control which features are available for each ai-design-studio
+            Control which features are available for each app
           </p>
         </div>
         <div className="flex items-center space-x-4">
@@ -633,7 +617,7 @@ const AdminFeaturesManagement: React.FC = () => {
                   </button>
                   {apps.map((app) => (
                     <button
-                      key={ai-design-studio.id}
+                      key={app.id}
                       onClick={() => {
                         setSelectedApp(app.slug);
                         setShowAppDropdown(false);
@@ -641,8 +625,8 @@ const AdminFeaturesManagement: React.FC = () => {
                       className="w-full text-left px-4 py-2 text-white hover:bg-gray-700 transition-colors"
                     >
                       <div className="flex items-center justify-between">
-                        <span>{ai-design-studio.name}</span>
-                        {ai-design-studio.is_active ? (
+                        <span>{app.name}</span>
+                        {app.is_active ? (
                           <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                         ) : (
                           <div className="w-2 h-2 bg-red-500 rounded-full"></div>
@@ -905,8 +889,8 @@ const AdminFeaturesManagement: React.FC = () => {
                   {apps
                     .filter((app) => app.item_type === "ai-design-studio")
                     .map((app) => (
-                      <option key={ai-design-studio.id} value={ai-design-studio.id}>
-                        {ai-design-studio.name} ({ai-design-studio.slug})
+                      <option key={app.id} value={app.id}>
+                        {app.name} ({app.slug})
                       </option>
                     ))}
                 </select>
@@ -1044,8 +1028,8 @@ const AdminFeaturesManagement: React.FC = () => {
                   {apps
                     .filter((app) => app.item_type === "ai-design-studio")
                     .map((app) => (
-                      <option key={ai-design-studio.id} value={ai-design-studio.id}>
-                        {ai-design-studio.name} ({ai-design-studio.slug})
+                      <option key={app.id} value={app.id}>
+                        {app.name} ({app.slug})
                       </option>
                     ))}
                 </select>

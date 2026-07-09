@@ -11,6 +11,7 @@ import IdentityGraphView from './IdentityGraphView';
 import ScanProgressTracker from './ScanProgressTracker';
 import { calculateConfidence, analyzePersonality } from '../../../personalization-module/shared-client/analysisEngine';
 import type { PersonalizationProfile, PlatformProfile, IdentityGraphNode, IdentityGraphEdge, GeneratedAsset, ScanJob, ScanEvent } from '../../types/personalization';
+import { useSupabaseToken } from "../../hooks/useSupabaseToken";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -85,6 +86,7 @@ export default function PersonalizerDialog({
   onSave,
   theme
 }: PersonalizerDialogProps) {
+  const getToken = useSupabaseToken();
   const [currentStep, setCurrentStep] = useState(1);
   const [outputTab, setOutputTab] = useState('overview');
   const [appId, setAppId] = useState(initialAppId || 'videoremix-vip');
@@ -130,7 +132,7 @@ export default function PersonalizerDialog({
     setIsScanning(true);
     setError('');
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const token = await getToken();
       const res = await fetch('/api/personalizer/scan', {
         method: 'POST',
         headers: {
@@ -154,7 +156,7 @@ export default function PersonalizerDialog({
     setIsGenerating(true);
     setError('');
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const token = await getToken();
       
       const res = await fetch('/api/personalizer/generate', {
         method: 'POST',
@@ -191,7 +193,7 @@ export default function PersonalizerDialog({
     setIsGeneratingMedia(true);
     setError('');
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const token = await getToken();
       const res = await fetch('/api/personalizer/media', {
         method: 'POST',
         headers: {
@@ -221,7 +223,7 @@ export default function PersonalizerDialog({
 
   const handleSave = async () => {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const token = await getToken();
       const res = await fetch('/api/personalizer/save', {
         method: 'POST',
         headers: {
@@ -469,8 +471,6 @@ export default function PersonalizerDialog({
                       </div>
                     </div>
                   )}
-                  </div>
-                )}
 
                   {outputTab === 'assets' && (
                     <div className="space-y-4">
@@ -548,6 +548,8 @@ export default function PersonalizerDialog({
                       </pre>
                     </div>
                   )}
+                </div>
+              )}
 
               {/* Navigation */}
               <div className="flex justify-between mt-6">

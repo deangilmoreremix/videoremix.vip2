@@ -240,22 +240,22 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isAdmin = false
         </h2>
 
         <div className="space-y-4">
-          {data.top_performing_apps.slice(0, 5).map((app, index) => (
-            <div key={app.app_id} className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+          {data.top_performing_apps.slice(0, 5).map((performingApp, index) => (
+            <div key={performingApp.app_id} className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
               <div className="flex items-center space-x-4">
                 <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold">
                   {index + 1}
                 </div>
                 <div>
-                  <h3 className="text-white font-medium">{app.app_name}</h3>
+                  <h3 className="text-white font-medium">{performingApp.app_name}</h3>
                   <p className="text-gray-400 text-sm">
-                    {formatNumber(app.views)} views • {formatNumber(app.clicks)} clicks
+                    {formatNumber(performingApp.views)} views • {formatNumber(performingApp.clicks)} clicks
                   </p>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-green-400 font-bold">{formatPercentage(app.conversion_rate)}</div>
-                <div className="text-gray-400 text-sm">{app.purchases} purchases</div>
+                <div className="text-green-400 font-bold">{formatPercentage(performingApp.conversion_rate)}</div>
+                <div className="text-gray-400 text-sm">{performingApp.purchases} purchases</div>
               </div>
             </div>
           ))}

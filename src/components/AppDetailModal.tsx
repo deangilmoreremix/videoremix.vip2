@@ -84,8 +84,8 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
               {/* Header */}
               <div className="relative h-64 bg-gradient-to-br from-primary-600 to-primary-800">
                 <img
-                  src={app.image}
-                  alt={app.name}
+src={app.image}
+                      alt={app.name}
                   className="w-full h-full object-cover opacity-20"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -103,9 +103,9 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <h1 className="text-3xl font-bold text-white">
-                          {app.name}
-                        </h1>
+<h1 className="text-3xl font-bold text-white">
+                           {app.name}
+                         </h1>
                         {user && (
                           <>
                             {isOwned ? (
@@ -120,9 +120,9 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
                           </>
                         )}
                       </div>
-                      <p className="text-gray-200 text-lg mb-4">
-                        {app.description}
-                      </p>
+<p className="text-gray-200 text-lg mb-4">
+                         {app.description}
+                       </p>
                       <div className="flex items-center gap-4 text-sm text-gray-300">
                         <span className="flex items-center gap-1">
                           <Users className="h-4 w-4" />
@@ -381,19 +381,19 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({
         )}
       </AnimatePresence>
 
-      {/* Purchase Modal */}
-      <PurchaseModal
-        isOpen={showPurchaseModal}
-        onClose={() => setShowPurchaseModal(false)}
-        app={{
-          id: app.id,
-          name: app.name,
-          description: app.description,
-          image: app.image,
-          icon: app.icon,
-          price: enhancedApp.price || 97,
-        }}
-      />
+{/* Purchase Modal */}
+        <PurchaseModal
+          isOpen={showPurchaseModal}
+          onClose={() => setShowPurchaseModal(false)}
+          app={{
+            id: app.id,
+            name: app.name,
+            description: app.description,
+            image: app.image,
+            icon: app.icon,
+            price: enhancedApp.price || 97,
+          }}
+        />
     </>
   );
 };

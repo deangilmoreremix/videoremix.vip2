@@ -9,6 +9,7 @@ import {
   Eye,
 } from "lucide-react";
 import { supabase } from "../../utils/supabase";
+import { useSupabaseToken } from "../../hooks/useSupabaseToken";
 
 interface CSVPreviewData {
   headers: string[];
@@ -30,6 +31,7 @@ interface ImportResult {
 }
 
 const AdminCSVImport: React.FC = () => {
+  const getToken = useSupabaseToken();
   const [isDragging, setIsDragging] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewData, setPreviewData] = useState<CSVPreviewData | null>(null);
@@ -122,10 +124,8 @@ const AdminCSVImport: React.FC = () => {
     setError(null);
 
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      const token = await getToken();
+      if (!token) throw new Error("Not authenticated");
 
       const text = await selectedFile.text();
 
@@ -134,7 +134,7 @@ const AdminCSVImport: React.FC = () => {
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({

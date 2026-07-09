@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
+import { useSupabaseToken } from './useSupabaseToken';
 import type {
   PersonalizationProfile,
   PlatformProfile,
@@ -177,18 +178,19 @@ export function useIdentityGraph(profileId: string | null) {
 export function useRunScanJob() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const getToken = useSupabaseToken();
 
   const runScan = useCallback(async (username: string, userId: string) => {
     setLoading(true);
     setError(null);
 
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const token = await getToken();
       const res = await fetch('/api/personalizer/job/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${session?.access_token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ username, userId }),
       });

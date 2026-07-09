@@ -746,7 +746,7 @@ const ToolsHubPage: React.FC = () => {
             setPurchaseModalOpen(false);
             setSelectedApp(null);
           }}
-          ai-design-studio={selectedApp}
+          app={selectedApp}
         />
       )}
 

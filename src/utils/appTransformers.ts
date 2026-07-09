@@ -50,12 +50,12 @@ const FALLBACK_IMAGES = [
 ];
 
 // Get icon name for app (used by LazyIcon component)
-export const getIconNameForApp = (dbApp: DatabaseApp): string => {
+export const getIconNameForApp = (app: DatabaseApp): string => {
   // Check specific app slug first, then fall back to category
-  return dbApp.slug || dbApp.category || "ai";
+  return app.slug || app.category || "ai";
 };
 
-// Transform database ai-design-studio to component ai-design-studio (pure data transformation)
+// Transform database app to component app (pure data transformation)
 export const transformApp = (dbApp: DatabaseApp): ComponentApp => {
   // URL Priority Order:
   // 1. Database custom_domain (highest priority)

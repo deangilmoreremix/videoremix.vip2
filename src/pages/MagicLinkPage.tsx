@@ -1,55 +1,14 @@
 import { useEffect } from "react";
-import { supabase } from "../utils/supabase";
+import { useNavigate } from "react-router-dom";
 
 export default function MagicLinkPage() {
+  const navigate = useNavigate();
+
   useEffect(() => {
-    let redirected = false;
-
-    const handle = async () => {
-      // This allows Supabase to exchange the email token for a session
-      await supabase.auth.getSession();
-
-      const { data: listener } = supabase.auth.onAuthStateChange(
-        async (event: string, session: unknown) => {
-          if (redirected) return;
-
-          console.log("Auth Event:", event);
-
-          // PASSWORD RESET EMAIL
-          if (event === "PASSWORD_RECOVERY") {
-            redirected = true;
-            window.location.replace("/auth/reset-password");
-            return;
-          }
-
-          // MAGIC LINK LOGIN - Redirect to dashboard
-          if (event === "SIGNED_IN") {
-            redirected = true;
-            window.location.replace("/dashboard");
-            return;
-          }
-        },
-      );
-
-      // Fallback — sometimes the session already exists
-      setTimeout(async () => {
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
-
-        if (session && !redirected) {
-          redirected = true;
-          window.location.replace("/dashboard");
-        }
-      }, 1500);
-
-      return () => {
-        listener?.subscription.unsubscribe();
-      };
-    };
-
-    handle();
-  }, []);
+    // This page was for Supabase magic link auth, which is no longer used.
+    // Clerk handles all authentication now. Redirect to sign-in.
+    navigate("/signin", { replace: true });
+  }, [navigate]);
 
   return (
     <div
@@ -65,12 +24,7 @@ export default function MagicLinkPage() {
         padding: "20px",
       }}
     >
-      <div
-        style={{
-          textAlign: "center",
-          maxWidth: "400px",
-        }}
-      >
+      <div style={{ textAlign: "center", maxWidth: "400px" }}>
         <h2
           style={{
             fontSize: "24px",
@@ -79,16 +33,10 @@ export default function MagicLinkPage() {
             marginBottom: "16px",
           }}
         >
-          Signing you in...
+          Redirecting...
         </h2>
-        <p
-          style={{
-            fontSize: "15px",
-            color: "#666",
-            lineHeight: "1.6",
-          }}
-        >
-          Please wait while we verify your magic link and sign you in.
+        <p style={{ fontSize: "15px", color: "#666", lineHeight: "1.6" }}>
+          Please use the sign-in page to access your account.
         </p>
       </div>
     </div>

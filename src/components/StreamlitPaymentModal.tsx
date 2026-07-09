@@ -247,21 +247,21 @@ const StreamlitPaymentModal: React.FC<StreamlitPaymentModalProps> = ({
                         transition={{ delay: 0.2 }}
                       >
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="p-3 bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-600/30">
-                            {React.isValidElement(app.icon)
-                              ? React.cloneElement(app.icon as React.ReactElement, {
-                                  className: "h-8 w-8 text-primary-400",
-                                })
-                              : <Code className="h-8 w-8 text-primary-400" />}
-                          </div>
-                          <div>
-                            <h2 className="text-2xl md:text-3xl font-bold text-white">
-                              {app.name}
-                            </h2>
-                            <p className="text-primary-300 font-medium uppercase text-sm tracking-wider">
-                              {app.category.replace('-', ' ')}
-                            </p>
-                          </div>
+<div className="p-3 bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-600/30">
+                          {React.isValidElement(app.icon)
+                            ? React.cloneElement(app.icon as React.ReactElement, {
+                                className: "h-8 w-8 text-primary-400",
+                              })
+                            : <Code className="h-8 w-8 text-primary-400" />}
+                        </div>
+                        <div>
+                          <h2 className="text-2xl md:text-3xl font-bold text-white">
+                            {app.name}
+                          </h2>
+                          <p className="text-primary-300 font-medium uppercase text-sm tracking-wider">
+                            {app.category.replace('-', ' ')}
+                          </p>
+                        </div>
                         </div>
                         <p className="text-gray-300 text-lg leading-relaxed">
                           {app.description}

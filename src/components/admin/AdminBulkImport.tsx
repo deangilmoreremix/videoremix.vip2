@@ -10,6 +10,7 @@ import {
   Eye,
 } from "lucide-react";
 import { supabase } from "../../utils/supabase";
+import { useSupabaseToken } from "../../hooks/useSupabaseToken";
 
 interface ParsedRow {
   NO: string;
@@ -58,7 +59,10 @@ interface AdminBulkImportProps {
   onComplete?: () => void;
 }
 
-const AdminBulkImport: React.FC<AdminBulkImportProps> = ({ onComplete }) => {
+const AdminBulkImport: React.FC<AdminBulkImportProps> = ({
+  onComplete
+}) => {
+  const getToken = useSupabaseToken();
   const [file, setFile] = useState<File | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [parsedData, setParsedData] = useState<ParsedRow[]>([]);
@@ -186,15 +190,12 @@ const AdminBulkImport: React.FC<AdminBulkImportProps> = ({ onComplete }) => {
     setError(null);
 
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/import-personalizer-purchases`,

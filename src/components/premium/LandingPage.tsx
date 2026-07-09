@@ -96,31 +96,6 @@ const LandingPage: React.FC = () => {
         />
       </Suspense>
 
-      {/* 5. Transformation Section (Before/After) - premium */}
-      <SectionReveal delay={0.2}>
-        <section className="py-20 bg-gray-900">
-          <div className="container-max section-padding">
-            <TextReveal text="From Generic to Personalized" as="h2" className="prose-h2 text-center mb-16" />
-            <ParallaxSection speed={0.3}>
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.3 }} className="bg-gray-800 rounded-xl p-6">
-                  <h3 className="text-xl text-gray-400 mb-4">Generic Video</h3>
-                  <div className="aspect-video bg-gray-700 rounded-lg flex items-center justify-center">
-                    <span className="text-gray-500">Generic Content</span>
-                  </div>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.3 }} className="bg-gradient-to-br from-primary-900/30 to-accent-900/30 rounded-xl p-6">
-                  <h3 className="text-xl text-primary-400 mb-4">Personalized Video</h3>
-                  <div className="aspect-video bg-black rounded-lg flex items-center justify-center">
-                    <span className="text-primary-300">AI-Personalized Content</span>
-                  </div>
-                </motion.div>
-              </div>
-            </ParallaxSection>
-          </div>
-        </section>
-      </SectionReveal>
-
       {/* 6. Personalization Simulator - premium */}
       <section className="py-20 bg-gray-950">
         <div className="container-max section-padding">

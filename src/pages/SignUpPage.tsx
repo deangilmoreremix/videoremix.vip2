@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import { motion } from "framer-motion";
 
 import {
   Eye,
@@ -12,7 +12,6 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { supabase } from "../utils/supabase";
 import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
 import ParticleBackground from "../components/premium/ParticleBackground";
@@ -21,10 +20,10 @@ import GradientOrb from "../components/premium/GradientOrb";
 const SignUpPage: React.FC = () => {
   const { signUp, user } = useAuth();
 
-  // Use direct window navigation instead of React Router hooks
   const handleNavigation = (path: string) => {
     window.location.href = path;
   };
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -36,7 +35,6 @@ const SignUpPage: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -63,20 +61,16 @@ const SignUpPage: React.FC = () => {
     setLoading(true);
 
     try {
-      // ALWAYS normalize email to lowercase - critical fix!
       const normalizedEmail = formData.email.toLowerCase().trim();
-      const { error, user } = await signUp(normalizedEmail, formData.password, {
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-      });
+      const { error } = await signUp(normalizedEmail, formData.password);
 
       if (error) {
         setError(error.message);
       } else {
-
         setSuccess(
-          "Account created successfully! Redirecting to your dashboard...",
+          "Account creation step completed. If your account needs email confirmation, check your inbox.",
         );
+        setTimeout(() => handleNavigation("/auth/callback"), 1200);
       }
     } catch (err) {
       setError("An unexpected error occurred");
@@ -101,8 +95,8 @@ const SignUpPage: React.FC = () => {
       </Helmet>
 
       <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black relative overflow-hidden flex items-center justify-center py-20">
-      <ParticleBackground className="z-0" particleCount={40} />
-      <GradientOrb size={600} colorFrom="primary-600" colorTo="accent-500" blur={100} mouseFollow={true} />
+        <ParticleBackground className="z-0" particleCount={40} />
+        <GradientOrb size={600} colorFrom="primary-600" colorTo="accent-500" blur={100} mouseFollow={true} />
         {/* Background effects */}
         <div className="absolute inset-0">
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/20 rounded-full blur-[100px]"></div>
@@ -207,7 +201,6 @@ const SignUpPage: React.FC = () => {
                       <CheckCircle className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
                       <span>{success}</span>
                     </div>
-
                   </motion.div>
                 )}
 
@@ -369,7 +362,7 @@ const SignUpPage: React.FC = () => {
                         <path
                           className="opacity-75"
                           fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          d="M4 12a8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                       </svg>
                       Creating Account...

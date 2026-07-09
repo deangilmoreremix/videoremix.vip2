@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "./context/AuthContext";
+import { ClerkProvider } from "./providers/ClerkProvider";
 import { ModalsProvider } from "./components/ModalsProvider";
 import { LandingPageProvider } from "./context/LandingPageContext";
 import GlobalErrorBoundary from "./components/GlobalErrorBoundary";
@@ -38,13 +39,15 @@ if (root) {
                 v7_relativeSplatPath: true,
               }}
             >
-              <AuthProvider>
-                <ModalsProvider>
-                  <Suspense fallback={<LoadingScreen />}>
-                    <App />
-                  </Suspense>
-                </ModalsProvider>
-              </AuthProvider>
+              <ClerkProvider>
+                <AuthProvider>
+                  <ModalsProvider>
+                    <Suspense fallback={<LoadingScreen />}>
+                      <App />
+                    </Suspense>
+                  </ModalsProvider>
+                </AuthProvider>
+              </ClerkProvider>
             </BrowserRouter>
           </LandingPageProvider>
         </HelmetProvider>

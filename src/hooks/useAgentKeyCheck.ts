@@ -96,7 +96,7 @@ export function useAgentKeyCheck(agentSlug?: string) {
  * Retrieve stored API key for a given type
  * Checks Supabase user_settings table first, then localStorage fallback
  */
-export async function getStoredApiKey(keyType: ApiKeyType): Promise<string | null> {
+export async function getStoredApiKey(keyType: ApiKeyType, userId?: string): Promise<string | null> {
   const storageKey = `agent_api_key_${keyType}`;
 
   // Try localStorage first (fast, no auth needed)
@@ -111,14 +111,11 @@ export async function getStoredApiKey(keyType: ApiKeyType): Promise<string | nul
 
   // Try Supabase if user is authenticated
   try {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (user) {
+    if (userId) {
       const { data, error } = await supabase
         .from("user_settings")
         .select("settings")
-        .eq("user_id", user.id)
+        .eq("user_id", userId)
         .single();
 
       if (!error && data?.settings?.[keyType]) {
@@ -138,6 +135,7 @@ export async function getStoredApiKey(keyType: ApiKeyType): Promise<string | nul
 export async function saveApiKey(
   keyType: ApiKeyType,
   value: string,
+  userId?: string,
 ): Promise<{ success: boolean; error?: string }> {
   const storageKey = `agent_api_key_${keyType}`;
 
@@ -154,15 +152,12 @@ export async function saveApiKey(
 
   // Try to sync with Supabase if user is logged in
   try {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (user) {
+    if (userId) {
       // First, get existing settings
       const { data: existing, error: fetchError } = await supabase
         .from("user_settings")
         .select("settings")
-        .eq("user_id", user.id)
+        .eq("user_id", userId)
         .single();
 
       if (fetchError && fetchError.code !== "PGRST116") {
@@ -183,7 +178,7 @@ export async function saveApiKey(
         .from("user_settings")
         .upsert(
           {
-            user_id: user.id,
+            user_id: userId,
             settings: newSettings,
             updated_at: new Date().toISOString(),
           },

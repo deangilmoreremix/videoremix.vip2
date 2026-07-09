@@ -338,7 +338,7 @@ function generateAnalysis(app: any): any {
   let hasStreamlit = false;
   let hasChatInput = false;
   let hasForm = false;
-  let widgetCounts = { textInput: 0, numberInput: 0, fileUpload: 0, selectBox: 0, button: 0, chat: 0, write: 0 };
+  const widgetCounts = { textInput: 0, numberInput: 0, fileUpload: 0, selectBox: 0, button: 0, chat: 0, write: 0 };
 
   // Try to read source file for accurate analysis
   try {

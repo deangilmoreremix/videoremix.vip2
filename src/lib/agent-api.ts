@@ -8,9 +8,10 @@
  * - Centralized error handling and retries
  */
 
-import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
+import { useUser } from '../providers/ClerkProvider';
 import { APIKeyRequiredModal } from './APIKeyRequiredModal';
 import { useState, useEffect, useCallback } from 'react';
+import { supabase, getClerkTokenGetter } from '../utils/supabase';
 
 /**
  * Options for calling an agent function
@@ -30,8 +31,8 @@ export interface AgentCallOptions {
  * Hook for agents that need API key checking
  */
 export function useAgentApi(appId: string) {
-  const supabase = useSupabaseClient();
   const { user } = useUser();
+  const getClerkToken = getClerkTokenGetter();
   const [checkingAccess, setCheckingAccess] = useState(true);
   const [hasAccess, setHasAccess] = useState(false);
   const [missingProviders, setMissingProviders] = useState<string[]>([]);
@@ -64,11 +65,9 @@ export function useAgentApi(appId: string) {
         throw new Error('User not authenticated');
       }
 
-      // Get JWT token
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      if (!session) {
+      // Get Clerk JWT token (not Supabase session token, since auth is managed by Clerk)
+      const token = await getClerkToken();
+      if (!token) {
         throw new Error('No active session');
       }
 
@@ -78,11 +77,11 @@ export function useAgentApi(appId: string) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${session.access_token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           ...body,
-          user_id: session.user.id, // also pass user_id in body for convenience
+          user_id: user.id, // pass Clerk user_id in body for convenience
         }),
       });
 
@@ -120,11 +119,8 @@ export function useAgentApi(appId: string) {
  * Standalone function to check if user has required API keys for an ai-design-studio
  * (without calling the actual function)
  */
-export async function userHasApiKeys(supabase: any, appId: string): Promise<boolean> {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return false;
+export async function userHasApiKeys(supabase: any, appId: string, userId: string): Promise<boolean> {
+  if (!userId) return false;
 
   const { data, error } = await supabase
     .from('app_api_requirements')
@@ -153,11 +149,8 @@ export async function userHasApiKeys(supabase: any, appId: string): Promise<bool
 /**
  * Get list of missing providers for an ai-design-studio
  */
-export async function getMissingProviders(supabase: any, appId: string): Promise<string[]> {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return [];
+export async function getMissingProviders(supabase: any, appId: string, userId: string): Promise<string[]> {
+  if (!userId) return [];
 
   const { data, error } = await supabase
     .from('app_api_requirements')
@@ -173,7 +166,7 @@ export async function getMissingProviders(supabase: any, appId: string): Promise
   const { data: keys } = await supabase
     .from('user_api_keys')
     .select('provider')
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .in('provider', required);
 
   const userProviders = new Set(keys?.map((k) => k.provider) || []);

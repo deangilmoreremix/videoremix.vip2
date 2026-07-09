@@ -16,6 +16,7 @@ import {
   History,
 } from "lucide-react";
 import { supabase } from "../../utils/supabase";
+import { useSupabaseToken } from "../../hooks/useSupabaseToken";
 
 interface User {
   id: string;
@@ -38,6 +39,7 @@ interface App {
 }
 
 const AdminUsersManagement: React.FC = () => {
+  const getToken = useSupabaseToken();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [toggling, setToggling] = useState<string | null>(null);
@@ -123,15 +125,12 @@ const AdminUsersManagement: React.FC = () => {
   const fetchAllApps = async () => {
     setLoadingAllApps(true);
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         console.warn("Cannot fetch apps: No valid session");
         return;
       }
-      const token = session.access_token;
+      
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-apps`,
@@ -169,15 +168,12 @@ const AdminUsersManagement: React.FC = () => {
   const fetchUsers = async () => {
     try {
       clearMessages();
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users`,
@@ -212,15 +208,12 @@ const AdminUsersManagement: React.FC = () => {
     setToggling(userId);
     clearMessages();
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users`,
@@ -266,15 +259,12 @@ const AdminUsersManagement: React.FC = () => {
     setDeleting(userId);
     clearMessages();
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users`,
@@ -340,15 +330,12 @@ const AdminUsersManagement: React.FC = () => {
     setCreating(true);
     clearMessages();
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users`,
@@ -418,15 +405,12 @@ const AdminUsersManagement: React.FC = () => {
         return;
       }
 
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users`,
@@ -480,15 +464,12 @@ const AdminUsersManagement: React.FC = () => {
     clearMessages();
 
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${user.id}/app-access`,
@@ -561,17 +542,14 @@ const AdminUsersManagement: React.FC = () => {
     }));
 
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         // Revert optimistic update on auth error
         setUsers(previousUsers);
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${userId}/app-access`,
@@ -617,15 +595,12 @@ const AdminUsersManagement: React.FC = () => {
     clearMessages();
 
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       // Grant access to selected apps
       if (userAppAccess.length > 0) {
@@ -690,15 +665,12 @@ const AdminUsersManagement: React.FC = () => {
     clearMessages();
 
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-user-features/${user.id}`,
@@ -806,15 +778,12 @@ const AdminUsersManagement: React.FC = () => {
     clearMessages();
 
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      const token = await getToken();
+      if (!token) {
         setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
+      
 
       // Get current feature access
       const currentAccess = availableFeatures
@@ -1084,29 +1053,29 @@ const AdminUsersManagement: React.FC = () => {
 
                     {expandedUsers.has(user.id) && (
                       <div className="bg-gray-900/50 rounded-lg p-3 border border-gray-600">
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                          {allApps.slice(0, 12).map((app) => {
-                            const hasAccess = (user.app_access || []).includes(app.slug);
-                            const toggleKey = `${user.id}-${app.slug}`;
-                            const isToggling = togglingApp === toggleKey;
+<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                            {allApps.slice(0, 12).map((app) => {
+                              const hasAccess = (user.app_access || []).includes(app.slug);
+                              const toggleKey = `${user.id}-${app.slug}`;
+                              const isToggling = togglingApp === toggleKey;
 
-                            return (
-                              <div
-                                key={app.slug}
-                                className="flex items-center justify-between p-2 bg-gray-800/50 rounded border border-gray-700"
-                              >
-                                <span className="text-xs text-gray-300 truncate mr-2" title={app.name}>
-                                  {app.name}
-                                </span>
-                                <button
-                                  onClick={() => toggleUserAppAccess(user.id, app.slug, hasAccess)}
-                                  disabled={isToggling}
-                                  className={`relative inline-flex h-5 w-8 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:cursor-not-allowed ${
-                                    hasAccess ? "bg-primary-600 hover:bg-primary-700" : "bg-gray-600 hover:bg-gray-500"
-                                  } ${isToggling ? "opacity-50" : ""}`}
-                                  title={`${hasAccess ? "Remove" : "Grant"} access to ${app.name}`}
-                                  aria-label={`${hasAccess ? "Remove" : "Grant"} access to ${app.name}`}
+                              return (
+                                <div
+                                  key={app.slug}
+                                  className="flex items-center justify-between p-2 bg-gray-800/50 rounded border border-gray-700"
                                 >
+                                  <span className="text-xs text-gray-300 truncate mr-2" title={app.name}>
+                                    {app.name}
+                                  </span>
+                                  <button
+                                    onClick={() => toggleUserAppAccess(user.id, app.slug, hasAccess)}
+                                    disabled={isToggling}
+                                    className={`relative inline-flex h-5 w-8 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:cursor-not-allowed ${
+                                      hasAccess ? "bg-primary-600 hover:bg-primary-700" : "bg-gray-600 hover:bg-gray-500"
+                                    } ${isToggling ? "opacity-50" : ""}`}
+                                    title={`${hasAccess ? "Remove" : "Grant"} access to ${app.name}`}
+                                    aria-label={`${hasAccess ? "Remove" : "Grant"} access to ${app.name}`}
+                                  >
                                   <span
                                     className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${
                                       hasAccess ? "translate-x-4" : "translate-x-1"

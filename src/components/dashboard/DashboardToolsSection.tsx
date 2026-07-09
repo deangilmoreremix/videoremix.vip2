@@ -241,13 +241,13 @@ const personalizationBenefits = [
   },
 ];
 
-// Helper function to get ai-design-studio URL
+// Helper function to get app URL
 const getAppUrl = (appId: string, apps: any[] = []) => {
   if (!apps || apps.length === 0) {
     return `/ai-design-studio/${appId}`;
   }
-  const foundApp = apps.find((a) => a.id === appId);
-  return foundApp?.url || `/ai-design-studio/${appId}`;
+  const app = apps.find((a) => a.id === appId);
+  return app?.url || `/ai-design-studio/${appId}`;
 };
 
 // =====================================================
@@ -346,7 +346,7 @@ const DashboardToolsSection: React.FC = () => {
       // Get the current error count or 0 if first error
       const currentErrorCount = prev[appId] || 0;
 
-      // Increment error count for this ai-design-studio
+      // Increment error count for this app
       return {
         ...prev,
         [appId]: currentErrorCount + 1,
@@ -354,9 +354,9 @@ const DashboardToolsSection: React.FC = () => {
     });
   };
 
-  // Get a fallback image URL based on ai-design-studio ID
+  // Get a fallback image URL based on app ID
   const getFallbackImage = (appId: string, errorCount: number = 0) => {
-    // Start with a deterministic fallback based on ai-design-studio ID
+    // Start with a deterministic fallback based on app ID
     const index = appId.charCodeAt(0) % fallbackImages.length;
 
     // If multiple errors, cycle through fallbacks
@@ -793,8 +793,7 @@ const DashboardToolsSection: React.FC = () => {
             setPurchaseModalOpen(false);
             setSelectedAppForPurchase(null);
           }}
-          ai-design-studio={selectedAppForPurchase}
-          bundleInfo={getBundleForApp(selectedAppForPurchase.id)}
+          app={selectedAppForPurchase}
         />
       )}
 

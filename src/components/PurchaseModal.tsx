@@ -238,7 +238,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
                       </span>
                       <div className="flex items-baseline gap-2">
                         <span className="text-5xl font-bold text-white">
-                          ${price}
+                          ${currentTier.price}
                         </span>
                         <span className="text-gray-400 text-lg">USD</span>
                       </div>

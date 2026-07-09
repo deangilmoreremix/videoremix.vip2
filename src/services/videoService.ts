@@ -9,16 +9,11 @@ export class VideoService {
   /**
    * Get all videos for the current user
    */
-  static async getUserVideos(): Promise<Video[]> {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not authenticated");
-
+  static async getUserVideos(userId: string): Promise<Video[]> {
     const { data, error } = await supabase
       .from("videos")
       .select("*")
-      .eq("user_id", user.id)
+      .eq("user_id", userId)
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -32,17 +27,12 @@ export class VideoService {
   /**
    * Get a specific video by ID
    */
-  static async getVideoById(id: string): Promise<Video | null> {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not authenticated");
-
+  static async getVideoById(id: string, userId: string): Promise<Video | null> {
     const { data, error } = await supabase
       .from("videos")
       .select("*")
       .eq("id", id)
-      .eq("user_id", user.id)
+      .eq("user_id", userId)
       .single();
 
     if (error) {
@@ -57,23 +47,21 @@ export class VideoService {
   /**
    * Create a new video record (called after upload)
    */
-  static async createVideo(videoData: {
-    title?: string;
-    description?: string;
-    original_filename: string;
-    file_path: string;
-    file_size: number;
-    mime_type: string;
-  }): Promise<Video> {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not authenticated");
-
+  static async createVideo(
+    userId: string,
+    videoData: {
+      title?: string;
+      description?: string;
+      original_filename: string;
+      file_path: string;
+      file_size: number;
+      mime_type: string;
+    },
+  ): Promise<Video> {
     const { data, error } = await supabase
       .from("videos")
       .insert({
-        user_id: user.id,
+        user_id: userId,
         ...videoData,
         status: "uploaded",
       })
@@ -93,18 +81,14 @@ export class VideoService {
    */
   static async updateVideo(
     id: string,
+    userId: string,
     updates: VideoUpdateData,
   ): Promise<Video> {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not authenticated");
-
     const { data, error } = await supabase
       .from("videos")
       .update(updates)
       .eq("id", id)
-      .eq("user_id", user.id)
+      .eq("user_id", userId)
       .select()
       .single();
 
@@ -117,16 +101,11 @@ export class VideoService {
   }
 
   /**
-   * Delete a video
+   * Delete a video record and its files
    */
-  static async deleteVideo(id: string): Promise<void> {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not authenticated");
-
+  static async deleteVideo(id: string, userId: string): Promise<void> {
     // First get the video to get file paths
-    const video = await this.getVideoById(id);
+    const video = await this.getVideoById(id, userId);
     if (!video) throw new Error("Video not found");
 
     // Delete from storage
@@ -142,7 +121,7 @@ export class VideoService {
       .from("videos")
       .delete()
       .eq("id", id)
-      .eq("user_id", user.id);
+      .eq("user_id", userId);
 
     if (error) {
       console.error("Error deleting video:", error);
@@ -153,18 +132,16 @@ export class VideoService {
   /**
    * Upload a video file and create video record
    */
-  static async uploadVideo(uploadData: VideoUploadData): Promise<Video> {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not authenticated");
-
+  static async uploadVideo(
+    userId: string,
+    uploadData: VideoUploadData,
+  ): Promise<Video> {
     const { file, title, description } = uploadData;
 
     // Generate unique file path
     const fileExt = file.name.split(".").pop();
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-    const filePath = `${user.id}/${fileName}`;
+    const filePath = `${userId}/${fileName}`;
 
     // Upload file to storage
     const { error: uploadError } = await supabase.storage
@@ -180,7 +157,7 @@ export class VideoService {
     }
 
     // Create video record
-    const video = await this.createVideo({
+    const video = await this.createVideo(userId, {
       title: title || file.name,
       description,
       original_filename: file.name,

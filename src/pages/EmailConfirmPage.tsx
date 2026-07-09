@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { CheckCircle, AlertCircle, Video, Loader } from "lucide-react";
-import { supabase } from "../utils/supabase";
 import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
 
 const EmailConfirmPage: React.FC = () => {
-  // Use direct window navigation instead of React Router hooks
-  const handleNavigation = (path: string) => {
-    window.location.href = path;
-  };
+  // This page was for Supabase email confirmation, which is no longer used.
+  // Clerk handles all authentication now. Redirect to sign-in.
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading",
@@ -20,74 +18,30 @@ const EmailConfirmPage: React.FC = () => {
   const [countdown, setCountdown] = useState(3);
 
   useEffect(() => {
-    const confirmEmail = async () => {
-      const token = searchParams.get("token");
-      const type = searchParams.get("type");
-      const accessToken = searchParams.get("access_token");
-      const refreshToken = searchParams.get("refresh_token");
+    // Check if there's a Clerk verification token in the URL
+    const clerkStatus = searchParams.get("__clerk_status");
+    if (clerkStatus) {
+      // Clerk is handling this - let it process
+      return;
+    }
 
-      if (!token && !accessToken) {
-        setStatus("error");
-        setError("Missing verification token. Please check your email link.");
-        return;
-      }
+    // No Clerk params - this is a legacy Supabase email confirmation link.
+    // Redirect to Clerk sign-in.
+    setStatus("error");
+    setError(
+      "Email confirmation is now handled by our sign-in system. Redirecting...",
+    );
 
-      if (type !== "signup" && type !== "email" && !accessToken) {
-        setStatus("error");
-        setError(
-          "Invalid verification type. Please request a new confirmation email.",
-        );
-        return;
-      }
+    const timer = setTimeout(() => {
+      navigate("/signin", { replace: true });
+    }, 3000);
 
-      try {
-        if (accessToken && refreshToken) {
-          const { error: sessionError } = await supabase.auth.setSession({
-            access_token: accessToken,
-            refresh_token: refreshToken,
-          });
-
-          if (sessionError) {
-            throw sessionError;
-          }
-        }
-
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-
-        if (user && user.email_confirmed_at) {
-          setStatus("success");
-        } else if (user) {
-          setStatus("success");
-        } else {
-          throw new Error("Unable to verify email. Please try again.");
-        }
-      } catch (err: any) {
-        setStatus("error");
-        setError(
-          err.message ||
-            "An unexpected error occurred during email verification.",
-        );
-      }
-    };
-
-    confirmEmail();
-  }, [searchParams]);
+    return () => clearTimeout(timer);
+  }, [searchParams, navigate]);
 
   useEffect(() => {
-    if (status === "success" && countdown > 0) {
-      const timer = setTimeout(() => {
-        setCountdown(countdown - 1);
-      }, 1000);
-
-      return () => clearTimeout(timer);
-    }
-
-    if (status === "success" && countdown === 0) {
-      handleNavigation("/dashboard");
-    }
-  }, [status, countdown, navigate]);
+    // Countdown is handled in the main useEffect for redirect
+  }, [status, countdown]);
 
   return (
     <>

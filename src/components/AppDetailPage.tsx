@@ -162,14 +162,14 @@ const AppDetailPage: React.FC = () => {
 
   useEffect(() => {
     if (!appsLoading && appsData.length > 0) {
-      // Find the ai-design-studio data matching the appId
+      // Find the app data matching the appId
       const foundApp = appsData.find((app) => app.id === appId);
       // Merge with enhanced data if available
       let enhancedApp = foundApp
         ? getEnhancedAppData(appId || "", foundApp)
         : null;
 
-      // Ensure the ai-design-studio has a URL from centralized config
+      // Ensure the app has a URL from centralized config
       if (enhancedApp && !enhancedApp.url) {
         enhancedApp = {
           ...enhancedApp,
@@ -180,7 +180,7 @@ const AppDetailPage: React.FC = () => {
       setApp(enhancedApp);
       setIsLoading(false);
 
-      // Scroll to top when ai-design-studio changes
+      // Scroll to top when app changes
       window.scrollTo(0, 0);
     }
   }, [appId, appsData, appsLoading]);
@@ -198,12 +198,12 @@ const AppDetailPage: React.FC = () => {
     );
   }
 
-  if (!ai-design-studio) {
+  if (!app) {
     return (
       <div className="container mx-auto px-4 py-20 text-center">
         <h1 className="text-3xl font-bold text-white mb-6">App Not Found</h1>
         <p className="text-gray-300 mb-8">
-          The ai-design-studio you're looking for doesn't exist or has been moved.
+          The app you're looking for doesn't exist or has been moved.
         </p>
         <Link
           to="/"
@@ -226,7 +226,7 @@ const AppDetailPage: React.FC = () => {
   };
 
   // Resolve GTM sales copy from static catalog (the 95 live DB apps don't carry it)
-  const gtmSalesCopy = ai-design-studio ? (app.salesCopy || appSalesCopy[app.id] || appSalesCopy[app.slug]) : undefined;
+  const gtmSalesCopy = app ? (app.salesCopy || appSalesCopy[app.id] || appSalesCopy[app.slug]) : undefined;
 
   return (
     <div className="pt-32 pb-20">
@@ -349,7 +349,7 @@ const AppDetailPage: React.FC = () => {
                 )}
 
                 <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                  <AppLaunchButton ai-design-studio={ai-design-studio} onPurchaseClick={() => setShowPurchaseModal(true)} />
+                  <AppLaunchButton app={app} onPurchaseClick={() => setShowPurchaseModal(true)} />
 
                   <motion.button
                     whileHover={{
@@ -2398,12 +2398,11 @@ const AppDetailPage: React.FC = () => {
       </motion.div>
 
       {/* Purchase Modal */}
-      {ai-design-studio && (
+      {app && (
         <PurchaseModal
           isOpen={showPurchaseModal}
           onClose={() => setShowPurchaseModal(false)}
-          ai-design-studio={ai-design-studio}
-          bundleInfo={getBundleForApp(app.id)}
+          app={app}
         />
       )}
 
@@ -2411,7 +2410,7 @@ const AppDetailPage: React.FC = () => {
       <PersonalizerDialog
         open={showPersonalizer}
         onClose={() => setShowPersonalizer(false)}
-        appId={ai-design-studio?.id}
+        appId={app?.id}
         userId={user?.id}
       />
     </div>

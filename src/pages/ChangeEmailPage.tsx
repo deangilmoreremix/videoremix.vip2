@@ -3,12 +3,13 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Mail, CheckCircle, AlertCircle, Video, Loader } from "lucide-react";
-import { supabase } from "../utils/supabase";
 import { useAuth } from "../context/AuthContext";
 import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
 
 const ChangeEmailPage: React.FC = () => {
+  // This page was for Supabase email change flow, which is no longer used.
+  // Clerk handles all authentication now. Redirect to profile settings.
   const navigate = useNavigate();
   const { user } = useAuth();
   const [searchParams] = useSearchParams();
@@ -22,76 +23,34 @@ const ChangeEmailPage: React.FC = () => {
   >("idle");
 
   useEffect(() => {
-    const token = searchParams.get("token");
-    const type = searchParams.get("type");
-    const accessToken = searchParams.get("access_token");
-
-    if (token || accessToken) {
-      if (type === "email_change") {
-        handleConfirmEmailChange(accessToken);
-      }
+    // Check for Clerk verification params
+    const clerkStatus = searchParams.get("__clerk_status");
+    if (clerkStatus) {
+      // Clerk is handling this - redirect to profile
+      navigate("/profile", { replace: true });
+      return;
     }
-  }, [searchParams]);
+
+    // Legacy Supabase email change confirmation - redirect to profile
+    if (searchParams.get("token") || searchParams.get("access_token")) {
+      navigate("/profile", { replace: true });
+    }
+  }, [searchParams, navigate]);
 
   const handleConfirmEmailChange = async (accessToken: string | null) => {
-    setConfirming(true);
-    try {
-      if (accessToken) {
-        const { error: sessionError } = await supabase.auth.refreshSession();
-        if (sessionError) throw sessionError;
-      }
-
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (user) {
-        setConfirmStatus("success");
-        setTimeout(() => {
-          navigate("/profile");
-        }, 3000);
-      } else {
-        throw new Error("Unable to confirm email change");
-      }
-    } catch (err: any) {
-      setConfirmStatus("error");
-      setError(err.message || "Failed to confirm email change");
-    } finally {
-      setConfirming(false);
-    }
+    // This function is no longer used since Clerk handles email changes.
+    // Redirecting to profile page.
+    navigate("/profile", { replace: true });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(false);
-    setLoading(true);
-
-    try {
-      if (!user) {
-        setError("You must be signed in to change your email");
-        setLoading(false);
-        return;
-      }
-
-      const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
-      const { error } = await supabase.auth.updateUser(
-        { email: newEmail },
-        {
-          emailRedirectTo: `${siteUrl}/auth/change-email`,
-        },
-      );
-
-      if (error) {
-        setError(error.message);
-      } else {
-        setSuccess(true);
-      }
-    } catch (err) {
-      setError("An unexpected error occurred");
-    } finally {
-      setLoading(false);
-    }
+    setError(
+      "Email changes are now managed in your profile settings. Redirecting...",
+    );
+    setTimeout(() => {
+      navigate("/profile");
+    }, 2000);
   };
 
   if (confirming || confirmStatus !== "idle") {
