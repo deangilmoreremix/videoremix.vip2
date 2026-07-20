@@ -41,7 +41,7 @@ from typing import Any, Dict, List, Optional
 
 from fastapi import Depends, FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 from scanner import MaigretScanner, ScanOptions, ScanResult
 
@@ -189,7 +189,8 @@ class ScanRequest(BaseModel):
     permute: bool = Field(default=False, description="Permute >=2 usernames to generate more candidates")
     checkDomains: bool = Field(default=False, description="Also check domains on the username")
 
-    @validator("username")
+    @field_validator("username")
+    @classmethod
     def _validate_username(cls, v: str) -> str:
         v = v.strip().lstrip("@")
         if not v:
