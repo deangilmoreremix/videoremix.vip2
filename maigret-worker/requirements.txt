@@ -1,6 +1,6 @@
 fastapi==0.115.6
 uvicorn==0.34.0
-pydantic==2.10.4
+pydantic==2.12.4
 python-dotenv==1.0.1
 # NOTE: maigret is intentionally NOT pinned. Public PyPI only publishes maigret
 # up to 0.4.4; the 0.5.0/0.6.3 versions historically referenced are not on the

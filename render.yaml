@@ -6,9 +6,6 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
-      - key: PYTHON_VERSION
-        value: "3.12"
-        description: "Pin Python 3.12 so pydantic-core/uvicorn have prebuilt wheels (3.14 lacks them)."
       - key: MAIGRET_API_KEY
         value: B0UX7eYF-MLDTuIMwuvW4DDtX2MV0l3WPKu18ROp1wQ
         description: "API key clients (Netlify personalizer-api) send in X-API-Key."
