@@ -6,5 +6,23 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
+      - key: MAIGRET_API_KEY
+        value: B0UX7eYF-MLDTuIMwuvW4DDtX2MV0l3WPKu18ROp1wQ
+        description: "API key clients (Netlify personalizer-api) send in X-API-Key."
       - key: MAIGRET_WORKER_SECRET
-        generateValue: true
+        sync: false
+        description: "Legacy alias; MAIGRET_API_KEY is preferred."
+      - key: MAIGRET_CACHE_BACKEND
+        value: memory
+      - key: MAIGRET_CACHE_TTL_SECONDS
+        value: "86400"
+      - key: MAIGRET_MAX_CONCURRENT
+        value: "4"
+      - key: MAIGRET_PER_KEY_LIMIT
+        value: "100"
+      - key: MAIGRET_SCAN_TIMEOUT
+        value: "90"
+      - key: ALLOWED_ORIGINS
+        value: "*"
+      - key: PYTHONUNBUFFERED
+        value: "1"
