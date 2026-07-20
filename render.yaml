@@ -9,9 +9,6 @@ services:
       - key: MAIGRET_API_KEY
         value: B0UX7eYF-MLDTuIMwuvW4DDtX2MV0l3WPKu18ROp1wQ
         description: "API key clients (Netlify personalizer-api) send in X-API-Key."
-      - key: MAIGRET_WORKER_SECRET
-        sync: false
-        description: "Legacy alias; MAIGRET_API_KEY is preferred."
       - key: MAIGRET_CACHE_BACKEND
         value: memory
       - key: MAIGRET_CACHE_TTL_SECONDS

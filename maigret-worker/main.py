@@ -49,10 +49,7 @@ from scanner import MaigretScanner, ScanOptions, ScanResult
 # Configuration
 # ---------------------------------------------------------------------------
 
-API_KEY = (
-    os.environ.get("MAIGRET_API_KEY", "").strip()
-    or os.environ.get("MAIGRET_WORKER_SECRET", "").strip()
-)
+API_KEY = os.environ.get("MAIGRET_API_KEY", "").strip()
 ADMIN_KEY = os.environ.get("MAIGRET_ADMIN_KEY", "").strip() or API_KEY
 CACHE_BACKEND = os.environ.get("MAIGRET_CACHE_BACKEND", "memory").lower()
 CACHE_TTL = int(os.environ.get("MAIGRET_CACHE_TTL_SECONDS", "86400"))
@@ -66,6 +63,8 @@ PORT = int(os.environ.get("PORT", "8000"))
 
 if not API_KEY:
     logging.warning("MAIGRET_API_KEY/MAIGRET_WORKER_SECRET not set; /scan will be rejected")
+else:
+    logging.info("MAIGRET_API_KEY configured (length=%d)", len(API_KEY))
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 logger = logging.getLogger("maigret-worker")
