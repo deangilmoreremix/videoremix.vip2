@@ -19,6 +19,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -39,7 +42,7 @@ jobs:
         run: npm run lint
 
       - name: Run tests
-        run: npm run test:run
+        run: npm test -- --run
 
   build-and-deploy:
     needs: test
