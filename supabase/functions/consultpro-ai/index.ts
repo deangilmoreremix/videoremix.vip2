@@ -35,17 +35,17 @@ async function verifyUser(req) {
   }
 }
 
-import Anthropic from 'npm:anthropic@0.39.0';;
+import OpenAI from 'npm:openai@4.78.1';
 
 // Initialize Supabase client
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Initialize Anthropic client
-const anthropic = new Anthropic({
-  apiKey: userApiKey!,
-});
+// Initialize OpenAI client
+function createOpenAIClient(apiKey: string) {
+  return new OpenAI({ apiKey });
+}
 
 // Types
 interface BusinessConsultationInput {
@@ -126,7 +126,7 @@ interface BusinessConsultationResult {
 }
 
 // Phase 1: Research & Analysis Agent
-async function conductResearchAnalysis(input: BusinessConsultationInput): Promise<ResearchAnalysis> {
+async function conductResearchAnalysis(openai: ReturnType<typeof createOpenAIClient>, input: BusinessConsultationInput): Promise<ResearchAnalysis> {
   const stageContext = {
     idea: "pre-launch startup with just an idea",
     startup: "early-stage company with initial product/market fit",
@@ -183,12 +183,16 @@ Format your response as a JSON object with this exact structure:
 
 Be specific, data-driven, and provide actionable insights based on industry knowledge.`;
 
-  const response = await anthropic.messages.create({
-    model: 'claude-3-opus-20240229',
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o',
     max_tokens: 3000,
     temperature: 0.3,
-    system: 'You are a senior business consultant. Always respond with valid JSON.',
+    response_format: { type: 'json_object' },
     messages: [
+      {
+        role: 'system',
+        content: 'You are a senior business consultant. Always respond with valid JSON.'
+      },
       {
         role: 'user',
         content: prompt
@@ -196,26 +200,21 @@ Be specific, data-driven, and provide actionable insights based on industry know
     ]
   });
 
-  const content = response.content[0];
-  if (content.type !== 'text') {
+  const content = response.choices[0].message.content;
+  if (!content) {
     throw new Error('Unexpected response type');
   }
 
   try {
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('No JSON found in response');
-    }
-
-    return JSON.parse(jsonMatch[0]) as ResearchAnalysis;
+    return JSON.parse(content) as ResearchAnalysis;
   } catch (error) {
-    console.error('Failed to parse research analysis response:', content.text);
+    console.error('Failed to parse research analysis response:', content);
     throw new Error('Failed to parse research analysis data');
   }
 }
 
 // Phase 2: Market Intelligence Agent
-async function gatherMarketIntelligence(input: BusinessConsultationInput, researchAnalysis: ResearchAnalysis): Promise<MarketIntelligence> {
+async function gatherMarketIntelligence(openai: ReturnType<typeof createOpenAIClient>, input: BusinessConsultationInput, researchAnalysis: ResearchAnalysis): Promise<MarketIntelligence> {
   const prompt = `You are a market intelligence specialist analyzing market opportunities and competitive landscape for a ${input.stage} business in ${input.industry}.
 
 Based on the research analysis provided, conduct comprehensive market intelligence covering:
@@ -262,12 +261,16 @@ Format your response as a JSON object:
 
 Be specific with market data, competitive intelligence, and actionable market insights.`;
 
-  const response = await anthropic.messages.create({
-    model: 'claude-3-opus-20240229',
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o',
     max_tokens: 2500,
     temperature: 0.3,
-    system: 'You are a market intelligence specialist. Always respond with valid JSON.',
+    response_format: { type: 'json_object' },
     messages: [
+      {
+        role: 'system',
+        content: 'You are a market intelligence specialist. Always respond with valid JSON.'
+      },
       {
         role: 'user',
         content: prompt
@@ -275,26 +278,21 @@ Be specific with market data, competitive intelligence, and actionable market in
     ]
   });
 
-  const content = response.content[0];
-  if (content.type !== 'text') {
+  const content = response.choices[0].message.content;
+  if (!content) {
     throw new Error('Unexpected response type');
   }
 
   try {
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('No JSON found in response');
-    }
-
-    return JSON.parse(jsonMatch[0]) as MarketIntelligence;
+    return JSON.parse(content) as MarketIntelligence;
   } catch (error) {
-    console.error('Failed to parse market intelligence response:', content.text);
+    console.error('Failed to parse market intelligence response:', content);
     throw new Error('Failed to parse market intelligence data');
   }
 }
 
 // Phase 3: Strategic Recommendations Agent
-async function developStrategicRecommendations(input: BusinessConsultationInput, researchAnalysis: ResearchAnalysis, marketIntelligence: MarketIntelligence): Promise<StrategicRecommendations> {
+async function developStrategicRecommendations(openai: ReturnType<typeof createOpenAIClient>, input: BusinessConsultationInput, researchAnalysis: ResearchAnalysis, marketIntelligence: MarketIntelligence): Promise<StrategicRecommendations> {
   const prompt = `You are a senior strategy consultant developing comprehensive strategic recommendations for a ${input.stage} business in ${input.industry}.
 
 Based on the research analysis and market intelligence provided, develop strategic recommendations covering:
@@ -347,12 +345,16 @@ Format your response as a JSON object:
 
 Provide strategic depth with actionable, specific recommendations that drive business success.`;
 
-  const response = await anthropic.messages.create({
-    model: 'claude-3-opus-20240229',
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o',
     max_tokens: 3000,
     temperature: 0.3,
-    system: 'You are a senior strategy consultant. Always respond with valid JSON.',
+    response_format: { type: 'json_object' },
     messages: [
+      {
+        role: 'system',
+        content: 'You are a senior strategy consultant. Always respond with valid JSON.'
+      },
       {
         role: 'user',
         content: prompt
@@ -360,26 +362,21 @@ Provide strategic depth with actionable, specific recommendations that drive bus
     ]
   });
 
-  const content = response.content[0];
-  if (content.type !== 'text') {
+  const content = response.choices[0].message.content;
+  if (!content) {
     throw new Error('Unexpected response type');
   }
 
   try {
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('No JSON found in response');
-    }
-
-    return JSON.parse(jsonMatch[0]) as StrategicRecommendations;
+    return JSON.parse(content) as StrategicRecommendations;
   } catch (error) {
-    console.error('Failed to parse strategic recommendations response:', content.text);
+    console.error('Failed to parse strategic recommendations response:', content);
     throw new Error('Failed to parse strategic recommendations data');
   }
 }
 
 // Phase 4: Implementation Roadmap Agent
-async function createImplementationRoadmap(input: BusinessConsultationInput, strategicRecommendations: StrategicRecommendations): Promise<ImplementationRoadmap> {
+async function createImplementationRoadmap(openai: ReturnType<typeof createOpenAIClient>, input: BusinessConsultationInput, strategicRecommendations: StrategicRecommendations): Promise<ImplementationRoadmap> {
   const prompt = `You are an implementation specialist creating detailed execution roadmaps for business strategies.
 
 Based on the strategic recommendations provided, create a comprehensive implementation roadmap for a ${input.stage} business in ${input.industry}.
@@ -434,12 +431,16 @@ Format your response as a JSON object:
 
 Be specific, actionable, and time-bound with realistic implementation expectations.`;
 
-  const response = await anthropic.messages.create({
-    model: 'claude-3-opus-20240229',
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o',
     max_tokens: 2500,
     temperature: 0.3,
-    system: 'You are an implementation specialist. Always respond with valid JSON.',
+    response_format: { type: 'json_object' },
     messages: [
+      {
+        role: 'system',
+        content: 'You are an implementation specialist. Always respond with valid JSON.'
+      },
       {
         role: 'user',
         content: prompt
@@ -447,26 +448,21 @@ Be specific, actionable, and time-bound with realistic implementation expectatio
     ]
   });
 
-  const content = response.content[0];
-  if (content.type !== 'text') {
+  const content = response.choices[0].message.content;
+  if (!content) {
     throw new Error('Unexpected response type');
   }
 
   try {
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('No JSON found in response');
-    }
-
-    return JSON.parse(jsonMatch[0]) as ImplementationRoadmap;
+    return JSON.parse(content) as ImplementationRoadmap;
   } catch (error) {
-    console.error('Failed to parse implementation roadmap response:', content.text);
+    console.error('Failed to parse implementation roadmap response:', content);
     throw new Error('Failed to parse implementation roadmap data');
   }
 }
 
 // Phase 5: Risk Assessment Agent
-async function conductRiskAssessment(input: BusinessConsultationInput, strategicRecommendations: StrategicRecommendations, implementationRoadmap: ImplementationRoadmap): Promise<RiskAssessment> {
+async function conductRiskAssessment(openai: ReturnType<typeof createOpenAIClient>, input: BusinessConsultationInput, strategicRecommendations: StrategicRecommendations, implementationRoadmap: ImplementationRoadmap): Promise<RiskAssessment> {
   const prompt = `You are a risk management specialist conducting comprehensive risk assessment for business strategy implementation.
 
 Based on the strategic recommendations and implementation roadmap provided, assess risks for a ${input.stage} business in ${input.industry}.
@@ -514,12 +510,16 @@ Format your response as a JSON object:
 
 Be specific about risks, practical in mitigation approaches, and proactive in monitoring recommendations.`;
 
-  const response = await anthropic.messages.create({
-    model: 'claude-3-opus-20240229',
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o',
     max_tokens: 2500,
     temperature: 0.3,
-    system: 'You are a risk management specialist. Always respond with valid JSON.',
+    response_format: { type: 'json_object' },
     messages: [
+      {
+        role: 'system',
+        content: 'You are a risk management specialist. Always respond with valid JSON.'
+      },
       {
         role: 'user',
         content: prompt
@@ -527,20 +527,15 @@ Be specific about risks, practical in mitigation approaches, and proactive in mo
     ]
   });
 
-  const content = response.content[0];
-  if (content.type !== 'text') {
+  const content = response.choices[0].message.content;
+  if (!content) {
     throw new Error('Unexpected response type');
   }
 
   try {
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('No JSON found in response');
-    }
-
-    return JSON.parse(jsonMatch[0]) as RiskAssessment;
+    return JSON.parse(content) as RiskAssessment;
   } catch (error) {
-    console.error('Failed to parse risk assessment response:', content.text);
+    console.error('Failed to parse risk assessment response:', content);
     throw new Error('Failed to parse risk assessment data');
   }
 }
@@ -573,24 +568,24 @@ function generateExecutiveSummary(result: BusinessConsultationResult): string {
 }
 
 // Main pipeline function
-async function runBusinessConsultation(input: BusinessConsultationInput): Promise<BusinessConsultationResult> {
+async function runBusinessConsultation(input: BusinessConsultationInput, openai: ReturnType<typeof createOpenAIClient>): Promise<BusinessConsultationResult> {
   const startTime = Date.now();
 
   try {
     // Phase 1: Research & Analysis
-    const researchAnalysis = await conductResearchAnalysis(input);
+    const researchAnalysis = await conductResearchAnalysis(openai, input);
 
     // Phase 2: Market Intelligence
-    const marketIntelligence = await gatherMarketIntelligence(input, researchAnalysis);
+    const marketIntelligence = await gatherMarketIntelligence(openai, input, researchAnalysis);
 
     // Phase 3: Strategic Recommendations
-    const strategicRecommendations = await developStrategicRecommendations(input, researchAnalysis, marketIntelligence);
+    const strategicRecommendations = await developStrategicRecommendations(openai, input, researchAnalysis, marketIntelligence);
 
     // Phase 4: Implementation Roadmap
-    const implementationRoadmap = await createImplementationRoadmap(input, strategicRecommendations);
+    const implementationRoadmap = await createImplementationRoadmap(openai, input, strategicRecommendations);
 
     // Phase 5: Risk Assessment
-    const riskAssessment = await conductRiskAssessment(input, strategicRecommendations, implementationRoadmap);
+    const riskAssessment = await conductRiskAssessment(openai, input, strategicRecommendations, implementationRoadmap);
 
     const processingTime = Date.now() - startTime;
 
@@ -643,13 +638,13 @@ async function runBusinessConsultation(input: BusinessConsultationInput): Promis
     return jsonResponse({ error: 'Unauthorized' }, 401);
   }
 
-  // Get user's anthropic API key
-  const userApiKey = await getUserApiKey(user_id, 'anthropic');
+  // Get user's OpenAI API key
+  const userApiKey = await getUserApiKey(user_id, 'openai');
   if (!userApiKey) {
     return jsonResponse({ 
       error: 'API_KEY_MISSING',
-      message: 'Please add your anthropic API key in your profile.',
-      provider: 'anthropic'
+      message: 'Please add your OpenAI API key in your profile.',
+      provider: 'openai'
     }, 403);
   }
 
@@ -722,7 +717,8 @@ Deno.serve(async (req: Request) => {
     }
 
     // Run the complete consultation pipeline
-    const finalResult = await runBusinessConsultation(input);
+    const openai = createOpenAIClient(userApiKey);
+    const finalResult = await runBusinessConsultation(input, openai);
 
     // Update result in database
     await supabase

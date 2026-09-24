@@ -16,7 +16,7 @@ import { Loader2, Sparkles, Brain, Key } from "lucide-react";
 
 const MixtureOfAgentsPage: React.FC = () => {
   const { user } = useAuth();
-  const [formData, setFormData] = useState({ enter_your_together_api_key: "", enter_your_question: "" });
+  const [formData, setFormData] = useState({ openai_api_key: "", enter_your_question: "" });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -36,8 +36,8 @@ const MixtureOfAgentsPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.enter_your_together_api_key.trim()) {
-      setError("Together API key is required");
+    if (!formData.openai_api_key.trim()) {
+      setError("OpenAI API key is required");
       return;
     }
     if (!formData.enter_your_question.trim()) {
@@ -64,7 +64,7 @@ const MixtureOfAgentsPage: React.FC = () => {
   };
 
   const handleClear = () => {
-    setFormData({ enter_your_together_api_key: "", enter_your_question: "" });
+    setFormData({ openai_api_key: formData.openai_api_key, enter_your_question: "" });
     setResult(null);
   };
 
@@ -157,7 +157,7 @@ const MixtureOfAgentsPage: React.FC = () => {
                 </CardContent>
               </Card>
 
-              <ActionButton onClick={() => { setResult(null); setFormData({ enter_your_together_api_key: formData.enter_your_together_api_key, enter_your_question: "" }); }} variant="secondary" className="w-full">
+              <ActionButton onClick={() => { setResult(null); setFormData({ openai_api_key: formData.openai_api_key, enter_your_question: "" }); }} variant="secondary" className="w-full">
                 Ask Another Question
               </ActionButton>
             </motion.div>

@@ -49,7 +49,6 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.17.1",
-    "@clerk/clerk-react": "^5.61.8",
     "@clerk/react": "^6.11.4",
     "@hookform/resolvers": "^5.2.2",
     "@mendable/firecrawl-js": "^4.21.0",

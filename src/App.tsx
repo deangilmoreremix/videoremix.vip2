@@ -46,7 +46,6 @@ function debugDynamicImport<T>(
 // Lazy loaded components for better performance
 const LandingPage = lazy(debugDynamicImport(() => import("./components/premium/LandingPage"), "LandingPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
-const AIAppRunnerPage = lazy(() => import("./pages/AIAppRunnerPage"));
 
 // Generic pages
 const PricingPage = lazy(() => import("./pages/PricingPage"));
@@ -61,6 +60,7 @@ const CoursesPage = lazy(() => import("./pages/CoursesPage"));
 const AnalyticsDashboard = lazy(() => import("./components/AnalyticsDashboard"));
 
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const CreditsPage = lazy(() => import("./pages/CreditsPage"));
 const EmailGTMPage = lazy(() => import("./pages/agents/EmailGTMPage"));
 const FinancialCoachPage = lazy(() => import("./pages/agents/FinancialCoachPage"));
 const ProductLaunchIntelligencePage = lazy(() => import("./pages/agents/ProductLaunchIntelligencePage"));
@@ -337,16 +337,7 @@ const agentComponents = {
   'ai-fullstack-builder': AiSystemArchitectR1Page,
   'ai-course-creator-assistant': AiTeachingAgentTeamPage,
   'github-repo-assistant': AiTicTacToeAgentPage,
-  'gmail-intelligence-ai': AgenticRagWithReasoningPage,
-  'launch-campaign-builder-ai': ProductLaunchIntelligencePage,
-  'pdf-business-assistant': Ag2AdaptiveResearchTeamPage,
-  'personal-ai-memory-assistant': CursorAiExperimentsPage,
-  'research-paper-assistant': AgenticRagEmbeddingGemmaPage,
-  'risk-decision-ai': AiReasoningAgentPage,
-  'video-knowledge-assistant': Ai3dpygameR1Page,
   'landing-page-critic-ai': AutonomousRagPage,
-'dashboard-designer-ai': BlogToPodcastAgentPage,
-   'browser-mcp-agent': BrowserMcpAgentPage,
    'newsletter-repurposer-ai': ChatWithSubstackPage,
 'academic-research-ai': ChatWithTarotsPage,
    'market-research-ai': ContextualaiRagAgentPage,
@@ -744,6 +735,20 @@ function App() {
                 <Suspense fallback={<SectionLoader />}>
                   <AnalyticsDashboard />
                 </Suspense>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/credits"
+            element={
+              <ProtectedRoute>
+                <SparkleBackground>
+                  <Suspense fallback={<SectionLoader />}>
+                    <CreditsPage />
+                    <SpecialFooter />
+                  </Suspense>
+                </SparkleBackground>
               </ProtectedRoute>
             }
           />

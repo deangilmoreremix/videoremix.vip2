@@ -18,7 +18,6 @@ import { Loader2, Sparkles, Cloud, MapPin, Heart, Activity, Wind } from "lucide-
 const AiAqiAnalysisAgentPage: React.FC = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({ 
-    firecrawl_api_key: "", 
     openai_api_key: "", 
     city: "", 
     state: "", 
@@ -30,26 +29,26 @@ const AiAqiAnalysisAgentPage: React.FC = () => {
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const saved = localStorage.getItem('ai-aqi-analysis-state');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        setFormData(prev => ({ ...prev, ...parsed }));
-      } catch {}
-    }
-  }, []);
+   useEffect(() => {
+     const saved = localStorage.getItem('ai-aqi-analysis-state');
+     if (saved) {
+       try {
+         const parsed = JSON.parse(saved);
+         setFormData(prev => ({ ...prev, ...parsed }));
+       } catch {}
+     }
+   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('ai-aqi-analysis-state', JSON.stringify(formData));
-  }, [formData]);
+   useEffect(() => {
+     localStorage.setItem('ai-aqi-analysis-state', JSON.stringify(formData));
+   }, [formData]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.firecrawl_api_key.trim() || !formData.openai_api_key.trim() || !formData.city.trim() || !formData.state.trim() || !formData.country.trim()) {
-      setError('Please fill in all required fields');
-      return;
-    }
+   const handleSubmit = async (e: React.FormEvent) => {
+     e.preventDefault();
+     if (!formData.openai_api_key.trim() || !formData.city.trim() || !formData.state.trim() || !formData.country.trim()) {
+       setError('Please fill in all required fields');
+       return;
+     }
     setLoading(true);
     setError(null);
     try {
@@ -89,16 +88,6 @@ const AiAqiAnalysisAgentPage: React.FC = () => {
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <FormSection title="API Keys" description="Enter your API keys to enable AI processing">
-                  <ApiKeyInput
-                    label="Firecrawl API Key"
-                    name="firecrawl_api_key"
-                    value={formData.firecrawl_api_key}
-                    onChange={(val) => setFormData({ ...formData, firecrawl_api_key: val })}
-                    placeholder="fc-..."
-                    helperText="Get your API key from Firecrawl"
-                    required
-                  />
-
                   <ApiKeyInput
                     label="OpenAI API Key"
                     name="openai_api_key"

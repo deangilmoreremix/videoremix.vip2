@@ -35,15 +35,11 @@ async function verifyUser(req) {
   }
 }
 
-import Anthropic from 'npm:anthropic@0.39.0';;
 
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const anthropic = new Anthropic({
-  apiKey: userApiKey!,
-});
 
 interface PodcastifyInput {
   blogUrl: string;
@@ -99,7 +95,7 @@ function extractTextFromHtml(html: string): string {
     .trim();
 }
 
-async function generatePodcastContent(blogContent: string, customInstructions?: string): Promise<{
+async function generatePodcastContent(blogContent: string, customInstructions: string | undefined, apiKey: string): Promise<{
   title: string;
   summary: string;
   podcastScript: string;
@@ -132,33 +128,45 @@ Format your response as a JSON object with exactly these keys:
   "estimatedDuration": "X minutes"
 }`;
 
-  const response = await anthropic.messages.create({
-    model: 'claude-3-opus-20240229',
-    max_tokens: 4000,
-    temperature: 0.7,
-    system: 'You are a professional podcast producer. Always respond with valid JSON.',
-    messages: [{ role: 'user', content: prompt }]
+  const response = await fetch('https://api.openai.com/v1/responses', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: 'gpt-4o',
+      input: [
+        { role: 'system', content: 'You are a professional podcast producer. Always respond with valid JSON.' },
+        { role: 'user', content: prompt }
+      ],
+      max_output_tokens: 4000,
+      temperature: 0.7,
+    }),
   });
 
-  const content = response.content[0];
-  if (content.type !== 'text') {
-    throw new Error('Unexpected response type');
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`OpenAI API error: ${response.status}: ${errorText}`);
   }
 
+  const result = await response.json();
+
   try {
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
+    const text = result.output?.[0]?.content?.[0]?.text || '';
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       throw new Error('No JSON found in response');
     }
 
     return JSON.parse(jsonMatch[0]);
   } catch (error) {
-    console.error('Failed to parse podcast content response:', content.text);
+    console.error('Failed to parse podcast content response:', result.output);
     throw new Error('Failed to generate podcast content');
   }
 }
 
-async function runPodcastify(input: PodcastifyInput): Promise<PodcastifyResult> {
+async function runPodcastify(input: PodcastifyInput, apiKey: string): Promise<PodcastifyResult> {
   const startTime = Date.now();
 
   try {
@@ -169,7 +177,7 @@ async function runPodcastify(input: PodcastifyInput): Promise<PodcastifyResult> 
     const cleanContent = extractTextFromHtml(rawContent);
 
     // Step 3: Generate podcast content
-    const podcastContent = await generatePodcastContent(cleanContent, input.customInstructions);
+    const podcastContent = await generatePodcastContent(cleanContent, input.customInstructions, apiKey);
 
     const processingTime = Date.now() - startTime;
 
@@ -212,13 +220,13 @@ async function runPodcastify(input: PodcastifyInput): Promise<PodcastifyResult> 
     return jsonResponse({ error: 'Unauthorized' }, 401);
   }
 
-  // Get user's anthropic API key
-  const userApiKey = await getUserApiKey(user_id, 'anthropic');
+  // Get user's OpenAI API key
+  const userApiKey = await getUserApiKey(user_id, 'openai');
   if (!userApiKey) {
     return jsonResponse({ 
       error: 'API_KEY_MISSING',
-      message: 'Please add your anthropic API key in your profile.',
-      provider: 'anthropic'
+      message: 'Please add your OpenAI API key in your profile.',
+      provider: 'openai'
     }, 403);
   }
 
@@ -251,7 +259,22 @@ Deno.serve(async (req: Request) => {
     try {
       new URL(input.blogUrl);
     } catch {
-      return new Response(JSON.stringify({ error: 'Please enter a valid URL' }), { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } });;
+      return new Response(JSON.stringify({ error: 'Please enter a valid URL' }), { status: 400, headers: { 'Content-Type': application/json', ...corsHeaders } });;
+    }
+
+    // Verify authentication and get user's API key
+    const { user_id } = await verifyUser(req);
+    if (!user_id) {
+      return jsonResponse({ error: 'Unauthorized' }, 401);
+    }
+
+    const userApiKey = await getUserApiKey(user_id, 'openai');
+    if (!userApiKey) {
+      return jsonResponse({ 
+        error: 'API_KEY_MISSING',
+        message: 'Please add your OpenAI API key in your profile.',
+        provider: 'openai'
+      }, 403);
     }
 
     // Create result record
@@ -289,7 +312,7 @@ Deno.serve(async (req: Request) => {
     }
 
     // Run the podcast generation
-    const finalResult = await runPodcastify(input);
+    const finalResult = await runPodcastify(input, userApiKey);
 
     // Update result in database
     await supabase

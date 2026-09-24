@@ -54,8 +54,8 @@ import { corsHeaders, jsonResponse } from '../_shared/utils.ts';
   if (!userApiKey) {
     return jsonResponse({ 
       error: 'API_KEY_MISSING',
-      message: 'Please add your anthropic API key in your profile.',
-      provider: 'anthropic'
+      message: 'Please add your OpenAI API key in your profile.',
+      provider: 'openai'
     }, 403);
   }
 

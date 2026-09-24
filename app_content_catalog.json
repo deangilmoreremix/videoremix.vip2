@@ -1,0 +1,2584 @@
+{
+  "catalog": [
+    {
+      "id": "ai_blog_to_podcast",
+      "name": "AI Blog to Podcast",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Creative Studio",
+      "category": "Voice & Agents",
+      "description": "Converts any public blog post into a narrated podcast episode using OpenAI GPT-4 for summarization, a web scraping service for scraping, and an audio generation service for audio generation.",
+      "key_capabilities": [
+        "Scrapes full blog content via a web scraping service",
+        "Summarizes with GPT-4",
+        "Generates audio podcast via an audio generation service",
+        "Requires OpenAI, a web scraping service, and an audio generation service API keys"
+      ],
+      "user_outcomes": [
+        "Turn written blog content into listenable audio",
+        "Generate shareable podcast episodes from URLs"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": true,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_breakup_recovery_agent",
+      "name": "AI Breakup Recovery Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Instant Lab",
+      "category": "Voice & Agents",
+      "description": "An agent team that talks users through post-breakup recovery with supportive guidance.",
+      "key_capabilities": [
+        "Conversational support for breakup recovery",
+        "Agent team coordination"
+      ],
+      "user_outcomes": [
+        "Receive structured emotional support after a breakup",
+        "Work through recovery steps with AI guidance"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_data_analysis_agent",
+      "name": "AI Data Analysis Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Instant Lab",
+      "category": "Productivity",
+      "description": "Natural-language data analysis agent that explores datasets, performs statistical analysis, generates visualizations, and provides insights from uploaded CSV or Excel files.",
+      "key_capabilities": [
+        "Natural language queries on data",
+        "Statistical analysis and automated visualizations",
+        "CSV and Excel processing"
+      ],
+      "user_outcomes": [
+        "Ask plain-English questions about datasets",
+        "Get charts and statistical summaries without manual analysis"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_data_visualisation_agent",
+      "name": "AI Data Visualisation Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": null,
+      "category": "Productivity",
+      "description": "Creates data visualizations with AI assistance.",
+      "key_capabilities": [
+        "AI-assisted chart and graph creation"
+      ],
+      "user_outcomes": [
+        "Generate visualizations from data with minimal effort"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_life_insurance_advisor_agent",
+      "name": "AI Life Insurance Advisor",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": null,
+      "category": "Sales & Funnels",
+      "description": "Provides AI-driven life insurance advice and guidance.",
+      "key_capabilities": [
+        "Life insurance recommendation",
+        "Personalized coverage analysis"
+      ],
+      "user_outcomes": [
+        "Receive tailored life insurance guidance"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_medical_imaging_agent",
+      "name": "AI Medical Imaging Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Instant Lab",
+      "category": "Productivity",
+      "description": "Diagnostic analysis of X-rays and scans using OpenAI multimodal capabilities.",
+      "key_capabilities": [
+        "Medical image analysis",
+        "OpenAI-powered diagnostics"
+      ],
+      "user_outcomes": [
+        "Get AI-assisted analysis of medical images"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_meme_generator",
+      "name": "AI Meme Generator",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Instant Lab",
+      "category": "Content & Video",
+      "description": "Generates custom memes from text prompts using browser automation, combining humor with AI creativity.",
+      "key_capabilities": [
+        "Custom meme generation from text prompts",
+        "Browser automation for meme creation",
+        "Image and text overlay",
+        "Social media sharing integration"
+      ],
+      "user_outcomes": [
+        "Create custom memes from text descriptions",
+        "Generate shareable social media content"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": true,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_music_generator_agent",
+      "name": "AI Music Generator Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Instant Lab",
+      "category": "Content & Video",
+      "description": "Creates original music based on user descriptions and preferences, generating melodies, harmonies, and complete tracks.",
+      "key_capabilities": [
+        "AI music composition and generation",
+        "Melody and harmony creation",
+        "Genre-specific styles",
+        "Audio file export and playback"
+      ],
+      "user_outcomes": [
+        "Generate original music from text descriptions",
+        "Export tracks for use in projects"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_travel_agent",
+      "name": "AI Travel Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Instant Lab",
+      "category": "Productivity",
+      "description": "Generates personalized travel itineraries using OpenAI GPT-4o, automating research, planning, and organization with downloadable .ics calendar files.",
+      "key_capabilities": [
+        "Discovers destinations, activities, and accommodations",
+        "Customizes itineraries by trip length",
+        "GPT-4o-powered plan generation",
+        "Exports to .ics calendar format"
+      ],
+      "user_outcomes": [
+        "Get personalized day-by-day travel plans",
+        "Download itineraries to calendar apps"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": true,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_reasoning_agent",
+      "name": "AI Reasoning Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": null,
+      "category": "AI Workforce",
+      "description": "Provides advanced reasoning capabilities for complex problem-solving.",
+      "key_capabilities": [
+        "Step-by-step reasoning",
+        "Complex problem decomposition"
+      ],
+      "user_outcomes": [
+        "Solve complex problems with structured reasoning"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_startup_trend_analysis_agent",
+      "name": "AI Startup Trend Analysis",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": null,
+      "category": "Sales & Funnels",
+      "description": "Analyzes startup trends and market dynamics using AI.",
+      "key_capabilities": [
+        "Trend identification",
+        "Startup market analysis"
+      ],
+      "user_outcomes": [
+        "Identify emerging startup trends and opportunities"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "mixture_of_agents",
+      "name": "Mixture of Agents",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Instant Lab",
+      "category": "AI Workforce",
+      "description": "Multiple AI agents working together to produce aggregated, higher-quality responses.",
+      "key_capabilities": [
+        "Multi-LLM collaboration",
+        "Response aggregation"
+      ],
+      "user_outcomes": [
+        "Get consensus answers from multiple AI models"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "multimodal_ai_agent",
+      "name": "Multimodal AI Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": null,
+      "category": "AI Workforce",
+      "description": "Handles multiple types of content including text, images, and video using multimodal AI.",
+      "key_capabilities": [
+        "Multimodal input processing",
+        "Text, image, and video understanding"
+      ],
+      "user_outcomes": [
+        "Interact with AI across different content types"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "openai_research_agent",
+      "name": "OpenAI Research Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Instant Lab",
+      "category": "AI Workforce",
+      "description": "Conducts multi-agent topic research using the OpenAI Agents SDK.",
+      "key_capabilities": [
+        "Multi-agent research workflows",
+        "OpenAI Agents SDK integration"
+      ],
+      "user_outcomes": [
+        "Automate deep research on any topic"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "web_scraping_ai_agent",
+      "name": "Web Scraping AI Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Instant Lab",
+      "category": "Productivity",
+      "description": "Scrapes websites intelligently based on natural language extraction instructions.",
+      "key_capabilities": [
+        "Natural-language web scraping",
+        "Intelligent content extraction"
+      ],
+      "user_outcomes": [
+        "Extract structured data from websites using plain English"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "OpenAI_finance_agent",
+      "name": "OpenAI Finance Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Instant Lab",
+      "category": "Sales & Funnels",
+      "description": "Provides real-time stock analysis powered by OpenAI's OpenAI model.",
+      "key_capabilities": [
+        "Real-time stock analysis",
+        "OpenAI-powered financial insights"
+      ],
+      "user_outcomes": [
+        "Get AI-driven financial market analysis"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_consultant_agent",
+      "name": "AI Consultant Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "Sales & Funnels",
+      "description": "Performs market analysis and strategy recommendations with live web research.",
+      "key_capabilities": [
+        "Market analysis",
+        "Strategy recommendations",
+        "Live web research"
+      ],
+      "user_outcomes": [
+        "Get data-driven market insights and strategy guidance"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_investment_agent",
+      "name": "AI Investment Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "Sales & Funnels",
+      "description": "Builds stock comparison reports based on Yahoo Finance data.",
+      "key_capabilities": [
+        "Stock comparison reports",
+        "Yahoo Finance data integration"
+      ],
+      "user_outcomes": [
+        "Generate investment analysis reports from financial data"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_journalist_agent",
+      "name": "AI Journalist Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "Content & Video",
+      "description": "Researches, writes, and edits articles on any topic.",
+      "key_capabilities": [
+        "Topic research",
+        "Article writing and editing"
+      ],
+      "user_outcomes": [
+        "Generate complete articles on any topic"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_meeting_agent",
+      "name": "AI Meeting Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "Productivity",
+      "description": "Prepares context, industry insights, and strategy briefs before meetings.",
+      "key_capabilities": [
+        "Pre-meeting context gathering",
+        "Industry insight generation",
+        "Strategy brief creation"
+      ],
+      "user_outcomes": [
+        "Walk into meetings with prepared context and insights"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_fraud_investigation_agent",
+      "name": "AI Fraud Investigation Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "AI Workforce",
+      "description": "Cross-references public records to flag facilities or entities that do not add up.",
+      "key_capabilities": [
+        "Public records cross-referencing",
+        "Anomaly detection in facility data"
+      ],
+      "user_outcomes": [
+        "Identify potentially fraudulent facilities or entities"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "research_agent_OpenAI_interaction_api",
+      "name": "Research Agent OpenAI Interaction API",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "Knowledge & RAG",
+      "description": "Multi-phase research agent with stateful conversations and auto-generated infographics using OpenAI Interactions API.",
+      "key_capabilities": [
+        "Multi-phase research workflows",
+        "Stateful conversations",
+        "Auto-generated infographics"
+      ],
+      "user_outcomes": [
+        "Conduct structured research with visual outputs"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "product_launch_intelligence_agent",
+      "name": "Product Launch Intelligence Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "Sales & Funnels",
+      "description": "Provides go-to-market intelligence on competitor launches.",
+      "key_capabilities": [
+        "Competitor launch monitoring",
+        "Go-to-market intelligence"
+      ],
+      "user_outcomes": [
+        "Stay ahead of competitor product launches"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_sales_intelligence_agent_team",
+      "name": "AI Sales Intelligence Agent Team",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "Sales & Funnels",
+      "description": "Generates competitive sales battle cards in real time.",
+      "key_capabilities": [
+        "Competitive battle card generation",
+        "Real-time sales intelligence"
+      ],
+      "user_outcomes": [
+        "Equip sales teams with up-to-date competitive insights"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_vc_due_diligence_agent_team",
+      "name": "AI VC Due Diligence Agent Team",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "Sales & Funnels",
+      "description": "Multi-agent startup investment analysis powered by OpenAI 3.",
+      "key_capabilities": [
+        "Multi-agent investment analysis",
+        "OpenAI 3-powered due diligence"
+      ],
+      "user_outcomes": [
+        "Accelerate startup due diligence with AI-generated analysis"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "devpulse_ai",
+      "name": "DevPulse AI",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "AI Workforce",
+      "description": "Aggregates and scores technical signals into a daily intelligence digest for engineering teams.",
+      "key_capabilities": [
+        "Technical signal aggregation",
+        "Daily intelligence digest generation"
+      ],
+      "user_outcomes": [
+        "Stay informed on technical signals without manual monitoring"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_competitor_intelligence_agent_team",
+      "name": "AI Competitor Intelligence Agent Team",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "Sales & Funnels",
+      "description": "Builds structured competitor teardowns from competitor websites.",
+      "key_capabilities": [
+        "Competitor website scraping",
+        "Structured teardown generation"
+      ],
+      "user_outcomes": [
+        "Generate actionable competitive intelligence reports"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_finance_agent_team",
+      "name": "AI Finance Agent Team",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "Sales & Funnels",
+      "description": "A coordinated financial analyst team built in minimal Python.",
+      "key_capabilities": [
+        "Multi-agent financial analysis",
+        "Collaborative reporting"
+      ],
+      "user_outcomes": [
+        "Get comprehensive financial analysis from an AI team"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "email-drafter",
+      "name": "Email Drafter",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "Sales & Funnels",
+      "description": "Drafts professional emails using AI assistance.",
+      "key_capabilities": [
+        "AI email composition",
+        "Tone and style adjustment"
+      ],
+      "user_outcomes": [
+        "Generate polished emails quickly"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "strategy-advisor",
+      "name": "Strategy Advisor",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "Sales & Funnels",
+      "description": "Provides strategic business advice and planning assistance.",
+      "key_capabilities": [
+        "Business strategy formulation",
+        "Planning assistance"
+      ],
+      "user_outcomes": [
+        "Get AI-driven strategic recommendations"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "project-planner",
+      "name": "Project Planner",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "Productivity",
+      "description": "Plans and organizes projects with AI assistance.",
+      "key_capabilities": [
+        "Project planning",
+        "Task organization"
+      ],
+      "user_outcomes": [
+        "Create structured project plans with AI"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "meeting-notes",
+      "name": "Meeting Notes",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "Productivity",
+      "description": "Captures and organizes meeting notes using AI.",
+      "key_capabilities": [
+        "Meeting note capture",
+        "Automatic summarization"
+      ],
+      "user_outcomes": [
+        "Generate organized meeting notes automatically"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "decision-helper",
+      "name": "Decision Helper",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "Productivity",
+      "description": "Assists with decision-making by analyzing options and outcomes.",
+      "key_capabilities": [
+        "Decision analysis",
+        "Option comparison"
+      ],
+      "user_outcomes": [
+        "Make better-informed decisions with AI assistance"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "fact-checker",
+      "name": "Fact Checker",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Revenue Engine",
+      "category": "Knowledge & RAG",
+      "description": "Verifies facts and claims using AI-powered research.",
+      "key_capabilities": [
+        "Fact verification",
+        "Claim analysis"
+      ],
+      "user_outcomes": [
+        "Validate information accuracy with AI assistance"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_movie_production_agent",
+      "name": "AI Movie Production Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Creative Studio",
+      "category": "Content & Video",
+      "description": "Drafts scripts and casting ideas from a one-line movie concept.",
+      "key_capabilities": [
+        "Script drafting",
+        "Casting idea generation",
+        "Concept expansion"
+      ],
+      "user_outcomes": [
+        "Turn a single movie idea into a full production plan"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_home_renovation_agent",
+      "name": "AI Home Renovation Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Creative Studio",
+      "category": "Content & Video",
+      "description": "Generates renovation plans and photorealistic renders from photos of your space.",
+      "key_capabilities": [
+        "Photo-based renovation planning",
+        "Photorealistic render generation"
+      ],
+      "user_outcomes": [
+        "Visualize home renovations before starting"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_news_and_podcast_agents",
+      "name": "AI News and Podcast Agents",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Creative Studio",
+      "category": "Content & Video",
+      "description": "Curates trusted sources into briefings and generated podcasts.",
+      "key_capabilities": [
+        "News curation",
+        "Podcast generation from sources"
+      ],
+      "user_outcomes": [
+        "Stay informed with AI-curated news and audio briefings"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "multimodal_design_agent_team",
+      "name": "Multimodal Design Agent Team",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Creative Studio",
+      "category": "Content & Video",
+      "description": "Provides design critiques from a OpenAI-powered expert panel.",
+      "key_capabilities": [
+        "Design critique generation",
+        "OpenAI-powered expert feedback"
+      ],
+      "user_outcomes": [
+        "Get expert design feedback from AI"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "multimodal_uiux_feedback_agent_team",
+      "name": "Multimodal UI/UX Feedback Agent Team",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Creative Studio",
+      "category": "Content & Video",
+      "description": "Provides landing page feedback plus auto-generated improved versions.",
+      "key_capabilities": [
+        "UI/UX feedback",
+        "Auto-generated design improvements"
+      ],
+      "user_outcomes": [
+        "Improve landing pages with AI-generated feedback and redesigns"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "content-creator",
+      "name": "Content Creator",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Creative Studio",
+      "category": "Content & Video",
+      "description": "AI-powered content creation assistant.",
+      "key_capabilities": [
+        "Content generation",
+        "Creative writing support"
+      ],
+      "user_outcomes": [
+        "Generate content ideas and drafts with AI"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "editor",
+      "name": "Editor",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Creative Studio",
+      "category": "Content & Video",
+      "description": "AI-powered editing assistant for improving written content.",
+      "key_capabilities": [
+        "Content editing",
+        "Grammar and style improvement"
+      ],
+      "user_outcomes": [
+        "Polish written content with AI editing"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ux-designer",
+      "name": "UX Designer",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Creative Studio",
+      "category": "Content & Video",
+      "description": "AI-powered UX design assistant.",
+      "key_capabilities": [
+        "UX design suggestions",
+        "Interface optimization"
+      ],
+      "user_outcomes": [
+        "Improve user experience with AI-driven design recommendations"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "visualization-expert",
+      "name": "Visualization Expert",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Creative Studio",
+      "category": "Content & Video",
+      "description": "AI-powered data visualization assistant.",
+      "key_capabilities": [
+        "Chart recommendation",
+        "Data visualization design"
+      ],
+      "user_outcomes": [
+        "Create effective data visualizations with AI guidance"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_game_design_agent_team",
+      "name": "AI Game Design Agent Team",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "AI Workforce",
+      "category": "Content & Video",
+      "description": "Generates full game concepts from a swarm of design specialists.",
+      "key_capabilities": [
+        "Game concept generation",
+        "Multi-agent design collaboration"
+      ],
+      "user_outcomes": [
+        "Create complete game concepts using AI specialists"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ag2_adaptive_research_team",
+      "name": "AG2 Adaptive Research Team",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "AI Workforce",
+      "category": "Knowledge & RAG",
+      "description": "Agent teamwork with routing and fallback built on AG2.",
+      "key_capabilities": [
+        "Adaptive agent routing",
+        "Fallback mechanisms"
+      ],
+      "user_outcomes": [
+        "Conduct research with resilient multi-agent workflows"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_legal_agent_team",
+      "name": "AI Legal Agent Team",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "AI Workforce",
+      "category": "AI Workforce",
+      "description": "Handles research, contract analysis, and strategy from a full legal bench.",
+      "key_capabilities": [
+        "Legal research",
+        "Contract analysis",
+        "Legal strategy"
+      ],
+      "user_outcomes": [
+        "Get comprehensive legal analysis from an AI team"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_recruitment_agent_team",
+      "name": "AI Recruitment Agent Team",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "AI Workforce",
+      "category": "Hiring & Profiles",
+      "description": "End-to-end recruitment from resume screening to interview scheduling.",
+      "key_capabilities": [
+        "Resume screening",
+        "Interview scheduling",
+        "Candidate evaluation"
+      ],
+      "user_outcomes": [
+        "Automate recruitment workflows from screening to scheduling"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_real_estate_agent_team",
+      "name": "AI Real Estate Agent Team",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "AI Workforce",
+      "category": "Sales & Funnels",
+      "description": "Property search, market analysis, and recommendations.",
+      "key_capabilities": [
+        "Property search",
+        "Market analysis",
+        "Recommendation engine"
+      ],
+      "user_outcomes": [
+        "Find and evaluate real estate with AI assistance"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_services_agency",
+      "name": "AI Services Agency",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "AI Workforce",
+      "category": "AI Workforce",
+      "description": "A digital agency that scopes and plans software projects.",
+      "key_capabilities": [
+        "Project scoping",
+        "Software planning",
+        "Agency workflow simulation"
+      ],
+      "user_outcomes": [
+        "Get AI-generated project scopes and plans"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_teaching_agent_team",
+      "name": "AI Teaching Agent Team",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "AI Workforce",
+      "category": "AI Workforce",
+      "description": "Builds complete learning paths from a faculty of agents.",
+      "key_capabilities": [
+        "Learning path generation",
+        "Multi-agent teaching coordination"
+      ],
+      "user_outcomes": [
+        "Get personalized learning paths generated by AI"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "multimodal_coding_agent_team",
+      "name": "Multimodal Coding Agent Team",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "AI Workforce",
+      "category": "AI Workforce",
+      "description": "Snap a photo of a coding problem and get a sandboxed solution.",
+      "key_capabilities": [
+        "Photo-based coding problem solving",
+        "Sandboxed code execution"
+      ],
+      "user_outcomes": [
+        "Solve coding problems by photographing them"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_travel_planner_agent_team",
+      "name": "AI Travel Planner Agent Team",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "AI Workforce",
+      "category": "Productivity",
+      "description": "Creates complete trip itineraries crafted by a coordinated agent team.",
+      "key_capabilities": [
+        "Multi-agent trip planning",
+        "Itinerary generation"
+      ],
+      "user_outcomes": [
+        "Get comprehensive travel itineraries from an AI team"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_self_evolving_agent",
+      "name": "AI Self-Evolving Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "AI Workforce",
+      "category": "AI Workforce",
+      "description": "Agents that rewrite their own workflows using EvoAgentX.",
+      "key_capabilities": [
+        "Self-improving workflows",
+        "Autonomous code rewriting"
+      ],
+      "user_outcomes": [
+        "Deploy agents that optimize themselves over time"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "trust_gated_agent_team",
+      "name": "Trust Gated Agent Team",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "AI Workforce",
+      "category": "AI Workforce",
+      "description": "Verified agents with every action recorded in a hash-chained audit trail.",
+      "key_capabilities": [
+        "Agent verification",
+        "Hash-chained audit trail"
+      ],
+      "user_outcomes": [
+        "Run auditable multi-agent workflows with verified actions"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_audio_tour_agent",
+      "name": "AI Audio Tour Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Voice Command Center",
+      "category": "Voice & Agents",
+      "description": "Generates self-guided audio tours from location, interests, and pace.",
+      "key_capabilities": [
+        "Location-aware tour generation",
+        "Personalized pacing",
+        "Audio narration"
+      ],
+      "user_outcomes": [
+        "Get custom audio tours for any location"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "customer_support_voice_agent",
+      "name": "Customer Support Voice Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Voice Command Center",
+      "category": "Voice & Agents",
+      "description": "Provides voice answers grounded in your own documentation.",
+      "key_capabilities": [
+        "Voice-based support",
+        "Document-grounded responses"
+      ],
+      "user_outcomes": [
+        "Deliver voice customer support from internal docs"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "voice_rag_openaisdk",
+      "name": "Voice RAG OpenAI SDK",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Voice Command Center",
+      "category": "Voice & Agents",
+      "description": "Ask PDFs questions and hear the answers using voice-enabled RAG with OpenAI SDK.",
+      "key_capabilities": [
+        "Voice-based PDF Q&A",
+        "OpenAI SDK integration"
+      ],
+      "user_outcomes": [
+        "Interact with PDFs through spoken questions and audio answers"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "browser_mcp_agent",
+      "name": "Browser MCP Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Control Center",
+      "category": "AI Workforce",
+      "description": "Drives a real browser using natural language via Model Context Protocol.",
+      "key_capabilities": [
+        "Browser automation via MCP",
+        "Natural language browser control"
+      ],
+      "user_outcomes": [
+        "Control web browsers with plain English commands"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "github_mcp_agent",
+      "name": "GitHub MCP Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Control Center",
+      "category": "Knowledge & RAG",
+      "description": "Explores and analyzes any GitHub repository in plain English.",
+      "key_capabilities": [
+        "Repository analysis",
+        "Plain English codebase queries"
+      ],
+      "user_outcomes": [
+        "Understand any GitHub repo through conversational queries"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "notion_mcp_agent",
+      "name": "Notion MCP Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Control Center",
+      "category": "Knowledge & RAG",
+      "description": "Interacts with Notion pages from the terminal.",
+      "key_capabilities": [
+        "Notion integration",
+        "Terminal-based page interaction"
+      ],
+      "user_outcomes": [
+        "Manage Notion content from the command line"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_travel_planner_mcp_agent_team",
+      "name": "AI Travel Planner MCP Agent Team",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Control Center",
+      "category": "Productivity",
+      "description": "Builds itineraries on live Airbnb and Google Maps data via MCP.",
+      "key_capabilities": [
+        "Live data integration",
+        "Multi-agent travel planning"
+      ],
+      "user_outcomes": [
+        "Generate travel plans using real-time booking and maps data"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "multi_mcp_agent_router",
+      "name": "Multi MCP Agent Router",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Control Center",
+      "category": "AI Workforce",
+      "description": "Routes specialist agents to their own MCP servers dynamically.",
+      "key_capabilities": [
+        "Multi-server routing",
+        "Specialist agent dispatch"
+      ],
+      "user_outcomes": [
+        "Run multiple agents connected to different MCP servers"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "agentic_rag_embedding_gemma",
+      "name": "Agentic RAG Embedding Gemma",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Fully local agentic RAG using EmbeddingGemma and Llama 3.2.",
+      "key_capabilities": [
+        "Local embedding generation",
+        "Agentic retrieval",
+        "Llama 3.2 integration"
+      ],
+      "user_outcomes": [
+        "Run fully local RAG pipelines without API keys"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "agentic_rag_with_reasoning",
+      "name": "Agentic RAG with Reasoning",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Agentic retrieval that shows step-by-step reasoning during retrieval.",
+      "key_capabilities": [
+        "Reasoning trace visualization",
+        "Agentic retrieval"
+      ],
+      "user_outcomes": [
+        "Understand how RAG agents reason during retrieval"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_blog_search",
+      "name": "AI Blog Search",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Agentic search over blog content built on LangGraph.",
+      "key_capabilities": [
+        "Blog content indexing",
+        "Agentic search"
+      ],
+      "user_outcomes": [
+        "Search blog archives conversationally"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "autonomous_rag",
+      "name": "Autonomous RAG",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "GPT-4o answers from your PDFs with automatic web-search fallback.",
+      "key_capabilities": [
+        "PDF-based Q&A",
+        "Web search fallback"
+      ],
+      "user_outcomes": [
+        "Get answers from PDFs or the web automatically"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "contextualai_rag_agent",
+      "name": "ContextualAI RAG Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Managed RAG solution from datastore to grounded chat in minutes.",
+      "key_capabilities": [
+        "Managed RAG deployment",
+        "Grounded chat interface"
+      ],
+      "user_outcomes": [
+        "Deploy production RAG chat in minutes"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "corrective_rag",
+      "name": "Corrective RAG",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Retrieval pipeline that grades itself and retries before answering.",
+      "key_capabilities": [
+        "Self-grading retrieval",
+        "Retry logic"
+      ],
+      "user_outcomes": [
+        "Improve RAG answer quality through self-correction"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "deepseek_local_rag_agent",
+      "name": "DeepSeek Local RAG Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Local DeepSeek reasoning over your own documents.",
+      "key_capabilities": [
+        "Local DeepSeek inference",
+        "Document reasoning"
+      ],
+      "user_outcomes": [
+        "Reason over private documents with local DeepSeek"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "OpenAI_agentic_rag",
+      "name": "OpenAI Agentic RAG",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Query rewriting and web fallback using OpenAI Flash Thinking.",
+      "key_capabilities": [
+        "Query rewriting",
+        "Web fallback",
+        "OpenAI Flash Thinking"
+      ],
+      "user_outcomes": [
+        "Improve retrieval accuracy with rewritten queries"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "hybrid_search_rag",
+      "name": "Hybrid Search RAG",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Keyword plus vector search feeding OpenAI for hybrid retrieval.",
+      "key_capabilities": [
+        "Keyword search",
+        "Vector search",
+        "OpenAI integration"
+      ],
+      "user_outcomes": [
+        "Get better retrieval results through hybrid search"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "llama3.1_local_rag",
+      "name": "Llama3.1 Local RAG",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Chat with any webpage fully offline using Llama 3.1.",
+      "key_capabilities": [
+        "Offline webpage chat",
+        "Llama 3.1 local inference"
+      ],
+      "user_outcomes": [
+        "Chat with web pages without an internet connection"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "local_hybrid_search_rag",
+      "name": "Local Hybrid Search RAG",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Hybrid search running entirely on your machine.",
+      "key_capabilities": [
+        "Local hybrid search",
+        "Offline RAG"
+      ],
+      "user_outcomes": [
+        "Run hybrid search RAG without cloud dependencies"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "local_rag_agent",
+      "name": "Local RAG Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Runs Llama 3.2 and Qdrant locally with no API keys required.",
+      "key_capabilities": [
+        "Local Llama 3.2 inference",
+        "Qdrant vector store",
+        "No API keys needed"
+      ],
+      "user_outcomes": [
+        "Run RAG entirely on your local machine"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "rag-as-a-service",
+      "name": "RAG as a Service",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Production RAG service implemented in under 50 lines.",
+      "key_capabilities": [
+        "Minimal RAG deployment",
+        "Production-ready service"
+      ],
+      "user_outcomes": [
+        "Deploy a working RAG API in under 50 lines of code"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "rag_agent_OpenAI",
+      "name": "RAG Agent OpenAI",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Command R7B retrieval with web-search fallback using OpenAI.",
+      "key_capabilities": [
+        "OpenAI Command R7B",
+        "Web search fallback"
+      ],
+      "user_outcomes": [
+        "Use OpenAI-powered retrieval with web augmentation"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "rag_chain",
+      "name": "RAG Chain",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Minimal retrieval pipeline applied to pharma research.",
+      "key_capabilities": [
+        "Minimal RAG chain",
+        "Domain-specific application"
+      ],
+      "user_outcomes": [
+        "Build a basic RAG pipeline for domain research"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "rag_database_routing",
+      "name": "RAG Database Routing",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Routes each question to the right database automatically.",
+      "key_capabilities": [
+        "Multi-database routing",
+        "Automatic source selection"
+      ],
+      "user_outcomes": [
+        "Query multiple databases through a single RAG interface"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "vision_rag",
+      "name": "Vision RAG",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Ask questions about images and PDF pages with Embed-4.",
+      "key_capabilities": [
+        "Vision-based retrieval",
+        "Image and PDF Q&A"
+      ],
+      "user_outcomes": [
+        "Query visual documents using natural language"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "rag_failure_diagnostics_clinic",
+      "name": "RAG Failure Diagnostics Clinic",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Systematically diagnoses why RAG pipelines produce incorrect answers.",
+      "key_capabilities": [
+        "Failure diagnosis",
+        "Systematic debugging"
+      ],
+      "user_outcomes": [
+        "Identify and fix RAG pipeline failures"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "knowledge_graph_rag_citations",
+      "name": "Knowledge Graph RAG Citations",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Multi-hop answers with verifiable source attribution using knowledge graphs.",
+      "key_capabilities": [
+        "Knowledge graph retrieval",
+        "Citation generation"
+      ],
+      "user_outcomes": [
+        "Get multi-hop answers with traceable sources"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "chat_with_github",
+      "name": "Chat with GitHub",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Answers questions about any GitHub repository in 30 lines of RAG.",
+      "key_capabilities": [
+        "Repository Q&A",
+        "Codebase understanding"
+      ],
+      "user_outcomes": [
+        "Chat with any GitHub repo to understand its code"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "chat_with_gmail",
+      "name": "Chat with Gmail",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Ask questions about your Gmail inbox using RAG.",
+      "key_capabilities": [
+        "Gmail integration",
+        "Inbox Q&A"
+      ],
+      "user_outcomes": [
+        "Query your email inbox in natural language"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "chat_with_pdf",
+      "name": "Chat with PDF",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "The classic PDF Q&A app in 30 lines of Python using GPT and Llama3.",
+      "key_capabilities": [
+        "PDF parsing",
+        "Document Q&A"
+      ],
+      "user_outcomes": [
+        "Chat with PDF documents using natural language"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "chat_with_research_papers",
+      "name": "Chat with Research Papers",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Explore arXiv papers conversationally using GPT-4o.",
+      "key_capabilities": [
+        "arXiv integration",
+        "Research paper Q&A"
+      ],
+      "user_outcomes": [
+        "Chat with academic papers to extract insights"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "chat_with_substack",
+      "name": "Chat with Substack",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Chat with any Substack newsletter archive.",
+      "key_capabilities": [
+        "Substack integration",
+        "Newsletter Q&A"
+      ],
+      "user_outcomes": [
+        "Query Substack newsletters in natural language"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "chat_with_youtube_videos",
+      "name": "Chat with YouTube Videos",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Knowledge Engine",
+      "category": "Knowledge & RAG",
+      "description": "Ask questions about YouTube videos via their transcripts.",
+      "key_capabilities": [
+        "YouTube transcript extraction",
+        "Video Q&A"
+      ],
+      "user_outcomes": [
+        "Query video content through natural language"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "self-improving-agent-skills",
+      "name": "Self-Improving Agent Skills",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "AI Workforce",
+      "description": "Automatically optimizes agent skills using OpenAI and ADK.",
+      "key_capabilities": [
+        "Skill optimization",
+        "Self-improving workflows"
+      ],
+      "user_outcomes": [
+        "Deploy agent skills that improve themselves over time"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "academic-researcher",
+      "name": "Academic Researcher",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "Knowledge & RAG",
+      "description": "AI-powered academic research assistant.",
+      "key_capabilities": [
+        "Literature search",
+        "Research synthesis"
+      ],
+      "user_outcomes": [
+        "Accelerate academic research with AI"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "code-reviewer",
+      "name": "Code Reviewer",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "Productivity",
+      "description": "AI-powered code review assistant.",
+      "key_capabilities": [
+        "Code review",
+        "Bug detection"
+      ],
+      "user_outcomes": [
+        "Get AI-assisted code reviews"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "data-analyst",
+      "name": "Data Analyst",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "Productivity",
+      "description": "AI-powered data analysis assistant.",
+      "key_capabilities": [
+        "Data analysis",
+        "Insight generation"
+      ],
+      "user_outcomes": [
+        "Analyze data using natural language"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "debugger",
+      "name": "Debugger",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "Productivity",
+      "description": "AI-powered debugging assistant.",
+      "key_capabilities": [
+        "Bug diagnosis",
+        "Fix suggestions"
+      ],
+      "user_outcomes": [
+        "Debug code faster with AI assistance"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "deep-research",
+      "name": "Deep Research",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "Knowledge & RAG",
+      "description": "AI-powered deep research assistant.",
+      "key_capabilities": [
+        "Deep research",
+        "Multi-source synthesis"
+      ],
+      "user_outcomes": [
+        "Conduct comprehensive research on any topic"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "fullstack-developer",
+      "name": "Fullstack Developer",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "Productivity",
+      "description": "AI-powered fullstack development assistant.",
+      "key_capabilities": [
+        "Fullstack coding",
+        "Architecture guidance"
+      ],
+      "user_outcomes": [
+        "Build fullstack applications with AI assistance"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "python-expert",
+      "name": "Python Expert",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "Productivity",
+      "description": "AI-powered Python development assistant.",
+      "key_capabilities": [
+        "Python coding",
+        "Debugging and optimization"
+      ],
+      "user_outcomes": [
+        "Write better Python code with AI guidance"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "sprint-planner",
+      "name": "Sprint Planner",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "Productivity",
+      "description": "AI-powered sprint planning assistant.",
+      "key_capabilities": [
+        "Sprint planning",
+        "Task estimation"
+      ],
+      "user_outcomes": [
+        "Plan sprints more effectively with AI"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "technical-writer",
+      "name": "Technical Writer",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "Content & Video",
+      "description": "AI-powered technical writing assistant.",
+      "key_capabilities": [
+        "Technical documentation",
+        "Writing assistance"
+      ],
+      "user_outcomes": [
+        "Create clear technical documentation with AI"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_arxiv_agent_memory",
+      "name": "AI ArXiv Agent Memory",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "Knowledge & RAG",
+      "description": "Paper search agent that remembers your research interests.",
+      "key_capabilities": [
+        "ArXiv search",
+        "Personalized memory"
+      ],
+      "user_outcomes": [
+        "Find relevant papers with an AI that remembers your interests"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_travel_agent_memory",
+      "name": "AI Travel Agent Memory",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "Productivity",
+      "description": "Travel assistant that remembers your preferences across sessions.",
+      "key_capabilities": [
+        "Preference memory",
+        "Personalized travel planning"
+      ],
+      "user_outcomes": [
+        "Get travel plans that improve as the AI learns your preferences"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "llama3_stateful_chat",
+      "name": "Llama3 Stateful Chat",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "AI Workforce",
+      "description": "Session-persistent chat with Llama 3.",
+      "key_capabilities": [
+        "Session persistence",
+        "Llama 3 integration"
+      ],
+      "user_outcomes": [
+        "Maintain conversation context across chat sessions"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "llm_app_personalized_memory",
+      "name": "LLM App Personalized Memory",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "AI Workforce",
+      "description": "A chatbot that keeps context across conversations.",
+      "key_capabilities": [
+        "Cross-conversation memory",
+        "Personalization"
+      ],
+      "user_outcomes": [
+        "Chat with an AI that remembers your history"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "local_chatgpt_with_memory",
+      "name": "Local ChatGPT with Memory",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "AI Workforce",
+      "description": "Fully local ChatGPT clone with personal memory per user.",
+      "key_capabilities": [
+        "Local inference",
+        "Per-user memory"
+      ],
+      "user_outcomes": [
+        "Run a private ChatGPT alternative with memory"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "multi_llm_memory",
+      "name": "Multi LLM Memory",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "AI Workforce",
+      "description": "Shared conversation memory across different LLM models.",
+      "key_capabilities": [
+        "Multi-model memory sharing",
+        "Cross-model context"
+      ],
+      "user_outcomes": [
+        "Switch between LLMs while preserving conversation context"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "toonify_token_optimization",
+      "name": "Toonify Token Optimization",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "Productivity",
+      "description": "Reduces LLM API costs by 30-60% using TOON format.",
+      "key_capabilities": [
+        "Token optimization",
+        "Cost reduction"
+      ],
+      "user_outcomes": [
+        "Cut LLM API costs without losing output quality"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "headroom_context_optimization",
+      "name": "Headroom Context Optimization",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "Productivity",
+      "description": "Reduces LLM API costs by 50-90% through context optimization.",
+      "key_capabilities": [
+        "Context compression",
+        "Cost reduction"
+      ],
+      "user_outcomes": [
+        "Drastically reduce token usage and API costs"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "gemma3_finetuning",
+      "name": "Gemma3 Finetuning",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "AI Workforce",
+      "description": "4-bit LoRA fine-tuning with Unsloth in small readable scripts.",
+      "key_capabilities": [
+        "4-bit LoRA",
+        "Unsloth integration",
+        "Small script footprint"
+      ],
+      "user_outcomes": [
+        "Fine-tune Gemma 3 efficiently with minimal code"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "llama3.2_finetuning",
+      "name": "Llama3.2 Finetuning",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "AI Workforce",
+      "description": "Fine-tune Llama 3.2 in 30 lines, free on Colab.",
+      "key_capabilities": [
+        "Minimal fine-tuning code",
+        "Colab-compatible"
+      ],
+      "user_outcomes": [
+        "Fine-tune Llama 3.2 quickly and for free"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "google_adk_crash_course",
+      "name": "Google ADK Crash Course",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "AI Workforce",
+      "description": "Deep-dive tutorial on Google ADK covering agents, tools, memory, callbacks, plugins, and multi-agent patterns.",
+      "key_capabilities": [
+        "Google ADK framework",
+        "Multi-agent patterns",
+        "Model-agnostic design"
+      ],
+      "user_outcomes": [
+        "Master Google ADK for building production agents"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "openai_sdk_crash_course",
+      "name": "OpenAI SDK Crash Course",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "AI Workforce",
+      "description": "Deep-dive tutorial on OpenAI Agents SDK covering function calling, tools, memory, evaluation, handoffs, swarm orchestration, and routing.",
+      "key_capabilities": [
+        "OpenAI Agents SDK",
+        "Swarm orchestration",
+        "Routing logic"
+      ],
+      "user_outcomes": [
+        "Build sophisticated agents with the OpenAI Agents SDK"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_3dpygame_r1",
+      "name": "AI 3D Pygame R1",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "Content & Video",
+      "description": "DeepSeek R1 writes PyGame code while browser agents run it live.",
+      "key_capabilities": [
+        "3D game generation",
+        "Live browser execution"
+      ],
+      "user_outcomes": [
+        "Generate and play 3D games from descriptions"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_chess_agent",
+      "name": "AI Chess Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "Content & Video",
+      "description": "Agent White vs Agent Black with validated chess moves.",
+      "key_capabilities": [
+        "Chess gameplay",
+        "Move validation"
+      ],
+      "user_outcomes": [
+        "Watch AI agents play chess against each other"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai_tic_tac_toe_agent",
+      "name": "AI Tic Tac Toe Agent",
+      "source": "awesome-llm-apps",
+      "url": null,
+      "hub": "Builder Lab",
+      "category": "Content & Video",
+      "description": "Two different LLMs battle it out move by move at tic-tac-toe.",
+      "key_capabilities": [
+        "Game-playing agents",
+        "LLM competition"
+      ],
+      "user_outcomes": [
+        "Watch competing LLMs play tic-tac-toe"
+      ],
+      "editorial_blurb": null,
+      "status": "ready",
+      "featured": false,
+      "live_status": "unknown"
+    },
+    {
+      "id": "ai-personalizedcontent",
+      "name": "AI Personalized Content",
+      "source": "user-listed",
+      "url": "https://ai-personalizedcontent.videoremix.vip",
+      "hub": "VideoRemix",
+      "category": "Content & Video",
+      "description": "Generates personalized images and videos at scale for marketing and social media.",
+      "key_capabilities": [
+        "Personalized image generation",
+        "Video content creation",
+        "Marketing asset scaling"
+      ],
+      "user_outcomes": [
+        "Create personalized visual content at scale",
+        "Generate marketing-ready images and videos"
+      ],
+      "editorial_blurb": null,
+      "status": "advanced",
+      "featured": null,
+      "live_status": "live"
+    },
+    {
+      "id": "ai-funnelcraft",
+      "name": "AI FunnelCraft",
+      "source": "user-listed",
+      "url": "https://ai-funnelcraft.videoremix.vip",
+      "hub": "VideoRemix",
+      "category": "Sales & Funnels",
+      "description": "AI-powered funnel builder for designing and automating marketing and sales funnels.",
+      "key_capabilities": [
+        "Funnel design",
+        "Marketing automation",
+        "Conversion optimization"
+      ],
+      "user_outcomes": [
+        "Build automated marketing funnels with AI",
+        "Increase conversion rates through optimized funnels"
+      ],
+      "editorial_blurb": null,
+      "status": "advanced",
+      "featured": null,
+      "live_status": "live"
+    },
+    {
+      "id": "ai-skills",
+      "name": "AI Skills Monetizer",
+      "source": "user-listed",
+      "url": "https://ai-skills.videoremix.vip",
+      "hub": "VideoRemix",
+      "category": "Productivity",
+      "description": "Monetizes AI skills and workflows by packaging them into sellable digital products.",
+      "key_capabilities": [
+        "Skill packaging",
+        "Digital product creation",
+        "Monetization workflows"
+      ],
+      "user_outcomes": [
+        "Turn AI skills into revenue-generating products",
+        "Package and sell AI workflows"
+      ],
+      "editorial_blurb": null,
+      "status": "advanced",
+      "featured": null,
+      "live_status": "live"
+    },
+    {
+      "id": "ai-salespage",
+      "name": "AI Sales Page Cloner",
+      "source": "user-listed",
+      "url": "https://ai-salespage.videoremix.vip",
+      "hub": "VideoRemix",
+      "category": "Sales & Funnels",
+      "description": "Clones and replicates high-performing sales page designs using AI.",
+      "key_capabilities": [
+        "Sales page replication",
+        "Design cloning",
+        "Conversion-focused layouts"
+      ],
+      "user_outcomes": [
+        "Clone winning sales page designs",
+        "Launch high-converting pages faster"
+      ],
+      "editorial_blurb": null,
+      "status": "advanced",
+      "featured": null,
+      "live_status": "live"
+    },
+    {
+      "id": "ai-salesassistant",
+      "name": "SalesAssist",
+      "source": "user-listed",
+      "url": "https://ai-salesassistant.videoremix.vip",
+      "hub": "VideoRemix",
+      "category": "Sales & Funnels",
+      "description": "AI-powered sales methodology helper that guides reps through proven sales frameworks.",
+      "key_capabilities": [
+        "Sales methodology coaching",
+        "Framework guidance",
+        "Rep enablement"
+      ],
+      "user_outcomes": [
+        "Apply proven sales methodologies consistently",
+        "Coach sales reps with AI-driven guidance"
+      ],
+      "editorial_blurb": null,
+      "status": "advanced",
+      "featured": null,
+      "live_status": "live"
+    },
+    {
+      "id": "ai-personalizationstudio",
+      "name": "AI Personalization Studio",
+      "source": "user-listed",
+      "url": "https://ai-personalizationstudio.videoremix.vip",
+      "hub": "VideoRemix",
+      "category": "Content & Video",
+      "description": "Studio for creating and managing personalized content experiences across channels.",
+      "key_capabilities": [
+        "Personalization workflows",
+        "Multi-channel content",
+        "Experience management"
+      ],
+      "user_outcomes": [
+        "Deliver personalized content at scale",
+        "Manage cross-channel personalization from one studio"
+      ],
+      "editorial_blurb": null,
+      "status": "advanced",
+      "featured": null,
+      "live_status": "live"
+    },
+    {
+      "id": "ai-screenrecorder",
+      "name": "AI Screen Recorder",
+      "source": "user-listed",
+      "url": "https://ai-screenrecorder.videoremix.vip",
+      "hub": "VideoRemix",
+      "category": "Content & Video",
+      "description": "AI-enhanced screen recording with automatic editing, highlights, and transcription.",
+      "key_capabilities": [
+        "Screen recording",
+        "AI auto-editing",
+        "Highlight detection",
+        "Transcription"
+      ],
+      "user_outcomes": [
+        "Record and auto-edit screen content with AI",
+        "Generate highlight reels from recordings"
+      ],
+      "editorial_blurb": null,
+      "status": "advanced",
+      "featured": null,
+      "live_status": "live"
+    },
+    {
+      "id": "ai-signature",
+      "name": "AI Signature",
+      "source": "user-listed",
+      "url": "https://ai-signature.videoremix.vip",
+      "hub": "VideoRemix",
+      "category": "Productivity",
+      "description": "Generates and manages AI-powered email and document signatures.",
+      "key_capabilities": [
+        "Signature generation",
+        "Brand-consistent signatures",
+        "Email integration"
+      ],
+      "user_outcomes": [
+        "Create professional AI-generated signatures",
+        "Maintain brand consistency across signatures"
+      ],
+      "editorial_blurb": null,
+      "status": "advanced",
+      "featured": null,
+      "live_status": "live"
+    },
+    {
+      "id": "ai-profilegen",
+      "name": "AI Profile Generator",
+      "source": "user-listed",
+      "url": "https://ai-profilegen.videoremix.vip",
+      "hub": "VideoRemix",
+      "category": "Hiring & Profiles",
+      "description": "Generates professional profiles and bios from minimal input using AI.",
+      "key_capabilities": [
+        "Profile generation",
+        "Bio writing",
+        "Professional branding"
+      ],
+      "user_outcomes": [
+        "Create polished professional profiles in seconds",
+        "Generate consistent bios across platforms"
+      ],
+      "editorial_blurb": null,
+      "status": "advanced",
+      "featured": null,
+      "live_status": "live"
+    },
+    {
+      "id": "smartcrmcloser",
+      "name": "SmartCRM Closer",
+      "source": "user-listed",
+      "url": "https://smartcrmcloser.netlify.app",
+      "hub": "SmartCRM",
+      "category": "Sales & Funnels",
+      "description": "AI-powered CRM closing tool that helps sales teams finalize deals faster.",
+      "key_capabilities": [
+        "Deal closing assistance",
+        "CRM integration",
+        "Sales automation"
+      ],
+      "user_outcomes": [
+        "Close deals faster with AI-guided CRM workflows",
+        "Automate follow-ups and closing steps"
+      ],
+      "editorial_blurb": null,
+      "status": "advanced",
+      "featured": null,
+      "live_status": "live"
+    },
+    {
+      "id": "referrals",
+      "name": "AI Referral Maximizer",
+      "source": "user-listed",
+      "url": "https://referrals.smartcrm.vip",
+      "hub": "SmartCRM",
+      "category": "Sales & Funnels",
+      "description": "Maximizes referral revenue by identifying and automating referral opportunities.",
+      "key_capabilities": [
+        "Referral tracking",
+        "Opportunity identification",
+        "Referral automation"
+      ],
+      "user_outcomes": [
+        "Increase referral revenue through AI-identified opportunities",
+        "Automate referral outreach and tracking"
+      ],
+      "editorial_blurb": null,
+      "status": "advanced",
+      "featured": null,
+      "live_status": "live"
+    },
+    {
+      "id": "salesmax",
+      "name": "AI Sales Maximizer",
+      "source": "user-listed",
+      "url": "https://salesmax.smartcrm.vip",
+      "hub": "SmartCRM",
+      "category": "Sales & Funnels",
+      "description": "Maximizes sales performance through AI-driven insights and automation.",
+      "key_capabilities": [
+        "Sales analytics",
+        "Performance optimization",
+        "Pipeline automation"
+      ],
+      "user_outcomes": [
+        "Boost sales performance with AI insights",
+        "Automate pipeline management and forecasting"
+      ],
+      "editorial_blurb": null,
+      "status": "advanced",
+      "featured": null,
+      "live_status": "live"
+    },
+    {
+      "id": "ai-videoeditor",
+      "name": "VideoAI Editor",
+      "source": "user-listed",
+      "url": "https://ai-videoeditor.videoremix.vip",
+      "hub": "VideoRemix",
+      "category": "Content & Video",
+      "description": "AI-powered video editing tool that automates cuts, transitions, and enhancements.",
+      "key_capabilities": [
+        "Automated video editing",
+        "AI transitions",
+        "Video enhancement",
+        "Format optimization"
+      ],
+      "user_outcomes": [
+        "Edit videos faster with AI automation",
+        "Produce polished video content without manual editing"
+      ],
+      "editorial_blurb": null,
+      "status": "advanced",
+      "featured": null,
+      "live_status": "live"
+    }
+  ],
+  "coverage": {
+    "total_apps": 125,
+    "by_category": {
+      "AI Workforce": 23,
+      "Content & Video": 21,
+      "Hiring & Profiles": 2,
+      "Knowledge & RAG": 33,
+      "Productivity": 22,
+      "Sales & Funnels": 19,
+      "Voice & Agents": 5
+    },
+    "by_source": {
+      "awesome-llm-apps": 112,
+      "user-listed": 13
+    },
+    "with_descriptions": 125,
+    "with_capabilities": 125,
+    "with_outcomes": 125,
+    "with_editorial_blurb": 0,
+    "live_verified": 13
+  },
+  "gaps": []
+}

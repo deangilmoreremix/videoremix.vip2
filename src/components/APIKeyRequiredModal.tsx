@@ -4,6 +4,7 @@ import Eye from 'lucide-react/dist/esm/icons/eye.js';
 import EyeOff from 'lucide-react/dist/esm/icons/eye-off.js';
 import ExternalLink from 'lucide-react/dist/esm/icons/external-link.js';
 import Check from 'lucide-react/dist/esm/icons/check.js';
+import Coins from 'lucide-react/dist/esm/icons/coins.js';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { PROVIDER_INFO, type ApiKeyGateContextType } from './api-key-gate';
 import { useApiKeyGate } from './api-key-gate';
@@ -149,6 +150,30 @@ export const APIKeyRequiredModal: React.FC<APIKeyRequiredModalProps> = ({
             Your API keys are stored encrypted in Supabase and are only used to power this ai-design-studio
             directly with the provider. You pay the provider directly (e.g., OpenAI) — no middleman.
           </p>
+
+          <div className="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-4">
+            <div className="flex items-start gap-3">
+              <Coins className="h-5 w-5 text-yellow-500 mt-0.5" />
+              <div className="flex-1">
+                <p className="text-sm text-yellow-200 font-medium mb-1">
+                  Prefer not to manage API keys?
+                </p>
+                <p className="text-sm text-yellow-100/80 mb-3">
+                  Use platform credits to pay for AI usage automatically. No API key needed.
+                </p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    window.location.href = '/credits';
+                  }}
+                  className="border-yellow-500/50 text-yellow-200 hover:bg-yellow-900/30"
+                >
+                  Buy Credits / Use Credits
+                </Button>
+              </div>
+            </div>
+          </div>
 
           {requiredProviders.map((provider) => {
             const info = PROVIDER_INFO[provider];

@@ -35,17 +35,17 @@ async function verifyUser(req) {
   }
 }
 
-import Anthropic from 'npm:anthropic@0.39.0';;
+import OpenAI from 'npm:openai@4.78.1';
 
 // Initialize Supabase client
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Initialize Anthropic client
-const anthropic = new Anthropic({
-  apiKey: userApiKey!,
-});
+// Initialize OpenAI client
+function createOpenAIClient(apiKey: string) {
+  return new OpenAI({ apiKey });
+}
 
 // Types
 interface SalesIntelligenceInput {
@@ -91,7 +91,7 @@ interface SalesIntelligenceResult {
 }
 
 // Stage 1: Competitor Research Agent
-async function researchCompetitor(competitor: string): Promise<CompetitorProfile> {
+async function researchCompetitor(openai: ReturnType<typeof createOpenAIClient>, competitor: string): Promise<CompetitorProfile> {
   const prompt = `You are a competitive intelligence analyst researching a competitor company.
 
 Research "${competitor}" and provide comprehensive intelligence in the following JSON format:
@@ -122,12 +122,16 @@ Research "${competitor}" and provide comprehensive intelligence in the following
 
 Be thorough and cite specific sources where possible. Focus on factual, verifiable information.`;
 
-  const response = await anthropic.messages.create({
-    model: 'claude-3-opus-20240229',
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o',
     max_tokens: 4000,
     temperature: 0.3,
-    system: 'You are a professional competitive intelligence researcher. Always respond with valid JSON.',
+    response_format: { type: 'json_object' },
     messages: [
+      {
+        role: 'system',
+        content: 'You are a professional competitive intelligence researcher. Always respond with valid JSON.'
+      },
       {
         role: 'user',
         content: prompt
@@ -135,21 +139,15 @@ Be thorough and cite specific sources where possible. Focus on factual, verifiab
     ]
   });
 
-  const content = response.content[0];
-  if (content.type !== 'text') {
+  const content = response.choices[0].message.content;
+  if (!content) {
     throw new Error('Unexpected response type');
   }
 
   try {
-    // Extract JSON from the response
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('No JSON found in response');
-    }
-
-    return JSON.parse(jsonMatch[0]) as CompetitorProfile;
+    return JSON.parse(content) as CompetitorProfile;
   } catch (error) {
-    console.error('Failed to parse competitor research response:', content.text);
+    console.error('Failed to parse competitor research response:', content);
     throw new Error('Failed to parse competitor research data');
   }
 }
@@ -162,13 +160,13 @@ Be thorough and cite specific sources where possible. Focus on factual, verifiab
     return jsonResponse({ error: 'Unauthorized' }, 401);
   }
 
-  // Get user's anthropic API key
-  const userApiKey = await getUserApiKey(user_id, 'anthropic');
+  // Get user's OpenAI API key
+  const userApiKey = await getUserApiKey(user_id, 'openai');
   if (!userApiKey) {
     return jsonResponse({ 
       error: 'API_KEY_MISSING',
-      message: 'Please add your anthropic API key in your profile.',
-      provider: 'anthropic'
+      message: 'Please add your OpenAI API key in your profile.',
+      provider: 'openai'
     }, 403);
   }
 
@@ -232,8 +230,9 @@ Deno.serve(async (req: Request) => {
 
     // Start processing pipeline
     try {
+      const openai = createOpenAIClient(userApiKey);
       // Stage 1: Competitor Research
-      const competitorProfile = await researchCompetitor(input.competitor);
+      const competitorProfile = await researchCompetitor(openai, input.competitor);
 
       // Update result with Stage 1 completion
       const updatedResult: SalesIntelligenceResult = {

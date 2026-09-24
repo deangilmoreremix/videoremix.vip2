@@ -35,17 +35,17 @@ async function verifyUser(req) {
   }
 }
 
-import Anthropic from 'npm:anthropic@0.39.0';;
+import OpenAI from 'npm:openai@4.78.1';
 
 // Initialize Supabase client
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Initialize Anthropic client
-const anthropic = new Anthropic({
-  apiKey: userApiKey!,
-});
+// Initialize OpenAI client
+function createOpenAIClient(apiKey: string) {
+  return new OpenAI({ apiKey });
+}
 
 // Types
 interface LaunchIntelligenceInput {
@@ -111,7 +111,7 @@ interface LaunchIntelligenceResult {
 }
 
 // Agent 1: Competitor Analysis Agent
-async function analyzeCompetitors(product: string, competitors: string[], market: string): Promise<CompetitorAnalysis> {
+async function analyzeCompetitors(openai: ReturnType<typeof createOpenAIClient>, product: string, competitors: string[], market: string): Promise<CompetitorAnalysis> {
   const competitorList = competitors.join(', ');
 
   const prompt = `You are a senior product marketing manager specializing in competitive analysis for product launches.
@@ -162,12 +162,16 @@ Format your response as a JSON object with this exact structure:
 
 Be specific, evidence-based, and focus on actionable insights for product launch strategy.`;
 
-  const response = await anthropic.messages.create({
-    model: 'claude-3-opus-20240229',
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o',
     max_tokens: 3000,
     temperature: 0.3,
-    system: 'You are a senior product marketing strategist. Always respond with valid JSON.',
+    response_format: { type: 'json_object' },
     messages: [
+      {
+        role: 'system',
+        content: 'You are a senior product marketing strategist. Always respond with valid JSON.'
+      },
       {
         role: 'user',
         content: prompt
@@ -175,26 +179,21 @@ Be specific, evidence-based, and focus on actionable insights for product launch
     ]
   });
 
-  const content = response.content[0];
-  if (content.type !== 'text') {
+  const content = response.choices[0].message.content;
+  if (!content) {
     throw new Error('Unexpected response type');
   }
 
   try {
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('No JSON found in response');
-    }
-
-    return JSON.parse(jsonMatch[0]) as CompetitorAnalysis;
+    return JSON.parse(content) as CompetitorAnalysis;
   } catch (error) {
-    console.error('Failed to parse competitor analysis response:', content.text);
+    console.error('Failed to parse competitor analysis response:', content);
     throw new Error('Failed to parse competitor analysis data');
   }
 }
 
 // Agent 2: Market Sentiment Agent
-async function analyzeMarketSentiment(product: string, market: string, competitorAnalysis: CompetitorAnalysis): Promise<MarketSentiment> {
+async function analyzeMarketSentiment(openai: ReturnType<typeof createOpenAIClient>, product: string, market: string, competitorAnalysis: CompetitorAnalysis): Promise<MarketSentiment> {
   const prompt = `You are a market research analyst specializing in social sentiment and customer perception analysis.
 
 Analyze market sentiment for launching "${product}" in the ${market} market. Use the competitor analysis context provided.
@@ -237,12 +236,16 @@ Format your response as a JSON object:
 
 Be data-driven and cite patterns from social data, reviews, and market signals.`;
 
-  const response = await anthropic.messages.create({
-    model: 'claude-3-opus-20240229',
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o',
     max_tokens: 2500,
     temperature: 0.3,
-    system: 'You are a market research analyst. Always respond with valid JSON.',
+    response_format: { type: 'json_object' },
     messages: [
+      {
+        role: 'system',
+        content: 'You are a market research analyst. Always respond with valid JSON.'
+      },
       {
         role: 'user',
         content: prompt
@@ -250,26 +253,21 @@ Be data-driven and cite patterns from social data, reviews, and market signals.`
     ]
   });
 
-  const content = response.content[0];
-  if (content.type !== 'text') {
+  const content = response.choices[0].message.content;
+  if (!content) {
     throw new Error('Unexpected response type');
   }
 
   try {
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('No JSON found in response');
-    }
-
-    return JSON.parse(jsonMatch[0]) as MarketSentiment;
+    return JSON.parse(content) as MarketSentiment;
   } catch (error) {
-    console.error('Failed to parse market sentiment response:', content.text);
+    console.error('Failed to parse market sentiment response:', content);
     throw new Error('Failed to parse market sentiment data');
   }
 }
 
 // Agent 3: Launch Metrics Agent
-async function calculateLaunchMetrics(product: string, market: string, competitors: string[], competitorAnalysis: CompetitorAnalysis, marketSentiment: MarketSentiment): Promise<LaunchMetrics> {
+async function calculateLaunchMetrics(openai: ReturnType<typeof createOpenAIClient>, product: string, market: string, competitors: string[], competitorAnalysis: CompetitorAnalysis, marketSentiment: MarketSentiment): Promise<LaunchMetrics> {
   const competitorList = competitors.join(', ');
 
   const prompt = `You are a product launch analyst specializing in performance metrics and market adoption analysis.
@@ -320,12 +318,16 @@ Format your response as a JSON object:
 
 Be specific with numbers, ranges, and realistic benchmarks based on market data.`;
 
-  const response = await anthropic.messages.create({
-    model: 'claude-3-opus-20240229',
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o',
     max_tokens: 2500,
     temperature: 0.3,
-    system: 'You are a product launch analyst. Always respond with valid JSON.',
+    response_format: { type: 'json_object' },
     messages: [
+      {
+        role: 'system',
+        content: 'You are a product launch analyst. Always respond with valid JSON.'
+      },
       {
         role: 'user',
         content: prompt
@@ -333,26 +335,21 @@ Be specific with numbers, ranges, and realistic benchmarks based on market data.
     ]
   });
 
-  const content = response.content[0];
-  if (content.type !== 'text') {
+  const content = response.choices[0].message.content;
+  if (!content) {
     throw new Error('Unexpected response type');
   }
 
   try {
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('No JSON found in response');
-    }
-
-    return JSON.parse(jsonMatch[0]) as LaunchMetrics;
+    return JSON.parse(content) as LaunchMetrics;
   } catch (error) {
-    console.error('Failed to parse launch metrics response:', content.text);
+    console.error('Failed to parse launch metrics response:', content);
     throw new Error('Failed to parse launch metrics data');
   }
 }
 
 // Synthesis Agent: Strategic Recommendations
-async function generateRecommendations(product: string, market: string, competitorAnalysis: CompetitorAnalysis, marketSentiment: MarketSentiment, launchMetrics: LaunchMetrics): Promise<LaunchRecommendations> {
+async function generateRecommendations(openai: ReturnType<typeof createOpenAIClient>, product: string, market: string, competitorAnalysis: CompetitorAnalysis, marketSentiment: MarketSentiment, launchMetrics: LaunchMetrics): Promise<LaunchRecommendations> {
   const prompt = `You are a senior product strategy consultant specializing in go-to-market planning and launch execution.
 
 Based on the comprehensive analysis provided, generate strategic recommendations for launching "${product}" in the ${market} market.
@@ -404,12 +401,16 @@ Format your response as a JSON object:
 
 Focus on actionable, specific recommendations that drive launch success.`;
 
-  const response = await anthropic.messages.create({
-    model: 'claude-3-opus-20240229',
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o',
     max_tokens: 3000,
     temperature: 0.3,
-    system: 'You are a senior product strategy consultant. Always respond with valid JSON.',
+    response_format: { type: 'json_object' },
     messages: [
+      {
+        role: 'system',
+        content: 'You are a senior product strategy consultant. Always respond with valid JSON.'
+      },
       {
         role: 'user',
         content: prompt
@@ -417,40 +418,35 @@ Focus on actionable, specific recommendations that drive launch success.`;
     ]
   });
 
-  const content = response.content[0];
-  if (content.type !== 'text') {
+  const content = response.choices[0].message.content;
+  if (!content) {
     throw new Error('Unexpected response type');
   }
 
   try {
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('No JSON found in response');
-    }
-
-    return JSON.parse(jsonMatch[0]) as LaunchRecommendations;
+    return JSON.parse(content) as LaunchRecommendations;
   } catch (error) {
-    console.error('Failed to parse recommendations response:', content.text);
+    console.error('Failed to parse recommendations response:', content);
     throw new Error('Failed to parse strategic recommendations data');
   }
 }
 
 // Main pipeline function
-async function runLaunchIntelligencePipeline(input: LaunchIntelligenceInput): Promise<LaunchIntelligenceResult> {
+async function runLaunchIntelligencePipeline(input: LaunchIntelligenceInput, openai: ReturnType<typeof createOpenAIClient>): Promise<LaunchIntelligenceResult> {
   const startTime = Date.now();
 
   try {
     // Agent 1: Competitor Analysis
-    const competitorAnalysis = await analyzeCompetitors(input.product, input.competitors, input.market);
+    const competitorAnalysis = await analyzeCompetitors(openai, input.product, input.competitors, input.market);
 
     // Agent 2: Market Sentiment
-    const marketSentiment = await analyzeMarketSentiment(input.product, input.market, competitorAnalysis);
+    const marketSentiment = await analyzeMarketSentiment(openai, input.product, input.market, competitorAnalysis);
 
     // Agent 3: Launch Metrics
-    const launchMetrics = await calculateLaunchMetrics(input.product, input.market, input.competitors, competitorAnalysis, marketSentiment);
+    const launchMetrics = await calculateLaunchMetrics(openai, input.product, input.market, input.competitors, competitorAnalysis, marketSentiment);
 
     // Synthesis: Strategic Recommendations
-    const recommendations = await generateRecommendations(input.product, input.market, competitorAnalysis, marketSentiment, launchMetrics);
+    const recommendations = await generateRecommendations(openai, input.product, input.market, competitorAnalysis, marketSentiment, launchMetrics);
 
     const processingTime = Date.now() - startTime;
 
@@ -496,15 +492,17 @@ async function runLaunchIntelligencePipeline(input: LaunchIntelligenceInput): Pr
     return jsonResponse({ error: 'Unauthorized' }, 401);
   }
 
-  // Get user's anthropic API key
-  const userApiKey = await getUserApiKey(user_id, 'anthropic');
+  // Get user's OpenAI API key
+  const userApiKey = await getUserApiKey(user_id, 'openai');
   if (!userApiKey) {
     return jsonResponse({ 
       error: 'API_KEY_MISSING',
-      message: 'Please add your anthropic API key in your profile.',
-      provider: 'anthropic'
+      message: 'Please add your OpenAI API key in your profile.',
+      provider: 'openai'
     }, 403);
   }
+
+  const openai = createOpenAIClient(userApiKey);
 
   // Parse body
   let body;
@@ -574,7 +572,8 @@ Deno.serve(async (req: Request) => {
     }
 
     // Run the complete pipeline
-    const finalResult = await runLaunchIntelligencePipeline(input);
+    const openai = createOpenAIClient(userApiKey);
+    const finalResult = await runLaunchIntelligencePipeline(input, openai);
 
     // Update result in database
     await supabase

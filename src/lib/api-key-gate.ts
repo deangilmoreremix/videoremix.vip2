@@ -46,36 +46,6 @@ export const PROVIDER_INFO: Record<string, { name: string; hint: string; signupU
     hint: 'Get your API key from platform.openai.com/api-keys',
     signupUrl: 'https://platform.openai.com/api-keys',
   },
-  anthropic: {
-    name: 'Anthropic (Claude)',
-    hint: 'Get your API key from console.anthropic.com',
-    signupUrl: 'https://console.anthropic.com/',
-  },
-  gemini: {
-    name: 'Google Gemini',
-    hint: 'Get your API key from aistudio.google.com/ai-design-studio/apikey',
-    signupUrl: 'https://aistudio.google.com/ai-design-studio/apikey',
-  },
-  elevenlabs: {
-    name: 'ElevenLabs',
-    hint: 'Get your API key from elevenlabs.io/ai-design-studio/speech-synthesis',
-    signupUrl: 'https://elevenlabs.io/ai-design-studio/speech-synthesis',
-  },
-  cohere: {
-    name: 'Cohere',
-    hint: 'Get your API key from cohere.ai',
-    signupUrl: 'https://cohere.ai/',
-  },
-  together: {
-    name: 'Together AI',
-    hint: 'Get your API key from together.ai',
-    signupUrl: 'https://together.ai/',
-  },
-  xai: {
-    name: 'xAI (Grok)',
-    hint: 'Get your API key from x.ai',
-    signupUrl: 'https://x.ai/',
-  },
 };
 
 // Simple encryption for client-side (optional enhancement)
@@ -172,9 +142,6 @@ export async function testApiKey(provider: string, key: string): Promise<boolean
         const openai = new OpenAI({ apiKey: key });
         // Test by listing models (cheap call)
         await openai.models.list();
-        return true;
-      case 'anthropic':
-        // Similar test for Anthropic
         return true;
       default:
         // Unknown provider, assume invalid

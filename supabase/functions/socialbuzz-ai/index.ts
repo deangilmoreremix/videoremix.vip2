@@ -321,7 +321,7 @@ Deno.serve(async (req: Request) => {
       return jsonResponse({
         error: 'API_KEY_MISSING',
         message: 'Please add your Anthropic API key in your profile.',
-        provider: 'anthropic'
+        provider: 'openai'
       }, 403);
     }
 

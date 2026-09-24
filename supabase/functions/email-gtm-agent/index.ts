@@ -35,8 +35,7 @@ async function verifyUser(req) {
   }
 }
 
-import OpenAI from 'npm:openai@4.78.1';;
-import Exa from 'npm:exa-js@4.0.0';;
+import OpenAI from 'npm:openai@4.78.1';
 
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
@@ -45,8 +44,6 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 const openai = new OpenAI({
   apiKey: userApiKey,
 });
-
-const exa = new Exa(Deno.env.get('EXA_API_KEY')!);
 
 interface LeadInfo {
   companyName: string;
@@ -75,81 +72,87 @@ interface EmailResult {
   timestamp: string;
 }
 
-async function researchCompany(lead: LeadInfo): Promise<CompanyResearch> {
+async function researchCompany(openai: OpenAI, lead: LeadInfo): Promise<CompanyResearch> {
   const research: CompanyResearch = {
     companyDescription: '',
     recentNews: [],
     decisionMakerBackground: '',
   };
 
-  // Search company overview using Exa
+  // Research company overview
   try {
-    const companySearch = await exa.searchAndContents(
-      `${lead.companyName} company overview mission products services`,
-      { 
-        useAutoprompt: true,
-        numResults: 3,
-        text: { maxCharacters: 2000 }
-      }
-    );
-    
-    if (companySearch.results && companySearch.results.length > 0) {
-      research.companyDescription = companySearch.results[0].text?.substring(0, 1000) || 
-        `${lead.companyName} is a technology company.`;
-      
-      // Extract recent news from top results
-      research.recentNews = companySearch.results
-        .slice(0, 3)
-        .map(r => r.title || r.url)
-        .filter(Boolean) as string[];
-    }
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      max_tokens: 1000,
+      temperature: 0.7,
+      messages: [
+        {
+          role: 'system',
+          content: 'You are a business research assistant. Provide concise, factual company overviews.'
+        },
+        {
+          role: 'user',
+          content: `Research and provide a concise overview of ${lead.companyName}. Include their main products/services, mission, and recent developments. Keep it under 200 words.`
+        }
+      ]
+    });
+
+    research.companyDescription = completion.choices[0].message.content || `${lead.companyName} is a technology company.`;
   } catch (error) {
-    console.error('Exa company search error:', error);
+    console.error('OpenAI company research error:', error);
     research.companyDescription = `${lead.companyName} (no additional data available)`;
   }
 
   // Search for contact person background
   try {
-    const personSearch = await exa.searchAndContents(
-      `${lead.contactName} ${lead.companyName} background experience linkedin profile`,
-      {
-        useAutoprompt: true,
-        numResults: 2,
-        text: { maxCharacters: 1500 }
-      }
-    );
-    
-    if (personSearch.results && personSearch.results.length > 0) {
-      const backgroundText = personSearch.results
-        .map(r => r.text)
-        .filter(Boolean)
-        .join(' ');
-      research.decisionMakerBackground = backgroundText.substring(0, 500) || 
-        `Leadership at ${lead.companyName}`;
-    }
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      max_tokens: 500,
+      temperature: 0.7,
+      messages: [
+        {
+          role: 'system',
+          content: 'You are a research assistant. Provide concise professional background summaries.'
+        },
+        {
+          role: 'user',
+          content: `Provide a brief professional background summary for ${lead.contactName} who works as ${lead.position} at ${lead.companyName}. Include their likely experience, expertise areas, and professional focus. Keep it under 150 words.`
+        }
+      ]
+    });
+
+    research.decisionMakerBackground = completion.choices[0].message.content || `Leadership at ${lead.companyName}`;
   } catch (error) {
-    console.error('Exa person search error:', error);
+    console.error('OpenAI person research error:', error);
     research.decisionMakerBackground = `Decision maker at ${lead.companyName}`;
   }
 
   // Try to find GTM strategy or recent achievement based on department
   if (lead.department === "GTM (Sales & Marketing)" || lead.department === "Marketing Professional") {
     try {
-      const gtmSearch = await exa.searchAndContents(
-        `${lead.companyName} go-to-market strategy sales approach recent campaign`,
-        {
-          useAutoprompt: true,
-          numResults: 2,
-          text: { maxCharacters: 1000 }
-        }
-      );
-      
-      if (gtmSearch.results && gtmSearch.results.length > 0) {
-        research.gtmStrategy = gtmSearch.results[0].text?.substring(0, 300);
-        research.specificAchievement = gtmSearch.results[0]?.title || "recent initiative";
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-4o',
+        max_tokens: 300,
+        temperature: 0.7,
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a sales and marketing strategist. Provide concise GTM insights.'
+          },
+          {
+            role: 'user',
+            content: `Based on typical patterns for companies like ${lead.companyName} in the ${lead.position} role, what go-to-market strategies and recent initiatives might they be pursuing? Provide 2-3 specific, realistic examples. Keep it under 100 words.`
+          }
+        ]
+      });
+
+      const gtmText = completion.choices[0].message.content;
+      if (gtmText) {
+        research.gtmStrategy = gtmText;
+        research.specificAchievement = "recent initiative";
       }
     } catch (error) {
-      console.error('Exa GTM search error:', error);
+      console.error('OpenAI GTM research error:', error);
     }
   }
 
@@ -297,12 +300,12 @@ Best,
     return jsonResponse({ error: 'Unauthorized' }, 401);
   }
 
-  // Get user's openai API key
+  // Get user's OpenAI API key
   const userApiKey = await getUserApiKey(user_id, 'openai');
   if (!userApiKey) {
     return jsonResponse({ 
       error: 'API_KEY_MISSING',
-      message: 'Please add your openai API key in your profile.',
+      message: 'Please add your OpenAI API key in your profile.',
       provider: 'openai'
     }, 403);
   }
@@ -333,7 +336,8 @@ Deno.serve(async (req: Request) => {
     }
 
     // Step 1: Research the company and contact
-    const research = await researchCompany(input);
+    const openaiClient = new OpenAI({ apiKey: userApiKey });
+    const research = await researchCompany(openaiClient, input);
 
     // Step 2: Build personalized email
     const email = buildEmailTemplate(input, research);

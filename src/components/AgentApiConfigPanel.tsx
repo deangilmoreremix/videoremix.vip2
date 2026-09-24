@@ -6,50 +6,15 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { X, CheckCircle, XCircle, AlertCircle, Key, Save, TestTube } from "lucide-react";
+import { X, CheckCircle, XCircle, AlertCircle, Key, Save, TestTube, Coins } from "lucide-react";
 
 // API keys that users can configure
 const API_KEYS = [
   {
     key: "OPENAI_API_KEY",
     label: "OpenAI API Key",
-    description: "Used by most AI agents for GPT-4, GPT-3.5",
+    description: "Used by AI agents",
     testEndpoint: "https://api.openai.com/v1/models",
-    testHeader: "Authorization: Bearer {key}"
-  },
-  {
-    key: "ANTHROPIC_API_KEY",
-    label: "Anthropic API Key",
-    description: "For Claude-based agents",
-    testEndpoint: "https://api.anthropic.com/v1/messages",
-    testHeader: "x-api-key: {key}"
-  },
-  {
-    key: "GOOGLE_GENERATIVE_AI_KEY",
-    label: "Google Gemini API Key",
-    description: "For Gemini-powered agents",
-    testEndpoint: "https://generativelanguage.googleapis.com/v1/models",
-    testHeader: "Authorization: Bearer {key}"
-  },
-  {
-    key: "EXA_API_KEY",
-    label: "Exa API Key",
-    description: "For web-search and research agents",
-    testEndpoint: "https://api.exa.ai/search",
-    testHeader: "Authorization: Bearer {key}"
-  },
-  {
-    key: "FIRECRAWL_API_KEY",
-    label: "Firecrawl API Key",
-    description: "For web scraping and crawling agents",
-    testEndpoint: "https://api.firecrawl.dev/v1/scrape",
-    testHeader: "Authorization: Bearer {key}"
-  },
-  {
-    key: "TOGETHER_API_KEY",
-    label: "Together AI API Key",
-    description: "For Llama-based and alternative models",
-    testEndpoint: "https://api.together.xyz/v1/models",
     testHeader: "Authorization: Bearer {key}"
   }
 ];
@@ -70,6 +35,9 @@ const AgentApiConfigPanel: React.FC<AgentApiConfigPanelProps> = ({ isOpen, onClo
   const [keyValues, setKeyValues] = useState<Record<string, string>>({});
   const [keyStatuses, setKeyStatuses] = useState<Record<string, KeyStatus>>({});
   const [saving, setSaving] = useState(false);
+  const [usePlatformCredits, setUsePlatformCredits] = useState(() => {
+    return localStorage.getItem('usePlatformCredits') === 'true';
+  });
 
   // Load saved keys on mount
   useEffect(() => {
@@ -77,6 +45,10 @@ const AgentApiConfigPanel: React.FC<AgentApiConfigPanelProps> = ({ isOpen, onClo
       loadKeys();
     }
   }, [isOpen, user]);
+
+  useEffect(() => {
+    localStorage.setItem('usePlatformCredits', String(usePlatformCredits));
+  }, [usePlatformCredits]);
 
   const loadKeys = async () => {
     if (!user) return;
@@ -181,7 +153,32 @@ const AgentApiConfigPanel: React.FC<AgentApiConfigPanelProps> = ({ isOpen, onClo
             </CardHeader>
 
             <CardContent className="space-y-6">
-              {API_KEYS.map(keyConfig => {
+              <div className="flex items-center justify-between p-4 bg-gray-900/50 rounded-lg border border-gray-700">
+                <div className="flex items-center gap-3">
+                  <Coins className="h-5 w-5 text-yellow-500" />
+                  <div>
+                    <Label className="text-base font-medium">Use Platform Credits</Label>
+                    <p className="text-sm text-gray-400">
+                      Pay per AI token with platform credits instead of using your own API key
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  variant={usePlatformCredits ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setUsePlatformCredits(!usePlatformCredits)}
+                >
+                  {usePlatformCredits ? 'Enabled' : 'Enable'}
+                </Button>
+              </div>
+
+              {!usePlatformCredits && (
+                <p className="text-sm text-gray-400">
+                  Add your own API keys below. Keys are stored encrypted and synced across devices.
+                </p>
+              )}
+
+              {!usePlatformCredits && API_KEYS.map(keyConfig => {
                 const status = keyStatuses[keyConfig.key] || { configured: false, testing: false };
                 const value = keyValues[keyConfig.key] || '';
 
@@ -230,14 +227,18 @@ const AgentApiConfigPanel: React.FC<AgentApiConfigPanelProps> = ({ isOpen, onClo
 
               <div className="flex items-center justify-between pt-4 border-t border-gray-700">
                 <p className="text-sm text-gray-400">
-                  Keys are stored encrypted and synced across devices.
+                  {usePlatformCredits
+                    ? 'Credits are deducted automatically based on your usage.'
+                    : 'Keys are stored encrypted and synced across devices.'}
                 </p>
                 <div className="flex space-x-2">
                   <Button variant="outline" onClick={onClose}>Cancel</Button>
-                  <Button onClick={saveKeys} disabled={saving}>
-                    <Save className="h-4 w-4 mr-2" />
-                    {saving ? 'Saving...' : 'Save Keys'}
-                  </Button>
+                  {!usePlatformCredits && (
+                    <Button onClick={saveKeys} disabled={saving}>
+                      <Save className="h-4 w-4 mr-2" />
+                      {saving ? 'Saving...' : 'Save Keys'}
+                    </Button>
+                  )}
                 </div>
               </div>
             </CardContent>

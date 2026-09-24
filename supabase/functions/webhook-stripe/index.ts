@@ -243,6 +243,69 @@ async function handleCheckoutCompleted(supabase: any, event: any) {
     }
   }
 
+  // Handle credit purchases
+  if (session.metadata?.product_type === 'credits' && session.metadata?.userId) {
+    try {
+      const creditsAmount = parseInt(session.metadata.credits_amount || '0', 10);
+      const productId = session.metadata.product_id;
+      const appId = session.metadata.app_id || 'videoremixvip';
+
+      if (creditsAmount > 0) {
+        const creditsSupabase = createClient(
+          Deno.env.get('SUPABASE_URL') ?? '',
+          Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+          {
+            schema: 'credits',
+          }
+        );
+
+        // Ensure user has a credit balance row for this app
+        const { data: existingBalance } = await creditsSupabase
+          .from('credit_balances')
+          .select('user_id')
+          .eq('user_id', session.metadata.userId)
+          .eq('app_id', appId)
+          .maybeSingle();
+
+        if (!existingBalance) {
+          await creditsSupabase.from('credit_balances').insert({
+            user_id: session.metadata.userId,
+            app_id: appId,
+            balance_credits: 0,
+            total_purchased_credits: 0,
+            total_spent_credits: 0,
+          });
+        }
+
+        // Credit the balance
+        const { data: updatedBalance, error: balanceError } = await creditsSupabase.rpc(
+          'add_credits',
+          {
+            p_user_id: session.metadata.userId,
+            p_app_id: appId,
+            p_amount: creditsAmount,
+            p_type: 'purchase',
+            p_source: 'stripe',
+            p_source_id: session.id,
+            p_metadata: {
+              product_id: productId,
+              stripe_session_id: session.id,
+              amount_paid_usd: session.amount_total / 100,
+            },
+          }
+        );
+
+        if (balanceError) {
+          console.error('Error crediting balance:', balanceError);
+        } else {
+          console.log(`Credited ${creditsAmount} credits to user ${session.metadata.userId} for app ${appId}`);
+        }
+      }
+    } catch (error) {
+      console.error('Error processing credit purchase:', error);
+    }
+  }
+
   return result;
 }
 

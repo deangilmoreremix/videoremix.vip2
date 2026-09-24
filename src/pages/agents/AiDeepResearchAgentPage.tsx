@@ -18,7 +18,6 @@ const STORAGE_KEY = 'deep-research-pro';
 const AiDeepResearchAgentPage: React.FC = () => {
   const { user } = useAuth();
   const [openaiApiKey, setOpenaiApiKey] = useState("");
-  const [firecrawlApiKey, setFirecrawlApiKey] = useState("");
   const [topic, setTopic] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -30,15 +29,14 @@ const AiDeepResearchAgentPage: React.FC = () => {
       try {
         const parsed = JSON.parse(saved);
         setOpenaiApiKey(parsed.openaiApiKey || "");
-        setFirecrawlApiKey(parsed.firecrawlApiKey || "");
         setTopic(parsed.topic || "");
       } catch {}
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ openaiApiKey, firecrawlApiKey, topic }));
-  }, [openaiApiKey, firecrawlApiKey, topic]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ openaiApiKey, topic }));
+  }, [openaiApiKey, topic]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,7 +52,6 @@ const AiDeepResearchAgentPage: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           openai_api_key: openaiApiKey,
-          firecrawl_api_key: firecrawlApiKey,
           enter_your_research_topic: topic,
           userId: user?.id
         })
@@ -72,7 +69,6 @@ const AiDeepResearchAgentPage: React.FC = () => {
 
   const handleReset = () => {
     setOpenaiApiKey("");
-    setFirecrawlApiKey("");
     setTopic("");
     setResult(null);
     setError(null);
@@ -162,19 +158,8 @@ const AiDeepResearchAgentPage: React.FC = () => {
                   value={openaiApiKey}
                   onChange={setOpenaiApiKey}
                   type="password"
-                  placeholder="sk-... (required for GPT-4 access)"
-                  helperText="Your API key enables GPT-4 for advanced reasoning. Stored locally."
-                  required
-                />
-
-                <SmartInput
-                  label="Firecrawl API Key"
-                  name="firecrawlApiKey"
-                  value={firecrawlApiKey}
-                  onChange={setFirecrawlApiKey}
-                  type="password"
-                  placeholder="fc-... (required for web scraping)"
-                  helperText="Firecrawl enables comprehensive web scraping. Get one at firecrawl.dev"
+                  placeholder="sk-... (required)"
+                  helperText="Your API key enables OpenAI for advanced reasoning. Stored locally."
                   required
                 />
 

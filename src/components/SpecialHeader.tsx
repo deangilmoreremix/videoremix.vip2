@@ -5,7 +5,7 @@ import {
   ArrowRight,
   Sparkles,
 } from "lucide-react";
-import { UserButton } from "@clerk/clerk-react";
+import { UserButton } from "@clerk/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";

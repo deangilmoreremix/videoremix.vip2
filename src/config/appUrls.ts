@@ -59,7 +59,6 @@ export const APP_URLS: Record<string, string> = {
   // Sales Assistant Pro
   "sales-assistant-pro": "https://ai-salesassistant.videoremix.vip",
   "ai-agency-builder-suite": "https://ai-salesassistant.videoremix.vip",
-  "ai-sales-email-writer-email-writer": "https://ai-salesassistant.videoremix.vip",
   "sales-monetizer": "https://ai-salesassistant.videoremix.vip",
 
   // AI Personalization Studio
@@ -128,9 +127,8 @@ export const APP_URLS: Record<string, string> = {
    "ai-offer-decision-helper-pro": "https://stupendous-twilight-64389a.netlify.ai-design-studio/",
    "lead-research-scraper-ai-pro": "https://heroic-seahorse-296f32.netlify.ai-design-studio/",
    "ai-business-growth-consultant-pro": "https://thriving-mochi-ecd815.netlify.ai-design-studio/",
-   "daily-content-engine-ai-pro": "https://roaring-mochi-39a60a.netlify.ai-design-studio",
-   "ai-content-creator-pro-pro": "https://kaleidoscopic-tarsier-3d0a6c.netlify.ai-design-studio/",
-   "ai-documentation-writer-generator-special": "https://endearing-churros-2ce8c6.netlify.ai-design-studio/",
+    "daily-content-engine-ai-pro": "https://roaring-mochi-39a60a.netlify.ai-design-studio",
+    "ai-documentation-writer-generator-special": "https://endearing-churros-2ce8c6.netlify.ai-design-studio/",
    "personalizer-transformer": "https://thriving-mochi-ecd815.netlify.ai-design-studio/",
    "personalizer-url-templates": "https://cute-khapse-4e62cb.netlify.ai-design-studio/",
    "competitor-spy-ai-generator": "https://keen-pastelito-6b9074.netlify.ai-design-studio",

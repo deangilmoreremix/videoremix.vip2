@@ -1,11 +1,29 @@
 import { generatedThumbnails } from '../data/generatedThumbnails';
 
+const LOCAL_THUMBNAIL_IDS = new Set([
+  'ai-personalizationstudio',
+  'ai-personalizedcontent',
+  'ai-profilegen',
+  'ai-referral-maximizer-pro',
+  'ai-sales-maximizer',
+  'ai-screenrecorder',
+  'ai-signature',
+  'ai-skills-monetizer',
+  'ai-video-editor',
+  'funnelcraft-ai',
+  'sales-assistant-app',
+  'sales-page-builder',
+  'smartcrmcloser-pro',
+]);
+
 /**
  * Get the local SVG thumbnail path for an app.
  * SVGs are in /public/app-thumbnails/{appId}.svg
  */
 function getLocalThumbnailPath(appId: string): string | null {
-  // In production, files in /public are served from the root
+  if (!LOCAL_THUMBNAIL_IDS.has(appId)) {
+    return null;
+  }
   return `/app-thumbnails/${appId}.svg`;
 }
 

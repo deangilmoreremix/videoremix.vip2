@@ -1,0 +1,612 @@
+- generic [ref=e8]:
+  - banner [ref=e9]:
+    - generic [ref=e10]:
+      - link "VideoRemix.vip AI MARKETING PLATFORM" [ref=e12] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e18]:
+          - text: VideoRemix.vip
+          - generic [ref=e19]: AI MARKETING PLATFORM
+      - generic [ref=e20]:
+        - button "Search... K" [ref=e21] [cursor=pointer]:
+          - generic [ref=e25]: Search...
+          - generic [ref=e26]: K
+        - link "Tools" [ref=e31] [cursor=pointer]:
+          - /url: /tools
+        - link "Pricing" [ref=e34] [cursor=pointer]:
+          - /url: /pricing
+        - link "Dashboard" [ref=e35] [cursor=pointer]:
+          - /url: /dashboard
+        - link "FAQ" [ref=e36] [cursor=pointer]:
+          - /url: /faq
+        - generic [ref=e37]:
+          - link "Sign In" [ref=e38] [cursor=pointer]:
+            - /url: /signin
+          - link "Sign Up" [ref=e40] [cursor=pointer]:
+            - /url: /signup
+  - button "Enable sound effects" [ref=e41] [cursor=pointer]
+  - generic [ref=e45]:
+    - generic [ref=e48]:
+      - generic [ref=e54]: "567"
+      - text: people online now
+    - link "View all activity" [ref=e56] [cursor=pointer]:
+      - /url: "#activity"
+  - main [ref=e60]:
+    - region "Hero" [ref=e61]:
+      - generic [ref=e63]:
+        - generic [ref=e64]: Trusted by 12,467+ marketing teams worldwide
+        - heading "Drive your marketing Conversions with AI personalization." [level=1] [ref=e69]:
+          - generic [ref=e70]: Drive your marketing
+          - generic [ref=e71]: Conversions
+          - generic [ref=e77]: with AI personalization.
+        - paragraph [ref=e78]: Transform generic marketing into personalized experiences at enterprise scale. Generate thousands of on-brand variants in minutes — no engineering team required.
+        - generic [ref=e79]:
+          - button "Get Started" [ref=e80] [cursor=pointer]
+          - button "Watch 60s Demo" [ref=e83] [cursor=pointer]
+        - generic [ref=e86]:
+          - generic [ref=e87]
+          - generic [ref=e91]: Enterprise-ready
+          - generic [ref=e95]: SOC 2 certified
+        - generic [aria-hidden] [ref=e99]: Personalization
+    - generic [ref=e105]:
+      - generic [ref=e106]:
+        - generic [ref=e107]: THE MARKETING CRISIS
+        - heading "Are You Still Creating Generic Marketing?" [level=2] [ref=e111]
+        - paragraph [ref=e112]: In today's hyper-competitive landscape, generic content gets ignored. Personalized marketing campaigns deliver 3x higher engagement and dramatically better conversion rates.
+      - generic [ref=e113]:
+        - generic [ref=e116]:
+          - generic [ref=e117]: Problem 1
+          - heading "Generic Content Gets Ignored" [level=3] [ref=e125]
+          - paragraph [ref=e126]: 73% of prospects skip generic marketing content within seconds
+          - generic [ref=e128]
+        - generic [ref=e133]:
+          - generic [ref=e134]: Problem 2
+          - heading "Wrong Message, Wrong Audience" [level=3] [ref=e141]
+          - paragraph [ref=e142]: Different segments need different messaging
+          - generic [ref=e144]
+        - generic [ref=e149]:
+          - generic [ref=e150]: Problem 3
+          - heading "No Personalization = No Connection" [level=3] [ref=e157]
+          - paragraph [ref=e158]: 86% say personalization impacts purchases
+          - generic [ref=e160]
+        - generic [ref=e165]:
+          - generic [ref=e166]: Problem 4
+          - heading "Poor Conversion Rates" [level=3] [ref=e171]
+          - paragraph [ref=e172]: Generic marketing campaigns convert 3X worse than personalized
+          - generic [ref=e174]
+        - generic [ref=e179]:
+          - generic [ref=e180]: Problem 5
+          - heading "Performance Declines Annually" [level=3] [ref=e186]
+          - paragraph [ref=e187]: Generic marketing effectiveness drops 18% yearly
+          - generic [ref=e189]
+        - generic [ref=e194]:
+          - generic [ref=e195]: Problem 6
+          - heading "Competitors Are Ahead" [level=3] [ref=e200]
+          - paragraph [ref=e201]: 67% of competitors already use personalization
+          - generic [ref=e203]
+      - generic [ref=e209]:
+        - heading "The True Cost of Missing Personalization" [level=3] [ref=e210]
+        - generic [ref=e211]:
+          - generic [ref=e212]
+          - generic [ref=e215]
+          - generic [ref=e218]
+          - generic [ref=e221]
+        - generic [ref=e224]:
+          - generic [ref=e225]
+          - generic [ref=e234]
+        - generic [ref=e243]:
+          - paragraph [ref=e244]: The longer you delay, the wider the gap between you and competitors using personalized marketing.
+          - link "See The Solution" [ref=e245] [cursor=pointer]:
+            - /url: "#solution"
+    - generic [ref=e254]:
+      - generic [ref=e255]:
+        - generic [ref=e256]: THE SOLUTION
+        - heading "Introducing VideoRemix.vip" [level=2] [ref=e265]
+        - paragraph [ref=e266]: The world's most advanced AI marketing personalization platform. Create, customize, and launch high-converting marketing campaigns in minutes — not days.
+      - generic [ref=e267]:
+        - generic [ref=e268]:
+          - generic [ref=e271]
+          - generic [ref=e309]
+        - generic [ref=e314]:
+          - heading "How VideoRemix.vip Transforms Your Marketing" [level=3] [ref=e315]
+          - generic [ref=e316]
+          - link "Get Personalized Marketing Access" [ref=e368] [cursor=pointer]:
+            - /url: "#pricing"
+      - generic [ref=e375]:
+        - generic [ref=e376]:
+          - heading "Personalized Marketing By The Numbers" [level=3] [ref=e377]
+          - paragraph [ref=e378]: "The data is clear: personalization dramatically outperforms generic content"
+        - generic [ref=e379]:
+          - generic [ref=e380]
+          - generic [ref=e383]
+          - generic [ref=e386]
+    - generic [ref=e393]:
+      - generic [ref=e394]:
+        - generic [ref=e395]: MARKETING PERSONALIZATION FEATURES
+        - heading "Comprehensive Marketing Personalization Features" [level=2] [ref=e398]
+        - paragraph [ref=e399]: Explore the powerful personalization capabilities of VideoRemix.vip's marketing platform
+      - generic [ref=e400]:
+        - generic [ref=e401]:
+          - heading "Personalized Video Marketing" [level=3] [ref=e403]
+          - list [ref=e404]
+        - generic [ref=e435]:
+          - heading "Personalized Marketing Copy" [level=3] [ref=e437]
+          - list [ref=e438]
+        - generic [ref=e469]:
+          - heading "Personalized Marketing Elements" [level=3] [ref=e471]
+          - list [ref=e472]
+        - generic [ref=e503]:
+          - heading "Personalized Interactive Marketing" [level=3] [ref=e505]
+          - list [ref=e506]
+        - generic [ref=e537]:
+          - heading "Personalized Professional Marketing" [level=3] [ref=e539]
+          - list [ref=e540]
+        - generic [ref=e571]:
+          - heading "Personalized Marketing Social & Sharing" [level=3] [ref=e573]
+          - list [ref=e574]
+        - generic [ref=e605]:
+          - heading "Personalized Marketing Advanced Tools" [level=3] [ref=e607]
+          - list [ref=e608]
+        - generic [ref=e639]:
+          - heading "Personalized Marketing Multi-Language" [level=3] [ref=e641]
+          - list [ref=e642]
+    - generic [ref=e675]:
+      - heading "F r o m G e n e r i c t o P e r s o n a l i z e d" [level=2] [ref=e677]:
+        - generic [ref=e678]:
+          - generic [ref=e679]: F
+          - generic [ref=e680]: r
+          - generic [ref=e681]: o
+          - generic [ref=e682]: m
+        - generic [ref=e684]:
+          - generic [ref=e685]: G
+          - generic [ref=e686]: e
+          - generic [ref=e687]: "n"
+          - generic [ref=e688]: e
+          - generic [ref=e689]: r
+          - generic [ref=e690]: i
+          - generic [ref=e691]: c
+        - generic [ref=e693]:
+          - generic [ref=e694]: t
+          - generic [ref=e695]: o
+        - generic [ref=e697]:
+          - generic [ref=e698]: P
+          - generic [ref=e699]: e
+          - generic [ref=e700]: r
+          - generic [ref=e701]: s
+          - generic [ref=e702]: o
+          - generic [ref=e703]: "n"
+          - generic [ref=e704]: a
+          - generic [ref=e705]: l
+          - generic [ref=e706]: i
+          - generic [ref=e707]: z
+          - generic [ref=e708]: e
+          - generic [ref=e709]: d
+      - generic [ref=e713]:
+        - generic [ref=e714]:
+          - heading "Generic Video" [level=3] [ref=e715]
+          - generic [ref=e716]: Generic Content
+        - generic [ref=e718]:
+          - heading "Personalized Video" [level=3] [ref=e719]
+          - generic [ref=e720]: AI-Personalized Content
+    - generic [ref=e724]:
+      - generic [ref=e725]:
+        - generic [ref=e726]:
+          - heading "Personalization Simulator" [level=3] [ref=e727]
+          - paragraph [ref=e728]: See the difference personalization makes
+        - 'button "Showing: Generic" [ref=e729] [cursor=pointer]'
+      - generic [ref=e730]:
+        - button "SaaSS" [ref=e731] [cursor=pointer]
+        - button "E-Commerce" [ref=e732] [cursor=pointer]
+        - button "Financial" [ref=e733] [cursor=pointer]
+        - button "Healthcare" [ref=e734] [cursor=pointer]
+      - generic [ref=e736]:
+        - button "Desktop" [ref=e737] [cursor=pointer]
+        - button "Tablet" [ref=e740] [cursor=pointer]
+        - button "Mobile" [ref=e743] [cursor=pointer]
+      - generic [ref=e746]:
+        - generic [ref=e747]: preview.videoremix.vip
+        - generic [ref=e753]:
+          - generic [ref=e754]: Generic Content
+          - heading "Transform Your Business Today" [level=4] [ref=e755]
+          - paragraph [ref=e756]: Discover our amazing solutions for your needs
+          - button "Learn More" [ref=e757] [cursor=pointer]
+    - generic [ref=e758]: Loading section...
+    - generic [ref=e763]: Loading section...
+    - generic [ref=e771]:
+      - generic [ref=e772]:
+        - generic [ref=e773]:
+          - heading "Personalization Simulator" [level=3] [ref=e774]
+          - paragraph [ref=e775]: See the difference personalization makes
+        - 'button "Showing: Generic" [ref=e776] [cursor=pointer]'
+      - generic [ref=e777]:
+        - button "SaaSS" [ref=e778] [cursor=pointer]
+        - button "E-Commerce" [ref=e779] [cursor=pointer]
+        - button "Financial" [ref=e780] [cursor=pointer]
+        - button "Healthcare" [ref=e781] [cursor=pointer]
+      - generic [ref=e783]:
+        - button "Desktop" [ref=e784] [cursor=pointer]
+        - button "Tablet" [ref=e787] [cursor=pointer]
+        - button "Mobile" [ref=e790] [cursor=pointer]
+      - generic [ref=e793]:
+        - generic [ref=e794]: preview.videoremix.vip
+        - generic [ref=e800]:
+          - generic [ref=e801]: Generic Content
+          - heading "Transform Your Business Today" [level=4] [ref=e802]
+          - paragraph [ref=e803]: Discover our amazing solutions for your needs
+          - button "Learn More" [ref=e804] [cursor=pointer]
+    - generic [ref=e805]: Loading section...
+    - generic [ref=e811]: Loading section...
+    - generic [ref=e820]:
+      - generic [ref=e824]:
+        - generic [ref=e825]:
+          - heading "90% Faster Marketing Creation" [level=3] [ref=e831]
+          - paragraph [ref=e832]: Create personalized videos in minutes, not hours with AI automation
+        - generic [ref=e833]: Benefit Visualization
+      - generic [ref=e839]:
+        - generic [ref=e840]:
+          - heading "Enterprise-Grade Security" [level=3] [ref=e845]
+          - paragraph [ref=e846]: Your data is protected with military-grade encryption and compliance
+        - generic [ref=e847]: Benefit Visualization
+      - generic [ref=e853]:
+        - generic [ref=e854]:
+          - heading "Professional Marketing Results" [level=3] [ref=e859]
+          - paragraph [ref=e860]: Achieve 350% higher conversions with AI personalization
+        - generic [ref=e861]: Benefit Visualization
+      - generic [ref=e867]:
+        - generic [ref=e868]:
+          - heading "350% Higher Conversions" [level=3] [ref=e874]
+          - paragraph [ref=e875]: Personalized content drives dramatically better engagement
+        - generic [ref=e876]: Benefit Visualization
+    - generic [ref=e879]: Loading section...
+    - generic [ref=e885]: Loading section...
+    - generic [ref=e893]:
+      - generic [ref=e894]:
+        - heading "C o m p l e t e A p p B u n d l e s" [level=2] [ref=e896]:
+          - generic [ref=e897]
+          - generic [ref=e907]
+          - generic [ref=e912]
+        - paragraph [ref=e921]: Choose from 12 comprehensive bundles, each packed with 6-16 AI-powered apps. Get 60-70% savings compared to buying apps individually.
+      - generic [ref=e922]:
+        - heading "Popular Bundles" [level=3] [ref=e923]
+        - generic [ref=e927]:
+          - generic [ref=e928]: Popular
+          - heading "Sales, Lead Gen & Prospecting Bundle" [level=3] [ref=e933]
+          - paragraph [ref=e934]: Turn prospect research, outreach, offers, campaigns, competitor insights, and follow-up into a repeatable sales system.
+          - generic [ref=e935]
+          - generic [ref=e941]
+          - link "View Details" [ref=e953] [cursor=pointer]:
+            - /url: /bundles/sales-lead-gen-bundle
+      - generic [ref=e956]:
+        - heading "All Bundles" [level=3] [ref=e957]
+        - generic [ref=e958]:
+          - generic [ref=e961]
+          - generic [ref=e992]
+          - generic [ref=e1023]
+          - generic [ref=e1053]
+          - generic [ref=e1083]
+          - generic [ref=e1116]
+          - generic [ref=e1146]
+          - generic [ref=e1177]
+          - generic [ref=e1207]
+          - generic [ref=e1238]
+          - generic [ref=e1268]
+      - generic [ref=e1297]:
+        - heading "Maximum Value" [level=3] [ref=e1298]
+        - generic [ref=e1299]:
+          - generic [ref=e1300]
+          - generic [ref=e1303]
+          - generic [ref=e1306]
+    - generic [ref=e1311]:
+      - heading "S e a m l e s s I n t e g r a t i o n s" [level=2] [ref=e1313]:
+        - generic [ref=e1314]:
+          - generic [ref=e1315]: S
+          - generic [ref=e1316]: e
+          - generic [ref=e1317]: a
+          - generic [ref=e1318]: m
+          - generic [ref=e1319]: l
+          - generic [ref=e1320]: e
+          - generic [ref=e1321]: s
+          - generic [ref=e1322]: s
+        - generic [ref=e1324]:
+          - generic [ref=e1325]: I
+          - generic [ref=e1326]: "n"
+          - generic [ref=e1327]: t
+          - generic [ref=e1328]: e
+          - generic [ref=e1329]: g
+          - generic [ref=e1330]: r
+          - generic [ref=e1331]: a
+          - generic [ref=e1332]: t
+          - generic [ref=e1333]: i
+          - generic [ref=e1334]: o
+          - generic [ref=e1335]: "n"
+          - generic [ref=e1336]: s
+      - paragraph [ref=e1338]: Connect VideoRemix.vip with your favorite tools and platforms for a streamlined workflow
+      - generic [ref=e1339]:
+        - generic [ref=e1340]: Salesforce
+        - generic [ref=e1342]: HubSpot
+        - generic [ref=e1344]: Shopify
+        - generic [ref=e1346]: Mailchimp
+        - generic [ref=e1348]: Google Analytics
+        - generic [ref=e1350]: Mixpanel
+        - generic [ref=e1352]: BigQuery
+        - generic [ref=e1354]: Slack
+        - generic [ref=e1356]: Zapier
+        - generic [ref=e1358]: API
+      - button "View all 20+ integrations →" [ref=e1361] [cursor=pointer]
+    - generic [ref=e1364]:
+      - heading "R e s o u r c e s & I n s i g h t s" [level=2] [ref=e1366]:
+        - generic [ref=e1367]:
+          - generic [ref=e1368]: R
+          - generic [ref=e1369]: e
+          - generic [ref=e1370]: s
+          - generic [ref=e1371]: o
+          - generic [ref=e1372]: u
+          - generic [ref=e1373]: r
+          - generic [ref=e1374]: c
+          - generic [ref=e1375]: e
+          - generic [ref=e1376]: s
+        - generic [ref=e1378]: "&"
+        - generic [ref=e1381]:
+          - generic [ref=e1382]: I
+          - generic [ref=e1383]: "n"
+          - generic [ref=e1384]: s
+          - generic [ref=e1385]: i
+          - generic [ref=e1386]: g
+          - generic [ref=e1387]: h
+          - generic [ref=e1388]: t
+          - generic [ref=e1389]: s
+      - generic [ref=e1391]:
+        - generic [ref=e1394]:
+          - text: Report
+          - heading "AI Personalization Trends 2026" [level=3] [ref=e1395]
+          - paragraph [ref=e1396]: Industry insights and predictions
+          - generic [ref=e1397]: May 10, 2026
+        - generic [ref=e1400]:
+          - text: Guide
+          - heading "ROI Calculator Guide" [level=3] [ref=e1401]
+          - paragraph [ref=e1402]: How to measure personalization impact
+          - generic [ref=e1403]: May 5, 2026
+        - generic [ref=e1406]:
+          - text: Case Study
+          - 'heading "Case Study: 300% Engagement Lift" [level=3] [ref=e1407]'
+          - paragraph [ref=e1408]: How Company X transformed their marketing
+          - generic [ref=e1409]: Apr 28, 2026
+      - button "Visit Resource Center →" [ref=e1411] [cursor=pointer]
+    - generic [ref=e1414]:
+      - heading "K e y F e a t u r e s" [level=2] [ref=e1416]:
+        - generic [ref=e1417]:
+          - generic [ref=e1418]: K
+          - generic [ref=e1419]: e
+          - generic [ref=e1420]: "y"
+        - generic [ref=e1422]:
+          - generic [ref=e1423]: F
+          - generic [ref=e1424]: e
+          - generic [ref=e1425]: a
+          - generic [ref=e1426]: t
+          - generic [ref=e1427]: u
+          - generic [ref=e1428]: r
+          - generic [ref=e1429]: e
+          - generic [ref=e1430]: s
+      - generic [ref=e1432]:
+        - generic [ref=e1434]:
+          - generic [ref=e1435] [cursor=pointer]
+          - generic: AI-Powered
+        - generic [ref=e1442]:
+          - generic [ref=e1443] [cursor=pointer]
+          - generic: Award Winning
+        - generic [ref=e1448]:
+          - generic [ref=e1449] [cursor=pointer]
+          - generic: Easy to Use
+        - generic [ref=e1454]:
+          - generic [ref=e1455] [cursor=pointer]
+          - generic: Proven Results
+    - generic [ref=e1461]:
+      - heading "Ready to Transform Your Marketing?" [level=2] [ref=e1462]
+      - paragraph [ref=e1463]: Join 12,467+ marketers using VideoRemix
+      - button "Get Started Now" [ref=e1465] [cursor=pointer]
+    - generic [ref=e1470]:
+      - heading "R O I C a l c u l a t o r" [level=2] [ref=e1472]:
+        - generic [ref=e1473]:
+          - generic [ref=e1474]: R
+          - generic [ref=e1475]: O
+          - generic [ref=e1476]: I
+        - generic [ref=e1478]:
+          - generic [ref=e1479]: C
+          - generic [ref=e1480]: a
+          - generic [ref=e1481]: l
+          - generic [ref=e1482]: c
+          - generic [ref=e1483]: u
+          - generic [ref=e1484]: l
+          - generic [ref=e1485]: a
+          - generic [ref=e1486]: t
+          - generic [ref=e1487]: o
+          - generic [ref=e1488]: r
+      - paragraph [ref=e1490]: Calculate your personalization ROI
+      - generic [ref=e1491]:
+        - generic [ref=e1496]:
+          - heading "Marketing ROI Calculator" [level=3] [ref=e1497]
+          - paragraph [ref=e1498]: See the impact of personalization
+        - generic [ref=e1499]:
+          - generic [ref=e1500]
+          - generic [ref=e1505]
+          - generic [ref=e1510]
+        - generic [ref=e1515]:
+          - generic [ref=e1516]
+          - generic [ref=e1524]
+        - button "Calculate ROI" [ref=e1533] [cursor=pointer]
+    - generic [ref=e1536]:
+      - heading "W h a t ' s I n c l u d e d" [level=2] [ref=e1538]:
+        - generic [ref=e1539]:
+          - generic [ref=e1540]: W
+          - generic [ref=e1541]: h
+          - generic [ref=e1542]: a
+          - generic [ref=e1543]: t
+          - generic [ref=e1544]: "'"
+          - generic [ref=e1545]: s
+        - generic [ref=e1547]:
+          - generic [ref=e1548]: I
+          - generic [ref=e1549]: "n"
+          - generic [ref=e1550]: c
+          - generic [ref=e1551]: l
+          - generic [ref=e1552]: u
+          - generic [ref=e1553]: d
+          - generic [ref=e1554]: e
+          - generic [ref=e1555]: d
+      - generic [ref=e1557]:
+        - generic [ref=e1558]:
+          - heading "AI Video Personalization" [level=3] [ref=e1559]
+          - paragraph [ref=e1560]: Automatic video customization
+        - generic [ref=e1561]:
+          - heading "Analytics Dashboard" [level=3] [ref=e1562]
+          - paragraph [ref=e1563]: Track performance in real-time
+        - generic [ref=e1564]:
+          - heading "Template Library" [level=3] [ref=e1565]
+          - paragraph [ref=e1566]: 500+ professional templates
+    - generic [ref=e1567]: Loading section...
+    - generic [ref=e1573]: Loading section...
+    - generic [ref=e1579]: Loading section...
+    - generic [ref=e1587]:
+      - heading "Trusted by Marketing Teams Worldwide" [level=2] [ref=e1589]
+      - generic [ref=e1591]:
+        - generic [ref=e1594]:
+          - generic [ref=e1595]: 0.0K+
+          - generic [ref=e1596]: Marketing Professionals
+        - generic [ref=e1599]:
+          - generic [ref=e1600]: 0%
+          - generic [ref=e1601]: Average ROI Increase
+        - generic [ref=e1604]:
+          - generic [ref=e1605]: 0%
+          - generic [ref=e1606]: Engagement Improvement
+    - generic [ref=e1609]:
+      - generic [ref=e1610]:
+        - heading "M a r k e t i n g I m p a c t B y T h e N u m b e r s" [level=2] [ref=e1612]:
+          - generic [ref=e1613]
+          - generic [ref=e1624]
+          - generic [ref=e1632]
+          - generic [ref=e1636]
+          - generic [ref=e1641]
+        - paragraph [ref=e1650]: Personalized marketing delivers measurable results across all key metrics
+      - generic [ref=e1651]:
+        - generic [ref=e1655]:
+          - generic [ref=e1656]: 0%
+          - generic [ref=e1657]: Higher Engagement Rate
+        - generic [ref=e1661]:
+          - generic [ref=e1662]: 0%
+          - generic [ref=e1663]: Better Conversion Rate
+        - generic [ref=e1667]:
+          - generic [ref=e1668]: 0%
+          - generic [ref=e1669]: ROI Improvement
+        - generic [ref=e1673]:
+          - generic [ref=e1674]: 0%
+          - generic [ref=e1675]: More Time Watching Videos
+    - generic [ref=e1679]:
+      - paragraph [ref=e1680]: Trusted by innovative companies worldwide
+      - generic [ref=e1681]:
+        - img "Netflix" [ref=e1683]
+        - img "Adobe" [ref=e1685]
+        - img "Spotify" [ref=e1687]
+        - img "Airbnb" [ref=e1689]
+        - img "Meta" [ref=e1691]
+        - img "Stripe" [ref=e1693]
+    - generic [ref=e1697]:
+      - generic [ref=e1698]:
+        - heading "Generic vs. Personalized Marketing" [level=3] [ref=e1699]
+        - button "Animate Results" [ref=e1700] [cursor=pointer]
+      - table [ref=e1705]:
+        - rowgroup [ref=e1706]:
+          - row "Feature Generic Personalized Lift" [ref=e1707]
+        - rowgroup [ref=e1712]:
+          - row "Engagement Rate 2.3% 5.3% 2.3x" [ref=e1713]
+          - row "Conversion Rate 2.23% 6-8% 80%" [ref=e1718]
+          - row "ROI Standard 5-8x" [ref=e1723]
+          - row "Customer Retention 38% 64% 68%" [ref=e1730]
+          - row "Time to Convert 14 days 5 days 64%" [ref=e1735]
+    - generic [ref=e1740]: Loading section...
+    - generic [ref=e1748]:
+      - heading "S e e I t I n A c t i o n" [level=2] [ref=e1750]:
+        - generic [ref=e1751]:
+          - generic [ref=e1752]: S
+          - generic [ref=e1753]: e
+          - generic [ref=e1754]: e
+        - generic [ref=e1756]:
+          - generic [ref=e1757]: I
+          - generic [ref=e1758]: t
+        - generic [ref=e1760]:
+          - generic [ref=e1761]: I
+          - generic [ref=e1762]: "n"
+        - generic [ref=e1764]:
+          - generic [ref=e1765]: A
+          - generic [ref=e1766]: c
+          - generic [ref=e1767]: t
+          - generic [ref=e1768]: i
+          - generic [ref=e1769]: o
+          - generic [ref=e1770]: "n"
+      - img "Video Demo" [ref=e1776]
+    - generic [ref=e1777]: Loading section...
+    - generic [ref=e1783]: Loading section...
+    - generic [ref=e1789]: Loading section...
+    - generic [ref=e1797]:
+      - heading "Ready to 3x Your Marketing ROI?" [level=2] [ref=e1798]
+      - paragraph [ref=e1799]: Join 12,467+ marketers transforming their marketing with AI personalization.
+      - button "Get Started" [ref=e1801] [cursor=pointer]
+    - generic [ref=e1802]:
+      - generic [ref=e1803] [cursor=pointer]
+      - generic: AI Marketing Platform
+    - generic [ref=e1807]:
+      - generic [ref=e1808] [cursor=pointer]
+      - generic: Problem Solver
+    - generic [ref=e1811]:
+      - generic [ref=e1812] [cursor=pointer]
+      - generic: Business Value
+    - generic [ref=e1817]:
+      - generic [ref=e1818] [cursor=pointer]
+      - generic: AI Personalization
+    - generic [ref=e1827]:
+      - generic [ref=e1828] [cursor=pointer]
+      - generic: 12 App Categories
+    - generic [ref=e1834]:
+      - generic [ref=e1835] [cursor=pointer]
+      - generic: Pricing Options
+    - generic [ref=e1838]:
+      - generic [ref=e1839] [cursor=pointer]
+      - generic: ROI Impact
+    - generic [ref=e1843]:
+      - generic [ref=e1844] [cursor=pointer]
+      - generic: Training & Support
+    - generic [ref=e1848]:
+      - generic [ref=e1849] [cursor=pointer]
+      - generic: FAQ Help
+    - generic [ref=e1853]:
+      - generic [ref=e1854] [cursor=pointer]
+      - generic: Get Started
+    - generic [ref=e1859]:
+      - generic [ref=e1860] [cursor=pointer]
+      - generic: Audience Engagement
+    - generic [ref=e1866]:
+      - generic [ref=e1867] [cursor=pointer]
+      - generic: ROI Impact
+    - generic [ref=e1872]:
+      - generic [ref=e1873]:
+        - generic [ref=e1878]:
+          - paragraph [ref=e1879]: Increased conversions by 2.3x
+          - paragraph [ref=e1880]: San Francisco, CA
+        - generic [ref=e1881]: 2 min ago
+      - generic [ref=e1882]:
+        - generic [ref=e1887]:
+          - paragraph [ref=e1888]: New team joined
+          - paragraph [ref=e1889]: Austin, TX
+        - generic [ref=e1890]: 5 min ago
+      - generic [ref=e1891]:
+        - generic [ref=e1895]:
+          - paragraph [ref=e1896]: Reached 10K campaigns
+          - paragraph [ref=e1897]: New York, NY
+        - generic [ref=e1898]: 12 min ago
+      - generic [ref=e1899]:
+        - generic [ref=e1904]:
+          - paragraph [ref=e1905]: Achieved 80% lift
+          - paragraph [ref=e1906]: London, UK
+        - generic [ref=e1907]: 18 min ago
+      - generic [ref=e1908]:
+        - generic [ref=e1913]:
+          - paragraph [ref=e1914]: Enterprise plan activated
+          - paragraph [ref=e1915]: Toronto, CA
+        - generic [ref=e1916]: 25 min ago
