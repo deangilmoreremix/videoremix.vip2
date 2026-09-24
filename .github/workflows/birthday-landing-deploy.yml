@@ -1,0 +1,65 @@
+name: Birthday Landing Deployment
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'public/birthday-special/**'
+      - 'public/_redirects'
+      - '.github/workflows/birthday-landing-deploy.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'public/birthday-special/**'
+      - 'public/_redirects'
+      - '.github/workflows/birthday-landing-deploy.yml'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Load public Supabase build values
+        shell: bash
+        run: |
+          source .env.lock
+          echo "VITE_SUPABASE_URL=$LOCKED_SUPABASE_URL" >> "$GITHUB_ENV"
+          echo "VITE_SUPABASE_ANON_KEY=$LOCKED_SUPABASE_ANON_KEY" >> "$GITHUB_ENV"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build complete VideoRemix site
+        run: npm run build
+
+      - name: Verify birthday landing output
+        shell: bash
+        run: |
+          test -f dist/birthday-special/index.html
+          grep -q "I’m Turning" dist/birthday-special/index.html
+          grep -q "Every App Is Just" dist/birthday-special/index.html
+
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
+      - name: Deploy preview
+        if: github.event_name == 'pull_request'
+        run: netlify deploy --dir=dist --site="$NETLIFY_SITE_ID" --auth="$NETLIFY_AUTH_TOKEN"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Deploy production
+        if: github.event_name == 'push'
+        run: netlify deploy --prod --dir=dist --site="$NETLIFY_SITE_ID" --auth="$NETLIFY_AUTH_TOKEN"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
