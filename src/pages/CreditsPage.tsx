@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../../utils/supabase';
+import { supabase } from '../utils/supabase';
 import { CreditPurchaseButton } from '../components/credit/CreditPurchaseButton';
 import { CreditBalanceDisplay } from '../components/credit/CreditBalanceDisplay';
 import { Coins, History, Zap } from 'lucide-react';
