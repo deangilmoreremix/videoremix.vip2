@@ -71,6 +71,7 @@ const QwenLocalRagPage = lazy(() => import("./pages/agents/QwenLocalRagPage"));
 const RagAgentCoherePage = lazy(() => import("./pages/agents/RagAgentCoherePage"));
 const ToolsHubPage = lazy(() => import("./pages/ToolsHubPage"));
 const ApplicationsPage = lazy(() => import("./pages/ApplicationsPage"));
+const BirthdaySpecialPage = lazy(() => import("./pages/BirthdaySpecialPage"));
 
 // Additional agent pages lazy imports
 const Ai3dpygameR1Page = lazy(() => import("./pages/agents/Ai3dpygameR1Page"));
@@ -511,7 +512,8 @@ function App() {
                       location.pathname.startsWith("/auth-callback") ||
                       location.pathname.startsWith("/magic-link");
    const isLandingPage = location.pathname === "/";
-   const showGlobalPersonalizer = user && !isAdminPage && !isAuthPage && !isLandingPage;
+   const isBirthdaySpecialPage = location.pathname === "/birthday-special";
+   const showGlobalPersonalizer = user && !isAdminPage && !isAuthPage && !isLandingPage && !isBirthdaySpecialPage;
 
    useEffect(() => {
     const checkDevice = () => {
@@ -568,15 +570,15 @@ function App() {
       </Helmet>
       <div className="flex flex-col min-h-screen bg-gray-900 text-white">
 
-        {!isAdminPage && <SpecialHeader topOffset={0} />}
+        {!isAdminPage && !isBirthdaySpecialPage && <SpecialHeader topOffset={0} />}
 
-        {!isAdminPage && <ScrollProgressBar topOffset={0} />}
+        {!isAdminPage && !isBirthdaySpecialPage && <ScrollProgressBar topOffset={0} />}
 
-        {!isMobile && !isTablet && !isAdminPage && <CustomCursor />}
+        {!isMobile && !isTablet && !isAdminPage && !isBirthdaySpecialPage && <CustomCursor />}
 
-        {!isAdminPage && <AudioPlayer />}
+        {!isAdminPage && !isBirthdaySpecialPage && <AudioPlayer />}
 
-{!isAdminPage && <LiveActivityIndicator />}
+{!isAdminPage && !isBirthdaySpecialPage && <LiveActivityIndicator />}
 
         {/* Global Personalizer Button - only for authenticated users, not on landing/auth pages */}
         {!isAdminPage && showGlobalPersonalizer && (
@@ -592,6 +594,18 @@ function App() {
             element={
               <ErrorBoundary onError={handleError}>
                 <LandingPage />
+              </ErrorBoundary>
+            }
+          />
+
+          {/* Dean's 46th Birthday Software Special */}
+          <Route
+            path="/birthday-special"
+            element={
+              <ErrorBoundary onError={handleError}>
+                <Suspense fallback={<SectionLoader />}>
+                  <BirthdaySpecialPage />
+                </Suspense>
               </ErrorBoundary>
             }
           />
