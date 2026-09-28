@@ -135,7 +135,7 @@ Format your response as a JSON object with exactly these keys:
       'Authorization': `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'gpt-4o',
+      model: 'gpt-5.5',
       input: [
         { role: 'system', content: 'You are a professional podcast producer. Always respond with valid JSON.' },
         { role: 'user', content: prompt }

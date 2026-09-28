@@ -44,7 +44,7 @@ const comparisonPoints = [
   },
   {
     traditional: "Static templates with limited marketing options",
-    videoRemix: "20+ personalized marketing apps for any campaign",
+    videoRemix: "113 apps across marketing, sales, video, hiring, and productivity",
     icon: <Wand2 className="h-5 w-5" />,
   },
 ];
@@ -99,8 +99,7 @@ const SolutionSection: React.FC = () => {
           </h2>
 
           <p className="text-xl md:text-2xl text-gray-300 max-w-5-8xl mx-auto leading-relaxed font-light">
-            The world's most advanced AI marketing personalization platform. Create,
-            customize, and launch high-converting marketing campaigns in minutes — not days.
+            Your AI app ecosystem for marketing, sales, video, hiring, and productivity. 113 apps, 12 bundles, one unified platform — no engineering team required.
           </p>
         </motion.div>
 
@@ -136,7 +135,7 @@ const SolutionSection: React.FC = () => {
                 <div className="p-8">
                   {/* Feature badges */}
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {["Personalization Engine", "AI Marketing Editing", "Analytics Dashboard"].map((badge, i) => (
+                    {["App Ecosystem", "AI Workflows", "Cross-App Analytics"].map((badge, i) => (
                       <span
                         key={i}
                         className="px-3 py-1.5 rounded-lg bg-primary-900/30 border border-primary-500/30 text-primary-300 text-xs font-medium"
@@ -154,8 +153,8 @@ const SolutionSection: React.FC = () => {
                           <Wand2 className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <div className="text-white font-bold text-lg">Personalization Active</div>
-                          <div className="text-gray-400 text-xs">AI is customizing your marketing campaign</div>
+                          <div className="text-white font-bold text-lg">AI Ecosystem Active</div>
+                          <div className="text-gray-400 text-xs">AI is adapting across your app workflows</div>
                         </div>
                       </div>
                       <div className="px-3 py-1 bg-green-500/20 text-green-400 text-xs font-bold rounded-full">
@@ -181,16 +180,16 @@ const SolutionSection: React.FC = () => {
                   {/* Stats */}
                   <div className="grid grid-cols-3 gap-4">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-white">5-8x</div>
-                      <div className="text-xs text-gray-500">ROI Boost</div>
+                      <div className="text-2xl font-bold text-white">113+</div>
+                      <div className="text-xs text-gray-500">AI Apps</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-white">2.5-8x</div>
-                      <div className="text-xs text-gray-500">Engagement</div>
+                      <div className="text-2xl font-bold text-white">12</div>
+                      <div className="text-xs text-gray-500">Bundles</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-white">5 min</div>
-                      <div className="text-xs text-gray-500">Campaign Time</div>
+                      <div className="text-2xl font-bold text-white">1</div>
+                      <div className="text-xs text-gray-500">Platform</div>
                     </div>
                   </div>
                 </div>
@@ -224,30 +223,30 @@ const SolutionSection: React.FC = () => {
             <h3 className="text-5-8xl md:text-4xl font-bold text-white mb-8">
               How{" "}
               <span className="text-primary-400">VideoRemix.vip</span>{" "}
-              Transforms Your Marketing
+              Transforms Your Business
             </h3>
 
             {/* Feature comparison */}
             <div className="space-y-5">
               {[
                 {
-                  traditional: "Generic one-size-fits-all content",
-                  vr: "Personalized marketing campaigns for each audience segment",
+                  traditional: "One-size-fits-all tools for every task",
+                  vr: "113+ AI apps tailored to every workflow",
                   icon: <Users />,
                 },
                 {
-                  traditional: "Hours of manual work per campaign",
-                  vr: "AI-powered personalization in minutes",
+                  traditional: "Hours of manual work across disconnected apps",
+                  vr: "One platform with unified AI across all apps",
                   icon: <Clock />,
                 },
                 {
-                  traditional: "Static content that doesn't adapt",
-                  vr: "Dynamic content that adjusts to buyer journey",
+                  traditional: "Static tools that don't adapt to your business",
+                  vr: "AI that adapts tone, format, and workflow per app",
                   icon: <Target />,
                 },
                 {
-                  traditional: "Limited templates and tools",
-                  vr: "20+ AI-powered personalization apps",
+                  traditional: "Limited templates and single-purpose tools",
+                  vr: "12 curated bundles with 6–16 apps each",
                   icon: <Wand2 />,
                 },
               ].map((point, idx) => (
@@ -292,10 +291,10 @@ const SolutionSection: React.FC = () => {
                   href="#pricing"
                   className="relative block bg-gradient-to-r from-primary-600 to-accent-600 hover:from-primary-500 hover:to-accent-500 text-white font-bold text-center px-8 py-4 rounded-xl shadow-lg"
                 >
-                  <span className="flex items-center justify-center gap-2">
-                    Get Personalized Marketing Access
-                    <ArrowRight className="h-5 w-5" />
-                  </span>
+                   <span className="flex items-center justify-center gap-2">
+                     Get Access to the App Ecosystem
+                     <ArrowRight className="h-5 w-5" />
+                   </span>
                 </a>
               </div>
             </motion.div>
@@ -314,15 +313,15 @@ const SolutionSection: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-primary-900/10 to-accent-900/10"></div>
             <div className="relative z-10">
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-white mb-2">Personalized Marketing By The Numbers</h3>
-                <p className="text-gray-400">The data is clear: personalization dramatically outperforms generic content</p>
+                <h3 className="text-2xl font-bold text-white mb-2">The Ecosystem By The Numbers</h3>
+                <p className="text-gray-400">One platform, 113 apps, every business workflow covered</p>
               </div>
 
               <div className="grid grid-cols-3 gap-6 max-w-5-8xl mx-auto">
                 {[
-                  { value: "2.5-8x", label: "Higher Engagement" },
-                  { value: "80%", label: "Better Conversions" },
-                  { value: "5-8x", label: "Marketing ROI" },
+                  { value: "113+", label: "AI Apps" },
+                  { value: "12", label: "Curated Bundles" },
+                  { value: "60-70%", label: "Savings vs Individual" },
                 ].map((stat, i) => (
                   <motion.div
                     key={i}

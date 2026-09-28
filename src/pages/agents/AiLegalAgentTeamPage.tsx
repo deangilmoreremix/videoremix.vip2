@@ -29,8 +29,6 @@ const AiLegalAgentTeamPage: React.FC = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
     openai_api_key: "",
-    qdrant_api_key: "",
-    qdrant_url: "",
     upload_legal_document: "",
     select_analysis_type: "",
     enter_your_specific_query: ""
@@ -86,8 +84,6 @@ const AiLegalAgentTeamPage: React.FC = () => {
   const handleReset = () => {
     setFormData({
       openai_api_key: "",
-      qdrant_api_key: "",
-      qdrant_url: "",
       upload_legal_document: "",
       select_analysis_type: "",
       enter_your_specific_query: ""
@@ -181,28 +177,10 @@ const AiLegalAgentTeamPage: React.FC = () => {
                     onChange={(v) => updateField('openai_api_key', v)}
                     type="password"
                     placeholder="sk-... (required for GPT-4 analysis)"
-                    helperText="Your API key enables GPT-4 for legal analysis. Stored locally only."
+                     helperText="Your API key enables GPT for legal analysis. Stored locally only."
                     required
                   />
 
-                  <SmartInput
-                    label="Qdrant API Key"
-                    name="qdrant_api_key"
-                    value={formData.qdrant_api_key}
-                    onChange={(v) => updateField('qdrant_api_key', v)}
-                    type="password"
-                    placeholder="... (required for vector search)"
-                    helperText="Required for semantic search capabilities. Get one at qdrant.tech"
-                  />
-
-                  <SmartInput
-                    label="Qdrant URL"
-                    name="qdrant_url"
-                    value={formData.qdrant_url}
-                    onChange={(v) => updateField('qdrant_url', v)}
-                    placeholder="https://your-qdrant-instance.cloud.com"
-                    helperText="Your Qdrant cloud instance URL"
-                  />
                 </FormSection>
 
                 <FormSection title="Document & Analysis Type" description="Upload or describe your legal document and select analysis type">

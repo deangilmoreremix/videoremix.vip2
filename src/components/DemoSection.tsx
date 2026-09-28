@@ -4,30 +4,30 @@ import { Play, Check, Sparkles, ArrowRight } from "lucide-react";
 
 const DemoSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const tabs = ["Template Selection", "AI Editing", "Export & Share"];
+  const tabs = ["Choose an App", "Generate With AI", "Export & Publish"];
 
   // Demo features for each tab
   const features = [
     [
-      "500+ professionally designed templates",
-      "Category filters for any industry or purpose",
-      "Preview templates before selection",
-      "Customizable to match your brand",
-      "Regular updates with new designs",
+      "113 apps across marketing, sales, video, hiring, and productivity",
+      "Filter by category or search for exactly what you need",
+      "Prebuilt templates and workflows for faster output",
+      "Unified context across apps so work carries forward",
+      "New apps added regularly to expand the ecosystem",
     ],
     [
-      "Smart scene detection and auto-editing",
-      "Automatic color correction and enhancement",
-      "AI-powered transitions between clips",
-      "Voice recognition for automatic captions",
-      "Content-aware cropping for different platforms",
+      "Smart prompts and agentic workflows for faster results",
+      "Automatic formatting and enhancement for any channel",
+      "AI-powered suggestions across content, video, and copy",
+      "Voice, image, and text inputs in one workflow",
+      "Brand-aware outputs across every app",
     ],
     [
-      "One-click export to multiple formats",
-      "Automatic optimization for each platform",
-      "Direct publishing to social media",
-      "Cloud storage of all projects",
-      "Bulk export capabilities",
+      "One-click export to multiple formats and platforms",
+      "Automatic optimization for web, social, and mobile",
+      "Direct publishing and sharing from any app",
+      "Cloud storage and project history included",
+      "Bulk export and automation for team workflows",
     ],
   ];
 
@@ -61,13 +61,12 @@ const DemoSection: React.FC = () => {
           </div>
 
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-            Create Professional Marketing Campaigns in{" "}
+            Build Anything With AI In{" "}
             <span className="text-primary-400">3 Simple Steps</span>
           </h2>
 
           <p className="text-xl text-gray-300 mb-8">
-            VideoRemix.vip makes professional marketing campaign creation accessible to
-            everyone, regardless of technical skills or experience.
+            VideoRemix.vip brings together 113 apps for content, video, sales, hiring, and productivity — so you can ship faster without switching platforms.
           </p>
 
           {/* Video preview */}
@@ -235,12 +234,11 @@ const DemoSection: React.FC = () => {
           </div>
 
           <h3 className="text-2xl font-bold text-white mb-4">
-            Stop Wasting Time on Manual Campaign Creation
+            Stop Wasting Time on Manual Work
           </h3>
 
           <p className="text-gray-300 mb-8">
-            Our AI technology handles the tedious work so you can focus on
-            creating amazing marketing campaigns that grow your audience and business.
+            Our AI handles the tedious work so you can focus on creating amazing content, closing deals, and growing your business.
           </p>
 
           <motion.a

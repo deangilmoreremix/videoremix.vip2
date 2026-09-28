@@ -182,7 +182,7 @@ export async function handler(event) {
 - **Estimated Time**: 15-25 seconds
 
 **Stage 7: Visual Comparison**
-- **AI Provider**: **OpenAI DALL-E 3** (image generation) - alternative to Gemini Pro Vision
+- **AI Provider**: **OpenAI DALL-E 3** (image generation)
 - **Input**: Feature comparison data
 - **Output**: PNG comparison infographic
 - **Tools**: AI image generation
@@ -350,8 +350,8 @@ interface SalesIntelligenceResult {
 ## Dependencies
 
 **External Services:**
-- **OpenAI GPT-4o API** (primary AI provider — migrated from Anthropic Claude)
-- **OpenAI DALL-E 3 API** (image generation — replaced Gemini)
+- **OpenAI GPT-4o API** (primary AI provider)
+- **OpenAI DALL-E 3 API** (image generation)
 - SerpAPI or similar (web search)
 - Supabase (data storage and user management)
 

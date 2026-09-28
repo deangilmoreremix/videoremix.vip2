@@ -20,11 +20,10 @@ const STORAGE_KEY = 'ai-video-script-producer';
 const AiMovieProductionAgentPage: React.FC = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
-    googleApiKey: '',
-    serpApiKey: '',
-    movieIdea: '',
+    openai_api_key: '',
+    movie_idea: '',
     genre: '',
-    targetAudience: '',
+    target_audience: '',
     runtime: '90'
   });
   const [loading, setLoading] = useState(false);
@@ -53,11 +52,10 @@ const AiMovieProductionAgentPage: React.FC = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          enter_google_api_key_to_access_gemini_25_flash: formData.googleApiKey,
-          enter_serp_api_key_for_search_functionality: formData.serpApiKey,
-          describe_your_movie_idea_in_a_few_sentences: formData.movieIdea,
+          openai_api_key: formData.openai_api_key,
+          describe_your_movie_idea_in_a_few_sentences: formData.movie_idea,
           select_the_movie_genre: formData.genre,
-          select_the_target_audience: formData.targetAudience,
+          select_the_target_audience: formData.target_audience,
           estimated_runtime_in_minutes: formData.runtime,
           userId: user?.id
         })
@@ -158,19 +156,12 @@ const AiMovieProductionAgentPage: React.FC = () => {
             <CardHeader><CardTitle>Production Details</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                <FormSection title="API Configuration" description="Required API keys for AI services">
+                <FormSection title="API Configuration" description="Enter your OpenAI API key">
                   <ApiKeyInput
-                    label="Google API Key (Gemini 2.5 Flash)"
-                    value={formData.googleApiKey}
-                    onChange={(v) => updateField('googleApiKey', v)}
-                    helperText="Required for Gemini AI features"
-                    required
-                  />
-                  <ApiKeyInput
-                    label="Serp API Key"
-                    value={formData.serpApiKey}
-                    onChange={(v) => updateField('serpApiKey', v)}
-                    helperText="Required for search functionality"
+                    label="OpenAI API Key"
+                    value={formData.openai_api_key}
+                    onChange={(v) => updateField('openai_api_key', v)}
+                    helperText="Required for AI features"
                     required
                   />
                 </FormSection>
@@ -178,9 +169,9 @@ const AiMovieProductionAgentPage: React.FC = () => {
                 <FormSection title="Movie Concept" description="Describe your movie idea">
                   <SmartTextarea
                     label="Movie Idea"
-                    name="movieIdea"
-                    value={formData.movieIdea}
-                    onChange={(v) => updateField('movieIdea', v)}
+                    name="movie_idea"
+                    value={formData.movie_idea}
+                    onChange={(v) => updateField('movie_idea', v)}
                     placeholder="A retired detective discovers a hidden camera in her apartment that reveals a conspiracy spanning three decades..."
                     helperText="Describe your movie concept in 2-3 sentences. Include genre, main characters, and core conflict."
                     rows={4}
@@ -208,8 +199,8 @@ const AiMovieProductionAgentPage: React.FC = () => {
 
                     <SelectDropdown
                       label="Target Audience"
-                      value={formData.targetAudience}
-                      onValueChange={(v) => updateField('targetAudience', v)}
+                      value={formData.target_audience}
+                      onValueChange={(v) => updateField('target_audience', v)}
                       options={[
                         { value: 'family', label: 'Family (All Ages)' },
                         { value: 'pg13', label: 'PG-13 (Teens+)' },
@@ -245,7 +236,7 @@ const AiMovieProductionAgentPage: React.FC = () => {
                   type="submit"
                   onClick={handleSubmit}
                   loading={loading}
-                  disabled={loading || !formData.movieIdea.trim()}
+                  disabled={loading || !formData.movie_idea.trim()}
                   size="lg"
                   className="w-full"
                 >

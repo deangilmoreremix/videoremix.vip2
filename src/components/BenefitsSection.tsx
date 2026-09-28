@@ -25,48 +25,48 @@ const BenefitsSection: React.FC = () => {
   const defaultBenefits = [
     {
       icon: <Clock className="h-10 w-10" />,
-      title: "Create Personalized Marketing in Minutes",
+      title: "113+ AI Apps, One Platform",
       description:
-        "Our AI tools analyze your audience and automatically personalize marketing content that resonates with each segment.",
+        "Access marketing, sales, video, hiring, and productivity apps in one unified workspace with shared context.",
       stats: [
         {
-          label: "Time saved vs manual marketing personalization",
+          label: "Time saved vs switching tools",
           value: "92%",
         },
-        { label: "Average marketing personalization time", value: "5 mins" },
+        { label: "Apps in one platform", value: "113+" },
       ],
     },
     {
       icon: <Users className="h-10 w-10" />,
-      title: "Segment Your Audience Automatically",
+      title: "12 Curated Bundles",
       description:
-        "Let AI identify and group your prospects into segments for highly targeted personalized marketing.",
+        "Apps grouped by business function — Sales, Creative, Hiring, AI Workforce, and more. Get the right tools for every department.",
       stats: [
-        { label: "Increase in engagement with segmentation", value: "2.3x" },
+        { label: "Savings vs buying individually", value: "60-70%" },
         {
-          label: "Higher conversion with personalized marketing",
-          value: "80%",
+          label: "Apps per bundle",
+          value: "6-16",
         },
       ],
     },
     {
       icon: <Star className="h-10 w-10" />,
-      title: "Personalized Marketing That Converts",
+      title: "Cross-App AI Workflows",
       description:
-        "Customize marketing to each prospect's needs, preferences, and position in the buyer journey.",
+        "AI that adapts tone, format, and behavior across marketing, sales, hiring, and productivity apps — not just one type of task.",
       stats: [
-        { label: "Personalized marketing conversion rate", value: "58%" },
-        { label: "Marketing ROI increase with personalization", value: "5-8x" },
+        { label: "Workflow automation coverage", value: "100%" },
+        { label: "Cross-app personalization", value: "Deep" },
       ],
     },
     {
       icon: <Zap className="h-10 w-10" />,
-      title: "Scale Your Marketing Personalization",
+      title: "Scale Across Every Department",
       description:
-         "Create thousands of personalized marketing campaign variations without additional work using our automation tools.",
+         "From solo creators to enterprise teams, one platform scales across marketing, sales, hiring, and operations without extra work.",
       stats: [
-         { label: "Marketing variations from one campaign", value: "100+" },
-        { label: "Audience segments supported", value: "Unlimited" },
+         { label: "Departments covered", value: "5+" },
+        { label: "Team seats supported", value: "Unlimited" },
       ],
     },
   ];
@@ -114,9 +114,9 @@ const BenefitsSection: React.FC = () => {
   const marketingTestimonials = [
     {
       quote:
-        "VideoRemix makes personalized marketing so easy. The AI tools help us create segment-specific content in minutes. The platform is intuitive and powerful.",
+        "We replaced 12 disconnected tools with VideoRemix. Our marketing, sales, and hiring workflows now run on one platform.",
       name: "Alex Rodriguez",
-      role: "Marketing Director",
+      role: "Operations Director",
       company: "TechGrowth Solutions",
       image: "https://randomuser.me/api/portraits/men/32.jpg",
       metrics: {
@@ -127,20 +127,20 @@ const BenefitsSection: React.FC = () => {
     },
     {
       quote:
-        "The platform has everything we need for personalized marketing. Templates are professional, the AI features save us hours, and the team collaboration tools work great.",
+        "I can create personalized videos, sales pages, and recruitment content in the same workspace. The AI adapts to every use case.",
       name: "Sarah Johnson",
-      role: "Email Marketing Lead",
+      role: "Creative Lead",
       company: "Retail Innovations Inc.",
       image: "https://randomuser.me/api/portraits/women/44.jpg",
       metrics: {
         conversion: "Time Saver",
-        engagement: "20+ Apps",
+        engagement: "113+ Apps",
         roi: "Worth It",
       },
     },
     {
       quote:
-        "VideoRemix has become our go-to platform for all personalized marketing content. The ability to create custom content for each segment quickly is game-changing for our team.",
+        "VideoRemix has become our go-to platform for all business content. The ability to switch between sales, hiring, and video tools is game-changing.",
       name: "Michael Chen",
       role: "VP of Sales",
       company: "Enterprise Solutions",
@@ -153,7 +153,7 @@ const BenefitsSection: React.FC = () => {
     },
     {
       quote:
-        "The VideoRemix platform streamlines our entire personalized marketing workflow. From creation to delivery, everything is in one place. Highly recommend for any marketing team.",
+        "The platform streamlines our entire business workflow. From sales funnels to recruitment videos to customer support, everything is in one place.",
       name: "Emily Drake",
       role: "Customer Success Director",
       company: "CloudTools Pro",
@@ -166,7 +166,7 @@ const BenefitsSection: React.FC = () => {
     },
     {
       quote:
-        "Our healthcare marketing campaigns now deliver custom content to patients, physicians, and administrators simultaneously. The ROI has been phenomenal with 4.2x better results.",
+        "Our healthcare campaigns now deliver custom content to patients, physicians, and administrators simultaneously. The ROI has been phenomenal.",
       name: "Dr. James Wilson",
       role: "Marketing Director",
       company: "MedTech Innovations",
@@ -179,7 +179,7 @@ const BenefitsSection: React.FC = () => {
     },
     {
       quote:
-         "Real estate marketing needs personalization, and VideoRemix.vip delivers. We create neighborhood-specific campaigns that increased property inquiries by 214% in the first month.",
+         "Real estate marketing needs personalization, and VideoRemix.vip delivers. We create neighborhood-specific campaigns that increased inquiries by 214%.",
       name: "Jessica Martinez",
       role: "Digital Marketing Manager",
       company: "Premier Properties",
@@ -192,7 +192,7 @@ const BenefitsSection: React.FC = () => {
     },
     {
       quote:
-         "As an e-commerce brand, we struggled with generic marketing. Now we create dynamic product campaigns customized to each customer segment increasing AOV by 37%.",
+         "As an e-commerce brand, we struggled with disconnected tools. Now we create dynamic product campaigns, sales funnels, and customer support workflows in one platform.",
       name: "Ryan Thompson",
       role: "E-commerce Director",
       company: "Fashion Forward",
@@ -294,21 +294,19 @@ const BenefitsSection: React.FC = () => {
           className="max-w-3xl mx-auto text-center mb-16"
         >
           <div className="inline-block mb-4">
-            <div className="bg-gradient-to-r from-primary-600 to-primary-400 text-white px-4 py-1.5 rounded-full text-sm font-semibold">
-              MARKETING PERSONALIZATION BENEFITS
-            </div>
+              <div className="bg-gradient-to-r from-primary-600 to-primary-400 text-white px-4 py-1.5 rounded-full text-sm font-semibold">
+                PLATFORM BENEFITS
+             </div>
           </div>
 
           <MagicSparkles minSparkles={3} maxSparkles={6}>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-              Transform Your Marketing Results With Personalization
+              One Platform, Every Business Workflow
             </h2>
           </MagicSparkles>
 
           <p className="text-xl text-gray-300">
-            Personalization isn't just a nice-to-have feature—it's the
-            difference between marketing that converts and marketing that gets
-            ignored.
+            113 AI apps across marketing, sales, video, hiring, and productivity — unified in one ecosystem with shared context and AI that adapts to every task.
           </p>
         </motion.div>
 
@@ -588,7 +586,7 @@ const BenefitsSection: React.FC = () => {
             href="#tools"
           >
             <Sparkles className="mr-2 h-5 w-5" />
-            <span>Explore Marketing Personalization Tools</span>
+            <span>Explore the Full App Ecosystem</span>
             <motion.div
               animate={{
                 x: [0, 5, 0],

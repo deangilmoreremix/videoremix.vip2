@@ -9,96 +9,85 @@ interface FeatureMapProps {
 
 // This component maps all the functionality areas from the information provided
 const FeatureMap: React.FC<FeatureMapProps> = ({
-  title = "Comprehensive Marketing Personalization Features",
-  subtitle = "Explore the powerful personalization capabilities of VideoRemix.vip's marketing platform",
+  title = "113 AI Apps Across Every Business Function",
+  subtitle = "Explore the full VideoRemix.vip ecosystem — from marketing and sales to hiring, video, and AI workforce",
 }) => {
   const featureCategories = [
     {
-      title: "Personalized Video Marketing",
+      title: "Content & Video",
       features: [
-        "Personalized Marketing from Text/Keywords/Prompts",
-        "Personalized Marketing from User Data",
-        "Personalized Audio/Music for Campaigns",
-        "Personalized Imagery from Various Sources",
-        "Personalized Marketing Campaign Storage",
-        "Personalized Campaign Layer Management",
+        "Personalized content at scale across email, ads, and landing pages",
+        "AI video editing, screen recording, and audio tools",
+        "Dynamic video personalization for every audience segment",
+        "Brand-consistent templates and visual assets",
+        "Multi-format content repurposing",
+        "AI-powered thumbnails, signatures, and design",
       ],
     },
     {
-      title: "Personalized Marketing Copy",
+      title: "Sales & Funnels",
       features: [
-        "Personalized Marketing Text Elements",
-        "Personalized Marketing Text Masking",
-        "Personalized Marketing Copy Based on User Data",
-        "Personalized Marketing for Email Lists",
-        "Personalized Marketing Link™ with Various Email Services",
-        "Personalized Marketing Text Animations",
+        "AI-powered sales intelligence and lead scoring",
+        "Automated outreach sequences and follow-ups",
+        "High-converting landing pages and funnel builders",
+        "CRM integration with SmartCRM and Salesforce",
+        "Referral tracking and maximization tools",
+        "Proposal generation and sales page optimization",
       ],
     },
     {
-      title: "Personalized Marketing Elements",
+      title: "Hiring & Profiles",
       features: [
-        "Personalized Marketing Animation Elements",
-        "Personalized Marketing Transition Elements",
-        "Personalized Marketing Blend Modes",
-        "Personalized Marketing Pause Elements",
-        "Personalized Marketing Loop Elements",
-        "Personalized Marketing Skip Elements",
+        "AI resume screening and candidate matching",
+        "Profile enrichment and LinkedIn optimization",
+        "Interview scheduling and follow-up automation",
+        "Job description generation and skill verification",
+        "Onboarding content and training material creation",
+        "Diversity analytics and hiring analytics",
       ],
     },
     {
-      title: "Personalized Interactive Marketing",
+      title: "Productivity",
       features: [
-        "Personalized Marketing CTA Elements",
-        "Personalized Marketing Connect Form",
-        "Personalized Marketing Google Maps Integration",
-        "Personalized Marketing Screen Recorder",
-        "Personalized Marketing Audio Recorder",
-        "Personalized Marketing Opt-in Form",
+        "AI signature generation and email templates",
+        "Meeting notes, summaries, and action items",
+        "Project planning and task automation",
+        "Document creation, editing, and translation",
+        "Email drafting and response suggestions",
+        "Workflow automation and scheduling",
       ],
     },
     {
-      title: "Personalized Professional Marketing",
+      title: "Voice & Agents",
       features: [
-        "Personalized Marketing Lower Thirds Presets",
-        "Personalized Marketing Custom Lower Thirds",
-        "Personalized Marketing AI Voice Coach",
-        "Personalized Marketing Storyboard AI",
-        "Personalized Marketing AI Script Creator",
-        "Personalized Marketing Template Generator",
+        "Customer support voice agents for 24/7 coverage",
+        "AI audio tours and guided experiences",
+        "Voice-enabled RAG for hands-free knowledge access",
+        "Browser automation and task execution",
+        "Multi-language voice and transcription",
+        "Agent routing and escalation management",
       ],
     },
     {
-      title: "Personalized Marketing Social & Sharing",
+      title: "Knowledge & RAG",
       features: [
-        "Personalized Social Campaign Tools",
-        "Personalized Marketing Social Plugin Integration",
-        "Personalized Marketing Facebook/LinkedIn Content",
-        "Personalized Marketing LinkedIn Video Sharing",
-        "Personalized Social Media Marketing Pack",
-        "Personalized Interactive Marketing Video Outros",
+        "Chat with PDFs, GitHub, Gmail, and YouTube",
+        "Agentic RAG with reasoning and citations",
+        "Local and hybrid search for private documents",
+        "Knowledge graphs and multimodal retrieval",
+        "Document Q&A and research assistants",
+        "RAG diagnostics and failure analysis",
       ],
     },
     {
-      title: "Personalized Marketing Advanced Tools",
+      title: "AI Workforce",
       features: [
-        "Personalized Marketing Clip Editor",
-        "Personalized Marketing Thumbnail Generator",
-        "Personalized Marketing AI Background Remover",
-        "Personalized Marketing AI Art Generator",
-        "Personalized Marketing Video Project Thumbnails",
-        "Personalized Marketing Text to Speech",
-      ],
-    },
-    {
-      title: "Personalized Marketing Multi-Language",
-      features: [
-        "Personalized Marketing Automatic Captions",
-        "Personalized Marketing Multi-language Support",
-        "Personalized Marketing Copy Translation",
-        "Personalized Marketing International Formatting",
-        "Personalized Marketing Regional Dialect Recognition",
-        "Personalized Marketing Cultural Context Adaptation",
+        "Sales intelligence agent teams for outbound",
+        "Legal, recruitment, and real estate agent teams",
+        "Teaching, coding, and design agent teams",
+        "Self-improving agent skills and orchestration",
+        "Multi-agent research and due diligence",
+        "Finance, health, and productivity agent teams",
       ],
     },
   ];
@@ -120,9 +109,9 @@ const FeatureMap: React.FC<FeatureMapProps> = ({
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center mb-16">
           <div className="inline-block mb-3">
-            <div className="bg-primary-500/20 text-primary-400 px-4 py-1.5 rounded-full text-sm font-semibold">
-              MARKETING PERSONALIZATION FEATURES
-            </div>
+              <div className="bg-primary-500/20 text-primary-400 px-4 py-1.5 rounded-full text-sm font-semibold">
+                FULL APP ECOSYSTEM
+              </div>
           </div>
 
           <MagicSparkles minSparkles={3} maxSparkles={6}>

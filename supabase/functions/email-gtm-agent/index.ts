@@ -79,25 +79,16 @@ async function researchCompany(openai: OpenAI, lead: LeadInfo): Promise<CompanyR
     decisionMakerBackground: '',
   };
 
-  // Research company overview
+  // Research company overview using Responses API with web_search
   try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
-      max_tokens: 1000,
-      temperature: 0.7,
-      messages: [
-        {
-          role: 'system',
-          content: 'You are a business research assistant. Provide concise, factual company overviews.'
-        },
-        {
-          role: 'user',
-          content: `Research and provide a concise overview of ${lead.companyName}. Include their main products/services, mission, and recent developments. Keep it under 200 words.`
-        }
-      ]
+    const response = await openai.responses.create({
+      model: 'gpt-5.5',
+      input: `Research and provide a concise overview of ${lead.companyName}. Include their main products/services, mission, and recent developments. Keep it under 200 words.`,
+      instructions: 'You are a business research assistant. Provide concise, factual company overviews.',
+      tools: [{ type: 'web_search', search_context_size: 'low' }]
     });
 
-    research.companyDescription = completion.choices[0].message.content || `${lead.companyName} is a technology company.`;
+    research.companyDescription = response.output_text || `${lead.companyName} is a technology company.`;
   } catch (error) {
     console.error('OpenAI company research error:', error);
     research.companyDescription = `${lead.companyName} (no additional data available)`;
@@ -105,23 +96,14 @@ async function researchCompany(openai: OpenAI, lead: LeadInfo): Promise<CompanyR
 
   // Search for contact person background
   try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
-      max_tokens: 500,
-      temperature: 0.7,
-      messages: [
-        {
-          role: 'system',
-          content: 'You are a research assistant. Provide concise professional background summaries.'
-        },
-        {
-          role: 'user',
-          content: `Provide a brief professional background summary for ${lead.contactName} who works as ${lead.position} at ${lead.companyName}. Include their likely experience, expertise areas, and professional focus. Keep it under 150 words.`
-        }
-      ]
+    const response = await openai.responses.create({
+      model: 'gpt-5.5',
+      input: `Provide a brief professional background summary for ${lead.contactName} who works as ${lead.position} at ${lead.companyName}. Include their likely experience, expertise areas, and professional focus. Keep it under 150 words.`,
+      instructions: 'You are a research assistant. Provide concise professional background summaries.',
+      tools: [{ type: 'web_search', search_context_size: 'low' }]
     });
 
-    research.decisionMakerBackground = completion.choices[0].message.content || `Leadership at ${lead.companyName}`;
+    research.decisionMakerBackground = response.output_text || `Leadership at ${lead.companyName}`;
   } catch (error) {
     console.error('OpenAI person research error:', error);
     research.decisionMakerBackground = `Decision maker at ${lead.companyName}`;
@@ -130,23 +112,14 @@ async function researchCompany(openai: OpenAI, lead: LeadInfo): Promise<CompanyR
   // Try to find GTM strategy or recent achievement based on department
   if (lead.department === "GTM (Sales & Marketing)" || lead.department === "Marketing Professional") {
     try {
-      const completion = await openai.chat.completions.create({
-        model: 'gpt-4o',
-        max_tokens: 300,
-        temperature: 0.7,
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a sales and marketing strategist. Provide concise GTM insights.'
-          },
-          {
-            role: 'user',
-            content: `Based on typical patterns for companies like ${lead.companyName} in the ${lead.position} role, what go-to-market strategies and recent initiatives might they be pursuing? Provide 2-3 specific, realistic examples. Keep it under 100 words.`
-          }
-        ]
+      const response = await openai.responses.create({
+        model: 'gpt-5.5',
+        input: `Based on typical patterns for companies like ${lead.companyName} in the ${lead.position} role, what go-to-market strategies and recent initiatives might they be pursuing? Provide 2-3 specific, realistic examples. Keep it under 100 words.`,
+        instructions: 'You are a sales and marketing strategist. Provide concise GTM insights.',
+        tools: [{ type: 'web_search', search_context_size: 'low' }]
       });
 
-      const gtmText = completion.choices[0].message.content;
+      const gtmText = response.output_text;
       if (gtmText) {
         research.gtmStrategy = gtmText;
         research.specificAchievement = "recent initiative";

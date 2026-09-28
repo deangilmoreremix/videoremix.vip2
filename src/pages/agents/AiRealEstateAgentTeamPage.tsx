@@ -45,7 +45,7 @@ const TIMELINE_OPTIONS = [
 const AiRealEstateAgentTeamPage: React.FC = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
-    firecrawl_api_key: "",
+    openai_api_key: "",
     _city: "",
     _stateprovince_optional: "",
     _minimum_price_: "",
@@ -108,7 +108,7 @@ const AiRealEstateAgentTeamPage: React.FC = () => {
 
   const handleReset = () => {
     setFormData({
-      firecrawl_api_key: "",
+      openai_api_key: "",
       _city: "",
       _stateprovince_optional: "",
       _minimum_price_: "",
@@ -208,15 +208,15 @@ const AiRealEstateAgentTeamPage: React.FC = () => {
             <CardHeader><CardTitle>Property Search Configuration</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                <FormSection title="API Configuration" description="Enter your Firecrawl API key to enable property search">
+                <FormSection title="API Configuration" description="Enter your OpenAI API key">
                   <SmartInput
-                    label="Firecrawl API Key"
-                    name="firecrawl_api_key"
-                    value={formData.firecrawl_api_key}
-                    onChange={(v) => updateField('firecrawl_api_key', v)}
+                    label="OpenAI API Key"
+                    name="openai_api_key"
+                    value={formData.openai_api_key}
+                    onChange={(v) => updateField('openai_api_key', v)}
                     type="password"
-                    placeholder="fc-... (required for property search)"
-                    helperText="Firecrawl enables comprehensive property listing search. Get one at firecrawl.dev"
+                    placeholder="sk-... (required for property search)"
+                    helperText="OpenAI enables AI-powered property analysis"
                     required
                   />
                 </FormSection>

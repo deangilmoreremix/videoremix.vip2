@@ -18,7 +18,6 @@ const STORAGE_KEY = 'ai-news-content-writer';
 const AiJournalistAgentPage: React.FC = () => {
   const { user } = useAuth();
   const [openaiApiKey, setOpenaiApiKey] = useState("");
-  const [serpApiKey, setSerpApiKey] = useState("");
   const [topic, setTopic] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -29,16 +28,15 @@ const AiJournalistAgentPage: React.FC = () => {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        setOpenaiApiKey(parsed.openaiApiKey || "");
-        setSerpApiKey(parsed.serpApiKey || "");
-        setTopic(parsed.topic || "");
+      setOpenaiApiKey(parsed.openaiApiKey || "");
+      setTopic(parsed.topic || "");
       } catch {}
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ openaiApiKey, serpApiKey, topic }));
-  }, [openaiApiKey, serpApiKey, topic]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ openaiApiKey, topic }));
+  }, [openaiApiKey, topic]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,7 +52,6 @@ const AiJournalistAgentPage: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           enter_openai_api_key_to_access_gpt4o: openaiApiKey,
-          enter_serp_api_key_for_search_functionality: serpApiKey,
           what_do_you_want_the_ai_journalist_to_write_an_article_on: topic,
           userId: user?.id
         })
@@ -72,7 +69,6 @@ const AiJournalistAgentPage: React.FC = () => {
 
   const handleReset = () => {
     setOpenaiApiKey("");
-    setSerpApiKey("");
     setTopic("");
     setResult(null);
     setError(null);
@@ -161,23 +157,12 @@ const AiJournalistAgentPage: React.FC = () => {
                   label="OpenAI API Key"
                   name="openaiApiKey"
                   value={openaiApiKey}
-                  onChange={setOpenaiApiKey}
-                  type="password"
-                  placeholder="sk-... (required for GPT-4o)"
-                  helperText="Your API key for GPT-4o access. Stored locally only."
-                  required
-                />
-
-                <SmartInput
-                  label="Serp API Key"
-                  name="serpApiKey"
-                  value={serpApiKey}
-                  onChange={setSerpApiKey}
-                  type="password"
-                  placeholder="... (required for web search)"
-                  helperText="Required for real-time web search. Get one at serpapi.com"
-                  required
-                />
+                   onChange={setOpenaiApiKey}
+                   type="password"
+                   placeholder="sk-... (required)"
+                   helperText="Your API key for OpenAI access. Stored locally only."
+                   required
+                 />
 
                 <SmartTextarea
                   label="Article Topic"

@@ -3,12 +3,12 @@ import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2 } from "lucide-react";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard } from "@/components/agent-ui/ResultCard";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 
 const KnowledgeGraphRagCitationsPage: React.FC = () => {
   const { user } = useAuth();
@@ -16,6 +16,11 @@ const KnowledgeGraphRagCitationsPage: React.FC = () => {
   const [loading, setLoading] = useState<string | null>(null);
   const [results, setResults] = useState<Record<string, any>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [mainForm, setMainForm] = useState({ choose_sample_document: "", or_paste_your_own_document: "", document_name: "", enter_your_question: "" });
+  const [advancedForm, setAdvancedForm] = useState({ choose_sample_document: "", or_paste_your_own_document: "", document_name: "", enter_your_question: "" });
+
+  const updateMain = (field: string, value: string) => setMainForm(prev => ({ ...prev, [field]: value }));
+  const updateAdvanced = (field: string, value: string) => setAdvancedForm(prev => ({ ...prev, [field]: value }));
 
   const handleSubmit = async (tabKey: string, data: any) => {
     setLoading(tabKey);
@@ -51,144 +56,57 @@ const KnowledgeGraphRagCitationsPage: React.FC = () => {
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="max-w-4xl mx-auto">
             <TabsList className="grid grid-cols-2 mb-8">
-              
               <TabsTrigger value="main">Main</TabsTrigger>
-                            
               <TabsTrigger value="advanced">Advanced</TabsTrigger>
-              
             </TabsList>
 
-            
             <TabsContent value="main">
-              <Card className="bg-gray-800/50 border-gray-700">
-                <CardHeader><CardTitle>Main</CardTitle></CardHeader>
-                <CardContent>
-                  <form onSubmit={(e) => { e.preventDefault(); handleSubmit('main', { choose_sample_document, or_paste_your_own_document, document_name, enter_your_question }); }} className="space-y-6">
+              {errors['main'] && <ErrorMessage title="Request Failed" message={errors['main']} onRetry={() => handleSubmit('main', mainForm)} retryLoading={loading === 'main'} />}
+              <FormSection title="Document Input" description="Choose or paste your document">
+                <SmartTextarea label="Choose sample document" name="choose_sample_document" value={mainForm.choose_sample_document} onChange={(v) => updateMain('choose_sample_document', v)} placeholder="" required />
+                <SmartTextarea label="Or paste your own document" name="or_paste_your_own_document" value={mainForm.or_paste_your_own_document} onChange={(v) => updateMain('or_paste_your_own_document', v)} placeholder="" required />
+                <SmartTextarea label="Document name" name="document_name" value={mainForm.document_name} onChange={(v) => updateMain('document_name', v)} placeholder="" required />
+                <SmartTextarea label="Enter your question" name="enter_your_question" value={mainForm.enter_your_question} onChange={(v) => updateMain('enter_your_question', v)} placeholder="" required />
+              </FormSection>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="choose_sample_document">Choose sample document:</Label>
-                      <Textarea
-                        id="choose_sample_document"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+              {loading === 'main' && <LoadingIndicator message="Processing..." subtext="Running main workflow" />}
 
-                    <div className="space-y-2">
-                      <Label htmlFor="or_paste_your_own_document">Or paste your own document:</Label>
-                      <Textarea
-                        id="or_paste_your_own_document"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="document_name">Document name:</Label>
-                      <Textarea
-                        id="document_name"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="enter_your_question">Enter your question:</Label>
-                      <Textarea
-                        id="enter_your_question"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <Button type="submit" disabled={loading === 'main'}>
-                      {loading === 'main' ? 'Processing...' : 'Run'}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
+              <ActionButton type="button" loading={loading === 'main'} onClick={() => handleSubmit('main', mainForm)} className="w-full mt-6">
+                Run
+              </ActionButton>
 
               {results['main'] && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6">
-                  <Card className="bg-gray-800/50 border-gray-700">
-                    <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                    <CardContent>
-                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(results['main'], null, 2)}</pre>
-                    </CardContent>
-                  </Card>
+                  <ResultCard title="Main Result" variant="success">
+                    <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans mt-2">{JSON.stringify(results['main'], null, 2)}</pre>
+                  </ResultCard>
                 </motion.div>
               )}
             </TabsContent>
-            
+
             <TabsContent value="advanced">
-              <Card className="bg-gray-800/50 border-gray-700">
-                <CardHeader><CardTitle>Advanced</CardTitle></CardHeader>
-                <CardContent>
-                  <form onSubmit={(e) => { e.preventDefault(); handleSubmit('advanced', { choose_sample_document, or_paste_your_own_document, document_name, enter_your_question }); }} className="space-y-6">
+              {errors['advanced'] && <ErrorMessage title="Request Failed" message={errors['advanced']} onRetry={() => handleSubmit('advanced', advancedForm)} retryLoading={loading === 'advanced'} />}
+              <FormSection title="Document Input" description="Choose or paste your document">
+                <SmartTextarea label="Choose sample document" name="choose_sample_document" value={advancedForm.choose_sample_document} onChange={(v) => updateAdvanced('choose_sample_document', v)} placeholder="" required />
+                <SmartTextarea label="Or paste your own document" name="or_paste_your_own_document" value={advancedForm.or_paste_your_own_document} onChange={(v) => updateAdvanced('or_paste_your_own_document', v)} placeholder="" required />
+                <SmartTextarea label="Document name" name="document_name" value={advancedForm.document_name} onChange={(v) => updateAdvanced('document_name', v)} placeholder="" required />
+                <SmartTextarea label="Enter your question" name="enter_your_question" value={advancedForm.enter_your_question} onChange={(v) => updateAdvanced('enter_your_question', v)} placeholder="" required />
+              </FormSection>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="choose_sample_document">Choose sample document:</Label>
-                      <Textarea
-                        id="choose_sample_document"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+              {loading === 'advanced' && <LoadingIndicator message="Processing..." subtext="Running advanced workflow" />}
 
-                    <div className="space-y-2">
-                      <Label htmlFor="or_paste_your_own_document">Or paste your own document:</Label>
-                      <Textarea
-                        id="or_paste_your_own_document"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="document_name">Document name:</Label>
-                      <Textarea
-                        id="document_name"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="enter_your_question">Enter your question:</Label>
-                      <Textarea
-                        id="enter_your_question"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <Button type="submit" disabled={loading === 'advanced'}>
-                      {loading === 'advanced' ? 'Processing...' : 'Run'}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
+              <ActionButton type="button" loading={loading === 'advanced'} onClick={() => handleSubmit('advanced', advancedForm)} className="w-full mt-6">
+                Run
+              </ActionButton>
 
               {results['advanced'] && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6">
-                  <Card className="bg-gray-800/50 border-gray-700">
-                    <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                    <CardContent>
-                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(results['advanced'], null, 2)}</pre>
-                    </CardContent>
-                  </Card>
+                  <ResultCard title="Advanced Result" variant="success">
+                    <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans mt-2">{JSON.stringify(results['advanced'], null, 2)}</pre>
+                  </ResultCard>
                 </motion.div>
               )}
             </TabsContent>
-            
           </Tabs>
         </div>
       </main>
@@ -196,4 +114,4 @@ const KnowledgeGraphRagCitationsPage: React.FC = () => {
   );
 };
 
-export default KnowledgeGraphRagCitationsPage;
+ export default KnowledgeGraphRagCitationsPage;

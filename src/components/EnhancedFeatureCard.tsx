@@ -254,7 +254,7 @@ const EnhancedFeatureCard: React.FC<EnhancedFeatureCardProps> = ({
                   </button>
                 )}
                 <Link
-                  to={`/features/${feature.id}`}
+                  to="/tools"
                   className="flex-1 bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-lg font-medium flex items-center justify-center gap-2 border border-gray-700"
                 >
                   <ExternalLink className="h-4 w-4" />

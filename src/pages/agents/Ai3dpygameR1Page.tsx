@@ -18,7 +18,6 @@ import { Loader2, Sparkles, Gamepad2, Key, Code, HelpCircle } from "lucide-react
 const Ai3dpygameR1Page: React.FC = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({ 
-    deepseek_api_key: "", 
     openai_api_key: "", 
     enter_your_pygame_query: "" 
   });
@@ -42,7 +41,7 @@ const Ai3dpygameR1Page: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.deepseek_api_key.trim() || !formData.openai_api_key.trim() || !formData.enter_your_pygame_query.trim()) {
+    if (!formData.openai_api_key.trim() || !formData.enter_your_pygame_query.trim()) {
       setError('Please fill in all required fields');
       return;
     }
@@ -84,17 +83,7 @@ const Ai3dpygameR1Page: React.FC = () => {
             <CardHeader><CardTitle>Configuration</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                <FormSection title="API Keys" description="Enter your API keys to enable AI processing">
-                  <ApiKeyInput
-                    label="DeepSeek API Key"
-                    name="deepseek_api_key"
-                    value={formData.deepseek_api_key}
-                    onChange={(val) => setFormData({ ...formData, deepseek_api_key: val })}
-                    placeholder="sk-..."
-                    helperText="Get your API key from DeepSeek platform"
-                    required
-                  />
-
+                <FormSection title="API Keys" description="Enter your API key to enable AI processing">
                   <ApiKeyInput
                     label="OpenAI API Key"
                     name="openai_api_key"
@@ -157,7 +146,7 @@ const Ai3dpygameR1Page: React.FC = () => {
                 title="Code Generated"
                 description="Your PyGame code is ready above."
                 action={
-                  <ActionButton onClick={() => { setResult(null); setFormData({ deepseek_api_key: "", openai_api_key: "", enter_your_pygame_query: "" }); }}>
+                   <ActionButton onClick={() => { setResult(null); setFormData({ openai_api_key: "", enter_your_pygame_query: "" }); }}>
                     Generate More Code
                   </ActionButton>
                 }

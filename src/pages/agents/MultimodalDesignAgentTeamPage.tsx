@@ -6,6 +6,13 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard } from "@/components/agent-ui/ResultCard";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { Loader2, Upload, FileText } from "lucide-react";
 
 const MultimodalDesignAgentTeamPage: React.FC = () => {
@@ -29,7 +36,7 @@ const MultimodalDesignAgentTeamPage: React.FC = () => {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('enter_your_gemini_api_key', textValues.enter_your_gemini_api_key || '');
+      formData.append('enter_your_openai_api_key', textValues.enter_your_openai_api_key || '');
       formData.append('upload_uiux_designs', textValues.upload_uiux_designs || '');
       formData.append('upload_competitor_designs_optional', textValues.upload_competitor_designs_optional || '');
       formData.append('select_analysis_types', textValues.select_analysis_types || '');
@@ -65,122 +72,68 @@ const MultimodalDesignAgentTeamPage: React.FC = () => {
             <p className="text-xl text-gray-400">AI-powered multimodal design agent team.</p>
           </motion.div>
 
-          <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Upload & Configure</CardTitle></CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="file">Upload File *</Label>
-                  <div
-                    className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-blue-500 cursor-pointer"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    <FileText className="h-12 w-12 mx-auto mb-4 text-gray-500" />
-                    <p className="text-gray-300">Click to select a file</p>
-                    {file && <p className="text-sm text-blue-400 mt-2">{file.name}</p>}
-                  </div>
-                  <input ref={fileInputRef} type="file" onChange={handleFileChange} className="hidden" />
+          {loading && <LoadingIndicator message="Processing file..." subtext="Analyzing your designs" />}
+
+          {error && <ErrorMessage title="Processing Failed" message={error} onRetry={handleSubmit} retryLoading={loading} />}
+
+          {!loading && (
+            <Card className="bg-gray-800/50 border-gray-700 mb-8">
+              <CardHeader><CardTitle>Upload & Configure</CardTitle></CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <FormSection title="File Upload" description="Upload your design file">
+                    <div className="space-y-2">
+                      <Label htmlFor="file">Upload File *</Label>
+                      <div
+                        className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-blue-500 cursor-pointer"
+                        onClick={() => fileInputRef.current?.click()}
+                      >
+                        <FileText className="h-12 w-12 mx-auto mb-4 text-gray-500" />
+                        <p className="text-gray-300">Click to select a file</p>
+                        {file && <p className="text-sm text-blue-400 mt-2">{file.name}</p>}
+                      </div>
+                      <input ref={fileInputRef} type="file" onChange={handleFileChange} className="hidden" />
+                    </div>
+                  </FormSection>
+
+                  <FormSection title="API Configuration" description="Enter your OpenAI API key">
+                    <ApiKeyInput label="Enter your OpenAI API Key" name="enter_your_openai_api_key" value={textValues.enter_your_openai_api_key || ''} onChange={(v) => setTextValues(prev => ({ ...prev, enter_your_openai_api_key: v }))} required helperText="Get your API key from OpenAI Platform" />
+                  </FormSection>
+
+                  <FormSection title="Design Details" description="Provide design information">
+                    <SmartInput label="Upload UI/UX Designs" name="upload_uiux_designs" value={textValues.upload_uiux_designs || ''} onChange={(v) => setTextValues(prev => ({ ...prev, upload_uiux_designs: v }))} placeholder="" required />
+                    <SmartInput label="Upload Competitor Designs (Optional)" name="upload_competitor_designs_optional" value={textValues.upload_competitor_designs_optional || ''} onChange={(v) => setTextValues(prev => ({ ...prev, upload_competitor_designs_optional: v }))} placeholder="" />
+                    <SmartInput label="Select Analysis Types" name="select_analysis_types" value={textValues.select_analysis_types || ''} onChange={(v) => setTextValues(prev => ({ ...prev, select_analysis_types: v }))} placeholder="" required />
+                    <SmartInput label="Focus Areas" name="focus_areas" value={textValues.focus_areas || ''} onChange={(v) => setTextValues(prev => ({ ...prev, focus_areas: v }))} placeholder="" required />
+                    <SmartTextarea label="Additional Context" name="additional_context" value={textValues.additional_context || ''} onChange={(v) => setTextValues(prev => ({ ...prev, additional_context: v }))} placeholder="" required />
+                  </FormSection>
+
+                  <ActionButton type="submit" loading={loading} disabled={loading || !file} className="w-full">
+                    Process File
+                  </ActionButton>
+                </form>
+              </CardContent>
+            </Card>
+          )}
+
+          {result && result.status === 'completed' && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <ResultCard title="Result" variant="success">
+                <div className="space-y-4 mt-4">
+                  {result.result && (
+                    <div className="space-y-2">
+                      <Label>Transcript</Label>
+                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(result, null, 2)}</pre>
+                    </div>
+                  )}
                 </div>
-
-
-                <div className="space-y-2">
-                  <Label htmlFor="enter_your_gemini_api_key">Enter your Gemini API Key *</Label>
-                  <Input
-                    id="enter_your_gemini_api_key"
-                    value={textValues.enter_your_gemini_api_key || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, enter_your_gemini_api_key: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="upload_uiux_designs">Upload UI/UX Designs *</Label>
-                  <Input
-                    id="upload_uiux_designs"
-                    value={textValues.upload_uiux_designs || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, upload_uiux_designs: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="upload_competitor_designs_optional">Upload Competitor Designs (Optional) *</Label>
-                  <Input
-                    id="upload_competitor_designs_optional"
-                    value={textValues.upload_competitor_designs_optional || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, upload_competitor_designs_optional: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="select_analysis_types">Select Analysis Types</Label>
-                  <Input
-                    id="select_analysis_types"
-                    value={textValues.select_analysis_types || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, select_analysis_types: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="focus_areas">Focus Areas *</Label>
-                  <Input
-                    id="focus_areas"
-                    value={textValues.focus_areas || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, focus_areas: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="additional_context">Additional Context *</Label>
-                  <Input
-                    id="additional_context"
-                    value={textValues.additional_context || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, additional_context: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-
-                <Button type="submit" disabled={loading || !file} className="w-full">
-                  {loading ? 'Processing...' : 'Process File'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-
-          {error && <Card className="border-red-500/50 bg-red-500/10 mb-8"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
-
-           {result && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Result</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     {result.result && (
-                       <div className="space-y-2">
-                         <Label>Transcript</Label>
-                         <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(result, null, 2)}</pre>
-                       </div>
-                     )}
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
+              </ResultCard>
+            </motion.div>
+          )}
         </div>
       </main>
     </>
   );
 };
 
-export default MultimodalDesignAgentTeamPage;
+ export default MultimodalDesignAgentTeamPage;

@@ -82,11 +82,11 @@ const BundleShowcaseSection: React.FC = () => {
             </ul>
           </div>
           
-          <Link 
-            to={`/bundles/${bundle.id}`}
+          <Link
+            to="/pricing"
             className="mt-auto flex items-center justify-center gap-2 text-sm text-primary-400 hover:text-primary-300 font-medium transition-colors"
           >
-            View Details
+            View Pricing
             <ChevronRight className="h-4 w-4" />
           </Link>
         </motion.div>

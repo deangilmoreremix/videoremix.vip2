@@ -20,7 +20,6 @@ const AiPersonalFinanceAgentPage: React.FC = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
     openaiApiKey: '',
-    serpApiKey: '',
     financialGoals: '',
     currentSituation: ''
   });
@@ -51,7 +50,6 @@ const AiPersonalFinanceAgentPage: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           enter_openai_api_key_to_access_gpt4o: formData.openaiApiKey,
-          enter_serp_api_key_for_search_functionality: formData.serpApiKey,
           what_are_your_financial_goals: formData.financialGoals,
           describe_your_current_financial_situation: formData.currentSituation,
           userId: user?.id
@@ -154,17 +152,10 @@ const AiPersonalFinanceAgentPage: React.FC = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <FormSection title="API Configuration" description="Required API keys">
                   <ApiKeyInput
-                    label="OpenAI API Key (GPT-4o)"
+                     label="OpenAI API Key"
                     value={formData.openaiApiKey}
                     onChange={(v) => updateField('openaiApiKey', v)}
                     helperText="Required for AI-powered financial analysis"
-                    required
-                  />
-                  <ApiKeyInput
-                    label="Serp API Key"
-                    value={formData.serpApiKey}
-                    onChange={(v) => updateField('serpApiKey', v)}
-                    helperText="Required for market research and trend data"
                     required
                   />
                 </FormSection>

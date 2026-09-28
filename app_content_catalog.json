@@ -7,12 +7,12 @@
       "url": null,
       "hub": "Creative Studio",
       "category": "Voice & Agents",
-      "description": "Converts any public blog post into a narrated podcast episode using OpenAI GPT-4 for summarization, a web scraping service for scraping, and an audio generation service for audio generation.",
+      "description": "Converts any public blog post into a narrated podcast episode using OpenAI for summarization, web search for content retrieval, and audio generation.",
       "key_capabilities": [
-        "Scrapes full blog content via a web scraping service",
-        "Summarizes with GPT-4",
-        "Generates audio podcast via an audio generation service",
-        "Requires OpenAI, a web scraping service, and an audio generation service API keys"
+        "Retrieves full blog content via web search",
+        "Summarizes with OpenAI",
+        "Generates audio podcast",
+        "Requires an OpenAI API key"
       ],
       "user_outcomes": [
         "Turn written blog content into listenable audio",
@@ -1230,7 +1230,7 @@
       "url": null,
       "hub": "Control Center",
       "category": "Productivity",
-      "description": "Builds itineraries on live Airbnb and Google Maps data via MCP.",
+      "description": "Builds itineraries using OpenAI-powered planning with maps and travel data.",
       "key_capabilities": [
         "Live data integration",
         "Multi-agent travel planning"
@@ -1270,14 +1270,14 @@
       "url": null,
       "hub": "Knowledge Engine",
       "category": "Knowledge & RAG",
-      "description": "Fully local agentic RAG using EmbeddingGemma and Llama 3.2.",
+      "description": "Agentic retrieval using OpenAI embeddings and GPT models.",
       "key_capabilities": [
-        "Local embedding generation",
+        "OpenAI embedding generation",
         "Agentic retrieval",
-        "Llama 3.2 integration"
+        "GPT-powered reasoning"
       ],
       "user_outcomes": [
-        "Run fully local RAG pipelines without API keys"
+        "Run RAG pipelines powered by OpenAI"
       ],
       "editorial_blurb": null,
       "status": "ready",
@@ -1448,18 +1448,19 @@
     },
     {
       "id": "llama3.1_local_rag",
-      "name": "Llama3.1 Local RAG",
+      "name": "OpenAI Local RAG",
       "source": "awesome-llm-apps",
       "url": null,
       "hub": "Knowledge Engine",
       "category": "Knowledge & RAG",
-      "description": "Chat with any webpage fully offline using Llama 3.1.",
+      "description": "Chat with any webpage using OpenAI embeddings and GPT models.",
       "key_capabilities": [
-        "Offline webpage chat",
-        "Llama 3.1 local inference"
+        "Webpage chat",
+        "OpenAI embedding search",
+        "GPT-powered answers"
       ],
       "user_outcomes": [
-        "Chat with web pages without an internet connection"
+        "Chat with web pages using OpenAI"
       ],
       "editorial_blurb": null,
       "status": "ready",
@@ -1493,14 +1494,14 @@
       "url": null,
       "hub": "Knowledge Engine",
       "category": "Knowledge & RAG",
-      "description": "Runs Llama 3.2 and Qdrant locally with no API keys required.",
+      "description": "RAG pipeline powered by OpenAI embeddings and GPT models.",
       "key_capabilities": [
-        "Local Llama 3.2 inference",
-        "Qdrant vector store",
-        "No API keys needed"
+        "OpenAI embeddings",
+        "Vector search",
+        "OpenAI API key required"
       ],
       "user_outcomes": [
-        "Run RAG entirely on your local machine"
+        "Run RAG with OpenAI models"
       ],
       "editorial_blurb": null,
       "status": "ready",
@@ -1694,7 +1695,7 @@
       "url": null,
       "hub": "Knowledge Engine",
       "category": "Knowledge & RAG",
-      "description": "The classic PDF Q&A app in 30 lines of Python using GPT and Llama3.",
+      "description": "The classic PDF Q&A app using OpenAI.",
       "key_capabilities": [
         "PDF parsing",
         "Document Q&A"
@@ -2009,15 +2010,15 @@
     },
     {
       "id": "llama3_stateful_chat",
-      "name": "Llama3 Stateful Chat",
+      "name": "Stateful Chat",
       "source": "awesome-llm-apps",
       "url": null,
       "hub": "Builder Lab",
       "category": "AI Workforce",
-      "description": "Session-persistent chat with Llama 3.",
+      "description": "Session-persistent chat with OpenAI.",
       "key_capabilities": [
         "Session persistence",
-        "Llama 3 integration"
+        "OpenAI integration"
       ],
       "user_outcomes": [
         "Maintain conversation context across chat sessions"
@@ -2150,18 +2151,18 @@
     },
     {
       "id": "llama3.2_finetuning",
-      "name": "Llama3.2 Finetuning",
+      "name": "OpenAI Model Fine-tuning",
       "source": "awesome-llm-apps",
       "url": null,
       "hub": "Builder Lab",
       "category": "AI Workforce",
-      "description": "Fine-tune Llama 3.2 in 30 lines, free on Colab.",
+      "description": "Fine-tune OpenAI models with minimal code.",
       "key_capabilities": [
         "Minimal fine-tuning code",
         "Colab-compatible"
       ],
       "user_outcomes": [
-        "Fine-tune Llama 3.2 quickly and for free"
+        "Fine-tune OpenAI models quickly"
       ],
       "editorial_blurb": null,
       "status": "ready",
@@ -2170,19 +2171,19 @@
     },
     {
       "id": "google_adk_crash_course",
-      "name": "Google ADK Crash Course",
+      "name": "OpenAI Agents SDK Crash Course",
       "source": "awesome-llm-apps",
       "url": null,
       "hub": "Builder Lab",
       "category": "AI Workforce",
-      "description": "Deep-dive tutorial on Google ADK covering agents, tools, memory, callbacks, plugins, and multi-agent patterns.",
+      "description": "Deep-dive tutorial on building production agents with OpenAI's Responses API, tools, memory, and multi-agent patterns.",
       "key_capabilities": [
-        "Google ADK framework",
+        "OpenAI Agents SDK",
         "Multi-agent patterns",
-        "Model-agnostic design"
+        "Responses API integration"
       ],
       "user_outcomes": [
-        "Master Google ADK for building production agents"
+        "Master OpenAI's Responses API for building production agents"
       ],
       "editorial_blurb": null,
       "status": "ready",

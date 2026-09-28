@@ -17,7 +17,7 @@
 
 ### **Task 3: Netlify Functions Architecture** ✅ (now Supabase Edge Functions)
 - ✅ Created Netlify function structure (netlify/functions/salesforce-ai.ts)
-- ✅ Implemented **OpenAI GPT-4o** integration (migrated from Claude)
+- ✅ Implemented **OpenAI GPT-4o** integration
 - ✅ Added database schema for AI agent runs (supabase/migrations/20260427120000_create_ai_agent_runs_table.sql)
 - ✅ Error handling and response formatting
 
@@ -25,7 +25,7 @@
 
 ### **SalesForce AI Complete Implementation** ✅
 - ✅ **Spec Creation**: Detailed specification document completed
-- ✅ **Function Creation**: Supabase Edge Function with **OpenAI GPT-4o** (migrated from Claude)
+- ✅ **Function Creation**: Supabase Edge Function with **OpenAI GPT-4o**
 - ✅ **Component Creation**: AgentInputForm with progress tracking
 - ✅ **Page Creation**: SalesForceAIPage with full UI
 - ✅ **Data Integration**: Added to appsData.ts with sales copy
@@ -34,7 +34,7 @@
 
 ### **Technical Implementation Details:**
 - **Frontend**: React + TypeScript with existing UI components
-- **Backend**: Supabase Edge Functions with **OpenAI GPT-4o** (migrated from Anthropic Claude)
+- **Backend**: Supabase Edge Functions with **OpenAI GPT-4o**
 - **Database**: Supabase with proper RLS policies
 - **UI/UX**: Professional form with 7-stage progress tracking
 
@@ -42,7 +42,7 @@
 
 - **Lines of Code**: ~1,200+ lines across 6 new files
 - **Components Created**: 2 (AgentInputForm, SalesForceAIPage)
-- **Functions Created**: 1 (Supabase Edge Function — migrated from Netlify + Anthropic)
+- **Functions Created**: 1 (Supabase Edge Function)
 - **Database Tables**: 1 (ai_agent_runs)
 - **Build Status**: ✅ Successful compilation
 

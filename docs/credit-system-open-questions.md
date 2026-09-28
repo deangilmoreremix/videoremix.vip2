@@ -207,7 +207,7 @@ GROUP BY model;
 
 ## 5. Multi-Provider Support
 
-**Question:** Do you want to support multiple AI providers (OpenAI, Google) or just OpenAI?
+**Question:** Do you want to support OpenAI only or add more providers later?
 
 ### Options
 
@@ -215,7 +215,7 @@ GROUP BY model;
 |--------|-----------|------|----------------|
 | OpenAI only | Low | Medium | **Phase 1** |
 | OpenAI + OpenAI | Medium | Medium | Phase 2 |
-| OpenAI + Google | Medium | Medium | Phase 2 |
+| OpenAI only | Medium | Medium | Phase 2 |
 | All three | High | High | Phase 3 |
 
 ### Recommendations
@@ -225,7 +225,7 @@ GROUP BY model;
 **Rationale:**
 - Phase 1: prove credit system works
 - Phase 2: add OpenAI for most capable alternative
-- Phase 3: add Google for multimodal use cases
+- OpenAI handles multimodal use cases
 
 **Architecture for Multi-Provider:**
 ```typescript
@@ -244,7 +244,7 @@ class AIProxy {
       case 'OpenAI':
         return this.proxyOpenAI(request);
       case 'google':
-        return this.proxyGoogle(request);
+        return this.proxyOpenAI(request);
     }
   }
 }
@@ -256,7 +256,7 @@ class AIProxy {
 |----------|-------|-------|--------|
 | OpenAI | gpt-4o | $2.50/M | $10.00/M |
 | OpenAI | OpenAI-3-opus | $15.00/M | $75.00/M |
-| Google | OpenAI-2.5-pro | $7.00/M | $21.00/M |
+| OpenAI | gpt-5.5 | $7.00/M | $21.00/M |
 
 ### Open Questions
 

@@ -132,7 +132,7 @@ const PublicAppGallery: React.FC = () => {
                     </Link>
                   ) : (
                     <Link
-                      to="/sign-in"
+                      to="/signin"
                       className="inline-flex items-center px-4 py-2 text-sm font-medium text-primary-400 bg-primary-500/10 hover:bg-primary-500/20 border border-primary-500/30 rounded-lg transition-colors"
                     >
                       <Lock className="mr-2 h-4 w-4" />
@@ -166,7 +166,7 @@ const PublicAppGallery: React.FC = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                to="/sign-up"
+                to="/signup"
                 className="inline-flex items-center px-8 py-3 text-lg font-semibold text-white bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:shadow-primary-500/25"
               >
                 Get Started Free

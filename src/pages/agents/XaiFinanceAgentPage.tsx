@@ -3,12 +3,13 @@ import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2 } from "lucide-react";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard } from "@/components/agent-ui/ResultCard";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 
 const XaiFinanceAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -16,6 +17,15 @@ const XaiFinanceAgentPage: React.FC = () => {
   const [loading, setLoading] = useState<string | null>(null);
   const [results, setResults] = useState<Record<string, any>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [mainForm, setMainForm] = useState({
+    openai_api_key: "", xai_grok_api_key: "", enter_stock_symbol_eg_aapl_googl_tsla: "", time_period: "", stock_symbol_for_news: "", symbol: "", shares: "", avg_buy_price_: "", symbol_to_analyze: "", ask_about_investing_markets_or_finance: ""
+  });
+  const [advancedForm, setAdvancedForm] = useState({
+    openai_api_key: "", xai_grok_api_key: "", enter_stock_symbol_eg_aapl_googl_tsla: "", time_period: "", stock_symbol_for_news: "", symbol: "", shares: "", avg_buy_price_: "", symbol_to_analyze: "", ask_about_investing_markets_or_finance: ""
+  });
+
+  const updateMain = (field: string, value: string) => setMainForm(prev => ({ ...prev, [field]: value }));
+  const updateAdvanced = (field: string, value: string) => setAdvancedForm(prev => ({ ...prev, [field]: value }));
 
   const handleSubmit = async (tabKey: string, data: any) => {
     setLoading(tabKey);
@@ -51,264 +61,73 @@ const XaiFinanceAgentPage: React.FC = () => {
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="max-w-4xl mx-auto">
             <TabsList className="grid grid-cols-2 mb-8">
-              
               <TabsTrigger value="main">Main</TabsTrigger>
-                            
               <TabsTrigger value="advanced">Advanced</TabsTrigger>
-              
             </TabsList>
 
-            
             <TabsContent value="main">
-              <Card className="bg-gray-800/50 border-gray-700">
-                <CardHeader><CardTitle>Main</CardTitle></CardHeader>
-                <CardContent>
-                  <form onSubmit={(e) => { e.preventDefault(); handleSubmit('main', { openai_api_key, xai_grok_api_key, enter_stock_symbol_eg_aapl_googl_tsla, time_period, stock_symbol_for_news, symbol, shares, avg_buy_price_, symbol_to_analyze, ask_about_investing_markets_or_finance }); }} className="space-y-6">
+              {errors['main'] && <ErrorMessage title="Request Failed" message={errors['main']} onRetry={() => handleSubmit('main', mainForm)} retryLoading={loading === 'main'} />}
+              <FormSection title="API Configuration" description="Enter API keys">
+                <ApiKeyInput label="OpenAI API Key" name="openai_api_key" value={mainForm.openai_api_key} onChange={(v) => updateMain('openai_api_key', v)} required helperText="Get your API key from OpenAI Platform" />
+                <ApiKeyInput label="xAI (Grok) API Key" name="xai_grok_api_key" value={mainForm.xai_grok_api_key} onChange={(v) => updateMain('xai_grok_api_key', v)} required helperText="Get your API key from xAI Platform" />
+              </FormSection>
+              <FormSection title="Stock Analysis" description="Enter stock details">
+                <SmartTextarea label="Enter Stock Symbol (e.g., AAPL, GOOGL, TSLA)" name="enter_stock_symbol_eg_aapl_googl_tsla" value={mainForm.enter_stock_symbol_eg_aapl_googl_tsla} onChange={(v) => updateMain('enter_stock_symbol_eg_aapl_googl_tsla', v)} placeholder="" required />
+                <SmartTextarea label="Time Period" name="time_period" value={mainForm.time_period} onChange={(v) => updateMain('time_period', v)} placeholder="" required />
+                <SmartTextarea label="Stock Symbol for News" name="stock_symbol_for_news" value={mainForm.stock_symbol_for_news} onChange={(v) => updateMain('stock_symbol_for_news', v)} placeholder="" required />
+                <SmartTextarea label="Symbol" name="symbol" value={mainForm.symbol} onChange={(v) => updateMain('symbol', v)} placeholder="" required />
+                <SmartTextarea label="Shares" name="shares" value={mainForm.shares} onChange={(v) => updateMain('shares', v)} placeholder="" required />
+                <SmartTextarea label="Avg Buy Price ($)" name="avg_buy_price_" value={mainForm.avg_buy_price_} onChange={(v) => updateMain('avg_buy_price_', v)} placeholder="" required />
+                <SmartTextarea label="Symbol to analyze" name="symbol_to_analyze" value={mainForm.symbol_to_analyze} onChange={(v) => updateMain('symbol_to_analyze', v)} placeholder="" required />
+                <SmartTextarea label="Ask about investing, markets, or finance" name="ask_about_investing_markets_or_finance" value={mainForm.ask_about_investing_markets_or_finance} onChange={(v) => updateMain('ask_about_investing_markets_or_finance', v)} placeholder="" required />
+              </FormSection>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="openai_api_key">OpenAI API Key</Label>
-                      <Textarea
-                        id="openai_api_key"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+              {loading === 'main' && <LoadingIndicator message="Processing..." subtext="Running main workflow" />}
 
-                    <div className="space-y-2">
-                      <Label htmlFor="xai_grok_api_key">xAI (Grok) API Key</Label>
-                      <Textarea
-                        id="xai_grok_api_key"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="enter_stock_symbol_eg_aapl_googl_tsla">Enter Stock Symbol (e.g., AAPL, GOOGL, TSLA)</Label>
-                      <Textarea
-                        id="enter_stock_symbol_eg_aapl_googl_tsla"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="time_period">Time Period</Label>
-                      <Textarea
-                        id="time_period"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="stock_symbol_for_news">Stock Symbol for News</Label>
-                      <Textarea
-                        id="stock_symbol_for_news"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="symbol">Symbol</Label>
-                      <Textarea
-                        id="symbol"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="shares">Shares</Label>
-                      <Textarea
-                        id="shares"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="avg_buy_price_">Avg Buy Price ($)</Label>
-                      <Textarea
-                        id="avg_buy_price_"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="symbol_to_analyze">Symbol to analyze</Label>
-                      <Textarea
-                        id="symbol_to_analyze"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="ask_about_investing_markets_or_finance">Ask about investing, markets, or finance:</Label>
-                      <Textarea
-                        id="ask_about_investing_markets_or_finance"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <Button type="submit" disabled={loading === 'main'}>
-                      {loading === 'main' ? 'Processing...' : 'Run'}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
+              <ActionButton type="button" loading={loading === 'main'} onClick={() => handleSubmit('main', mainForm)} className="w-full mt-6">
+                Run
+              </ActionButton>
 
               {results['main'] && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6">
-                  <Card className="bg-gray-800/50 border-gray-700">
-                    <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                    <CardContent>
-                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(results['main'], null, 2)}</pre>
-                    </CardContent>
-                  </Card>
+                  <ResultCard title="Main Result" variant="success">
+                    <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans mt-2">{JSON.stringify(results['main'], null, 2)}</pre>
+                  </ResultCard>
                 </motion.div>
               )}
             </TabsContent>
-            
+
             <TabsContent value="advanced">
-              <Card className="bg-gray-800/50 border-gray-700">
-                <CardHeader><CardTitle>Advanced</CardTitle></CardHeader>
-                <CardContent>
-                  <form onSubmit={(e) => { e.preventDefault(); handleSubmit('advanced', { openai_api_key, xai_grok_api_key, enter_stock_symbol_eg_aapl_googl_tsla, time_period, stock_symbol_for_news, symbol, shares, avg_buy_price_, symbol_to_analyze, ask_about_investing_markets_or_finance }); }} className="space-y-6">
+              {errors['advanced'] && <ErrorMessage title="Request Failed" message={errors['advanced']} onRetry={() => handleSubmit('advanced', advancedForm)} retryLoading={loading === 'advanced'} />}
+              <FormSection title="API Configuration" description="Enter API keys">
+                <ApiKeyInput label="OpenAI API Key" name="openai_api_key" value={advancedForm.openai_api_key} onChange={(v) => updateAdvanced('openai_api_key', v)} required helperText="Get your API key from OpenAI Platform" />
+                <ApiKeyInput label="xAI (Grok) API Key" name="xai_grok_api_key" value={advancedForm.xai_grok_api_key} onChange={(v) => updateAdvanced('xai_grok_api_key', v)} required helperText="Get your API key from xAI Platform" />
+              </FormSection>
+              <FormSection title="Stock Analysis" description="Enter stock details">
+                <SmartTextarea label="Enter Stock Symbol (e.g., AAPL, GOOGL, TSLA)" name="enter_stock_symbol_eg_aapl_googl_tsla" value={advancedForm.enter_stock_symbol_eg_aapl_googl_tsla} onChange={(v) => updateAdvanced('enter_stock_symbol_eg_aapl_googl_tsla', v)} placeholder="" required />
+                <SmartTextarea label="Time Period" name="time_period" value={advancedForm.time_period} onChange={(v) => updateAdvanced('time_period', v)} placeholder="" required />
+                <SmartTextarea label="Stock Symbol for News" name="stock_symbol_for_news" value={advancedForm.stock_symbol_for_news} onChange={(v) => updateAdvanced('stock_symbol_for_news', v)} placeholder="" required />
+                <SmartTextarea label="Symbol" name="symbol" value={advancedForm.symbol} onChange={(v) => updateAdvanced('symbol', v)} placeholder="" required />
+                <SmartTextarea label="Shares" name="shares" value={advancedForm.shares} onChange={(v) => updateAdvanced('shares', v)} placeholder="" required />
+                <SmartTextarea label="Avg Buy Price ($)" name="avg_buy_price_" value={advancedForm.avg_buy_price_} onChange={(v) => updateAdvanced('avg_buy_price_', v)} placeholder="" required />
+                <SmartTextarea label="Symbol to analyze" name="symbol_to_analyze" value={advancedForm.symbol_to_analyze} onChange={(v) => updateAdvanced('symbol_to_analyze', v)} placeholder="" required />
+                <SmartTextarea label="Ask about investing, markets, or finance" name="ask_about_investing_markets_or_finance" value={advancedForm.ask_about_investing_markets_or_finance} onChange={(v) => updateAdvanced('ask_about_investing_markets_or_finance', v)} placeholder="" required />
+              </FormSection>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="openai_api_key">OpenAI API Key</Label>
-                      <Textarea
-                        id="openai_api_key"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+              {loading === 'advanced' && <LoadingIndicator message="Processing..." subtext="Running advanced workflow" />}
 
-                    <div className="space-y-2">
-                      <Label htmlFor="xai_grok_api_key">xAI (Grok) API Key</Label>
-                      <Textarea
-                        id="xai_grok_api_key"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="enter_stock_symbol_eg_aapl_googl_tsla">Enter Stock Symbol (e.g., AAPL, GOOGL, TSLA)</Label>
-                      <Textarea
-                        id="enter_stock_symbol_eg_aapl_googl_tsla"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="time_period">Time Period</Label>
-                      <Textarea
-                        id="time_period"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="stock_symbol_for_news">Stock Symbol for News</Label>
-                      <Textarea
-                        id="stock_symbol_for_news"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="symbol">Symbol</Label>
-                      <Textarea
-                        id="symbol"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="shares">Shares</Label>
-                      <Textarea
-                        id="shares"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="avg_buy_price_">Avg Buy Price ($)</Label>
-                      <Textarea
-                        id="avg_buy_price_"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="symbol_to_analyze">Symbol to analyze</Label>
-                      <Textarea
-                        id="symbol_to_analyze"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="ask_about_investing_markets_or_finance">Ask about investing, markets, or finance:</Label>
-                      <Textarea
-                        id="ask_about_investing_markets_or_finance"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <Button type="submit" disabled={loading === 'advanced'}>
-                      {loading === 'advanced' ? 'Processing...' : 'Run'}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
+              <ActionButton type="button" loading={loading === 'advanced'} onClick={() => handleSubmit('advanced', advancedForm)} className="w-full mt-6">
+                Run
+              </ActionButton>
 
               {results['advanced'] && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6">
-                  <Card className="bg-gray-800/50 border-gray-700">
-                    <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                    <CardContent>
-                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(results['advanced'], null, 2)}</pre>
-                    </CardContent>
-                  </Card>
+                  <ResultCard title="Advanced Result" variant="success">
+                    <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans mt-2">{JSON.stringify(results['advanced'], null, 2)}</pre>
+                  </ResultCard>
                 </motion.div>
               )}
             </TabsContent>
-            
           </Tabs>
         </div>
       </main>
@@ -316,4 +135,4 @@ const XaiFinanceAgentPage: React.FC = () => {
   );
 };
 
-export default XaiFinanceAgentPage;
+ export default XaiFinanceAgentPage;

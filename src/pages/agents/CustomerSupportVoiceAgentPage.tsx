@@ -17,9 +17,6 @@ const STORAGE_KEY = 'local-business-voice-assistant';
 const CustomerSupportVoiceAgentPage: React.FC = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
-    qdrant_url: "",
-    qdrant_api_key: "",
-    firecrawl_api_key: "",
     openai_api_key: "",
     documentation_url: "",
     select_voice: "alloy",
@@ -101,10 +98,7 @@ const CustomerSupportVoiceAgentPage: React.FC = () => {
                 />
               </ResultGrid>
               <div className="flex justify-center">
-                <ActionButton onClick={() => { setResult(null); setFormData({
-                  qdrant_url: "",
-                  qdrant_api_key: "",
-                  firecrawl_api_key: "",
+                  <ActionButton onClick={() => { setResult(null); setFormData({
                   openai_api_key: "",
                   documentation_url: "",
                   select_voice: "alloy",
@@ -143,37 +137,8 @@ const CustomerSupportVoiceAgentPage: React.FC = () => {
 
             <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto">
               <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6 space-y-6">
-                <FormSection title="API Configuration" description="Enter your API credentials">
+                <FormSection title="API Configuration" description="Enter your OpenAI API key">
                   <div className="space-y-4">
-                    <SmartInput
-                      label="Qdrant URL"
-                      name="qdrant_url"
-                      value={formData.qdrant_url}
-                      onChange={(value) => setFormData(prev => ({ ...prev, qdrant_url: value }))}
-                      placeholder="e.g., https://your-qdrant-instance.com"
-                      helperText="Vector database URL for semantic search"
-                    />
-
-                    <SmartInput
-                      label="Qdrant API Key"
-                      name="qdrant_api_key"
-                      value={formData.qdrant_api_key}
-                      onChange={(value) => setFormData(prev => ({ ...prev, qdrant_api_key: value }))}
-                      type="password"
-                      placeholder="your-qdrant-api-key"
-                      helperText="API key for Qdrant authentication"
-                    />
-
-                    <SmartInput
-                      label="Firecrawl API Key"
-                      name="firecrawl_api_key"
-                      value={formData.firecrawl_api_key}
-                      onChange={(value) => setFormData(prev => ({ ...prev, firecrawl_api_key: value }))}
-                      type="password"
-                      placeholder="fc-..."
-                      helperText="For web scraping and documentation fetching"
-                    />
-
                     <SmartInput
                       label="OpenAI API Key"
                       name="openai_api_key"
@@ -182,6 +147,7 @@ const CustomerSupportVoiceAgentPage: React.FC = () => {
                       type="password"
                       placeholder="sk-..."
                       helperText="For voice synthesis and text processing"
+                      required
                     />
                   </div>
                 </FormSection>

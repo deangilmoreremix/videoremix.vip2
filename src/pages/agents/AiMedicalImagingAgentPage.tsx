@@ -18,7 +18,7 @@ const STORAGE_KEY = 'investment-research-assistant';
 const AiMedicalImagingAgentPage: React.FC = () => {
   const { user } = useAuth();
   const [file, setFile] = useState<File | null>(null);
-  const [apiKey, setApiKey] = useState('');
+  const [openaiApiKey, setOpenaiApiKey] = useState('');
   const [imageDescription, setImageDescription] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -29,14 +29,14 @@ const AiMedicalImagingAgentPage: React.FC = () => {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        setApiKey(parsed.apiKey || '');
+        setOpenaiApiKey(parsed.openaiApiKey || '');
         setImageDescription(parsed.imageDescription || '');
       } catch {}
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ apiKey, imageDescription }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ openaiApiKey, imageDescription }));
   }, [apiKey, imageDescription]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -47,7 +47,7 @@ const AiMedicalImagingAgentPage: React.FC = () => {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('google_api_key', apiKey);
+      formData.append('openai_api_key', openaiApiKey);
       formData.append('image_description', imageDescription);
       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/investment-research-assistant`, {
         method: 'POST',
@@ -153,10 +153,10 @@ const AiMedicalImagingAgentPage: React.FC = () => {
                 </div>
 
                 <ApiKeyInput
-                  label="Google API Key"
-                  value={apiKey}
-                  onChange={setApiKey}
-                  helperText="Required for Gemini AI analysis. Your key is stored locally."
+                  label="OpenAI API Key"
+                  value={openaiApiKey}
+                  onChange={setOpenaiApiKey}
+                  helperText="Required for OpenAI analysis. Your key is stored locally."
                   required
                 />
 
@@ -183,7 +183,7 @@ const AiMedicalImagingAgentPage: React.FC = () => {
                   type="submit"
                   onClick={handleSubmit}
                   loading={loading}
-                  disabled={loading || !file || !apiKey.trim()}
+                  disabled={loading || !file || !openaiApiKey.trim()}
                   size="lg"
                   className="w-full"
                 >

@@ -192,7 +192,7 @@ const AiAqiAnalysisAgentPage: React.FC = () => {
                 title="Analysis Complete"
                 description="Your personalized air quality recommendations are ready."
                 action={
-                  <ActionButton onClick={() => { setResult(null); setFormData({ firecrawl_api_key: "", openai_api_key: "", city: "", state: "", country: "", medical_conditions_optional: "", planned_activity: "" }); }}>
+                  <ActionButton onClick={() => { setResult(null); setFormData({ openai_api_key: "", city: "", state: "", country: "", medical_conditions_optional: "", planned_activity: "" }); }}>
                     Analyze Another Location
                   </ActionButton>
                 }

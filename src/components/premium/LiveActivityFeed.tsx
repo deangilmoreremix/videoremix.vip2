@@ -15,10 +15,10 @@ interface Activity {
 
 const activities: Activity[] = [
   { id: 1, type: 'conversion', message: 'Increased conversions by 2.3x', location: 'San Francisco, CA', time: '2 min ago' },
-  { id: 2, type: 'signup', message: 'New team joined', location: 'Austin, TX', time: '5 min ago' },
-  { id: 3, type: 'milestone', message: 'Reached 10K campaigns', location: 'New York, NY', time: '12 min ago' },
-  { id: 4, type: 'conversion', message: 'Achieved 80% lift', location: 'London, UK', time: '18 min ago' },
-  { id: 5, type: 'signup', message: 'Enterprise plan activated', location: 'Toronto, CA', time: '25 min ago' },
+  { id: 2, type: 'signup', message: 'New team joined the ecosystem', location: 'Austin, TX', time: '5 min ago' },
+  { id: 3, type: 'milestone', message: 'Launched 113th app', location: 'New York, NY', time: '12 min ago' },
+  { id: 4, type: 'conversion', message: 'Achieved 80% workflow lift', location: 'London, UK', time: '18 min ago' },
+  { id: 5, type: 'signup', message: 'Business plan activated', location: 'Toronto, CA', time: '25 min ago' },
 ];
 
 const iconMap = {

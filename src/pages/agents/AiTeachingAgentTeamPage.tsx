@@ -18,8 +18,6 @@ const AiTeachingAgentTeamPage: React.FC = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({ 
     enter_your_openai_api_key: "", 
-    enter_your_composio_api_key: "", 
-    enter_your_serpapi_key: "", 
     enter_the_topic_you_want_to_learn_about: "" 
   });
   const [loading, setLoading] = useState(false);
@@ -65,7 +63,7 @@ const AiTeachingAgentTeamPage: React.FC = () => {
   };
 
   const handleClear = () => {
-    setFormData({ enter_your_openai_api_key: "", enter_your_composio_api_key: "", enter_your_serpapi_key: "", enter_the_topic_you_want_to_learn_about: "" });
+    setFormData({ enter_your_openai_api_key: "", enter_the_topic_you_want_to_learn_about: "" });
     setResult(null);
     setError(null);
   };
@@ -111,28 +109,6 @@ const AiTeachingAgentTeamPage: React.FC = () => {
               onChange={(val) => setFormData({ ...formData, enter_your_openai_api_key: val })}
               placeholder="sk-..."
               helperText="Your OpenAI API key for GPT-powered learning. Stored locally."
-              required
-            />
-
-            <SmartInput
-              label="Composio API Key"
-              name="enter_your_composio_api_key"
-              type="password"
-              value={formData.enter_your_composio_api_key}
-              onChange={(val) => setFormData({ ...formData, enter_your_composio_api_key: val })}
-              placeholder="Enter your Composio API key"
-              helperText="Composio API key for tool orchestration"
-              required
-            />
-
-            <SmartInput
-              label="SerpAPI Key"
-              name="enter_your_serpapi_key"
-              type="password"
-              value={formData.enter_your_serpapi_key}
-              onChange={(val) => setFormData({ ...formData, enter_your_serpapi_key: val })}
-              placeholder="Enter your SerpAPI key"
-              helperText="SerpAPI key for web search functionality"
               required
             />
           </FormSection>

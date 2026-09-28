@@ -16,7 +16,7 @@ import { Loader2, Sparkles, MapPin, Calendar, Key } from "lucide-react";
 
 const LocalTravelAgentPage: React.FC = () => {
   const { user } = useAuth();
-  const [formData, setFormData] = useState({ enter_serp_api_key_for_search_functionality: "", where_do_you_want_to_go: "", how_many_days_do_you_want_to_travel_for: "" });
+  const [formData, setFormData] = useState({ where_do_you_want_to_go: "", how_many_days_do_you_want_to_travel_for: "" });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -36,7 +36,7 @@ const LocalTravelAgentPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.enter_serp_api_key_for_search_functionality.trim()) {
+    if (!formData.where_do_you_want_to_go.trim()) {
       setError("Serp API key is required for search functionality");
       return;
     }
@@ -68,7 +68,7 @@ const LocalTravelAgentPage: React.FC = () => {
   };
 
   const handleClear = () => {
-    setFormData({ enter_serp_api_key_for_search_functionality: "", where_do_you_want_to_go: "", how_many_days_do_you_want_to_travel_for: "" });
+    setFormData({ where_do_you_want_to_go: "", how_many_days_do_you_want_to_travel_for: "" });
     setResult(null);
   };
 
@@ -95,42 +95,29 @@ const LocalTravelAgentPage: React.FC = () => {
               <CardHeader><CardTitle>Travel Planning Configuration</CardTitle></CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <FormSection title="API Configuration" description="Enter your Serp API key for search functionality">
-                    <ApiKeyInput
-                      label="Serp API Key"
-                      name="enter_serp_api_key_for_search_functionality"
-                      value={formData.enter_serp_api_key_for_search_functionality}
-                      onChange={(val) => setFormData({ ...formData, enter_serp_api_key_for_search_functionality: val })}
-                      helperText="Required for web search capabilities. Get your key from serpapi.com"
-                      required
-                    />
-                  </FormSection>
+                  <SmartInput
+                    label="Destination"
+                    name="where_do_you_want_to_go"
+                    type="text"
+                    value={formData.where_do_you_want_to_go}
+                    onChange={(val) => setFormData({ ...formData, where_do_you_want_to_go: val })}
+                    placeholder="Tokyo, Japan"
+                    helperText="Enter a city, country, or specific location you want to visit"
+                    required
+                  />
 
-                  <FormSection title="Trip Details" description="Tell us about your travel plans">
-                    <SmartInput
-                      label="Destination"
-                      name="where_do_you_want_to_go"
-                      type="text"
-                      value={formData.where_do_you_want_to_go}
-                      onChange={(val) => setFormData({ ...formData, where_do_you_want_to_go: val })}
-                      placeholder="Tokyo, Japan"
-                      helperText="Enter a city, country, or specific location you want to visit"
-                      required
-                    />
-                    
-                    <SmartInput
-                      label="Trip Duration"
-                      name="how_many_days_do_you_want_to_travel_for"
-                      type="number"
-                      value={formData.how_many_days_do_you_want_to_travel_for}
-                      onChange={(val) => setFormData({ ...formData, how_many_days_do_you_want_to_travel_for: val })}
-                      placeholder="7"
-                      helperText="Number of days for your trip. This helps plan an appropriate itinerary."
-                      min={1}
-                      max={365}
-                      required
-                    />
-                  </FormSection>
+                  <SmartInput
+                    label="Trip Duration"
+                    name="how_many_days_do_you_want_to_travel_for"
+                    type="number"
+                    value={formData.how_many_days_do_you_want_to_travel_for}
+                    onChange={(val) => setFormData({ ...formData, how_many_days_do_you_want_to_travel_for: val })}
+                    placeholder="7"
+                    helperText="Number of days for your trip. This helps plan an appropriate itinerary."
+                    min={1}
+                    max={365}
+                    required
+                  />
 
                   <div className="flex gap-3 pt-4">
                     <ActionButton type="submit" loading={loading} size="lg" className="flex-1" disabled={!formData.where_do_you_want_to_go.trim()}>
@@ -174,7 +161,7 @@ const LocalTravelAgentPage: React.FC = () => {
                 </CardContent>
               </Card>
 
-              <ActionButton onClick={() => { setResult(null); setFormData({ enter_serp_api_key_for_search_functionality: formData.enter_serp_api_key_for_search_functionality, where_do_you_want_to_go: "", how_many_days_do_you_want_to_travel_for: "" }); }} variant="secondary" className="w-full">
+              <ActionButton onClick={() => { setResult(null); setFormData({ where_do_you_want_to_go: "", how_many_days_do_you_want_to_travel_for: "" }); }} variant="secondary" className="w-full">
                 Plan Another Trip
               </ActionButton>
             </motion.div>

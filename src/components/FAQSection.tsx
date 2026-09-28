@@ -14,34 +14,34 @@ export const FAQSection: React.FC = () => {
   // Default FAQs in case data hasn't loaded yet
   const defaultFaqs = [
     {
-      question: "What is VideoRemix.vip?",
+      question: "What is VideoRemix VIP?",
       answer:
-        "VideoRemix.vip is an AI-powered marketing personalization platform with 37+ tools designed to help solopreneurs, agencies, and businesses create personalized marketing content that drives results. Our platform combines audience segmentation, AI-powered personalization, and integrated marketing tools to help you achieve 3x higher engagement and conversion rates compared to generic marketing approaches.",
+        "VideoRemix VIP is an AI-powered business app ecosystem with 113 apps across marketing, sales, video, hiring, and productivity. It unifies content creation, automation, and AI agents in one platform so teams can move from idea to outcome faster.",
     },
     {
-      question: "How does VideoRemix.vip work?",
+      question: "How does VideoRemix VIP work?",
       answer:
-        "VideoRemix.vip provides 37+ AI-powered marketing tools across Video, AI Image, Lead Generation, Branding, and Creative categories. Choose the tools you need, define your audience segments, and our AI automatically personalizes content, messaging, and calls-to-action for each segment. You can create personalized marketing campaigns—from videos to landing pages to CRM sequences—in minutes instead of days.",
+        "VideoRemix VIP gives you access to 113 apps organized by workflow — content and video, sales funnels, hiring and profiles, productivity, and voice/agents. Apps share context across the platform, so outputs from one workflow can feed into the next.",
     },
     {
-      question: "Do I need any technical skills to use VideoRemix.vip?",
+      question: "Do I need technical skills to use it?",
       answer:
-        "Not at all! VideoRemix.vip is designed for solopreneurs, marketers, and business owners with no technical background. Our intuitive interface and AI-powered personalization features make it easy for anyone to create professional marketing content, segment audiences, and launch personalized campaigns without technical skills or marketing expertise.",
+        "No. The platform is designed for creators, operators, recruiters, and business owners. Most apps use guided prompts, templates, and agentic workflows so you can produce work without specialized training.",
     },
     {
-      question: "What types of marketing content can I create?",
+      question: "What kinds of tasks can it handle?",
       answer:
-        "You can create personalized videos, landing pages, promotional content, email campaigns, social media posts, lead generation funnels, CRM sequences, branding materials, and more. With 37+ tools including AI Video Creator, Landing Page Creator, Smart CRM Closer, FunnelCraft AI, and Interactive Shopping, you can create virtually any type of personalized marketing content for your business or clients.",
+        "It covers a wide range of business workflows: video editing and personalization, AI image and visual generation, funnel and sales automation, resume and profile creation, email and document productivity, voice agents, and AI workforce automations.",
     },
     {
-      question: "How much does VideoRemix.vip cost?",
+      question: "What pricing options are available?",
       answer:
-        "VideoRemix.vip offers a Free plan with basic features (5 video exports per month, 2 audience segments), a Pro plan at $29/month with unlimited access to all tools and segments, and a Business plan at $79/month with advanced features, team collaboration, and white-label options. We also offer annual and lifetime pricing options.",
+        "VideoRemix VIP offers tiered access so you can start free and grow into higher plans. The full app library is included with your plan, and upgrades unlock more usage, storage, team seats, and advanced AI features.",
     },
     {
-      question: "Can I use VideoRemix.vip for my agency or multiple clients?",
+      question: "Can teams and agencies use this?",
       answer:
-        "Absolutely! Business plans support up to 10 team members and allow you to manage multiple client accounts with separate branding, campaigns, and analytics. Many agencies use our platform to offer personalized marketing services that would typically require multiple specialized tools and larger teams.",
+        "Yes. Higher plans support multiple team members, shared workspaces, and client-ready outputs. Many teams use the platform to replace disjointed toolchains with one connected app ecosystem.",
     },
   ];
 
@@ -71,8 +71,7 @@ export const FAQSection: React.FC = () => {
           </h2>
 
           <p className="text-xl text-gray-300 mb-0">
-            Everything you need to know about our marketing personalization
-            platform
+            Everything you need to know about the VideoRemix VIP ecosystem
           </p>
         </motion.div>
 

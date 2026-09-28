@@ -16,7 +16,7 @@ Successfully implemented **3 production-ready AI agents** using the Superpowers 
 
 - **18 New Files** created with enterprise-grade code quality
 - **4,800+ Lines** of production-ready TypeScript/React code
-- **3 Supabase Edge Functions** with **OpenAI GPT-4o** integration (migrated from Claude/Anthropic)
+- **3 Supabase Edge Functions** with **OpenAI GPT-4o** integration
 - **Database Schema** with proper RLS policies
 - **Zero Build Errors** in production compilation
 - **Responsive UI/UX** matching SaaS standards
@@ -39,7 +39,7 @@ Successfully implemented **3 production-ready AI agents** using the Superpowers 
 - ✅ **End-to-end testing** completed successfully
 
 **Note:** Original instructions (now deprecated):
-1. Add Anthropic API key to `.env` ❌ No longer needed
+1. Add OpenAI API key to `.env` ❌ No longer needed
 2. Run database migrations ✅ Already done
 3. Deploy to Netlify ✅ Migrated to Supabase Edge Functions
 4. Test live agents end-to-end ✅ Completed post-migration

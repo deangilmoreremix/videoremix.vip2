@@ -2,7 +2,6 @@ import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 import ErrorBoundary from '../ErrorBoundary';
 import ROICalculator from './ROICalculator';
-import PersonalizationSimulator from './PersonalizationSimulator';
 import InteractiveComparisonTable from './InteractiveComparisonTable';
 import LiveActivityFeed from './LiveActivityFeed';
 import LogoWall from './LogoWall';
@@ -63,16 +62,16 @@ const LandingPage: React.FC = () => {
   return (
     <main className="bg-[#050510] text-white min-h-screen">
       <SEO
-        title="VideoRemix.vip - AI Marketing Platform + 100+ Business Apps"
-        description="Create personalized marketing campaigns, explore 100+ AI-powered business apps across 12 categories, and turn AI outputs into sellable services."
-        keywords={["AI marketing", "VideoRemix", "personalization", "business apps", "AI tools"]}
+        title="VideoRemix VIP - 113 AI Apps for Marketing, Sales, Video, Hiring & Productivity"
+        description="One ecosystem for content, video, sales funnels, hiring, productivity, and AI automation. Explore 113 apps built to replace fragmented toolchains with unified workflows."
+        keywords={["AI apps", "video AI", "sales automation", "hiring AI", "productivity apps", "AI workforce", "business app ecosystem", "videoRemix VIP"]}
         image="https://videoremix.vip/og-image.jpg"
         url="https://videoremix.vip"
       />
 
       <Helmet>
-        <title>VideoRemix.vip - AI Marketing Platform + 100+ Business Apps</title>
-        <meta name="description" content="Create personalized marketing campaigns with AI. 100+ business apps across 12 categories. Turn AI into revenue." />
+        <title>VideoRemix VIP - 113 AI Apps for Marketing, Sales, Video, Hiring & Productivity</title>
+        <meta name="description" content="One ecosystem for content, video, sales funnels, hiring, productivity, and AI automation. Explore 113 apps built to replace fragmented toolchains with unified workflows." />
       </Helmet>
 
       {/* 1. Animated Hero (rotating headline) */}
@@ -90,18 +89,11 @@ const LandingPage: React.FC = () => {
 
       {/* 4. Feature Map (from original) */}
       <Suspense fallback={<SectionLoader />}>
-        <FeatureMap
-          title="Comprehensive Marketing Personalization Features"
-          subtitle="Explore the powerful personalization capabilities of VideoRemix.vip's marketing platform"
-        />
+      <FeatureMap
+        title="One Ecosystem, Every Business Workflow"
+        subtitle="Explore 113 apps across marketing, sales, video, hiring, productivity, and AI automation"
+      />
       </Suspense>
-
-      {/* 6. Personalization Simulator - premium */}
-      <section className="py-20 bg-gray-950">
-        <div className="container-max section-padding">
-          <PersonalizationSimulator />
-        </div>
-      </section>
 
       {/* 7. Personalization Workflow (from original) */}
       <Suspense fallback={<SectionLoader />}>
@@ -112,15 +104,6 @@ const LandingPage: React.FC = () => {
       <Suspense fallback={<SectionLoader />}>
         <ToolsCarouselSection />
       </Suspense>
-
-      {/* 6. Personalization Simulator - premium */}
-      <SectionReveal delay={0.05}>
-        <section className="py-20 bg-gray-950">
-          <div className="container-max section-padding">
-            <PersonalizationSimulator />
-          </div>
-        </section>
-      </SectionReveal>
 
       {/* 7. Personalization Workflow (from original) */}
       <SectionReveal delay={0.1}>
@@ -142,10 +125,10 @@ const LandingPage: React.FC = () => {
           <div className="container-max section-padding">
             <div className="space-y-20">
               {[
-                { title: "90% Faster Marketing Creation", desc: "Create personalized videos in minutes, not hours with AI automation", icon: <Clock className="h-6 w-6 text-primary-400" /> },
+                { title: "90% Faster Creation", desc: "Create videos, documents, and assets in minutes, not hours with AI automation", icon: <Clock className="h-6 w-6 text-primary-400" /> },
                 { title: "Enterprise-Grade Security", desc: "Your data is protected with military-grade encryption and compliance", icon: <Shield className="h-6 w-6 text-primary-400" /> },
-                { title: "Professional Marketing Results", desc: "Achieve 350% higher conversions with AI personalization", icon: <Star className="h-6 w-6 text-primary-400" /> },
-                { title: "350% Higher Conversions", desc: "Personalized content drives dramatically better engagement", icon: <TrendingUp className="h-6 w-6 text-primary-400" /> },
+                { title: "Professional Output", desc: "Achieve polished results across content, video, and business workflows", icon: <Star className="h-6 w-6 text-primary-400" /> },
+                { title: "350% Higher Output", desc: "Ecosystem workflows drive dramatically better engagement and throughput", icon: <TrendingUp className="h-6 w-6 text-primary-400" /> },
               ].map((benefit, i) => (
                 <motion.div
                   key={i}

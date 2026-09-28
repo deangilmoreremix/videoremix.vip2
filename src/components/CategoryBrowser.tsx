@@ -177,7 +177,7 @@ const CategoryBrowser: React.FC = () => {
 
                     {isLocked ? (
                       <Link
-                        to="/sign-in"
+                        to="/signin"
                         className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-400 bg-gray-700/50 border border-gray-600/50 rounded-lg hover:bg-gray-700/70 transition-colors"
                       >
                         <Lock className="mr-2 h-4 w-4" />
@@ -222,7 +222,7 @@ const CategoryBrowser: React.FC = () => {
                 tools, branding suites, and advanced creative features.
               </p>
               <Link
-                to="/sign-in"
+                to="/signin"
                 className="inline-flex items-center px-6 py-3 text-lg font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-xl transition-colors shadow-lg hover:shadow-xl hover:shadow-primary-500/25"
               >
                 Sign In to Explore All

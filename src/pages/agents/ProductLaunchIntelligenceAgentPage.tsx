@@ -16,7 +16,6 @@ const ProductLaunchIntelligenceAgentPage: React.FC = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("main");
   const [openaiApiKey, setOpenaiApiKey] = useState("");
-  const [firecrawlApiKey, setFirecrawlApiKey] = useState("");
   const [loading, setLoading] = useState<string | null>(null);
   const [results, setResults] = useState<Record<string, any>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -27,22 +26,17 @@ const ProductLaunchIntelligenceAgentPage: React.FC = () => {
       try {
         const parsed = JSON.parse(saved);
         setOpenaiApiKey(parsed.openaiApiKey || "");
-        setFirecrawlApiKey(parsed.firecrawlApiKey || "");
       } catch {}
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('product-launch-intelligence-data', JSON.stringify({ openaiApiKey, firecrawlApiKey }));
-  }, [openaiApiKey, firecrawlApiKey]);
+    localStorage.setItem('product-launch-intelligence-data', JSON.stringify({ openaiApiKey }));
+  }, [openaiApiKey]);
 
   const handleSubmit = async (tabKey: string, data: any) => {
     if (!openaiApiKey.trim()) {
       setErrors(prev => ({ ...prev, [tabKey]: "OpenAI API key is required" }));
-      return;
-    }
-    if (!firecrawlApiKey.trim()) {
-      setErrors(prev => ({ ...prev, [tabKey]: "Firecrawl API key is required" }));
       return;
     }
     setLoading(tabKey);
@@ -66,7 +60,6 @@ const ProductLaunchIntelligenceAgentPage: React.FC = () => {
 
   const handleClear = () => {
     setOpenaiApiKey("");
-    setFirecrawlApiKey("");
     setResults({});
   };
 
@@ -97,8 +90,8 @@ const ProductLaunchIntelligenceAgentPage: React.FC = () => {
               <Card className="bg-gray-800/50 border-gray-700">
                 <CardHeader><CardTitle>Launch Intelligence Configuration</CardTitle></CardHeader>
                 <CardContent>
-                  <form onSubmit={(e) => { e.preventDefault(); handleSubmit('main', { openai_api_key: openaiApiKey, firecrawl_api_key: firecrawlApiKey }); }} className="space-y-6">
-                    <FormSection title="API Configuration" description="Enter your API keys for OpenAI and Firecrawl">
+                    <form onSubmit={(e) => { e.preventDefault(); handleSubmit('main', { openai_api_key: openaiApiKey }); }} className="space-y-6">
+                    <FormSection title="API Configuration" description="Enter your OpenAI API key">
                       <ApiKeyInput
                         label="OpenAI API Key"
                         name="openai_api_key"
@@ -107,19 +100,10 @@ const ProductLaunchIntelligenceAgentPage: React.FC = () => {
                         helperText="Your key is stored locally and never sent to our servers"
                         required
                       />
-                      
-                      <ApiKeyInput
-                        label="Firecrawl API Key"
-                        name="firecrawl_api_key"
-                        value={firecrawlApiKey}
-                        onChange={setFirecrawlApiKey}
-                        helperText="Used for web scraping and competitive analysis"
-                        required
-                      />
                     </FormSection>
 
-                    <div className="flex gap-3 pt-4">
-                      <ActionButton type="submit" loading={loading === 'main'} size="lg" className="flex-1" disabled={!openaiApiKey.trim() || !firecrawlApiKey.trim()}>
+                      <div className="flex gap-3 pt-4">
+                        <ActionButton type="submit" loading={loading === 'main'} size="lg" className="flex-1" disabled={!openaiApiKey.trim()}>
                         <Sparkles className="h-4 w-4" />
                         Generate Launch Intelligence
                       </ActionButton>
@@ -131,7 +115,7 @@ const ProductLaunchIntelligenceAgentPage: React.FC = () => {
                 </CardContent>
               </Card>
 
-              {errors['main'] && <ErrorMessage message={errors['main']} onRetry={() => handleSubmit('main', { openai_api_key: openaiApiKey, firecrawl_api_key: firecrawlApiKey })} retryLoading={loading === 'main'} />}
+              {errors['main'] && <ErrorMessage message={errors['main']} onRetry={() => handleSubmit('main', { openai_api_key: openaiApiKey })} retryLoading={loading === 'main'} />}
 
               {loading === 'main' && <LoadingIndicator message="Analyzing product launch..." subtext="Gathering competitive intelligence and market data" />}
 
@@ -170,29 +154,20 @@ const ProductLaunchIntelligenceAgentPage: React.FC = () => {
               <Card className="bg-gray-800/50 border-gray-700">
                 <CardHeader><CardTitle>Advanced Launch Configuration</CardTitle></CardHeader>
                 <CardContent>
-                  <form onSubmit={(e) => { e.preventDefault(); handleSubmit('advanced', { openai_api_key: openaiApiKey, firecrawl_api_key: firecrawlApiKey }); }} className="space-y-6">
-                    <FormSection title="API Configuration" description="Enter your API keys for comprehensive analysis">
-                      <ApiKeyInput
-                        label="OpenAI API Key"
-                        name="openai_api_key"
-                        value={openaiApiKey}
-                        onChange={setOpenaiApiKey}
-                        helperText="Your key is stored locally and never sent to our servers"
-                        required
-                      />
-                      
-                      <ApiKeyInput
-                        label="Firecrawl API Key"
-                        name="firecrawl_api_key"
-                        value={firecrawlApiKey}
-                        onChange={setFirecrawlApiKey}
-                        helperText="Used for deep web scraping and competitive analysis"
-                        required
-                      />
-                    </FormSection>
+                    <form onSubmit={(e) => { e.preventDefault(); handleSubmit('advanced', { openai_api_key: openaiApiKey }); }} className="space-y-6">
+                     <FormSection title="API Configuration" description="Enter your OpenAI API key">
+                       <ApiKeyInput
+                         label="OpenAI API Key"
+                         name="openai_api_key"
+                         value={openaiApiKey}
+                         onChange={setOpenaiApiKey}
+                         helperText="Your key is stored locally and never sent to our servers"
+                         required
+                       />
+                     </FormSection>
 
-                    <div className="flex gap-3 pt-4">
-                      <ActionButton type="submit" loading={loading === 'advanced'} size="lg" className="flex-1" disabled={!openaiApiKey.trim() || !firecrawlApiKey.trim()}>
+                      <div className="flex gap-3 pt-4">
+                        <ActionButton type="submit" loading={loading === 'advanced'} size="lg" className="flex-1" disabled={!openaiApiKey.trim()}>
                         <Sparkles className="h-4 w-4" />
                         Run Deep Analysis
                       </ActionButton>
@@ -204,7 +179,7 @@ const ProductLaunchIntelligenceAgentPage: React.FC = () => {
                 </CardContent>
               </Card>
 
-              {errors['advanced'] && <ErrorMessage message={errors['advanced']} onRetry={() => handleSubmit('advanced', { openai_api_key: openaiApiKey, firecrawl_api_key: firecrawlApiKey })} retryLoading={loading === 'advanced'} />}
+              {errors['advanced'] && <ErrorMessage message={errors['advanced']} onRetry={() => handleSubmit('advanced', { openai_api_key: openaiApiKey })} retryLoading={loading === 'advanced'} />}
 
               {loading === 'advanced' && <LoadingIndicator message="Running deep analysis..." subtext="Performing comprehensive competitive intelligence gathering" />}
 

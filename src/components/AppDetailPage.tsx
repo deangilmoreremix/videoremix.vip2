@@ -2357,7 +2357,7 @@ const AppDetailPage: React.FC = () => {
               whileTap={{ scale: 0.95 }}
             >
               <Link
-                to="/contact"
+                 to="/pricing"
                 className="bg-gray-800 hover:bg-gray-700 text-white font-medium px-8 py-4 rounded-lg border border-gray-700 inline-flex items-center justify-center h-full relative overflow-hidden"
               >
                 {/* Button subtle pulse effect */}

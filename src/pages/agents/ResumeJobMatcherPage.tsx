@@ -6,6 +6,12 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard } from "@/components/agent-ui/ResultCard";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { Loader2, Upload, FileText } from "lucide-react";
 
 const ResumeJobMatcherPage: React.FC = () => {
@@ -61,78 +67,61 @@ const ResumeJobMatcherPage: React.FC = () => {
             <p className="text-xl text-gray-400">AI-powered resume job matcher.</p>
           </motion.div>
 
-          <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Upload & Configure</CardTitle></CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="file">Upload File *</Label>
-                  <div
-                    className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-blue-500 cursor-pointer"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    <FileText className="h-12 w-12 mx-auto mb-4 text-gray-500" />
-                    <p className="text-gray-300">Click to select a file</p>
-                    {file && <p className="text-sm text-blue-400 mt-2">{file.name}</p>}
-                  </div>
-                  <input ref={fileInputRef} type="file" onChange={handleFileChange} className="hidden" />
+          {loading && <LoadingIndicator message="Processing file..." subtext="Matching resume to job description" />}
+
+          {error && <ErrorMessage title="Processing Failed" message={error} onRetry={handleSubmit} retryLoading={loading} />}
+
+          {!loading && (
+            <Card className="bg-gray-800/50 border-gray-700 mb-8">
+              <CardHeader><CardTitle>Upload & Configure</CardTitle></CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <FormSection title="File Upload" description="Upload your resume and job description">
+                    <div className="space-y-2">
+                      <Label htmlFor="file">Upload File *</Label>
+                      <div
+                        className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-blue-500 cursor-pointer"
+                        onClick={() => fileInputRef.current?.click()}
+                      >
+                        <FileText className="h-12 w-12 mx-auto mb-4 text-gray-500" />
+                        <p className="text-gray-300">Click to select a file</p>
+                        {file && <p className="text-sm text-blue-400 mt-2">{file.name}</p>}
+                      </div>
+                      <input ref={fileInputRef} type="file" onChange={handleFileChange} className="hidden" />
+                    </div>
+                  </FormSection>
+
+                  <FormSection title="Documents" description="Provide resume and job description">
+                    <SmartInput label="Upload Resume (PDF/TXT)" name="upload_resume_pdftxt" value={textValues.upload_resume_pdftxt || ''} onChange={(v) => setTextValues(prev => ({ ...prev, upload_resume_pdftxt: v }))} placeholder="" required />
+                    <SmartInput label="Upload Job Description (PDF/TXT)" name="upload_job_description_pdftxt" value={textValues.upload_job_description_pdftxt || ''} onChange={(v) => setTextValues(prev => ({ ...prev, upload_job_description_pdftxt: v }))} placeholder="" required />
+                  </FormSection>
+
+                  <ActionButton type="submit" loading={loading} disabled={loading || !file} className="w-full">
+                    Process File
+                  </ActionButton>
+                </form>
+              </CardContent>
+            </Card>
+          )}
+
+          {result && result.status === 'completed' && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <ResultCard title="Result" variant="success">
+                <div className="space-y-4 mt-4">
+                  {result.result && (
+                    <div className="space-y-2">
+                      <Label>Transcript</Label>
+                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(result, null, 2)}</pre>
+                    </div>
+                  )}
                 </div>
-
-
-                <div className="space-y-2">
-                  <Label htmlFor="upload_resume_pdftxt">Upload Resume (PDF/TXT) *</Label>
-                  <Input
-                    id="upload_resume_pdftxt"
-                    value={textValues.upload_resume_pdftxt || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, upload_resume_pdftxt: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="upload_job_description_pdftxt">Upload Job Description (PDF/TXT) *</Label>
-                  <Input
-                    id="upload_job_description_pdftxt"
-                    value={textValues.upload_job_description_pdftxt || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, upload_job_description_pdftxt: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-
-                <Button type="submit" disabled={loading || !file} className="w-full">
-                  {loading ? 'Processing...' : 'Process File'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-
-          {error && <Card className="border-red-500/50 bg-red-500/10 mb-8"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
-
-           {result && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Result</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     {result.result && (
-                       <div className="space-y-2">
-                         <Label>Transcript</Label>
-                         <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(result, null, 2)}</pre>
-                       </div>
-                     )}
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
+              </ResultCard>
+            </motion.div>
+          )}
         </div>
       </main>
     </>
   );
 };
 
-export default ResumeJobMatcherPage;
+ export default ResumeJobMatcherPage;

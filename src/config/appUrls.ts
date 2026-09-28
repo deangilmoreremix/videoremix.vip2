@@ -1,4 +1,5 @@
 import { generatedThumbnails } from '../data/generatedThumbnails';
+import { getLocalThumbnailPath } from '../utils/thumbnailMapper';
 
 // Build a map of AI-generated thumbnail URLs for instant lookup
 const aiThumbnailMap = new Map<string, string>();
@@ -336,10 +337,18 @@ export const getAppUrl = (appId: string): string => {
  * @param appId - The ai-design-studio identifier
  * @returns The ai-design-studio's thumbnail URL (relative path for local SVGs)
  */
-export const getAppThumbnail = (appId: string): string => {
-  // Priority 1: Local SVG in /public/app-thumbnails/{appId}.svg
-  // This is the primary source - all apps have a local SVG
-  return `/app-thumbnails/${appId}.svg`;
+export const getAppThumbnail = (appId: string): string | null => {
+  // Only use local SVG if it actually exists in /public/app-thumbnails/
+  if (!appId || typeof appId !== 'string') {
+    return null;
+  }
+
+  const localPath = getLocalThumbnailPath(appId);
+  if (localPath) {
+    return localPath;
+  }
+
+  return null;
 };
 
 /**

@@ -43,8 +43,8 @@ const MultimodalAiAgentPage: React.FC = () => {
       setError("Please upload a file");
       return;
     }
-    if (!textValues.enter_your_gemini_api_key?.trim()) {
-      setError("Gemini API key is required");
+    if (!textValues.enter_your_openai_api_key?.trim()) {
+      setError("OpenAI API key is required");
       return;
     }
     if (!textValues.enter_your_taskquestion_for_the_ai_agent?.trim()) {
@@ -56,7 +56,7 @@ const MultimodalAiAgentPage: React.FC = () => {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('enter_your_gemini_api_key', textValues.enter_your_gemini_api_key || '');
+      formData.append('enter_your_openai_api_key', textValues.enter_your_openai_api_key || '');
       formData.append('upload_image', textValues.upload_image || '');
       formData.append('enter_your_taskquestion_for_the_ai_agent', textValues.enter_your_taskquestion_for_the_ai_agent || '');
       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/multimodal-ai-agent`, {
@@ -93,7 +93,7 @@ const MultimodalAiAgentPage: React.FC = () => {
               <Upload className="h-10 w-10 text-white" />
             </div>
             <h1 className="text-4xl font-bold mb-4">Multimodal AI Agent</h1>
-            <p className="text-xl text-gray-400">Process images and files with Gemini-powered AI analysis.</p>
+              <p className="text-xl text-gray-400">Process images and files with OpenAI-powered AI analysis.</p>
           </motion.div>
 
           {error && <ErrorMessage message={error} onRetry={handleSubmit} retryLoading={loading} />}
@@ -113,12 +113,12 @@ const MultimodalAiAgentPage: React.FC = () => {
                     />
                   </FormSection>
 
-                  <FormSection title="API Configuration" description="Enter your Gemini API key">
+                  <FormSection title="API Configuration" description="Enter your OpenAI API key">
                     <ApiKeyInput
-                      label="Gemini API Key"
-                      name="enter_your_gemini_api_key"
-                      value={textValues.enter_your_gemini_api_key || ''}
-                      onChange={(val) => setTextValues(prev => ({ ...prev, enter_your_gemini_api_key: val }))}
+                      label="OpenAI API Key"
+                      name="enter_your_openai_api_key"
+                      value={textValues.enter_your_openai_api_key || ''}
+                      onChange={(val) => setTextValues(prev => ({ ...prev, enter_your_openai_api_key: val }))}
                       helperText="Your key is stored locally and never sent to our servers"
                       required
                     />
@@ -149,8 +149,8 @@ const MultimodalAiAgentPage: React.FC = () => {
                     />
                   </FormSection>
 
-                  <div className="flex gap-3 pt-4">
-                    <ActionButton type="submit" loading={loading} size="lg" className="flex-1" disabled={!file || !textValues.enter_your_gemini_api_key?.trim()}>
+                    <div className="flex gap-3 pt-4">
+                      <ActionButton type="submit" loading={loading} size="lg" className="flex-1" disabled={!file || !textValues.enter_your_openai_api_key?.trim()}>
                       <Sparkles className="h-4 w-4" />
                       Process File
                     </ActionButton>
@@ -162,7 +162,7 @@ const MultimodalAiAgentPage: React.FC = () => {
               </CardContent>
             </Card>
           ) : loading ? (
-            <LoadingIndicator message="Processing your file..." subtext="Gemini is analyzing the content" />
+              <LoadingIndicator message="Processing your file..." subtext="OpenAI is analyzing the content" />
           ) : null}
 
           {result && (

@@ -83,9 +83,9 @@ async function generateResponse(
   context: string, 
   query: string
 ): Promise<string> {
-  const completion = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    messages: [
+  const response = await openai.responses.create({
+    model: 'gpt-5.5',
+    input: [
       {
         role: 'system',
         content: `You are a helpful AI assistant with access to retrieved documents. Use the provided context to answer questions accurately. If the answer isn't in the context, say so.\n\nContext:\n${context}`
@@ -95,11 +95,9 @@ async function generateResponse(
         content: query
       }
     ],
-    temperature: 0.7,
-    max_tokens: 1000
   });
 
-  return completion.choices[0].message.content || '';
+  return response.output_text || '';
 }
 
 serve(async (req: Request) => {

@@ -134,16 +134,6 @@ const CorrectiveRagPage: React.FC = () => {
                 <FormSection title="API Configuration" description="Enter your API keys">
                   <div className="space-y-4">
                     <SmartInput
-                      label="Anthropic API Key"
-                      name="anthropic_api_key"
-                      value={textValues.anthropic_api_key || ''}
-                      onChange={(value) => setTextValues(prev => ({ ...prev, anthropic_api_key: value }))}
-                      type="password"
-                      placeholder="sk-ant-..."
-                      helperText="Required for Claude-powered analysis"
-                    />
-
-                    <SmartInput
                       label="OpenAI API Key"
                       name="openai_api_key"
                       value={textValues.openai_api_key || ''}
@@ -151,16 +141,6 @@ const CorrectiveRagPage: React.FC = () => {
                       type="password"
                       placeholder="sk-..."
                       helperText="Required for GPT-powered analysis"
-                    />
-
-                    <SmartInput
-                      label="Tavily API Key"
-                      name="tavily_api_key"
-                      value={textValues.tavily_api_key || ''}
-                      onChange={(value) => setTextValues(prev => ({ ...prev, tavily_api_key: value }))}
-                      type="password"
-                      placeholder="tvly-..."
-                      helperText="For enhanced web search capabilities"
                     />
                   </div>
                 </FormSection>

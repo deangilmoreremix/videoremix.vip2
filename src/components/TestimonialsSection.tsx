@@ -185,8 +185,7 @@ const TestimonialsSection: React.FC = () => {
           </h2>
 
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Hear directly from creators and businesses who've transformed their
-            video production with VideoRemix.vip
+            Hear directly from teams using VideoRemix VIP across marketing, sales, video, hiring, and productivity.
           </p>
         </motion.div>
 

@@ -188,11 +188,11 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
 };
 
 const reasons = [
-  "Unlimited AI-powered video creation",
-  "Professional templates and effects",
-  "Time-saving automation features",
-  "Cloud storage and collaboration tools",
-  "Regular feature updates and enhancements",
+  "113 apps across marketing, sales, video, hiring, and productivity",
+  "Shared context and data across every app",
+  "Agentic AI workflows that automate end-to-end tasks",
+  "Cloud storage and collaboration built in",
+  "Regular app updates and new ecosystem additions",
   "24/7 customer support",
   "14-day money-back guarantee",
 ];
@@ -201,31 +201,31 @@ const benefits = [
   {
     icon: <Clock />,
     title: "Save 15+ Hours Weekly",
-    description: "Reduce video editing time by 90% with our AI-powered tools",
+    description: "Automate content, video, hiring, and sales workflows across apps",
   },
   {
     icon: <Star />,
-    title: "Professional Results",
+    title: "Professional Output",
     description:
-      "Create studio-quality videos regardless of your experience level",
+      "Generate polished work across marketing, video, and business apps",
   },
   {
     icon: <Users />,
-    title: "Grow Your Audience",
+    title: "Team-Wide Access",
     description:
-      "Consistently publish engaging content that attracts followers",
+      "Collaborate across departments on one shared app ecosystem",
   },
   {
     icon: <Download />,
-    title: "Export Anywhere",
+    title: "Publish Anywhere",
     description:
-      "Share directly to all major platforms or download in any format",
+      "Export and share content, videos, documents, and campaigns anywhere",
   },
   {
     icon: <Shield />,
     title: "Secure & Private",
     description:
-      "Enterprise-grade security keeps your content safe and private",
+      "Enterprise-grade security across all apps and shared workspaces",
   },
 ];
 
@@ -279,7 +279,7 @@ const FinalCTA: React.FC = () => {
             >
               <Sparkles className="h-4 w-4 mr-2 text-yellow-300" />
             </motion.div>
-            <span>JOIN VIDEOREMIX TODAY</span>
+            <span>JOIN THE ECOSYSTEM</span>
           </div>
 
           <motion.h2
@@ -300,7 +300,7 @@ const FinalCTA: React.FC = () => {
                 repeatType: "reverse",
               }}
             >
-              Ready to Start Personalizing Your Marketing?
+              Ready to Build Across Marketing, Sales, Video &amp; AI?
             </motion.span>
           </motion.h2>
           <motion.div
@@ -337,8 +337,7 @@ const FinalCTA: React.FC = () => {
           </motion.div>
 
           <p className="text-xl">
-            Join thousands of creators and businesses who are transforming their
-            video content and seeing real results.
+             Join thousands of creators, operators, and teams using VideoRemix VIP across content, sales, hiring, and AI automation.
           </p>
         </div>
 
@@ -534,7 +533,7 @@ const FinalCTA: React.FC = () => {
                   transition: { duration: 3, repeat: Infinity },
                 }}
               >
-                Full access to all personalized marketing tools
+                Full access to the app ecosystem
               </motion.div>
             </div>
 
@@ -562,8 +561,8 @@ const FinalCTA: React.FC = () => {
                 <span className="font-medium">Full Feature Access</span>
               </motion.div>
               <p className="text-white/80 pl-7">
-                Get unlimited access to 20+ personalized marketing apps and
-                AI-powered features
+                Get unlimited access to 113 apps and
+                AI-powered features across marketing, sales, video, hiring, and productivity.
               </p>
             </motion.div>
 

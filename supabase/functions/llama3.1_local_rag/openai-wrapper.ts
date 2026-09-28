@@ -14,7 +14,7 @@ const supabase = createClient(
 export async function generateResponse(prompt: string, context?: any) {
   try {
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-5.5',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,
       max_tokens: 1000

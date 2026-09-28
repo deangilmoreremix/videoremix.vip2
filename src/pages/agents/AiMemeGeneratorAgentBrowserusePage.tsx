@@ -19,9 +19,7 @@ const STORAGE_KEY = 'ai-meme-generator-browseruse';
 const AiMemeGeneratorAgentBrowserusePage: React.FC = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
-    aiModel: '',
-    claudeApiKey: '',
-    deepseekApiKey: '',
+    aiModel: 'gpt-5.5',
     openaiApiKey: '',
     memeIdea: ''
   });
@@ -52,8 +50,6 @@ const AiMemeGeneratorAgentBrowserusePage: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           select_ai_model: formData.aiModel,
-          claude_api_key: formData.claudeApiKey,
-          deepseek_api_key: formData.deepseekApiKey,
           openai_api_key: formData.openaiApiKey,
           meme_idea_input: formData.memeIdea,
           userId: user?.id
@@ -155,33 +151,21 @@ const AiMemeGeneratorAgentBrowserusePage: React.FC = () => {
                     value={formData.aiModel}
                     onValueChange={(v) => updateField('aiModel', v)}
                     options={[
-                      { value: 'claude', label: 'Claude (Anthropic)' },
-                      { value: 'gpt4', label: 'GPT-4 (OpenAI)' },
-                      { value: 'deepseek', label: 'DeepSeek' }
+                      { value: 'gpt-5.5', label: 'GPT-5.5 (OpenAI)' },
+                      { value: 'gpt-5.5-mini', label: 'GPT-5.5 Mini (OpenAI)' },
+                      { value: 'o3', label: 'O3 (OpenAI)' }
                     ]}
-                    helperText="Different models may produce different creative results"
+                    helperText="OpenAI models are supported"
                     required
                   />
                 </FormSection>
 
-                <FormSection title="API Keys" description="Configure your AI service credentials">
-                  <ApiKeyInput
-                    label="Claude API Key"
-                    value={formData.claudeApiKey}
-                    onChange={(v) => updateField('claudeApiKey', v)}
-                    helperText="Required if using Claude model"
-                  />
-                  <ApiKeyInput
-                    label="DeepSeek API Key"
-                    value={formData.deepseekApiKey}
-                    onChange={(v) => updateField('deepseekApiKey', v)}
-                    helperText="Required if using DeepSeek model"
-                  />
+                <FormSection title="API Key" description="Configure your OpenAI credentials">
                   <ApiKeyInput
                     label="OpenAI API Key"
                     value={formData.openaiApiKey}
                     onChange={(v) => updateField('openaiApiKey', v)}
-                    helperText="Required if using GPT-4 model"
+                    helperText="Required for OpenAI models"
                   />
                 </FormSection>
 

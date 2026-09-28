@@ -67,7 +67,7 @@ serve(async (req) => {
     const sessionResponse = {
       success: true,
       appSlug,
-      model: config?.model || "gpt-4o-mini",
+      model: config?.model || "gpt-5.5",
       voice,
       instructions: getAppInstructions(appSlug),
       systemPrompt: config?.systemPrompt || "",

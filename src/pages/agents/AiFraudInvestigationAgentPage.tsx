@@ -15,10 +15,9 @@ import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
 const STORAGE_KEY = 'fraud-investigation-assistant';
 
 const MODEL_OPTIONS = [
-  { value: "gpt-4o", label: "GPT-4o" },
-  { value: "gpt-4o-mini", label: "GPT-4o Mini" },
-  { value: "claude-3-5-sonnet", label: "Claude 3.5 Sonnet" },
-  { value: "deepseek-chat", label: "DeepSeek Chat" },
+  { value: "gpt-5.5", label: "GPT-5.5" },
+  { value: "gpt-5.5-mini", label: "GPT-5.5 Mini" },
+  { value: "o3", label: "o3 (Reasoning)" },
 ];
 
 const ZIP_CODES = [
@@ -86,9 +85,7 @@ const ZIP_CODES = [
 
 const AiFraudInvestigationAgentPage: React.FC = () => {
   const { user } = useAuth();
-  const [openrouterApiKey, setOpenrouterApiKey] = useState("");
-  const [googleMapsApiKey, setGoogleMapsApiKey] = useState("");
-  const [model, setModel] = useState("gpt-4o");
+  const [model, setModel] = useState("gpt-5.5");
   const [zipCode, setZipCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -99,17 +96,15 @@ const AiFraudInvestigationAgentPage: React.FC = () => {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        setOpenrouterApiKey(parsed.openrouterApiKey || "");
-        setGoogleMapsApiKey(parsed.googleMapsApiKey || "");
-        setModel(parsed.model || "gpt-4o");
+        setModel(parsed.model || "gpt-5.5");
         setZipCode(parsed.zipCode || "");
       } catch {}
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ openrouterApiKey, googleMapsApiKey, model, zipCode }));
-  }, [openrouterApiKey, googleMapsApiKey, model, zipCode]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ model, zipCode }));
+  }, [model, zipCode]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -124,8 +119,6 @@ const AiFraudInvestigationAgentPage: React.FC = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          openrouter_api_key: openrouterApiKey,
-          google_maps_api_key: googleMapsApiKey,
           model: model,
           zip_code_cook_county_il: zipCode,
           userId: user?.id
@@ -143,9 +136,7 @@ const AiFraudInvestigationAgentPage: React.FC = () => {
   };
 
   const handleReset = () => {
-    setOpenrouterApiKey("");
-    setGoogleMapsApiKey("");
-    setModel("gpt-4o");
+    setModel("gpt-5.5");
     setZipCode("");
     setResult(null);
     setError(null);
@@ -226,31 +217,9 @@ const AiFraudInvestigationAgentPage: React.FC = () => {
 
           <Card className="bg-gray-800/50 border-gray-700 mb-8">
             <CardHeader><CardTitle>Investigation Parameters</CardTitle></CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <SmartInput
-                  label="OpenRouter API Key"
-                  name="openrouterApiKey"
-                  value={openrouterApiKey}
-                  onChange={setOpenrouterApiKey}
-                  type="password"
-                  placeholder="sk-... (required for model access)"
-                  helperText="OpenRouter provides access to multiple AI models. Get one at openrouter.ai"
-                  required
-                />
-
-                <SmartInput
-                  label="Google Maps API Key"
-                  name="googleMapsApiKey"
-                  value={googleMapsApiKey}
-                  onChange={setGoogleMapsApiKey}
-                  type="password"
-                  placeholder="AIza... (required for location data)"
-                  helperText="Required for geographic analysis. Get one at console.cloud.google.com"
-                  required
-                />
-
-                <SelectDropdown
+             <CardContent>
+               <form onSubmit={handleSubmit} className="space-y-6">
+                 <SelectDropdown
                   label="AI Model"
                   value={model}
                   onValueChange={setModel}

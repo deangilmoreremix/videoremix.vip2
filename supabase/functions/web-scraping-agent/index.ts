@@ -162,17 +162,15 @@ User Request: ${prompt}
 Based on the request and the webpage content, extract the requested information.`;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
+    const response = await openai.responses.create({
+      model: 'gpt-5.5',
+      input: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt }
       ],
-      temperature: 0.3,
-      max_tokens: 1500
     });
 
-    const contentText = response.choices[0].message.content?.trim() || '{}';
+    const contentText = response.output_text?.trim() || '{}';
     
     // Extract JSON from response (in case there's surrounding text)
     const jsonMatch = contentText.match(/\{[\s\S]*\}|\[[\s\S]*\]/);

@@ -117,10 +117,8 @@ const TrustGatedAgentTeamPage: React.FC = () => {
                       name="_researcher"
                       value={formData._researcher}
                       onValueChange={(value) => setFormData({ ...formData, _researcher: value })}
-                      options={[
-                        { value: "researcher-gpt4", label: "GPT-4 Researcher" },
-                        { value: "researcher-claude", label: "Claude Researcher" },
-                        { value: "researcher-gemini", label: "Gemini Researcher" }
+                       options={[
+                        { value: "researcher-gpt4", label: "GPT-4 Researcher" }
                       ]}
                       placeholder="Select a researcher agent"
                       helperText="The researcher gathers information and facts about your topic"
@@ -137,10 +135,8 @@ const TrustGatedAgentTeamPage: React.FC = () => {
                       name="_analyst"
                       value={formData._analyst}
                       onValueChange={(value) => setFormData({ ...formData, _analyst: value })}
-                      options={[
-                        { value: "analyst-gpt4", label: "GPT-4 Analyst" },
-                        { value: "analyst-claude", label: "Claude Analyst" },
-                        { value: "analyst-gemini", label: "Gemini Analyst" }
+                       options={[
+                        { value: "analyst-gpt4", label: "GPT-4 Analyst" }
                       ]}
                       placeholder="Select an analyst agent"
                       helperText="The analyst evaluates data quality and provides insights"
@@ -157,10 +153,8 @@ const TrustGatedAgentTeamPage: React.FC = () => {
                       name="_writer"
                       value={formData._writer}
                       onValueChange={(value) => setFormData({ ...formData, _writer: value })}
-                      options={[
-                        { value: "writer-gpt4", label: "GPT-4 Writer" },
-                        { value: "writer-claude", label: "Claude Writer" },
-                        { value: "writer-gemini", label: "Gemini Writer" }
+                       options={[
+                        { value: "writer-gpt4", label: "GPT-4 Writer" }
                       ]}
                       placeholder="Select a writer agent"
                       helperText="The writer creates the final report from research and analysis"

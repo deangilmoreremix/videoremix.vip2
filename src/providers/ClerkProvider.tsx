@@ -3,6 +3,10 @@ import { ClerkProvider as ClerkProviderBase, useUser, useSession, useSignIn, use
 
 const clerkPubKey = (import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || "").trim();
 
+if (!clerkPubKey) {
+  throw new Error("Missing VITE_CLERK_PUBLISHABLE_KEY. Add it to your .env file.");
+}
+
 const ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <ClerkProviderBase publishableKey={clerkPubKey}>

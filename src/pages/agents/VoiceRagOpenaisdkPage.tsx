@@ -17,8 +17,6 @@ import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
 const STORAGE_KEY = "voice-rag-openaisdk-form";
 
 interface FormData {
-  qdrant_url: string;
-  qdrant_api_key: string;
   openai_api_key: string;
   select_voice: string;
   upload_pdf: string;
@@ -37,19 +35,15 @@ const VoiceRagOpenaisdkPage: React.FC = () => {
       try {
         return JSON.parse(saved);
       } catch {
-        return {
-          qdrant_url: "",
-          qdrant_api_key: "",
-          openai_api_key: "",
-          select_voice: "",
-          upload_pdf: "",
-          question: "",
-        };
+      return {
+        openai_api_key: "",
+        select_voice: "",
+        upload_pdf: "",
+        question: "",
+      };
       }
     }
     return {
-      qdrant_url: "",
-      qdrant_api_key: "",
       openai_api_key: "",
       select_voice: "",
       upload_pdf: "",
@@ -73,8 +67,6 @@ const VoiceRagOpenaisdkPage: React.FC = () => {
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('file', file);
-      formDataToSend.append('qdrant_url', formData.qdrant_url || '');
-      formDataToSend.append('qdrant_api_key', formData.qdrant_api_key || '');
       formDataToSend.append('openai_api_key', formData.openai_api_key || '');
       formDataToSend.append('select_voice', formData.select_voice || '');
       formDataToSend.append('upload_pdf', formData.upload_pdf || '');
@@ -117,28 +109,6 @@ const VoiceRagOpenaisdkPage: React.FC = () => {
                   onFileSelect={(files) => setFile(files as File | null)}
                   selectedFile={file}
                   helperText="Upload a file to process with the voice rag service"
-                />
-              </div>
-
-              <div className="col-span-full">
-                <SmartInput
-                  label="Qdrant URL"
-                  name="qdrant_url"
-                  value={formData.qdrant_url}
-                  onChange={(val) => updateField("qdrant_url", val)}
-                  placeholder="e.g., 'https://localhost:6333' or cloud URL"
-                  helperText="The URL of your Qdrant instance (local or cloud)"
-                  required
-                />
-              </div>
-
-              <div className="col-span-full">
-                <ApiKeyInput
-                  label="Qdrant API Key"
-                  value={formData.qdrant_api_key}
-                  onChange={(val) => updateField("qdrant_api_key", val)}
-                  helperText="Your Qdrant API key for authentication"
-                  required
                 />
               </div>
 
@@ -224,7 +194,7 @@ const VoiceRagOpenaisdkPage: React.FC = () => {
               description="Upload a file to get started with the voice rag openaisdk service."
               tips={[
                 "Upload a document file to process",
-                "Configure your Qdrant and OpenAI credentials",
+                "Configure your OpenAI credentials and voice settings",
                 "Select a voice for synthesis",
                 "Ask a question about your documentation"
               ]}

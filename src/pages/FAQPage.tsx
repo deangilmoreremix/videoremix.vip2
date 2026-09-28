@@ -943,7 +943,7 @@ const FAQPage: React.FC = () => {
                         Clear search
                       </button>
                       <a
-                        href="/contact"
+                         href="/pricing"
                         className="text-primary-400 hover:text-primary-300 font-medium"
                       >
                         Contact support
@@ -979,7 +979,7 @@ const FAQPage: React.FC = () => {
 
                     <div className="flex flex-col sm:flex-row gap-3">
                       <motion.a
-                        href="/contact"
+                         href="/pricing"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-medium flex items-center justify-center"

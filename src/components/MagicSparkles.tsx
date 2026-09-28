@@ -45,8 +45,10 @@ const generateSparkle = (
   };
 };
 
+const DEFAULT_COLORS = ["#FFC700", "#FF0069", "#6C00FF", "#4ade80", "#00D1FF"];
+
 const MagicSparkles: React.FC<MagicSparklesProps> = ({
-  colors = ["#FFC700", "#FF0069", "#6C00FF", "#4ade80", "#00D1FF"],
+  colors = DEFAULT_COLORS,
   minSparkles = 6,
   maxSparkles = 12,
   className = "",

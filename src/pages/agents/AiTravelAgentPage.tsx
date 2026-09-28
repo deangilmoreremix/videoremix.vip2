@@ -17,7 +17,6 @@ const STORAGE_KEY = 'ai-travel-agent-form';
 const AiTravelAgentPage: React.FC = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({ 
-    enter_serp_api_key_for_search_functionality: "", 
     where_do_you_want_to_go: "", 
     how_many_days_do_you_want_to_travel_for: "" 
   });
@@ -64,7 +63,7 @@ const AiTravelAgentPage: React.FC = () => {
   };
 
   const handleClear = () => {
-    setFormData({ enter_serp_api_key_for_search_functionality: "", where_do_you_want_to_go: "", how_many_days_do_you_want_to_travel_for: "" });
+    setFormData({ where_do_you_want_to_go: "", how_many_days_do_you_want_to_travel_for: "" });
     setResult(null);
     setError(null);
   };
@@ -97,22 +96,6 @@ const AiTravelAgentPage: React.FC = () => {
               ]}
             />
           )}
-
-          <FormSection
-            title="API Configuration"
-            description="Enter your SerpAPI key for search functionality"
-          >
-            <SmartInput
-              label="SerpAPI Key"
-              name="enter_serp_api_key_for_search_functionality"
-              type="password"
-              value={formData.enter_serp_api_key_for_search_functionality}
-              onChange={(val) => setFormData({ ...formData, enter_serp_api_key_for_search_functionality: val })}
-              placeholder="Enter your SerpAPI key"
-              helperText="SerpAPI key for web search. Get yours at serpapi.com"
-              required
-            />
-          </FormSection>
 
           <FormSection
             title="Trip Details"

@@ -123,7 +123,7 @@ serve(async (req) => {
 
     // Prepare the request body for Responses API
     const requestBody: any = {
-      model: config.model || "gpt-4o-mini",
+      model: config.model || "gpt-5.5",
       input: inputContent,
       stream: stream !== false,
     };
@@ -286,7 +286,7 @@ async function handleWebSocket(req: Request): Promise<Response> {
       }
 
       const requestBody: any = {
-        model: config.model || "gpt-4o-mini",
+        model: config.model || "gpt-5.5",
         input: inputContent,
         stream: stream !== false,
       };

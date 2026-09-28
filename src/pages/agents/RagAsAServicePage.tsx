@@ -7,11 +7,19 @@ import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
 import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard } from "@/components/agent-ui/ResultCard";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { Loader2, Sparkles } from "lucide-react";
 
 const RagAsAServicePage: React.FC = () => {
   const { user } = useAuth();
-  const [formData, setFormData] = useState({ ragie_api_key: "", anthropic_api_key: "", enter_document_url: "", document_name_optional: "", upload_mode: "", enter_your_query: "" });
+  const [formData, setFormData] = useState({ openai_api_key: "", enter_document_url: "", document_name_optional: "", upload_mode: "", enter_your_query: "" });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -49,133 +57,53 @@ const RagAsAServicePage: React.FC = () => {
             <p className="text-xl text-gray-400">AI-powered rag as a service.</p>
           </motion.div>
 
-          {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
+          {error && <ErrorMessage title="Generation Failed" message={error} onRetry={handleSubmit} retryLoading={loading} />}
 
-          <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Input</CardTitle></CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+          {loading && <LoadingIndicator message="Processing..." subtext="Running RAG service" />}
 
-              <div className="space-y-2">
-                <Label htmlFor="ragie_api_key">Ragie API Key *</Label>
-                
-                <Input
-                  id="ragie_api_key"
-                  type="text"
-                  value={formData.ragie_api_key}
-                  onChange={(e) => setFormData({ ...formData, ragie_api_key: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+          {!loading && !result && (
+            <Card className="bg-gray-800/50 border-gray-700 mb-8">
+              <CardHeader><CardTitle>Input</CardTitle></CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <FormSection title="API Configuration" description="Enter your OpenAI API key">
+                    <ApiKeyInput label="OpenAI API Key" name="openai_api_key" value={formData.openai_api_key} onChange={(v) => setFormData({ ...formData, openai_api_key: v })} required helperText="Get your API key from OpenAI Platform" />
+                  </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="anthropic_api_key">Anthropic API Key *</Label>
-                
-                <Input
-                  id="anthropic_api_key"
-                  type="text"
-                  value={formData.anthropic_api_key}
-                  onChange={(e) => setFormData({ ...formData, anthropic_api_key: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+                  <FormSection title="Document" description="Provide document details">
+                    <SmartInput label="Enter document URL" name="enter_document_url" value={formData.enter_document_url} onChange={(v) => setFormData({ ...formData, enter_document_url: v })} placeholder="" required />
+                    <SmartInput label="Document name (optional)" name="document_name_optional" value={formData.document_name_optional} onChange={(v) => setFormData({ ...formData, document_name_optional: v })} placeholder="" />
+                    <SmartInput label="Upload mode" name="upload_mode" value={formData.upload_mode} onChange={(v) => setFormData({ ...formData, upload_mode: v })} placeholder="" required />
+                  </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="enter_document_url">Enter document URL *</Label>
-                
-                <Input
-                  id="enter_document_url"
-                  type="text"
-                  value={formData.enter_document_url}
-                  onChange={(e) => setFormData({ ...formData, enter_document_url: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
+                  <FormSection title="Query" description="Enter your query">
+                    <SmartTextarea label="Enter your query" name="enter_your_query" value={formData.enter_your_query} onChange={(v) => setFormData({ ...formData, enter_your_query: v })} placeholder="" required />
+                  </FormSection>
 
-              <div className="space-y-2">
-                <Label htmlFor="document_name_optional">Document name (optional) *</Label>
-                
-                <Input
-                  id="document_name_optional"
-                  type="text"
-                  value={formData.document_name_optional}
-                  onChange={(e) => setFormData({ ...formData, document_name_optional: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="upload_mode">Upload mode *</Label>
-                
-                <select
-                  id="upload_mode"
-                  value={formData.upload_mode}
-                  onChange={(e) => setFormData({ ...formData, upload_mode: e.target.value })}
-                  className="w-full bg-gray-900/50 border border-gray-600 rounded-md px-3 py-2 text-white"
-                >
-                  <option value=""></option>
-                </select>
-                
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="enter_your_query">Enter your query *</Label>
-                
-                <Input
-                  id="enter_your_query"
-                  type="text"
-                  value={formData.enter_your_query}
-                  onChange={(e) => setFormData({ ...formData, enter_your_query: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white"
-                />
-                
-              </div>
-
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Processing...' : 'Generate Results'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-
-          {loading && (
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="py-8 text-center">
-                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-                <p className="text-gray-400">Processing...</p>
+                  <ActionButton type="submit" loading={loading} className="w-full">
+                    Generate Results
+                  </ActionButton>
+                </form>
               </CardContent>
             </Card>
           )}
 
-           {result && result.status === 'completed' && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     <div className="space-y-2">
-                       <Label>Transcript</Label>
-                       <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
+          {result && result.status === 'completed' && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <ResultCard title="Results" variant="success">
+                <div className="space-y-4 mt-4">
+                  <div className="space-y-2">
+                    <Label>Transcript</Label>
+                    <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
+                  </div>
+                </div>
+              </ResultCard>
+            </motion.div>
+          )}
         </div>
       </main>
     </>
   );
 };
 
-export default RagAsAServicePage;
+ export default RagAsAServicePage;

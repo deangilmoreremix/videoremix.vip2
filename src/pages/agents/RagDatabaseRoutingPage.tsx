@@ -3,12 +3,12 @@ import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2 } from "lucide-react";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard } from "@/components/agent-ui/ResultCard";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 
 const RagDatabaseRoutingPage: React.FC = () => {
   const { user } = useAuth();
@@ -16,6 +16,11 @@ const RagDatabaseRoutingPage: React.FC = () => {
   const [loading, setLoading] = useState<string | null>(null);
   const [results, setResults] = useState<Record<string, any>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [mainForm, setMainForm] = useState({ enter_openai_api_key: "", enter_your_question: "" });
+  const [advancedForm, setAdvancedForm] = useState({ enter_openai_api_key: "", enter_your_question: "" });
+
+  const updateMain = (field: string, value: string) => setMainForm(prev => ({ ...prev, [field]: value }));
+  const updateAdvanced = (field: string, value: string) => setAdvancedForm(prev => ({ ...prev, [field]: value }));
 
   const handleSubmit = async (tabKey: string, data: any) => {
     setLoading(tabKey);
@@ -51,144 +56,53 @@ const RagDatabaseRoutingPage: React.FC = () => {
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="max-w-4xl mx-auto">
             <TabsList className="grid grid-cols-2 mb-8">
-              
               <TabsTrigger value="main">Main</TabsTrigger>
-                            
               <TabsTrigger value="advanced">Advanced</TabsTrigger>
-              
             </TabsList>
 
-            
             <TabsContent value="main">
-              <Card className="bg-gray-800/50 border-gray-700">
-                <CardHeader><CardTitle>Main</CardTitle></CardHeader>
-                <CardContent>
-                  <form onSubmit={(e) => { e.preventDefault(); handleSubmit('main', { enter_openai_api_key, enter_qdrant_url, enter_qdrant_api_key, enter_your_question }); }} className="space-y-6">
+              {errors['main'] && <ErrorMessage title="Request Failed" message={errors['main']} onRetry={() => handleSubmit('main', mainForm)} retryLoading={loading === 'main'} />}
+              <FormSection title="Configuration" description="Enter API key and question">
+                <SmartTextarea label="Enter OpenAI API Key" name="enter_openai_api_key" value={mainForm.enter_openai_api_key} onChange={(v) => updateMain('enter_openai_api_key', v)} placeholder="" required />
+                <SmartTextarea label="Enter your question" name="enter_your_question" value={mainForm.enter_your_question} onChange={(v) => updateMain('enter_your_question', v)} placeholder="" required />
+              </FormSection>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="enter_openai_api_key">Enter OpenAI API Key:</Label>
-                      <Textarea
-                        id="enter_openai_api_key"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+              {loading === 'main' && <LoadingIndicator message="Processing..." subtext="Routing database query" />}
 
-                    <div className="space-y-2">
-                      <Label htmlFor="enter_qdrant_url">Enter Qdrant URL:</Label>
-                      <Textarea
-                        id="enter_qdrant_url"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="enter_qdrant_api_key">Enter Qdrant API Key:</Label>
-                      <Textarea
-                        id="enter_qdrant_api_key"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="enter_your_question">Enter your question:</Label>
-                      <Textarea
-                        id="enter_your_question"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <Button type="submit" disabled={loading === 'main'}>
-                      {loading === 'main' ? 'Processing...' : 'Run'}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
+              <ActionButton type="button" loading={loading === 'main'} onClick={() => handleSubmit('main', mainForm)} className="w-full mt-6">
+                Run
+              </ActionButton>
 
               {results['main'] && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6">
-                  <Card className="bg-gray-800/50 border-gray-700">
-                    <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                    <CardContent>
-                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(results['main'], null, 2)}</pre>
-                    </CardContent>
-                  </Card>
+                  <ResultCard title="Main Result" variant="success">
+                    <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans mt-2">{JSON.stringify(results['main'], null, 2)}</pre>
+                  </ResultCard>
                 </motion.div>
               )}
             </TabsContent>
-            
+
             <TabsContent value="advanced">
-              <Card className="bg-gray-800/50 border-gray-700">
-                <CardHeader><CardTitle>Advanced</CardTitle></CardHeader>
-                <CardContent>
-                  <form onSubmit={(e) => { e.preventDefault(); handleSubmit('advanced', { enter_openai_api_key, enter_qdrant_url, enter_qdrant_api_key, enter_your_question }); }} className="space-y-6">
+              {errors['advanced'] && <ErrorMessage title="Request Failed" message={errors['advanced']} onRetry={() => handleSubmit('advanced', advancedForm)} retryLoading={loading === 'advanced'} />}
+              <FormSection title="Configuration" description="Enter API key and question">
+                <SmartTextarea label="Enter OpenAI API Key" name="enter_openai_api_key" value={advancedForm.enter_openai_api_key} onChange={(v) => updateAdvanced('enter_openai_api_key', v)} placeholder="" required />
+                <SmartTextarea label="Enter your question" name="enter_your_question" value={advancedForm.enter_your_question} onChange={(v) => updateAdvanced('enter_your_question', v)} placeholder="" required />
+              </FormSection>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="enter_openai_api_key">Enter OpenAI API Key:</Label>
-                      <Textarea
-                        id="enter_openai_api_key"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+              {loading === 'advanced' && <LoadingIndicator message="Processing..." subtext="Routing database query" />}
 
-                    <div className="space-y-2">
-                      <Label htmlFor="enter_qdrant_url">Enter Qdrant URL:</Label>
-                      <Textarea
-                        id="enter_qdrant_url"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="enter_qdrant_api_key">Enter Qdrant API Key:</Label>
-                      <Textarea
-                        id="enter_qdrant_api_key"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="enter_your_question">Enter your question:</Label>
-                      <Textarea
-                        id="enter_your_question"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <Button type="submit" disabled={loading === 'advanced'}>
-                      {loading === 'advanced' ? 'Processing...' : 'Run'}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
+              <ActionButton type="button" loading={loading === 'advanced'} onClick={() => handleSubmit('advanced', advancedForm)} className="w-full mt-6">
+                Run
+              </ActionButton>
 
               {results['advanced'] && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6">
-                  <Card className="bg-gray-800/50 border-gray-700">
-                    <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                    <CardContent>
-                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(results['advanced'], null, 2)}</pre>
-                    </CardContent>
-                  </Card>
+                  <ResultCard title="Advanced Result" variant="success">
+                    <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans mt-2">{JSON.stringify(results['advanced'], null, 2)}</pre>
+                  </ResultCard>
                 </motion.div>
               )}
             </TabsContent>
-            
           </Tabs>
         </div>
       </main>
@@ -196,4 +110,4 @@ const RagDatabaseRoutingPage: React.FC = () => {
   );
 };
 
-export default RagDatabaseRoutingPage;
+ export default RagDatabaseRoutingPage;

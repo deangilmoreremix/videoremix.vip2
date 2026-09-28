@@ -53,14 +53,34 @@ const PersonalizationSimulator: React.FC<SimulatorProps> = ({ className = '' }) 
     ? personalizedContent[selectedIndustry]
     : genericContent;
 
-  const colorMap: Record<string, string> = {
-    blue: 'border-blue-500 bg-blue-900/20',
-    green: 'border-green-500 bg-green-900/20',
-    purple: 'border-purple-500 bg-purple-900/20',
-    red: 'border-red-500 bg-red-900/20',
+  const colorClasses: Record<
+    string,
+    { button: string; badge: string; border: string }
+  > = {
+    blue: {
+      button: 'bg-blue-600 text-white',
+      badge: 'bg-blue-900/40 text-blue-400 border border-blue-500/50',
+      border: 'border-blue-500 bg-blue-900/20',
+    },
+    green: {
+      button: 'bg-green-600 text-white',
+      badge: 'bg-green-900/40 text-green-400 border border-green-500/50',
+      border: 'border-green-500 bg-green-900/20',
+    },
+    purple: {
+      button: 'bg-purple-600 text-white',
+      badge: 'bg-purple-900/40 text-purple-400 border border-purple-500/50',
+      border: 'border-purple-500 bg-purple-900/20',
+    },
+    red: {
+      button: 'bg-red-600 text-white',
+      badge: 'bg-red-900/40 text-red-400 border border-red-500/50',
+      border: 'border-red-500 bg-red-900/20',
+    },
   };
 
-  const industry = industries.find((i) => i.id === selectedIndustry)!;
+  const industry = industries.find((i) => i.id === selectedIndustry);
+  const colors = industry ? colorClasses[industry.color] : null;
 
   return (
     <motion.div
@@ -71,8 +91,8 @@ const PersonalizationSimulator: React.FC<SimulatorProps> = ({ className = '' }) 
     >
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-2xl font-bold text-white">Personalization Simulator</h3>
-          <p className="text-gray-400">See the difference personalization makes</p>
+          <h3 className="text-2xl font-bold text-white">App Ecosystem Simulator</h3>
+          <p className="text-gray-400">See how the platform adapts to different workflows</p>
         </div>
         <motion.button
           whileTap={{ scale: 0.95 }}
@@ -83,27 +103,30 @@ const PersonalizationSimulator: React.FC<SimulatorProps> = ({ className = '' }) 
               : 'bg-gray-700 text-gray-300'
           }`}
         >
-          {showPersonalized ? 'Showing: Personalized' : 'Showing: Generic'}
+          {showPersonalized ? 'Showing: Ecosystem Mode' : 'Showing: Standalone Tool'}
         </motion.button>
       </div>
 
       {/* Industry Selector */}
       <div className="flex gap-2 mb-6 flex-wrap">
-        {industries.map((ind) => (
-          <motion.button
-            key={ind.id}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setSelectedIndustry(ind.id)}
-            className={`px-4 py-2 rounded-lg text-sm ${
-              selectedIndustry === ind.id
-                ? `bg-${ind.color}-900/40 text-${ind.color}-400 border border-${ind.color}-500/50`
-                : 'bg-gray-800 text-gray-400 border border-gray-700'
-            }`}
-          >
-            {ind.name}
-          </motion.button>
-        ))}
+        {industries.map((ind) => {
+          const indColors = colorClasses[ind.color];
+          return (
+            <motion.button
+              key={ind.id}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setSelectedIndustry(ind.id)}
+              className={`px-4 py-2 rounded-lg text-sm ${
+                selectedIndustry === ind.id
+                  ? indColors.badge
+                  : 'bg-gray-800 text-gray-400 border border-gray-700'
+              }`}
+            >
+              {ind.name}
+            </motion.button>
+          );
+        })}
       </div>
 
       {/* Device Preview */}
@@ -133,7 +156,7 @@ const PersonalizationSimulator: React.FC<SimulatorProps> = ({ className = '' }) 
       <motion.div
         layout
         className={`mx-auto bg-gray-900 rounded-xl border-2 overflow-hidden ${
-          colorMap[industry.color]
+          colors?.border ?? 'border-gray-700'
         }`}
         style={{
           width: viewMode === 'desktop' ? '100%' : viewMode === 'tablet' ? '768px' : '375px',
@@ -161,18 +184,16 @@ const PersonalizationSimulator: React.FC<SimulatorProps> = ({ className = '' }) 
             className="p-8 text-center"
           >
             <div className={`inline-block px-3 py-1 rounded-full text-xs mb-4 ${
-              showPersonalized ? `bg-${industry.color}-900/40 text-${industry.color}-400` : 'bg-gray-800 text-gray-400'
+              showPersonalized && colors ? colors.badge : 'bg-gray-800 text-gray-400'
             }`}>
-              {showPersonalized ? `Personalized for ${industry.name}` : 'Generic Content'}
+              {showPersonalized ? `Ecosystem Mode: ${industry?.name ?? ''}` : 'Standalone Tool Mode'}
             </div>
             <h4 className="text-2xl font-bold text-white mb-4">{content.headline}</h4>
             <p className="text-gray-400 mb-6">{content.subheadline}</p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               className={`px-6 py-3 rounded-lg font-bold ${
-                showPersonalized
-                  ? `bg-${industry.color}-600 text-white`
-                  : 'bg-primary-600 text-white'
+                showPersonalized && colors ? colors.button : 'bg-primary-600 text-white'
               }`}
             >
               {content.cta}

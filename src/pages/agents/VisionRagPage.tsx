@@ -25,8 +25,7 @@ import {
 const STORAGE_KEY = "visionrag_form_data";
 
 interface FormData {
-  cohere_api_key: string;
-  google_api_key_gemini: string;
+  openai_api_key: string;
   upload_images: string;
   ask_a_question: string;
 }
@@ -35,8 +34,7 @@ const VisionRagPage: React.FC = () => {
   const { user } = useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [formData, setFormData] = useState<FormData>({
-    cohere_api_key: "",
-    google_api_key_gemini: "",
+    openai_api_key: "",
     upload_images: "",
     ask_a_question: "",
   });
@@ -70,8 +68,7 @@ const VisionRagPage: React.FC = () => {
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("file", file);
-      formDataToSend.append("cohere_api_key", formData.cohere_api_key || "");
-      formDataToSend.append("google_api_key_gemini", formData.google_api_key_gemini || "");
+      formDataToSend.append("openai_api_key", formData.openai_api_key || "");
       formDataToSend.append("upload_images_png_jpg_jpeg_or_pdfs", formData.upload_images || "");
       formDataToSend.append("ask_a_question_about_the_loaded_images", formData.ask_a_question || "");
       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/vision-rag`, {
@@ -140,21 +137,11 @@ const VisionRagPage: React.FC = () => {
                 >
                   <div className="col-span-1 md:col-span-2">
                     <ApiKeyInput
-                      label="Cohere API Key"
-                      value={formData.cohere_api_key}
-                      onChange={(v) => updateField("cohere_api_key", v)}
-                      placeholder="Your Cohere API key"
-                      helperText="Get your API key from Cohere dashboard"
-                      required
-                    />
-                  </div>
-                  <div className="col-span-1 md:col-span-2">
-                    <ApiKeyInput
-                      label="Google Gemini API Key"
-                      value={formData.google_api_key_gemini}
-                      onChange={(v) => updateField("google_api_key_gemini", v)}
-                      placeholder="Your Google Gemini API key"
-                      helperText="Get your API key from Google AI Studio"
+                      label="OpenAI API Key"
+                      value={formData.openai_api_key}
+                      onChange={(v) => updateField("openai_api_key", v)}
+                      placeholder="sk-..."
+                      helperText="Required for OpenAI processing"
                       required
                     />
                   </div>
@@ -264,7 +251,7 @@ const VisionRagPage: React.FC = () => {
               description="Upload a file to get started with Vision Rag processing"
               tips={[
                 "Upload a PDF or image file to begin",
-                "Enter your Cohere and Gemini API keys",
+                "Enter your OpenAI API key",
                 "Add image URLs for additional context",
                 "Ask questions about your visual content",
               ]}

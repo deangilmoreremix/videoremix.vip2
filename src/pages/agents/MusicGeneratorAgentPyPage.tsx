@@ -7,6 +7,12 @@ import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
 import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard } from "@/components/agent-ui/ResultCard";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { Loader2, Sparkles } from "lucide-react";
 
 const MusicGeneratorAgentPyPage: React.FC = () => {
@@ -49,67 +55,48 @@ const MusicGeneratorAgentPyPage: React.FC = () => {
             <p className="text-xl text-gray-400">AI-powered music generator agent py.</p>
           </motion.div>
 
-          {error && <Card className="mb-6 border-red-500/50 bg-red-500/10"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
+          {error && <ErrorMessage title="Generation Failed" message={error} onRetry={handleSubmit} retryLoading={loading} />}
 
-          <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Input</CardTitle></CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+          {loading && <LoadingIndicator message="Generating music..." subtext="AI is composing your track" />}
 
-              <div className="space-y-2">
-                <Label htmlFor="enter_a_music_generation_prompt">Enter a music generation prompt: *</Label>
-                
-                <Textarea
-                  id="enter_a_music_generation_prompt"
-                  value={formData.enter_a_music_generation_prompt}
-                  onChange={(e) => setFormData({ ...formData, enter_a_music_generation_prompt: e.target.value })}
-                  placeholder=""
-                  className="bg-gray-900/50 border-gray-600 text-white min-h-[120px]"
-                />
-                
-              </div>
+          {!loading && !result && (
+            <Card className="bg-gray-800/50 border-gray-700 mb-8">
+              <CardHeader><CardTitle>Input</CardTitle></CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <FormSection title="Music Prompt" description="Describe the music you want to generate">
+                    <SmartTextarea label="Enter a music generation prompt" name="enter_a_music_generation_prompt" value={formData.enter_a_music_generation_prompt} onChange={(v) => setFormData({ ...formData, enter_a_music_generation_prompt: v })} placeholder="" required />
+                  </FormSection>
 
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Processing...' : 'Generate Results'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-
-          {loading && (
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="py-8 text-center">
-                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-                <p className="text-gray-400">Processing...</p>
+                  <ActionButton type="submit" loading={loading} className="w-full">
+                    Generate Results
+                  </ActionButton>
+                </form>
               </CardContent>
             </Card>
           )}
 
-           {result && result.status === 'completed' && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     <div className="space-y-2">
-                       <Label>Audio Response</Label>
-                       <audio controls src={result.audioUrl} className="w-full" />
-                     </div>
-                     
-                     <div className="space-y-2">
-                       <Label>Transcript</Label>
-                       <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
+          {result && result.status === 'completed' && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <ResultCard title="Results" variant="success">
+                <div className="space-y-4 mt-4">
+                  <div className="space-y-2">
+                    <Label>Audio Response</Label>
+                    <audio controls src={result.audioUrl} className="w-full" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Transcript</Label>
+                    <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{result.result}</pre>
+                  </div>
+                </div>
+              </ResultCard>
+            </motion.div>
+          )}
         </div>
       </main>
     </>
   );
 };
 
-export default MusicGeneratorAgentPyPage;
+ export default MusicGeneratorAgentPyPage;

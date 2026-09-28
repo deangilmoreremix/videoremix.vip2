@@ -51,9 +51,9 @@ const caseStudies: CaseStudyType[] = [
     industry: "E-Commerce Fashion",
     logo: "https://images.unsplash.com/photo-1579762593175-20c9062ccc59?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&q=80",
     challenge:
-      "StyleTrend was sending the same generic product videos to all customers, resulting in low engagement rates (2.3%) and poor conversion (1.7%). Their marketing team couldn't create personalized content at scale.",
+      "StyleTrend was sending the same generic product videos to all customers, resulting in low engagement rates (2.3%) and poor conversion (1.7%). Their team couldn't create personalized content at scale.",
     solution:
-      "Implemented audience segmentation by style preference, browsing history, and purchase behavior. Created personalized marketing videos for each segment using VideoRemix.vip's AI personalization tools.",
+      "Implemented audience segmentation by style preference, browsing history, and purchase behavior. Created personalized videos and campaigns for each segment using VideoRemix VIP's app ecosystem.",
     results: [
       {
         metric: "Engagement",
@@ -129,7 +129,7 @@ const caseStudies: CaseStudyType[] = [
     ],
     testimonial: {
       quote:
-        "Our sales team went from spending days creating custom demos to minutes. The personalized marketing videos have transformed our sales process, helping close enterprise deals in nearly half the time.",
+        "Our sales team went from spending days creating custom demos to minutes. The platform's AI-powered workflows have transformed our sales process, helping close enterprise deals in nearly half the time.",
       author: "Michael Chen",
       role: "VP of Global Sales",
       image:
@@ -336,7 +336,7 @@ const CaseStudiesSection: React.FC = () => {
         <div className="max-w-4xl mx-auto text-center mb-16">
           <div className="inline-block mb-3">
             <div className="bg-primary-500/20 text-primary-400 px-4 py-1.5 rounded-full text-sm font-semibold">
-              MARKETING PERSONALIZATION SUCCESS
+              ECOSYSTEM SUCCESS
             </div>
           </div>
 
@@ -347,8 +347,7 @@ const CaseStudiesSection: React.FC = () => {
           </MagicSparkles>
 
           <p className="text-xl text-gray-300 mb-8">
-            See how companies across industries have transformed their marketing
-            performance with personalized content
+            See how teams across industries use VideoRemix VIP across marketing, sales, video, hiring, and productivity to move faster.
           </p>
         </div>
 
@@ -592,7 +591,7 @@ const CaseStudiesSection: React.FC = () => {
                 >
                   <h4 className="text-lg font-bold text-white mb-4 flex items-center">
                     <TrendingUp className="h-5 w-5 text-primary-400 mr-2" />
-                    Marketing Performance Transformation
+                    Workflow Performance Transformation
                   </h4>
 
                   <div className="grid grid-cols-2 gap-6">
@@ -606,7 +605,7 @@ const CaseStudiesSection: React.FC = () => {
                         <div className="h-5 w-1/3 bg-red-900/40 rounded-r"></div>
                         <div className="flex justify-between mt-2 text-xs">
                           <span className="text-gray-500">
-                            Generic Marketing
+                            Disconnected Tools
                           </span>
                           <span className="text-red-400">Low Performance</span>
                         </div>
@@ -623,7 +622,7 @@ const CaseStudiesSection: React.FC = () => {
                         <div className="h-5 w-2/3 bg-green-900/40 rounded-r"></div>
                         <div className="flex justify-between mt-2 text-xs">
                           <span className="text-gray-500">
-                            Personalized Marketing
+                            Ecosystem Mode
                           </span>
                           <span className="text-green-400">
                             High Performance
@@ -728,7 +727,7 @@ const CaseStudiesSection: React.FC = () => {
           >
             <h4 className="text-lg font-bold text-white mb-6 flex items-center">
               <LineChart className="h-5 w-5 text-primary-400 mr-2" />
-              Marketing Personalization Impact in{" "}
+              Platform Impact in{" "}
               {industryMetrics[activeIndustry].industry}
             </h4>
 
@@ -790,8 +789,7 @@ const CaseStudiesSection: React.FC = () => {
           </h3>
 
           <p className="text-xl text-gray-300 mb-8">
-            Join these businesses and achieve breakthrough results with
-            personalized marketing videos
+            Join these businesses and achieve breakthrough results with the VideoRemix VIP ecosystem.
           </p>
 
           <motion.div
@@ -803,7 +801,7 @@ const CaseStudiesSection: React.FC = () => {
               href="https://ai-personalized-content.videoremix.vip"
               className="inline-flex items-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg"
             >
-              Start Your Personalization Journey
+              Start Building With the Ecosystem
               <motion.div
                 animate={{
                   x: [0, 5, 0],

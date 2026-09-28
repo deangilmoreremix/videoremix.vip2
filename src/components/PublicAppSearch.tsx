@@ -341,7 +341,7 @@ const PublicAppSearch: React.FC = () => {
                         </Link>
                       ) : (
                         <Link
-                          to="/sign-in"
+                          to="/signin"
                           className="inline-flex items-center px-3 py-2 text-sm font-medium text-primary-400 bg-primary-500/10 hover:bg-primary-500/20 border border-primary-500/30 rounded-lg transition-colors"
                         >
                           <Lock className="mr-1.5 h-4 w-4" />

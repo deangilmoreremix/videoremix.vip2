@@ -21,37 +21,37 @@ import MagicSparkles from "./MagicSparkles";
 // Tool categories
 const toolCategories = [
   {
-    id: "content-creation",
-    name: "Marketing Content Creation",
-     description: "Create personalized marketing content and images",
+    id: "content-video",
+    name: "Content & Video",
+     description: "Create personalized videos, images, and audio",
     color: "from-purple-500 to-indigo-600",
     icon: <VideoIcon className="h-5 w-5" />,
   },
   {
-    id: "visual-styles",
-    name: "Visual Marketing",
-    description: "Apply personalized visual treatments to marketing",
-    color: "from-pink-500 to-rose-600",
-    icon: <Palette className="h-5 w-5" />,
-  },
-  {
-    id: "sales-tools",
-    name: "Sales & Marketing Tools",
-    description: "Close more deals with personalization",
+    id: "sales-funnels",
+    name: "Sales & Funnels",
+     description: "Close more deals with AI-powered sales tools",
     color: "from-green-500 to-emerald-600",
     icon: <ShoppingCart className="h-5 w-5" />,
   },
   {
-    id: "communication",
-    name: "Marketing Communication",
-    description: "Personalized marketing outreach tools",
+    id: "hiring-profiles",
+    name: "Hiring & Profiles",
+     description: "Screen resumes, enrich profiles, and automate hiring",
     color: "from-blue-500 to-cyan-600",
-    icon: <MessageSquare className="h-5 w-5" />,
+    icon: <Users className="h-5 w-5" />,
   },
   {
-    id: "advanced-ai",
-    name: "Advanced AI Marketing",
-    description: "Cutting edge AI marketing personalization",
+    id: "productivity",
+    name: "Productivity",
+     description: "Signatures, templates, and workflow automation",
+    color: "from-pink-500 to-rose-600",
+    icon: <Palette className="h-5 w-5" />,
+  },
+  {
+    id: "voice-agents",
+    name: "Voice & Agents",
+     description: "Voice agents, automation, and agent routing",
     color: "from-yellow-500 to-amber-600",
     icon: <Bot className="h-5 w-5" />,
   },
@@ -59,231 +59,207 @@ const toolCategories = [
 
 // Tools data for carousel
 const personalizationTools = [
-  // Content Creation tools
+  // Content & Video tools
   {
-    id: "ai-creative-studio",
-    name: "Marketing AI Creative Studio",
+    id: "ai-personalized-content",
+    name: "AI Personalized Content Hub",
     description:
-      "Create AI-generated marketing content tailored to your audience",
-    category: "content-creation",
+      "Generate on-brand personalized content at scale across email, ads, and landing pages",
+    category: "content-video",
     icon: <Sparkles className="h-6 w-6" />,
     url: "https://ai-personalized-content.videoremix.vip",
     popular: true,
     new: false,
   },
   {
-     id: "campaign-generator",
-     name: "Marketing Campaign Generator",
-     description: "Generate marketing campaigns based on audience data",
-    category: "content-creation",
+     id: "ai-video-editor",
+     name: "AI Video Editor",
+     description: "Edit and enhance videos with AI-powered tools",
+    category: "content-video",
     icon: <VideoIcon className="h-6 w-6" />,
-    url: "https://ai-personalized-content.videoremix.vip",
+    url: "https://ai-videoeditor.videoremix.vip",
     popular: true,
     new: false,
   },
   {
-    id: "gif-editor",
-    name: "Marketing GIF Editor",
-    description: "Create and customize animated GIFs for marketing campaigns",
-    category: "content-creation",
+    id: "ai-screen-recorder",
+    name: "AI Screen Recorder",
+    description: "Record and personalize screen captures automatically",
+    category: "content-video",
     icon: <FileImage className="h-6 w-6" />,
-    url: "https://ai-personalized-content.videoremix.vip",
+    url: "https://ai-screenrecorder.videoremix.vip",
     popular: false,
     new: true,
   },
   {
-    id: "ai-image",
-    name: "Marketing AI Image Generation",
-    description: "Generate images for targeted marketing campaigns",
-    category: "content-creation",
+    id: "ai-personalization-studio",
+    name: "AI Personalization Studio",
+    description: "Design and generate personalized images and visuals",
+    category: "content-video",
     icon: <Palette className="h-6 w-6" />,
-    url: "https://ai-personalized-content.videoremix.vip",
+    url: "https://ai-personalizationstudio.videoremix.vip",
     popular: true,
     new: false,
   },
 
-  // Visual Styles
+  // Sales & Funnels
   {
-    id: "action-figures",
-    name: "Marketing Action Figures",
-    description: "Create custom action figures for marketing campaigns",
-    category: "visual-styles",
-    icon: <Palette className="h-6 w-6" />,
-    url: "https://ai-personalized-content.videoremix.vip",
-    popular: true,
-    new: false,
-  },
-  {
-    id: "ghibli-style",
-    name: "Marketing Studio Ghibli Style",
-    description: "Transform marketing images into Ghibli-inspired artwork",
-    category: "visual-styles",
-    icon: <Palette className="h-6 w-6" />,
-    url: "https://ai-personalized-content.videoremix.vip",
-    popular: true,
-    new: false,
-  },
-  {
-    id: "retro-action-figures",
-    name: "Retro Marketing Figures",
-    description: "Generate nostalgic figures for marketing campaigns",
-    category: "visual-styles",
-    icon: <Palette className="h-6 w-6" />,
-    url: "https://ai-personalized-content.videoremix.vip",
-    popular: false,
-    new: false,
-  },
-  {
-    id: "cartoon-style",
-    name: "Marketing Cartoon Style",
-    description:
-      "Convert marketing images into personalized cartoon illustrations",
-    category: "visual-styles",
-    icon: <Palette className="h-6 w-6" />,
-    url: "https://ai-personalized-content.videoremix.vip",
-    popular: false,
-    new: true,
-  },
-
-  // Sales Tools
-  {
-    id: "proposal-generator",
-    name: "Marketing Proposal Generator",
-    description: "Create tailored proposals for specific market segments",
-    category: "sales-tools",
+    id: "funnelcraft-ai",
+    name: "FunnelCraft AI",
+    description: "Build high-converting sales funnels with AI-generated copy and layouts",
+    category: "sales-funnels",
     icon: <ShoppingCart className="h-6 w-6" />,
-    url: "https://proposal-ai.videoremix.vip",
+    url: "https://ai-funnelcraft.videoremix.vip",
     popular: true,
     new: false,
   },
   {
-    id: "client-research",
-    name: "Marketing Audience Research",
-    description: "Research audience segments to create personalized marketing",
-    category: "sales-tools",
+     id: "sales-assistant-pro",
+     name: "Sales Assistant Pro",
+     description: "AI-powered sales intelligence and outreach automation",
+    category: "sales-funnels",
     icon: <Users className="h-6 w-6" />,
-    url: "https://sales-assistant-ai.videoremix.vip",
+    url: "https://ai-salesassistant.videoremix.vip",
     popular: true,
     new: false,
   },
   {
-    id: "smart-pricing",
-    name: "Marketing Smart Pricing",
-    description: "Generate segment-specific pricing recommendations",
-    category: "sales-tools",
+    id: "smart-crm-closer",
+    name: "Smart CRM Closer Pro",
+    description: "Automate CRM follow-ups and closing sequences",
+    category: "sales-funnels",
     icon: <ShoppingCart className="h-6 w-6" />,
-    url: "https://proposal-ai.videoremix.vip",
+    url: "https://smartcrmcloser.netlify.app",
     popular: false,
     new: false,
   },
   {
-    id: "objection-handler",
-    name: "Marketing Objection Handler",
-    description: "Generate tailored responses to potential customer objections",
-    category: "sales-tools",
+    id: "sales-page-builder",
+    name: "Sales Page Builder",
+    description: "Build high-converting sales pages in minutes",
+    category: "sales-funnels",
     icon: <MessageSquare className="h-6 w-6" />,
-    url: "https://sales-assistant-ai.videoremix.vip",
-    popular: false,
-    new: false,
-  },
-
-  // Communication Tools
-  {
-    id: "follow-up-emails",
-    name: "Marketing Follow-Up Emails",
-    description: "Generate segment-specific follow-up communications",
-    category: "communication",
-    icon: <MessageSquare className="h-6 w-6" />,
-    url: "https://sales-assistant-ai.videoremix.vip",
-    popular: true,
-    new: false,
-  },
-  {
-    id: "multi-language",
-    name: "Multi-Language Marketing",
-    description: "Translate marketing content while preserving key messaging",
-    category: "communication",
-    icon: <Globe className="h-6 w-6" />,
-    url: "https://ai-personalized-content.videoremix.vip",
-    popular: true,
-    new: false,
-  },
-  {
-    id: "streaming-translation",
-    name: "Real-Time Marketing Translation",
-    description:
-      "Character-by-character translation preserving marketing terminology",
-    category: "communication",
-    icon: <Globe className="h-6 w-6" />,
-    url: "https://ai-personalized-content.videoremix.vip",
+    url: "https://ai-salespage.videoremix.vip",
     popular: false,
     new: true,
   },
 
-  // Advanced AI Tools
+  // Hiring & Profiles
   {
-    id: "multimodal-creator",
-    name: "Multimodal Marketing Creator",
-    description: "Create marketing with cutting-edge multimodal AI models",
-    category: "advanced-ai",
+    id: "ai-skills-resume",
+    name: "AI Skills & Resume",
+    description: "Generate tailored resumes and cover letters",
+    category: "hiring-profiles",
+    icon: <Users className="h-6 w-6" />,
+    url: "https://ai-skills.videoremix.vip",
+    popular: true,
+    new: false,
+  },
+  {
+    id: "profile-gen",
+    name: "Profile Gen",
+    description: "Create optimized LinkedIn and social profiles",
+    category: "hiring-profiles",
+    icon: <Users className="h-6 w-6" />,
+    url: "https://ai-profilegen.videoremix.vip",
+    popular: false,
+    new: false,
+  },
+  {
+    id: "ai-recruitment-agent-team",
+    name: "AI Recruitment Agent Team",
+    description: "Automate candidate screening and interview scheduling",
+    category: "hiring-profiles",
     icon: <Bot className="h-6 w-6" />,
-    url: "https://ai-personalized-content.videoremix.vip",
-    popular: true,
+    url: "https://ai-runner/ai-recruitment-agent-team",
+    popular: false,
     new: true,
   },
   {
-    id: "hybrid-ai",
-    name: "Hybrid Marketing AI Studio",
-    description: "Leverage multiple AI models in a single marketing workflow",
-    category: "advanced-ai",
+    id: "ai-skills-monetizer",
+    name: "AI Skills Monetizer",
+    description: "Turn skills into profitable income streams",
+    category: "hiring-profiles",
     icon: <Wand2 className="h-6 w-6" />,
-    url: "https://ai-personalized-content.videoremix.vip",
+    url: "https://ai-skills.videoremix.vip",
     popular: false,
-    new: true,
+    new: false,
+  },
+
+  // Productivity
+  {
+    id: "ai-signature",
+    name: "AI Signature",
+    description: "Generate professional email signatures with AI design",
+    category: "productivity",
+    icon: <Palette className="h-6 w-6" />,
+    url: "https://ai-signature.videoremix.vip",
+    popular: true,
+    new: false,
   },
   {
-    id: "gemini-features",
-    name: "Advanced Marketing AI Features",
-    description: "Use the latest AI capabilities for marketing personalization",
-    category: "advanced-ai",
-    icon: <Sparkles className="h-6 w-6" />,
-    url: "https://ai-personalized-content.videoremix.vip",
+    id: "ai-referral-maximizer",
+    name: "AI Referral Maximizer Pro",
+    description: "Maximize referral conversions with AI automation",
+    category: "productivity",
+    icon: <MessageSquare className="h-6 w-6" />,
+    url: "https://referrals.smartcrm.vip",
     popular: false,
-    new: true,
+    new: false,
+  },
+  {
+    id: "ai-sales-maximizer",
+    name: "AI Sales Maximizer",
+    description: "Boost sales with intelligent AI-driven strategies",
+    category: "productivity",
+    icon: <ShoppingCart className="h-6 w-6" />,
+    url: "https://salesmax.smartcrm.vip",
+    popular: false,
+    new: false,
+  },
+  {
+    id: "ai-documentation-writer",
+    name: "AI Documentation Writer",
+    description: "Generate comprehensive documentation from notes",
+    category: "productivity",
+    icon: <FileImage className="h-6 w-6" />,
+    url: "https://ai-personalizer.videoremix.vip",
+    popular: false,
+    new: false,
   },
 ];
 
 // Example featured collections of tools
 const featuredCollections = [
   {
-    title: "Visual Marketing",
-    description: "Transform ideas into stunning personalized marketing visuals",
-    tools: ["ai-creative-studio", "ai-image", "action-figures", "ghibli-style"],
+    title: "Content & Video",
+    description: "Generate videos, images, audio, and personalized content with AI",
+    tools: ["ai-personalized-content", "ai-video-editor", "ai-screen-recorder", "ai-personalization-studio"],
     icon: <Palette className="h-10 w-10 text-purple-400" />,
   },
   {
-    title: "Sales Acceleration",
-    description: "Close more deals with personalized marketing tools",
+    title: "Sales & Funnels",
+    description: "Build funnels, automate outreach, and close deals faster",
     tools: [
-      "proposal-generator",
-      "client-research",
-      "smart-pricing",
-      "objection-handler",
+      "funnelcraft-ai",
+      "sales-assistant-pro",
+      "smart-crm-closer",
+      "sales-page-builder",
     ],
     icon: <ShoppingCart className="h-10 w-10 text-green-400" />,
   },
   {
-    title: "Global Marketing",
-    description: "Supercharge your international marketing efforts",
-    tools: ["multi-language", "streaming-translation", "follow-up-emails"],
+    title: "Hiring & Productivity",
+    description: "Automate hiring, resumes, profiles, and daily workflows",
+    tools: ["ai-skills-resume", "profile-gen", "ai-recruitment-agent-team", "ai-signature"],
     icon: <Globe className="h-10 w-10 text-blue-400" />,
   },
 ];
 
 const ToolsCarouselSection: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState("content-creation");
+  const [activeCategory, setActiveCategory] = useState("content-video");
   const [filteredTools, setFilteredTools] = useState(
-    personalizationTools.filter((tool) => tool.category === "content-creation"),
+    personalizationTools.filter((tool) => tool.category === "content-video"),
   );
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -357,7 +333,7 @@ const ToolsCarouselSection: React.FC = () => {
         >
           <div className="inline-block mb-3">
             <div className="bg-primary-500/20 text-primary-400 px-4 py-1.5 rounded-full text-sm font-semibold">
-              MARKETING PERSONALIZATION TOOLS
+              PLATFORM TOOLS
             </div>
           </div>
 
@@ -365,14 +341,13 @@ const ToolsCarouselSection: React.FC = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
               One Platform.{" "}
               <span className="text-primary-400">
-                20+ Marketing Personalization Apps
+                113 Apps Across Every Business Workflow
               </span>
             </h2>
           </MagicSparkles>
 
           <p className="text-xl text-gray-300">
-            Explore our comprehensive suite of personalized marketing tools
-            designed for every campaign need
+            Explore apps for content, video, sales, hiring, productivity, and AI automation — all connected in one ecosystem
           </p>
         </motion.div>
 
@@ -571,13 +546,12 @@ const ToolsCarouselSection: React.FC = () => {
           <div className="max-w-3xl mx-auto">
             <MagicSparkles minSparkles={3} maxSparkles={6}>
               <h2 className="text-2xl font-bold text-white mb-4">
-                Unlock the Full Power of Marketing Personalization
+                Unlock the Full Ecosystem
               </h2>
             </MagicSparkles>
 
             <p className="text-xl text-gray-300 mb-8">
-              Access all our professional marketing personalization tools with a
-              premium subscription
+              Access all 113 apps across marketing, sales, video, hiring, and productivity with a premium subscription
             </p>
 
             <motion.a

@@ -86,7 +86,7 @@ const articles = [
       <p>Replace multiple specialized tools with one comprehensive platform. Create videos, landing pages, CRM sequences, and more without switching between different services.</p>
 
       <h2>Getting Started</h2>
-      <p>Ready to transform your marketing with personalization? Check out our <a href="/help/create-first-campaign">Creating Your First Personalized Campaign</a> guide to get started quickly.</p>
+      <p>Ready to transform your marketing with personalization? Check out our <a href="/faq">Creating Your First Personalized Campaign</a> guide to get started quickly.</p>
     `,
     related_articles: [
       "create-first-campaign",
@@ -212,9 +212,9 @@ const articles = [
       <h2>Next Steps</h2>
       <p>Congratulations on launching your first personalized campaign! To take your marketing further, explore:</p>
       <ul>
-        <li><a href="/help/audience-segmentation-advanced">Advanced Audience Segmentation</a></li>
-        <li><a href="/help/tools-hub-overview">Complete Tools Hub Overview</a></li>
-        <li><a href="/help/campaign-optimization">Campaign Optimization Strategies</a></li>
+        <li><a href="/faq">Advanced Audience Segmentation</a></li>
+        <li><a href="/tools">Complete Tools Hub Overview</a></li>
+        <li><a href="/faq">Campaign Optimization Strategies</a></li>
       </ul>
     `,
     related_articles: [
@@ -425,9 +425,9 @@ const articles = [
       
       <h2>Further Resources</h2>
       <ul>
-        <li><a href="/tutorials/ai-editing-masterclass">Watch our AI Editing Masterclass video tutorial</a></li>
-        <li><a href="/help/ai-voice-generation">Learn about AI Voice Generation</a></li>
-        <li><a href="/help/batch-processing">Discover how to process multiple videos with AI</a></li>
+        <li><a href="/faq">Watch our AI Editing Masterclass video tutorial</a></li>
+        <li><a href="/faq">Learn about AI Voice Generation</a></li>
+        <li><a href="/faq">Discover how to process multiple videos with AI</a></li>
       </ul>
     `,
     related_articles: [
@@ -877,7 +877,7 @@ const HelpArticlePage: React.FC = () => {
                         </p>
                         {feedback === "not-helpful" && (
                           <Link
-                            to="/contact"
+                             to="/pricing"
                             className="inline-flex items-center mt-2 text-primary-400 hover:text-primary-300"
                           >
                             Contact Support
@@ -905,7 +905,7 @@ const HelpArticlePage: React.FC = () => {
                           transition={{ duration: 0.4, delay: index * 0.1 }}
                         >
                           <Link
-                            to={`/help/${relatedArticle.id}`}
+                             to={`/faq`}
                             className="block"
                           >
                             <div className="bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-700 p-6 hover:border-primary-500/50 transition-colors h-full">
@@ -955,7 +955,7 @@ const HelpArticlePage: React.FC = () => {
                       Browse Help Center
                     </Link>
                     <Link
-                      to="/contact"
+                      to="/faq"
                       className="inline-flex items-center bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg"
                     >
                       <MessageSquare className="h-5 w-5 mr-2" />

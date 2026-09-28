@@ -19,7 +19,7 @@ const AiBreakupRecoveryAgentPage: React.FC = () => {
   const { user } = useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({ 
-    enter_your_gemini_api_key: "", 
+    enter_your_openai_api_key: "", 
     how_are_you_feeling_what_happened: "", 
     upload_screenshots_of_your_chats_optional: "" 
   });
@@ -66,7 +66,7 @@ const AiBreakupRecoveryAgentPage: React.FC = () => {
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('file', file);
-      formDataToSend.append('enter_your_gemini_api_key', formData.enter_your_gemini_api_key);
+      formDataToSend.append('enter_your_openai_api_key', formData.enter_your_openai_api_key);
       formDataToSend.append('how_are_you_feeling_what_happened', formData.how_are_you_feeling_what_happened);
       formDataToSend.append('upload_screenshots_of_your_chats_optional', formData.upload_screenshots_of_your_chats_optional);
       
@@ -139,14 +139,14 @@ const AiBreakupRecoveryAgentPage: React.FC = () => {
                   </div>
                 </FormSection>
 
-                <FormSection title="API Configuration" description="Enter your Gemini API key">
+                <FormSection title="API Configuration" description="Enter your OpenAI API key">
                   <ApiKeyInput
-                    label="Gemini API Key"
-                    name="enter_your_gemini_api_key"
-                    value={formData.enter_your_gemini_api_key}
-                    onChange={(val) => setFormData({ ...formData, enter_your_gemini_api_key: val })}
-                    placeholder="AIza..."
-                    helperText="Get your API key from Google AI Studio"
+                    label="OpenAI API Key"
+                    name="enter_your_openai_api_key"
+                    value={formData.enter_your_openai_api_key}
+                    onChange={(val) => setFormData({ ...formData, enter_your_openai_api_key: val })}
+                    placeholder="sk-..."
+                    helperText="Get your API key from OpenAI Platform"
                     required
                   />
                 </FormSection>
@@ -203,7 +203,7 @@ const AiBreakupRecoveryAgentPage: React.FC = () => {
                 title="Thank you for sharing"
                 description="Remember, this is just one step in your journey. You're not alone."
                 action={
-                  <ActionButton onClick={() => { setResult(null); setFile(null); setFormData({ enter_your_gemini_api_key: "", how_are_you_feeling_what_happened: "", upload_screenshots_of_your_chats_optional: "" }); }}>
+                  <ActionButton onClick={() => { setResult(null); setFile(null); setFormData({ enter_your_openai_api_key: "", how_are_you_feeling_what_happened: "", upload_screenshots_of_your_chats_optional: "" }); }}>
                     Share More
                   </ActionButton>
                 }

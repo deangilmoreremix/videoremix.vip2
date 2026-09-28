@@ -67,12 +67,12 @@ First-party applications catalogued in `src/data/appsData.ts` (125 unique entrie
 - **Local Business Voice Assistant** — Build voice assistants for local businesses with AI.
 - **Multi-AI Memory Hub** — Connect multiple AI agents with shared memory and context.
 - **Private ChatGPT Clone** — Deploy a private ChatGPT clone running entirely on your hardware.
-- **Multi-Modal Research Assistant** — Research across modalities with Google's Gemini-powered AI.
+ - **Multi-Modal Research Assistant** — Research across modalities with AI.
 - **GitHub Automation Agent** — Automate GitHub workflows with AI-powered MCP integration.
 - **Professional GPT Oss Critique Improvement Loop Assistant** — Iteratively improve GPT outputs with AI-powered critique.
 - **Smart Search AI** — Search across multiple data sources with AI-powered hybrid search.
 - **Expert Local AI Reasoning Agent Py Studio** — Run local AI reasoning with privacy-first Python implementation.
-- **Research Intelligence Qwen Local RAG** — Advanced local search powered by Qwen for precise, context-aware knowledge retrieval.
+- **Research Intelligence Semantic Search RAG** — Advanced search powered by OpenAI for precise, context-aware knowledge retrieval.
 - **Smart Multi AI Memory Studio** — Centralized memory system that multiple AI agents can access and update.
 - **AI Tool Router** — Intelligently route tasks to the best AI tools and services.
 - **Multi-Modal Content Creation Suite** — Create content across text, images, audio, and video with a single AI agent.
@@ -81,7 +81,7 @@ First-party applications catalogued in `src/data/appsData.ts` (125 unique entrie
 - **Research Assistant AI** — Deep research powered by OpenAI for comprehensive topic analysis.
 - **Intelligent Product Launch Intelligence Agent Hub** — Strategic AI for planning and executing successful product launches.
 - **Research Intelligence Database Routing** — Intelligently route queries across multiple knowledge bases for comprehensive answers.
-- **Research Intelligence Research Agent Gemini Interaction API** — Deep research capabilities powered by Google's Gemini for complex analysis.
+ - **Research Intelligence Research Agent** — Deep research capabilities for complex analysis powered by OpenAI.
 - **Smart Resume Job Matcher Platform** — AI-powered resume screening that matches candidates to ideal positions.
 - **Smart Startup Trends Agent Platform** — Track and analyze emerging startup trends with AI-driven market intelligence.
 - **Intelligent Toonify Token Optimization Engine** — Convert images to stylized cartoon versions with AI-powered optimization.
@@ -199,7 +199,7 @@ Standalone AI agent experiences rendered as chat pages under `src/pages/agents/`
 - **9. .2 Loop Agent** — Iterate on research with AI-powered loop agent.
 - **9. .3 Parallel Agent** — Research multiple aspects simultaneously with AI-powered parallel agents.
 - **AG2 Adaptive Research Team** — Multi-agent research team that adapts to your research questions.
-- **Agentic RAG with Gemma** — Agentic RAG powered by Google's Gemma embeddings.
+ - **Agentic RAG with Gemma** — Agentic RAG powered by OpenAI embeddings and retrieval.
 - **Agentic RAG with GPT-5** — Agentic RAG powered by GPT-5 for advanced reasoning.
 - **Agentic Rag With Reasoning** — Use gmail-intelligence-ai to automate tasks with AI.
 - **Ai3dpygame R1** — Use video-knowledge-assistant to automate tasks with AI.
@@ -214,7 +214,7 @@ Standalone AI agent experiences rendered as chat pages under `src/pages/agents/`
 - **AI Customer Support Agent** — Use home-renovation-visualizer-ai to automate tasks with AI.
 - **Analysis Results - AI Data Analysis Agent** — Upload your data and let AI analyze it to uncover patterns and insights.
 - **Visualisation Results - AI Data Visualisation Agent** — Upload your data and generate AI-powered visualisations and charts.
-- **Research Results - AI Deep Research Agent** — Conduct comprehensive deep research on any topic using AI-powered web scraping and analysis.
+ - **Research Results - AI Deep Research Agent** — Conduct comprehensive deep research on any topic using AI-powered web search and analysis.
 - **Research Results - AI Domain Deep Research Agent** — Conduct deep research within a specific domain or field for focused, expert-level insights.
 - **Email Results - AI Email Gtm Outreach Agent** — Generate personalised cold outreach emails for B2B GTM campaigns using AI.
 - **AI Email Gtm Reachout Agent** — Find target companies and generate personalised GTM outreach emails with AI.
@@ -263,20 +263,20 @@ Standalone AI agent experiences rendered as chat pages under `src/pages/agents/`
 - **Corrective Rag** — AI agent experience for Corrective Rag.
 - **Cursor AI Experiments** — AI agent experience for Cursor AI Experiments.
 - **Customer Support Voice Agent** — AI agent experience for Customer Support Voice Agent.
-- **Deepseek Local RAG Agent** — Local RAG agent powered by Deepseek for private, offline document retrieval.
+- **Document Retrieval Agent** — RAG agent powered by OpenAI for document retrieval.
 - **Devpulse AI** — AI agent experience for Devpulse AI.
 - **AI Email GTM Reachout - Sales Prospecting Automation | Video Remix.vip** — Generate personalized sales emails with AI research. Automate GTM outreach with company intelligence, decision-maker research, and dynamic email templates.
 - **AI Finance Agent - Stock Analysis & Portfolio Tracking | Video Remix.vip** — AI-powered finance platform: Real-time stock data, portfolio tracking, and intelligent market insights powered by OpenAI.
 - **AI Financial Coach - Personal Finance Planning | Video Remix.vip** — AI-powered personal finance coach. Upload expenses, get budget analysis, savings strategies, and debt reduction plans tailored to your financial situation.
 - **Frontend** — AI agent experience for Frontend.
-- **Gemini Agentic RAG** — Agentic RAG powered by Google's Gemini for autonomous multi-step retrieval.
+ - **Agentic RAG** — Agentic RAG powered by OpenAI embeddings and retrieval.
 - **Github Mcp Agent** — AI agent experience for Github Mcp Agent.
 - **Gpt Oss Critique Improvement Loop** — Use gpt-oss-critique-improvement-loop to automate tasks with AI.
 - **Hybrid Search RAG** — RAG with hybrid search combining keyword and semantic retrieval for better results.
 - **Knowledge Graph Rag Citations** — Use knowledge-graph-rag-citations to automate tasks with AI.
 - **Launch Rocket AI - Product Launch Intelligence | Video Remix.vip** — AI-powered product launch intelligence with competitor analysis, market sentiment, and strategic recommendations for successful GTM execution.
-- **Llama31Local Rag** — Use llama3-1-local-rag to automate tasks with AI.
-- **Llama3 Stateful Chat** — Stateful conversations with Meta's Llama 3, maintaining context across multiple turns.
+- **Local RAG** — Use local-rag to automate tasks with AI.
+- **Stateful Chat** — Stateful conversations with OpenAI, maintaining context across multiple turns.
 - **Local AI Legal Agent Team** — Use local-contract-summary-ai to automate tasks with AI.
 - **Local AI Reasoning Agent Py** — Use local-risk-decision-ai-py to automate tasks with AI.
 - **Local AI Scrapper Py** — Use local-ai-scrapper-py to automate tasks with AI.
@@ -296,13 +296,13 @@ Standalone AI agent experiences rendered as chat pages under `src/pages/agents/`
 - **Pod Castify AI - Blog to Podcast Converter | Video Remix.vip** — Transform any blog post into an engaging podcast episode with AI-powered content analysis and script generation.
 - **Product Launch Intelligence Agent** — Use product-launch-intelligence-agent to automate tasks with AI.
 - **Product Launch Intelligence - Video Remix** — AI-powered insights for GTM, Product Marketing & Growth Teams
-- **Qwen Local Rag** — Use qwen-local-rag to automate tasks with AI.
-- **Rag Agent Cohere** — Use rag-agent-cohere to automate tasks with AI.
+- **Semantic Search RAG** — Use semantic-search-rag to automate tasks with AI.
+- **RAG Agent** — Use rag-agent to automate tasks with AI.
 - **Rag As AService** — Use business-knowledgebase-ai to automate tasks with AI.
 - **Rag Chain** — Use rag-chain to automate tasks with AI.
 - **Rag Database Routing** — Use rag-database-routing to automate tasks with AI.
 - **AI Reasoning Agent - Compare AI Thinking Patterns | Video Remix.vip** — Watch AI think step-by-step. Compare standard answers vs reasoned responses to see how reasoning mode improves problem-solving.
-- **Research Agent Gemini Interaction Api** — Use research-agent-gemini-interaction-api to automate tasks with AI.
+- **Research Agent** — Use research-agent to automate tasks with AI.
 - **Resume Job Matcher** — Use resume-job-matcher to automate tasks with AI.
 - **Sales Force AI - Competitive Intelligence | Video Remix.vip** — Generate comprehensive sales battle cards against competitors. AI-powered competitive intelligence with research, SWOT analysis, and objection handling scripts.
 - **Social Buzz AI - Social Media Intelligence | Video Remix.vip** — Analyze social media sentiment, trends, and engagement patterns across Twitter, LinkedIn, and Facebook with AI-powered insights.

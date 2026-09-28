@@ -665,7 +665,7 @@ const HelpCenterPage: React.FC = () => {
                       Need more help?
                     </h3>
                     <Link
-                      to="/contact"
+                      to="/faq"
                       className="bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg block text-center"
                     >
                       Contact Support
@@ -728,7 +728,7 @@ const HelpCenterPage: React.FC = () => {
                             ))}
                           </div>
                           <Link
-                            to={`/help/${article.id}`}
+                            to={`/faq`}
                             className="text-primary-400 hover:text-primary-300 flex items-center text-sm font-medium"
                           >
                             Read More
@@ -787,7 +787,7 @@ const HelpCenterPage: React.FC = () => {
                     description:
                       "Master the AI-powered editing features to create videos in record time.",
                     icon: <Sparkles className="h-8 w-8 text-primary-400" />,
-                    link: "/help/ai-editing-guide",
+                    link: "/faq",
                   },
                   {
                     title: "Video Template Mastery",
@@ -796,14 +796,14 @@ const HelpCenterPage: React.FC = () => {
                     icon: (
                       <LayoutTemplate className="h-8 w-8 text-primary-400" />
                     ),
-                    link: "/help/templates-usage",
+                    link: "/faq",
                   },
                   {
                     title: "Multi-Platform Export Guide",
                     description:
                       "Optimize your videos for every platform with the right export settings.",
                     icon: <PencilRuler className="h-8 w-8 text-primary-400" />,
-                    link: "/help/advanced-export",
+                    link: "/faq",
                   },
                 ].map((guide, index) => (
                   <motion.div

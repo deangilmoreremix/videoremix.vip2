@@ -81,7 +81,7 @@ Request → L1 Check → L2 Check → API Call → Store in L1 & L2 → Return
 
 ### 4. Circuit Breakers
 
-**Problem:** Cascading failures when OpenAI/Anthropic APIs are slow or failing.
+**Problem:** Cascading failures when OpenAI APIs are slow or failing.
 
 **Solution:** Circuit breaker pattern isolates failures and prevents thundering herd.
 
@@ -115,7 +115,7 @@ Request → L1 Check → L2 Check → API Call → Store in L1 & L2 → Return
 | OpenAI GPT-4o | 10,000 | 80,000 | 1.2x |
 | OpenAI GPT-4o-mini | 100,000 | 2,000,000 | 1.5x |
 | OpenAI Embedding | 500 | 200,000 | 1.2x |
-| Anthropic Claude | 5,000 | 400,000 | 1.2x |
+| OpenAI | 5,000 | 400,000 | 1.2x |
 
 **Features:**
 - Automatic token refill based on elapsed time
@@ -208,7 +208,7 @@ These feed into the existing `performanceMonitor` system for:
 ### Fully Updated (Production)
 
 ✅ **Finance Agent** - Uses optimized OpenAI client with financial profile, caching, deduplication
-✅ **SocialBuzz AI** - Uses optimized Anthropic client with social media profile
+✅ **SocialBuzz AI** - Uses optimized OpenAI client with social media profile
 ✅ **ConsultPro AI** - Full optimization stack
 ✅ **Podcastify AI** - Podcast profile + caching
 ✅ **LaunchRocket AI** - Content generation profile
@@ -241,7 +241,7 @@ These will be updated as implementation progresses.
 New comprehensive module containing all optimization logic.
 
 ### 2. `supabase/functions/_shared/performance-clients.ts`
-Optimized OpenAI/Anthropic client factories.
+Optimized OpenAI client factories.
 
 ### 3. `supabase/functions/_shared/performance-index.ts`
 Barrel export for easy imports.

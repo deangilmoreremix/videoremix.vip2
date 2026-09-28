@@ -1,6 +1,6 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { corsHeaders, jsonResponse, errorResponse, createSupabaseClient } from '../_shared/utils.ts';
-import { createOptimizedAnthropicClient } from '../_shared/performance-clients.ts';
+import { OpenAI } from 'npm:openai@4.78.1';
 
 // Initialize Supabase
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
@@ -128,11 +128,10 @@ async function analyzeSocialSentiment(topic: string, socialData: any[], platform
 }
 
 /**
- * Extract insights using optimized Anthropic client
+ * Extract insights using OpenAI Responses API
  * Profile: social media (high temp for creativity, large context)
- * Cache TTL: 15 minutes (social trends change)
  */
-async function extractInsights(topic: string, socialData: any[], anthropic: any, cacheKey: string) {
+async function extractInsights(topic: string, socialData: any[], openai: any, cacheKey: string) {
   const prompt = `You are a social media intelligence analyst. Analyze this social media data about "${topic}" and extract key insights.
 
 Social Media Data:
@@ -145,47 +144,40 @@ Provide a JSON response with:
 
 Format as valid JSON only.`;
 
-  const messages = [
-    { role: 'system', content: 'You are a social media intelligence analyst. Always respond with valid JSON only.' },
-    { role: 'user', content: prompt }
-  ];
-
-  // Check cache first for identical queries
-  const cached = await anthropic.messages.create(
-    messages,
-    {
-      model: 'claude-3-sonnet-20240229',
-      max_tokens: 2000,
-      temperature: 0.3,
-    },
-    { cacheTtl: 900 } // 15 minutes
-  );
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const content = (cached as any).content[0];
-  if (content.type !== 'text') {
-    throw new Error('Unexpected response type');
-  }
-
   try {
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
+    const response = await openai.responses.create({
+      model: 'gpt-5.5',
+      input: [
+        { role: 'user', content: prompt }
+      ],
+      instructions: 'You are a social media intelligence analyst. Always respond with valid JSON only.',
+      max_output_tokens: 2000,
+      temperature: 0.3,
+    });
+
+    const outputMessage = response.output.find((item: any) => item.type === 'message' && item.role === 'assistant');
+    if (!outputMessage?.content?.[0]?.text) {
+      throw new Error('Unexpected response format');
+    }
+
+    const text = outputMessage.content[0].text;
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       throw new Error('No JSON found in response');
     }
 
     return JSON.parse(jsonMatch[0]);
   } catch (error) {
-    console.error('Failed to parse social insights response:', content.text);
+    console.error('Failed to parse social insights response:', error);
     throw new Error('Failed to analyze social insights');
   }
 }
 
 /**
- * Generate recommendations using optimized Anthropic client
+ * Generate recommendations using OpenAI Responses API
  * Profile: social media/creative (high temp)
- * Cache TTL: 30 minutes (recommendations less time-sensitive)
  */
-async function generateRecommendations(topic: string, sentiment: any, insights: any, anthropic: any) {
+async function generateRecommendations(topic: string, sentiment: any, insights: any, openai: any) {
   const prompt = `You are a social media strategist. Based on the sentiment analysis and insights about "${topic}", provide 5-7 actionable recommendations for social media strategy.
 
 Sentiment: ${sentiment.overall} (score: ${sentiment.score})
@@ -201,27 +193,28 @@ Provide specific, actionable recommendations for:
 
 Format as a JSON array of strings.`;
 
-  const response = await anthropic.messages.create({
-    model: 'claude-3-sonnet-20240229',
-    max_tokens: 1500,
-    temperature: 0.8,   // Social profile: high creativity
-    top_p: 0.95,
-    system: 'You are a social media strategist. Always respond with valid JSON array.',
-    messages: [{ role: 'user', content: prompt }]
-  }, {
-    cacheTtl: 1800,     // 30 minutes
-  });
-
-  const content = response.content[0];
-  if (content.type !== 'text') {
-    throw new Error('Unexpected response type');
-  }
-
   try {
-    const recommendations = JSON.parse(content.text);
+    const response = await openai.responses.create({
+      model: 'gpt-5.5',
+      input: [
+        { role: 'user', content: prompt }
+      ],
+      instructions: 'You are a social media strategist. Always respond with valid JSON array.',
+      max_output_tokens: 1500,
+      temperature: 0.8,
+      top_p: 0.95,
+    });
+
+    const outputMessage = response.output.find((item: any) => item.type === 'message' && item.role === 'assistant');
+    if (!outputMessage?.content?.[0]?.text) {
+      throw new Error('Unexpected response format');
+    }
+
+    const text = outputMessage.content[0].text;
+    const recommendations = JSON.parse(text);
     return Array.isArray(recommendations) ? recommendations : [];
   } catch (error) {
-    console.error('Failed to parse recommendations response:', content.text);
+    console.error('Failed to parse recommendations response:', error);
     // Fallback recommendations
     return [
       'Increase positive content creation',
@@ -236,7 +229,7 @@ Format as a JSON array of strings.`;
 /**
  * Main social buzz analysis pipeline
  */
-async function runSocialBuzz(input: SocialBuzzInput, anthropic: any): Promise<SocialBuzzResult> {
+async function runSocialBuzz(input: SocialBuzzInput, openai: any): Promise<SocialBuzzResult> {
   const startTime = Date.now();
 
   try {
@@ -246,11 +239,11 @@ async function runSocialBuzz(input: SocialBuzzInput, anthropic: any): Promise<So
     // Step 2: Analyze sentiment
     const sentiment = await analyzeSocialSentiment(input.topic, socialData, input.platform || 'all', input.timeframe || 'week');
 
-    // Step 3: Extract insights (with caching)
-    const insights = await extractInsights(input.topic, socialData, anthropic, `${input.topic}:${input.platform}`);
+    // Step 3: Extract insights
+    const insights = await extractInsights(input.topic, socialData, openai, `${input.topic}:${input.platform}`);
 
-    // Step 4: Generate recommendations (with caching)
-    const recommendations = await generateRecommendations(input.topic, sentiment, insights, anthropic);
+    // Step 4: Generate recommendations
+    const recommendations = await generateRecommendations(input.topic, sentiment, insights, openai);
 
     const processingTime = Date.now() - startTime;
 
@@ -315,12 +308,12 @@ Deno.serve(async (req: Request) => {
       return jsonResponse({ error: 'Unauthorized' }, 401);
     }
 
-    // Get user's Anthropic API key
-    const userApiKey = await getUserApiKey(user_id, 'anthropic');
+    // Get user's OpenAI API key
+    const userApiKey = await getUserApiKey(user_id, 'openai');
     if (!userApiKey) {
       return jsonResponse({
         error: 'API_KEY_MISSING',
-        message: 'Please add your Anthropic API key in your profile.',
+        message: 'Please add your OpenAI API key in your profile.',
         provider: 'openai'
       }, 403);
     }
@@ -368,12 +361,11 @@ Deno.serve(async (req: Request) => {
       console.error('DB error (non-critical):', dbError);
     }
 
-    // Initialize optimized Anthropic client with social media profile
-    // Includes: caching, rate limiting, circuit breaker, retry
-    const anthropic = await createOptimizedAnthropicClient(userApiKey);
+    // Initialize OpenAI client
+    const openai = new OpenAI({ apiKey: userApiKey });
 
     // Run the social media analysis
-    const finalResult = await runSocialBuzz(input, anthropic);
+    const finalResult = await runSocialBuzz(input, openai);
 
     // Update result in database
     await supabase
@@ -389,15 +381,6 @@ Deno.serve(async (req: Request) => {
 
   } catch (error: any) {
     console.error('SocialBuzz handler error:', error);
-
-    // Circuit breaker specific handling
-    if (error.name === 'CircuitBreakerOpenError') {
-      return jsonResponse({
-        error: 'AI service temporarily unavailable',
-        retryAfter: Math.ceil(error.retryAfterMs / 1000) + 's',
-        code: 'SERVICE_UNAVAILABLE'
-      }, 503);
-    }
 
     return jsonResponse({
       error: 'Internal server error',

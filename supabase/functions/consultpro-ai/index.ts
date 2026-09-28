@@ -183,24 +183,32 @@ Format your response as a JSON object with this exact structure:
 
 Be specific, data-driven, and provide actionable insights based on industry knowledge.`;
 
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    max_tokens: 3000,
-    temperature: 0.3,
-    response_format: { type: 'json_object' },
-    messages: [
-      {
-        role: 'system',
-        content: 'You are a senior business consultant. Always respond with valid JSON.'
-      },
-      {
-        role: 'user',
-        content: prompt
+  const response = await openai.responses.create({
+    model: 'gpt-5.5',
+    instructions: 'You are a senior business consultant. Always respond with valid JSON.',
+    input: prompt,
+    text: {
+      format: {
+        type: 'json_schema',
+        name: 'ResearchAnalysis',
+        strict: true,
+        schema: {
+          type: 'object',
+          properties: {
+            businessOverview: { type: 'string' },
+            industryAnalysis: { type: 'string' },
+            currentChallenges: { type: 'array', items: { type: 'string' } },
+            opportunities: { type: 'array', items: { type: 'string' } },
+            keyTrends: { type: 'array', items: { type: 'string' } }
+          },
+          required: ['businessOverview', 'industryAnalysis', 'currentChallenges', 'opportunities', 'keyTrends'],
+          additionalProperties: false
+        }
       }
-    ]
+    }
   });
 
-  const content = response.choices[0].message.content;
+  const content = response.output_text;
   if (!content) {
     throw new Error('Unexpected response type');
   }
@@ -261,24 +269,33 @@ Format your response as a JSON object:
 
 Be specific with market data, competitive intelligence, and actionable market insights.`;
 
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    max_tokens: 2500,
-    temperature: 0.3,
-    response_format: { type: 'json_object' },
-    messages: [
-      {
-        role: 'system',
-        content: 'You are a market intelligence specialist. Always respond with valid JSON.'
-      },
-      {
-        role: 'user',
-        content: prompt
+  const response = await openai.responses.create({
+    model: 'gpt-5.5',
+    instructions: 'You are a market intelligence specialist. Always respond with valid JSON.',
+    input: prompt,
+    text: {
+      format: {
+        type: 'json_schema',
+        name: 'MarketIntelligence',
+        strict: true,
+        schema: {
+          type: 'object',
+          properties: {
+            marketSize: { type: 'string' },
+            growthRate: { type: 'string' },
+            competitiveLandscape: { type: 'string' },
+            customerSegments: { type: 'array', items: { type: 'string' } },
+            pricingLandscape: { type: 'string' },
+            entryBarriers: { type: 'array', items: { type: 'string' } }
+          },
+          required: ['marketSize', 'growthRate', 'competitiveLandscape', 'customerSegments', 'pricingLandscape', 'entryBarriers'],
+          additionalProperties: false
+        }
       }
-    ]
+    }
   });
 
-  const content = response.choices[0].message.content;
+  const content = response.output_text;
   if (!content) {
     throw new Error('Unexpected response type');
   }
@@ -345,24 +362,33 @@ Format your response as a JSON object:
 
 Provide strategic depth with actionable, specific recommendations that drive business success.`;
 
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    max_tokens: 3000,
-    temperature: 0.3,
-    response_format: { type: 'json_object' },
-    messages: [
-      {
-        role: 'system',
-        content: 'You are a senior strategy consultant. Always respond with valid JSON.'
-      },
-      {
-        role: 'user',
-        content: prompt
+  const response = await openai.responses.create({
+    model: 'gpt-5.5',
+    instructions: 'You are a senior strategy consultant. Always respond with valid JSON.',
+    input: prompt,
+    text: {
+      format: {
+        type: 'json_schema',
+        name: 'StrategicRecommendations',
+        strict: true,
+        schema: {
+          type: 'object',
+          properties: {
+            primaryStrategy: { type: 'string' },
+            alternativeApproaches: { type: 'array', items: { type: 'string' } },
+            competitivePositioning: { type: 'string' },
+            goToMarketStrategy: { type: 'string' },
+            successFactors: { type: 'array', items: { type: 'string' } },
+            potentialPitfalls: { type: 'array', items: { type: 'string' } }
+          },
+          required: ['primaryStrategy', 'alternativeApproaches', 'competitivePositioning', 'goToMarketStrategy', 'successFactors', 'potentialPitfalls'],
+          additionalProperties: false
+        }
       }
-    ]
+    }
   });
 
-  const content = response.choices[0].message.content;
+  const content = response.output_text;
   if (!content) {
     throw new Error('Unexpected response type');
   }
@@ -431,24 +457,33 @@ Format your response as a JSON object:
 
 Be specific, actionable, and time-bound with realistic implementation expectations.`;
 
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    max_tokens: 2500,
-    temperature: 0.3,
-    response_format: { type: 'json_object' },
-    messages: [
-      {
-        role: 'system',
-        content: 'You are an implementation specialist. Always respond with valid JSON.'
-      },
-      {
-        role: 'user',
-        content: prompt
+  const response = await openai.responses.create({
+    model: 'gpt-5.5',
+    instructions: 'You are an implementation specialist. Always respond with valid JSON.',
+    input: prompt,
+    text: {
+      format: {
+        type: 'json_schema',
+        name: 'ImplementationRoadmap',
+        strict: true,
+        schema: {
+          type: 'object',
+          properties: {
+            immediateActions: { type: 'array', items: { type: 'string' } },
+            shortTermGoals: { type: 'array', items: { type: 'string' } },
+            longTermObjectives: { type: 'array', items: { type: 'string' } },
+            resourceRequirements: { type: 'array', items: { type: 'string' } },
+            keyMilestones: { type: 'array', items: { type: 'string' } },
+            successMetrics: { type: 'array', items: { type: 'string' } }
+          },
+          required: ['immediateActions', 'shortTermGoals', 'longTermObjectives', 'resourceRequirements', 'keyMilestones', 'successMetrics'],
+          additionalProperties: false
+        }
       }
-    ]
+    }
   });
 
-  const content = response.choices[0].message.content;
+  const content = response.output_text;
   if (!content) {
     throw new Error('Unexpected response type');
   }
@@ -510,24 +545,32 @@ Format your response as a JSON object:
 
 Be specific about risks, practical in mitigation approaches, and proactive in monitoring recommendations.`;
 
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    max_tokens: 2500,
-    temperature: 0.3,
-    response_format: { type: 'json_object' },
-    messages: [
-      {
-        role: 'system',
-        content: 'You are a risk management specialist. Always respond with valid JSON.'
-      },
-      {
-        role: 'user',
-        content: prompt
+  const response = await openai.responses.create({
+    model: 'gpt-5.5',
+    instructions: 'You are a risk management specialist. Always respond with valid JSON.',
+    input: prompt,
+    text: {
+      format: {
+        type: 'json_schema',
+        name: 'RiskAssessment',
+        strict: true,
+        schema: {
+          type: 'object',
+          properties: {
+            highRiskFactors: { type: 'array', items: { type: 'string' } },
+            mitigationStrategies: { type: 'array', items: { type: 'string' } },
+            contingencyPlans: { type: 'array', items: { type: 'string' } },
+            monitoringIndicators: { type: 'array', items: { type: 'string' } },
+            riskProbability: { type: 'string', enum: ['low', 'medium', 'high'] }
+          },
+          required: ['highRiskFactors', 'mitigationStrategies', 'contingencyPlans', 'monitoringIndicators', 'riskProbability'],
+          additionalProperties: false
+        }
       }
-    ]
+    }
   });
 
-  const content = response.choices[0].message.content;
+  const content = response.output_text;
   if (!content) {
     throw new Error('Unexpected response type');
   }

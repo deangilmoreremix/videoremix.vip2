@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   Video,
@@ -49,41 +49,41 @@ const TrendingUp: React.FC<{ className?: string }> = (props) => (
   </svg>
 );
 
-// App categories with personalization focus
+// App categories with ecosystem focus
 const toolCategories = [
   {
     id: "all",
-    label: "All AI Tools",
+    label: "All Apps",
     icon: React.createElement(Layers, { className: "w-4 h-4" }),
   },
   {
     id: "marketing",
-    label: "Marketing Campaigns",
+    label: "Marketing & Video",
     icon: React.createElement(Video, { className: "w-4 h-4" }),
   },
   {
     id: "lead-gen",
-      label: "Sales & Marketing",
+      label: "Sales & Funnels",
     icon: React.createElement(Users, { className: "w-4 h-4" }),
   },
   {
     id: "ai-image",
-    label: "AI Image",
+    label: "AI Image & Visuals",
     icon: React.createElement(ImageIcon, { className: "w-4 h-4" }),
   },
   {
     id: "branding",
-    label: "Branding",
+    label: "Branding & Design",
     icon: React.createElement(Palette, { className: "w-4 h-4" }),
   },
   {
     id: "personalizer",
-    label: "Personalizer",
+    label: "Productivity & AI",
     icon: React.createElement(UserCircle, { className: "w-4 h-4" }),
   },
   {
     id: "creative",
-    label: "Creative Tools",
+    label: "Hiring & Profiles",
     icon: React.createElement(Package, { className: "w-4 h-4" }),
   },
 ];
@@ -227,7 +227,6 @@ const AppGallerySection: React.FC = () => {
   const { hasAccessToApp, loading: accessLoading } = useUserAccess();
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredApps, setFilteredApps] = useState(appsData);
   const [sortOrder, setSortOrder] = useState<"popular" | "new" | "a-z">(
     "popular",
   );
@@ -255,8 +254,8 @@ const AppGallerySection: React.FC = () => {
     });
   };
 
-  // Update filtered tools when category or search query changes
-  useEffect(() => {
+  // Derived filtered/sorted apps - useMemo avoids useEffect + setState loop
+  const filteredApps = useMemo(() => {
     let result = [...appsData];
 
     // Apply category filter
@@ -295,7 +294,7 @@ const AppGallerySection: React.FC = () => {
         break;
     }
 
-    setFilteredApps(result);
+    return result;
   }, [selectedCategory, searchQuery, sortOrder, appsData]);
 
   // Show loading state
@@ -441,24 +440,21 @@ const AppGallerySection: React.FC = () => {
             <div className="inline-block mb-4">
               <div className="bg-gradient-to-r from-primary-600 to-primary-400 text-white font-bold px-6 py-2 rounded-full">
                 <Sparkles className="inline-block mr-2 h-5 w-5" />
-                PERSONALIZED TOOLS COLLECTION
+                APP GALLERY
               </div>
             </div>
           </MagicSparkles>
 
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-            Create Content That{" "}
-            <span className="text-primary-400">Speaks Directly</span> To Your
-            Audience
+            113 Apps Built For{" "}
+            <span className="text-primary-400">Marketing, Sales, Video, Hiring & Productivity</span>
           </h2>
 
           <p className="text-xl text-gray-300 mb-8">
-            VideoRemix.vip offers 50+ personalization tools that help you create
-            highly targeted, engaging content that resonates with each specific
-            viewer segment.
+            One ecosystem. Every business workflow covered — from content and video to sales funnels, hiring, and AI automation.
           </p>
 
-          {/* Personalization benefits */}
+          {/* Platform benefits */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             {personalizationBenefits.map((benefit, index) => (
               <motion.div
@@ -520,7 +516,7 @@ const AppGallerySection: React.FC = () => {
           className="max-w-6xl mx-auto mb-16"
         >
           <h3 className="text-2xl font-bold text-white mb-6">
-            Featured Personalization Tools
+            Featured Apps
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -540,10 +536,10 @@ const AppGallerySection: React.FC = () => {
                 <div className="absolute top-0 left-0 right-0 px-4 py-3 bg-gradient-to-b from-black/70 to-transparent z-20 flex justify-between items-start">
                   <div className="max-w-[70%]">
                     <h4 className="text-white font-bold truncate">
-                      Personalized {app.name}
+                      {app.name}
                     </h4>
                     <p className="text-gray-300 text-sm truncate">
-                      Tailored {app.description.toLowerCase()}
+                      {app.description}
                     </p>
                   </div>
 
@@ -627,7 +623,7 @@ const AppGallerySection: React.FC = () => {
                     </motion.a>
                   ) : (
                     <motion.a
-                      href={app.url || `/app/${app.id}`}
+                      href={app.url || `/ai-design-studio/${app.id}`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className="bg-white text-gray-900 px-6 py-3 rounded-lg font-bold flex items-center"
@@ -830,7 +826,7 @@ const AppGallerySection: React.FC = () => {
               style={{ width: "max-content" }}
             >
               {filteredApps.map((app) => {
-                const appUrl = app.url || `/app/${app.id}`;
+                const appUrl = app.url || `/ai-design-studio/${app.id}`;
                 const isExternal = shouldOpenInNewTab(appUrl);
 
                 return (
@@ -950,7 +946,7 @@ const AppGallerySection: React.FC = () => {
               }
             >
               {filteredApps.map((app) => {
-                const appUrl = app.url || `/app/${app.id}`;
+                const appUrl = app.url || `/ai-design-studio/${app.id}`;
                 const isExternal = shouldOpenInNewTab(appUrl);
 
                 return (

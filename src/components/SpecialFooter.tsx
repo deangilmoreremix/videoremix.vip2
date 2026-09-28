@@ -49,13 +49,13 @@ const SpecialFooter: React.FC = () => {
       { name: "Dashboard", url: "/dashboard" },
     ],
     company: [
-      { name: "About Us", url: "/about" },
-      { name: "Blog", url: "/blog" },
+      { name: "About Us", url: "#" },
+      { name: "Blog", url: "#" },
     ],
     legal: [
-      { name: "Terms of Service", url: "/terms" },
-      { name: "Privacy Policy", url: "/privacy" },
-      { name: "Cookie Policy", url: "/cookies" },
+      { name: "Terms of Service", url: "#" },
+      { name: "Privacy Policy", url: "#" },
+      { name: "Cookie Policy", url: "#" },
     ],
   };
 
@@ -73,8 +73,7 @@ const SpecialFooter: React.FC = () => {
               </span>
             </div>
             <p className="mb-4">
-              AI-powered marketing tools to help you create personalized content,
-              close more sales, and grow your business faster.
+              113 AI apps for marketing, sales, video, hiring, and productivity — unified in one ecosystem to help you build, automate, and grow faster.
             </p>
 
             {/* Social Media */}
@@ -192,7 +191,7 @@ const SpecialFooter: React.FC = () => {
 
           {/* AI Tools */}
           <div className="space-y-3 col-span-2">
-            <h3 className="text-white font-semibold mb-4">AI Marketing Tools</h3>
+            <h3 className="text-white font-semibold mb-4">Ecosystem Apps</h3>
             <ul className="space-y-2">
 {newApps.slice(0, 8).map((newApp, i) => (
                  <li key={i}>
@@ -259,7 +258,7 @@ const SpecialFooter: React.FC = () => {
             VideoRemix.vip uses cookies to ensure you get the best experience on
             our website. By continuing to browse, you agree to our{" "}
             <Link
-              to="/privacy"
+              to="#"
               className="text-primary-400 hover:text-primary-300"
             >
               privacy policy

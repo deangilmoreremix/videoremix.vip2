@@ -49,8 +49,8 @@ import { corsHeaders, jsonResponse } from '../_shared/utils.ts';
     return jsonResponse({ error: 'Unauthorized' }, 401);
   }
 
-  // Get user's anthropic API key
-  const userApiKey = await getUserApiKey(user_id, 'anthropic');
+  // Get user's OpenAI API key
+  const userApiKey = await getUserApiKey(user_id, 'openai');
   if (!userApiKey) {
     return jsonResponse({ 
       error: 'API_KEY_MISSING',

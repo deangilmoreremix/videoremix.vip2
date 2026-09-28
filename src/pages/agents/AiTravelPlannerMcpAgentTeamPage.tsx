@@ -19,7 +19,6 @@ const AiTravelPlannerMcpAgentTeamPage: React.FC = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({ 
     openai_api_key: "", 
-    google_maps_api_key: "", 
     destination: "", 
     number_of_days: "", 
     budget_usd: "", 
@@ -72,7 +71,6 @@ const AiTravelPlannerMcpAgentTeamPage: React.FC = () => {
   const handleClear = () => {
     setFormData({ 
       openai_api_key: "", 
-      google_maps_api_key: "", 
       destination: "", 
       number_of_days: "", 
       budget_usd: "", 
@@ -128,16 +126,6 @@ const AiTravelPlannerMcpAgentTeamPage: React.FC = () => {
               required
             />
 
-            <SmartInput
-              label="Google Maps API Key"
-              name="google_maps_api_key"
-              type="password"
-              value={formData.google_maps_api_key}
-              onChange={(val) => setFormData({ ...formData, google_maps_api_key: val })}
-              placeholder="Enter your Google Maps API key"
-              helperText="Google Maps API key for location services"
-              required
-            />
           </FormSection>
 
           <FormSection

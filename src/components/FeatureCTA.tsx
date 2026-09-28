@@ -63,7 +63,7 @@ const FeatureCTA: React.FC<FeatureCTAProps> = ({
               className="inline-block"
             >
               <Link
-                to="/get-started"
+                to="/signup"
                 className="inline-flex items-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg shadow-primary-600/20"
               >
                 <span>Try VideoRemix.vip Today</span>
@@ -104,7 +104,7 @@ const FeatureCTA: React.FC<FeatureCTAProps> = ({
                     whileTap={{ scale: 0.97 }}
                   >
                     <Link
-                      to={`/features/${feature.id}`}
+                      to="/tools"
                       className="bg-white/10 hover:bg-white/15 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm transition-colors duration-200"
                     >
                       {feature.title}

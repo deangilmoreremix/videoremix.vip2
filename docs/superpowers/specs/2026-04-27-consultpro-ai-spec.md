@@ -371,7 +371,7 @@ interface BusinessConsultationResult {
 ## Dependencies
 
 **External Services:**
-- **OpenAI GPT-4o API** (primary AI provider — migrated from Claude/Anthropic)
+- **OpenAI GPT-4o API** (primary AI provider)
 - Web search APIs (market research and data gathering)
 - Supabase (consultation storage and user management)
 

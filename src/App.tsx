@@ -67,8 +67,8 @@ const ProductLaunchIntelligencePage = lazy(() => import("./pages/agents/ProductL
 const LocalAiReasoningAgentPyPage = lazy(() => import("./pages/agents/LocalAiReasoningAgentPyPage"));
 const LocalAiScrapperPyPage = lazy(() => import("./pages/agents/LocalAiScrapperPyPage"));
 const LocalTravelAgentPage = lazy(() => import("./pages/agents/LocalTravelAgentPage"));
-const QwenLocalRagPage = lazy(() => import("./pages/agents/QwenLocalRagPage"));
-const RagAgentCoherePage = lazy(() => import("./pages/agents/RagAgentCoherePage"));
+const SemanticSearchRagPage = lazy(() => import("./pages/agents/SemanticSearchRagPage"));
+const RagAgentPage = lazy(() => import("./pages/agents/RagAgentPage"));
 const ToolsHubPage = lazy(() => import("./pages/ToolsHubPage"));
 const ApplicationsPage = lazy(() => import("./pages/ApplicationsPage"));
 const BirthdaySpecialPage = lazy(() => import("./pages/BirthdaySpecialPage"));
@@ -118,7 +118,33 @@ const AiTicTacToeAgentPage = lazy(() => import("./pages/agents/AiTicTacToeAgentP
 const AiTravelAgentMemoryPage = lazy(() => import("./pages/agents/AiTravelAgentMemoryPage"));
 const AiTravelAgentPage = lazy(() => import("./pages/agents/AiTravelAgentPage"));
 const AiTravelPlannerMcpAgentTeamPage = lazy(() => import("./pages/agents/AiTravelPlannerMcpAgentTeamPage"));
-  const AgentAppPage = lazy(() => import("./pages/agents/AppPage"));
+
+const AiConsultantAgentPage = lazy(() => import("./pages/agents/AiConsultantAgentPage"));
+const AiInvestmentAgentPage = lazy(() => import("./pages/agents/AiInvestmentAgentPage"));
+const AiSalesIntelligenceAgentTeamPage = lazy(() => import("./pages/agents/AiSalesIntelligenceAgentTeamPage"));
+const AiVcDueDiligenceAgentTeamPage = lazy(() => import("./pages/agents/AiVcDueDiligenceAgentTeamPage"));
+const EmailDrafterPage = lazy(() => import("./pages/agents/EmailDrafterPage"));
+const StrategyAdvisorPage = lazy(() => import("./pages/agents/StrategyAdvisorPage"));
+const ProjectPlannerPage = lazy(() => import("./pages/agents/ProjectPlannerPage"));
+const MeetingNotesPage = lazy(() => import("./pages/agents/MeetingNotesPage"));
+const DecisionHelperPage = lazy(() => import("./pages/agents/DecisionHelperPage"));
+const FactCheckerPage = lazy(() => import("./pages/agents/FactCheckerPage"));
+const AiHomeRenovationAgentPage = lazy(() => import("./pages/agents/AiHomeRenovationAgentPage"));
+const AiNewsAndPodcastAgentsPage = lazy(() => import("./pages/agents/AiNewsAndPodcastAgentsPage"));
+const MultimodalUiuxFeedbackAgentTeamPage = lazy(() => import("./pages/agents/MultimodalUiuxFeedbackAgentTeamPage"));
+const ContentCreatorPage = lazy(() => import("./pages/agents/ContentCreatorPage"));
+const EditorPage = lazy(() => import("./pages/agents/EditorPage"));
+const UxDesignerPage = lazy(() => import("./pages/agents/UxDesignerPage"));
+const VisualizationExpertPage = lazy(() => import("./pages/agents/VisualizationExpertPage"));
+const AiTravelPlannerAgentTeamPage = lazy(() => import("./pages/agents/AiTravelPlannerAgentTeamPage"));
+const AiSelfEvolvingAgentPage = lazy(() => import("./pages/agents/AiSelfEvolvingAgentPage"));
+const NotionMcpAgentPage = lazy(() => import("./pages/agents/NotionMcpAgentPage"));
+const RagFailureDiagnosticsClinicPage = lazy(() => import("./pages/agents/RagFailureDiagnosticsClinicPage"));
+const SelfImprovingAgentSkillsPage = lazy(() => import("./pages/agents/SelfImprovingAgentSkillsPage"));
+const AcademicResearcherPage = lazy(() => import("./pages/agents/AcademicResearcherPage"));
+const CodeReviewerPage = lazy(() => import("./pages/agents/CodeReviewerPage"));
+const DataAnalystPage = lazy(() => import("./pages/agents/DataAnalystPage"));
+const AgentAppPage = lazy(() => import("./pages/agents/AppPage"));
 const AutonomousRagPage = lazy(() => import("./pages/agents/AutonomousRagPage"));
 const PersonalizerPage = lazy(() => import("./pages/PersonalizerPage"));
 const BlogToPodcastAgentPage = lazy(() => import("./pages/agents/BlogToPodcastAgentPage"));
@@ -134,17 +160,17 @@ const ContextualaiRagAgentPage = lazy(() => import("./pages/agents/ContextualaiR
 const CorrectiveRagPage = lazy(() => import("./pages/agents/CorrectiveRagPage"));
 const CursorAiExperimentsPage = lazy(() => import("./pages/agents/CursorAiExperimentsPage"));
 const CustomerSupportVoiceAgentPage = lazy(() => import("./pages/agents/CustomerSupportVoiceAgentPage"));
-const DeepseekLocalRagAgentPage = lazy(() => import("./pages/agents/DeepseekLocalRagAgentPage"));
+const DocumentRetrievalAgentPage = lazy(() => import("./pages/agents/DocumentRetrievalAgentPage"));
 const DevpulseAiPage = lazy(() => import("./pages/agents/DevpulseAiPage"));
 const FinanceAgentPage = lazy(() => import("./pages/agents/FinanceAgentPage"));
 const FrontendPage = lazy(() => import("./pages/agents/FrontendPage"));
-const GeminiAgenticRagPage = lazy(() => import("./pages/agents/GeminiAgenticRagPage"));
+const AgenticRagPage = lazy(() => import("./pages/agents/AgenticRagPage"));
 const GithubMcpAgentPage = lazy(() => import("./pages/agents/GithubMcpAgentPage"));
 const GptOssCritiqueImprovementLoopPage = lazy(() => import("./pages/agents/GptOssCritiqueImprovementLoopPage"));
 const HybridSearchRagPage = lazy(() => import("./pages/agents/HybridSearchRagPage"));
 const KnowledgeGraphRagCitationsPage = lazy(() => import("./pages/agents/KnowledgeGraphRagCitationsPage"));
-const Llama31LocalRagPage = lazy(() => import("./pages/agents/Llama31LocalRagPage"));
-const Llama3StatefulChatPage = lazy(() => import("./pages/agents/Llama3StatefulChatPage"));
+const LocalRagPage = lazy(() => import("./pages/agents/LocalRagPage"));
+const StatefulChatPage = lazy(() => import("./pages/agents/StatefulChatPage"));
 const AiPersonalizedMemoryPage = lazy(() => import("./pages/agents/AiPersonalizedMemoryPage"));
 const AiRouterAppPage = lazy(() => import("./pages/agents/AiRouterAppPage"));
 const LocalAiLegalAgentTeamPage = lazy(() => import("./pages/agents/LocalAiLegalAgentTeamPage"));
@@ -165,7 +191,7 @@ const RagAsAServicePage = lazy(() => import("./pages/agents/RagAsAServicePage"))
 const RagChainPage = lazy(() => import("./pages/agents/RagChainPage"));
 const RagDatabaseRoutingPage = lazy(() => import("./pages/agents/RagDatabaseRoutingPage"));
 const ReasoningAgentPage = lazy(() => import("./pages/agents/ReasoningAgentPage"));
-const ResearchAgentGeminiInteractionApiPage = lazy(() => import("./pages/agents/ResearchAgentGeminiInteractionApiPage"));
+const ResearchAgentPage = lazy(() => import("./pages/agents/ResearchAgentPage"));
 const ResumeJobMatcherPage = lazy(() => import("./pages/agents/ResumeJobMatcherPage"));
 const SalesForceAIPage = lazy(() => import("./pages/agents/SalesForceAIPage"));
 const SocialBuzzAIPage = lazy(() => import("./pages/agents/SocialBuzzAIPage"));
@@ -338,20 +364,46 @@ const agentComponents = {
   'ai-fullstack-builder': AiSystemArchitectR1Page,
   'ai-course-creator-assistant': AiTeachingAgentTeamPage,
   'github-repo-assistant': AiTicTacToeAgentPage,
+'ai-consultant-agent': AiConsultantAgentPage,
+'ai-investment-agent': AiInvestmentAgentPage,
+'ai-sales-intelligence-agent-team': AiSalesIntelligenceAgentTeamPage,
+'ai-vc-due-diligence-agent-team': AiVcDueDiligenceAgentTeamPage,
+'email-drafter': EmailDrafterPage,
+'strategy-advisor': StrategyAdvisorPage,
+'project-planner': ProjectPlannerPage,
+'meeting-notes': MeetingNotesPage,
+'decision-helper': DecisionHelperPage,
+'fact-checker': FactCheckerPage,
+'ai-home-renovation-agent': AiHomeRenovationAgentPage,
+'ai-news-and-podcast-agents': AiNewsAndPodcastAgentsPage,
+'multimodal-uiux-feedback-agent-team': MultimodalUiuxFeedbackAgentTeamPage,
+'content-creator': ContentCreatorPage,
+'editor': EditorPage,
+'ux-designer': UxDesignerPage,
+'visualization-expert': VisualizationExpertPage,
+'ai-travel-planner-agent-team': AiTravelPlannerAgentTeamPage,
+'ai-self-evolving-agent': AiSelfEvolvingAgentPage,
+'notion-mcp-agent': NotionMcpAgentPage,
+'rag-failure-diagnostics-clinic': RagFailureDiagnosticsClinicPage,
+'self-improving-agent-skills': SelfImprovingAgentSkillsPage,
+'academic-researcher': AcademicResearcherPage,
+'code-reviewer': CodeReviewerPage,
+'data-analyst': DataAnalystPage,
   'landing-page-critic-ai': AutonomousRagPage,
+
    'newsletter-repurposer-ai': ChatWithSubstackPage,
 'academic-research-ai': ChatWithTarotsPage,
    'market-research-ai': ContextualaiRagAgentPage,
   'fact-check-ai': CorrectiveRagPage,
   'local-business-voice-assistant': CustomerSupportVoiceAgentPage,
-'multi-ai-memory-hub': DeepseekLocalRagAgentPage,
+'multi-ai-memory-hub': DocumentRetrievalAgentPage,
    'private-chatgpt-clone': FrontendPage,
-  'gemini-agentic-rag': GeminiAgenticRagPage,
+  'gemini-agentic-rag': AgenticRagPage,
   'gpt-oss-critique-improvement-loop': GptOssCritiqueImprovementLoopPage,
   'smart-search-ai': HybridSearchRagPage,
   'knowledge-graph-rag-citations': KnowledgeGraphRagCitationsPage,
-  'llama3-1-local-rag': Llama31LocalRagPage,
-  'llama3-stateful-chat': Llama3StatefulChatPage,
+'llama3-1-local-rag': LocalRagPage,
+'llama3-stateful-chat': StatefulChatPage,
   'ai-personalized-memory': AiPersonalizedMemoryPage,
   'ai-router-ai-design-studio': AiRouterAppPage,
   'local-contract-summary-ai': LocalAiLegalAgentTeamPage,
@@ -370,12 +422,12 @@ const agentComponents = {
    'music-generator-agent-py': MusicGeneratorAgentPyPage,
   'research-assistant-ai': OpenaiResearchAgentPage,
   'podcastify-ai': PodcastifyAIPage,
-  'qwen-local-rag': QwenLocalRagPage,
-'rag-agent-cohere': RagAgentCoherePage,
+  'qwen-local-rag': SemanticSearchRagPage,
+'rag-agent-cohere': RagAgentPage,
    'rag-chain': RagChainPage,
   'rag-database-routing': RagDatabaseRoutingPage,
   'reasoning-agent': ReasoningAgentPage,
-  'research-agent-gemini-interaction-api': ResearchAgentGeminiInteractionApiPage,
+  'research-agent-gemini-interaction-api': ResearchAgentPage,
   'resume-job-matcher': ResumeJobMatcherPage,
   'startup-trends-agent': StartupTrendsAgentPage,
   'toonify-token-optimization': ToonifyTokenOptimizationPage,
@@ -713,18 +765,16 @@ function App() {
             }
           />
 
-          {/* Protected Routes - Require Authentication */}
+          {/* Public Routes - No Authentication Required */}
           <Route
             path="/dashboard"
             element={
-              <ProtectedRoute>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <DashboardPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ProtectedRoute>
+              <SparkleBackground>
+                <Suspense fallback={<SectionLoader />}>
+                  <DashboardPage />
+                  <SpecialFooter />
+                </Suspense>
+              </SparkleBackground>
             }
           />
 
@@ -887,6 +937,16 @@ function App() {
               <AdminProvider>
                 <Suspense fallback={<SectionLoader />}>
                   <AdminDashboard />
+                </Suspense>
+              </AdminProvider>
+            }
+          />
+          <Route
+            path="/admin/login"
+            element={
+              <AdminProvider>
+                <Suspense fallback={<SectionLoader />}>
+                  <AdminLogin />
                 </Suspense>
               </AdminProvider>
             }

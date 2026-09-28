@@ -149,17 +149,15 @@ Respond in valid JSON format:
 }`;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
+    const response = await openai.responses.create({
+      model: 'gpt-5.5',
+      input: [
         { role: 'system', content: 'You are a certified financial planner. Provide concise, actionable advice with specific numbers. Always respond with valid JSON only.' },
         { role: 'user', content: prompt }
       ],
-      temperature: 0.7,
-      max_tokens: 1000
     });
 
-    const content = response.choices[0].message.content?.trim() || '{"recommendations": []}';
+    const content = response.output_text?.trim() || '{"recommendations": []}';
     const jsonMatch = content.match(/\{[\s\S]*\}/);
     const jsonStr = jsonMatch ? jsonMatch[0] : content;
     

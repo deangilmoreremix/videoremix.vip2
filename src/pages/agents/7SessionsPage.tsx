@@ -3,12 +3,12 @@ import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2 } from "lucide-react";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard } from "@/components/agent-ui/ResultCard";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 
 const Agent7SessionsPage: React.FC = () => {
   const { user } = useAuth();
@@ -16,6 +16,15 @@ const Agent7SessionsPage: React.FC = () => {
   const [loading, setLoading] = useState<string | null>(null);
   const [results, setResults] = useState<Record<string, any>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [mainForm, setMainForm] = useState({
+    select_demo_type: "", session_type: "", your_message: "", get_last_n_items: "", user_message_to_add: "", assistant_response_to_add: "", alice: "", bob: "", support_question: "", sales_inquiry: "", select_agent: "", customer_message: ""
+  });
+  const [advancedForm, setAdvancedForm] = useState({
+    select_demo_type: "", session_type: "", your_message: "", get_last_n_items: "", user_message_to_add: "", assistant_response_to_add: "", alice: "", bob: "", support_question: "", sales_inquiry: "", select_agent: "", customer_message: ""
+  });
+
+  const updateMain = (field: string, value: string) => setMainForm(prev => ({ ...prev, [field]: value }));
+  const updateAdvanced = (field: string, value: string) => setAdvancedForm(prev => ({ ...prev, [field]: value }));
 
   const handleSubmit = async (tabKey: string, data: any) => {
     setLoading(tabKey);
@@ -51,344 +60,73 @@ const Agent7SessionsPage: React.FC = () => {
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="max-w-4xl mx-auto">
             <TabsList className="grid grid-cols-2 mb-8">
-              
               <TabsTrigger value="main">Main</TabsTrigger>
-                            
               <TabsTrigger value="advanced">Advanced</TabsTrigger>
-              
             </TabsList>
 
-            
             <TabsContent value="main">
-              <Card className="bg-gray-800/50 border-gray-700">
-                <CardHeader><CardTitle>Main</CardTitle></CardHeader>
-                <CardContent>
-                   <form onSubmit={(e) => { e.preventDefault(); handleSubmit('main', { select_demo_type, session_type, your_message, get_last_n_items, user_message_to_add, assistant_response_to_add, alice, bob, support_question, sales_inquiry, select_agent, customer_message }); }} className="space-y-6">
+              {errors['main'] && <ErrorMessage title="Request Failed" message={errors['main']} onRetry={() => handleSubmit('main', mainForm)} retryLoading={loading === 'main'} />}
+              <FormSection title="Main Configuration" description="Configure main settings">
+                <SmartTextarea label="Select Demo Type" name="select_demo_type" value={mainForm.select_demo_type} onChange={(v) => updateMain('select_demo_type', v)} placeholder="" required />
+                <SmartTextarea label="Session Type" name="session_type" value={mainForm.session_type} onChange={(v) => updateMain('session_type', v)} placeholder="" required />
+                <SmartTextarea label="Your Message" name="your_message" value={mainForm.your_message} onChange={(v) => updateMain('your_message', v)} placeholder="" required />
+                <SmartTextarea label="Get last N items" name="get_last_n_items" value={mainForm.get_last_n_items} onChange={(v) => updateMain('get_last_n_items', v)} placeholder="" required />
+                <SmartTextarea label="User message to add" name="user_message_to_add" value={mainForm.user_message_to_add} onChange={(v) => updateMain('user_message_to_add', v)} placeholder="" required />
+                <SmartTextarea label="Assistant response to add" name="assistant_response_to_add" value={mainForm.assistant_response_to_add} onChange={(v) => updateMain('assistant_response_to_add', v)} placeholder="" required />
+                <SmartTextarea label="Alice" name="alice" value={mainForm.alice} onChange={(v) => updateMain('alice', v)} placeholder="" required />
+                <SmartTextarea label="Bob" name="bob" value={mainForm.bob} onChange={(v) => updateMain('bob', v)} placeholder="" required />
+                <SmartTextarea label="Support question" name="support_question" value={mainForm.support_question} onChange={(v) => updateMain('support_question', v)} placeholder="" required />
+                <SmartTextarea label="Sales inquiry" name="sales_inquiry" value={mainForm.sales_inquiry} onChange={(v) => updateMain('sales_inquiry', v)} placeholder="" required />
+                <SmartTextarea label="Select Agent" name="select_agent" value={mainForm.select_agent} onChange={(v) => updateMain('select_agent', v)} placeholder="" required />
+                <SmartTextarea label="Customer message" name="customer_message" value={mainForm.customer_message} onChange={(v) => updateMain('customer_message', v)} placeholder="" required />
+              </FormSection>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="select_demo_type">Select Demo Type</Label>
-                      <Textarea
-                        id="select_demo_type"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+              {loading === 'main' && <LoadingIndicator message="Processing..." subtext="Running main session" />}
 
-                    <div className="space-y-2">
-                      <Label htmlFor="session_type">Session Type</Label>
-                      <Textarea
-                        id="session_type"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="get_last_n_items">Get last N items:</Label>
-                      <Textarea
-                        id="get_last_n_items"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="user_message_to_add">User message to add:</Label>
-                      <Textarea
-                        id="user_message_to_add"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="assistant_response_to_add">Assistant response to add:</Label>
-                      <Textarea
-                        id="assistant_response_to_add"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="alice">Alice</Label>
-                      <Textarea
-                        id="alice"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="bob">Bob</Label>
-                      <Textarea
-                        id="bob"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="support_question">Support question:</Label>
-                      <Textarea
-                        id="support_question"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="sales_inquiry">Sales inquiry:</Label>
-                      <Textarea
-                        id="sales_inquiry"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="select_agent">Select Agent:</Label>
-                      <Textarea
-                        id="select_agent"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="customer_message">Customer message:</Label>
-                      <Textarea
-                        id="customer_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <Button type="submit" disabled={loading === 'main'}>
-                      {loading === 'main' ? 'Processing...' : 'Run'}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
+              <ActionButton type="button" loading={loading === 'main'} onClick={() => handleSubmit('main', mainForm)} className="w-full mt-6">
+                Run
+              </ActionButton>
 
               {results['main'] && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6">
-                  <Card className="bg-gray-800/50 border-gray-700">
-                    <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                    <CardContent>
-                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(results['main'], null, 2)}</pre>
-                    </CardContent>
-                  </Card>
+                  <ResultCard title="Main Result" variant="success">
+                    <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans mt-2">{JSON.stringify(results['main'], null, 2)}</pre>
+                  </ResultCard>
                 </motion.div>
               )}
             </TabsContent>
-            
+
             <TabsContent value="advanced">
-              <Card className="bg-gray-800/50 border-gray-700">
-                <CardHeader><CardTitle>Advanced</CardTitle></CardHeader>
-                <CardContent>
-                   <form onSubmit={(e) => { e.preventDefault(); handleSubmit('advanced', { select_demo_type, session_type, your_message, get_last_n_items, user_message_to_add, assistant_response_to_add, alice, bob, support_question, sales_inquiry, select_agent, customer_message }); }} className="space-y-6">
+              {errors['advanced'] && <ErrorMessage title="Request Failed" message={errors['advanced']} onRetry={() => handleSubmit('advanced', advancedForm)} retryLoading={loading === 'advanced'} />}
+              <FormSection title="Advanced Configuration" description="Configure advanced settings">
+                <SmartTextarea label="Select Demo Type" name="select_demo_type" value={advancedForm.select_demo_type} onChange={(v) => updateAdvanced('select_demo_type', v)} placeholder="" required />
+                <SmartTextarea label="Session Type" name="session_type" value={advancedForm.session_type} onChange={(v) => updateAdvanced('session_type', v)} placeholder="" required />
+                <SmartTextarea label="Your Message" name="your_message" value={advancedForm.your_message} onChange={(v) => updateAdvanced('your_message', v)} placeholder="" required />
+                <SmartTextarea label="Get last N items" name="get_last_n_items" value={advancedForm.get_last_n_items} onChange={(v) => updateAdvanced('get_last_n_items', v)} placeholder="" required />
+                <SmartTextarea label="User message to add" name="user_message_to_add" value={advancedForm.user_message_to_add} onChange={(v) => updateAdvanced('user_message_to_add', v)} placeholder="" required />
+                <SmartTextarea label="Assistant response to add" name="assistant_response_to_add" value={advancedForm.assistant_response_to_add} onChange={(v) => updateAdvanced('assistant_response_to_add', v)} placeholder="" required />
+                <SmartTextarea label="Alice" name="alice" value={advancedForm.alice} onChange={(v) => updateAdvanced('alice', v)} placeholder="" required />
+                <SmartTextarea label="Bob" name="bob" value={advancedForm.bob} onChange={(v) => updateAdvanced('bob', v)} placeholder="" required />
+                <SmartTextarea label="Support question" name="support_question" value={advancedForm.support_question} onChange={(v) => updateAdvanced('support_question', v)} placeholder="" required />
+                <SmartTextarea label="Sales inquiry" name="sales_inquiry" value={advancedForm.sales_inquiry} onChange={(v) => updateAdvanced('sales_inquiry', v)} placeholder="" required />
+                <SmartTextarea label="Select Agent" name="select_agent" value={advancedForm.select_agent} onChange={(v) => updateAdvanced('select_agent', v)} placeholder="" required />
+                <SmartTextarea label="Customer message" name="customer_message" value={advancedForm.customer_message} onChange={(v) => updateAdvanced('customer_message', v)} placeholder="" required />
+              </FormSection>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="select_demo_type">Select Demo Type</Label>
-                      <Textarea
-                        id="select_demo_type"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+              {loading === 'advanced' && <LoadingIndicator message="Processing..." subtext="Running advanced session" />}
 
-                    <div className="space-y-2">
-                      <Label htmlFor="session_type">Session Type</Label>
-                      <Textarea
-                        id="session_type"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="get_last_n_items">Get last N items:</Label>
-                      <Textarea
-                        id="get_last_n_items"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="user_message_to_add">User message to add:</Label>
-                      <Textarea
-                        id="user_message_to_add"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="assistant_response_to_add">Assistant response to add:</Label>
-                      <Textarea
-                        id="assistant_response_to_add"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="alice">Alice</Label>
-                      <Textarea
-                        id="alice"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="bob">Bob</Label>
-                      <Textarea
-                        id="bob"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="support_question">Support question:</Label>
-                      <Textarea
-                        id="support_question"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="sales_inquiry">Sales inquiry:</Label>
-                      <Textarea
-                        id="sales_inquiry"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="select_agent">Select Agent:</Label>
-                      <Textarea
-                        id="select_agent"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="customer_message">Customer message:</Label>
-                      <Textarea
-                        id="customer_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <Button type="submit" disabled={loading === 'advanced'}>
-                      {loading === 'advanced' ? 'Processing...' : 'Run'}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
+              <ActionButton type="button" loading={loading === 'advanced'} onClick={() => handleSubmit('advanced', advancedForm)} className="w-full mt-6">
+                Run
+              </ActionButton>
 
               {results['advanced'] && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6">
-                  <Card className="bg-gray-800/50 border-gray-700">
-                    <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                    <CardContent>
-                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(results['advanced'], null, 2)}</pre>
-                    </CardContent>
-                  </Card>
+                  <ResultCard title="Advanced Result" variant="success">
+                    <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans mt-2">{JSON.stringify(results['advanced'], null, 2)}</pre>
+                  </ResultCard>
                 </motion.div>
               )}
             </TabsContent>
-            
           </Tabs>
         </div>
       </main>

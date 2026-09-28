@@ -50,7 +50,7 @@ Comprehensive performance optimization infrastructure has been successfully impl
 - Provider defaults:
   - OpenAI GPT-4o: 80k TPM, 10k RPM
   - OpenAI GPT-4o-mini: 2M TPM, 100k RPM
-  - Anthropic Claude: 400k TPM, 5k RPM
+  - OpenAI: 400k TPM, 5k RPM
 
 **Expected Impact**: Zero rate limit violations, smooth traffic shaping, cost control
 
@@ -66,7 +66,7 @@ Comprehensive performance optimization infrastructure has been successfully impl
 
 ### 7. Optimized LLM Clients
 - `createOptimizedOpenAIClient(apiKey, appType)`
-- `createOptimizedAnthropicClient(apiKey, appType)`
+- `createOptimizedOpenAIClient(apiKey, appType)`
 
 **Application Profiles**:
 
@@ -119,7 +119,7 @@ src/config/appConfig.ts
 
 supabase/functions/_shared/utils.ts
   - Added createOptimizedOpenAI() factory
-  - Added createOptimizedAnthropic() factory
+  - Added createOptimizedOpenAI() factory
   - Added SimpleCache for fallback scenarios
   - Added trackPerformance() decorator
 ```
@@ -132,7 +132,7 @@ supabase/functions/socialbuzz-ai/index.ts       ✓ FULLY OPTIMIZED
 ```
 
 **Finance Agent**: OpenAI, financial profile (temp=0.2), 5min cache, circuit breaker enabled  
-**SocialBuzz AI**: Anthropic, social profile (temp=0.8), 30min cache, retry enabled
+**SocialBuzz AI**: OpenAI, social profile (temp=0.8), 30min cache, retry enabled
 
 ### Scripts & Tooling
 
@@ -273,7 +273,7 @@ npm run perf:migrate
 |----------|--------|-------|---------|
 | OpenAI GPT-4o (15%) | $150 | $90 | $60 |
 | OpenAI GPT-4o-mini (60%) | $600 | $300 | $300 |
-| Anthropic Claude (25%) | $1250 | $750 | $500 |
+| OpenAI (25%) | $1250 | $750 | $500 |
 | Embeddings | $40 | $20 | $20 |
 | **Total** | **$2040** | **$1160** | **$880/month** |
 

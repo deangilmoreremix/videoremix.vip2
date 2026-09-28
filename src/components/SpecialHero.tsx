@@ -30,17 +30,17 @@ const SpecialHero: React.FC = () => {
   const testimonials = [
     {
       name: "David Chen",
-      role: "Marketing Director",
+      role: "Operations Director",
       quote:
-        "The personalization tools helped us achieve a 215% increase in marketing engagement and 3X more campaign leads.",
+        "We replaced 12 disconnected tools with VideoRemix. Our marketing, sales, and hiring workflows now run on one platform.",
       image:
         "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150",
     },
     {
       name: "Sarah Wilson",
-      role: "Digital Marketing Lead",
+      role: "Creative Lead",
       quote:
-        "I create custom marketing content for different audience segments in minutes. My conversion rates have doubled since using VideoRemix.",
+        "I can create personalized videos, sales pages, and recruitment content in the same workspace. The AI adapts to every use case.",
       image:
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=150",
     },
@@ -74,7 +74,7 @@ const SpecialHero: React.FC = () => {
               >
                 <Award className="h-4 w-4 text-white mr-2" />
                 <span className="text-sm font-semibold text-white tracking-wide">
-                  THE NEW VIDEOREMIX PLATFORM
+                  THE AI APP ECOSYSTEM
                 </span>
               </motion.div>
 
@@ -85,7 +85,7 @@ const SpecialHero: React.FC = () => {
               ) : (
                 <TextReveal
                   as="h1"
-                  text="Marketing Campaigns That Convert Like Magic"
+                  text="Your Entire Business, Powered by AI Apps"
                   className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight md:leading-tight max-w-4xl"
                   delay={0.3}
                   duration={0.04}
@@ -101,9 +101,9 @@ const SpecialHero: React.FC = () => {
                 <div className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl leading-relaxed h-20 md:h-16">
                   <TypedText
                     texts={[
-                      "AI-powered personalization at scale",
-                      "50+ tools for every campaign",
-                      "Convert like magic",
+                      "113+ AI apps for every department",
+                      "Marketing, sales, video, hiring, and more",
+                      "One platform. Every workflow.",
                     ]}
                     typingSpeed={80}
                     deletingSpeed={40}
@@ -115,10 +115,10 @@ const SpecialHero: React.FC = () => {
 
               <div className="space-y-4 mb-8">
                 {(hero?.description ? hero.description.split('\n').filter(Boolean) : [
-                  "AI-powered personalization for marketing content and campaigns",
-                  "50+ marketing personalization tools for marketers and businesses",
-                  "Create personalized campaigns in minutes, not hours",
-                  "Increase marketing ROI with audience-specific content",
+                  "113+ AI apps covering marketing, sales, video, hiring, and productivity",
+                  "12 curated bundles organized by business function",
+                  "One login, unified billing, and cross-app workflows",
+                  "Works with OpenAI GPT models",
                 ]).map((benefit, index) => (
                   <motion.div
                     key={index}
@@ -179,7 +179,7 @@ const SpecialHero: React.FC = () => {
                     hero?.background_image_url ||
                     "https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
                   }
-                  alt="Personalized Marketing Demo"
+                  alt="VideoRemix VIP Ecosystem Demo"
                   className="w-full h-full object-cover"
                 />
 
@@ -216,7 +216,7 @@ const SpecialHero: React.FC = () => {
 
                 <div className="absolute top-3 left-3 bg-primary-600/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm text-white font-medium flex items-center gap-2">
                   <Sparkles className="h-4 w-4" />
-                  <span>AI-Powered Personalization</span>
+                  <span>AI-Powered App Ecosystem</span>
                 </div>
               </div>
             </motion.div>
@@ -292,12 +292,12 @@ const SpecialHero: React.FC = () => {
 
             {/* Stats */}
             <div className="mt-6 grid grid-cols-2 gap-3">
-              <div className="bg-white/5 backdrop-blur-sm rounded-lg p-3 border border-white/10 text-center">
+                <div className="bg-white/5 backdrop-blur-sm rounded-lg p-3 border border-white/10 text-center">
                 <div className="text-2xl font-bold text-white">
                   <CountUp end={12467} separator="," duration={2.5} />+
                 </div>
                 <div className="text-xs text-gray-400">
-                  Marketing Professionals
+                  Teams Worldwide
                 </div>
               </div>
               <div className="bg-white/5 backdrop-blur-sm rounded-lg p-3 border border-white/10 text-center">
@@ -311,7 +311,7 @@ const SpecialHero: React.FC = () => {
                 </div>
                 <div className="text-xl font-bold text-white mt-1">4.9/5</div>
                 <div className="text-xs text-gray-400">
-                  Marketing ROI Rating
+                  Platform Rating
                 </div>
               </div>
             </div>
@@ -326,7 +326,7 @@ const SpecialHero: React.FC = () => {
           className="mt-12 pt-6 border-t border-white/10"
         >
           <p className="text-center text-gray-400 text-sm mb-4 tracking-wider">
-            TRUSTED BY MARKETING TEAMS WORLDWIDE
+            TRUSTED BY TEAMS WORLDWIDE
           </p>
           <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
             {["Microsoft", "Google", "YouTube", "Instagram", "Twitter"].map(
@@ -379,7 +379,7 @@ const SpecialHero: React.FC = () => {
               }
             }}
             className="flex flex-col items-center text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 rounded-md p-2"
-            aria-label="Scroll to problem section and discover more about marketing personalization"
+            aria-label="Scroll to problem section and discover more about the AI app ecosystem"
           >
             <span className="text-sm mb-2" aria-hidden="true">
               Discover more

@@ -18,7 +18,6 @@ import { Loader2, Sparkles, Globe, Key, Link, HelpCircle, FileText } from "lucid
 const AgenticRagWithReasoningPage: React.FC = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({ 
-    google_api_key: "", 
     openai_api_key: "", 
     add_new_url: "", 
     your_question: "" 
@@ -43,7 +42,7 @@ const AgenticRagWithReasoningPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.google_api_key.trim() || !formData.openai_api_key.trim() || !formData.add_new_url.trim() || !formData.your_question.trim()) {
+    if (!formData.openai_api_key.trim() || !formData.add_new_url.trim() || !formData.your_question.trim()) {
       setError('Please fill in all required fields');
       return;
     }
@@ -85,17 +84,7 @@ const AgenticRagWithReasoningPage: React.FC = () => {
             <CardHeader><CardTitle>Configuration</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                <FormSection title="API Keys" description="Enter your API keys to enable AI processing">
-                  <ApiKeyInput
-                    label="Google API Key"
-                    name="google_api_key"
-                    value={formData.google_api_key}
-                    onChange={(val) => setFormData({ ...formData, google_api_key: val })}
-                    placeholder="AIza..."
-                    helperText="Get your API key from Google Cloud Console"
-                    required
-                  />
-
+                <FormSection title="API Keys" description="Enter your OpenAI API key to enable AI processing">
                   <ApiKeyInput
                     label="OpenAI API Key"
                     name="openai_api_key"
@@ -171,7 +160,7 @@ const AgenticRagWithReasoningPage: React.FC = () => {
                 title="Analysis Complete"
                 description="Your RAG reasoning analysis is ready above."
                 action={
-                  <ActionButton onClick={() => { setResult(null); setFormData({ google_api_key: "", openai_api_key: "", add_new_url: "", your_question: "" }); }}>
+                  <ActionButton onClick={() => { setResult(null); setFormData({ openai_api_key: "", add_new_url: "", your_question: "" }); }}>
                     Start New Analysis
                   </ActionButton>
                 }

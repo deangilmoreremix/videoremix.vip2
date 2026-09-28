@@ -44,35 +44,35 @@ export interface Course {
 
 export const coursesData: Course[] = [
   {
-    id: "google-adk-crash-course",
-    title: "Google ADK Crash Course",
-    description: "Deep-dive tutorial on Google's Agent Development Kit. Covers starter agent, model-agnostic development, structured outputs with Pydantic, tools integration (built-in, function, third-party, MCP), memory management, callbacks, plugins, and multi-agent patterns.",
-    icon: React.createElement(BookOpen),
-    url: "https://www.theunwindai.com/p/google-s-open-source-sdk-for-building-production-ai-apps",
-    category: "crash-course"
-  },
-  {
     id: "openai-agents-sdk-crash-course",
     title: "OpenAI Agents SDK Crash Course",
     description: "Comprehensive tutorial on OpenAI Agents SDK. Learn starter agent, function calling, structured outputs, tools integration, memory, callbacks, evaluation, multi-agent patterns, agent handoffs, Swarm orchestration, and routing logic.",
     icon: React.createElement(BookOpen),
-    url: "https://www.theunwindai.com/p/google-s-open-source-sdk-for-building-production-ai-apps",
+    url: "https://platform.openai.com/docs/guides/agents",
     category: "crash-course"
   },
   {
-    id: "gemini-3-fine-tuning",
-    title: "Gemini 3 Fine-tuning Tutorial",
-    description: "End-to-end fine-tuning recipe for Gemini 3 model. Learn how to adapt pre-trained models for specific tasks with custom datasets.",
+    id: "openai-realtime-crash-course",
+    title: "OpenAI Realtime API Crash Course",
+    description: "Deep-dive tutorial on OpenAI's Realtime API. Covers WebSocket connections, bidirectional audio streaming, session management, voice activity detection, tool use in realtime sessions, and building voice-first AI experiences.",
+    icon: React.createElement(BookOpen),
+    url: "https://platform.openai.com/docs/guides/realtime",
+    category: "crash-course"
+  },
+  {
+    id: "openai-fine-tuning",
+    title: "OpenAI Fine-tuning Tutorial",
+    description: "End-to-end fine-tuning recipe for OpenAI models. Learn how to adapt pre-trained models for specific tasks with custom datasets.",
     icon: React.createElement(Settings),
-    url: "https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/advanced_llm_apps/llm_finetuning_tutorials/gemma3_finetuning",
+    url: "https://platform.openai.com/docs/guides/fine-tuning",
     category: "fine-tuning"
   },
   {
-    id: "llama-3-2-fine-tuning",
-    title: "Llama 3.2 Fine-tuning Tutorial",
-    description: "Complete fine-tuning guide for Llama 3.2 model. Step-by-step instructions for parameter-efficient fine-tuning and deployment.",
+    id: "openai-embeddings-fine-tuning",
+    title: "OpenAI Embeddings Fine-tuning Tutorial",
+    description: "Complete fine-tuning guide for OpenAI text-embedding-3 models. Step-by-step instructions for improving embedding quality on domain-specific data.",
     icon: React.createElement(Settings),
-    url: "https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/advanced_llm_apps/llm_finetuning_tutorials/llama3.2_finetuning",
+    url: "https://platform.openai.com/docs/guides/embeddings/fine-tuning",
     category: "fine-tuning"
   }
 ];
@@ -161,13 +161,13 @@ const CoursesPage: React.FC = () => {
               </p>
               
               <div className="flex items-center text-primary-400 text-sm font-medium">
-                <span>View on Unwind AI</span>
+                <span>View Documentation</span>
                 <ExternalLink className="h-4 w-4 ml-2" />
               </div>
               
               <div className="mt-4 pt-4 border-t border-gray-700">
                 <p className="text-xs text-gray-500">
-                  Original course by Unwind AI
+                  Official documentation
                 </p>
               </div>
             </motion.a>
@@ -289,8 +289,8 @@ git commit -m "feat: add Courses page with links to Unwind AI tutorials
 **1. Spec coverage:** 
 - ✅ 4 courses displayed
 - ✅ Card grid layout
-- ✅ External links to Unwind AI
-- ✅ Attribution "Original course by Unwind AI"
+ - ✅ External links to official documentation
+ - ✅ Attribution "Official documentation"
 - ✅ Animations with framer-motion
 
 **2. Placeholder scan:** No "TBD", "TODO", or incomplete sections found.

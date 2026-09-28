@@ -349,8 +349,8 @@ interface LaunchIntelligenceResult {
 ## Dependencies
 
 **External Services:**
-- **OpenAI GPT-4o API** (primary AI provider — migrated from Anthropic Claude)
-- Firecrawl or similar (web data extraction)
+- **OpenAI GPT-4o API** (primary AI provider)
+- Web data extraction service (web data extraction)
 - Supabase (data storage and user management)
 
 **Internal Dependencies:**

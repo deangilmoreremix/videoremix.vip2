@@ -648,8 +648,8 @@
       "upgradePriority": "medium"
     },
     {
-      "appId": "rag-agent-cohere",
-      "fileName": "RagAgentCoherePage.tsx",
+      "appId": "rag-agent-openai",
+      "fileName": "RagAgentOpenAIPage.tsx",
       "scores": {
         "total": 72,
         "inputs": 10,
@@ -1396,8 +1396,8 @@
       "upgradePriority": "medium"
     },
     {
-      "appId": "agentic-rag-embedding-gemma",
-      "fileName": "AgenticRagEmbeddingGemmaPage.tsx",
+      "appId": "agentic-rag-embedding-openai",
+      "fileName": "AgenticRagEmbeddingOpenAIPage.tsx",
       "scores": {
         "total": 57,
         "inputs": 0,
@@ -2722,8 +2722,8 @@
       "upgradePriority": "medium"
     },
     {
-      "appId": "deepseek-local-rag-agent",
-      "fileName": "DeepseekLocalRagAgentPage.tsx",
+      "appId": "openai-local-rag-agent",
+      "fileName": "OpenAILocalRagAgentPage.tsx",
       "scores": {
         "total": 57,
         "inputs": 0,
@@ -2790,8 +2790,8 @@
       "upgradePriority": "medium"
     },
     {
-      "appId": "gemini-agentic-rag",
-      "fileName": "GeminiAgenticRagPage.tsx",
+      "appId": "openai-agentic-rag",
+      "fileName": "OpenAIAgenticRagPage.tsx",
       "scores": {
         "total": 57,
         "inputs": 0,
@@ -2926,8 +2926,8 @@
       "upgradePriority": "medium"
     },
     {
-      "appId": "llama31-local-rag",
-      "fileName": "Llama31LocalRagPage.tsx",
+      "appId": "openai31-local-rag",
+      "fileName": "OpenAI31LocalRagPage.tsx",
       "scores": {
         "total": 57,
         "inputs": 0,
@@ -2960,8 +2960,8 @@
       "upgradePriority": "medium"
     },
     {
-      "appId": "llama3-stateful-chat",
-      "fileName": "Llama3StatefulChatPage.tsx",
+      "appId": "openai3-stateful-chat",
+      "fileName": "OpenAI3StatefulChatPage.tsx",
       "scores": {
         "total": 57,
         "inputs": 0,
@@ -3198,8 +3198,8 @@
       "upgradePriority": "medium"
     },
     {
-      "appId": "qwen-local-rag",
-      "fileName": "QwenLocalRagPage.tsx",
+      "appId": "openai-local-rag",
+      "fileName": "OpenAILocalRagPage.tsx",
       "scores": {
         "total": 57,
         "inputs": 0,
@@ -3232,8 +3232,8 @@
       "upgradePriority": "medium"
     },
     {
-      "appId": "research-agent-gemini-interaction-api",
-      "fileName": "ResearchAgentGeminiInteractionApiPage.tsx",
+      "appId": "research-agent-openai-interaction-api",
+      "fileName": "ResearchAgentOpenAIInteractionApiPage.tsx",
       "scores": {
         "total": 57,
         "inputs": 0,
@@ -3402,8 +3402,8 @@
       "upgradePriority": "medium"
     },
     {
-      "appId": "voice-rag-openaisdk",
-      "fileName": "VoiceRagOpenaisdkPage.tsx",
+      "appId": "voice-rag-openai-sdk",
+      "fileName": "VoiceRagOpenAIsdkPage.tsx",
       "scores": {
         "total": 57,
         "inputs": 0,
@@ -3777,7 +3777,7 @@
     },
     {
       "appId": "openai-research-agent",
-      "fileName": "OpenaiResearchAgentPage.tsx",
+      "fileName": "OpenAIResearchAgentPage.tsx",
       "scores": {
         "total": 47,
         "inputs": 0,
@@ -4417,7 +4417,7 @@
       "AiLifeInsuranceAdvisorAgentPage",
       "AiMovieProductionAgentPage",
       "AiRealEstateAgentTeamPage",
-      "RagAgentCoherePage",
+      "RagAgentOpenAIPage",
       "TrustGatedAgentTeamPage",
       "AiAqiAnalysisAgentPage",
       "AiEmailGtmReachoutAgentPage",
@@ -4440,7 +4440,7 @@
       "92LoopAgentPage",
       "93ParallelAgentPage",
       "Ag2AdaptiveResearchTeamPage",
-      "AgenticRagEmbeddingGemmaPage",
+      "AgenticRagEmbeddingOpenAIPage",
       "AgenticRagGpt5Page",
       "AgenticRagWithReasoningPage",
       "Ai3dpygameR1Page",
@@ -4479,27 +4479,27 @@
       "ContextualaiRagAgentPage",
       "CorrectiveRagPage",
       "CursorAiExperimentsPage",
-      "DeepseekLocalRagAgentPage",
+      "OpenAILocalRagAgentPage",
       "FrontendPage",
-      "GeminiAgenticRagPage",
+      "OpenAIAgenticRagPage",
       "GptOssCritiqueImprovementLoopPage",
       "HybridSearchRagPage",
       "LaunchRocketAIPage",
-      "Llama31LocalRagPage",
-      "Llama3StatefulChatPage",
+      "OpenAI31LocalRagPage",
+      "OpenAI3StatefulChatPage",
       "LocalAiScrapperPyPage",
       "LocalTravelAgentPage",
       "MixtureOfAgentsPage",
       "MultiAgentResearcherPage",
       "MultiAiMemoryPage",
       "MultimodalAiAgentPage",
-      "QwenLocalRagPage",
-      "ResearchAgentGeminiInteractionApiPage",
+      "OpenAILocalRagPage",
+      "ResearchAgentOpenAIInteractionApiPage",
       "SalesForceAIPage",
       "SocialBuzzAIPage",
       "StartupTrendsAgentPage",
       "ToonifyTokenOptimizationPage",
-      "VoiceRagOpenaisdkPage",
+      "VoiceRagOpenAIsdkPage",
       "LocalAiReasoningAgentPyPage",
       "LocalChatgptClonePage",
       "LocalChatgptWithMemoryPage",
@@ -4510,7 +4510,7 @@
       "ConsultProAIPage",
       "ContentGeniusAIPage",
       "DevpulseAiPage",
-      "OpenaiResearchAgentPage",
+      "OpenAIResearchAgentPage",
       "PodcastifyAIPage",
       "ProductLaunchIntelligenceAgentPage",
       "MultimodalCodingAgentTeamPage",

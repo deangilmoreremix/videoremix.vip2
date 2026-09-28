@@ -258,7 +258,7 @@ const FeatureListPage: React.FC = () => {
                 </Link>
 
                 <Link
-                  to="/contact"
+                  to="/pricing"
                   className="bg-gray-800 hover:bg-gray-700 text-white py-3 px-6 rounded-lg font-medium inline-flex items-center border border-gray-700"
                 >
                   Request a Demo
@@ -394,7 +394,7 @@ const FeatureListPage: React.FC = () => {
                       {typeof feature.id === "string" &&
                       featuresData.some((f) => f.id === feature.id) ? (
                         <Link
-                          to={`/features/${feature.id}`}
+                          to={`/tools`}
                           className="inline-flex items-center text-primary-400 hover:text-primary-300 font-medium"
                         >
                           Explore Feature
@@ -484,7 +484,7 @@ const FeatureListPage: React.FC = () => {
                 className="inline-block"
               >
                 <Link
-                  to="/get-started"
+                  to="/signup"
                   className="bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold py-4 px-8 rounded-lg inline-flex items-center shadow-lg shadow-primary-700/30"
                 >
                   Get Started Today
@@ -626,7 +626,7 @@ const FeatureListPage: React.FC = () => {
 
             <div className="mt-8 text-center">
               <Link
-                to="/features/comparison"
+                to="/pricing"
                 className="text-primary-400 hover:text-primary-300 inline-flex items-center"
               >
                 View Full Feature Comparison

@@ -35,7 +35,7 @@ const ReasoningAgentPage: React.FC = () => {
   const { user } = useAuth();
   const [question, setQuestion] = useState("");
   const [mode, setMode] = useState<"standard" | "reasoning" | "compare">("compare");
-  const [model, setModel] = useState("gpt-4o-mini");
+  const [model, setModel] = useState("gpt-5.5");
   const [isProcessing, setIsProcessing] = useState(false);
   const [result, setResult] = useState<ReasoningResponse | null>(null);
   const [history, setHistory] = useState<ReasoningResponse[]>([]);
@@ -185,9 +185,9 @@ const ReasoningAgentPage: React.FC = () => {
                       onChange={(e) => setModel(e.target.value)}
                       className="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-3 py-2.5 text-white focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
                     >
-                      <option value="gpt-4o">GPT-4o (Most Capable)</option>
-                      <option value="gpt-4o-mini">GPT-4o Mini (Fastest)</option>
-                      <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                      <option value="gpt-5.5">GPT-5.5 (Most Capable)</option>
+                      <option value="gpt-5.5-mini">GPT-5.5 Mini (Fastest)</option>
+                      <option value="o3">o3 (Reasoning)</option>
                     </select>
                     <p className="text-xs text-gray-500 mt-1">
                       GPT-4o provides best reasoning; mini is faster for simple puzzles

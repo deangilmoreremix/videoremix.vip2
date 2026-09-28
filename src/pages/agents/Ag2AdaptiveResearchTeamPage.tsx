@@ -125,8 +125,8 @@ const Ag2AdaptiveResearchTeamPage: React.FC = () => {
                     type="text"
                     value={textValues.model || ''}
                     onChange={(val) => setTextValues(prev => ({ ...prev, model: val }))}
-                    placeholder="gpt-4o, gpt-4-turbo, gpt-3.5-turbo"
-                    helperText="OpenAI model to use for analysis (defaults to gpt-4o)"
+                    placeholder="gpt-5.5, gpt-5.5-mini, o3"
+                    helperText="OpenAI model to use for analysis (defaults to gpt-5.5)"
                     required={false}
                   />
                 </div>

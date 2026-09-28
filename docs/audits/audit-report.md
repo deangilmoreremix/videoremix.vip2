@@ -52,7 +52,7 @@
 | ConsultProAIPage.tsx | 47 | 0 | 0/0 | ✅ | raw-json |
 | ContentGeniusAIPage.tsx | 47 | 0 | 0/0 | ✅ | raw-json |
 | DevpulseAiPage.tsx | 47 | 0 | 0/0 | ✅ | raw-json |
-| OpenaiResearchAgentPage.tsx | 47 | 0 | 0/0 | ✅ | raw-json |
+| OpenAIResearchAgentPage.tsx | 47 | 0 | 0/0 | ✅ | raw-json |
 | PodcastifyAIPage.tsx | 47 | 0 | 0/0 | ✅ | raw-json |
 | ProductLaunchIntelligenceAgentPage.tsx | 47 | 0 | 0/0 | ✅ | raw-json |
 | MultimodalCodingAgentTeamPage.tsx | 42 | 7 | 0/7 | ❌ | raw-json |
@@ -96,7 +96,7 @@ Specialized agents in RAG, Voice, Creative, and Business categories.
 - AiLifeInsuranceAdvisorAgentPage
 - AiMovieProductionAgentPage
 - AiRealEstateAgentTeamPage
-- RagAgentCoherePage
+- RagAgentOpenAIPage
 - TrustGatedAgentTeamPage
 - AiAqiAnalysisAgentPage
 - AiEmailGtmReachoutAgentPage
@@ -138,7 +138,7 @@ Framework tutorials, experimental apps, and lower-traffic tools.
 | 17 | EmailGTMPage.tsx | 72 | 10 | 5 | 10 | 2 | 10 | 10 | 0 | 10 | 10 | 0 | 5 |
 | 18 | FinanceAgentPage.tsx | 72 | 10 | 5 | 10 | 2 | 10 | 10 | 0 | 10 | 10 | 0 | 5 |
 | 19 | GithubMcpAgentPage.tsx | 72 | 10 | 5 | 10 | 2 | 10 | 10 | 10 | 10 | 0 | 0 | 5 |
-| 20 | RagAgentCoherePage.tsx | 72 | 10 | 5 | 10 | 2 | 10 | 10 | 10 | 10 | 0 | 0 | 5 |
+| 20 | RagAgentOpenAIPage.tsx | 72 | 10 | 5 | 10 | 2 | 10 | 10 | 10 | 10 | 0 | 0 | 5 |
 
 ## Key Findings
 

@@ -42,15 +42,15 @@ const ROICalculator: React.FC<ROICalculatorProps> = ({ className = '' }) => {
       viewport={{ once: true }}
       className={`bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-8 border border-gray-700 ${className}`}
     >
-      <div className="flex items-center mb-6">
-        <div className="bg-primary-900/50 p-3 rounded-xl mr-4">
-          <BarChart3 className="h-6 w-6 text-primary-400" />
-        </div>
-        <div>
-          <h3 className="text-2xl font-bold text-white">Marketing ROI Calculator</h3>
-          <p className="text-gray-400">See the impact of personalization</p>
-        </div>
-      </div>
+       <div className="flex items-center mb-6">
+         <div className="bg-primary-900/50 p-3 rounded-xl mr-4">
+           <BarChart3 className="h-6 w-6 text-primary-400" />
+         </div>
+         <div>
+           <h3 className="text-2xl font-bold text-white">Platform ROI Calculator</h3>
+           <p className="text-gray-400">Estimate the impact of 113 apps across marketing, sales, video, hiring, and productivity</p>
+         </div>
+       </div>
 
       <div className="space-y-6 mb-8">
         {/* Budget Slider */}
@@ -73,7 +73,7 @@ const ROICalculator: React.FC<ROICalculatorProps> = ({ className = '' }) => {
         {/* Conversion Rate Slider */}
         <div>
           <div className="flex justify-between mb-2">
-            <label className="text-sm text-gray-300">Base Conversion Rate</label>
+            <label className="text-sm text-gray-300">Base Output Rate</label>
             <span className="text-primary-400 font-bold">{conversionRate}%</span>
           </div>
           <input
@@ -90,7 +90,7 @@ const ROICalculator: React.FC<ROICalculatorProps> = ({ className = '' }) => {
         {/* Personalization Level Slider */}
         <div>
           <div className="flex justify-between mb-2">
-            <label className="text-sm text-gray-300">Personalization Level</label>
+            <label className="text-sm text-gray-300">Automation Level</label>
             <span className="text-green-400 font-bold">{personalizationLevel}%</span>
           </div>
           <input
@@ -114,11 +114,11 @@ const ROICalculator: React.FC<ROICalculatorProps> = ({ className = '' }) => {
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div className="text-center">
             <div className="text-3xl font-bold text-white">${results.revenue.toLocaleString()}</div>
-            <div className="text-xs text-gray-400">Personalized Revenue</div>
+            <div className="text-xs text-gray-400">Estimated Ecosystem Value</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-gray-400">${results.baseRevenue.toLocaleString()}</div>
-            <div className="text-xs text-gray-400">Base Revenue</div>
+            <div className="text-xs text-gray-400">Base Value</div>
           </div>
         </div>
 
@@ -130,7 +130,7 @@ const ROICalculator: React.FC<ROICalculatorProps> = ({ className = '' }) => {
             </div>
             <div className="text-right">
               <div className="text-2xl font-bold text-green-400">{results.roi}%</div>
-              <div className="text-xs text-gray-400">ROI</div>
+              <div className="text-xs text-gray-400">Estimated ROI</div>
             </div>
           </div>
         </div>

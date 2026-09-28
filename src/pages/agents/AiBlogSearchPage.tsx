@@ -18,9 +18,7 @@ import { Loader2, Sparkles, Link2, Key, Search, Lightbulb } from "lucide-react";
 const AiBlogSearchPage: React.FC = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({ 
-    enter_your_qdrant_host_url: "", 
-    enter_your_qdrant_api_key: "", 
-    enter_your_gemini_api_key: "", 
+    enter_your_openai_api_key: "", 
     link_paste_the_blog_link: "", 
     bulb_enter_your_query_about_the_blog_post: "" 
   });
@@ -44,7 +42,7 @@ const AiBlogSearchPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.enter_your_qdrant_host_url.trim() || !formData.enter_your_qdrant_api_key.trim() || !formData.enter_your_gemini_api_key.trim() || !formData.link_paste_the_blog_link.trim() || !formData.bulb_enter_your_query_about_the_blog_post.trim()) {
+    if (!formData.enter_your_openai_api_key.trim() || !formData.link_paste_the_blog_link.trim() || !formData.bulb_enter_your_query_about_the_blog_post.trim()) {
       setError('Please fill in all required fields');
       return;
     }
@@ -86,37 +84,14 @@ const AiBlogSearchPage: React.FC = () => {
             <CardHeader><CardTitle>Configuration</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                <FormSection title="Qdrant Configuration" description="Enter your Qdrant vector database credentials">
-                  <SmartInput
-                    label="Qdrant Host URL"
-                    name="enter_your_qdrant_host_url"
-                    type="url"
-                    value={formData.enter_your_qdrant_host_url}
-                    onChange={(val) => setFormData({ ...formData, enter_your_qdrant_host_url: val })}
-                    placeholder="https://your-cluster.qdrant.tech"
-                    helperText="Find this in your Qdrant dashboard"
-                    required
-                  />
-
+                <FormSection title="AI Configuration" description="Enter your OpenAI API key">
                   <ApiKeyInput
-                    label="Qdrant API Key"
-                    name="enter_your_qdrant_api_key"
-                    value={formData.enter_your_qdrant_api_key}
-                    onChange={(val) => setFormData({ ...formData, enter_your_qdrant_api_key: val })}
-                    placeholder="..."
-                    helperText="Your Qdrant API key"
-                    required
-                  />
-                </FormSection>
-
-                <FormSection title="AI Configuration" description="Enter your Gemini API key">
-                  <ApiKeyInput
-                    label="Gemini API Key"
-                    name="enter_your_gemini_api_key"
-                    value={formData.enter_your_gemini_api_key}
-                    onChange={(val) => setFormData({ ...formData, enter_your_gemini_api_key: val })}
-                    placeholder="AIza..."
-                    helperText="Get your API key from Google AI Studio"
+                    label="OpenAI API Key"
+                    name="enter_your_openai_api_key"
+                    value={formData.enter_your_openai_api_key}
+                    onChange={(val) => setFormData({ ...formData, enter_your_openai_api_key: val })}
+                    placeholder="sk-..."
+                    helperText="Get your API key from OpenAI Platform"
                     required
                   />
                 </FormSection>
@@ -183,7 +158,7 @@ const AiBlogSearchPage: React.FC = () => {
                 title="Analysis Complete"
                 description="Your blog search results are ready above."
                 action={
-                  <ActionButton onClick={() => { setResult(null); setFormData({ enter_your_qdrant_host_url: "", enter_your_qdrant_api_key: "", enter_your_gemini_api_key: "", link_paste_the_blog_link: "", bulb_enter_your_query_about_the_blog_post: "" }); }}>
+                  <ActionButton onClick={() => { setResult(null); setFormData({ enter_your_openai_api_key: "", link_paste_the_blog_link: "", bulb_enter_your_query_about_the_blog_post: "" }); }}>
                     Search Again
                   </ActionButton>
                 }
@@ -195,9 +170,9 @@ const AiBlogSearchPage: React.FC = () => {
             <EmptyState
               icon={<Link2 className="h-16 w-16 text-gray-600" />}
               title="Ready to Search"
-              description="Enter your Qdrant credentials, blog URL, and query to analyze blog posts."
+              description="Enter your OpenAI API key, blog URL, and query to analyze blog posts."
               tips={[
-                "Make sure your Qdrant cluster is running",
+                "Enter your OpenAI API key",
                 "Enter the full blog URL including https://",
                 "Ask specific questions for better results",
               ]}

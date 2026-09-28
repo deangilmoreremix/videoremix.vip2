@@ -118,7 +118,7 @@ Deno.serve(async (req: Request) => {
 
     // 3. Parse input
     const body = await req.json();
-    const { question, mode = 'standard', model = 'gpt-4o-mini' } = body;
+    const { question, mode = 'standard', model = 'gpt-5.5' } = body;
 
     if (!question?.trim()) {
       return jsonResponse({ success: false, error: 'Question is required' }, 400);
@@ -135,13 +135,11 @@ Deno.serve(async (req: Request) => {
     // 5. Execute agent logic
     if (mode === 'standard' || mode === 'compare') {
       try {
-        const standardResponse = await openai.chat.completions.create({
+        const standardResponse = await openai.responses.create({
           model,
-          messages: [{ role: 'user', content: question }],
-          temperature: 0.7,
-          max_tokens: 1000,
+          input: question,
         });
-        result.standardAnswer = standardResponse.choices[0]?.message?.content || '';
+        result.standardAnswer = standardResponse.output_text || '';
       } catch (error) {
         console.error('Standard response error:', error);
         result.standardAnswer = 'Error generating standard response';
@@ -150,9 +148,9 @@ Deno.serve(async (req: Request) => {
 
     if (mode === 'reasoning' || mode === 'compare') {
       try {
-        const reasoningResponse = await openai.chat.completions.create({
+        const reasoningResponse = await openai.responses.create({
           model,
-          messages: [
+          input: [
             {
               role: 'system',
               content:
@@ -160,10 +158,8 @@ Deno.serve(async (req: Request) => {
             },
             { role: 'user', content: question },
           ],
-          temperature: 0.7,
-          max_tokens: 1500,
         });
-        result.reasoningAnswer = reasoningResponse.choices[0]?.message?.content || '';
+        result.reasoningAnswer = reasoningResponse.output_text || '';
       } catch (error) {
         console.error('Reasoning response error:', error);
         result.reasoningAnswer = 'Error generating reasoning response';
@@ -174,7 +170,7 @@ Deno.serve(async (req: Request) => {
 
     // 6. Log usage (optional)
     try {
-      const usage = openai.usage; // if available in response
+      const usage = standardResponse?.usage || reasoningResponse?.usage;
       if (usage) {
         await logApiUsage(user_id, 'reasoning-agent', 'openai', usage.total_tokens);
       }

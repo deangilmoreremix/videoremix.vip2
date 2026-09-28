@@ -14,13 +14,13 @@ const BusinessAIAppLibrarySection: React.FC = () => {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-900/40 border border-primary-500/30 text-primary-300 text-sm font-medium mb-4">
             <Briefcase className="h-4 w-4" />
-            Business AI Tools
+            Business AI Ecosystem
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            VideoRemix VIP Business AI App Library
+            VideoRemix VIP Business App Library
           </h2>
           <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-            Access our complete library of AI-powered business applications designed to transform your video content workflow.
+            113 apps across marketing, sales, video, hiring, and productivity — unified in one platform so teams can move from idea to outcome without switching tools.
           </p>
         </motion.div>
 
@@ -33,19 +33,19 @@ const BusinessAIAppLibrarySection: React.FC = () => {
         >
           {[
             {
-              title: "Content Analysis",
-              description: "AI-powered video content analysis and optimization",
-              icon: "📊",
+              title: "Content & Video",
+              description: "Generate, edit, and personalize videos, images, and media at scale",
+              icon: "🎬",
             },
             {
-              title: "Auto Editing",
-              description: "Intelligent automated video editing and enhancement",
-              icon: "✂️",
+              title: "Sales & Hiring",
+              description: "Automate funnels, outreach, resumes, and candidate workflows",
+              icon: "🚀",
             },
             {
-              title: "Brand Kit",
-              description: "Consistent branding across all video content",
-              icon: "🎨",
+              title: "Productivity & AI",
+              description: "Templates, signatures, documentation, and agentic AI automations",
+              icon: "⚡",
             },
           ].map((item, index) => (
             <motion.div

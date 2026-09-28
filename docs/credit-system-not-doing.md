@@ -68,7 +68,7 @@ This document defines the explicit boundaries of the credit system. Items listed
 
 ### 3. Proxy for Third-Party APIs (Phase 1)
 
-**What it looks like:** Platform proxies to OpenAI, Google, OpenAI, etc.
+**What it looks like:** Platform proxies to OpenAI.
 
 **Why we don't do it in Phase 1:** Complexity, cost, support burden.
 
@@ -76,13 +76,13 @@ This document defines the explicit boundaries of the credit system. Items listed
 
 **When we might reconsider:** Phase 2 after credit system is proven.
 
-**Decision:** Phase 1: OpenAI only. Phase 2: OpenAI + Google if demand warrants.
+**Decision:** Phase 1: OpenAI only. OpenAI only.
 
 ---
 
 ### 4. Multiple Providers in Phase 1
 
-**What it looks like:** User can choose between OpenAI, OpenAI, and Google models.
+**What it looks like:** User uses OpenAI models.
 
 **Why we don't do it in Phase 1:** Complexity. Provenance of cost becomes harder.
 
@@ -276,7 +276,7 @@ This document defines the explicit boundaries of the credit system. Items listed
 
 ### 19. Credit Use for Third-Party API Calls
 
-**What it looks like:** Platform uses credits to call third-party APIs (a web scraping service, OpenAI, etc.).
+**What it looks like:** Platform uses credits to call OpenAI APIs.
 
 **Why we don't do it in Phase 1:** Platform absorbs these costs. Not passed to user.
 
@@ -408,7 +408,7 @@ This document defines the explicit boundaries of the credit system. Items listed
 
 **Expansion policy:**
 - Phase 1: Prove concept
-- Phase 2: Expand to OpenAI + Google
+- OpenAI only
 - Phase 3: Enterprise self-hosted
 - Phase 4: Partner integrations
 

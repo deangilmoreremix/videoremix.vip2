@@ -30,11 +30,11 @@ interface Course {
 
 const coursesData: Course[] = [
   {
-    id: "google-adk-crash-course",
-    title: "Google ADK Crash Course",
+    id: "openai-agents-sdk-crash-course",
+    title: "OpenAI Agents SDK Crash Course",
     description: "...",
     icon: React.createElement(BookOpen),
-    url: "https://www.theunwindai.com/p/google-s-open-source-sdk-for-building-production-ai-apps",
+    url: "https://platform.openai.com/docs/guides/agents-sdk",
     category: "crash-course"
   },
   // ... 3 more courses
@@ -108,10 +108,10 @@ const CoursesPage = lazy(() => import("./pages/CoursesPage"));
 
 | ID | Title | Category | URL |
 |----|-------|----------|-----|
-| google-adk-crash-course | Google ADK Crash Course | crash-course | theunwindai.com/p/google-s-open-source-sdk-for-building-production-ai-apps |
-| openai-agents-sdk-crash-course | OpenAI Agents SDK Crash Course | crash-course | theunwindai.com/p/google-s-open-source-sdk-for-building-production-ai-apps |
-| gemini-3-fine-tuning | Gemini 3 Fine-tuning Tutorial | fine-tuning | github.com/Shubhamsaboo/awesome-llm-apps/tree/main/.../gemini3_finetuning |
-| llama-3-2-fine-tuning | Llama 3.2 Fine-tuning Tutorial | fine-tuning | github.com/Shubhamsaboo/awesome-llm-apps/tree/main/.../llama3.2_finetuning |
+| openai-agents-sdk-crash-course | OpenAI Agents SDK Crash Course | crash-course | platform.openai.com/docs/guides/agents-sdk |
+| gpt-4o-fine-tuning | GPT-4o Fine-tuning Tutorial | fine-tuning | platform.openai.com/docs/guides/fine-tuning |
+| whisper-fine-tuning | Whisper Fine-tuning Tutorial | fine-tuning | platform.openai.com/docs/guides/speech-to-text |
+| dall-e-3-fine-tuning | DALL-E 3 Fine-tuning Tutorial | fine-tuning | platform.openai.com/docs/guides/dall-e |
 
 ## Success Criteria
 

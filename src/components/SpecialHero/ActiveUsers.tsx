@@ -48,7 +48,7 @@ const ActiveUsers = () => {
                 separator=","
               />
             </span>{" "}
-            marketers using personalization now
+            teams using the ecosystem now
             {/* Animated indicator dot */}
             <motion.span
               className="inline-block w-1.5 h-1.5 bg-green-500 rounded-full ml-1"

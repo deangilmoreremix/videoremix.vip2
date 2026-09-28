@@ -181,7 +181,7 @@ async function fetchStockPrice(symbol: string): Promise<StockInfo> {
 
 /**
  * Generate AI stock analysis using optimized OpenAI client
- * Profile: financial (low temp, precise, gpt-4o-mini)
+ * Profile: financial (low temp, precise, gpt-5.5-mini)
  * Cache TTL: 5 minutes (financial data degrades quickly)
  */
 async function generateAIAnalysis(symbol: string, stock: StockInfo, openai: any): Promise<AIInsight> {
@@ -207,21 +207,16 @@ Base your recommendation on the price movement, P/E ratio (if available), and ge
 Be conservative with confidence scores (0.6-0.8 range typical).`;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
+    const response = await openai.responses.create({
+      model: 'gpt-5.5',
+      input: [
         { role: 'system', content: 'You are a precise financial analyst. Always respond with valid JSON only.' },
         { role: 'user', content: prompt }
       ],
-      temperature: 0.2,    // Financial profile: low creativity
-      max_tokens: 800,     // Concise analysis
-      top_p: 0.9,
-    }, {
-      cacheTtl: 300,       // Cache for 5 minutes
     });
 
-    const content = response.choices[0].message.content;
-    const jsonMatch = content?.match(/\{[\s\S]*\}/);
+    const content = response.output_text || '';
+    const jsonMatch = content.match(/\{[\s\S]*\}/);
 
     if (!jsonMatch) {
       throw new Error('Invalid JSON response');
@@ -258,20 +253,15 @@ User Question: ${question}
 Provide a clear, helpful answer in 2-3 sentences. Include relevant financial context. If the question is about specific metrics, explain what they mean. If it's about whether to buy/sell, emphasize this is not financial advice and they should do their own research.`;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
+    const response = await openai.responses.create({
+      model: 'gpt-5.5',
+      input: [
         { role: 'system', content: 'You are a helpful financial educator. Provide clear, educational answers with appropriate disclaimers.' },
         { role: 'user', content: prompt }
       ],
-      temperature: 0.5,    // Balanced for educational content
-      max_tokens: 500,     // Shorter answers
-      top_p: 0.9,
-    }, {
-      cacheTtl: 600,       // Cache for 10 minutes
     });
 
-    return response.choices[0].message.content || 'Unable to answer at this time.';
+    return response.output_text || 'Unable to answer at this time.';
   } catch (error) {
     console.error('Q&A error:', error);
     return 'Sorry, I encountered an error answering your question.';

@@ -28,7 +28,6 @@ const GuaranteeSection = lazy(() => import("../components/GuaranteeSection"));
 const FAQSection = lazy(() => import("../components/FAQSection"));
 const FinalCTA = lazy(() => import("../components/FinalCTA"));
 import ROICalculator from "../components/premium/ROICalculator";
-import PersonalizationSimulator from "../components/premium/PersonalizationSimulator";
 import InteractiveComparisonTable from "../components/premium/InteractiveComparisonTable";
 import AnimatedTestimonialCard from "../components/premium/AnimatedTestimonialCard";
 import LiveActivityFeed from "../components/premium/LiveActivityFeed";
@@ -59,9 +58,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ isMobile, isTablet }) => {
   return (
     <main className="bg-[#050505]">
       <SEO 
-        title="VideoRemix.vip - AI-Powered Video Personalization Platform"
-        description="Transform your video marketing with AI-powered personalization. Create engaging, personalized videos at scale with our comprehensive AI agent ecosystem."
-        keywords={["AI video", "video personalization", "marketing automation", "AI agents", "video creation"]}
+        title="VideoRemix VIP - 113 AI Apps for Marketing, Sales, Video, Hiring & Productivity"
+        description="One ecosystem for content, video, sales funnels, hiring, productivity, and AI automation. Explore 113 apps built to replace fragmented toolchains with unified workflows."
+        keywords={["AI apps", "video AI", "sales automation", "hiring AI", "productivity apps", "AI workforce", "business app ecosystem", "videoRemix VIP"]}
         image="https://videoremix.vip/og-image.jpg"
         url="https://videoremix.vip"
       />
@@ -70,8 +69,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ isMobile, isTablet }) => {
       <SolutionSection />
 
       <FeatureMap
-        title="Comprehensive Marketing Personalization Features"
-        subtitle="Explore the powerful personalization capabilities of VideoRemix.vip's marketing platform"
+        title="One Ecosystem, Every Business Workflow"
+        subtitle="Explore 113 apps across marketing, sales, video, hiring, productivity, and AI automation"
       />
 
       {/* New Personalization Workflow Section - showing how simple it is */}
@@ -142,26 +141,17 @@ const LandingPage: React.FC<LandingPageProps> = ({ isMobile, isTablet }) => {
           </div>
         </section>
 
-        {/* Personalization Simulator Section */}
-        <ParallaxSection speed={0.3}>
-          <section className="py-20 bg-black relative">
-            <div className="container mx-auto px-4">
-              <PersonalizationSimulator />
-            </div>
-          </section>
-        </ParallaxSection>
-
         {/* Interactive Comparison Table */}
         <section className="py-20 bg-[#050505]">
           <div className="container mx-auto px-4">
             <InteractiveComparisonTable
-              title="Generic vs. Personalized Marketing"
+              title="Generic Tools vs. VideoRemix VIP Ecosystem"
               rows={[
-                { feature: "Engagement Rate", generic: "2.3%", personalized: "5.3%", lift: "2.3x" },
-                { feature: "Conversion Rate", generic: "2.23%", personalized: "6-8%", lift: "80%" },
-                { feature: "ROI", generic: "Standard", personalized: true, lift: "5-8x" },
-                { feature: "Customer Retention", generic: "38%", personalized: "64%", lift: "68%" },
-                { feature: "Time to Convert", generic: "14 days", personalized: "5 days", lift: "64%" },
+                { feature: "App Coverage", generic: "Single workflow", personalized: "113 apps across marketing, sales, video, hiring, productivity, and AI", lift: "10x" },
+                { feature: "Cross-Workflow Context", generic: "Data silos", personalized: "Shared context across apps", lift: "Unified" },
+                { feature: "Automation", generic: "Manual handoffs", personalized: "Agentic AI workflows", lift: "5-8x" },
+                { feature: "Time to Outcome", generic: "Days to weeks", personalized: "Minutes to hours", lift: "64%" },
+                { feature: "Scalability", generic: "Hire more tools/people", personalized: "Add apps and seats", lift: "3-5x" },
               ]}
             />
           </div>

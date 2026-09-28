@@ -91,12 +91,12 @@ const MixtureOfAgentsPage: React.FC = () => {
               <CardHeader><CardTitle>Agent Configuration</CardTitle></CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <FormSection title="API Configuration" description="Enter your Together API key">
+                  <FormSection title="API Configuration" description="Enter your OpenAI API key">
                     <ApiKeyInput
-                      label="Together API Key"
-                      name="enter_your_together_api_key"
-                      value={formData.enter_your_together_api_key}
-                      onChange={(val) => setFormData({ ...formData, enter_your_together_api_key: val })}
+                      label="OpenAI API Key"
+                      name="openai_api_key"
+                      value={formData.openai_api_key}
+                      onChange={(val) => setFormData({ ...formData, openai_api_key: val })}
                       helperText="Your key is stored locally and never sent to our servers"
                       required
                     />

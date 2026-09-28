@@ -25,8 +25,10 @@ import DashboardPersonalizerSection from "../components/dashboard/DashboardPerso
 import DashboardContactSection from "../components/dashboard/DashboardContactSection";
 import EnhancedStatCard from "../components/dashboard/EnhancedStatCard";
 import OnboardingProgressTracker from "../components/dashboard/OnboardingProgressTracker";
+import AppGallerySection from "../components/AppGallerySection";
 import MagicSparkles from "../components/MagicSparkles";
 import OnboardingWizard from "../components/onboarding/OnboardingWizard";
+import { Link } from "react-router-dom";
 
 const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
@@ -100,57 +102,102 @@ const DashboardPage: React.FC = () => {
               >
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-x-8 gap-y-6 mb-8">
                   <div>
-                    <div className="text-[11px] font-semibold tracking-[3px] text-primary-400/70 mb-1.5">YOUR COMMAND CENTER</div>
+                    <div className="text-[11px] font-semibold tracking-[3px] text-primary-400/70 mb-1.5">
+                      {user ? "YOUR COMMAND CENTER" : "APP EXPLORER"}
+                    </div>
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-[-1.5px] text-white mb-3">
-                      {greeting}, <span className="text-primary-400">{userName}</span>.
+                      {user ? (
+                        <>
+                          {greeting}, <span className="text-primary-400">{userName}</span>.
+                        </>
+                      ) : (
+                        <>
+                          Explore <span className="text-primary-400">117 apps</span>.
+                        </>
+                      )}
                     </h1>
                     <p className="text-xl text-gray-300 max-w-md">
-                      You have powerful tools across <span className="font-medium text-white">10 production batches</span>. Let's create something exceptional today.
+                      {user
+                        ? `You have powerful tools across 10 production batches. Let's create something exceptional today.`
+                        : "Browse the full VideoRemix.vip catalog. Sign in to unlock personalized tools and your command center."}
                     </p>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-3 md:pt-2">
-                    <button
-                      onClick={() => setTheme(preferences.theme === "dark" ? "light" : "dark")}
-                      className="h-11 w-11 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/80 hover:text-white transition-all active:scale-[0.96]"
-                      title="Toggle theme"
-                    >
-                      {preferences.theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                    </button>
+                    {user ? (
+                      <>
+                        <button
+                          onClick={() => setTheme(preferences.theme === "dark" ? "light" : "dark")}
+                          className="h-11 w-11 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/80 hover:text-white transition-all active:scale-[0.96]"
+                          title="Toggle theme"
+                        >
+                          {preferences.theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                        </button>
 
-                    <button
-                      onClick={() => navigate("/profile")}
-                      className="hidden md:flex h-11 items-center gap-2.5 rounded-2xl border border-white/10 bg-white/5 px-5 text-sm font-medium text-white/90 hover:bg-white/10 hover:text-white transition-all active:scale-[0.985]"
-                    >
-                      <User className="h-4 w-4" /> Profile
-                    </button>
+                        <button
+                          onClick={() => navigate("/profile")}
+                          className="hidden md:flex h-11 items-center gap-2.5 rounded-2xl border border-white/10 bg-white/5 px-5 text-sm font-medium text-white/90 hover:bg-white/10 hover:text-white transition-all active:scale-[0.985]"
+                        >
+                          <User className="h-4 w-4" /> Profile
+                        </button>
 
-                    <button
-                      onClick={async () => {
-                        if (signingOut) return;
-                        setSigningOut(true);
-                        try {
-                          const { error } = await signOut();
-                          if (error) toast({ title: "Sign Out Failed", description: error.message, variant: "destructive" });
-                        } finally {
-                          setSigningOut(false);
-                        }
-                      }}
-                      disabled={signingOut}
-                      className="hidden md:flex h-11 items-center gap-2.5 rounded-2xl border border-white/10 bg-white/5 px-5 text-sm font-medium text-white/90 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20 transition-all active:scale-[0.985]"
-                    >
-                      {signingOut ? (
-                        <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-current" />
-                      ) : (
-                        <LogOut className="h-4 w-4" />
-                      )}
-                      {signingOut ? "Signing out..." : "Sign out"}
-                    </button>
+                        <button
+                          onClick={async () => {
+                            if (signingOut) return;
+                            setSigningOut(true);
+                            try {
+                              const { error } = await signOut();
+                              if (error) toast({ title: "Sign Out Failed", description: error.message, variant: "destructive" });
+                            } finally {
+                              setSigningOut(false);
+                            }
+                          }}
+                          disabled={signingOut}
+                          className="hidden md:flex h-11 items-center gap-2.5 rounded-2xl border border-white/10 bg-white/5 px-5 text-sm font-medium text-white/90 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20 transition-all active:scale-[0.985]"
+                        >
+                          {signingOut ? (
+                            <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-current" />
+                          ) : (
+                            <LogOut className="h-4 w-4" />
+                          )}
+                          {signingOut ? "Signing out..." : "Sign out"}
+                        </button>
+                      </>
+                    ) : (
+                      <div className="flex items-center gap-3">
+                        <Link
+                          to="/signin"
+                          className="hidden md:inline-flex h-11 items-center rounded-2xl border border-white/10 bg-white/5 px-5 text-sm font-medium text-white/90 hover:bg-white/10 hover:text-white transition-all active:scale-[0.985]"
+                        >
+                          Sign In
+                        </Link>
+                        <Link
+                          to="/signup"
+                          className="inline-flex h-11 items-center rounded-2xl bg-white px-5 text-sm font-semibold text-black transition hover:bg-gray-200 active:scale-[0.985]"
+                        >
+                          Get Started
+                        </Link>
+                      </div>
+                    )}
                   </div>
                 </div>
 
+                {/* Public CTA for non-logged-in visitors */}
+                {!user && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-8 inline-flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-5 py-2.5 text-sm"
+                  >
+                    <span className="text-white/90">New here?</span>
+                    <Link to="/applications" className="text-primary-400 hover:text-primary-300 font-medium">
+                      Browse all apps →
+                    </Link>
+                  </motion.div>
+                )}
+
                 {/* Recent Achievements — refined */}
-                {recentAchievements.length > 0 && (
+                {user && recentAchievements.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -166,55 +213,59 @@ const DashboardPage: React.FC = () => {
               </motion.div>
 
               {/* Onboarding Progress */}
-              <div className="mb-8">
-                <OnboardingProgressTracker />
-              </div>
+              {user && (
+                <div className="mb-8">
+                  <OnboardingProgressTracker />
+                </div>
+              )}
 
               {/* Premium Stats Row — elevated to match new batch dashboard language */}
-              <div className="mb-10">
-                <div className="text-[11px] font-semibold tracking-[3px] text-white/50 mb-3 px-1">YOUR PERFORMANCE AT A GLANCE</div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.15 }}
-                  className="grid grid-cols-1 md:grid-cols-3 gap-4"
-                >
-                  <EnhancedStatCard
-                    title="Tools Owned"
-                    value={stats.purchasedAppsCount}
-                    icon={Zap}
-                    sparklineData={sparklineData}
-                    loading={statsLoading}
-                    error={statsError}
-                    change={15}
-                    changeLabel="since last month"
-                    color="#6366f1"
-                  />
-                  <EnhancedStatCard
-                    title="Videos Created"
-                    value={stats.videosCreated}
-                    icon={Video}
-                    loading={statsLoading}
-                    error={statsError}
-                    change={stats.videosCreated > 0 ? 25 : 0}
-                    changeLabel="since last month"
-                    color="#8b5cf6"
-                  />
-                  <EnhancedStatCard
-                    title="Time Saved"
-                    value={timeSavedPercentage}
-                    suffix="%"
-                    icon={Award}
-                    loading={statsLoading}
-                    error={statsError}
-                    change={timeSavedPercentage > 0 ? 10 : 0}
-                    changeLabel="productivity lift"
-                    color="#10b981"
-                  />
-                </motion.div>
-              </div>
+              {user && (
+                <div className="mb-10">
+                  <div className="text-[11px] font-semibold tracking-[3px] text-white/50 mb-3 px-1">YOUR PERFORMANCE AT A GLANCE</div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.15 }}
+                    className="grid grid-cols-1 md:grid-cols-3 gap-4"
+                  >
+                    <EnhancedStatCard
+                      title="Tools Owned"
+                      value={stats.purchasedAppsCount}
+                      icon={Zap}
+                      sparklineData={sparklineData}
+                      loading={statsLoading}
+                      error={statsError}
+                      change={15}
+                      changeLabel="since last month"
+                      color="#6366f1"
+                    />
+                    <EnhancedStatCard
+                      title="Videos Created"
+                      value={stats.videosCreated}
+                      icon={Video}
+                      loading={statsLoading}
+                      error={statsError}
+                      change={stats.videosCreated > 0 ? 25 : 0}
+                      changeLabel="since last month"
+                      color="#8b5cf6"
+                    />
+                    <EnhancedStatCard
+                      title="Time Saved"
+                      value={timeSavedPercentage}
+                      suffix="%"
+                      icon={Award}
+                      loading={statsLoading}
+                      error={statsError}
+                      change={timeSavedPercentage > 0 ? 10 : 0}
+                      changeLabel="productivity lift"
+                      color="#10b981"
+                    />
+                  </motion.div>
+                </div>
+              )}
 
-              {statsError && (
+              {user && statsError && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -227,11 +278,19 @@ const DashboardPage: React.FC = () => {
           </div>
         </section>
 
-        {/* Dashboard Personalizer Section */}
-        <DashboardPersonalizerSection />
+        {/* Public app catalog for all visitors */}
+        <AppGallerySection />
 
-        {/* Dashboard Tools Section */}
-        <DashboardToolsSection />
+        {/* Logged-in user sections */}
+        {user && (
+          <>
+            {/* Dashboard Personalizer Section */}
+            <DashboardPersonalizerSection />
+
+            {/* Dashboard Tools Section */}
+            <DashboardToolsSection />
+          </>
+        )}
 
         {/* Dashboard Contact Section */}
         <DashboardContactSection />

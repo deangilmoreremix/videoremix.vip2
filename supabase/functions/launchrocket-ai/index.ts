@@ -162,24 +162,33 @@ Format your response as a JSON object with this exact structure:
 
 Be specific, evidence-based, and focus on actionable insights for product launch strategy.`;
 
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    max_tokens: 3000,
-    temperature: 0.3,
-    response_format: { type: 'json_object' },
-    messages: [
-      {
-        role: 'system',
-        content: 'You are a senior product marketing strategist. Always respond with valid JSON.'
-      },
-      {
-        role: 'user',
-        content: prompt
+  const response = await openai.responses.create({
+    model: 'gpt-5.5',
+    instructions: 'You are a senior product marketing strategist. Always respond with valid JSON.',
+    input: prompt,
+    text: {
+      format: {
+        type: 'json_schema',
+        name: 'CompetitorAnalysis',
+        strict: true,
+        schema: {
+          type: 'object',
+          properties: {
+            positioning: { type: 'string' },
+            pricing: { type: 'string' },
+            channels: { type: 'array', items: { type: 'string' } },
+            timeline: { type: 'string' },
+            differentiators: { type: 'array', items: { type: 'string' } },
+            risks: { type: 'array', items: { type: 'string' } }
+          },
+          required: ['positioning', 'pricing', 'channels', 'timeline', 'differentiators', 'risks'],
+          additionalProperties: false
+        }
       }
-    ]
+    }
   });
 
-  const content = response.choices[0].message.content;
+  const content = response.output_text;
   if (!content) {
     throw new Error('Unexpected response type');
   }
@@ -236,24 +245,33 @@ Format your response as a JSON object:
 
 Be data-driven and cite patterns from social data, reviews, and market signals.`;
 
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    max_tokens: 2500,
-    temperature: 0.3,
-    response_format: { type: 'json_object' },
-    messages: [
-      {
-        role: 'system',
-        content: 'You are a market research analyst. Always respond with valid JSON.'
-      },
-      {
-        role: 'user',
-        content: prompt
+  const response = await openai.responses.create({
+    model: 'gpt-5.5',
+    instructions: 'You are a market research analyst. Always respond with valid JSON.',
+    input: prompt,
+    text: {
+      format: {
+        type: 'json_schema',
+        name: 'MarketSentiment',
+        strict: true,
+        schema: {
+          type: 'object',
+          properties: {
+            overallScore: { type: 'number' },
+            positiveDrivers: { type: 'array', items: { type: 'string' } },
+            negativeDrivers: { type: 'array', items: { type: 'string' } },
+            socialMentions: { type: 'number' },
+            reviewSummary: { type: 'string' },
+            keyThemes: { type: 'array', items: { type: 'string' } }
+          },
+          required: ['overallScore', 'positiveDrivers', 'negativeDrivers', 'socialMentions', 'reviewSummary', 'keyThemes'],
+          additionalProperties: false
+        }
       }
-    ]
+    }
   });
 
-  const content = response.choices[0].message.content;
+  const content = response.output_text;
   if (!content) {
     throw new Error('Unexpected response type');
   }
@@ -318,24 +336,33 @@ Format your response as a JSON object:
 
 Be specific with numbers, ranges, and realistic benchmarks based on market data.`;
 
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    max_tokens: 2500,
-    temperature: 0.3,
-    response_format: { type: 'json_object' },
-    messages: [
-      {
-        role: 'system',
-        content: 'You are a product launch analyst. Always respond with valid JSON.'
-      },
-      {
-        role: 'user',
-        content: prompt
+  const response = await openai.responses.create({
+    model: 'gpt-5.5',
+    instructions: 'You are a product launch analyst. Always respond with valid JSON.',
+    input: prompt,
+    text: {
+      format: {
+        type: 'json_schema',
+        name: 'LaunchMetrics',
+        strict: true,
+        schema: {
+          type: 'object',
+          properties: {
+            adoptionRate: { type: 'string' },
+            marketPenetration: { type: 'string' },
+            cacRange: { type: 'string' },
+            timeToMarket: { type: 'string' },
+            successFactors: { type: 'array', items: { type: 'string' } },
+            benchmarkCompanies: { type: 'array', items: { type: 'string' } }
+          },
+          required: ['adoptionRate', 'marketPenetration', 'cacRange', 'timeToMarket', 'successFactors', 'benchmarkCompanies'],
+          additionalProperties: false
+        }
       }
-    ]
+    }
   });
 
-  const content = response.choices[0].message.content;
+  const content = response.output_text;
   if (!content) {
     throw new Error('Unexpected response type');
   }
@@ -401,24 +428,33 @@ Format your response as a JSON object:
 
 Focus on actionable, specific recommendations that drive launch success.`;
 
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    max_tokens: 3000,
-    temperature: 0.3,
-    response_format: { type: 'json_object' },
-    messages: [
-      {
-        role: 'system',
-        content: 'You are a senior product strategy consultant. Always respond with valid JSON.'
-      },
-      {
-        role: 'user',
-        content: prompt
+  const response = await openai.responses.create({
+    model: 'gpt-5.5',
+    instructions: 'You are a senior product strategy consultant. Always respond with valid JSON.',
+    input: prompt,
+    text: {
+      format: {
+        type: 'json_schema',
+        name: 'LaunchRecommendations',
+        strict: true,
+        schema: {
+          type: 'object',
+          properties: {
+            positioning: { type: 'array', items: { type: 'string' } },
+            pricing: { type: 'array', items: { type: 'string' } },
+            channels: { type: 'array', items: { type: 'string' } },
+            timeline: { type: 'array', items: { type: 'string' } },
+            risks: { type: 'array', items: { type: 'string' } },
+            actionItems: { type: 'array', items: { type: 'string' } }
+          },
+          required: ['positioning', 'pricing', 'channels', 'timeline', 'risks', 'actionItems'],
+          additionalProperties: false
+        }
       }
-    ]
+    }
   });
 
-  const content = response.choices[0].message.content;
+  const content = response.output_text;
   if (!content) {
     throw new Error('Unexpected response type');
   }

@@ -420,8 +420,8 @@ const PricingSection: React.FC = () => {
     <section className="py-20 bg-gradient-to-b from-gray-900 to-black">
       <div className="container mx-auto px-4">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-white mb-8">Pricing Section</h2>
-          <p className="text-gray-300">Coming soon...</p>
+          <h2 className="text-3xl font-bold text-white mb-8">Simple Pricing for the Full Ecosystem</h2>
+          <p className="text-gray-300">One plan gives you access to all 113 apps across marketing, sales, video, hiring, and productivity.</p>
         </div>
       </div>
     </section>

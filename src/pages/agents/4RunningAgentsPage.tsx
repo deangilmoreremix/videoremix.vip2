@@ -3,12 +3,13 @@ import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Label } from "../../components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2 } from "lucide-react";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
 
 const Agent4RunningAgentsPage: React.FC = () => {
   const { user } = useAuth();
@@ -16,6 +17,15 @@ const Agent4RunningAgentsPage: React.FC = () => {
   const [loading, setLoading] = useState<string | null>(null);
   const [results, setResults] = useState<Record<string, any>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [mainForm, setMainForm] = useState({
+    select_demo_type: "", model: "", temperature: "", max_turns: "", your_message: "", top_p: "", workflow_name: "", group_id: "", user_id: "", feature: "", max_turns_set_low_to_trigger: ""
+  });
+  const [advancedForm, setAdvancedForm] = useState({
+    select_demo_type: "", model: "", temperature: "", max_turns: "", your_message: "", top_p: "", workflow_name: "", group_id: "", user_id: "", feature: "", max_turns_set_low_to_trigger: ""
+  });
+
+  const updateMain = (field: string, value: string) => setMainForm(prev => ({ ...prev, [field]: value }));
+  const updateAdvanced = (field: string, value: string) => setAdvancedForm(prev => ({ ...prev, [field]: value }));
 
   const handleSubmit = async (tabKey: string, data: any) => {
     setLoading(tabKey);
@@ -51,524 +61,71 @@ const Agent4RunningAgentsPage: React.FC = () => {
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="max-w-4xl mx-auto">
             <TabsList className="grid grid-cols-2 mb-8">
-              
               <TabsTrigger value="main">Main</TabsTrigger>
-                            
               <TabsTrigger value="advanced">Advanced</TabsTrigger>
-              
             </TabsList>
 
-            
             <TabsContent value="main">
-              <Card className="bg-gray-800/50 border-gray-700">
-                <CardHeader><CardTitle>Main</CardTitle></CardHeader>
-                <CardContent>
-                   <form onSubmit={(e) => { e.preventDefault(); handleSubmit('main', { select_demo_type, model, temperature, max_turns, your_message, top_p, workflow_name, group_id, user_id, feature, max_turns_set_low_to_trigger }); }} className="space-y-6">
+              {errors['main'] && <ErrorMessage title="Request Failed" message={errors['main']} onRetry={() => handleSubmit('main', mainForm)} retryLoading={loading === 'main'} />}
+              <FormSection title="Main Configuration" description="Configure main settings">
+                <SmartTextarea label="Select Demo Type" name="select_demo_type" value={mainForm.select_demo_type} onChange={(v) => updateMain('select_demo_type', v)} placeholder="" required />
+                <SmartTextarea label="Model" name="model" value={mainForm.model} onChange={(v) => updateMain('model', v)} placeholder="" required />
+                <SmartTextarea label="Temperature" name="temperature" value={mainForm.temperature} onChange={(v) => updateMain('temperature', v)} placeholder="" required />
+                <SmartTextarea label="Max Turns" name="max_turns" value={mainForm.max_turns} onChange={(v) => updateMain('max_turns', v)} placeholder="" required />
+                <SmartTextarea label="Your Message" name="your_message" value={mainForm.your_message} onChange={(v) => updateMain('your_message', v)} placeholder="" required />
+                <SmartTextarea label="Top P" name="top_p" value={mainForm.top_p} onChange={(v) => updateMain('top_p', v)} placeholder="" required />
+                <SmartTextarea label="Workflow Name" name="workflow_name" value={mainForm.workflow_name} onChange={(v) => updateMain('workflow_name', v)} placeholder="" required />
+                <SmartTextarea label="Group ID" name="group_id" value={mainForm.group_id} onChange={(v) => updateMain('group_id', v)} placeholder="" required />
+                <SmartTextarea label="User ID" name="user_id" value={mainForm.user_id} onChange={(v) => updateMain('user_id', v)} placeholder="" required />
+                <SmartTextarea label="Feature" name="feature" value={mainForm.feature} onChange={(v) => updateMain('feature', v)} placeholder="" required />
+                <SmartTextarea label="Max Turns (set low to trigger)" name="max_turns_set_low_to_trigger" value={mainForm.max_turns_set_low_to_trigger} onChange={(v) => updateMain('max_turns_set_low_to_trigger', v)} placeholder="" required />
+              </FormSection>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="select_demo_type">Select Demo Type</Label>
-                      <Textarea
-                        id="select_demo_type"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+              {loading === 'main' && <LoadingIndicator message="Processing..." subtext="Running main workflow" />}
 
-                    <div className="space-y-2">
-                      <Label htmlFor="model">Model</Label>
-                      <Textarea
-                        id="model"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="temperature">Temperature</Label>
-                      <Textarea
-                        id="temperature"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="max_turns">Max Turns</Label>
-                      <Textarea
-                        id="max_turns"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="temperature">Temperature</Label>
-                      <Textarea
-                        id="temperature"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="top_p">Top P</Label>
-                      <Textarea
-                        id="top_p"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="max_turns">Max Turns</Label>
-                      <Textarea
-                        id="max_turns"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="workflow_name">Workflow Name</Label>
-                      <Textarea
-                        id="workflow_name"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="group_id">Group ID</Label>
-                      <Textarea
-                        id="group_id"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="user_id">User ID</Label>
-                      <Textarea
-                        id="user_id"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="feature">Feature</Label>
-                      <Textarea
-                        id="feature"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="max_turns_set_low_to_trigger">Max Turns (set low to trigger)</Label>
-                      <Textarea
-                        id="max_turns_set_low_to_trigger"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <Button type="submit" disabled={loading === 'main'}>
-                      {loading === 'main' ? 'Processing...' : 'Run'}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
+              <ActionButton type="button" loading={loading === 'main'} onClick={() => handleSubmit('main', mainForm)} className="w-full mt-6">
+                Run
+              </ActionButton>
 
               {results['main'] && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6">
-                  <Card className="bg-gray-800/50 border-gray-700">
-                    <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                    <CardContent>
-                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(results['main'], null, 2)}</pre>
-                    </CardContent>
-                  </Card>
+                  <ResultCard title="Main Result" variant="success">
+                    <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans mt-2">{JSON.stringify(results['main'], null, 2)}</pre>
+                  </ResultCard>
                 </motion.div>
               )}
             </TabsContent>
-            
+
             <TabsContent value="advanced">
-              <Card className="bg-gray-800/50 border-gray-700">
-                <CardHeader><CardTitle>Advanced</CardTitle></CardHeader>
-                <CardContent>
-                   <form onSubmit={(e) => { e.preventDefault(); handleSubmit('advanced', { select_demo_type, model, temperature, max_turns, your_message, top_p, workflow_name, group_id, user_id, feature, max_turns_set_low_to_trigger }); }} className="space-y-6">
+              {errors['advanced'] && <ErrorMessage title="Request Failed" message={errors['advanced']} onRetry={() => handleSubmit('advanced', advancedForm)} retryLoading={loading === 'advanced'} />}
+              <FormSection title="Advanced Configuration" description="Configure advanced settings">
+                <SmartTextarea label="Select Demo Type" name="select_demo_type" value={advancedForm.select_demo_type} onChange={(v) => updateAdvanced('select_demo_type', v)} placeholder="" required />
+                <SmartTextarea label="Model" name="model" value={advancedForm.model} onChange={(v) => updateAdvanced('model', v)} placeholder="" required />
+                <SmartTextarea label="Temperature" name="temperature" value={advancedForm.temperature} onChange={(v) => updateAdvanced('temperature', v)} placeholder="" required />
+                <SmartTextarea label="Max Turns" name="max_turns" value={advancedForm.max_turns} onChange={(v) => updateAdvanced('max_turns', v)} placeholder="" required />
+                <SmartTextarea label="Your Message" name="your_message" value={advancedForm.your_message} onChange={(v) => updateAdvanced('your_message', v)} placeholder="" required />
+                <SmartTextarea label="Top P" name="top_p" value={advancedForm.top_p} onChange={(v) => updateAdvanced('top_p', v)} placeholder="" required />
+                <SmartTextarea label="Workflow Name" name="workflow_name" value={advancedForm.workflow_name} onChange={(v) => updateAdvanced('workflow_name', v)} placeholder="" required />
+                <SmartTextarea label="Group ID" name="group_id" value={advancedForm.group_id} onChange={(v) => updateAdvanced('group_id', v)} placeholder="" required />
+                <SmartTextarea label="User ID" name="user_id" value={advancedForm.user_id} onChange={(v) => updateAdvanced('user_id', v)} placeholder="" required />
+                <SmartTextarea label="Feature" name="feature" value={advancedForm.feature} onChange={(v) => updateAdvanced('feature', v)} placeholder="" required />
+                <SmartTextarea label="Max Turns (set low to trigger)" name="max_turns_set_low_to_trigger" value={advancedForm.max_turns_set_low_to_trigger} onChange={(v) => updateAdvanced('max_turns_set_low_to_trigger', v)} placeholder="" required />
+              </FormSection>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="select_demo_type">Select Demo Type</Label>
-                      <Textarea
-                        id="select_demo_type"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
+              {loading === 'advanced' && <LoadingIndicator message="Processing..." subtext="Running advanced workflow" />}
 
-                    <div className="space-y-2">
-                      <Label htmlFor="model">Model</Label>
-                      <Textarea
-                        id="model"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="temperature">Temperature</Label>
-                      <Textarea
-                        id="temperature"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="max_turns">Max Turns</Label>
-                      <Textarea
-                        id="max_turns"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="temperature">Temperature</Label>
-                      <Textarea
-                        id="temperature"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="top_p">Top P</Label>
-                      <Textarea
-                        id="top_p"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="max_turns">Max Turns</Label>
-                      <Textarea
-                        id="max_turns"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="workflow_name">Workflow Name</Label>
-                      <Textarea
-                        id="workflow_name"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="group_id">Group ID</Label>
-                      <Textarea
-                        id="group_id"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="user_id">User ID</Label>
-                      <Textarea
-                        id="user_id"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="feature">Feature</Label>
-                      <Textarea
-                        id="feature"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="max_turns_set_low_to_trigger">Max Turns (set low to trigger)</Label>
-                      <Textarea
-                        id="max_turns_set_low_to_trigger"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="your_message">Your message:</Label>
-                      <Textarea
-                        id="your_message"
-                        rows={3}
-                        placeholder=""
-                        className="bg-gray-900/50 border-gray-600"
-                      />
-                    </div>
-
-                    <Button type="submit" disabled={loading === 'advanced'}>
-                      {loading === 'advanced' ? 'Processing...' : 'Run'}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
+              <ActionButton type="button" loading={loading === 'advanced'} onClick={() => handleSubmit('advanced', advancedForm)} className="w-full mt-6">
+                Run
+              </ActionButton>
 
               {results['advanced'] && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6">
-                  <Card className="bg-gray-800/50 border-gray-700">
-                    <CardHeader><CardTitle>Results</CardTitle></CardHeader>
-                    <CardContent>
-                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(results['advanced'], null, 2)}</pre>
-                    </CardContent>
-                  </Card>
+                  <ResultCard title="Advanced Result" variant="success">
+                    <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans mt-2">{JSON.stringify(results['advanced'], null, 2)}</pre>
+                  </ResultCard>
                 </motion.div>
               )}
             </TabsContent>
-            
           </Tabs>
         </div>
       </main>

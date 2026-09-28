@@ -80,10 +80,10 @@ describe('SignUpPage', () => {
       expect(screen.getByText(/by creating an account/i)).toBeInTheDocument();
 
       const termsLink = screen.getByRole('link', { name: /terms of service/i });
-      expect(termsLink).toHaveAttribute('href', '/terms');
+      expect(termsLink).toHaveAttribute('href', '#');
 
       const privacyLink = screen.getByRole('link', { name: /privacy policy/i });
-      expect(privacyLink).toHaveAttribute('href', '/privacy');
+      expect(privacyLink).toHaveAttribute('href', '#');
     });
 
     it('should display benefits section', () => {

@@ -62,14 +62,11 @@ const GuaranteeSection: React.FC = () => {
 
                 <div className="md:w-2/3 md:pl-8">
                   <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 text-center md:text-left">
-                    Satisfaction Guaranteed with Full Platform Support
+                    Satisfaction Guaranteed With Full Ecosystem Support
                   </h3>
 
                   <p className="text-gray-300 mb-6">
-                    Start using VideoRemix with confidence. Try our platform
-                    with your account. Our dedicated support
-                    team is here to help you succeed with personalized
-                    marketing.
+                    Start using VideoRemix VIP with confidence. Explore 113 apps across marketing, sales, video, hiring, and productivity. Our support team is here to help you succeed across the entire platform.
                   </p>
 
                   <div className="space-y-3 mb-6">

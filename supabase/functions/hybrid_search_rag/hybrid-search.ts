@@ -54,13 +54,12 @@ async function rerankResults(query: string, results: any[]) {
 
   Return only the ranking numbers in order, separated by commas.`;
 
-  const rerankResponse = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    messages: [{ role: 'user', content: rerankPrompt }],
-    max_tokens: 50
+  const rerankResponse = await openai.responses.create({
+    model: 'gpt-5.5',
+    input: rerankPrompt,
   });
 
-  const ranking = rerankResponse.choices[0].message.content?.split(',').map(n => parseInt(n.trim()));
+  const ranking = (rerankResponse.output_text || '').split(',').map(n => parseInt(n.trim()));
   return ranking ? results.sort((a, b) => ranking.indexOf(results.indexOf(a)) - ranking.indexOf(results.indexOf(b))) : results;
 }
 

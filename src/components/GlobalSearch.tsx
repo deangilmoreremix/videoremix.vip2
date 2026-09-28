@@ -72,7 +72,7 @@ const GlobalSearch: React.FC = () => {
       title: "Contact",
       description: "Get in touch with us",
       category: "page",
-      path: "/contact",
+      path: "/pricing",
     },
   ];
 

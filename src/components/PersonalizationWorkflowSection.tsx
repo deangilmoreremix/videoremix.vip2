@@ -21,14 +21,14 @@ import { Link } from "react-router-dom";
 const workflowSteps = [
   {
     id: "audience-identification",
-    title: "Identify Your Marketing Audience Segments",
+    title: "Identify Your Users & Context",
     description:
-      "Our AI automatically analyzes your audience data and segments them based on behavior, demographics, and buying intent.",
+      "Our AI automatically analyzes user roles, company data, and workflow context to determine the right app, mode, and personalization depth.",
     benefits: [
-      "Automatic segmentation based on existing marketing data",
-      "Create custom segments for specific marketing campaigns",
-      "Import segments from CRM and marketing systems",
-      "Up to 20+ unique marketing audience segments supported",
+      "Automatic user and context detection across all apps",
+      "Create custom audience segments for any workflow",
+      "Import segments from CRM, HR, and business systems",
+      "Up to 20+ unique audience segments supported",
     ],
     color: "from-blue-500 to-indigo-600",
     icon: <Users className="h-10 w-10 text-white" />,
@@ -38,14 +38,14 @@ const workflowSteps = [
   },
   {
     id: "content-personalization",
-    title: "Personalize Your Marketing Content",
+    title: "Personalize App Behavior & Output",
     description:
-       "Choose from 20+ personalization tools to tailor your marketing content, images, and copy for each audience segment.",
+       "Choose from 20+ personalization dimensions to tailor app behavior, tone, format, and output for each user segment.",
     benefits: [
-      "Personalized marketing visuals, text, and audio",
-      "Dynamic content insertion based on prospect data",
-      "AI-powered marketing personalization recommendations",
-      "Custom branding elements for each market segment",
+      "Personalized app behavior, tone, and response style",
+      "Dynamic output formatting based on user context",
+      "AI-powered personalization recommendations per app",
+      "Custom branding and workflow rules for each segment",
     ],
     color: "from-purple-500 to-pink-600",
     icon: <Wand2 className="h-10 w-10 text-white" />,
@@ -55,14 +55,14 @@ const workflowSteps = [
   },
   {
     id: "automation-setup",
-    title: "Set Up Marketing Automation",
+    title: "Set Up Cross-App Automation",
     description:
-      "Configure when and how your personalized marketing is delivered to each audience segment automatically.",
+      "Configure when and how personalized app experiences are delivered across marketing, sales, hiring, and productivity workflows.",
     benefits: [
-      "Scheduled delivery based on optimal marketing times",
-      "Behavioral trigger-based marketing delivery",
-      "Multi-channel marketing distribution (email, social, web)",
-      "A/B testing for personalized marketing variants",
+      "Scheduled delivery based on optimal workflow times",
+      "Behavioral trigger-based app experience delivery",
+      "Multi-channel distribution (email, video, voice, chat)",
+      "A/B testing for personalized app variants",
     ],
     color: "from-orange-500 to-amber-600",
     icon: <Settings className="h-10 w-10 text-white" />,
@@ -72,18 +72,18 @@ const workflowSteps = [
   },
   {
     id: "measure-optimize",
-    title: "Measure & Optimize Marketing Performance",
+    title: "Measure & Optimize Across Workflows",
     description:
-      "Track marketing performance across segments and automatically optimize your personalization strategy for maximum conversions.",
+      "Track performance across segments and automatically optimize personalization strategy for maximum conversions in every app.",
     benefits: [
-      "Real-time marketing analytics by segment",
+      "Real-time analytics by segment and app",
       "Automatic A/B testing of personalization elements",
-      "AI-powered marketing optimization recommendations",
-      "ROI calculator for marketing personalization efforts",
+      "AI-powered optimization recommendations",
+      "ROI calculator for ecosystem-wide personalization",
     ],
     color: "from-green-500 to-emerald-600",
     icon: <BarChart className="h-10 w-10 text-white" />,
-    stats: { value: "300%", label: "Average marketing ROI increase" },
+    stats: { value: "300%", label: "Average engagement increase" },
     image:
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
   },
@@ -136,22 +136,21 @@ const PersonalizationWorkflowSection: React.FC = () => {
           className="max-w-4xl mx-auto text-center mb-16"
         >
           <div className="inline-block mb-3">
-            <div className="bg-primary-500/20 text-primary-400 px-4 py-1.5 rounded-full text-sm font-semibold">
-              MARKETING PERSONALIZATION MADE SIMPLE
-            </div>
+              <div className="bg-primary-500/20 text-primary-400 px-4 py-1.5 rounded-full text-sm font-semibold">
+                AI APP ECOSYSTEM MADE SIMPLE
+              </div>
           </div>
 
           <MagicSparkles minSparkles={3} maxSparkles={6}>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-              Create{" "}
-              <span className="text-primary-400">Personalized Marketing</span>{" "}
+              Run Your Entire Business with{" "}
+              <span className="text-primary-400">AI Apps</span>{" "}
               in Just Minutes
             </h2>
           </MagicSparkles>
 
           <p className="text-xl text-gray-300 mb-8">
-            Our intuitive workflow makes it easy to create personalized
-             marketing content and campaigns for every audience segment
+            Our intuitive workflow makes it easy to access and personalize any of our 113 AI apps for marketing, sales, hiring, video, and productivity
           </p>
         </motion.div>
 
@@ -296,7 +295,7 @@ const PersonalizationWorkflowSection: React.FC = () => {
 
                 {/* Step indicator */}
                 <div className="absolute top-4 left-4 bg-black/40 backdrop-blur-sm px-3 py-1 rounded text-sm font-medium text-white">
-                  Marketing Step {activeStep + 1} of {workflowSteps.length}
+                  App Step {activeStep + 1} of {workflowSteps.length}
                 </div>
 
                 {/* Personalization elements */}
@@ -307,22 +306,22 @@ const PersonalizationWorkflowSection: React.FC = () => {
                     <div className="flex items-center mb-2">
                       <Sparkles className="h-5 w-5 text-white mr-2" />
                       <h4 className="text-lg font-bold text-white">
-                        Marketing Personalization Preview
+                        App Ecosystem Personalization Preview
                       </h4>
                     </div>
                     <p className="text-white/90 text-sm mb-2">
                       {activeStep === 0 &&
-                        "Marketing segments identified: Decision Makers, Researchers, Influencers, Budget Holders"}
+                        "User segments identified: Marketing, Sales, Hiring, Productivity, AI Workforce"}
                       {activeStep === 1 &&
-                        "Personalizing marketing for CEO persona: Enterprise value proposition activated"}
+                        "Personalizing app behavior for Sales persona: CRM tone activated, follow-up automation enabled"}
                       {activeStep === 2 &&
-                                                 "Automation set: Deliver personalized marketing content via email 2 days after website visit"}
+                                                 "Automation set: Deliver personalized sales follow-up via email and CRM 2 days after meeting"}
                       {activeStep === 3 &&
-                        "Results: Decision Maker segment showing 247% higher marketing engagement rate"}
+                        "Results: Sales segment showing 247% higher engagement rate across apps"}
                     </p>
                     <div className="flex justify-end">
                       <div className="text-xs text-white/70">
-                        Marketing personalization powered by AI
+                        App personalization powered by AI
                       </div>
                     </div>
                   </div>
@@ -343,22 +342,22 @@ const PersonalizationWorkflowSection: React.FC = () => {
             {[
               {
                 value: "2.3x",
-                label: "Higher engagement with marketing personalization",
+                label: "Higher engagement with app personalization",
                 icon: <Target className="h-6 w-6 text-primary-400" />,
               },
               {
                 value: "80%",
-                label: "Increased marketing conversion rate",
+                label: "Increased conversion with personalized apps",
                 icon: <BarChart className="h-6 w-6 text-primary-400" />,
               },
               {
                 value: "5 min",
-                label: "Average marketing personalization time",
+                label: "Average app personalization time",
                 icon: <Clock className="h-6 w-6 text-primary-400" />,
               },
               {
-                value: "20+",
-                label: "Marketing personalization tools available",
+                value: "113+",
+                label: "AI apps with personalization",
                 icon: <Layers className="h-6 w-6 text-primary-400" />,
               },
             ].map((stat, index) => (
@@ -392,7 +391,7 @@ const PersonalizationWorkflowSection: React.FC = () => {
                 to="/tools"
                 className="inline-flex items-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg"
               >
-                <span>Explore All Marketing Personalization Tools</span>
+                 <span>Explore All AI Apps</span>
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </motion.div>

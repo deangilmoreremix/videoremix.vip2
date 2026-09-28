@@ -6,6 +6,14 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { FormSection } from "@/components/agent-ui/FormSection";
+import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ResultCard } from "@/components/agent-ui/ResultCard";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { Loader2, Upload, FileText } from "lucide-react";
 
 const MultimodalCodingAgentTeamPage: React.FC = () => {
@@ -30,8 +38,6 @@ const MultimodalCodingAgentTeamPage: React.FC = () => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('openai_api_key', textValues.openai_api_key || '');
-      formData.append('gemini_api_key', textValues.gemini_api_key || '');
-      formData.append('e2b_api_key', textValues.e2b_api_key || '');
       formData.append('upload_an_image_of_your_coding_problem_optional', textValues.upload_an_image_of_your_coding_problem_optional || '');
       formData.append('or_type_your_coding_problem_here', textValues.or_type_your_coding_problem_here || '');
       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-app-builder-assistant`, {
@@ -64,111 +70,65 @@ const MultimodalCodingAgentTeamPage: React.FC = () => {
             <p className="text-xl text-gray-400">AI-powered multimodal coding agent team.</p>
           </motion.div>
 
-          <Card className="bg-gray-800/50 border-gray-700 mb-8">
-            <CardHeader><CardTitle>Upload & Configure</CardTitle></CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="file">Upload File *</Label>
-                  <div
-                    className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-blue-500 cursor-pointer"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    <FileText className="h-12 w-12 mx-auto mb-4 text-gray-500" />
-                    <p className="text-gray-300">Click to select a file</p>
-                    {file && <p className="text-sm text-blue-400 mt-2">{file.name}</p>}
-                  </div>
-                  <input ref={fileInputRef} type="file" onChange={handleFileChange} className="hidden" />
+          {loading && <LoadingIndicator message="Processing file..." subtext="Analyzing your coding problem" />}
+
+          {error && <ErrorMessage title="Processing Failed" message={error} onRetry={handleSubmit} retryLoading={loading} />}
+
+          {!loading && (
+            <Card className="bg-gray-800/50 border-gray-700 mb-8">
+              <CardHeader><CardTitle>Upload & Configure</CardTitle></CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <FormSection title="File Upload" description="Upload your coding problem file">
+                    <div className="space-y-2">
+                      <Label htmlFor="file">Upload File *</Label>
+                      <div
+                        className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-blue-500 cursor-pointer"
+                        onClick={() => fileInputRef.current?.click()}
+                      >
+                        <FileText className="h-12 w-12 mx-auto mb-4 text-gray-500" />
+                        <p className="text-gray-300">Click to select a file</p>
+                        {file && <p className="text-sm text-blue-400 mt-2">{file.name}</p>}
+                      </div>
+                      <input ref={fileInputRef} type="file" onChange={handleFileChange} className="hidden" />
+                    </div>
+                  </FormSection>
+
+                  <FormSection title="API Configuration" description="Enter your OpenAI API key">
+                    <ApiKeyInput label="OpenAI API Key" name="openai_api_key" value={textValues.openai_api_key || ''} onChange={(v) => setTextValues(prev => ({ ...prev, openai_api_key: v }))} required helperText="Get your API key from OpenAI Platform" />
+                  </FormSection>
+
+                  <FormSection title="Problem Details" description="Describe your coding problem">
+                    <SmartInput label="Upload an image of your coding problem (optional)" name="upload_an_image_of_your_coding_problem_optional" value={textValues.upload_an_image_of_your_coding_problem_optional || ''} onChange={(v) => setTextValues(prev => ({ ...prev, upload_an_image_of_your_coding_problem_optional: v }))} placeholder="" />
+                    <SmartTextarea label="Or type your coding problem here" name="or_type_your_coding_problem_here" value={textValues.or_type_your_coding_problem_here || ''} onChange={(v) => setTextValues(prev => ({ ...prev, or_type_your_coding_problem_here: v }))} placeholder="" required />
+                  </FormSection>
+
+                  <ActionButton type="submit" loading={loading} disabled={loading || !file} className="w-full">
+                    Process File
+                  </ActionButton>
+                </form>
+              </CardContent>
+            </Card>
+          )}
+
+          {result && result.status === 'completed' && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <ResultCard title="Result" variant="success">
+                <div className="space-y-4 mt-4">
+                  {result.result && (
+                    <div className="space-y-2">
+                      <Label>Transcript</Label>
+                      <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(result, null, 2)}</pre>
+                    </div>
+                  )}
                 </div>
-
-
-                <div className="space-y-2">
-                  <Label htmlFor="openai_api_key">OpenAI API Key *</Label>
-                  <Input
-                    id="openai_api_key"
-                    value={textValues.openai_api_key || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, openai_api_key: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="gemini_api_key">Gemini API Key *</Label>
-                  <Input
-                    id="gemini_api_key"
-                    value={textValues.gemini_api_key || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, gemini_api_key: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="e2b_api_key">E2B API Key *</Label>
-                  <Input
-                    id="e2b_api_key"
-                    value={textValues.e2b_api_key || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, e2b_api_key: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="upload_an_image_of_your_coding_problem_optional">Upload an image of your coding problem (optional) *</Label>
-                  <Input
-                    id="upload_an_image_of_your_coding_problem_optional"
-                    value={textValues.upload_an_image_of_your_coding_problem_optional || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, upload_an_image_of_your_coding_problem_optional: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="or_type_your_coding_problem_here">Or type your coding problem here: *</Label>
-                  <Input
-                    id="or_type_your_coding_problem_here"
-                    value={textValues.or_type_your_coding_problem_here || ''}
-                    onChange={(e) => setTextValues(prev => ({ ...prev, or_type_your_coding_problem_here: e.target.value }))}
-                    placeholder=""
-                    className="bg-gray-900/50 border-gray-600"
-                  />
-                </div>
-
-
-                <Button type="submit" disabled={loading || !file} className="w-full">
-                  {loading ? 'Processing...' : 'Process File'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-
-          {error && <Card className="border-red-500/50 bg-red-500/10 mb-8"><CardContent className="pt-6"><p className="text-red-300">{error}</p></CardContent></Card>}
-
-           {result && (
-             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-               <Card className="bg-gray-800/50 border-gray-700">
-                 <CardHeader><CardTitle>Result</CardTitle></CardHeader>
-                 <CardContent>
-                   <div className="space-y-4">
-                     
-                     {result.result && (
-                       <div className="space-y-2">
-                         <Label>Transcript</Label>
-                         <pre className="whitespace-pre-wrap text-sm bg-gray-900/50 p-4 rounded font-sans">{JSON.stringify(result, null, 2)}</pre>
-                       </div>
-                     )}
-                   </div>
-                 </CardContent>
-               </Card>
-             </motion.div>
-           )}
+              </ResultCard>
+            </motion.div>
+          )}
         </div>
       </main>
     </>
   );
 };
 
-export default MultimodalCodingAgentTeamPage;
+ export default MultimodalCodingAgentTeamPage;

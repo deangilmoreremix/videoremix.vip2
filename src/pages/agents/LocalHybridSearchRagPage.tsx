@@ -2,9 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { Loader2, Bot, User, Trash2, Send } from "lucide-react";
 
 interface Message {
@@ -68,11 +71,13 @@ const LocalHybridSearchRagPage: React.FC = () => {
 
           <Card className="flex-1 bg-gray-800/50 border-gray-700 flex flex-col overflow-hidden">
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {messages.length === 0 && (
-                <div className="text-center text-gray-500 py-20">
-                  <Bot className="h-16 w-16 mx-auto mb-4 opacity-50" />
-                  <p>Start a conversation...</p>
-                </div>
+              {messages.length === 0 && !error && (
+                <EmptyState
+                  icon={<Bot className="h-16 w-16 text-gray-600" />}
+                  title="Start a conversation"
+                  description="Search and chat with hybrid RAG capabilities."
+                  tips={["Search across multiple sources", "Get hybrid-ranked results", "Ask complex questions"]}
+                />
               )}
 
               {messages.map((msg, idx) => (
@@ -90,22 +95,29 @@ const LocalHybridSearchRagPage: React.FC = () => {
                 </motion.div>
               ))}
 
-              {loading && (
-                <div className="flex items-center space-x-2 text-gray-500">
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  <span>Thinking...</span>
-                </div>
-              )}
+              {loading && <LoadingIndicator message="Thinking..." />}
+              {error && <ErrorMessage message={error} onRetry={handleSubmit} />}
 
               <div ref={messagesEndRef} />
             </div>
 
             <div className="border-t border-gray-700 p-4 bg-gray-900/50">
               <form onSubmit={handleSubmit} className="flex space-x-2">
-                <Input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type your message..."
-                  className="flex-1 bg-gray-800 border-gray-600 text-white" disabled={loading} />
-                <Button type="submit" disabled={loading || !input.trim()}><Send className="h-4 w-4" /></Button>
-                <Button type="button" variant="ghost" size="icon" onClick={clearChat}><Trash2 className="h-4 w-4" /></Button>
+                <SmartInput
+                  name="message"
+                  label=""
+                  value={input}
+                  onChange={setInput}
+                  placeholder="Type your message..."
+                  disabled={loading}
+                  className="flex-1"
+                />
+                <ActionButton type="submit" loading={loading} disabled={loading || !input.trim()}>
+                  <Send className="h-4 w-4" />
+                </ActionButton>
+                <ActionButton type="button" variant="ghost" size="icon" onClick={clearChat}>
+                  <Trash2 className="h-4 w-4" />
+                </ActionButton>
               </form>
             </div>
           </Card>
@@ -115,4 +127,4 @@ const LocalHybridSearchRagPage: React.FC = () => {
   );
 };
 
-export default LocalHybridSearchRagPage;
+ export default LocalHybridSearchRagPage;

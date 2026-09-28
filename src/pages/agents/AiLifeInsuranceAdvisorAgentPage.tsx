@@ -37,18 +37,18 @@ const INCOME_REPLACEMENT_OPTIONS = [
 
 const AiLifeInsuranceAdvisorAgentPage: React.FC = () => {
   const { user } = useAuth();
-  const [openaiApiKey, setOpenaiApiKey] = useState("");
-  const [firecrawlApiKey, setFirecrawlApiKey] = useState("");
-  const [e2bApiKey, setE2bApiKey] = useState("");
-  const [age, setAge] = useState("");
-  const [annualIncome, setAnnualIncome] = useState("");
-  const [dependents, setDependents] = useState("");
-  const [countryState, setCountryState] = useState("");
-  const [totalDebt, setTotalDebt] = useState("");
-  const [savingsInvestments, setSavingsInvestments] = useState("");
-  const [existingInsurance, setExistingInsurance] = useState("");
-  const [currency, setCurrency] = useState("USD");
-  const [incomeReplacementHorizon, setIncomeReplacementHorizon] = useState("10_years");
+  const [formData, setFormData] = useState({ 
+    openai_api_key: "", 
+    age: "", 
+    annual_income: "", 
+    dependents: "", 
+    country_state: "", 
+    total_debt: "", 
+    savings_investments: "", 
+    existing_insurance: "", 
+    currency: "USD", 
+    income_replacement_horizon: "10_years" 
+  });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -58,33 +58,18 @@ const AiLifeInsuranceAdvisorAgentPage: React.FC = () => {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        setOpenaiApiKey(parsed.openaiApiKey || "");
-        setFirecrawlApiKey(parsed.firecrawlApiKey || "");
-        setE2bApiKey(parsed.e2bApiKey || "");
-        setAge(parsed.age || "");
-        setAnnualIncome(parsed.annualIncome || "");
-        setDependents(parsed.dependents || "");
-        setCountryState(parsed.countryState || "");
-        setTotalDebt(parsed.totalDebt || "");
-        setSavingsInvestments(parsed.savingsInvestments || "");
-        setExistingInsurance(parsed.existingInsurance || "");
-        setCurrency(parsed.currency || "USD");
-        setIncomeReplacementHorizon(parsed.incomeReplacementHorizon || "10_years");
+        setFormData(parsed);
       } catch {}
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      openaiApiKey, firecrawlApiKey, e2bApiKey, age, annualIncome, dependents,
-      countryState, totalDebt, savingsInvestments, existingInsurance, currency, incomeReplacementHorizon
-    }));
-  }, [openaiApiKey, firecrawlApiKey, e2bApiKey, age, annualIncome, dependents,
-      countryState, totalDebt, savingsInvestments, existingInsurance, currency, incomeReplacementHorizon]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  }, [formData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!age || !annualIncome) {
+    if (!formData.age || !formData.annual_income) {
       setError("Please fill in required fields");
       return;
     }
@@ -95,18 +80,7 @@ const AiLifeInsuranceAdvisorAgentPage: React.FC = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          openai_api_key: openaiApiKey,
-          firecrawl_api_key: firecrawlApiKey,
-          e2b_api_key: e2bApiKey,
-          age,
-          annual_income: annualIncome,
-          dependents,
-          country__state: countryState,
-          total_outstanding_debt_incl_mortgage: totalDebt,
-          savings__investments_available_to_dependents: savingsInvestments,
-          existing_life_insurance: existingInsurance,
-          currency,
-          income_replacement_horizon: incomeReplacementHorizon,
+          ...formData,
           userId: user?.id
         })
       });
@@ -122,18 +96,18 @@ const AiLifeInsuranceAdvisorAgentPage: React.FC = () => {
   };
 
   const handleReset = () => {
-    setOpenaiApiKey("");
-    setFirecrawlApiKey("");
-    setE2bApiKey("");
-    setAge("");
-    setAnnualIncome("");
-    setDependents("");
-    setCountryState("");
-    setTotalDebt("");
-    setSavingsInvestments("");
-    setExistingInsurance("");
-    setCurrency("USD");
-    setIncomeReplacementHorizon("10_years");
+    setFormData({ 
+      openai_api_key: "", 
+      age: "", 
+      annual_income: "", 
+      dependents: "", 
+      country_state: "", 
+      total_debt: "", 
+      savings_investments: "", 
+      existing_insurance: "", 
+      currency: "USD", 
+      income_replacement_horizon: "10_years" 
+    });
     setResult(null);
     setError(null);
   };
@@ -223,42 +197,22 @@ const AiLifeInsuranceAdvisorAgentPage: React.FC = () => {
             <CardHeader><CardTitle>Your Information</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <SmartInput
-                    label="OpenAI API Key"
-                    name="openaiApiKey"
-                    value={openaiApiKey}
-                    onChange={setOpenaiApiKey}
-                    type="password"
-                    placeholder="sk-..."
-                    helperText="Required for analysis"
-                  />
-                  <SmartInput
-                    label="Firecrawl API Key"
-                    name="firecrawlApiKey"
-                    value={firecrawlApiKey}
-                    onChange={setFirecrawlApiKey}
-                    type="password"
-                    placeholder="fc-..."
-                    helperText="For market research"
-                  />
-                  <SmartInput
-                    label="E2B API Key"
-                    name="e2bApiKey"
-                    value={e2bApiKey}
-                    onChange={setE2bApiKey}
-                    type="password"
-                    placeholder="e2b-..."
-                    helperText="For insurance data"
-                  />
-                </div>
+                <SmartInput
+                  label="OpenAI API Key"
+                  name="openai_api_key"
+                  value={formData.openai_api_key}
+                  onChange={(val) => setFormData({ ...formData, openai_api_key: val })}
+                  type="password"
+                  placeholder="sk-..."
+                  helperText="Required for analysis"
+                />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <SmartInput
                     label="Age *"
                     name="age"
-                    value={age}
-                    onChange={setAge}
+                    value={formData.age}
+                    onChange={(val) => setFormData({ ...formData, age: val })}
                     type="number"
                     placeholder="35"
                     helperText="Your current age"
@@ -266,9 +220,9 @@ const AiLifeInsuranceAdvisorAgentPage: React.FC = () => {
                   />
                   <SmartInput
                     label="Annual Income *"
-                    name="annualIncome"
-                    value={annualIncome}
-                    onChange={setAnnualIncome}
+                    name="annual_income"
+                    value={formData.annual_income}
+                    onChange={(val) => setFormData({ ...formData, annual_income: val })}
                     type="number"
                     placeholder="85000"
                     helperText="Your yearly gross income"
@@ -280,17 +234,17 @@ const AiLifeInsuranceAdvisorAgentPage: React.FC = () => {
                   <SmartInput
                     label="Number of Dependents"
                     name="dependents"
-                    value={dependents}
-                    onChange={setDependents}
+                    value={formData.dependents}
+                    onChange={(val) => setFormData({ ...formData, dependents: val })}
                     type="number"
                     placeholder="2"
                     helperText="Family members who rely on your income"
                   />
                   <SmartInput
                     label="Country / State"
-                    name="countryState"
-                    value={countryState}
-                    onChange={setCountryState}
+                    name="country_state"
+                    value={formData.country_state}
+                    onChange={(val) => setFormData({ ...formData, country_state: val })}
                     placeholder="USA / California"
                     helperText="Your location for regional recommendations"
                   />
@@ -299,18 +253,18 @@ const AiLifeInsuranceAdvisorAgentPage: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <SmartInput
                     label="Total Outstanding Debt"
-                    name="totalDebt"
-                    value={totalDebt}
-                    onChange={setTotalDebt}
+                    name="total_debt"
+                    value={formData.total_debt}
+                    onChange={(val) => setFormData({ ...formData, total_debt: val })}
                     type="number"
                     placeholder="250000"
                     helperText="Including mortgage"
                   />
                   <SmartInput
                     label="Savings & Investments"
-                    name="savingsInvestments"
-                    value={savingsInvestments}
-                    onChange={setSavingsInvestments}
+                    name="savings_investments"
+                    value={formData.savings_investments}
+                    onChange={(val) => setFormData({ ...formData, savings_investments: val })}
                     type="number"
                     placeholder="150000"
                     helperText="Available to dependents"
@@ -320,34 +274,34 @@ const AiLifeInsuranceAdvisorAgentPage: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <SmartInput
                     label="Existing Life Insurance"
-                    name="existingInsurance"
-                    value={existingInsurance}
-                    onChange={setExistingInsurance}
+                    name="existing_insurance"
+                    value={formData.existing_insurance}
+                    onChange={(val) => setFormData({ ...formData, existing_insurance: val })}
                     type="number"
                     placeholder="100000"
                     helperText="Current coverage amount"
                   />
                   <SelectDropdown
                     label="Currency"
-                    value={currency}
-                    onValueChange={setCurrency}
+                    value={formData.currency}
+                    onValueChange={(val) => setFormData({ ...formData, currency: val })}
                     options={CURRENCY_OPTIONS}
                     helperText="Currency for calculations"
                   />
                 </div>
 
-                <SelectDropdown
-                  label="Income Replacement Horizon"
-                  value={incomeReplacementHorizon}
-                  onValueChange={setIncomeReplacementHorizon}
-                  options={INCOME_REPLACEMENT_OPTIONS}
-                  helperText="Years of income to replace if you pass away"
-                />
+                  <SelectDropdown
+                    label="Income Replacement Horizon"
+                    value={formData.income_replacement_horizon}
+                    onValueChange={(val) => setFormData({ ...formData, income_replacement_horizon: val })}
+                    options={INCOME_REPLACEMENT_OPTIONS}
+                    helperText="Years of income to replace if you pass away"
+                  />
 
                 {error && <ErrorMessage message={error} onRetry={handleSubmit} retryLoading={loading} />}
 
                 <div className="flex gap-3">
-                  <ActionButton type="submit" loading={loading} size="lg" className="flex-1" disabled={!age || !annualIncome}>
+                  <ActionButton type="submit" loading={loading} size="lg" className="flex-1" disabled={!formData.age || !formData.annual_income}>
                     <Shield className="h-4 w-4" />
                     Get Recommendations
                   </ActionButton>

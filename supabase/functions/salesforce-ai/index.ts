@@ -122,24 +122,68 @@ Research "${competitor}" and provide comprehensive intelligence in the following
 
 Be thorough and cite specific sources where possible. Focus on factual, verifiable information.`;
 
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    max_tokens: 4000,
-    temperature: 0.3,
-    response_format: { type: 'json_object' },
-    messages: [
-      {
-        role: 'system',
-        content: 'You are a professional competitive intelligence researcher. Always respond with valid JSON.'
-      },
-      {
-        role: 'user',
-        content: prompt
+  const response = await openai.responses.create({
+    model: 'gpt-5.5',
+    instructions: 'You are a professional competitive intelligence researcher. Always respond with valid JSON.',
+    input: prompt,
+    text: {
+      format: {
+        type: 'json_schema',
+        name: 'CompetitorProfile',
+        strict: true,
+        schema: {
+          type: 'object',
+          properties: {
+            companyOverview: {
+              type: 'object',
+              properties: {
+                name: { type: 'string' },
+                founded: { type: 'string' },
+                hq: { type: 'string' },
+                size: { type: 'string' },
+                funding: { type: 'string' }
+              },
+              required: ['name', 'founded', 'hq', 'size', 'funding'],
+              additionalProperties: false
+            },
+            targetMarket: {
+              type: 'object',
+              properties: {
+                customers: { type: 'array', items: { type: 'string' } },
+                industries: { type: 'array', items: { type: 'string' } },
+                companySize: { type: 'string' }
+              },
+              required: ['customers', 'industries', 'companySize'],
+              additionalProperties: false
+            },
+            products: {
+              type: 'object',
+              properties: {
+                offerings: { type: 'array', items: { type: 'string' } },
+                pricing: { type: 'array', items: { type: 'string' } }
+              },
+              required: ['offerings', 'pricing'],
+              additionalProperties: false
+            },
+            recentNews: { type: 'array', items: { type: 'string' } },
+            customerSentiment: {
+              type: 'object',
+              properties: {
+                reviews: { type: 'string' },
+                nps: { type: 'number' }
+              },
+              required: ['reviews'],
+              additionalProperties: false
+            }
+          },
+          required: ['companyOverview', 'targetMarket', 'products', 'recentNews', 'customerSentiment'],
+          additionalProperties: false
+        }
       }
-    ]
+    }
   });
 
-  const content = response.choices[0].message.content;
+  const content = response.output_text;
   if (!content) {
     throw new Error('Unexpected response type');
   }

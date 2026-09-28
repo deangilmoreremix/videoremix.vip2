@@ -17,15 +17,14 @@ import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
 const STORAGE_KEY = 'local-tour-guide-ai';
 
 const MODEL_OPTIONS = [
-  { value: "gpt-4o", label: "GPT-4o" },
-  { value: "gpt-4o-mini", label: "GPT-4o Mini" },
-  { value: "claude-3-5-sonnet", label: "Claude 3.5 Sonnet" },
+  { value: "gpt-5.5", label: "GPT-5.5" },
+  { value: "gpt-5.5-mini", label: "GPT-5.5 Mini" },
 ];
 
 const AiDataVisualisationAgentPage: React.FC = () => {
   const { user } = useAuth();
   const [file, setFile] = useState<File | null>(null);
-  const [model, setModel] = useState("gpt-4o");
+  const [model, setModel] = useState("gpt-5.5");
   const [csvPath, setCsvPath] = useState("");
   const [showFullDataset, setShowFullDataset] = useState(false);
   const [query, setQuery] = useState("");
@@ -39,7 +38,7 @@ const AiDataVisualisationAgentPage: React.FC = () => {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        setModel(parsed.model || "gpt-4o");
+        setModel(parsed.model || "gpt-5.5");
         setCsvPath(parsed.csvPath || "");
         setQuery(parsed.query || "");
         setShowFullDataset(parsed.showFullDataset || false);
@@ -87,7 +86,7 @@ const AiDataVisualisationAgentPage: React.FC = () => {
 
   const handleReset = () => {
     setFile(null);
-    setModel("gpt-4o");
+    setModel("gpt-5.5");
     setCsvPath("");
     setShowFullDataset(false);
     setQuery("");

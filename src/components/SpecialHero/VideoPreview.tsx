@@ -211,7 +211,7 @@ const VideoPreview = () => {
           }
           transition={{ repeat: Infinity, duration: 2 }}
         >
-          See personalized marketing content in action
+          See the ecosystem in action
         </motion.div>
 
         {/* Decorative elements */}

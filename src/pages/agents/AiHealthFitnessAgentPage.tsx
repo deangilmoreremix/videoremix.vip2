@@ -52,7 +52,7 @@ const FITNESS_GOALS = [
 
 const AiHealthFitnessAgentPage: React.FC = () => {
   const { user } = useAuth();
-  const [geminiApiKey, setGeminiApiKey] = useState("");
+  const [openaiApiKey, setOpenaiApiKey] = useState("");
   const [age, setAge] = useState("");
   const [heightCm, setHeightCm] = useState("");
   const [weightKg, setWeightKg] = useState("");
@@ -70,7 +70,7 @@ const AiHealthFitnessAgentPage: React.FC = () => {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        setGeminiApiKey(parsed.geminiApiKey || "");
+        setOpenaiApiKey(parsed.openaiApiKey || "");
         setAge(parsed.age || "");
         setHeightCm(parsed.heightCm || "");
         setWeightKg(parsed.weightKg || "");
@@ -85,9 +85,9 @@ const AiHealthFitnessAgentPage: React.FC = () => {
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      geminiApiKey, age, heightCm, weightKg, sex, activityLevel, dietaryPreferences, fitnessGoals, query
+      openaiApiKey, age, heightCm, weightKg, sex, activityLevel, dietaryPreferences, fitnessGoals, query
     }));
-  }, [geminiApiKey, age, heightCm, weightKg, sex, activityLevel, dietaryPreferences, fitnessGoals, query]);
+  }, [openaiApiKey, age, heightCm, weightKg, sex, activityLevel, dietaryPreferences, fitnessGoals, query]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,7 +102,7 @@ const AiHealthFitnessAgentPage: React.FC = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          gemini_api_key: geminiApiKey,
+          openai_api_key: openaiApiKey,
           age,
           height_cm: heightCm,
           activity_level: activityLevel,
@@ -126,7 +126,7 @@ const AiHealthFitnessAgentPage: React.FC = () => {
   };
 
   const handleReset = () => {
-    setGeminiApiKey("");
+    setOpenaiApiKey("");
     setAge("");
     setHeightCm("");
     setWeightKg("");
@@ -225,16 +225,16 @@ const AiHealthFitnessAgentPage: React.FC = () => {
             <CardHeader><CardTitle>Your Information</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                <SmartInput
-                  label="Gemini API Key"
-                  name="geminiApiKey"
-                  value={geminiApiKey}
-                  onChange={setGeminiApiKey}
-                  type="password"
-                  placeholder="AIza... (required for health analysis)"
-                  helperText="Get your Gemini API key from aistudio.google.com"
-                  required
-                />
+                 <SmartInput
+                   label="OpenAI API Key"
+                   name="openaiApiKey"
+                   value={openaiApiKey}
+                   onChange={setOpenaiApiKey}
+                   type="password"
+                   placeholder="sk-... (required for health analysis)"
+                   helperText="Get your OpenAI API key from platform.openai.com"
+                   required
+                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <SmartInput

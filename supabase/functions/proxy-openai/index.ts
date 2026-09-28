@@ -8,10 +8,10 @@ const corsHeaders = {
 };
 
 const MODEL_PRICING: Record<string, { per1k_input: number; per1k_output: number }> = {
-  'gpt-4o': { per1k_input: 500, per1k_output: 1500 },
-  'gpt-4o-mini': { per1k_input: 15, per1k_output: 60 },
-  'o1': { per1k_input: 1500, per1k_output: 6000 },
-  'o1-mini': { per1k_input: 300, per1k_output: 1200 },
+  'gpt-5.5': { per1k_input: 500, per1k_output: 1500 },
+  'gpt-5.5-mini': { per1k_input: 15, per1k_output: 60 },
+  'o3': { per1k_input: 1500, per1k_output: 6000 },
+  'o3-mini': { per1k_input: 300, per1k_output: 1200 },
   'dall-e-3': { per1k_input: 4000, per1k_output: 4000 },
   'whisper-1': { per1k_input: 600, per1k_output: 0 },
 };
@@ -90,7 +90,7 @@ serve(async (req: Request) => {
     }
 
     // Determine model from request body
-    const model = requestBody.model || 'gpt-4o-mini';
+    const model = requestBody.model || 'gpt-5.5';
 
     // Get credit balance for this app
     const { data: balanceData, error: balanceError } = await supabase
@@ -116,7 +116,7 @@ serve(async (req: Request) => {
     // Estimate cost based on request body
     const estimatedInputTokens = Number(requestBody.max_tokens) || 100;
     const estimatedOutputTokens = Number(requestBody.max_tokens) || 100;
-    const pricing = MODEL_PRICING[model] || MODEL_PRICING['gpt-4o-mini'];
+    const pricing = MODEL_PRICING[model] || MODEL_PRICING['gpt-5.5-mini'];
     const estimatedCost = Math.ceil(
       (estimatedInputTokens / 1000) * pricing.per1k_input +
         (estimatedOutputTokens / 1000) * pricing.per1k_output

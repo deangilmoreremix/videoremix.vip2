@@ -3,6 +3,8 @@ import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
 import ContentGeniusForm from "../../components/agents/ContentGeniusForm";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 
 interface ActionItem {
   description: string;
@@ -80,9 +82,8 @@ const ContentGeniusAIPage: React.FC = () => {
 
       setResult(data);
 
-      // Simulate progress through stages
       for (let i = 1; i <= 5; i++) {
-        setTimeout(() => setCurrentStage(i), i * 12000); // 12 seconds per stage
+        setTimeout(() => setCurrentStage(i), i * 12000);
       }
 
     } catch (err) {
@@ -91,7 +92,7 @@ const ContentGeniusAIPage: React.FC = () => {
     } finally {
       setTimeout(() => {
         setIsProcessing(false);
-      }, 60000); // Complete after all stages
+      }, 60000);
     }
   };
 
@@ -118,6 +119,12 @@ const ContentGeniusAIPage: React.FC = () => {
             currentStage={currentStage}
             error={error || undefined}
           />
+
+          {error && !isProcessing && (
+            <div className="mt-6 max-w-6xl mx-auto">
+              <ErrorMessage title="Analysis Failed" message={error} onRetry={() => {}} />
+            </div>
+          )}
 
           {result && result.status === 'completed' && (
             <motion.div
@@ -149,129 +156,19 @@ const ContentGeniusAIPage: React.FC = () => {
                       </div>
                     </div>
                   </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex items-center space-x-3 mt-4">
-                    <button className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-colors">
-                      <span className="mr-2">📄</span>
-                      Download Summary
-                    </button>
-                    <button className="bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-colors">
-                      <span className="mr-2">📋</span>
-                      Export Actions
-                    </button>
-                    <button className="bg-green-600/20 hover:bg-green-600/30 text-green-300 px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-colors">
-                      <span className="mr-2">📧</span>
-                      Share Results
-                    </button>
-                  </div>
-                </div>
-
-                {/* Tab Navigation */}
-                <div className="border-b border-gray-700">
-                  <div className="flex overflow-x-auto">
-                    {[
-                      { id: 'overview', label: 'Overview' },
-                      { id: 'actions', label: 'Action Items' },
-                      { id: 'insights', label: 'Key Insights' },
-                      { id: 'sentiment', label: 'Sentiment Analysis' },
-                      { id: 'topics', label: 'Topics Covered' }
-                    ].map((tab) => (
-                      <button
-                        key={tab.id}
-                        className="flex items-center px-6 py-4 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white hover:bg-gray-700/30 transition-colors"
-                      >
-                        {tab.label}
-                      </button>
-                    ))}
-                  </div>
                 </div>
 
                 {/* Content */}
                 <div className="p-6 space-y-6">
-                  {/* Overview Tab (Default) */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="bg-gray-900/50 rounded-lg p-6">
-                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                        <span className="text-blue-400 mr-2">📋</span>
-                        Executive Summary
-                      </h4>
-                      <div className="text-gray-300 leading-relaxed text-sm whitespace-pre-line">
-                        {result.summary}
-                      </div>
-                    </div>
+                  <ResultGrid columns={2}>
+                    <ResultCard title="Executive Summary" description={result.summary} variant="info" />
+                    <ResultCard title="Action Items" value={result.actionItems.length} variant="default" />
+                  </ResultGrid>
 
-                    <div className="space-y-6">
-                      {/* Action Items Preview */}
-                      <div className="bg-gray-900/50 rounded-lg p-6">
-                        <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                          <span className="text-purple-400 mr-2">✅</span>
-                          Action Items ({result.actionItems.length})
-                        </h4>
-                        <div className="space-y-3 max-h-48 overflow-y-auto">
-                          {result.actionItems.slice(0, 5).map((item, index) => (
-                            <div key={index} className="flex items-start space-x-3 p-3 bg-gray-800/50 rounded-lg">
-                              <div className={`w-2 h-2 rounded-full mt-2 ${
-                                item.priority === 'high' ? 'bg-red-400' :
-                                item.priority === 'medium' ? 'bg-yellow-400' : 'bg-green-400'
-                              }`} />
-                              <div className="flex-1">
-                                <p className="text-sm text-gray-300">{item.description}</p>
-                                {item.owner && (
-                                  <p className="text-xs text-gray-400 mt-1">Owner: {item.owner}</p>
-                                )}
-                              </div>
-                            </div>
-                          ))}
-                          {result.actionItems.length > 5 && (
-                            <p className="text-xs text-gray-500 text-center">
-                              +{result.actionItems.length - 5} more actions
-                            </p>
-                          )}
-                        </div>
-                      </div>
+                  <ResultCard title="Overall Sentiment" value={result.sentiment.overall.toUpperCase()} variant={result.sentiment.overall === 'positive' ? 'success' : result.sentiment.overall === 'negative' ? 'error' : 'warning'} />
 
-                      {/* Sentiment Overview */}
-                      <div className="bg-gray-900/50 rounded-lg p-6">
-                        <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                          <span className="text-green-400 mr-2">😊</span>
-                          Overall Sentiment
-                        </h4>
-                        <div className="flex items-center space-x-4">
-                          <div className="text-center">
-                            <div className={`text-2xl font-bold ${
-                              result.sentiment.overall === 'positive' ? 'text-green-400' :
-                              result.sentiment.overall === 'negative' ? 'text-red-400' :
-                              'text-yellow-400'
-                            }`}>
-                              {result.sentiment.overall.toUpperCase()}
-                            </div>
-                            <div className="text-xs text-gray-400">Score: {(result.sentiment.score * 100).toFixed(0)}%</div>
-                          </div>
-                          <div className="flex-1 space-y-2">
-                            <div className="flex items-center justify-between text-sm">
-                              <span className="text-green-400">Positive</span>
-                              <span className="text-gray-300">{result.sentiment.breakdown.positive}%</span>
-                            </div>
-                            <div className="w-full bg-gray-700 rounded-full h-2">
-                              <div
-                                className="bg-green-500 h-2 rounded-full"
-                                style={{ width: `${result.sentiment.breakdown.positive}%` }}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Key Insights */}
-                  <div className="bg-gray-900/50 rounded-lg p-6">
-                    <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                      <span className="text-yellow-400 mr-2">💡</span>
-                      Key Insights ({result.insights.length})
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <ResultCard title="Key Insights" variant="default">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                       {result.insights.map((insight, index) => (
                         <div key={index} className="flex items-start space-x-3 p-4 bg-gray-800/50 rounded-lg">
                           <span className="text-yellow-400 mt-1">•</span>
@@ -279,15 +176,10 @@ const ContentGeniusAIPage: React.FC = () => {
                         </div>
                       ))}
                     </div>
-                  </div>
+                  </ResultCard>
 
-                  {/* Topics Covered */}
-                  <div className="bg-gray-900/50 rounded-lg p-6">
-                    <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                      <span className="text-blue-400 mr-2">🏷️</span>
-                      Topics Discussed ({result.topics.length})
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
+                  <ResultCard title="Topics Discussed" variant="default">
+                    <div className="flex flex-wrap gap-2 mt-4">
                       {result.topics.map((topic, index) => (
                         <span
                           key={index}
@@ -297,30 +189,14 @@ const ContentGeniusAIPage: React.FC = () => {
                         </span>
                       ))}
                     </div>
-                  </div>
+                  </ResultCard>
 
-                  {/* Meeting Stats */}
-                  <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-blue-500/20 rounded-lg p-6">
-                    <h4 className="text-lg font-semibold text-white mb-4">Meeting Analysis Stats</h4>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-blue-400">{result.actionItems.length}</div>
-                        <div className="text-sm text-gray-400">Action Items</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-purple-400">{result.insights.length}</div>
-                        <div className="text-sm text-gray-400">Key Insights</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-green-400">{result.topics.length}</div>
-                        <div className="text-sm text-gray-400">Topics</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-yellow-400">{Math.round(result.processingTime / 1000)}s</div>
-                        <div className="text-sm text-gray-400">Processing Time</div>
-                      </div>
-                    </div>
-                  </div>
+                  <ResultGrid columns={4}>
+                    <ResultCard title="Action Items" value={result.actionItems.length} variant="default" />
+                    <ResultCard title="Key Insights" value={result.insights.length} variant="default" />
+                    <ResultCard title="Topics" value={result.topics.length} variant="default" />
+                    <ResultCard title="Processing Time" value={`${Math.round(result.processingTime / 1000)}s`} variant="default" />
+                  </ResultGrid>
                 </div>
               </div>
             </motion.div>

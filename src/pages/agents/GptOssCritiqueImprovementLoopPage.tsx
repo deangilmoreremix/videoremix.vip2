@@ -16,7 +16,7 @@ import { Loader2, Sparkles, RefreshCw, Zap, MessageSquare } from "lucide-react";
 
 const GptOssCritiqueImprovementLoopPage: React.FC = () => {
   const { user } = useAuth();
-  const [formData, setFormData] = useState({ groq_api_key: "", max_improvement_iterations: "3", your_prompt: "" });
+  const [formData, setFormData] = useState({ openai_api_key: "", max_improvement_iterations: "3", your_prompt: "" });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -36,8 +36,8 @@ const GptOssCritiqueImprovementLoopPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.groq_api_key.trim()) {
-      setError("Groq API key is required");
+    if (!formData.openai_api_key.trim()) {
+      setError("OpenAI API key is required");
       return;
     }
     if (!formData.your_prompt.trim()) {
@@ -64,7 +64,7 @@ const GptOssCritiqueImprovementLoopPage: React.FC = () => {
   };
 
   const handleClear = () => {
-    setFormData({ groq_api_key: "", max_improvement_iterations: "3", your_prompt: "" });
+    setFormData({ openai_api_key: "", max_improvement_iterations: "3", your_prompt: "" });
     setResult(null);
   };
 
@@ -91,12 +91,12 @@ const GptOssCritiqueImprovementLoopPage: React.FC = () => {
               <CardHeader><CardTitle>Configuration</CardTitle></CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <FormSection title="API Configuration" description="Enter your Groq API key to enable the critique loop">
+                  <FormSection title="API Configuration" description="Enter your OpenAI API key to enable the critique loop">
                     <ApiKeyInput
-                      label="Groq API Key"
-                      name="groq_api_key"
-                      value={formData.groq_api_key}
-                      onChange={(val) => setFormData({ ...formData, groq_api_key: val })}
+                      label="OpenAI API Key"
+                      name="openai_api_key"
+                      value={formData.openai_api_key}
+                      onChange={(val) => setFormData({ ...formData, openai_api_key: val })}
                       helperText="Your key is stored locally and never sent to our servers"
                       required
                     />
@@ -171,7 +171,7 @@ const GptOssCritiqueImprovementLoopPage: React.FC = () => {
                 </CardContent>
               </Card>
 
-              <ActionButton onClick={() => { setResult(null); setFormData({ groq_api_key: formData.groq_api_key, max_improvement_iterations: "3", your_prompt: "" }); }} variant="secondary" className="w-full">
+              <ActionButton onClick={() => { setResult(null); setFormData({ openai_api_key: formData.openai_api_key, max_improvement_iterations: "3", your_prompt: "" }); }} variant="secondary" className="w-full">
                 Start New Analysis
               </ActionButton>
             </motion.div>

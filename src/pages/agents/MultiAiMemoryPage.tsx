@@ -16,7 +16,7 @@ import { Loader2, Sparkles, Brain, MessageSquare, Key } from "lucide-react";
 
 const MultiAiMemoryPage: React.FC = () => {
   const { user } = useAuth();
-  const [formData, setFormData] = useState({ enter_openai_api_key: "", enter_anthropic_api_key: "", ask_the_ai: "" });
+  const [formData, setFormData] = useState({ enter_openai_api_key: "", ask_the_ai: "" });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -38,10 +38,6 @@ const MultiAiMemoryPage: React.FC = () => {
     e.preventDefault();
     if (!formData.enter_openai_api_key.trim()) {
       setError("OpenAI API key is required");
-      return;
-    }
-    if (!formData.enter_anthropic_api_key.trim()) {
-      setError("Anthropic API key is required");
       return;
     }
     if (!formData.ask_the_ai.trim()) {
@@ -68,7 +64,7 @@ const MultiAiMemoryPage: React.FC = () => {
   };
 
   const handleClear = () => {
-    setFormData({ enter_openai_api_key: "", enter_anthropic_api_key: "", ask_the_ai: "" });
+    setFormData({ enter_openai_api_key: "", ask_the_ai: "" });
     setResult(null);
   };
 
@@ -95,21 +91,12 @@ const MultiAiMemoryPage: React.FC = () => {
               <CardHeader><CardTitle>Configuration</CardTitle></CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <FormSection title="API Keys" description="Enter your API keys for OpenAI and Anthropic">
+                  <FormSection title="API Keys" description="Enter your OpenAI API key">
                     <ApiKeyInput
                       label="OpenAI API Key"
                       name="enter_openai_api_key"
                       value={formData.enter_openai_api_key}
                       onChange={(val) => setFormData({ ...formData, enter_openai_api_key: val })}
-                      helperText="Your key is stored locally and never sent to our servers"
-                      required
-                    />
-                    
-                    <ApiKeyInput
-                      label="Anthropic API Key"
-                      name="enter_anthropic_api_key"
-                      value={formData.enter_anthropic_api_key}
-                      onChange={(val) => setFormData({ ...formData, enter_anthropic_api_key: val })}
                       helperText="Your key is stored locally and never sent to our servers"
                       required
                     />
@@ -131,7 +118,7 @@ const MultiAiMemoryPage: React.FC = () => {
                   <div className="flex gap-3 pt-4">
                     <ActionButton type="submit" loading={loading} size="lg" className="flex-1" disabled={!formData.ask_the_ai.trim()}>
                       <Sparkles className="h-4 w-4" />
-                      Get Multi-Model Answer
+                      Get OpenAI Answer
                     </ActionButton>
                     <ActionButton variant="ghost" onClick={handleClear} disabled={loading}>
                       Clear
@@ -147,12 +134,12 @@ const MultiAiMemoryPage: React.FC = () => {
           {result && result.status === 'completed' && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
               <ResultGrid columns={2}>
-                <ResultCard
-                  icon={<Brain className="h-5 w-5" />}
-                  title="Models Used"
-                  value={result.model_count || "Multiple"}
-                  subtext="Collaborative reasoning"
-                />
+                  <ResultCard
+                    icon={<Brain className="h-5 w-5" />}
+                    title="Model Used"
+                    value={result.model || "OpenAI"}
+                    subtext="Single-model reasoning"
+                  />
                 <ResultCard
                   icon={<MessageSquare className="h-5 w-5" />}
                   title="Status"
@@ -170,7 +157,7 @@ const MultiAiMemoryPage: React.FC = () => {
                 </CardContent>
               </Card>
 
-              <ActionButton onClick={() => { setResult(null); setFormData({ enter_openai_api_key: formData.enter_openai_api_key, enter_anthropic_api_key: formData.enter_anthropic_api_key, ask_the_ai: "" }); }} variant="secondary" className="w-full">
+              <ActionButton onClick={() => { setResult(null); setFormData({ enter_openai_api_key: formData.enter_openai_api_key, ask_the_ai: "" }); }} variant="secondary" className="w-full">
                 Ask Another Question
               </ActionButton>
             </motion.div>

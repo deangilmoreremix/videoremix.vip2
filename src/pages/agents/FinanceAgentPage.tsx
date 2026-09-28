@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
+import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import {
   TrendingUp,
   ArrowUpRight,
@@ -51,25 +56,21 @@ interface AIInsight {
 const FinanceAgentPage: React.FC = () => {
   const { user } = useAuth();
 
-  // Stock lookup state
   const [symbol, setSymbol] = useState("");
   const [stockData, setStockData] = useState<StockData | null>(null);
   const [stockLoading, setStockLoading] = useState(false);
   const [stockError, setStockError] = useState<string | null>(null);
 
-  // Portfolio state
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [newSymbol, setNewSymbol] = useState("");
   const [newShares, setNewShares] = useState(100);
   const [newBuyPrice, setNewBuyPrice] = useState(100);
 
-  // AI Analysis state
   const [aiInsight, setAiInsight] = useState<AIInsight | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiQuestion, setAiQuestion] = useState("");
 
-  // Load portfolio from localStorage
   useEffect(() => {
     const saved = localStorage.getItem('finance-portfolio');
     if (saved) {
@@ -81,12 +82,10 @@ const FinanceAgentPage: React.FC = () => {
     }
   }, []);
 
-  // Save portfolio
   useEffect(() => {
     localStorage.setItem('finance-portfolio', JSON.stringify(portfolio));
   }, [portfolio]);
 
-  // Fetch stock data
   const fetchStockData = async (sym: string) => {
     setStockLoading(true);
     setStockError(null);
@@ -114,7 +113,6 @@ const FinanceAgentPage: React.FC = () => {
     }
   };
 
-  // Get AI Analysis
   const getAIAnalysis = async () => {
     if (!stockData) return;
 
@@ -148,7 +146,6 @@ const FinanceAgentPage: React.FC = () => {
     }
   };
 
-  // Ask AI question
   const askAI = async () => {
     if (!aiQuestion.trim() || !stockData) return;
 
@@ -178,7 +175,6 @@ const FinanceAgentPage: React.FC = () => {
     }
   };
 
-  // Add to portfolio
   const addToPortfolio = () => {
     if (!newSymbol.trim()) return;
 
@@ -196,12 +192,10 @@ const FinanceAgentPage: React.FC = () => {
     setNewBuyPrice(100);
   };
 
-  // Remove from portfolio
   const removeFromPortfolio = (id: string) => {
     setPortfolio(prev => prev.filter(item => item.id !== id));
   };
 
-  // Calculate portfolio totals
   const portfolioTotals = portfolio.reduce((acc, item) => {
     const value = (item.currentPrice || item.buyPrice) * item.shares;
     const cost = item.buyPrice * item.shares;
@@ -256,23 +250,26 @@ const FinanceAgentPage: React.FC = () => {
                 </h2>
 
                 <div className="flex gap-2">
-                  <input
-                    type="text"
+                  <SmartInput
+                    label=""
+                    name="symbol"
                     value={symbol}
-                    onChange={(e) => setSymbol(e.target.value)}
+                    onChange={setSymbol}
                     placeholder="Enter symbol (e.g., AAPL, GOOGL, TSLA)"
-                    className="flex-1 bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-2.5 text-white focus:border-green-500 focus:ring-2 focus:ring-green-500/20"
+                    className="flex-1"
                     onKeyPress={(e) => e.key === 'Enter' && fetchStockData(symbol)}
                   />
-                  <button
+                  <ActionButton
                     onClick={() => fetchStockData(symbol)}
+                    loading={stockLoading}
                     disabled={stockLoading || !symbol.trim()}
-                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 disabled:from-gray-600 disabled:to-gray-600 text-white px-6 py-2.5 rounded-lg font-medium transition-all flex items-center gap-2"
                   >
-                    {stockLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
+                    <Search className="h-4 w-4 mr-2" />
                     Search
-                  </button>
+                  </ActionButton>
                 </div>
+
+                {stockError && <ErrorMessage title="Stock Lookup Failed" message={stockError} onRetry={() => fetchStockData(symbol)} />}
 
                 {/* Stock Data Display */}
                 {stockData && (
@@ -281,48 +278,21 @@ const FinanceAgentPage: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className="mt-6 space-y-4"
                   >
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
-                        <p className="text-sm text-gray-400 mb-1">Price</p>
-                        <p className="text-2xl font-bold text-white">${stockData.price.toFixed(2)}</p>
-                      </div>
-                      <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
-                        <p className="text-sm text-gray-400 mb-1">Change</p>
-                        <p className={`text-2xl font-bold flex items-center gap-1 ${stockData.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                          {stockData.change >= 0 ? <ArrowUpRight className="h-5 w-5" /> : <ArrowDownRight className="h-5 w-5" />}
-                          {stockData.change >= 0 ? '+' : ''}{stockData.changePercent.toFixed(2)}%
-                        </p>
-                      </div>
-                      <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
-                        <p className="text-sm text-gray-400 mb-1">P/E Ratio</p>
-                        <p className="text-2xl font-bold text-white">{stockData.pe?.toFixed(2) || 'N/A'}</p>
-                      </div>
-                      <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
-                        <p className="text-sm text-gray-400 mb-1">Market Cap</p>
-                        <p className="text-lg font-bold text-white">
-                          {stockData.marketCap ? `$${(stockData.marketCap / 1e9).toFixed(1)}B` : 'N/A'}
-                        </p>
-                      </div>
-                    </div>
+                    <ResultGrid columns={4}>
+                      <ResultCard title="Price" value={`$${stockData.price.toFixed(2)}`} variant="default" />
+                      <ResultCard title="Change" value={`${stockData.change >= 0 ? '+' : ''}${stockData.changePercent.toFixed(2)}%`} variant={stockData.change >= 0 ? 'success' : 'error'} />
+                      <ResultCard title="P/E Ratio" value={stockData.pe?.toFixed(2) || 'N/A'} variant="default" />
+                      <ResultCard title="Market Cap" value={stockData.marketCap ? `$${(stockData.marketCap / 1e9).toFixed(1)}B` : 'N/A'} variant="default" />
+                    </ResultGrid>
 
-                    {/* AI Analysis Button */}
-                    <button
+                    <ActionButton
                       onClick={getAIAnalysis}
-                      disabled={aiLoading}
-                      className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-600 text-white font-semibold py-3 px-6 rounded-lg transition-all flex items-center justify-center gap-2"
+                      loading={aiLoading}
+                      className="w-full"
                     >
-                      {aiLoading ? (
-                        <>
-                          <Loader2 className="h-5 w-5 animate-spin" />
-                          AI Analyzing...
-                        </>
-                      ) : (
-                        <>
-                          <Sparkles className="h-5 w-5" />
-                          Get AI Analysis & Recommendation
-                        </>
-                      )}
-                    </button>
+                      <Sparkles className="h-4 w-4 mr-2" />
+                      Get AI Analysis & Recommendation
+                    </ActionButton>
 
                     {/* AI Insight */}
                     {aiInsight && (
@@ -348,7 +318,7 @@ const FinanceAgentPage: React.FC = () => {
 
                         {aiInsight.risks && aiInsight.risks.length > 0 && (
                           <div className="mb-3">
-                            <p className="text-sm text-red-300 font-medium mb-1">⚠️ Risks:</p>
+                            <p className="text-sm text-red-300 font-medium mb-1">Risks:</p>
                             <ul className="list-disc list-inside text-sm text-red-200 space-y-1">
                               {aiInsight.risks.map((risk, i) => (
                                 <li key={i}>{risk}</li>
@@ -359,7 +329,7 @@ const FinanceAgentPage: React.FC = () => {
 
                         {aiInsight.opportunities && aiInsight.opportunities.length > 0 && (
                           <div>
-                            <p className="text-sm text-green-300 font-medium mb-1">💡 Opportunities:</p>
+                            <p className="text-sm text-green-300 font-medium mb-1">Opportunities:</p>
                             <ul className="list-disc list-inside text-sm text-green-200 space-y-1">
                               {aiInsight.opportunities.map((opp, i) => (
                                 <li key={i}>{opp}</li>
@@ -379,31 +349,25 @@ const FinanceAgentPage: React.FC = () => {
                       <div className="border-t border-gray-700 pt-4 mt-4">
                         <h3 className="text-lg font-bold text-white mb-3">Ask AI About This Stock</h3>
                         <div className="flex gap-2">
-                          <input
-                            type="text"
+                          <SmartInput
+                            label=""
+                            name="aiQuestion"
                             value={aiQuestion}
-                            onChange={(e) => setAiQuestion(e.target.value)}
+                            onChange={setAiQuestion}
                             placeholder="e.g., What are the main risks? Is it overvalued?"
-                            className="flex-1 bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-2.5 text-white focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
-                            onKeyPress={(e) => e.key === 'Enter' && askAI()}
+                            className="flex-1"
                           />
-                          <button
+                          <ActionButton
                             onClick={askAI}
+                            loading={aiLoading}
                             disabled={aiLoading || !aiQuestion.trim()}
-                            className="bg-purple-600 hover:bg-purple-500 disabled:bg-gray-600 text-white px-4 py-2.5 rounded-lg font-medium transition-colors"
                           >
                             Ask
-                          </button>
+                          </ActionButton>
                         </div>
                       </div>
                     )}
                   </motion.div>
-                )}
-
-                {stockError && (
-                  <div className="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-300">
-                    {stockError}
-                  </div>
                 )}
               </motion.div>
 
@@ -419,20 +383,22 @@ const FinanceAgentPage: React.FC = () => {
                     <Wallet className="h-5 w-5 text-blue-400" />
                     Your Portfolio
                   </h2>
-                  <button
+                  <ActionButton
                     onClick={() => setShowAddModal(true)}
-                    className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors"
+                    size="sm"
                   >
-                    <Plus className="h-4 w-4" />
+                    <Plus className="h-4 w-4 mr-2" />
                     Add Holding
-                  </button>
+                  </ActionButton>
                 </div>
 
                 {portfolio.length === 0 ? (
-                  <div className="text-center py-12 text-gray-400">
-                    <Wallet className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                    <p>No holdings yet. Add your first stock to start tracking.</p>
-                  </div>
+                  <EmptyState
+                    icon={<Wallet className="h-12 w-12 text-gray-600" />}
+                    title="No holdings yet"
+                    description="Add your first stock to start tracking."
+                    tips={["Search for a stock symbol", "Add shares and buy price", "Track gains and losses"]}
+                  />
                 ) : (
                   <div className="space-y-3">
                     {portfolio.map((item) => {
@@ -442,53 +408,34 @@ const FinanceAgentPage: React.FC = () => {
                       const gainPct = ((value - cost) / cost * 100);
 
                       return (
-                        <div key={item.id} className="bg-gray-900/50 rounded-lg p-4 border border-gray-700 flex items-center justify-between">
-                          <div>
-                            <h4 className="text-lg font-bold text-white">{item.symbol}</h4>
-                            <p className="text-sm text-gray-400">{item.shares} shares @ ${item.buyPrice}</p>
-                          </div>
-                          <div className="text-right">
-                            <p className="text-lg font-bold text-white">${value.toFixed(2)}</p>
-                            <p className={`text-sm flex items-center justify-end gap-1 ${gain >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                              {gain >= 0 ? <ArrowUpRight className="h-4 w-4" /> : <ArrowDownRight className="h-4 w-4" />}
-                              {gain >= 0 ? '+' : ''}{gain.toFixed(2)} ({gainPct.toFixed(2)}%)
-                            </p>
-                          </div>
-                          <button
+                        <ResultCard
+                          key={item.id}
+                          title={item.symbol}
+                          value={`${item.shares} shares @ $${item.buyPrice}`}
+                          subtext={`$${value.toFixed(2)} (${gain >= 0 ? '+' : ''}${gain.toFixed(2)})`}
+                          variant={gain >= 0 ? 'success' : 'error'}
+                        >
+                          <ActionButton
+                            type="button"
+                            variant="ghost"
+                            size="icon"
                             onClick={() => removeFromPortfolio(item.id)}
-                            className="ml-4 text-gray-500 hover:text-red-400 transition-colors"
                           >
                             <Trash2 className="h-4 w-4" />
-                          </button>
-                        </div>
+                          </ActionButton>
+                        </ResultCard>
                       );
                     })}
 
                     {/* Portfolio Summary */}
-                    <div className="bg-gradient-to-r from-blue-900/20 to-green-900/20 rounded-lg p-4 border border-blue-500/20 mt-4">
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                        <div>
-                          <p className="text-sm text-gray-400">Total Value</p>
-                          <p className="text-xl font-bold text-white">${portfolioTotals.value.toFixed(2)}</p>
-                        </div>
-                        <div>
-                          <p className="text-sm text-gray-400">Total Cost</p>
-                          <p className="text-xl font-bold text-white">${portfolioTotals.cost.toFixed(2)}</p>
-                        </div>
-                         <div>
-                           <p className="text-sm text-gray-400">Total Gain/Loss</p>
-                           <p className={`text-xl font-bold ${portfolioTotals.value >= portfolioTotals.cost ? 'text-green-400' : 'text-red-400'}`}>
-                             ${(portfolioTotals.value - portfolioTotals.cost).toFixed(2)}
-                           </p>
-                         </div>
-                        <div>
-                          <p className="text-sm text-gray-400">Return</p>
-                          <p className={`text-xl font-bold ${portfolioTotals.value >= portfolioTotals.cost ? 'text-green-400' : 'text-red-400'}`}>
-                            {((portfolioTotals.value - portfolioTotals.cost) / portfolioTotals.cost * 100).toFixed(2)}%
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+                    <ResultCard title="Portfolio Summary" variant="default">
+                      <ResultGrid columns={4}>
+                        <ResultCard title="Total Value" value={`$${portfolioTotals.value.toFixed(2)}`} variant="default" />
+                        <ResultCard title="Total Cost" value={`$${portfolioTotals.cost.toFixed(2)}`} variant="default" />
+                        <ResultCard title="Total Gain/Loss" value={`$${(portfolioTotals.value - portfolioTotals.cost).toFixed(2)}`} variant={portfolioTotals.value >= portfolioTotals.cost ? 'success' : 'error'} />
+                        <ResultCard title="Return" value={`${((portfolioTotals.value - portfolioTotals.cost) / portfolioTotals.cost * 100).toFixed(2)}%`} variant={portfolioTotals.value >= portfolioTotals.cost ? 'success' : 'error'} />
+                      </ResultGrid>
+                    </ResultCard>
                   </div>
                 )}
               </motion.div>
@@ -508,20 +455,11 @@ const FinanceAgentPage: React.FC = () => {
                   Portfolio Overview
                 </h3>
                 {portfolio.length > 0 ? (
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Holdings</span>
-                      <span className="text-white font-bold">{portfolio.length}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Total Value</span>
-                      <span className="text-white font-bold">${portfolioTotals.value.toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Day's Change</span>
-                      <span className="text-green-400 font-bold">+${(portfolioTotals.value * 0.01).toFixed(2)}</span>
-                    </div>
-                  </div>
+                  <ResultGrid columns={1}>
+                    <ResultCard title="Holdings" value={portfolio.length} variant="default" />
+                    <ResultCard title="Total Value" value={`$${portfolioTotals.value.toFixed(2)}`} variant="default" />
+                    <ResultCard title="Day's Change" value={`+$${(portfolioTotals.value * 0.01).toFixed(2)}`} variant="success" />
+                  </ResultGrid>
                 ) : (
                   <p className="text-gray-400 text-sm">Add stocks to see portfolio summary</p>
                 )}
@@ -572,51 +510,24 @@ const FinanceAgentPage: React.FC = () => {
             >
               <h3 className="text-xl font-bold text-white mb-4">Add Stock to Portfolio</h3>
               <div className="space-y-4">
-                <div>
-                  <label className="block text-sm text-gray-300 mb-1">Symbol</label>
-                  <input
-                    type="text"
-                    value={newSymbol}
-                    onChange={(e) => setNewSymbol(e.target.value)}
-                    placeholder="AAPL"
-                    className="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-3 py-2 text-white"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-300 mb-1">Shares</label>
-                  <input
-                    type="number"
-                    value={newShares}
-                    onChange={(e) => setNewShares(Number(e.target.value))}
-                    min="1"
-                    className="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-3 py-2 text-white"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-300 mb-1">Buy Price ($)</label>
-                  <input
-                    type="number"
-                    value={newBuyPrice}
-                    onChange={(e) => setNewBuyPrice(Number(e.target.value))}
-                    min="0"
-                    step="0.01"
-                    className="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-3 py-2 text-white"
-                  />
-                </div>
+                <SmartInput label="Symbol" name="newSymbol" value={newSymbol} onChange={setNewSymbol} placeholder="AAPL" />
+                <SmartInput label="Shares" name="newShares" value={String(newShares)} onChange={(v) => setNewShares(Number(v))} type="number" />
+                <SmartInput label="Buy Price ($)" name="newBuyPrice" value={String(newBuyPrice)} onChange={(v) => setNewBuyPrice(Number(v))} type="number" />
               </div>
               <div className="flex gap-3 mt-6">
-                <button
+                <ActionButton
                   onClick={() => setShowAddModal(false)}
-                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg font-medium transition-colors"
+                  variant="secondary"
+                  className="flex-1"
                 >
                   Cancel
-                </button>
-                <button
+                </ActionButton>
+                <ActionButton
                   onClick={addToPortfolio}
-                  className="flex-1 bg-green-600 hover:bg-green-500 text-white py-2 rounded-lg font-medium transition-colors"
+                  className="flex-1"
                 >
                   Add to Portfolio
-                </button>
+                </ActionButton>
               </div>
             </motion.div>
           </motion.div>
@@ -626,4 +537,4 @@ const FinanceAgentPage: React.FC = () => {
   );
 };
 
-export default FinanceAgentPage;
+ export default FinanceAgentPage;

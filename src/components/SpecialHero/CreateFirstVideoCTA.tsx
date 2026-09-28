@@ -17,19 +17,18 @@ const CreateFirstVideoCTA = () => {
         </div>
       </div>
       <h3 className="text-center text-xl font-bold text-white mb-3">
-        Create Your First Personalized Marketing Campaign
+        Create Your First AI Workflow
       </h3>
       <p className="text-center text-gray-300 mb-4">
-        Launch your first personalized marketing campaign in minutes with our
-        AI-powered personalization platform.
+        Launch your first app workflow in minutes with the VideoRemix VIP ecosystem.
       </p>
       <div className="flex justify-center">
         <Link
-          to="/help/create-first-video"
+          to="/faq"
           className="flex items-center bg-white text-primary-600 hover:bg-gray-100 font-semibold px-6 py-2.5 rounded-lg shadow-lg transition-all duration-200"
         >
           <Megaphone className="h-5 w-5 mr-2" />
-          Start Personalizing Content
+          Start Building
           <ArrowRight className="ml-2 h-4 w-4" />
         </Link>
       </div>
