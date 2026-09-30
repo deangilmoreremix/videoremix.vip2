@@ -36,8 +36,8 @@ console.log('-------------------------------');
 function findProblematicImports() {
   const files = [
     'src/pages/DashboardPage.tsx',
-    'src/components/dashboard/DashboardToolsSection.tsx',
-    'src/components/dashboard/DashboardPersonalizerSection.tsx'
+    'src/pages/ApplicationsPage.tsx',
+    'src/config/agentRegistry.ts'
   ];
 
   const problematicPatterns = [
@@ -86,7 +86,7 @@ try {
   // Scan common files for icon usage
   const filesToCheck = [
     'src/pages/DashboardPage.tsx',
-    'src/components/dashboard/DashboardToolsSection.tsx'
+    'src/pages/ApplicationsPage.tsx'
   ];
 
   filesToCheck.forEach(file => {
