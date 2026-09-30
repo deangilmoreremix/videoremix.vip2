@@ -45,7 +45,7 @@ const SpecialFooter: React.FC = () => {
   const footerSections = {
     product: [
       { name: "Pricing", url: "/pricing" },
-      { name: "Tools", url: "/tools" },
+      { name: "Apps", url: "/apps" },
       { name: "Dashboard", url: "/dashboard" },
     ],
     company: [

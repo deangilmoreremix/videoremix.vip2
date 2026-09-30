@@ -82,7 +82,7 @@ async function validateBuild() {
   const requiredFiles = [
     'package.json',
     'src/components/ProductDetailModal.tsx',
-    'src/components/dashboard/DashboardToolsSection.tsx',
+    'src/pages/DashboardPage.tsx',
     'src/data/extendedSalesCopy.ts',
     'src/types/extendedSalesCopy.ts'
   ];
@@ -102,7 +102,7 @@ async function validateComponents() {
 
   const components = [
     'ProductDetailModal',
-    'DashboardToolsSection',
+    'DashboardPage',
     'LockedAppOverlay',
     'PurchaseModal'
   ];

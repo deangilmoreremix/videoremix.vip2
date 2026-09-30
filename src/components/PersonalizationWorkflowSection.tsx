@@ -388,7 +388,7 @@ const PersonalizationWorkflowSection: React.FC = () => {
               className="inline-block"
             >
               <Link
-                to="/tools"
+                to="/apps"
                 className="inline-flex items-center bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg"
               >
                  <span>Explore All AI Apps</span>
