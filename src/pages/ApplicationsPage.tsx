@@ -1,234 +1,176 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { useApps } from '../hooks/useApps';
-import { useAuth } from '../context/AuthContext';
-import { useUserAccess } from '../hooks/useUserAccess';
-import LazyIcon from '../components/LazyIcon';
-import { Button } from '../components/ui/button';
-import { Card, CardContent } from '../components/ui/card';
-import PurchaseModal from '../components/PurchaseModal';
-import { ComponentApp } from '../utils/appTransformers';
+import React, { useMemo, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  AppWindow,
+  ExternalLink,
+  LockKeyhole,
+  Play,
+  Search,
+} from "lucide-react";
+import { APP_REGISTRY, type AppMeta } from "../config/appRegistry";
+import { useAuth } from "../context/AuthContext";
+import { useUserAccess } from "../hooks/useUserAccess";
+import PurchaseModal from "../components/PurchaseModal";
+import { getAppLaunchTarget } from "../utils/appLaunch";
 
 const ApplicationsPage: React.FC = () => {
-  const { apps, loading, error } = useApps();
   const { user } = useAuth();
-  const { hasAccessToApp } = useUserAccess();
+  const { hasAccessToApp, loading: accessLoading } = useUserAccess();
   const navigate = useNavigate();
-  const [purchaseModalOpen, setPurchaseModalOpen] = useState(false);
-  const [selectedAppForPurchase, setSelectedAppForPurchase] = useState<ComponentApp | null>(null);
+  const [query, setQuery] = useState("");
+  const [selectedAppForPurchase, setSelectedAppForPurchase] = useState<AppMeta | null>(null);
 
-  // All apps are visible to everyone, but using an app requires ownership.
-  // Owned apps open the runner; unowned apps open the purchase prompt.
-  const handleAppClick = (app: ComponentApp) => {
-    const isOwned = !!user && hasAccessToApp(app.id);
-    if (isOwned) {
-      navigate(`/ai-design-studio/${app.id}`);
-    } else {
+  const filteredApps = useMemo(() => {
+    const normalized = query.trim().toLowerCase();
+    if (!normalized) return APP_REGISTRY;
+
+    return APP_REGISTRY.filter((app) =>
+      [app.name, app.description, app.category, app.group]
+        .filter(Boolean)
+        .some((value) => value.toLowerCase().includes(normalized)),
+    );
+  }, [query]);
+
+  const handleAppClick = (app: AppMeta) => {
+    const isOwned = Boolean(user && hasAccessToApp(app.slug));
+
+    if (!isOwned) {
       setSelectedAppForPurchase(app);
-      setPurchaseModalOpen(true);
+      return;
     }
+
+    const target = getAppLaunchTarget(app);
+
+    if (target.kind === "external") {
+      window.open(target.destination, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    navigate(target.destination);
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-t-4 border-primary-500 border-solid rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-white">Loading applications...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-center text-red-400">
-          <p className="text-xl mb-2">Error loading applications</p>
-          <p>{error}</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-gray-900 pt-24">
-      {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-        <div className="container mx-auto px-4 text-center">
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
+    <div className="min-h-screen bg-gray-950 pt-24 text-white">
+      <section className="border-b border-white/10 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+        <div className="container mx-auto px-4 py-16 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-bold text-white mb-6"
           >
-            All <span className="text-primary-400">Applications</span>
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto"
-          >
-            Browse our complete catalog of AI-powered applications. 
-            All GTM information is visible for each app. Sign in to access your purchased apps.
-          </motion.p>
-          {!user && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              <Link to="/signin">
-                <Button size="lg" className="bg-primary-600 hover:bg-primary-700">
-                  Sign In to Access Your Apps
-                </Button>
+            <div className="text-xs uppercase tracking-[0.25em] text-primary-400 mb-3">
+              VideoRemix App Library
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold">
+              One canonical application catalog.
+            </h1>
+            <p className="mt-4 text-gray-400 max-w-3xl mx-auto">
+              Browse the {APP_REGISTRY.length} VideoRemix applications in the platform registry.
+              AI agents are organized separately inside the authenticated command center.
+            </p>
+
+            {!user && (
+              <Link
+                to="/signin"
+                className="inline-flex mt-7 rounded-xl bg-primary-600 hover:bg-primary-500 px-6 py-3 font-medium"
+              >
+                Sign in to access your apps
               </Link>
-            </motion.div>
-          )}
+            )}
+          </motion.div>
         </div>
       </section>
 
-      {/* Apps Grid */}
-      <section className="py-16 container mx-auto px-4">
-        <div className="mb-12">
-          <h2 className="text-3xl font-bold text-white mb-4">Application Catalog</h2>
-          <p className="text-gray-400">
-            {apps.length} applications available • GTM details visible to all • Sign in to use your apps
-          </p>
+      <section className="container mx-auto px-4 py-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+          <div>
+            <h2 className="text-2xl font-semibold">Applications</h2>
+            <p className="text-sm text-gray-400 mt-2">
+              {filteredApps.length} shown · ownership is checked against your account
+            </p>
+          </div>
+
+          <div className="relative">
+            <Search className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search applications..."
+              className="w-full md:w-80 rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-3 text-sm outline-none focus:border-primary-500/60"
+            />
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {apps.map((app, index) => {
-            const isPurchased = user && hasAccessToApp(app.id);
+        {accessLoading && user && (
+          <div className="mb-6 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-gray-400">
+            Syncing your app ownership…
+          </div>
+        )}
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          {filteredApps.map((app, index) => {
+            const isOwned = Boolean(user && hasAccessToApp(app.slug));
 
             return (
-              <motion.div
-                key={app.id}
-                initial={{ opacity: 0, y: 20 }}
+              <motion.button
+                key={app.slug}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                whileHover={{ y: -5 }}
+                transition={{ delay: Math.min(index * 0.015, 0.25) }}
                 onClick={() => handleAppClick(app)}
-                className="cursor-pointer"
+                className="rounded-2xl border border-white/10 bg-white/[0.035] p-5 text-left hover:bg-white/[0.06] hover:border-primary-500/30 transition group"
               >
-                <Card className="overflow-hidden bg-gray-800 border-gray-700 hover:border-primary-500/50 transition-all duration-300 h-full">
-                  {/* App Image */}
-                  <div className="relative aspect-video overflow-hidden">
-                    <img 
-                      src={app.image || app.demoImage || 'https://via.placeholder.com/400x225'} 
-                      alt={app.name}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
-                    
-                    {/* Status Badges */}
-                    <div className="absolute top-3 right-3 flex flex-col gap-1">
-                      {isPurchased && (
-                        <span className="bg-green-500 text-white text-xs px-2 py-1 rounded font-bold flex items-center">
-                          OWNED
-                        </span>
-                      )}
-                      {!isPurchased && user && (
-                        <span className="bg-gray-600 text-white text-xs px-2 py-1 rounded font-bold flex items-center">
-                          LOCKED
-                        </span>
-                      )}
-                      {app.popular && (
-                        <span className="bg-yellow-500 text-black text-xs px-2 py-1 rounded font-bold">
-                          POPULAR
-                        </span>
-                      )}
-                    </div>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="h-11 w-11 rounded-xl border border-primary-400/15 bg-primary-500/10 flex items-center justify-center">
+                    {app.family === "external" ? (
+                      <ExternalLink className="h-5 w-5 text-primary-400" />
+                    ) : (
+                      <AppWindow className="h-5 w-5 text-primary-400" />
+                    )}
                   </div>
 
-                  <CardContent className="p-4">
-                    {/* App Info */}
-                    <div className="flex items-center mb-2">
-                      <LazyIcon name={app.iconName} className="w-5 h-5 text-primary-400 mr-2" />
-                      <h3 className="text-lg font-bold text-white">{app.name}</h3>
-                    </div>
-                    
-                    {/* GTM: Short Description */}
-                    <p className="text-gray-400 text-sm mb-3 line-clamp-2">
-                      {app.description}
-                    </p>
+                  <span
+                    className={`text-[10px] uppercase tracking-wider rounded-full px-2 py-1 ${
+                      isOwned
+                        ? "text-emerald-400 bg-emerald-400/10"
+                        : "text-gray-400 bg-white/5"
+                    }`}
+                  >
+                    {isOwned ? "Owned" : "Locked"}
+                  </span>
+                </div>
 
-                    {/* GTM: Benefits (if available) */}
-                    {app.benefits && app.benefits.length > 0 && (
-                      <div className="mb-3">
-                        <h4 className="text-xs font-semibold text-gray-500 uppercase mb-1">Key Benefits</h4>
-                        <ul className="text-xs text-gray-400 space-y-1">
-                          {app.benefits.slice(0, 3).map((benefit: string, i: number) => (
-                            <li key={i} className="flex items-start">
-                              <span className="text-primary-400 mr-1">✓</span>
-                              {benefit}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+                <h3 className="font-semibold mt-5">{app.name}</h3>
+                <p className="text-sm leading-6 text-gray-400 mt-2 line-clamp-3">
+                  {app.description}
+                </p>
 
-                    {/* GTM: Features (if available) */}
-                    {app.features && app.features.length > 0 && (
-                      <div className="mb-3">
-                        <h4 className="text-xs font-semibold text-gray-500 uppercase mb-1">Features</h4>
-                        <p className="text-xs text-gray-400">
-                          {app.features.length} feature{app.features.length !== 1 ? 's' : ''} included
-                        </p>
-                      </div>
-                    )}
-
-                    {/* GTM: Use Cases (if available) */}
-                    {app.use_cases && app.use_cases.length > 0 && (
-                      <div className="mb-3">
-                        <h4 className="text-xs font-semibold text-gray-500 uppercase mb-1">Use Cases</h4>
-                        <div className="flex flex-wrap gap-1">
-                          {app.use_cases.slice(0, 3).map((useCase: string, i: number) => (
-                            <span key={i} className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded">
-                              {useCase}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Price & Action */}
-                    <div className="flex items-center justify-between pt-3 border-t border-gray-700">
-                      <div>
-                        <span className="text-2xl font-bold text-white">${app.price || 97}</span>
-                        <span className="text-gray-400 text-sm ml-1">/ai-design-studio</span>
-                      </div>
-                      
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleAppClick(app);
-                        }}
-                        className="border-primary-500 text-primary-400 hover:bg-primary-500/10"
-                      >
-                        {isPurchased ? 'Open' : 'Get Access'}
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                <div className="flex items-center justify-between mt-5 text-xs text-gray-500">
+                  <span>{app.category}</span>
+                  {isOwned ? (
+                    <Play className="h-4 w-4 group-hover:text-white" />
+                  ) : (
+                    <LockKeyhole className="h-4 w-4" />
+                  )}
+                </div>
+              </motion.button>
             );
           })}
         </div>
       </section>
 
-      {/* Purchase prompt — shown when a non-owner clicks an app */}
       {selectedAppForPurchase && (
         <PurchaseModal
-          isOpen={purchaseModalOpen}
-          onClose={() => {
-            setPurchaseModalOpen(false);
-            setSelectedAppForPurchase(null);
+          isOpen={Boolean(selectedAppForPurchase)}
+          onClose={() => setSelectedAppForPurchase(null)}
+          app={{
+            id: selectedAppForPurchase.slug,
+            name: selectedAppForPurchase.name,
+            description: selectedAppForPurchase.description,
+            image: selectedAppForPurchase.thumbnail || "",
+            icon: null,
+            price: 97,
           }}
-          app={selectedAppForPurchase}
         />
       )}
     </div>
