@@ -565,7 +565,15 @@ function App() {
                       location.pathname.startsWith("/magic-link");
    const isLandingPage = location.pathname === "/";
    const isBirthdaySpecialPage = location.pathname === "/birthday-special";
-   const showGlobalPersonalizer = user && !isAdminPage && !isAuthPage && !isLandingPage && !isBirthdaySpecialPage;
+   const isDashboardPage =
+     location.pathname === "/dashboard" || location.pathname.startsWith("/dashboard/");
+   const showGlobalPersonalizer =
+     user &&
+     !isAdminPage &&
+     !isAuthPage &&
+     !isLandingPage &&
+     !isBirthdaySpecialPage &&
+     !isDashboardPage;
 
    useEffect(() => {
     const checkDevice = () => {
@@ -622,15 +630,15 @@ function App() {
       </Helmet>
       <div className="flex flex-col min-h-screen bg-gray-900 text-white">
 
-        {!isAdminPage && !isBirthdaySpecialPage && <SpecialHeader topOffset={0} />}
+        {!isAdminPage && !isBirthdaySpecialPage && !isDashboardPage && <SpecialHeader topOffset={0} />}
 
-        {!isAdminPage && !isBirthdaySpecialPage && <ScrollProgressBar topOffset={0} />}
+        {!isAdminPage && !isBirthdaySpecialPage && !isDashboardPage && <ScrollProgressBar topOffset={0} />}
 
-        {!isMobile && !isTablet && !isAdminPage && !isBirthdaySpecialPage && <CustomCursor />}
+        {!isMobile && !isTablet && !isAdminPage && !isBirthdaySpecialPage && !isDashboardPage && <CustomCursor />}
 
-        {!isAdminPage && !isBirthdaySpecialPage && <AudioPlayer />}
+        {!isAdminPage && !isBirthdaySpecialPage && !isDashboardPage && <AudioPlayer />}
 
-{!isAdminPage && !isBirthdaySpecialPage && <LiveActivityIndicator />}
+        {!isAdminPage && !isBirthdaySpecialPage && !isDashboardPage && <LiveActivityIndicator />}
 
         {/* Global Personalizer Button - only for authenticated users, not on landing/auth pages */}
         {!isAdminPage && showGlobalPersonalizer && (
@@ -765,16 +773,17 @@ function App() {
             }
           />
 
-          {/* Public Routes - No Authentication Required */}
+          {/* SapienX is the single authenticated VideoRemix dashboard shell */}
           <Route
             path="/dashboard"
             element={
-              <SparkleBackground>
-                <Suspense fallback={<SectionLoader />}>
-                  <DashboardPage />
-                  <SpecialFooter />
-                </Suspense>
-              </SparkleBackground>
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <DashboardPage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
             }
           />
 
@@ -953,8 +962,8 @@ function App() {
           />
         </Routes>
         <Toaster />
-        <MobileBottomNav />
-        <NetworkStatusIndicator />
+        {!isDashboardPage && <MobileBottomNav />}
+        {!isDashboardPage && <NetworkStatusIndicator />}
       </div>
     </>
   );
