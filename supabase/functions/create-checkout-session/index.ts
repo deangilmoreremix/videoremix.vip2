@@ -158,7 +158,7 @@ Deno.serve(async (req: Request) => {
       ],
       mode: 'payment' as const,
       success_url: `${req.headers.get('origin')}/dashboard?purchase=success&app=${encodeURIComponent(appId)}`,
-      cancel_url: `${req.headers.get('origin')}/tools?purchase=cancelled`,
+      cancel_url: `${req.headers.get('origin')}/apps?purchase=cancelled`,
       metadata: {
         appId,
         userId: userId || 'guest',
