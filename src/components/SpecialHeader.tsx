@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
 import {
   Video,
-  ChevronDown,
   ArrowRight,
-  Sparkles,
 } from "lucide-react";
 import { UserButton } from "@clerk/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import GlobalSearch from "./GlobalSearch";
-import { appGroups } from "../data/appGroups";
 
 const clerkAppearance = {
   variables: { colorPrimary: "#6366f1", borderRadius: "0.5rem" },
@@ -24,7 +21,6 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
   const { user } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,21 +35,7 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleDropdownToggle = (dropdown: string) => {
-    setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
-  };
 
-  const closeDropdowns = () => {
-    setActiveDropdown(null);
-  };
-
-  // Grouped tools for the dropdown
-  const getGroupedTools = () => {
-    return appGroups.map(group => ({
-      ...group,
-      tools: rawAppsData.filter(app => app.group === group.id).slice(0, 6) // Show 6 per group
-    })).filter(group => group.tools.length > 0);
-  };
 
   return (
     <motion.header
@@ -103,83 +85,12 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
         >
           <GlobalSearch />
 
-          {/* Tools Dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={() => setActiveDropdown("tools")}
-            onMouseLeave={closeDropdowns}
+          <Link
+            to="/apps"
+            className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium"
           >
-            <Link
-              to="/apps"
-              className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium flex items-center"
-              onMouseEnter={() => setActiveDropdown("tools")}
-              onMouseLeave={closeDropdowns}
-            >
-              Tools
-              <ChevronDown
-                className={`ml-1 h-4 w-4 transition-transform duration-200 ${activeDropdown === "tools" ? "rotate-180" : ""}`}
-              />
-            </Link>
-
-            <AnimatePresence>
-              {activeDropdown === "tools" && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute left-0 mt-1 w-[400px] bg-black/90 backdrop-blur-md border border-gray-700 rounded-lg shadow-lg overflow-hidden z-[100]"
-                >
-                  <div className="p-4">
-                    <h3 className="text-primary-400 font-medium text-sm mb-3 flex items-center">
-                      <Sparkles className="h-4 w-4 mr-1" /> Our AI Tools
-                    </h3>
-
-                    <div className="max-h-[400px] overflow-y-auto pr-2">
-                      {getGroupedTools().map((group) => (
-                        <div key={group.id} className="mb-4 last:mb-0">
-                          <div className="flex items-center mb-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                            <span className="mr-2 w-3 h-3 flex items-center justify-center">{group.icon}</span>
-                            {group.label}
-                          </div>
-                          <div className="grid grid-cols-2 gap-2">
-                             {group.tools.map((tool: Record<string, unknown>) => (
-                              <a
-                                key={tool.id}
-                                href={`https://${tool.id}.videoremix.vip`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="block p-2 hover:bg-gray-800 rounded text-white transition-colors group"
-                              >
-                                <div className="flex items-center mb-1">
-                                  <span className="font-medium group-hover:text-primary-400 transition-colors text-sm">
-                                    {tool.name}
-                                  </span>
-                                </div>
-                                <p className="text-gray-400 text-xs line-clamp-1">
-                                  {tool.description}
-                                </p>
-                              </a>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <Link
-                      to="/apps"
-                      className="block text-center bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition-colors mt-3"
-                    >
-                      <span className="flex items-center justify-center">
-                        Browse All Tools
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </span>
-                    </Link>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+            Apps
+          </Link>
 
           <Link
             to="/pricing"
@@ -272,7 +183,7 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                   className="flex justify-between items-center w-full text-white hover:bg-gray-800 px-3 py-2 rounded-md"
                   onClick={() => setMobileMenuOpen(false)} // Close mobile menu when navigating
                 >
-                  <span>Tools</span>
+                  <span>Apps</span>
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
