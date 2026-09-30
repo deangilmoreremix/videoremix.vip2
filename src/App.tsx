@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useState, useEffect } from "react";
-import { Routes, Route, useLocation, useParams } from "react-router-dom";
+import { Navigate, Routes, Route, useLocation, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import SparkleBackground from "./components/SparkleBackground";
 import SpecialHeader from "./components/SpecialHeader";
@@ -69,7 +69,6 @@ const LocalAiScrapperPyPage = lazy(() => import("./pages/agents/LocalAiScrapperP
 const LocalTravelAgentPage = lazy(() => import("./pages/agents/LocalTravelAgentPage"));
 const SemanticSearchRagPage = lazy(() => import("./pages/agents/SemanticSearchRagPage"));
 const RagAgentPage = lazy(() => import("./pages/agents/RagAgentPage"));
-const ToolsHubPage = lazy(() => import("./pages/ToolsHubPage"));
 const ApplicationsPage = lazy(() => import("./pages/ApplicationsPage"));
 const BirthdaySpecialPage = lazy(() => import("./pages/BirthdaySpecialPage"));
 
@@ -715,20 +714,9 @@ function App() {
             }
           />
 
-          {/* Tools Hub Page - Public access to browse tools */}
-          <Route
-            path="/tools"
-            element={
-              <ErrorBoundary onError={handleError}>
-                <SparkleBackground>
-                  <Suspense fallback={<SectionLoader />}>
-                    <ToolsHubPage />
-                    <SpecialFooter />
-                  </Suspense>
-                </SparkleBackground>
-              </ErrorBoundary>
-            }
-          />
+          {/* Legacy catalog aliases now resolve to the canonical app library */}
+          <Route path="/tools" element={<Navigate to="/apps" replace />} />
+          <Route path="/applications" element={<Navigate to="/apps" replace />} />
 
           {/* Applications Page - All apps visible to everyone, locked/owned badges shown */}
           <Route
@@ -775,7 +763,7 @@ function App() {
 
           {/* SapienX is the single authenticated VideoRemix dashboard shell */}
           <Route
-            path="/dashboard"
+            path="/dashboard/*"
             element={
               <ProtectedRoute>
                 <ErrorBoundary onError={handleError}>
