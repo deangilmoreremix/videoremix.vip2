@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Loader2, Lock, Sparkles } from "lucide-react";
 import { AIAppShell } from "../components/ai/AIAppShell";
 import { appsData } from "../data/appsData";
+import { getAppMeta } from "../config/appRegistry";
 import { isInternalAIApp } from "../config/internalAIApps";
 import { getAIAppComponent, isAIAppImplemented } from "../components/ai/apps/registry";
 import { useAuth } from "../context/AuthContext";
@@ -24,9 +25,24 @@ const AIAppRunnerPage: React.FC = () => {
   const { hasAccessToApp, loading: accessLoading, accessData } = useUserAccess();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
-  const app = appsData.find((a) => a.id === slug);
+  const importedApp = appsData.find((a) => a.id === slug);
+  const registryApp = slug ? getAppMeta(slug) : undefined;
+  const app = importedApp || (registryApp
+    ? {
+        id: registryApp.slug,
+        name: registryApp.name,
+        description: registryApp.description,
+        category: registryApp.category,
+        group: registryApp.group,
+        image: registryApp.thumbnail || "",
+        icon: null,
+        price: 97,
+      }
+    : null);
   const enhancedApp = app ? getEnhancedAppData(slug || "", app) : null;
-  const mergedApp = enhancedApp ? { ...enhancedApp, url: enhancedApp.url || getAppUrl(slug || "") } : null;
+  const mergedApp = enhancedApp
+    ? { ...enhancedApp, url: enhancedApp.url || getAppUrl(slug || "") }
+    : null;
 
   const [lastResult, setLastResult] = useState<any>(null);
   const [isRunning, setIsRunning] = useState(false);
