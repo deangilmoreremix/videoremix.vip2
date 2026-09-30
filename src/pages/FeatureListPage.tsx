@@ -394,7 +394,7 @@ const FeatureListPage: React.FC = () => {
                       {typeof feature.id === "string" &&
                       featuresData.some((f) => f.id === feature.id) ? (
                         <Link
-                          to={`/tools`}
+                          to={`/apps`}
                           className="inline-flex items-center text-primary-400 hover:text-primary-300 font-medium"
                         >
                           Explore Feature
