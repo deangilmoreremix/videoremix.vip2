@@ -110,7 +110,7 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
             onMouseLeave={closeDropdowns}
           >
             <Link
-              to="/tools"
+              to="/apps"
               className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium flex items-center"
               onMouseEnter={() => setActiveDropdown("tools")}
               onMouseLeave={closeDropdowns}
@@ -167,7 +167,7 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                     </div>
 
                     <Link
-                      to="/tools"
+                      to="/apps"
                       className="block text-center bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition-colors mt-3"
                     >
                       <span className="flex items-center justify-center">
@@ -268,7 +268,7 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
               {/* Mobile Tools Dropdown */}
               <div>
                 <Link
-                  to="/tools"
+                  to="/apps"
                   className="flex justify-between items-center w-full text-white hover:bg-gray-800 px-3 py-2 rounded-md"
                   onClick={() => setMobileMenuOpen(false)} // Close mobile menu when navigating
                 >
