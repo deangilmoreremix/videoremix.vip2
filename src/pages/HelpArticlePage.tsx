@@ -213,7 +213,7 @@ const articles = [
       <p>Congratulations on launching your first personalized campaign! To take your marketing further, explore:</p>
       <ul>
         <li><a href="/faq">Advanced Audience Segmentation</a></li>
-        <li><a href="/tools">Complete Tools Hub Overview</a></li>
+        <li><a href="/apps">Complete Tools Hub Overview</a></li>
         <li><a href="/faq">Campaign Optimization Strategies</a></li>
       </ul>
     `,
