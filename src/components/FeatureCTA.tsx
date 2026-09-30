@@ -104,7 +104,7 @@ const FeatureCTA: React.FC<FeatureCTAProps> = ({
                     whileTap={{ scale: 0.97 }}
                   >
                     <Link
-                      to="/tools"
+                      to="/apps"
                       className="bg-white/10 hover:bg-white/15 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm transition-colors duration-200"
                     >
                       {feature.title}
