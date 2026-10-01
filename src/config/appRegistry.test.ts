@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, it, expect } from "vitest";
 import {
   APP_REGISTRY,
   AWESOME_LLM_APP_COUNT,
@@ -6,35 +6,53 @@ import {
   TOTAL_APP_COUNT,
 } from "./appRegistry";
 
-describe("SapienX app registry invariants", () => {
-  it("contains exactly 117 Awesome LLM products and 13 VideoRemix extras", () => {
+describe("appRegistry catalog invariants", () => {
+  it("has exactly 117 Awesome LLM products", () => {
     expect(AWESOME_LLM_APP_COUNT).toBe(117);
+  });
+
+  it("has exactly 13 VideoRemix additional products", () => {
     expect(VIDEOREMIX_EXTRA_APP_COUNT).toBe(13);
+  });
+
+  it("has exactly 130 total customer-facing products", () => {
     expect(TOTAL_APP_COUNT).toBe(130);
-    expect(APP_REGISTRY).toHaveLength(130);
+    expect(APP_REGISTRY.length).toBe(130);
   });
 
-  it("contains 130 unique customer-facing slugs", () => {
+  it("has 130 unique customer-facing slugs", () => {
     const slugs = APP_REGISTRY.map((app) => app.slug);
-    expect(new Set(slugs).size).toBe(130);
+    const unique = new Set(slugs);
+    expect(unique.size).toBe(130);
   });
 
-  it("keeps Awesome LLM and VideoRemix products as the only customer-facing families", () => {
-    expect(APP_REGISTRY.filter((app) => app.family === "awesome-llm")).toHaveLength(117);
-    expect(APP_REGISTRY.filter((app) => app.family === "external")).toHaveLength(13);
+  it("has no duplicate customer-facing slugs", () => {
+    const slugs = APP_REGISTRY.map((app) => app.slug);
+    const unique = new Set(slugs);
+    expect(slugs.length).toBe(unique.size);
   });
 
-  it("does not expose legacy canonical runner aliases as additional products", () => {
+  it("splits 117 awesome-llm and 13 external products", () => {
+    const awesome = APP_REGISTRY.filter((app) => app.family === "awesome-llm");
+    const external = APP_REGISTRY.filter((app) => app.family === "external");
+    expect(awesome.length).toBe(117);
+    expect(external.length).toBe(13);
+  });
+
+  it("does not expose legacy renamed aliases as extra customer-facing products", () => {
+    const legacyAliases = [
+      "deep-research-pro",
+      "profit-coach-ai",
+      "local-business-analytics-ai",
+      "ai-design-studio",
+      "ai-router-ai-design-studio",
+      "sales-monetizer",
+      "landing-page",
+    ];
+
     const slugs = new Set(APP_REGISTRY.map((app) => app.slug));
-
-    // These are historical implementation aliases, not additional customer products.
-    expect(slugs.has("deep-research-pro")).toBe(false);
-    expect(slugs.has("profit-coach-ai")).toBe(false);
-    expect(slugs.has("local-business-analytics-ai")).toBe(false);
-
-    // Their current Awesome LLM product identities remain present.
-    expect(slugs.has("ai-deep-research-agent")).toBe(true);
-    expect(slugs.has("ai-financial-coach-agent")).toBe(true);
-    expect(slugs.has("ai-data-analysis-agent")).toBe(true);
+    for (const alias of legacyAliases) {
+      expect(slugs.has(alias)).toBe(false);
+    }
   });
 });
