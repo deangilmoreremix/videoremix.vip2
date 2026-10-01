@@ -3,7 +3,6 @@ import { Helmet } from "react-helmet-async";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   AppWindow,
-  Bot,
   ChevronRight,
   CircleDot,
   Command,
@@ -18,32 +17,29 @@ import {
   UserRoundCheck,
   WandSparkles,
 } from "lucide-react";
-import { APP_REGISTRY, type AppMeta } from "../config/appRegistry";
 import {
-  AGENT_REGISTRY,
-  AGENT_SOURCE_COUNT,
-  STAGED_AGENT_COUNT,
-  getAgentLaunchPath,
-  type AgentMeta,
-} from "../config/agentRegistry";
+  APP_REGISTRY,
+  AWESOME_LLM_APP_COUNT,
+  VIDEOREMIX_EXTRA_APP_COUNT,
+  TOTAL_APP_COUNT,
+  type AppMeta,
+} from "../config/appRegistry";
 import { useUserAccess } from "../hooks/useUserAccess";
 import { useAuth } from "../context/AuthContext";
 import { getAppLaunchTarget } from "../utils/appLaunch";
 import OnboardingWizard from "../components/onboarding/OnboardingWizard";
 
-type Surface = "overview" | "my-apps" | "apps" | "agents";
+type Surface = "overview" | "my-apps" | "apps";
 
 const SURFACE_PATHS: Record<Surface, string> = {
   overview: "/dashboard",
   "my-apps": "/dashboard/my-apps",
   apps: "/dashboard/apps",
-  agents: "/dashboard/agents",
 };
 
 const surfaceFromPath = (pathname: string): Surface => {
   if (pathname.startsWith("/dashboard/my-apps")) return "my-apps";
   if (pathname.startsWith("/dashboard/apps")) return "apps";
-  if (pathname.startsWith("/dashboard/agents")) return "agents";
   return "overview";
 };
 
@@ -78,23 +74,11 @@ const DashboardPage: React.FC = () => {
     if (!normalizedQuery) return source;
 
     return source.filter((app) =>
-      [app.name, app.description, app.category, app.group]
+      [app.name, app.description, app.category, app.group, app.source]
         .filter(Boolean)
-        .some((value) => value.toLowerCase().includes(normalizedQuery)),
+        .some((value) => String(value).toLowerCase().includes(normalizedQuery)),
     );
   }, [ownedApps, query, surface]);
-
-  const filteredAgents = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
-
-    if (!normalizedQuery) return AGENT_REGISTRY;
-
-    return AGENT_REGISTRY.filter((agent) =>
-      [agent.name, agent.description, agent.category, agent.group]
-        .filter(Boolean)
-        .some((value) => value.toLowerCase().includes(normalizedQuery)),
-    );
-  }, [query]);
 
   const goToSurface = (nextSurface: Surface) => {
     navigate(SURFACE_PATHS[nextSurface]);
@@ -116,15 +100,10 @@ const DashboardPage: React.FC = () => {
     navigate(target.destination);
   };
 
-  const launchAgent = (agent: AgentMeta) => {
-    navigate(getAgentLaunchPath(agent));
-  };
-
   const nav = [
     { id: "overview" as const, label: "Command Center", icon: LayoutDashboard },
     { id: "my-apps" as const, label: "My Apps", icon: UserRoundCheck },
     { id: "apps" as const, label: "App Library", icon: Grid2X2 },
-    { id: "agents" as const, label: "AI Agents", icon: Bot },
   ];
 
   const renderAppCard = (app: AppMeta) => {
@@ -161,7 +140,7 @@ const DashboardPage: React.FC = () => {
         </p>
 
         <div className="flex items-center justify-between mt-5 text-xs text-white/35">
-          <span>{app.family === "external" ? "Connected app" : app.category}</span>
+          <span>{app.family === "external" ? "VideoRemix app" : "Awesome LLM"}</span>
           {owned ? (
             <Play className="h-4 w-4 group-hover:text-white" />
           ) : (
@@ -172,40 +151,13 @@ const DashboardPage: React.FC = () => {
     );
   };
 
-  const renderAgentCard = (agent: AgentMeta) => (
-    <button
-      key={agent.slug}
-      onClick={() => launchAgent(agent)}
-      className="rounded-2xl border border-white/10 bg-white/[.025] p-5 text-left hover:bg-white/[.05] hover:border-white/20 transition group"
-    >
-      <div className="flex items-start justify-between gap-3">
-        <div className="h-11 w-11 rounded-xl bg-violet-500/10 border border-violet-400/15 flex items-center justify-center">
-          <Bot className="h-5 w-5 text-violet-400" />
-        </div>
-        <span className="text-[10px] uppercase tracking-wider rounded-full px-2 py-1 text-emerald-400 bg-emerald-400/10">
-          Ready
-        </span>
-      </div>
-
-      <h3 className="font-medium mt-5">{agent.name}</h3>
-      <p className="text-xs leading-5 text-white/40 mt-2 line-clamp-2">
-        {agent.description}
-      </p>
-
-      <div className="flex items-center justify-between mt-5 text-xs text-white/35">
-        <span>{agent.category}</span>
-        <Play className="h-4 w-4 group-hover:text-white" />
-      </div>
-    </button>
-  );
-
   return (
     <>
       <Helmet>
         <title>Command Center | VideoRemix.vip</title>
         <meta
           name="description"
-          content="Manage your VideoRemix apps, AI agents, and personalization tools from one command center."
+          content="Manage all 130 VideoRemix applications from one SapienX command center."
         />
       </Helmet>
 
@@ -218,7 +170,7 @@ const DashboardPage: React.FC = () => {
               </div>
               <div>
                 <div className="font-semibold">VideoRemix</div>
-                <div className="text-xs text-white/40">AI Command Center</div>
+                <div className="text-xs text-white/40">SapienX Command Center</div>
               </div>
             </div>
 
@@ -296,20 +248,20 @@ const DashboardPage: React.FC = () => {
                       Command Center
                     </div>
                     <h1 className="text-3xl lg:text-5xl font-semibold tracking-tight">
-                      Everything you own. One dashboard.
+                      All your AI products. One dashboard.
                     </h1>
                     <p className="mt-3 text-white/50 max-w-2xl">
-                      Launch your VideoRemix applications, use ready AI agents,
-                      and open the personalization system from one operating surface.
+                      The App Library contains the 117 Awesome LLM products and 13 additional
+                      VideoRemix applications exactly once.
                     </p>
                   </div>
 
                   <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
                     {[
                       ["My apps", ownedApps.length, UserRoundCheck],
-                      ["VideoRemix apps", APP_REGISTRY.length, AppWindow],
-                      ["Agents ready", AGENT_REGISTRY.length, Bot],
-                      ["Agents staged", STAGED_AGENT_COUNT, Sparkles],
+                      ["Awesome LLM apps", AWESOME_LLM_APP_COUNT, Sparkles],
+                      ["VideoRemix extras", VIDEOREMIX_EXTRA_APP_COUNT, AppWindow],
+                      ["Total apps", TOTAL_APP_COUNT, Grid2X2],
                     ].map(([label, value, Icon]: any) => (
                       <div
                         key={label}
@@ -361,7 +313,9 @@ const DashboardPage: React.FC = () => {
                               </div>
                               <div className="min-w-0 flex-1">
                                 <div className="text-sm font-medium truncate">{app.name}</div>
-                                <div className="text-xs text-white/35">Owned</div>
+                                <div className="text-xs text-white/35">
+                                  {app.family === "external" ? "VideoRemix" : "Awesome LLM"}
+                                </div>
                               </div>
                               <Play className="h-4 w-4 text-white/30" />
                             </button>
@@ -371,7 +325,7 @@ const DashboardPage: React.FC = () => {
                         <div className="p-8">
                           <div className="text-sm font-medium">No apps are linked to this account yet.</div>
                           <p className="text-xs text-white/40 mt-2">
-                            Open the library to browse the VideoRemix catalog.
+                            Open the library to browse the full catalog.
                           </p>
                           <button
                             onClick={() => goToSurface("apps")}
@@ -386,18 +340,17 @@ const DashboardPage: React.FC = () => {
                     <div className="space-y-5">
                       <section className="rounded-2xl border border-white/10 bg-white/[.025] p-5">
                         <div className="flex items-center gap-2">
-                          <Bot className="h-4 w-4 text-violet-400" />
-                          <h2 className="font-semibold">AI Agents</h2>
+                          <Grid2X2 className="h-4 w-4 text-violet-400" />
+                          <h2 className="font-semibold">App Library</h2>
                         </div>
                         <p className="text-sm text-white/45 mt-3">
-                          {AGENT_REGISTRY.length} imported agent experiences are wired and ready now.
-                          The remaining {STAGED_AGENT_COUNT} stay hidden until their runtime is connected.
+                          Browse all {TOTAL_APP_COUNT} unique products without a duplicate agent catalog.
                         </p>
                         <button
-                          onClick={() => goToSurface("agents")}
+                          onClick={() => goToSurface("apps")}
                           className="mt-5 text-sm text-violet-400 flex items-center gap-1"
                         >
-                          Open agent library
+                          Open app library
                           <ChevronRight className="h-4 w-4" />
                         </button>
                       </section>
@@ -431,12 +384,12 @@ const DashboardPage: React.FC = () => {
                         {surface === "my-apps" ? "My Apps" : "App Library"}
                       </div>
                       <h1 className="text-3xl font-semibold">
-                        {surface === "my-apps" ? "Your applications" : "VideoRemix applications"}
+                        {surface === "my-apps" ? "Your applications" : "All VideoRemix applications"}
                       </h1>
                       <p className="text-sm text-white/45 mt-2">
                         {surface === "my-apps"
                           ? `${ownedApps.length} apps currently available to your account.`
-                          : `${APP_REGISTRY.length} applications in the canonical VideoRemix registry.`}
+                          : `${TOTAL_APP_COUNT} unique apps: ${AWESOME_LLM_APP_COUNT} Awesome LLM + ${VIDEOREMIX_EXTRA_APP_COUNT} VideoRemix.`}
                       </p>
                     </div>
 
@@ -465,48 +418,6 @@ const DashboardPage: React.FC = () => {
                         {surface === "my-apps"
                           ? "Your account does not currently have access to an app matching this view."
                           : "Try a different search term."}
-                      </p>
-                    </div>
-                  )}
-                </>
-              )}
-
-              {surface === "agents" && (
-                <>
-                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-7">
-                    <div>
-                      <div className="text-xs uppercase tracking-[.25em] text-violet-400 mb-2">
-                        AI Agents
-                      </div>
-                      <h1 className="text-3xl font-semibold">Runnable agent library</h1>
-                      <p className="text-sm text-white/45 mt-2 max-w-3xl">
-                        {AGENT_REGISTRY.length} of {AGENT_SOURCE_COUNT} imported agent experiences
-                        currently have a verified route. Staged agents stay out of the user interface
-                        until their runtime is connected.
-                      </p>
-                    </div>
-
-                    <div className="relative">
-                      <Search className="absolute left-3 top-3 h-4 w-4 text-white/30" />
-                      <input
-                        value={query}
-                        onChange={(event) => setQuery(event.target.value)}
-                        placeholder="Search agents..."
-                        className="w-full md:w-72 rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-3 text-sm outline-none focus:border-violet-400/50"
-                      />
-                    </div>
-                  </div>
-
-                  {filteredAgents.length > 0 ? (
-                    <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
-                      {filteredAgents.map(renderAgentCard)}
-                    </div>
-                  ) : (
-                    <div className="rounded-2xl border border-white/10 bg-white/[.025] p-10 text-center">
-                      <Bot className="h-8 w-8 text-white/25 mx-auto" />
-                      <h2 className="font-medium mt-4">No matching agents</h2>
-                      <p className="text-sm text-white/40 mt-2">
-                        Try a different search term.
                       </p>
                     </div>
                   )}
