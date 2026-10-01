@@ -8,7 +8,7 @@ import {
   Play,
   Search,
 } from "lucide-react";
-import { APP_REGISTRY, type AppMeta } from "../config/appRegistry";
+import { APP_REGISTRY, AWESOME_LLM_APP_COUNT, VIDEOREMIX_EXTRA_APP_COUNT, TOTAL_APP_COUNT, type AppMeta } from "../config/appRegistry";
 import { useAuth } from "../context/AuthContext";
 import { useUserAccess } from "../hooks/useUserAccess";
 import PurchaseModal from "../components/PurchaseModal";
@@ -62,11 +62,10 @@ const ApplicationsPage: React.FC = () => {
               VideoRemix App Library
             </div>
             <h1 className="text-4xl md:text-5xl font-bold">
-              One canonical application catalog.
+              One SapienX application catalog.
             </h1>
             <p className="mt-4 text-gray-400 max-w-3xl mx-auto">
-              Browse the {APP_REGISTRY.length} VideoRemix applications in the platform registry.
-              AI agents are organized separately inside the authenticated command center.
+              Browse all {TOTAL_APP_COUNT} unique applications: {AWESOME_LLM_APP_COUNT} Awesome LLM products plus {VIDEOREMIX_EXTRA_APP_COUNT} additional VideoRemix apps.
             </p>
 
             {!user && (
