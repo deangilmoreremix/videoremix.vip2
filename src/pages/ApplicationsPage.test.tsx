@@ -17,11 +17,25 @@ vi.mock('react-router-dom', async (importOriginal) => {
   const actual = (await importOriginal()) as any
   return { ...actual, useNavigate: () => mockNavigate }
 })
-vi.mock('../hooks/useApps', () => ({
-  useApps: () => ({ apps: h.mockApps, loading: false, error: null, refetch: vi.fn() }),
+vi.mock('../config/appRegistry', () => ({
+  APP_REGISTRY: h.mockApps.map((app) => ({
+    slug: app.id,
+    name: app.name,
+    description: app.description,
+    category: app.category,
+    group: app.group,
+    family: 'awesome-llm',
+    url: `/ai-runner/${app.id}`,
+  })),
+  AWESOME_LLM_APP_COUNT: 2,
+  VIDEOREMIX_EXTRA_APP_COUNT: 0,
+  TOTAL_APP_COUNT: 2,
 }))
 vi.mock('../hooks/useUserAccess', () => ({
-  useUserAccess: () => ({ hasAccessToApp: (id: string) => h.ownedSet.has(id) }),
+  useUserAccess: () => ({
+    hasAccessToApp: (id: string) => h.ownedSet.has(id),
+    loading: false,
+  }),
 }))
 vi.mock('../context/AuthContext', () => ({
   useAuth: () => ({ user: h.userValue }),
@@ -77,7 +91,7 @@ describe('ApplicationsPage — dashboard visibility & ownership gating', () => {
       </MemoryRouter>,
     )
     fireEvent.click(screen.getByText('App A'))
-    expect(mockNavigate).toHaveBeenCalledWith('/ai-design-studio/app-a')
+    expect(mockNavigate).toHaveBeenCalledWith('/ai-runner/app-a')
     expect(screen.queryByTestId('purchase-modal')).toBeNull()
   })
 
