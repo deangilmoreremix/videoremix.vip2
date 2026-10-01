@@ -1,3 +1,5 @@
+import { rawAppsData } from "../data/appsData";
+
 /**
  * The 100 AI-powered apps that run as first-party experiences
  * inside the VideoRemix dashboard (React + Supabase Edge Functions).
@@ -169,6 +171,13 @@ export const INTERNAL_AI_APP_SLUGS = new Set([
   "ai-sales-intelligence-pro",
   "ai-app-builder-assistant",
 ]);
+
+// The 117 Awesome LLM source slugs are the product identities shown in SapienX.
+// Keep legacy/canonical slugs above for backwards-compatible deep links, but ensure
+// every Awesome LLM product can launch through the shared AI runner.
+for (const app of rawAppsData) {
+  INTERNAL_AI_APP_SLUGS.add(app.id);
+}
 
 /**
  * Note: notion-workspace-ai is intentionally NOT in this list
