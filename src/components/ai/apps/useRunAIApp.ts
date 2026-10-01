@@ -1,9 +1,10 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { supabase } from "../../../utils/supabaseClient";
+import { getClerkTokenGetter } from "../../../utils/supabase";
 import type { UseRunAIAppOptions, UseRunAIAppReturn, ConversationMessage } from "./types";
 
 /**
- * Reusable hook for running any of the 95 AI apps.
+ * Reusable hook for running SapienX AI apps through the shared Responses API backend.
  * Supports streaming responses via WebSocket (with SSE fallback), multi-turn conversation context, and auto-retry.
  *
  * Centralizes the duplicated ~25-35 lines of useState + supabase.functions.invoke + try/catch + onResult/onError
@@ -80,11 +81,13 @@ export function useRunAIApp(
     setConversationHistory([]);
   }, []);
 
-  // Helper to get the current access token from Supabase
+  // Clerk is the single source of truth for authentication. The canonical
+  // Supabase client is configured with a Clerk accessToken callback, so its
+  // auth namespace is intentionally disabled. Read the same Clerk token getter
+  // that AuthContext wires into Supabase instead of trying to read a Supabase session.
   const getAccessToken = useCallback(async (): Promise<string> => {
     try {
-      const { data } = await supabase.supabaseClient.auth.getSession();
-      return data?.session?.access_token ?? "";
+      return (await getClerkTokenGetter()()) ?? "";
     } catch {
       return "";
     }
@@ -157,30 +160,28 @@ export function useRunAIApp(
               }
               try {
                 const parsed = JSON.parse(data);
-                if (parsed.output) {
-                  if (Array.isArray(parsed.output)) {
-                    for (const item of parsed.output) {
-                      if (item.type === "output_text" && item.text) {
-                        accumulatedText += item.text;
-                      }
-                    }
-                  }
-                  fullResponseRef.current = parsed;
-                  if (parsed.output && typeof parsed.output === "object") {
-                    setOutput(parsed.output);
-                  }
+
+                if (parsed.type === "response.output_text.delta" && typeof parsed.delta === "string") {
+                  accumulatedText += parsed.delta;
+                  setStreamingContent(accumulatedText);
+                } else if (parsed.type === "response.completed") {
+                  fullResponseRef.current = parsed.response ?? parsed;
+                } else if (parsed.type === "error") {
+                  throw new Error(parsed.message || parsed.error?.message || "OpenAI streaming error");
                 }
-              } catch {
-                // Continue parsing
+              } catch (eventError) {
+                // Ignore malformed SSE fragments, but preserve actual Error instances.
+                if (eventError instanceof Error && eventError.message !== "Unexpected end of JSON input") {
+                  console.warn("[useRunAIApp] stream event parse warning:", eventError.message);
+                }
               }
             }
           }
         }
 
-        if (!output && accumulatedText) {
+        if (accumulatedText) {
           try {
-            const parsed = JSON.parse(accumulatedText);
-            setOutput(parsed);
+            setOutput(JSON.parse(accumulatedText));
           } catch {
             setOutput(accumulatedText);
           }
@@ -213,114 +214,11 @@ export function useRunAIApp(
         ? { ...inputs, _context: contextPreamble }
         : inputs;
 
+      // Use authenticated HTTP/SSE for normal app runs. Browser WebSockets cannot
+      // attach the Authorization header used by our Clerk/Supabase integration,
+      // so the old WebSocket-first path silently lost user identity.
       const attemptRun = async (): Promise<void> => {
-        try {
-          const wsUrl = `${supabase.supabaseUrl}/functions/v1/run-ai-app/websocket`
-            .replace("https://", "wss://")
-            .replace("http://", "ws://");
-
-          const accessToken = await getAccessToken();
-
-          return new Promise((resolve, reject) => {
-            const ws = new WebSocket(wsUrl);
-            wsRef.current = ws;
-
-            let accumulatedText = "";
-            let responseData: any = null;
-
-            ws.onopen = () => {
-              ws.send(
-                JSON.stringify({
-                  appSlug: slug,
-                  inputs: finalInputs,
-                  stream: true,
-                  accessToken,
-                })
-              );
-            };
-
-            ws.onmessage = (event) => {
-              try {
-                const data = JSON.parse(event.data);
-
-                if (data.error) {
-                  reject(new Error(data.error));
-                  return;
-                }
-
-                if (data.type === "chunk" && data.content) {
-                  accumulatedText += data.content;
-                  setStreamingContent(accumulatedText);
-                } else if (data.type === "done") {
-                  responseData = data;
-                  if (data.output) {
-                    setOutput(data.output);
-                  } else if (accumulatedText) {
-                    try {
-                      const parsed = JSON.parse(accumulatedText);
-                      setOutput(parsed);
-                    } catch {
-                      setOutput(accumulatedText);
-                    }
-                  }
-
-                  if (enableMultiTurn && responseData) {
-                    const userMsg: ConversationMessage = {
-                      role: "user",
-                      content: JSON.stringify(inputs),
-                      timestamp: Date.now(),
-                    };
-                    const assistantMsg: ConversationMessage = {
-                      role: "assistant",
-                      content: accumulatedText,
-                      timestamp: Date.now(),
-                    };
-                    setConversationHistory((prev) => [
-                      ...prev,
-                      userMsg,
-                      assistantMsg,
-                    ]);
-                  }
-
-                  setIsStreaming(false);
-                  ws.close();
-                  resolve();
-                }
-              } catch (err) {
-                // Non-JSON message, treat as text chunk
-                accumulatedText += event.data;
-                setStreamingContent(accumulatedText);
-              }
-            };
-
-            ws.onerror = () => {
-              ws.close();
-              reject(new Error("WebSocket connection failed"));
-            };
-
-            ws.onclose = () => {
-              if (!responseData && accumulatedText) {
-                try {
-                  const parsed = JSON.parse(accumulatedText);
-                  setOutput(parsed);
-                } catch {
-                  setOutput(accumulatedText);
-                }
-              }
-            };
-
-            setTimeout(() => {
-              if (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING) {
-                ws.close();
-              }
-              if (!responseData) {
-                reject(new Error("WebSocket timeout"));
-              }
-            }, 60000);
-          });
-        } catch {
-          return runSSE(finalInputs);
-        }
+        return runSSE(finalInputs);
       };
 
       try {
