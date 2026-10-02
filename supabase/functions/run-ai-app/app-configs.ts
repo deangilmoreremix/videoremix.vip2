@@ -1,4 +1,5 @@
 // supabase/functions/run-ai-app/app-configs.ts
+import { getAwesomeLlmFallbackMeta } from "./awesome-llm-fallbacks.ts";
 // Per-app configuration for all 95 internal AI apps
 // Tool types: web_search_preview, file_search, vision, code_execution
 
@@ -846,5 +847,23 @@ export const APP_CONFIGS: Record<string, AppConfig> = {
 };
 
 export function getAppConfig(slug: string): AppConfig | null {
-  return APP_CONFIGS[slug] || null;
+  const specialized = APP_CONFIGS[slug];
+  if (specialized) return specialized;
+
+  const fallback = getAwesomeLlmFallbackMeta(slug);
+  if (!fallback) return null;
+
+  return {
+    systemPrompt: [
+      `You are ${fallback.name}.`,
+      fallback.description,
+      "Complete the user's request as this specific product would.",
+      "Use the information supplied by the user, be concrete and useful, and do not invent external facts.",
+      "Return ONLY valid JSON with keys: summary, details, nextSteps.",
+    ].join("\n\n"),
+    model: "gpt-5.5",
+    temperature: 0.7,
+    maxTokens: 2200,
+    expectedOutputKeys: ["summary", "details", "nextSteps"],
+  };
 }

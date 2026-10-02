@@ -1,11 +1,12 @@
 // supabase/functions/run-ai-app/index.ts
 // OpenAI Responses API Integration with Streaming & Tool Support
-// Supports: web_search_preview, file_search, vision, code_execution, realtime
+// Supports current Responses tools plus legacy config labels: web search, file search, code interpreter, vision input, realtime
 // Realtime voice sessions via handleRealtimeSession (mode=realtime query param)
 // code_execution traces (code_execution_call/output) are captured in verificationTrace
 
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createSupabaseContext } from "npm:@supabase/server";
 import { getAppConfig, type ToolType } from "./app-configs.ts";
 
 const corsHeaders = {
@@ -13,24 +14,76 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, upgrade",
 };
 
-// Tool definitions for OpenAI Responses API
-const TOOL_DEFINITIONS: Record<ToolType, any> = {
-  web_search_preview: {
-    type: "web_search_preview" as const,
-  },
-  file_search: {
-    type: "file_search" as const,
-  },
-  vision: {
-    type: "vision" as const,
-  },
-  code_execution: {
-    type: "code_execution" as const,
-  },
-  realtime: {
-    type: "realtime" as const,
-  },
-};
+// Translate the repo's legacy tool labels into current Responses API tool shapes.
+// Some labels (vision/realtime) are capability markers, not Responses tools.
+function buildResponseTools(toolTypes: ToolType[] | undefined, inputs: Record<string, any>): any[] {
+  if (!toolTypes?.length) return [];
+
+  const tools: any[] = [];
+  for (const toolType of toolTypes) {
+    switch (toolType) {
+      case "web_search_preview":
+        tools.push({ type: "web_search" });
+        break;
+      case "code_execution":
+        tools.push({ type: "code_interpreter", container: { type: "auto" } });
+        break;
+      case "file_search": {
+        const rawIds =
+          inputs?.vector_store_ids ??
+          inputs?.vectorStoreIds ??
+          inputs?.vector_store_id ??
+          inputs?.vectorStoreId;
+        const vectorStoreIds = Array.isArray(rawIds)
+          ? rawIds.filter(Boolean)
+          : rawIds
+            ? [rawIds]
+            : [];
+
+        // file_search requires at least one vector store id. If the UI has not
+        // created/selected one yet, omit the tool rather than sending an invalid request.
+        if (vectorStoreIds.length > 0) {
+          tools.push({ type: "file_search", vector_store_ids: vectorStoreIds });
+        }
+        break;
+      }
+      case "vision":
+        // Vision is supplied as image input content, not as a tool declaration.
+        break;
+      case "realtime":
+        // Realtime is handled by the dedicated realtime WebSocket path.
+        break;
+    }
+  }
+
+  return tools;
+}
+
+async function authenticateRequest(
+  req: Request,
+  tokenOverride?: string | null,
+): Promise<{ userId: string } | null> {
+  try {
+    const authReq = tokenOverride
+      ? new Request(req.url, {
+          method: "GET",
+          headers: { Authorization: `Bearer ${tokenOverride}` },
+        })
+      : req;
+
+    const { data: ctx, error } = await createSupabaseContext(authReq, { auth: "user" });
+    if (error || !ctx) return null;
+
+    const userId =
+      (ctx.jwtClaims?.sub as string | undefined) ??
+      (ctx.userClaims?.id as string | undefined);
+
+    return userId ? { userId } : null;
+  } catch (error) {
+    console.error("run-ai-app auth verification failed:", error);
+    return null;
+  }
+}
 
 interface RunAIAppRequest {
   appSlug: string;
@@ -48,14 +101,38 @@ serve(async (req) => {
   if (req.headers.get("upgrade") === "websocket") {
     const url = new URL(req.url);
     const mode = url.searchParams.get("mode");
+
     if (mode === "realtime") {
+      const token = url.searchParams.get("access_token");
+      const auth = await authenticateRequest(req, token);
+      if (!auth) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
       return handleRealtimeSession(req);
     }
-    return handleWebSocket(req);
+
+    // Normal SapienX runs use authenticated HTTP/SSE. Keeping a generic
+    // unauthenticated WebSocket here would create an OpenAI-spend bypass.
+    return new Response(JSON.stringify({ error: "Use authenticated HTTP/SSE for AI app runs" }), {
+      status: 426,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  const auth = await authenticateRequest(req);
+  if (!auth) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 
   try {
-    const { appSlug, inputs, context, userId, stream = true }: RunAIAppRequest = await req.json();
+    const { appSlug, inputs, context, stream = true }: RunAIAppRequest = await req.json();
+    const userId = auth.userId;
 
     if (!appSlug) {
       return new Response(JSON.stringify({ error: "appSlug is required" }), {
@@ -87,16 +164,7 @@ serve(async (req) => {
       });
     }
 
-    // Build tools array based on app config
-    const tools: any[] = [];
-
-    if (config.tools && config.tools.length > 0) {
-      for (const toolType of config.tools) {
-        if (TOOL_DEFINITIONS[toolType]) {
-          tools.push(TOOL_DEFINITIONS[toolType]);
-        }
-      }
-    }
+    const tools = buildResponseTools(config.tools, inputs);
 
     // Build the input content from user inputs
     let inputContent = "";
@@ -126,6 +194,7 @@ serve(async (req) => {
       model: config.model || "gpt-5.5",
       input: inputContent,
       stream: stream !== false,
+      ...(config.maxTokens ? { max_output_tokens: config.maxTokens } : {}),
     };
 
     // Add tools if needed
@@ -134,7 +203,7 @@ serve(async (req) => {
     }
 
     // Add parsing instructions
-    requestBody.instruction = `Return valid JSON matching the expected output structure. No additional text outside JSON. Expected keys: ${config.expectedOutputKeys.join(", ")}`;
+    requestBody.instructions = `Return valid JSON matching the expected output structure. No additional text outside JSON. Expected keys: ${config.expectedOutputKeys.join(", ")}`;
 
     // Make the API call
     const response = await fetch("https://api.openai.com/v1/responses", {
@@ -257,14 +326,7 @@ async function handleWebSocket(req: Request): Promise<Response> {
         return;
       }
 
-      const tools: any[] = [];
-      if (config.tools && config.tools.length > 0) {
-        for (const toolType of config.tools) {
-          if (TOOL_DEFINITIONS[toolType]) {
-            tools.push(TOOL_DEFINITIONS[toolType]);
-          }
-        }
-      }
+      const tools = buildResponseTools(config.tools, inputs);
 
       let inputContent = "";
       if (context) {
@@ -289,13 +351,14 @@ async function handleWebSocket(req: Request): Promise<Response> {
         model: config.model || "gpt-5.5",
         input: inputContent,
         stream: stream !== false,
+        ...(config.maxTokens ? { max_output_tokens: config.maxTokens } : {}),
       };
 
       if (tools.length > 0) {
         requestBody.tools = tools;
       }
 
-      requestBody.instruction = `Return valid JSON matching the expected output structure. No additional text outside JSON. Expected keys: ${config.expectedOutputKeys.join(", ")}`;
+      requestBody.instructions = `Return valid JSON matching the expected output structure. No additional text outside JSON. Expected keys: ${config.expectedOutputKeys.join(", ")}`;
 
       const response = await fetch("https://api.openai.com/v1/responses", {
         method: "POST",

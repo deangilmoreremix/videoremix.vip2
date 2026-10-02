@@ -1,97 +1,97 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 
-// Hoisted shared state so mock factories can reference it
 const h = vi.hoisted(() => ({
-  mockApps: [
-    { id: 'app-a', name: 'App A', description: 'Desc A', category: 'c', iconName: 'star', image: '', isActive: true, isPublic: true, group: 'g' },
-    { id: 'app-b', name: 'App B', description: 'Desc B', category: 'c', iconName: 'star', image: '', isActive: true, isPublic: true, group: 'g' },
-  ],
   ownedSet: new Set<string>(),
-  userValue: null as any,
-}))
+  userValue: null as { id: string; email: string } | null,
+}));
 
-const mockNavigate = vi.fn()
-vi.mock('react-router-dom', async (importOriginal) => {
-  const actual = (await importOriginal()) as any
-  return { ...actual, useNavigate: () => mockNavigate }
-})
-vi.mock('../hooks/useApps', () => ({
-  useApps: () => ({ apps: h.mockApps, loading: false, error: null, refetch: vi.fn() }),
-}))
-vi.mock('../hooks/useUserAccess', () => ({
-  useUserAccess: () => ({ hasAccessToApp: (id: string) => h.ownedSet.has(id) }),
-}))
-vi.mock('../context/AuthContext', () => ({
+const mockNavigate = vi.fn();
+vi.mock("react-router-dom", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-router-dom")>();
+  return { ...actual, useNavigate: () => mockNavigate };
+});
+
+const mockHasAccessToApp = vi.fn(() => false);
+vi.mock("../hooks/useUserAccess", () => ({
+  useUserAccess: () => ({
+    hasAccessToApp: (...args: any[]) => mockHasAccessToApp(...args),
+    loading: false,
+  }),
+}));
+
+vi.mock("../context/AuthContext", () => ({
   useAuth: () => ({ user: h.userValue }),
-}))
-vi.mock('../components/PurchaseModal', () => ({
+}));
+
+vi.mock("../components/PurchaseModal", () => ({
   default: ({ isOpen, app }: any) =>
     isOpen ? <div data-testid="purchase-modal">{app?.name}</div> : null,
-}))
+}));
 
-import ApplicationsPage from './ApplicationsPage'
+import ApplicationsPage from "./ApplicationsPage";
 
 beforeEach(() => {
-  mockNavigate.mockClear()
-  h.ownedSet = new Set()
-  h.userValue = null
-})
+  mockNavigate.mockClear();
+  mockHasAccessToApp.mockClear();
+  h.ownedSet = new Set<string>();
+  h.userValue = null;
+  mockHasAccessToApp.mockReturnValue(false);
+});
 
-describe('ApplicationsPage — dashboard visibility & ownership gating', () => {
-  it('shows ALL apps to every visitor (including logged-out users)', () => {
+describe("ApplicationsPage — dashboard visibility & ownership gating", () => {
+  it("shows catalog apps and sign-in prompt for logged-out users", () => {
     render(
       <MemoryRouter>
         <ApplicationsPage />
       </MemoryRouter>,
-    )
-    // Both apps are visible
-    expect(screen.getByText('App A')).toBeTruthy()
-    expect(screen.getByText('App B')).toBeTruthy()
-    // Logged-out visitor sees the sign-in prompt
-    expect(screen.getByText(/Sign In to Access Your Apps/i)).toBeTruthy()
-  })
+    );
+    expect(screen.getByText(/One SapienX application catalog/i)).toBeTruthy();
+    expect(screen.getByText(/Sign in to access your apps/i)).toBeTruthy();
+  });
 
-  it('opens the purchase prompt when an unowned app is clicked', () => {
+  it("opens purchase prompt when a locked app is clicked while logged out", () => {
     render(
       <MemoryRouter>
         <ApplicationsPage />
       </MemoryRouter>,
-    )
-    // visitor is logged out -> no app is owned
-    fireEvent.click(screen.getByText('App A'))
-    const modal = screen.getByTestId('purchase-modal')
-    expect(modal).toBeTruthy()
-    expect(modal.textContent).toBe('App A')
-    expect(mockNavigate).not.toHaveBeenCalled()
-  })
+    );
+    const cards = screen.getAllByText("AI Personalization Studio");
+    fireEvent.click(cards[0]);
+    expect(screen.getByTestId("purchase-modal").textContent).toBe("AI Personalization Studio");
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
 
-  it('navigates to the runner (does NOT prompt purchase) when an owned app is clicked', () => {
-    h.userValue = { id: 'u1', email: 'owner@test.com' }
-    h.ownedSet = new Set(['app-a'])
-
-    render(
-      <MemoryRouter>
-        <ApplicationsPage />
-      </MemoryRouter>,
-    )
-    fireEvent.click(screen.getByText('App A'))
-    expect(mockNavigate).toHaveBeenCalledWith('/ai-design-studio/app-a')
-    expect(screen.queryByTestId('purchase-modal')).toBeNull()
-  })
-
-  it('still prompts purchase for an app the user does NOT own, even when signed in', () => {
-    h.userValue = { id: 'u1', email: 'owner@test.com' }
-    h.ownedSet = new Set(['app-a']) // app-b not owned
+  it("navigates owned internal apps through launch utility", () => {
+    h.userValue = { id: "u1", email: "owner@test.com" };
+    mockHasAccessToApp.mockReturnValue(true);
 
     render(
       <MemoryRouter>
         <ApplicationsPage />
       </MemoryRouter>,
-    )
-    fireEvent.click(screen.getByText('App B'))
-    expect(screen.getByTestId('purchase-modal').textContent).toBe('App B')
-    expect(mockNavigate).not.toHaveBeenCalled()
-  })
-})
+    );
+
+    const cards = screen.getAllByText("Project Graveyard");
+    fireEvent.click(cards[0]);
+    expect(mockNavigate).toHaveBeenCalledWith("/ai-runner/project-graveyard");
+    expect(screen.queryByTestId("purchase-modal")).toBeNull();
+  });
+
+  it("still prompts purchase for unowned apps when signed in", () => {
+    h.userValue = { id: "u1", email: "owner@test.com" };
+    mockHasAccessToApp.mockReturnValue(false);
+
+    render(
+      <MemoryRouter>
+        <ApplicationsPage />
+      </MemoryRouter>,
+    );
+
+    const cards = screen.getAllByText("Project Graveyard");
+    fireEvent.click(cards[0]);
+    expect(screen.getByTestId("purchase-modal").textContent).toBe("Project Graveyard");
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
+});

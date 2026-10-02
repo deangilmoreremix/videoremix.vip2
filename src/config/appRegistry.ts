@@ -1,24 +1,17 @@
 // appRegistry.ts
 //
-// SINGLE SOURCE OF TRUTH for every application in the VideoRemix VIP platform.
+// SINGLE CUSTOMER-FACING CATALOG for SapienX.
 //
-// This file is the canonical contract that the UI catalog (src/data/appsData.ts),
-// the Supabase `products_catalog` (slug + apps_granted), the access gate
-// (useUserAccess / resolve-user-access), and the reconciliation script
-// (scripts/reconcile-catalog.ts) all reference. Every app slug that can be
-// routed, purchased, or granted MUST appear here.
+// Product identity:
+//   - 117 Awesome LLM Apps products. Their React conversions are implementations
+//     of these products, not a second catalog.
+//   - 13 additional VideoRemix-created applications.
 //
-// Families:
-//   - internal    : the 100 first-party AI apps implemented in this SPA
-//                     (src/components/ai/apps), routed at /ai-runner/<slug>.
-//   - external    : the 13 user-facing apps hosted on external subdomains
-//                     (videoremix.vip / smartcrm.vip).
-//
-// To add an app: add it here FIRST, then add a products_catalog row
-// (apps_granted = [slug]) and a route. Run scripts/reconcile-catalog.ts to
-// confirm nothing drifted.
+// Total: 130 unique customer-facing applications.
 
-export type AppFamily = "internal" | "external";
+import { rawAppsData } from "../data/appsData";
+
+export type AppFamily = "awesome-llm" | "external";
 
 export interface AppMeta {
   slug: string;
@@ -30,1096 +23,198 @@ export interface AppMeta {
   url?: string;
   externalUrl?: string;
   thumbnail?: string;
-  source?: string;
+  source?: "awesome-llm" | "user";
 }
 
-export const APP_REGISTRY: AppMeta[] = [
-  {
-    slug: "academic-research-ai",
-    name: "Academic Research AI",
-    description: "Conduct academic research with AI-powered analysis and citation tools.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-agency-builder-suite",
-    name: "AI Agency Builder Suite",
-    description: "Complete suite for building and scaling your AI-powered agency.",
-    category: "sales-lead-gen",
-    group: "sales-lead-gen",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-app-builder-assistant",
-    name: "AI App Builder Assistant",
-    description: "Build complete applications with AI that understands code and architecture.",
-    category: "coding-developer",
-    group: "coding-developer",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-audio-guide-creator",
-    name: "AI Audio Guide Creator",
-    description: "Create audio tours and guides for attractions and locations.",
-    category: "video-audio-voice",
-    group: "video-audio-voice",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-bug-fixer",
-    name: "AI Bug Fixer",
-    description: "Debug and fix code issues with AI-powered analysis and solutions.",
-    category: "coding-developer",
-    group: "coding-developer",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-business-growth-consultant",
-    name: "AI Business Growth Consultant",
-    description: "Get strategic growth advice tailored to your business stage and industry.",
-    category: "sales-lead-gen",
-    group: "sales-lead-gen",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-code-review-pro",
-    name: "AI Code Review Pro",
-    description: "Review code for bugs, security issues, and best practices with AI.",
-    category: "coding-developer",
-    group: "coding-developer",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-content-creator-pro",
-    name: "AI Content Creator Pro",
-    description: "Create professional content across formats with AI assistance.",
-    category: "content-creation",
-    group: "content-creation",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-content-editor",
-    name: "AI Content Editor",
-    description: "Polish and improve your content with AI-powered editing and feedback.",
-    category: "content-creation",
-    group: "content-creation",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-course-creator-assistant",
-    name: "AI Course Creator Assistant",
-    description: "Create courses and learning materials with AI-powered assistance.",
-    category: "research-education",
-    group: "research-education",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-design-studio",
-    name: "AI Design Studio",
-    description: "Create stunning designs with AI-powered design generation and editing.",
-    category: "design-uiux",
-    group: "design-uiux",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-dictation-assistant",
-    name: "AI Dictation Assistant",
-    description: "Convert speech to text with high accuracy using AI transcription.",
-    category: "video-audio-voice",
-    group: "video-audio-voice",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-documentation-writer",
-    name: "AI Documentation Writer",
-    description: "Generate comprehensive documentation from your notes and requirements.",
-    category: "content-creation",
-    group: "content-creation",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-film-producer",
-    name: "AI Film Producer",
-    description: "Manage film production from scripts to post-production with AI coordination.",
-    category: "video-audio-voice",
-    group: "video-audio-voice",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-fullstack-builder",
-    name: "AI Fullstack Builder",
-    description: "Build fullstack applications with AI guidance and code generation.",
-    category: "coding-developer",
-    group: "coding-developer",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-hiring-assistant",
-    name: "AI Hiring Assistant",
-    description: "Streamline recruitment with AI-powered candidate screening and matching.",
-    category: "hr-recruiting",
-    group: "hr-recruiting",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-intake-voice-agent",
-    name: "AI Intake Voice Agent",
-    description: "Automate intake processes with intelligent voice agents.",
-    category: "video-audio-voice",
-    group: "video-audio-voice",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-knowledgebase-debugger",
-    name: "AI Knowledgebase Debugger",
-    description: "Diagnose and fix RAG system issues with AI-powered debugging.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-music-idea-generator",
-    name: "AI Music Idea Generator",
-    description: "Generate creative music ideas, lyrics, and compositions with AI.",
-    category: "content-creation",
-    group: "content-creation",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-music-jingle-assistant",
-    name: "AI Music Jingle Assistant",
-    description: "Compose original music and jingles in various styles with AI.",
-    category: "video-audio-voice",
-    group: "video-audio-voice",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-news-content-writer",
-    name: "AI News Content Writer",
-    description: "Research and write news articles with AI-powered journalism assistance.",
-    category: "content-creation",
-    group: "content-creation",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-offer-decision-helper",
-    name: "AI Offer Decision Helper",
-    description: "Make better offer decisions with AI-powered analysis and recommendations.",
-    category: "sales-lead-gen",
-    group: "sales-lead-gen",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-saas-architect",
-    name: "AI Saas Architect",
-    description: "Architect SaaS applications with AI-powered system design.",
-    category: "coding-developer",
-    group: "coding-developer",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-sales-email-writer",
-    name: "AI Sales Email Writer",
-    description: "Generate high-conversion B2B outreach emails with personalized messaging.",
-    category: "sales-lead-gen",
-    group: "sales-lead-gen",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-sales-intelligence-pro",
-    name: "AI Sales Intelligence Pro",
-    description: "AI-powered sales research and strategy assistant for smarter prospecting and outreach.",
-    category: "sales-lead-gen",
-    group: "sales-lead-gen",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-strategy-advisor",
-    name: "AI Strategy Advisor",
-    description: "Synthesize complex inputs into clear strategic recommendations and execution plans.",
-    category: "sales-lead-gen",
-    group: "sales-lead-gen",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-tool-router",
-    name: "AI Tool Router",
-    description: "Intelligently route tasks to the best AI tools and services available.",
-    category: "productivity-personal",
-    group: "productivity-personal",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-ux-designer",
-    name: "AI Ux Designer",
-    description: "Design user experiences with AI-powered UX analysis and recommendations.",
-    category: "design-uiux",
-    group: "design-uiux",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-video-script-producer",
-    name: "AI Video Script Producer",
-    description: "Produce professional video scripts with AI-powered storytelling.",
-    category: "content-creation",
-    group: "content-creation",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-voice-support-agent",
-    name: "AI Voice Support Agent",
-    description: "Build intelligent voice agents for customer support automation.",
-    category: "video-audio-voice",
-    group: "video-audio-voice",
-    family: "internal",
-
-  },
-  {
-    slug: "blog-knowledge-search-ai",
-    name: "Blog Knowledge Search AI",
-    description: "Search and analyze blog content using AI-powered RAG search.",
-    category: "content-creation",
-    group: "content-creation",
-    family: "internal",
-
-  },
-  {
-    slug: "blog-to-podcast-ai",
-    name: "Blog To Podcast AI",
-    description: "Transform blog posts into engaging podcast episodes with AI narration.",
-    category: "content-creation",
-    group: "content-creation",
-    family: "internal",
-
-  },
-  {
-    slug: "browser-task-agent",
-    name: "Browser Task Agent",
-    description: "Automate browser tasks with AI-powered web interaction and automation.",
-    category: "productivity-personal",
-    group: "productivity-personal",
-    family: "internal",
-
-  },
-  {
-    slug: "build-plan-generator",
-    name: "Build Plan Generator",
-    description: "Generate project build plans with AI-powered planning and scheduling.",
-    category: "coding-developer",
-    group: "coding-developer",
-    family: "internal",
-
-  },
-  {
-    slug: "business-finance-ai-team",
-    name: "Business Finance AI Team",
-    description: "Multi-agent finance team for comprehensive business financial analysis.",
-    category: "finance-business",
-    group: "finance-business",
-    family: "internal",
-
-  },
-  {
-    slug: "business-knowledgebase-ai",
-    name: "Business Knowledgebase AI",
-    description: "Deploy RAG capabilities as a service for your organization's knowledge.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "candidate-decision-ai",
-    name: "Candidate Decision AI",
-    description: "Make better hiring decisions with AI-powered candidate evaluation.",
-    category: "hr-recruiting",
-    group: "hr-recruiting",
-    family: "internal",
-
-  },
-  {
-    slug: "candidate-outreach-ai",
-    name: "Candidate Outreach AI",
-    description: "Draft personalized candidate outreach emails with AI assistance.",
-    category: "hr-recruiting",
-    group: "hr-recruiting",
-    family: "internal",
-
-  },
-  {
-    slug: "citation-knowledgebase-ai",
-    name: "Citation Knowledgebase AI",
-    description: "Build a knowledge base with proper citations using AI research.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "claim-checker-ai",
-    name: "Claim Checker AI",
-    description: "Verify insurance claims with AI-powered analysis and evidence review.",
-    category: "legal-compliance",
-    group: "legal-compliance",
-    family: "internal",
-
-  },
-  {
-    slug: "codebase-chat-ai",
-    name: "Codebase Chat AI",
-    description: "Chat with your code repositories using natural language queries.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "competitor-spy-ai",
-    name: "Competitor Spy AI",
-    description: "Monitor and analyze competitors with AI-powered competitive intelligence.",
-    category: "sales-lead-gen",
-    group: "sales-lead-gen",
-    family: "internal",
-
-  },
-  {
-    slug: "contract-summary-ai",
-    name: "Contract Summary AI",
-    description: "Analyze and summarize legal contracts with AI precision and speed.",
-    category: "legal-compliance",
-    group: "legal-compliance",
-    family: "internal",
-
-  },
-  {
-    slug: "conversion-copy-editor",
-    name: "Conversion Copy Editor",
-    description: "Edit and optimize copy for maximum conversions with AI analysis.",
-    category: "content-creation",
-    group: "content-creation",
-    family: "internal",
-
-  },
-  {
-    slug: "daily-content-engine-ai",
-    name: "Daily Content Engine AI",
-    description: "Generate weeks of content in minutes with AI-powered content planning.",
-    category: "content-creation",
-    group: "content-creation",
-    family: "internal",
-
-  },
-  {
-    slug: "dashboard-designer-ai",
-    name: "Dashboard Designer AI",
-    description: "Design beautiful dashboards with AI-powered data visualization.",
-    category: "finance-business",
-    group: "finance-business",
-    family: "internal",
-
-  },
-  {
-    slug: "deep-research-pro",
-    name: "Deep Research Pro",
-    description: "Conduct deep, multi-source research on any topic with AI analysis.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "email-memory-assistant",
-    name: "Email Memory Assistant",
-    description: "Remember and find emails with AI-powered memory and search.",
-    category: "productivity-personal",
-    group: "productivity-personal",
-    family: "internal",
-
-  },
-  {
-    slug: "fact-check-ai",
-    name: "Fact Check AI",
-    description: "Verify facts and detect misinformation with AI-powered analysis.",
-    category: "research-education",
-    group: "research-education",
-    family: "internal",
-
-  },
-  {
-    slug: "finance-research-ai",
-    name: "Finance Research AI",
-    description: "AI-powered financial analysis for investment insights and research.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "financial-dashboard-ai",
-    name: "Financial Dashboard AI",
-    description: "Create financial dashboards with AI-powered data visualization.",
-    category: "finance-business",
-    group: "finance-business",
-    family: "internal",
-
-  },
-  {
-    slug: "fraud-investigation-assistant",
-    name: "Fraud Investigation Assistant",
-    description: "Investigate fraud cases with AI-powered analysis and pattern detection.",
-    category: "legal-compliance",
-    group: "legal-compliance",
-    family: "internal",
-
-  },
-  {
-    slug: "github-automation-agent",
-    name: "Github Automation Agent",
-    description: "Automate GitHub workflows with AI-powered MCP integration.",
-    category: "coding-developer",
-    group: "coding-developer",
-    family: "internal",
-
-  },
-  {
-    slug: "github-repo-assistant",
-    name: "Github Repo Assistant",
-    description: "Explore and understand GitHub repositories with AI-powered chat.",
-    category: "coding-developer",
-    group: "coding-developer",
-    family: "internal",
-
-  },
-  {
-    slug: "gmail-intelligence-ai",
-    name: "Gmail Intelligence AI",
-    description: "Search and analyze your Gmail messages with AI-powered insights.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "hiring-plan-builder",
-    name: "Hiring Plan Builder",
-    description: "Create hiring plans with AI-powered project planning and scheduling.",
-    category: "coding-developer",
-    group: "coding-developer",
-    family: "internal",
-
-  },
-  {
-    slug: "home-renovation-visualizer-ai",
-    name: "Home Renovation Visualizer AI",
-    description: "Visualize home renovation projects with AI-powered design rendering.",
-    category: "realestate-local",
-    group: "realestate-local",
-    family: "internal",
-
-  },
-  {
-    slug: "interview-summary-ai",
-    name: "Interview Summary AI",
-    description: "Summarize interviews with AI-powered transcription and analysis.",
-    category: "hr-recruiting",
-    group: "hr-recruiting",
-    family: "internal",
-
-  },
-  {
-    slug: "investment-research-assistant",
-    name: "Investment Research Assistant",
-    description: "Research investments with AI-powered financial analysis and insights.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "landing-page-copy-ai",
-    name: "Landing Page Copy AI",
-    description: "Write high-converting landing page copy with AI assistance.",
-    category: "design-uiux",
-    group: "design-uiux",
-    family: "internal",
-
-  },
-  {
-    slug: "landing-page-critic-ai",
-    name: "Landing Page Critic AI",
-    description: "Get AI feedback on your landing page design and copy with multimodal analysis.",
-    category: "design-uiux",
-    group: "design-uiux",
-    family: "internal",
-
-  },
-  {
-    slug: "launch-campaign-builder-ai",
-    name: "Launch Campaign Builder AI",
-    description: "Build and execute high-converting product launch campaigns with AI guidance.",
-    category: "sales-lead-gen",
-    group: "sales-lead-gen",
-    family: "internal",
-
-  },
-  {
-    slug: "lead-research-scraper-ai",
-    name: "Lead Research Scraper AI",
-    description: "Find and verify high-quality leads with AI-powered research and contact discovery.",
-    category: "sales-lead-gen",
-    group: "sales-lead-gen",
-    family: "internal",
-
-  },
-  {
-    slug: "legal-pdf-explainer",
-    name: "Legal Pdf Explainer",
-    description: "Explain complex legal PDFs in plain language with AI analysis.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "local-business-analytics-ai",
-    name: "Local Business Analytics AI",
-    description: "Analyze local business data with AI-powered insights and reporting.",
-    category: "realestate-local",
-    group: "realestate-local",
-    family: "internal",
-
-  },
-  {
-    slug: "local-business-growth-advisor",
-    name: "Local Business Growth Advisor",
-    description: "Get AI-powered consulting for local business growth strategies.",
-    category: "sales-lead-gen",
-    group: "sales-lead-gen",
-    family: "internal",
-
-  },
-  {
-    slug: "local-business-voice-assistant",
-    name: "Local Business Voice Assistant",
-    description: "Build voice assistants for local businesses with AI capabilities.",
-    category: "video-audio-voice",
-    group: "video-audio-voice",
-    family: "internal",
-
-  },
-  {
-    slug: "local-tour-guide-ai",
-    name: "Local Tour Guide AI",
-    description: "Generate guided tours for local attractions with AI content creation.",
-    category: "realestate-local",
-    group: "realestate-local",
-    family: "internal",
-
-  },
-  {
-    slug: "market-research-ai",
-    name: "Market Research AI",
-    description: "Conduct market research with AI-powered deep analysis and insights.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "multi-ai-memory-hub",
-    name: "Multi AI Memory Hub",
-    description: "Centralized memory system for multiple AI agents to share context.",
-    category: "research-education",
-    group: "research-education",
-    family: "internal",
-
-  },
-  {
-    slug: "multimodal-knowledge-ai",
-    name: "Multimodal Knowledge AI",
-    description: "Query and reason across text, images, and other modalities with AI.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "news-to-podcast-ai",
-    name: "News To Podcast AI",
-    description: "Convert news articles into engaging podcast discussions with AI voices.",
-    category: "video-audio-voice",
-    group: "video-audio-voice",
-    family: "internal",
-
-  },
-  {
-    slug: "newsletter-repurposer-ai",
-    name: "Newsletter Repurposer AI",
-    description: "Repurpose newsletter content across channels with AI-powered transformation.",
-    category: "content-creation",
-    group: "content-creation",
-    family: "internal",
-
-  },
-  {
-    slug: "pdf-business-assistant",
-    name: "Pdf Business Assistant",
-    description: "Extract insights from PDF documents with conversational AI analysis.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "personal-ai-memory-assistant",
-    name: "Personal AI Memory Assistant",
-    description: "Your personal AI assistant with memory that learns your preferences.",
-    category: "research-education",
-    group: "research-education",
-    family: "internal",
-
-  },
-  {
-    slug: "podcast-creator-ai",
-    name: "Podcast Creator AI",
-    description: "Create podcasts from any content source with AI-powered audio synthesis.",
-    category: "video-audio-voice",
-    group: "video-audio-voice",
-    family: "internal",
-
-  },
-  {
-    slug: "policy-compliance-assistant",
-    name: "Policy Compliance Assistant",
-    description: "Navigate policy and compliance with AI-powered guidance and checks.",
-    category: "legal-compliance",
-    group: "legal-compliance",
-    family: "internal",
-
-  },
-  {
-    slug: "private-ai-chat-with-memory",
-    name: "Private AI Chat With Memory",
-    description: "Private AI chat that remembers your conversations and preferences.",
-    category: "research-education",
-    group: "research-education",
-    family: "internal",
-
-  },
-  {
-    slug: "private-chatgpt-clone",
-    name: "Private Chatgpt Clone",
-    description: "Deploy a private ChatGPT clone running on your own infrastructure.",
-    category: "productivity-personal",
-    group: "productivity-personal",
-    family: "internal",
-
-  },
-  {
-    slug: "private-company-ai-assistant",
-    name: "Private Company AI Assistant",
-    description: "Private AI assistant for company data with secure local processing.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "profit-coach-ai",
-    name: "Profit Coach AI",
-    description: "Get AI-powered financial coaching for profit optimization and growth.",
-    category: "finance-business",
-    group: "finance-business",
-    family: "internal",
-
-  },
-  {
-    slug: "python-fixer-ai",
-    name: "Python Fixer AI",
-    description: "Fix Python code issues with AI-powered analysis and corrections.",
-    category: "coding-developer",
-    group: "coding-developer",
-    family: "internal",
-
-  },
-  {
-    slug: "real-estate-marketing-ai",
-    name: "Real Estate Marketing AI",
-    description: "Create real estate marketing content with AI-powered tools and templates.",
-    category: "research-education",
-    group: "research-education",
-    family: "internal",
-
-  },
-  {
-    slug: "research-assistant-ai",
-    name: "Research Assistant AI",
-    description: "Deep research powered by OpenAI for comprehensive topic analysis.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "research-memory-assistant",
-    name: "Research Memory Assistant",
-    description: "Remember and build on previous research with AI memory capabilities.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "research-paper-assistant",
-    name: "Research Paper Assistant",
-    description: "Understand and summarize academic research papers with AI analysis.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "research-planner-ai",
-    name: "Research Planner AI",
-    description: "Plan and execute comprehensive research projects with AI assistance.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "resume-analyzer-ai",
-    name: "Resume Analyzer AI",
-    description: "Analyze resumes with AI to identify top candidates and key qualifications.",
-    category: "hr-recruiting",
-    group: "hr-recruiting",
-    family: "internal",
-
-  },
-  {
-    slug: "revenue-data-analyst-ai",
-    name: "Revenue Data Analyst AI",
-    description: "Analyze revenue data with AI-powered business intelligence and insights.",
-    category: "finance-business",
-    group: "finance-business",
-    family: "internal",
-
-  },
-  {
-    slug: "risk-decision-ai",
-    name: "Risk Decision AI",
-    description: "Make better risk decisions with AI-powered analysis and recommendations.",
-    category: "legal-compliance",
-    group: "legal-compliance",
-    family: "internal",
-
-  },
-  {
-    slug: "sales-call-follow-up-ai",
-    name: "Sales Call Follow Up AI",
-    description: "Generate personalized follow-up emails and action items from sales call notes.",
-    category: "sales-lead-gen",
-    group: "sales-lead-gen",
-    family: "internal",
-
-  },
-  {
-    slug: "smart-search-ai",
-    name: "Smart Search AI",
-    description: "Intelligent search across multiple data sources with AI ranking.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "sprint-planner-ai",
-    name: "Sprint Planner AI",
-    description: "Plan agile sprints with AI-powered backlog management and estimation.",
-    category: "coding-developer",
-    group: "coding-developer",
-    family: "internal",
-
-  },
-  {
-    slug: "startup-due-diligence-ai",
-    name: "Startup Due Diligence AI",
-    description: "Conduct startup due diligence with AI-powered analysis and reporting.",
-    category: "finance-business",
-    group: "finance-business",
-    family: "internal",
-
-  },
-  {
-    slug: "talk-to-your-business-ai",
-    name: "Talk To Your Business AI",
-    description: "Chat with your business data using natural language AI queries.",
-    category: "productivity-personal",
-    group: "productivity-personal",
-    family: "internal",
-
-  },
-  {
-    slug: "travel-concierge-ai",
-    name: "Travel Concierge AI",
-    description: "Plan trips with AI that remembers your preferences and travel style.",
-    category: "productivity-personal",
-    group: "productivity-personal",
-    family: "internal",
-
-  },
-  {
-    slug: "travel-planner-ai",
-    name: "Travel Planner AI",
-    description: "Plan complex travel itineraries with multi-agent AI collaboration.",
-    category: "realestate-local",
-    group: "realestate-local",
-    family: "internal",
-
-  },
-  {
-    slug: "video-knowledge-assistant",
-    name: "Video Knowledge Assistant",
-    description: "Extract knowledge from videos with AI-powered analysis and Q&A.",
-    category: "video-audio-voice",
-    group: "video-audio-voice",
-    family: "internal",
-
-  },
-  {
-    slug: "visual-document-ai",
-    name: "Visual Document AI",
-    description: "Process and understand visual documents with AI vision capabilities.",
-    category: "rag-knowledgebase",
-    group: "rag-knowledgebase",
-    family: "internal",
-
-  },
-  {
-    slug: "youtube-repurposer-ai",
-    name: "Youtube Repurposer AI",
-    description: "Transform YouTube videos into multiple content formats with AI.",
-    category: "content-creation",
-    group: "content-creation",
-    family: "internal",
-
-  },
-  {
-    slug: "ai-personalizationstudio",
-    name: "AI Personalization Studio",
-    description: "AI Personalization Studio",
-    category: "user-apps",
-    group: "user-apps",
-    family: "external",
-    url: "https://ai-personalizationstudio.videoremix.vip",
-    externalUrl: "https://ai-personalizationstudio.videoremix.vip",
-    thumbnail: "/app-thumbnails/ai-personalizationstudio.svg",
-    source: "user",
-  },
-  {
-    slug: "ai-personalizedcontent",
-    name: "AI Personalized Content Hub",
-    description: "AI Personalized Content Hub",
-    category: "user-apps",
-    group: "user-apps",
-    family: "external",
-    url: "https://ai-personalizedcontent.videoremix.vip",
-    externalUrl: "https://ai-personalizedcontent.videoremix.vip",
-    thumbnail: "/app-thumbnails/ai-personalizedcontent.svg",
-    source: "user",
-  },
-  {
-    slug: "ai-profilegen",
-    name: "Profile Gen",
-    description: "Profile Gen",
-    category: "user-apps",
-    group: "user-apps",
-    family: "external",
-    url: "https://ai-profilegen.videoremix.vip",
-    externalUrl: "https://ai-profilegen.videoremix.vip",
-    thumbnail: "/app-thumbnails/ai-profilegen.svg",
-    source: "user",
-  },
-  {
-    slug: "ai-referral-maximizer-pro",
-    name: "AI Referral Maximizer Pro",
-    description: "AI Referral Maximizer Pro",
-    category: "user-apps",
-    group: "user-apps",
-    family: "external",
-    url: "https://referrals.smartcrm.vip",
-    externalUrl: "https://referrals.smartcrm.vip",
-    thumbnail: "/app-thumbnails/ai-referral-maximizer-pro.svg",
-    source: "user",
-  },
-  {
-    slug: "ai-sales-maximizer",
-    name: "AI Sales Maximizer",
-    description: "AI Sales Maximizer",
-    category: "user-apps",
-    group: "user-apps",
-    family: "external",
-    url: "https://salesmax.smartcrm.vip",
-    externalUrl: "https://salesmax.smartcrm.vip",
-    thumbnail: "/app-thumbnails/ai-sales-maximizer.svg",
-    source: "user",
-  },
-  {
-    slug: "ai-screenrecorder",
-    name: "AI Screen Recorder",
-    description: "AI Screen Recorder",
-    category: "user-apps",
-    group: "user-apps",
-    family: "external",
-    url: "https://ai-screenrecorder.videoremix.vip",
-    externalUrl: "https://ai-screenrecorder.videoremix.vip",
-    thumbnail: "/app-thumbnails/ai-screenrecorder.svg",
-    source: "user",
-  },
-  {
-    slug: "ai-signature",
-    name: "AI Signature",
-    description: "AI Signature",
-    category: "user-apps",
-    group: "user-apps",
-    family: "external",
-    url: "https://ai-signature.videoremix.vip",
-    externalUrl: "https://ai-signature.videoremix.vip",
-    thumbnail: "/app-thumbnails/ai-signature.svg",
-    source: "user",
-  },
-  {
-    slug: "ai-skills-monetizer",
-    name: "AI Skills & Resume",
-    description: "AI Skills & Resume",
-    category: "user-apps",
-    group: "user-apps",
-    family: "external",
-    url: "https://ai-skills.videoremix.vip",
-    externalUrl: "https://ai-skills.videoremix.vip",
-    thumbnail: "/app-thumbnails/ai-skills-monetizer.svg",
-    source: "user",
-  },
-  {
-    slug: "ai-video-editor",
-    name: "AI Video Editor",
-    description: "AI Video Editor",
-    category: "user-apps",
-    group: "user-apps",
-    family: "external",
-    url: "https://ai-videoeditor.videoremix.vip",
-    externalUrl: "https://ai-videoeditor.videoremix.vip",
-    thumbnail: "/app-thumbnails/ai-video-editor.svg",
-    source: "user",
-  },
-  {
-    slug: "funnelcraft-ai",
-    name: "FunnelCraft AI",
-    description: "FunnelCraft AI",
-    category: "user-apps",
-    group: "user-apps",
-    family: "external",
-    url: "https://ai-funnelcraft.videoremix.vip",
-    externalUrl: "https://ai-funnelcraft.videoremix.vip",
-    thumbnail: "/app-thumbnails/funnelcraft-ai.svg",
-    source: "user",
-  },
-  {
-    slug: "sales-assistant-app",
-    name: "Sales Assistant Pro",
-    description: "Sales Assistant Pro",
-    category: "user-apps",
-    group: "user-apps",
-    family: "external",
-    url: "https://ai-salesassistant.videoremix.vip",
-    externalUrl: "https://ai-salesassistant.videoremix.vip",
-    thumbnail: "/app-thumbnails/sales-assistant-app.svg",
-    source: "user",
-  },
-  {
-    slug: "sales-page-builder",
-    name: "Sales Page Builder",
-    description: "Sales Page Builder",
-    category: "user-apps",
-    group: "user-apps",
-    family: "external",
-    url: "https://ai-salespage.videoremix.vip",
-    externalUrl: "https://ai-salespage.videoremix.vip",
-    thumbnail: "/app-thumbnails/sales-page-builder.svg",
-    source: "user",
-  },
-  {
-    slug: "smartcrmcloser-pro",
-    name: "Smart CRM Closer Pro",
-    description: "Smart CRM Closer Pro",
-    category: "user-apps",
-    group: "user-apps",
-    family: "external",
-    url: "https://smartcrmcloser.netlify.app",
-    externalUrl: "https://smartcrmcloser.netlify.app",
-    thumbnail: "/app-thumbnails/smartcrmcloser-pro.svg",
-    source: "user",
-  },
+const AWESOME_LLM_APPS: AppMeta[] = rawAppsData.map((app) => ({
+  slug: app.id,
+  name: app.name,
+  description: app.description,
+  category: app.category,
+  group: app.group,
+  family: "awesome-llm",
+  url: `/ai-runner/${app.id}`,
+  thumbnail: app.image,
+  source: "awesome-llm",
+}));
+
+const VIDEOREMIX_EXTRA_APPS: AppMeta[] = [
+  {
+      slug: "ai-personalizationstudio",
+      name: "AI Personalization Studio",
+      description: "AI Personalization Studio",
+      category: "user-apps",
+      group: "user-apps",
+      family: "external",
+      url: "https://ai-personalizationstudio.videoremix.vip",
+      externalUrl: "https://ai-personalizationstudio.videoremix.vip",
+      thumbnail: "/app-thumbnails/ai-personalizationstudio.svg",
+      source: "user",
+    },
+  {
+      slug: "ai-personalizedcontent",
+      name: "AI Personalized Content Hub",
+      description: "AI Personalized Content Hub",
+      category: "user-apps",
+      group: "user-apps",
+      family: "external",
+      url: "https://ai-personalizedcontent.videoremix.vip",
+      externalUrl: "https://ai-personalizedcontent.videoremix.vip",
+      thumbnail: "/app-thumbnails/ai-personalizedcontent.svg",
+      source: "user",
+    },
+  {
+      slug: "ai-profilegen",
+      name: "Profile Gen",
+      description: "Profile Gen",
+      category: "user-apps",
+      group: "user-apps",
+      family: "external",
+      url: "https://ai-profilegen.videoremix.vip",
+      externalUrl: "https://ai-profilegen.videoremix.vip",
+      thumbnail: "/app-thumbnails/ai-profilegen.svg",
+      source: "user",
+    },
+  {
+      slug: "ai-referral-maximizer-pro",
+      name: "AI Referral Maximizer Pro",
+      description: "AI Referral Maximizer Pro",
+      category: "user-apps",
+      group: "user-apps",
+      family: "external",
+      url: "https://referrals.smartcrm.vip",
+      externalUrl: "https://referrals.smartcrm.vip",
+      thumbnail: "/app-thumbnails/ai-referral-maximizer-pro.svg",
+      source: "user",
+    },
+  {
+      slug: "ai-sales-maximizer",
+      name: "AI Sales Maximizer",
+      description: "AI Sales Maximizer",
+      category: "user-apps",
+      group: "user-apps",
+      family: "external",
+      url: "https://salesmax.smartcrm.vip",
+      externalUrl: "https://salesmax.smartcrm.vip",
+      thumbnail: "/app-thumbnails/ai-sales-maximizer.svg",
+      source: "user",
+    },
+  {
+      slug: "ai-screenrecorder",
+      name: "AI Screen Recorder",
+      description: "AI Screen Recorder",
+      category: "user-apps",
+      group: "user-apps",
+      family: "external",
+      url: "https://ai-screenrecorder.videoremix.vip",
+      externalUrl: "https://ai-screenrecorder.videoremix.vip",
+      thumbnail: "/app-thumbnails/ai-screenrecorder.svg",
+      source: "user",
+    },
+  {
+      slug: "ai-signature",
+      name: "AI Signature",
+      description: "AI Signature",
+      category: "user-apps",
+      group: "user-apps",
+      family: "external",
+      url: "https://ai-signature.videoremix.vip",
+      externalUrl: "https://ai-signature.videoremix.vip",
+      thumbnail: "/app-thumbnails/ai-signature.svg",
+      source: "user",
+    },
+  {
+      slug: "ai-skills-monetizer",
+      name: "AI Skills & Resume",
+      description: "AI Skills & Resume",
+      category: "user-apps",
+      group: "user-apps",
+      family: "external",
+      url: "https://ai-skills.videoremix.vip",
+      externalUrl: "https://ai-skills.videoremix.vip",
+      thumbnail: "/app-thumbnails/ai-skills-monetizer.svg",
+      source: "user",
+    },
+  {
+      slug: "ai-video-editor",
+      name: "AI Video Editor",
+      description: "AI Video Editor",
+      category: "user-apps",
+      group: "user-apps",
+      family: "external",
+      url: "https://ai-videoeditor.videoremix.vip",
+      externalUrl: "https://ai-videoeditor.videoremix.vip",
+      thumbnail: "/app-thumbnails/ai-video-editor.svg",
+      source: "user",
+    },
+  {
+      slug: "funnelcraft-ai",
+      name: "FunnelCraft AI",
+      description: "FunnelCraft AI",
+      category: "user-apps",
+      group: "user-apps",
+      family: "external",
+      url: "https://ai-funnelcraft.videoremix.vip",
+      externalUrl: "https://ai-funnelcraft.videoremix.vip",
+      thumbnail: "/app-thumbnails/funnelcraft-ai.svg",
+      source: "user",
+    },
+  {
+      slug: "sales-assistant-app",
+      name: "Sales Assistant Pro",
+      description: "Sales Assistant Pro",
+      category: "user-apps",
+      group: "user-apps",
+      family: "external",
+      url: "https://ai-salesassistant.videoremix.vip",
+      externalUrl: "https://ai-salesassistant.videoremix.vip",
+      thumbnail: "/app-thumbnails/sales-assistant-app.svg",
+      source: "user",
+    },
+  {
+      slug: "sales-page-builder",
+      name: "Sales Page Builder",
+      description: "Sales Page Builder",
+      category: "user-apps",
+      group: "user-apps",
+      family: "external",
+      url: "https://ai-salespage.videoremix.vip",
+      externalUrl: "https://ai-salespage.videoremix.vip",
+      thumbnail: "/app-thumbnails/sales-page-builder.svg",
+      source: "user",
+    },
+  {
+      slug: "smartcrmcloser-pro",
+      name: "Smart CRM Closer Pro",
+      description: "Smart CRM Closer Pro",
+      category: "user-apps",
+      group: "user-apps",
+      family: "external",
+      url: "https://smartcrmcloser.netlify.app",
+      externalUrl: "https://smartcrmcloser.netlify.app",
+      thumbnail: "/app-thumbnails/smartcrmcloser-pro.svg",
+      source: "user",
+    }
 ];
 
-export const APP_REGISTRY_BY_SLUG: Map<string, AppMeta> = new Map(
-  APP_REGISTRY.map((a) => [a.slug, a]),
+export const AWESOME_LLM_APP_COUNT = AWESOME_LLM_APPS.length;
+export const VIDEOREMIX_EXTRA_APP_COUNT = VIDEOREMIX_EXTRA_APPS.length;
+
+export const APP_REGISTRY: AppMeta[] = [
+  ...AWESOME_LLM_APPS,
+  ...VIDEOREMIX_EXTRA_APPS,
+];
+
+export const TOTAL_APP_COUNT = APP_REGISTRY.length;
+
+export const APP_REGISTRY_BY_SLUG = new Map(
+  APP_REGISTRY.map((app) => [app.slug, app] as const),
 );
-
-/** Every known app slug (internal + external). */
-export const ALL_APP_SLUGS: string[] = APP_REGISTRY.map((a) => a.slug);
-
-/** The 100 first-party apps implemented in this SPA. */
-export const INTERNAL_APP_SLUGS: string[] = APP_REGISTRY.filter(
-  (a) => a.family === "internal",
-).map((a) => a.slug);
-
-/** The 13 external/user-facing apps hosted on external subdomains. */
-export const EXTERNAL_APP_SLUGS: string[] = APP_REGISTRY.filter(
-  (a) => a.family === "external",
-).map((a) => a.slug);
-
-/** Legacy alias for backward compatibility; maps to EXTERNAL_APP_SLUGS. */
-export const PERSONALIZER_APP_SLUGS: string[] = EXTERNAL_APP_SLUGS;
-
-export function isKnownAppSlug(slug: string): boolean {
-  return APP_REGISTRY_BY_SLUG.has(slug);
-}
 
 export function getAppMeta(slug: string): AppMeta | undefined {
   return APP_REGISTRY_BY_SLUG.get(slug);
 }
 
-export function getAppName(slug: string): string {
-  return APP_REGISTRY_BY_SLUG.get(slug)?.name ?? slug;
+export function isExternalApp(app: AppMeta): boolean {
+  return app.family === "external";
 }
