@@ -45,6 +45,7 @@ const AIAppRunnerPage: React.FC = () => {
     : null;
 
   const [lastResult, setLastResult] = useState<any>(null);
+  const [isDemoResult, setIsDemoResult] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [lastError, setLastError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>("input");
@@ -189,6 +190,7 @@ const AIAppRunnerPage: React.FC = () => {
   const handleResult = useCallback((result: any) => {
     setLastResult(result);
     setLastError(null);
+    setIsDemoResult(!!result?.metadata?.demo);
     setActiveTab("results");
   }, []);
 
@@ -204,6 +206,7 @@ const AIAppRunnerPage: React.FC = () => {
   const handleReset = useCallback(() => {
     setLastResult(null);
     setLastError(null);
+    setIsDemoResult(false);
     setActiveTab("input");
   }, []);
 
@@ -318,6 +321,12 @@ const AIAppRunnerPage: React.FC = () => {
           </>
         ) : (
           <div className="space-y-6">
+            {isDemoResult && (
+              <div className="flex items-start gap-2 rounded-lg border border-amber-700 bg-amber-950/30 px-4 py-2.5 text-sm text-amber-300">
+                <span>Demo mode:</span>
+                <span>This app returned a placeholder because the server has no connected AI key/config for it. The output below is not a real specialized result. (See docs/completion/runtime-status.md)</span>
+              </div>
+            )}
             {lastResult ? (
               <ResultPanel
                 result={lastResult}

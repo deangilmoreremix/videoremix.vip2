@@ -42,32 +42,6 @@
   to = "https://bzxohkrxcwodllketcpz.supabase.co/auth/:splat"
   status = 200
 
-# Personalization API routes (must come before catch-all)
-[[redirects]]
-  from = "/api/personalizer/scan"
-  to = "/.netlify/functions/personalizer-api"
-  status = 200
-
-[[redirects]]
-  from = "/api/personalizer/generate"
-  to = "/.netlify/functions/personalizer-api"
-  status = 200
-
-[[redirects]]
-  from = "/api/personalizer/save"
-  to = "/.netlify/functions/personalization-save-results"
-  status = 200
-
-[[redirects]]
-  from = "/api/personalizer/job/create"
-  to = "/.netlify/functions/personalization-scan-job-create"
-  status = 200
-
-[[redirects]]
-  from = "/api/personalizer/job/:jobId/status"
-  to = "/.netlify/functions/personalization-scan-job-status"
-  status = 200
-
 # General API catch-all (after specific routes)
 [[redirects]]
   from = "/api/*"

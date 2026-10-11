@@ -61,8 +61,10 @@ describe('bundleData helpers', () => {
   describe('getTotalAppCount', () => {
     it('returns correct count of unique apps from all bundles', () => {
       const total = getTotalAppCount();
-      // Based on bundleData.ts: 95 unique apps across 12 bundles
-      expect(total).toBe(95);
+      // bundleData.ts defines 12 bundles with 101 app references that are all
+      // unique (no app is shared between bundles), so the unique count is 101.
+      expect(total).toBe(101);
+      expect(bundles.reduce((sum, b) => sum + b.apps.length, 0)).toBe(total);
     });
   });
 
