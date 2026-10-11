@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   Users,
   Plus,
   Edit,
   Trash2,
-  ToggleLeft,
-  ToggleRight,
   Upload,
   Download,
   ChevronDown,
@@ -14,9 +12,13 @@ import {
   Key,
   Settings,
   History,
+  Square,
+  CheckSquare,
+  Package,
+  Search,
 } from "lucide-react";
-import { supabase } from "../../utils/supabase";
 import { useSupabaseToken } from "../../hooks/useSupabaseToken";
+import { bundles as catalogBundles } from "../../data/bundleData";
 
 interface User {
   id: string;
@@ -37,6 +39,9 @@ interface App {
   name: string;
   category: string;
 }
+
+const TOTAL_APP_SLOTS = new Set(catalogBundles.flatMap((b) => b.apps)).size;
+const BULK_BATCH_SIZE = 50;
 
 const AdminUsersManagement: React.FC = () => {
   const getToken = useSupabaseToken();
@@ -102,6 +107,8 @@ const AdminUsersManagement: React.FC = () => {
       slug: string;
       app_name?: string;
       app_slug?: string;
+      has_access?: boolean;
+      description?: string;
     }>
   >([]);
   const [userFeatureAccess, setUserFeatureAccess] = useState<string[]>([]);
@@ -111,6 +118,25 @@ const AdminUsersManagement: React.FC = () => {
   // App toggle expansion states
   const [expandedUsers, setExpandedUsers] = useState<Set<string>>(new Set());
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [appSearchQuery, setAppSearchQuery] = useState("");
+  const [selectedUsers, setSelectedUsers] = useState<Set<string>>(new Set());
+  const [showBundles, setShowBundles] = useState(false);
+  const [showBundleDropdown, setShowBundleDropdown] = useState(false);
+  const [bulkOperation, setBulkOperation] = useState<{
+    operation: "activate" | "deactivate" | "grant-all" | "grant-bundle" | "revoke-all";
+    label: string;
+    bundleId?: string;
+    userIds: string[];
+  } | null>(null);
+  const [bulkProgress, setBulkProgress] = useState<{
+    current: number;
+    total: number;
+    succeeded: number;
+    failed: number;
+  } | null>(null);
+  const busyUsersRef = useRef<Set<string>>(new Set());
+
   // Audit log modal state
   const [showAuditLogModal, setShowAuditLogModal] = useState(false);
   const [selectedUserForAudit, setSelectedUserForAudit] = useState<User | null>(null);
@@ -118,8 +144,11 @@ const AdminUsersManagement: React.FC = () => {
   const [loadingAuditLogs, setLoadingAuditLogs] = useState(false);
 
   useEffect(() => {
-    fetchUsers();
-    fetchAllApps();
+    const init = async () => {
+      await fetchUsers();
+      await fetchAllApps();
+    };
+    init();
   }, []);
 
   const fetchAllApps = async () => {
@@ -147,7 +176,14 @@ const AdminUsersManagement: React.FC = () => {
 
       const data = await response.json();
       if (data.success) {
-        setAllApps(data.data || []);
+        const payload = data.data;
+        if (Array.isArray(payload)) {
+          setAllApps(payload);
+        } else if (payload && Array.isArray(payload.available_apps)) {
+          setAllApps(payload.available_apps);
+        } else {
+          setAllApps([]); // Set empty array as fallback
+        }
       } else {
         console.warn("Failed to fetch apps:", data.error);
         setAllApps([]); // Set empty array as fallback
@@ -163,6 +199,38 @@ const AdminUsersManagement: React.FC = () => {
   const clearMessages = () => {
     setError(null);
     setSuccess(null);
+  };
+
+  /** Fetch the full app catalog and return its slugs (used before granting all). */
+  const fetchAllAppSlugs = async (): Promise<string[]> => {
+    setLoadingAllApps(true);
+    try {
+      const token = await getToken();
+      if (!token) {
+        setError("Authentication required. Please log in again.");
+        return [];
+      }
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-apps`,
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      const data = await response.json();
+      if (data.success) {
+        setAllApps(data.data || []);
+        return (data.data || []).map((app: App) => app.slug);
+      }
+      return [];
+    } catch (error) {
+      console.error("Error fetching apps:", error);
+      return [];
+    } finally {
+      setLoadingAllApps(false);
+    }
+  };
+
+  const ensureAppsLoaded = async () => {
+    if (allApps.length > 0 || loadingAllApps) return;
+    await fetchAllAppSlugs();
   };
 
   const fetchUsers = async () => {
@@ -486,10 +554,17 @@ const AdminUsersManagement: React.FC = () => {
 
       const data = await response.json();
       if (data.success) {
-        setAvailableApps(data.data.available_apps || []);
-        setUserAppAccess(
-          data.data.user_access.map((a: any) => a.app_slug) || [],
-        );
+        const payload = data.data;
+        if (payload && Array.isArray(payload.available_apps)) {
+          setAvailableApps(payload.available_apps);
+          setUserAppAccess(
+            (payload.user_access || []).map((a: any) => a.app_slug) || [],
+          );
+        } else {
+          // Response without an app catalog: fall back to the catalog already loaded
+          setAvailableApps(allApps);
+          setUserAppAccess([]);
+        }
       } else {
         setError(data.error || "Failed to load app access data");
       }
@@ -720,6 +795,7 @@ const AdminUsersManagement: React.FC = () => {
         newSet.delete(userId);
       } else {
         newSet.add(userId);
+        ensureAppsLoaded();
       }
       return newSet;
     });
@@ -728,15 +804,11 @@ const AdminUsersManagement: React.FC = () => {
   const fetchAuditLogs = async (userId: string) => {
     setLoadingAuditLogs(true);
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError || !session) {
-        setError("Authentication required");
+      const token = await getToken();
+      if (!token) {
+        setError("Authentication required. Please log in again.");
         return;
       }
-      const token = session.access_token;
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-audit-log?userId=${userId}`,
@@ -848,16 +920,411 @@ const AdminUsersManagement: React.FC = () => {
   };
 
   const filteredUsers = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    let list = users || [];
+    if (query) {
+      list = list.filter((user) =>
+        [user.email, user.first_name, user.last_name, user.name]
+          .filter(Boolean)
+          .some((field) => field!.toLowerCase().includes(query)),
+      );
+    }
     return selectedRole === "all"
-      ? users || []
-      : (users || []).filter((user) => user.role === selectedRole);
-  }, [users, selectedRole]);
+      ? list
+      : list.filter((user) => user.role === selectedRole);
+  }, [users, selectedRole, searchQuery]);
+
+  const bundleUser = filteredUsers[0] ?? null;
+
+  const anyModalOpen =
+    showAppAccessModal ||
+    showFeatureAccessModal ||
+    showAddModal ||
+    showBulkUploadModal ||
+    showDeleteModal.show ||
+    bulkOperation !== null ||
+    selectedUserForAudit !== null;
+
+  const toggleUserSelection = (userId: string) => {
+    setSelectedUsers((prev) => {
+      const next = new Set(prev);
+      if (next.has(userId)) {
+        next.delete(userId);
+      } else {
+        next.add(userId);
+      }
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    setSelectedUsers((prev) => {
+      const allSelected =
+        filteredUsers.length > 0 &&
+        filteredUsers.every((user) => prev.has(user.id));
+      if (allSelected) {
+        return new Set();
+      }
+      return new Set(filteredUsers.map((user) => user.id));
+    });
+  };
+
+  const postAppAccess = async (userId: string, appSlugs: string[]): Promise<boolean> => {
+    const token = await getToken();
+    if (!token) {
+      setError("Authentication required. Please log in again.");
+      return false;
+    }
+    const response = await fetch(
+      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${userId}/app-access`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ app_slugs: appSlugs }),
+      },
+    );
+    if (!response.ok) {
+      throw new Error(`Failed to grant app access: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.success !== false;
+  };
+
+  const deleteAppAccess = async (userId: string): Promise<boolean> => {
+    const token = await getToken();
+    if (!token) {
+      setError("Authentication required. Please log in again.");
+      return false;
+    }
+    const response = await fetch(
+      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${userId}/app-access`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ revoke_all: true }),
+      },
+    );
+    if (!response.ok) {
+      throw new Error(`Failed to revoke app access: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.success !== false;
+  };
+
+  const applyUserUpdate = (updatedUser: User) => {
+    setUsers((prev) =>
+      (prev || []).map((user) => (user.id === updatedUser.id ? { ...user, ...updatedUser } : user)),
+    );
+  };
+
+  const toggleGrantAll = async (user: User) => {
+    if (busyUsersRef.current.has(user.id)) return;
+    busyUsersRef.current.add(user.id);
+    clearMessages();
+    try {
+      if ((user.app_count ?? 0) > 0 || (user.app_access?.length ?? 0) > 0) {
+        await deleteAppAccess(user.id);
+      } else {
+        let slugs = allApps.map((app) => app.slug);
+        if (slugs.length === 0) {
+          slugs = await fetchAllAppSlugs();
+        }
+        if (slugs.length > 0) {
+          await postAppAccess(user.id, slugs);
+        }
+      }
+      await fetchUsers();
+    } catch (error) {
+      console.error("Error toggling grant all:", error);
+      setError("Failed to grant app access. Please try again.");
+    } finally {
+      busyUsersRef.current.delete(user.id);
+    }
+  };
+
+  const toggleBundleAccess = async (user: User, bundleId: string) => {
+    if (busyUsersRef.current.has(user.id)) return;
+    busyUsersRef.current.add(user.id);
+    clearMessages();
+    try {
+      const bundle = catalogBundles.find((b) => b.id === bundleId);
+      if (!bundle) return;
+      const granted = (user.app_access ?? []).filter((slug) =>
+        bundle.apps.includes(slug),
+      ).length;
+      if (granted === bundle.apps.length) {
+        await deleteAppAccess(user.id);
+      } else {
+        await postAppAccess(user.id, bundle.apps);
+      }
+      await fetchUsers();
+    } catch (error) {
+      console.error("Error toggling bundle access:", error);
+      setError("Failed to grant app access. Please try again.");
+    } finally {
+      busyUsersRef.current.delete(user.id);
+    }
+  };
+
+  const runBulkOperation = async (
+    operation: typeof bulkOperation extends null ? never : NonNullable<typeof bulkOperation>,
+  ) => {
+    const op = operation;
+    if (!op || op.userIds.length === 0) return;
+
+    let bundleSlugs: string[] = [];
+    let allAppSlugs: string[] = [];
+    if (op.operation === "grant-bundle") {
+      const bundle = catalogBundles.find((b) => b.id === op.bundleId);
+      if (!bundle) return;
+      bundleSlugs = bundle.apps;
+    } else if (op.operation === "grant-all") {
+      allAppSlugs =
+        allApps.length > 0
+          ? allApps.map((app) => app.slug)
+          : await fetchAllAppSlugs();
+    }
+
+    setBulkOperation(null);
+    setBulkProgress({ current: 0, total: op.userIds.length, succeeded: 0, failed: 0 });
+
+    let succeeded = 0;
+    let failed = 0;
+    let processed = 0;
+
+    for (let i = 0; i < op.userIds.length; i += BULK_BATCH_SIZE) {
+      const batch = op.userIds.slice(i, i + BULK_BATCH_SIZE);
+      await Promise.all(
+        batch.map(async (userId) => {
+          try {
+            const token = await getToken();
+            if (!token) throw new Error("No token");
+            let ok = false;
+            if (op.operation === "activate" || op.operation === "deactivate") {
+              const response = await fetch(
+                `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users/${userId}`,
+                {
+                  method: "PUT",
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    id: userId,
+                    is_active: op.operation === "activate",
+                  }),
+                },
+              );
+              const result = await response.json();
+              ok = response.ok && result.success !== false;
+              if (ok) {
+                const updated = result.data?.find?.((u: User) => u.id === userId);
+                if (updated) applyUserUpdate(updated);
+              }
+            } else if (op.operation === "revoke-all") {
+              ok = await deleteAppAccess(userId);
+            } else {
+              const slugs = op.operation === "grant-bundle" ? bundleSlugs : allAppSlugs;
+              ok = slugs.length === 0 ? true : await postAppAccess(userId, slugs);
+            }
+            if (ok) succeeded += 1;
+            else failed += 1;
+          } catch {
+            failed += 1;
+          } finally {
+            processed += 1;
+            setBulkProgress({
+              current: processed,
+              total: op.userIds.length,
+              succeeded,
+              failed,
+            });
+          }
+        }),
+      );
+    }
+
+    await fetchUsers();
+    setSuccess(`Bulk operation complete: ${succeeded} succeeded, ${failed} failed`);
+    setBulkProgress(null);
+    setSelectedUsers(new Set());
+  };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center py-20">
         <div className="w-8 h-8 border-t-2 border-primary-500 border-solid rounded-full animate-spin"></div>
       </div>
+    );
+  }
+
+  if (showAppAccessModal && selectedUserForApps) {
+    return (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-gray-800 rounded-xl p-6 w-full max-w-4xl mx-4 max-h-[80vh] overflow-y-auto">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-xl font-bold text-white">
+                    Manage App Access
+                  </h3>
+                  <p className="text-sm text-gray-400 mt-1">
+                    {selectedUserForApps.first_name &&
+                    selectedUserForApps.last_name
+                      ? `${selectedUserForApps.first_name} ${selectedUserForApps.last_name}`
+                      : selectedUserForApps.email}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowAppAccessModal(false)}
+                  className="text-gray-400 hover:text-white"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+  
+              {loadingApps ? (
+                <div className="flex justify-center items-center py-20">
+                  <div className="w-8 h-8 border-t-2 border-purple-500 border-solid rounded-full animate-spin"></div>
+                </div>
+              ) : (
+                <>
+                  <div className="mb-4 flex items-center justify-between">
+                    <p className="text-sm text-gray-300">
+                      Select apps to grant access ({userAppAccess.length}{" "}
+                      selected)
+                    </p>
+                  </div>
+  
+                  {/* App search */}
+                  <div className="relative mb-4">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <input
+                      type="text"
+                      value={appSearchQuery}
+                      onChange={(e) => setAppSearchQuery(e.target.value)}
+                      placeholder="Search apps..."
+                      className="w-full bg-gray-700 border border-gray-600 rounded-lg pl-10 pr-10 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-purple-500"
+                    />
+                    {appSearchQuery && (
+                      <button
+                        onClick={() => setAppSearchQuery("")}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                        aria-label="Clear app search"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+  
+                  {/* Group apps by category */}
+                  {Object.entries(
+                    (() => {
+                      const query = appSearchQuery.trim().toLowerCase();
+                      const filtered = query
+                        ? availableApps.filter((app) =>
+                            app.name.toLowerCase().includes(query),
+                          )
+                        : availableApps;
+                      return filtered.reduce(
+                        (acc, app) => {
+                          if (!acc[app.category]) acc[app.category] = [];
+                          acc[app.category].push(app);
+                          return acc;
+                        },
+                        {} as Record<string, typeof availableApps>,
+                      );
+                    })(),
+                  ).map(([category, apps]) => {
+                    const allInCategorySelected = apps.every((app) =>
+                      userAppAccess.includes(app.slug),
+                    );
+                    return (
+                      <div key={category} className="mb-4">
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className="text-sm font-semibold text-gray-300 capitalize">
+                            {category.replace(/-/g, " ")}
+                          </h4>
+                          <button
+                            onClick={() => {
+                              const categorySlugs = apps.map((app) => app.slug);
+                              setUserAppAccess((prev) =>
+                                allInCategorySelected
+                                  ? prev.filter((slug) => !categorySlugs.includes(slug))
+                                  : Array.from(new Set([...prev, ...categorySlugs])),
+                              );
+                            }}
+                            className={`text-xs px-3 py-1 rounded transition-colors ${
+                              allInCategorySelected
+                                ? "bg-green-600 hover:bg-green-700 text-white"
+                                : "bg-purple-600 hover:bg-purple-700 text-white"
+                            }`}
+                          >
+                            {allInCategorySelected ? "All Selected" : "Select All"}
+                          </button>
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                          {apps.map((app) => {
+                            const parentBundle = catalogBundles.find((b) =>
+                              b.apps.includes(app.slug),
+                            );
+                            return (
+                              <button
+                                key={app.slug}
+                                onClick={() => toggleAppAccess(app.slug)}
+                                className={`p-3 rounded-lg text-left transition-all ${
+                                  userAppAccess.includes(app.slug)
+                                    ? "bg-purple-600/20 border-2 border-purple-500 text-white"
+                                    : "bg-gray-700 border-2 border-transparent text-gray-300 hover:bg-gray-600"
+                                }`}
+                                {...(parentBundle
+                                  ? { title: `Part of: ${parentBundle.name}` }
+                                  : {})}
+                              >
+                                <div className="text-sm font-medium">{app.name}</div>
+                                {userAppAccess.includes(app.slug) && (
+                                  <span className="text-xs text-purple-300">
+                                    Selected
+                                  </span>
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+  
+                  {availableApps.length === 0 && (
+                    <div className="text-center py-10 text-gray-400">
+                      No apps available
+                    </div>
+                  )}
+  
+                  <div className="flex space-x-3 mt-6 pt-4 border-t border-gray-700">
+                    <button
+                      onClick={() => setShowAppAccessModal(false)}
+                      className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={saveAppAccess}
+                      disabled={savingAppAccess}
+                      className="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
+                    >
+                      {savingAppAccess ? "Saving..." : "Save Changes"}
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
     );
   }
 
@@ -974,6 +1441,251 @@ const AdminUsersManagement: React.FC = () => {
         </div>
       </div>
 
+      {/* Search + Selection Controls */}
+      {!anyModalOpen && (
+      <div className="flex flex-wrap items-center gap-4">
+        <div className="relative flex-1 min-w-64">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search users by name or email..."
+            className="w-full bg-gray-800 border border-gray-600 rounded-lg pl-10 pr-10 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-primary-500"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
+        </div>
+
+        <span className="text-sm text-gray-400">
+          {filteredUsers.length} user(s)
+        </span>
+
+        <button
+          onClick={toggleSelectAll}
+          className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors border border-gray-600"
+        >
+          {filteredUsers.length > 0 &&
+          filteredUsers.every((user) => selectedUsers.has(user.id))
+            ? "Deselect All"
+            : "Select All"}
+        </button>
+
+        {selectedUsers.size > 0 && (
+          <span className="text-sm text-primary-400 font-medium">
+            {selectedUsers.size} selected
+          </span>
+        )}
+      </div>
+      )}
+
+      {/* Bulk Operations Bar */}
+      {!anyModalOpen && selectedUsers.size > 0 && (
+        <div className="flex flex-wrap items-center gap-3 bg-gray-800/70 border border-gray-700 rounded-xl p-4">
+          <span className="text-sm text-gray-300 mr-2">Bulk actions:</span>          {(["activate", "deactivate", "grant-all", "revoke-all"] as const).map((op) => (
+            <button
+              key={op}
+              onClick={() =>
+                setBulkOperation({
+                  operation: op,
+                  label:
+                    op === "activate"
+                      ? "Activate"
+                      : op === "deactivate"
+                        ? "Deactivate"
+                        : op === "grant-all"
+                          ? "Grant All Apps"
+                          : "Revoke All",
+                  userIds: Array.from(selectedUsers),
+                })
+              }
+              className="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1.5 rounded-lg text-sm transition-colors"
+            >
+              {op === "activate"
+                ? "Activate"
+                : op === "deactivate"
+                  ? "Deactivate"
+                  : op === "grant-all"
+                    ? "Grant All Apps"
+                    : "Revoke All"}
+            </button>
+          ))}
+          <div
+            className="relative group"
+            onMouseEnter={() => setShowBundleDropdown(true)}
+            onMouseLeave={() => setShowBundleDropdown(false)}
+          >
+            <button className="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1.5 rounded-lg text-sm transition-colors flex items-center">
+              <Package className="h-4 w-4 mr-2" />
+              Grant Bundle
+              <ChevronDown className="h-3 w-3 ml-2" />
+            </button>
+            {showBundleDropdown && (
+              <div className="absolute left-0 top-full z-20 mt-1 w-72 max-h-72 overflow-y-auto bg-gray-900 border border-gray-600 rounded-lg shadow-xl">
+                {catalogBundles.map((bundle) => (
+                  <button
+                    key={bundle.id}
+                    onClick={() => {
+                      setShowBundleDropdown(false);
+                      setBulkOperation({
+                        operation: "grant-bundle",
+                        label: "Grant Bundle",
+                        bundleId: bundle.id,
+                        // Bundle grants from the dropdown apply to every user
+                        // in the current filtered view, not just the selection.
+                        userIds: filteredUsers.map((user) => user.id),
+                      });
+                    }}
+                    className="w-full text-left px-3 py-2 text-sm text-white hover:bg-gray-700 transition-colors"
+                  >
+                    {bundle.name} ({bundle.apps.length} apps)
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Bulk Progress */}
+      {bulkProgress && (
+        <div className="bg-gray-800/70 border border-gray-700 rounded-xl p-4">
+          <p className="text-sm text-gray-300">
+            Processing... {bulkProgress.current}/{bulkProgress.total} users (
+            {bulkProgress.succeeded} succeeded, {bulkProgress.failed} failed)
+          </p>
+          <div className="mt-2 h-2 bg-gray-700 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-primary-500 transition-all"
+              style={{
+                width: `${bulkProgress.total ? (bulkProgress.current / bulkProgress.total) * 100 : 0}%`,
+              }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Bundle Access Section */}
+      <div className="bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden">
+        <button
+          onClick={() => {
+            const next = !showBundles;
+            setShowBundles(next);
+            if (next) ensureAppsLoaded();
+          }}
+          className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-700/50 transition-colors"
+        >
+          <div className="flex items-center">
+            <Package className="h-5 w-5 mr-3 text-primary-400" />
+            <div>
+              <h3 className="text-lg font-semibold text-white">Bundle Access</h3>
+              <p className="text-xs text-gray-400">
+                {bundleUser
+                  ? `Manage bundle grants for ${bundleUser.first_name && bundleUser.last_name ? `${bundleUser.first_name} ${bundleUser.last_name}` : bundleUser.email}`
+                  : "Select a user to manage bundle grants"}
+              </p>
+            </div>
+          </div>
+          <ChevronDown
+            className={`h-5 w-5 text-gray-400 transition-transform ${
+              showBundles ? "rotate-180" : ""
+            }`}
+          />
+        </button>
+
+        {showBundles && bundleUser && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-6 border-t border-gray-700">
+            {catalogBundles.map((bundle) => {
+              const granted = (bundleUser.app_access ?? []).filter((slug) =>
+                bundle.apps.includes(slug),
+              ).length;
+              const total = bundle.apps.length;
+              const allGranted = granted === total;
+              const some = granted > 0;
+              return (
+                <div
+                  key={bundle.id}
+                  className={`rounded-lg border p-4 transition-colors ${
+                    allGranted
+                      ? "bg-green-500/10 border-green-500/40"
+                      : some
+                        ? "bg-yellow-500/10 border-yellow-500/40"
+                        : "bg-gray-900/50 border-gray-600"
+                  }`}
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <h4 className="text-sm font-semibold text-white pr-2">
+                      {bundle.name}
+                    </h4>
+                    <button
+                      onClick={() => toggleBundleAccess(bundleUser, bundle.id)}
+                      className={`relative inline-flex h-5 w-8 flex-shrink-0 items-center rounded-full transition-colors focus:outline-none ${
+                        allGranted ? "bg-green-500" : "bg-gray-600"
+                      }`}
+                      aria-label={`${allGranted ? "Revoke" : "Grant"} ${bundle.name}`}
+                    >
+                      <span
+                        className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${
+                          allGranted ? "translate-x-4" : "translate-x-1"
+                        }`}
+                      />
+                    </button>
+                  </div>
+                  <p
+                    className={`text-sm font-medium ${
+                      allGranted
+                        ? "text-green-400"
+                        : some
+                          ? "text-yellow-400"
+                          : "text-gray-400"
+                    }`}
+                  >
+                    {granted}/{total} apps
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Bulk Operation Confirmation Modal */}
+      {bulkOperation && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-xl p-6 w-full max-w-md mx-4">
+            <h3 className="text-xl font-bold text-white mb-4">
+              Confirm Bulk Operation
+            </h3>
+            <p className="text-gray-300 mb-2">
+              {bulkOperation.label} for {bulkOperation.userIds.length} users
+            </p>
+            <p className="text-sm text-gray-400 mb-6">
+              This action cannot be undone.
+            </p>
+            <div className="flex space-x-3">
+              <button
+                onClick={() => setBulkOperation(null)}
+                className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => runBulkOperation(bulkOperation)}
+                className="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 rounded-lg transition-colors"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Users List */}
       <div className="space-y-4">
         {filteredUsers.map((user) => (
@@ -984,6 +1696,19 @@ const AdminUsersManagement: React.FC = () => {
             className="bg-gray-800/70 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-gray-600 transition-colors"
           >
             <div className="flex items-center justify-between">
+              {/* Selection Checkbox */}
+              <button
+                onClick={() => toggleUserSelection(user.id)}
+                className="mt-1 mr-3 p-1 rounded hover:bg-gray-700 transition-colors flex-shrink-0"
+                aria-label={`Select ${user.email}`}
+              >
+                {selectedUsers.has(user.id) ? (
+                  <CheckSquare className="h-5 w-5 text-primary-500" />
+                ) : (
+                  <Square className="h-5 w-5 text-gray-400" />
+                )}
+              </button>
+
               {/* User Info */}
               <div className="flex-1">
                 <div className="flex items-center space-x-3 mb-2">
@@ -1032,6 +1757,31 @@ const AdminUsersManagement: React.FC = () => {
                     </span>
                   )}
                 </div>
+
+                {/* Grant All Apps Toggle */}
+                {!loadingAllApps && (
+                  <div className="mt-4 flex items-center">
+                    <span className="text-sm text-gray-400 mr-3">
+                      Grant All Apps ({user.app_count || 0} of {TOTAL_APP_SLOTS} apps)
+                    </span>
+                    <button
+                      onClick={() => toggleGrantAll(user)}
+                      disabled={busyUsersRef.current.has(user.id)}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:cursor-not-allowed ${
+                        (user.app_count || 0) > 0
+                          ? "bg-green-500 hover:bg-green-600"
+                          : "bg-gray-600 hover:bg-gray-500"
+                      }`}
+                      aria-label={`Grant all apps to ${user.email}`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                          (user.app_count || 0) > 0 ? "translate-x-6" : "translate-x-1"
+                        }`}
+                      />
+                    </button>
+                  </div>
+                )}
 
                 {/* App Access Toggles */}
                 {!loadingAllApps && allApps.length > 0 && (
@@ -1149,6 +1899,8 @@ const AdminUsersManagement: React.FC = () => {
                     setShowAddModal(true);
                   }}
                   className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors"
+                  aria-label={`Edit ${user.email}`}
+                  title="Edit user"
                 >
                   <Edit className="h-4 w-4" />
                 </button>
@@ -1163,6 +1915,8 @@ const AdminUsersManagement: React.FC = () => {
                   }
                   disabled={deleting === user.id}
                   className="p-2 text-gray-400 hover:text-red-400 hover:bg-gray-700 rounded-lg transition-colors disabled:opacity-50"
+                  aria-label={`Delete ${user.email}`}
+                  title="Delete user"
                 >
                   {deleting === user.id ? (
                     <div className="w-4 h-4 border-t border-red-400 border-solid rounded-full animate-spin"></div>
@@ -1178,6 +1932,7 @@ const AdminUsersManagement: React.FC = () => {
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
                     user.is_active ? "bg-green-600" : "bg-gray-600"
                   } ${toggling === user.id ? "opacity-50 cursor-not-allowed" : ""}`}
+                  aria-label={`${user.is_active ? "Deactivate" : "Activate"} ${user.email}`}
                 >
                   <span
                     className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
@@ -1396,121 +2151,6 @@ user3@example.com,Bob,Johnson,user`}
                 {uploading ? "Uploading..." : "Upload Users"}
               </button>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* App Access Modal */}
-      {showAppAccessModal && selectedUserForApps && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-gray-800 rounded-xl p-6 w-full max-w-4xl mx-4 max-h-[80vh] overflow-y-auto">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-xl font-bold text-white">
-                  Manage App Access
-                </h3>
-                <p className="text-sm text-gray-400 mt-1">
-                  {selectedUserForApps.first_name &&
-                  selectedUserForApps.last_name
-                    ? `${selectedUserForApps.first_name} ${selectedUserForApps.last_name}`
-                    : selectedUserForApps.email}
-                </p>
-              </div>
-              <button
-                onClick={() => setShowAppAccessModal(false)}
-                className="text-gray-400 hover:text-white"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-            {loadingApps ? (
-              <div className="flex justify-center items-center py-20">
-                <div className="w-8 h-8 border-t-2 border-purple-500 border-solid rounded-full animate-spin"></div>
-              </div>
-            ) : (
-              <>
-                <div className="mb-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <p className="text-sm text-gray-300">
-                      Select apps to grant access ({userAppAccess.length}{" "}
-                      selected)
-                    </p>
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() =>
-                          setUserAppAccess(availableApps.map((app) => app.slug))
-                        }
-                        className="text-xs px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded transition-colors"
-                      >
-                        Select All
-                      </button>
-                      <button
-                        onClick={() => setUserAppAccess([])}
-                        className="text-xs px-3 py-1 bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"
-                      >
-                        Deselect All
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Group apps by category */}
-                {Object.entries(
-                  availableApps.reduce(
-                    (acc, app) => {
-                      if (!acc[app.category]) acc[app.category] = [];
-                      acc[app.category].push(app);
-                      return acc;
-                    },
-                    {} as Record<string, typeof availableApps>,
-                  ),
-                ).map(([category, apps]) => (
-                  <div key={category} className="mb-4">
-                    <h4 className="text-sm font-semibold text-gray-300 mb-2 capitalize">
-                      {category.replace(/-/g, " ")}
-                    </h4>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                      {apps.map((app) => (
-                        <button
-                          key={app.slug}
-                          onClick={() => toggleAppAccess(app.slug)}
-                          className={`p-3 rounded-lg text-left transition-all ${
-                            userAppAccess.includes(app.slug)
-                              ? "bg-purple-600/20 border-2 border-purple-500 text-white"
-                              : "bg-gray-700 border-2 border-transparent text-gray-300 hover:bg-gray-600"
-                          }`}
-                        >
-                          <div className="text-sm font-medium">{app.name}</div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-
-                {availableApps.length === 0 && (
-                  <div className="text-center py-10 text-gray-400">
-                    No apps available
-                  </div>
-                )}
-
-                <div className="flex space-x-3 mt-6 pt-4 border-t border-gray-700">
-                  <button
-                    onClick={() => setShowAppAccessModal(false)}
-                    className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={saveAppAccess}
-                    disabled={savingAppAccess}
-                    className="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg transition-colors disabled:opacity-50"
-                  >
-                    {savingAppAccess ? "Saving..." : "Save Changes"}
-                  </button>
-                </div>
-              </>
-            )}
           </div>
         </div>
       )}

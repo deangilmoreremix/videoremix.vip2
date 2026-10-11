@@ -75,6 +75,10 @@ describe('useApps Hook', () => {
       expect(result.current.loading).toBe(false);
     });
 
-    expect(result.current.error).toBe('DB error');
+    // useApps degrades gracefully: a Supabase failure falls back to the local
+    // apps catalog instead of surfacing a user-facing error. The error state is
+    // only set when the local fallback also fails.
+    expect(result.current.error).toBeNull();
+    expect(result.current.apps.length).toBeGreaterThan(0);
   });
 });

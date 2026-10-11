@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../utils/supabase";
+import { resolveCanonicalSlug } from "../utils/appLaunch";
 import {
   purchaseService,
   UserAppAccess,
@@ -252,18 +253,29 @@ export const useUserAccess = (): UnifiedAccessData & {
   }, [loadAllAccessData, clerkUser?.id, clerkSession?.expireAt]);
 
   // Unified access checking - combines both direct purchases and imported product access
+  // Purchases may be seeded from legacy bundle slugs, so both sides are
+  // normalized to canonical registry slugs before comparison.
   const hasAccessToApp = useCallback(
     (appSlug: string): boolean => {
       if (!appSlug) return false;
 
+      const canonicalRequested = resolveCanonicalSlug(appSlug) ?? appSlug;
+
       // Check direct purchases first
-      if (purchasedApps.includes(appSlug)) {
+      if (
+        purchasedApps.some(
+          (slug) => (resolveCanonicalSlug(slug) ?? slug) === canonicalRequested,
+        )
+      ) {
         return true;
       }
 
       // Check imported product access
       if (accessData?.apps) {
-        return accessData.apps.some((app) => app.appSlug === appSlug);
+        return accessData.apps.some(
+          (app) =>
+            (resolveCanonicalSlug(app.appSlug) ?? app.appSlug) === canonicalRequested,
+        );
       }
 
       return false;
