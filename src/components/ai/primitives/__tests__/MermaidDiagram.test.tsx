@@ -4,9 +4,8 @@ import { MermaidDiagram } from "../MermaidDiagram";
 // The `mermaid` renderer is an external, heavy dependency that is intentionally
 // isolated so these tests verify MermaidDiagram's own logic (initialize call,
 // render invocation, error fallback, and SVG injection) without executing the
-// real parser. NOTE: this package is not yet declared in package.json — see
-// docs/completion/runtime-status.md; the real dependency must be installed for
-// the production build to resolve (mermaid is imported statically).
+// real parser. mermaid is a declared dependency (package.json "mermaid": "^12.1.0")
+// so the production build resolves it; see docs/completion/runtime-status.md.
 vi.mock("mermaid", () => ({
   default: {
     initialize: vi.fn(),

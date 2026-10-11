@@ -231,6 +231,13 @@ const DashboardPage: React.FC = () => {
                   >
                     <WandSparkles className="h-4 w-4" />
                   </button>
+                  <button
+                    onClick={() => navigate("/settings")}
+                    className="p-2 rounded-lg"
+                    aria-label="Settings"
+                  >
+                    <Settings className="h-4 w-4" />
+                  </button>
                 </div>
 
                 <div className="ml-auto flex items-center gap-2 text-xs text-emerald-400">

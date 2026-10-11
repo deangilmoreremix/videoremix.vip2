@@ -36,19 +36,25 @@ global.localStorage = localStorageMock;
 // Mock scrollIntoView
 Element.prototype.scrollIntoView = vi.fn();
 
-// Mock IntersectionObserver
-global.IntersectionObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}));
+// Mock IntersectionObserver (must be constructable: `new IntersectionObserver(...)`)
+class IntersectionObserverMock {
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+  takeRecords = vi.fn(() => []);
+  root = null;
+  rootMargin = '';
+  thresholds: number[] = [];
+}
+global.IntersectionObserver = IntersectionObserverMock as unknown as typeof IntersectionObserver;
 
-// Mock ResizeObserver
-global.ResizeObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}));
+// Mock ResizeObserver (must be constructable: `new ResizeObserver(...)`)
+class ResizeObserverMock {
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+}
+global.ResizeObserver = ResizeObserverMock as unknown as typeof ResizeObserver;
 
 // Mock Supabase client globally
 vi.mock('../src/utils/supabaseClient', () => ({

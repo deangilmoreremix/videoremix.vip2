@@ -1,5 +1,4 @@
 import { useState, useCallback, useRef, useEffect } from "react";
-import { supabase } from "../../../utils/supabaseClient";
 import { getClerkTokenGetter } from "../../../utils/supabase";
 import type { UseRunAIAppOptions, UseRunAIAppReturn, ConversationMessage } from "./types";
 
@@ -39,19 +38,19 @@ export function useRunAIApp(
   const retryCountRef = useRef(0);
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  useEffect(() => {
-    return () => {
-      if (eventSourceRef.current) {
-        eventSourceRef.current.close();
-      }
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
-    };
+  const teardownConnections = useCallback(() => {
+    if (eventSourceRef.current) {
+      eventSourceRef.current.close();
+    }
+    if (wsRef.current) {
+      wsRef.current.close();
+    }
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
   }, []);
+
+  useEffect(() => teardownConnections, [teardownConnections]);
 
   const parseErrorSuggestion = useCallback((errorMsg: string): string | undefined => {
     const msg = errorMsg.toLowerCase();
@@ -129,7 +128,7 @@ export function useRunAIApp(
 
       const accessToken = await getAccessToken();
       const response = await fetch(
-        `${supabase.supabaseUrl}/functions/v1/run-ai-app`,
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/run-ai-app`,
         {
           method: "POST",
           headers: {
@@ -226,7 +225,7 @@ export function useRunAIApp(
         fullResponseRef.current = data;
       }
     },
-    [slug]
+    [slug, getAccessToken]
   );
 
   const run = useCallback(
@@ -290,14 +289,12 @@ export function useRunAIApp(
       }
     },
     [
-      slug,
       options,
       buildMultiTurnContext,
       runSSE,
       parseErrorSuggestion,
       autoRetry,
       maxRetries,
-      enableMultiTurn,
       output,
     ]
   );
@@ -309,18 +306,10 @@ export function useRunAIApp(
     setErrorSuggestion(undefined);
     fullResponseRef.current = null;
 
-    if (eventSourceRef.current) {
-      eventSourceRef.current.close();
-    }
-    if (wsRef.current) {
-      wsRef.current.close();
-    }
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
+    teardownConnections();
 
     options.onReset?.();
-  }, [options.onReset]);
+  }, [teardownConnections, options]);
 
   return {
     run,

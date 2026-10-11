@@ -1,40 +1,11 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'npm:@supabase/supabase-js@2';
 
-// Fetch user's API key from Supabase (user-provided keys)
-async function getUserApiKey(user_id, provider) {
-  const { data, error } = await supabase
-    .from('user_api_keys')
-    .select('encrypted_api_key')
-    .eq('user_id', user_id)
-    .eq('provider', provider)
-    .single();
-
-  if (error || !data) {
-    return null;
-  }
-  return data.encrypted_api_key;
-}
-
-// Verify JWT token to get user_id
-async function verifyUser(req) {
-  const authHeader = req.headers.get('Authorization');
-  if (!authHeader?.startsWith('Bearer ')) {
-    return null;
-  }
-  const token = authHeader.substring(7);
-  try {
-    const { data: { user } } = await supabase.auth.getUser(token);
-    if (!user) return null;
-    return { user_id: user.id };
-  } catch (e) {
-    console.error('JWT verification failed:', e);
-    return null;
-  }
-}
-
 import { corsHeaders } from '../_shared/cors.ts';
 import { processPurchase, ProcessedPurchase } from '../_shared/purchaseProcessor.ts';
+import { verifyWebhookSecret, checkWebhookProcessed } from '../_shared/webhookGuard.ts';
+
+const ZAXXA_WEBHOOK_SECRET = Deno.env.get('ZAXXA_WEBHOOK_SECRET') || '';
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -45,12 +16,48 @@ serve(async (req) => {
   }
 
   try {
+    // Fail-closed webhook authentication: reject forged deliveries before any
+    // database work. Without the configured secret the endpoint answers 500 so
+    // the platform retries instead of silently granting access.
+    const secretCheck = verifyWebhookSecret(req, ZAXXA_WEBHOOK_SECRET);
+    if (!secretCheck.ok) {
+      const status = secretCheck.reason === 'secret_not_configured' ? 500 : 401;
+      console.error('Zaxxa webhook rejected:', secretCheck.reason);
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        {
+          status,
+          headers: {
+            ...corsHeaders,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+    }
+
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
     const body = await req.json();
+
+    // Idempotency: skip deliveries whose event was already processed so a
+    // platform retry cannot double-grant access.
+    const duplicate = await checkWebhookProcessed(supabase, 'zaxxa', body);
+    if (duplicate.duplicate) {
+      console.log(`Zaxxa webhook event ${body.transaction_id ?? body.id ?? 'unknown'} already processed, skipping`);
+      return new Response(
+        JSON.stringify({ success: true, message: 'Event already processed' }),
+        {
+          status: 200,
+          headers: {
+            ...corsHeaders,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+    }
 
     await supabase.from('webhook_logs').insert({
       platform: 'zaxxa',

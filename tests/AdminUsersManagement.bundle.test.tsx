@@ -2,11 +2,26 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
-import AdminUsersManagement from '../AdminUsersManagement';
+import AdminUsersManagement from '../src/components/admin/AdminUsersManagement';
+import { bundles as catalogBundles } from '../src/data/bundleData';
+
+// The component authenticates Supabase Edge Function calls with the Clerk
+// session token (useSupabaseToken). The getter is mutable so individual tests
+// can simulate an expired/absent Clerk session.
+const tokenMocks = vi.hoisted(() => ({
+  getToken: async () => 'mock-admin-token' as string | null,
+}));
+
+vi.mock('../src/hooks/useSupabaseToken', () => ({
+  useSupabaseToken: () => tokenMocks.getToken,
+}));
+
+// Total app slots rendered by the component: unique slugs across all bundles.
+const TOTAL_APP_SLOTS = new Set(catalogBundles.flatMap((b) => b.apps)).size;
 
 // Mock fetch globally
 const mockFetch = vi.fn();
-global.fetch = mockFetch;
+global.fetch = mockFetch as any;
 
 // Helper to create mock user
 const createMockUser = (overrides = {}) => ({
@@ -31,25 +46,15 @@ const createMockApp = (overrides = {}) => ({
   ...overrides,
 });
 
-// Mock session
-const mockSession = {
-  access_token: 'mock-admin-token',
-  user: { id: 'admin-123', email: 'admin@example.com' },
-};
-
 describe('AdminUsersManagement - Bundle Access System', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // Mock supabase auth getSession to return a valid session
-    const supabaseMock = require('../src/utils/supabaseClient').supabase;
-    supabaseMock.auth.getSession = vi.fn().mockResolvedValue({
-      data: { session: mockSession },
-      error: null,
-    });
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
+    // Restore the default Clerk token getter (tests may null it out).
+    tokenMocks.getToken = async () => 'mock-admin-token';
   });
 
   describe('A. Render & UI', () => {
@@ -182,12 +187,12 @@ describe('AdminUsersManagement - Bundle Access System', () => {
         json: async () => ({ success: true, data: [mockUser] }),
       });
 
-      // Mock fetch for all apps - returning 95 total
+      // Mock fetch for all apps - returning the full catalog
       mockFetch.mockResolvedValueOnce({
         ok: true,
         json: async () => ({
           success: true,
-          data: Array.from({ length: 95 }, (_, i) => ({
+          data: Array.from({ length: TOTAL_APP_SLOTS }, (_, i) => ({
             slug: `app-${i}`,
             name: `App ${i}`,
             category: 'test',
@@ -198,7 +203,7 @@ describe('AdminUsersManagement - Bundle Access System', () => {
       return mockUser;
     };
 
-    it('user with 0 apps shows toggle OFF, count "0 of 95"', async () => {
+    it('user with 0 apps shows toggle OFF, count "0 of {TOTAL_APP_SLOTS}"', async () => {
       setupUserWithNoApps();
       render(<AdminUsersManagement />);
 
@@ -207,7 +212,7 @@ describe('AdminUsersManagement - Bundle Access System', () => {
       });
 
       // The Grant All Apps section should show count
-      const countText = screen.getByText(/0 of 95 apps/);
+      const countText = screen.getByText(new RegExp(`0 of ${TOTAL_APP_SLOTS} apps`));
       expect(countText).toBeInTheDocument();
     });
 
@@ -219,8 +224,10 @@ describe('AdminUsersManagement - Bundle Access System', () => {
         expect(screen.getByText('User One')).toBeInTheDocument();
       });
 
-      // Find the Grant All toggle button (the one with "0 of 95 apps")
-      const grantAllSection = screen.getByText(/0 of 95 apps/).closest('div');
+      // Find the Grant All toggle button (the one with "0 of {TOTAL} apps")
+      const grantAllSection = screen
+        .getByText(new RegExp(`0 of ${TOTAL_APP_SLOTS} apps`))
+        .closest('div');
       const toggleBtn = grantAllSection!.querySelector('button[class*="rounded-full"]');
 
       // Mock the POST response for granting all
@@ -236,8 +243,8 @@ describe('AdminUsersManagement - Bundle Access System', () => {
           success: true,
           data: [{
             ...mockUser,
-            app_access: Array.from({ length: 95 }, (_, i) => `app-${i}`),
-            app_count: 95,
+            app_access: Array.from({ length: TOTAL_APP_SLOTS }, (_, i) => `app-${i}`),
+            app_count: TOTAL_APP_SLOTS,
           }],
         }),
       });
@@ -266,7 +273,9 @@ describe('AdminUsersManagement - Bundle Access System', () => {
         expect(screen.getByText('User One')).toBeInTheDocument();
       });
 
-      const grantAllSection = screen.getByText(/0 of 95 apps/).closest('div');
+      const grantAllSection = screen
+        .getByText(new RegExp(`0 of ${TOTAL_APP_SLOTS} apps`))
+        .closest('div');
       const toggleBtn = grantAllSection!.querySelector('button[class*="rounded-full"]');
 
       // Mock responses
@@ -327,8 +336,8 @@ describe('AdminUsersManagement - Bundle Access System', () => {
         expect(screen.getByText('User One')).toBeInTheDocument();
       });
 
-      // Grant All section should show "3 of 95 apps"
-      const countText = screen.getByText(/3 of 95 apps/);
+      // Grant All section should show "3 of {TOTAL} apps"
+      const countText = screen.getByText(new RegExp(`3 of ${TOTAL_APP_SLOTS} apps`));
       const grantAllSection = countText.closest('div');
       const toggleBtn = grantAllSection!.querySelector('button[class*="rounded-full"]');
 
@@ -863,7 +872,7 @@ describe('AdminUsersManagement - Bundle Access System', () => {
       });
     });
 
-    it('"Grant All Apps" calls updateUserAppAccess for each user with all 95 apps', async () => {
+    it('"Grant All Apps" calls updateUserAppAccess for each user with all apps', async () => {
       setupMultipleUsers();
       render(<AdminUsersManagement />);
 
@@ -880,7 +889,7 @@ describe('AdminUsersManagement - Bundle Access System', () => {
         ok: true,
         json: async () => ({
           success: true,
-          data: Array.from({ length: 95 }, (_, i) => ({ slug: `app-${i}`, name: `App ${i}`, category: 'test' })),
+          data: Array.from({ length: TOTAL_APP_SLOTS }, (_, i) => ({ slug: `app-${i}`, name: `App ${i}`, category: 'test' })),
         }),
       });
 
@@ -903,9 +912,9 @@ describe('AdminUsersManagement - Bundle Access System', () => {
           call[0]?.includes('/app-access')
         );
         expect(postCalls.length).toBe(3);
-        // Verify the body contains all app slugs (app-0 through app-94)
+        // Verify the body contains all app slugs (app-0 through app-{TOTAL-1})
         expect(postCalls[0][1]?.body).toContain('app-0');
-        expect(postCalls[0][1]?.body).toContain('app-94');
+        expect(postCalls[0][1]?.body).toContain(`app-${TOTAL_APP_SLOTS - 1}`);
       });
     });
 
@@ -957,7 +966,7 @@ describe('AdminUsersManagement - Bundle Access System', () => {
         ok: true,
         json: async () => ({
           success: true,
-          data: Array.from({ length: 95 }, (_, i) => ({ slug: `app-${i}`, name: `App ${i}`, category: 'test' })),
+          data: Array.from({ length: TOTAL_APP_SLOTS }, (_, i) => ({ slug: `app-${i}`, name: `App ${i}`, category: 'test' })),
         }),
       });
 
@@ -1653,25 +1662,18 @@ describe('AdminUsersManagement - Bundle Access System', () => {
     });
 
     it('unauthorized session shows error and redirects to login', async () => {
-      const mockUser = createMockUser({ id: 'user-1', email: 'user1@test.com' });
-
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ success: true, data: [mockUser] }),
-      });
-
-      // Override the supabase mock to return no session
-      const supabaseMock = require('../src/utils/supabaseClient').supabase;
-      supabaseMock.auth.getSession = vi.fn().mockResolvedValue({
-        data: { session: null },
-        error: null,
-      });
+      // Clerk session is gone: the token getter resolves null. The component
+      // must fail closed - no admin API call is issued at all.
+      tokenMocks.getToken = async () => null;
 
       render(<AdminUsersManagement />);
 
       await waitFor(() => {
         expect(screen.getByText('Authentication required. Please log in again.')).toBeInTheDocument();
       });
+
+      // No admin API call may be issued without a Clerk token.
+      expect(mockFetch).not.toHaveBeenCalled();
     });
 
     it('duplicate concurrent toggle on same user is blocked', async () => {

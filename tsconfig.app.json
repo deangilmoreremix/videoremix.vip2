@@ -14,11 +14,20 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    /* Vitest globals for in-src test files */
+    "types": ["vite/client", "vitest/globals"],
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* Path alias — must stay in sync with vite.config.ts resolve.alias */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src"]
 }

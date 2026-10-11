@@ -24,10 +24,10 @@ describe('credit-math', () => {
 
   describe('MODEL_CREDIT_RATES', () => {
     it('should define rates for all models', () => {
-      expect(MODEL_CREDIT_RATES['gpt-4o']).toEqual({ input: 500_000, output: 1_500_000 });
+      expect(MODEL_CREDIT_RATES['gpt-4o']).toEqual({ input: 250_000, output: 1_000_000 });
       expect(MODEL_CREDIT_RATES['gpt-4o-mini']).toEqual({ input: 15_000, output: 60_000 });
       expect(MODEL_CREDIT_RATES['o1']).toEqual({ input: 1_500_000, output: 6_000_000 });
-      expect(MODEL_CREDIT_RATES['o1-mini']).toEqual({ input: 300_000, output: 1_200_000 });
+      expect(MODEL_CREDIT_RATES['o1-mini']).toEqual({ input: 110_000, output: 440_000 });
     });
   });
 
@@ -45,13 +45,13 @@ describe('credit-math', () => {
 
   describe('calculateModelCredits', () => {
     it('should calculate input credits for gpt-4o', () => {
-      expect(calculateModelCredits('gpt-4o', 'input', 1_000_000)).toBe(500_000);
-      expect(calculateModelCredits('gpt-4o', 'input', 2_000_000)).toBe(1_000_000);
+      expect(calculateModelCredits('gpt-4o', 'input', 1_000_000)).toBe(250_000);
+      expect(calculateModelCredits('gpt-4o', 'input', 2_000_000)).toBe(500_000);
     });
 
     it('should calculate output credits for gpt-4o', () => {
-      expect(calculateModelCredits('gpt-4o', 'output', 1_000_000)).toBe(1_500_000);
-      expect(calculateModelCredits('gpt-4o', 'output', 2_000_000)).toBe(3_000_000);
+      expect(calculateModelCredits('gpt-4o', 'output', 1_000_000)).toBe(1_000_000);
+      expect(calculateModelCredits('gpt-4o', 'output', 2_000_000)).toBe(2_000_000);
     });
 
     it('should calculate credits for gpt-4o-mini', () => {
@@ -65,8 +65,8 @@ describe('credit-math', () => {
     });
 
     it('should calculate credits for o1-mini', () => {
-      expect(calculateModelCredits('o1-mini', 'input', 1_000_000)).toBe(300_000);
-      expect(calculateModelCredits('o1-mini', 'output', 1_000_000)).toBe(1_200_000);
+      expect(calculateModelCredits('o1-mini', 'input', 1_000_000)).toBe(110_000);
+      expect(calculateModelCredits('o1-mini', 'output', 1_000_000)).toBe(440_000);
     });
 
     it('should return 0 for unknown models', () => {
@@ -80,7 +80,7 @@ describe('credit-math', () => {
     });
 
     it('should handle partial tokens', () => {
-      expect(calculateModelCredits('gpt-4o', 'input', 500_000)).toBe(250_000);
+      expect(calculateModelCredits('gpt-4o', 'input', 500_000)).toBe(125_000);
       expect(calculateModelCredits('gpt-4o-mini', 'input', 666_666)).toBeCloseTo(10_000, 0);
     });
   });
@@ -120,12 +120,12 @@ describe('credit-math', () => {
   describe('calculateCreditsForUsage', () => {
     it('should calculate input credits', () => {
       const input: UsageInput = { model: 'gpt-4o', type: 'input', amount: 500_000 };
-      expect(calculateCreditsForUsage(input)).toBe(250_000);
+      expect(calculateCreditsForUsage(input)).toBe(125_000);
     });
 
     it('should calculate output credits', () => {
       const input: UsageInput = { model: 'gpt-4o', type: 'output', amount: 500_000 };
-      expect(calculateCreditsForUsage(input)).toBe(750_000);
+      expect(calculateCreditsForUsage(input)).toBe(500_000);
     });
 
     it('should calculate image credits', () => {
@@ -205,16 +205,16 @@ describe('credit-math', () => {
   });
 
   describe('GPT-4o pricing', () => {
-    it('should match OpenAI pricing of $5/1M input tokens', () => {
+    it('should match OpenAI pricing of $2.50/1M input tokens', () => {
       const inputCredits = calculateModelCredits('gpt-4o', 'input', 1_000_000);
-      expect(inputCredits).toBe(500_000);
-      expect(creditsToUsd(inputCredits)).toBe(5);
+      expect(inputCredits).toBe(250_000);
+      expect(creditsToUsd(inputCredits)).toBe(2.5);
     });
 
-    it('should match OpenAI pricing of $15/1M output tokens', () => {
+    it('should match OpenAI pricing of $10/1M output tokens', () => {
       const outputCredits = calculateModelCredits('gpt-4o', 'output', 1_000_000);
-      expect(outputCredits).toBe(1_500_000);
-      expect(creditsToUsd(outputCredits)).toBe(15);
+      expect(outputCredits).toBe(1_000_000);
+      expect(creditsToUsd(outputCredits)).toBe(10);
     });
   });
 
@@ -247,16 +247,62 @@ describe('credit-math', () => {
   });
 
   describe('o1-mini pricing', () => {
-    it('should match OpenAI pricing of $3/1M input tokens', () => {
+    it('should match OpenAI pricing of $1.10/1M input tokens', () => {
       const inputCredits = calculateModelCredits('o1-mini', 'input', 1_000_000);
-      expect(inputCredits).toBe(300_000);
-      expect(creditsToUsd(inputCredits)).toBe(3);
+      expect(inputCredits).toBe(110_000);
+      expect(creditsToUsd(inputCredits)).toBe(1.1);
     });
 
-    it('should match OpenAI pricing of $12/1M output tokens', () => {
+    it('should match OpenAI pricing of $4.40/1M output tokens', () => {
       const outputCredits = calculateModelCredits('o1-mini', 'output', 1_000_000);
-      expect(outputCredits).toBe(1_200_000);
-      expect(creditsToUsd(outputCredits)).toBe(12);
+      expect(outputCredits).toBe(440_000);
+      expect(creditsToUsd(outputCredits)).toBe(4.4);
+    });
+  });
+
+  describe('gpt-5.5 pricing (corrected)', () => {
+    it('should charge $5/1M input tokens', () => {
+      const inputCredits = calculateModelCredits('gpt-5.5', 'input', 1_000_000);
+      expect(inputCredits).toBe(500_000);
+      expect(creditsToUsd(inputCredits)).toBe(5);
+    });
+
+    it('should charge $30/1M output tokens', () => {
+      const outputCredits = calculateModelCredits('gpt-5.5', 'output', 1_000_000);
+      expect(outputCredits).toBe(3_000_000);
+      expect(creditsToUsd(outputCredits)).toBe(30);
+    });
+
+    it('gpt-5.5-mini should match gpt-4o-mini rates', () => {
+      expect(MODEL_CREDIT_RATES['gpt-5.5-mini']).toEqual({ input: 15_000, output: 60_000 });
+    });
+  });
+
+  describe('o3 pricing (corrected)', () => {
+    it('should charge $2/1M input tokens', () => {
+      const inputCredits = calculateModelCredits('o3', 'input', 1_000_000);
+      expect(inputCredits).toBe(200_000);
+      expect(creditsToUsd(inputCredits)).toBe(2);
+    });
+
+    it('should charge $8/1M output tokens', () => {
+      const outputCredits = calculateModelCredits('o3', 'output', 1_000_000);
+      expect(outputCredits).toBe(800_000);
+      expect(creditsToUsd(outputCredits)).toBe(8);
+    });
+  });
+
+  describe('o3-mini pricing (corrected)', () => {
+    it('should charge $1.10/1M input tokens', () => {
+      const inputCredits = calculateModelCredits('o3-mini', 'input', 1_000_000);
+      expect(inputCredits).toBe(110_000);
+      expect(creditsToUsd(inputCredits)).toBe(1.1);
+    });
+
+    it('should charge $4.40/1M output tokens', () => {
+      const outputCredits = calculateModelCredits('o3-mini', 'output', 1_000_000);
+      expect(outputCredits).toBe(440_000);
+      expect(creditsToUsd(outputCredits)).toBe(4.4);
     });
   });
 

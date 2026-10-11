@@ -485,6 +485,30 @@ describe('proxy-openai', () => {
       const credits = calculateCreditsForUsage({ model: 'whisper-1', type: 'minute', amount: 1 });
       expect(credits).toBeGreaterThan(0);
     });
+
+    it('should support gpt-5.5 with corrected rates', () => {
+      expect(MODEL_CREDIT_RATES['gpt-5.5']).toEqual({ input: 500_000, output: 3_000_000 });
+      const credits = calculateCreditsForUsage({ model: 'gpt-5.5', type: 'input', amount: 1_000_000 });
+      expect(credits).toBe(500_000);
+    });
+
+    it('should support o3 with corrected rates', () => {
+      expect(MODEL_CREDIT_RATES['o3']).toEqual({ input: 200_000, output: 800_000 });
+      const credits = calculateCreditsForUsage({ model: 'o3', type: 'output', amount: 1_000_000 });
+      expect(credits).toBe(800_000);
+    });
+
+    it('should support o3-mini with corrected rates', () => {
+      expect(MODEL_CREDIT_RATES['o3-mini']).toEqual({ input: 110_000, output: 440_000 });
+      const credits = calculateCreditsForUsage({ model: 'o3-mini', type: 'input', amount: 1_000_000 });
+      expect(credits).toBe(110_000);
+    });
+
+    it('should return 0 credits for models outside the rate table (proxy rejects with 400)', () => {
+      const credits = calculateCreditsForUsage({ model: 'gpt-3.5-turbo', type: 'input', amount: 1_000_000 });
+      expect(credits).toBe(0);
+      expect(MODEL_CREDIT_RATES['gpt-3.5-turbo']).toBeUndefined();
+    });
   });
 
   describe('multi-tenant considerations', () => {

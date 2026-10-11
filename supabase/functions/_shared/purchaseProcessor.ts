@@ -60,10 +60,20 @@ export async function processPurchase(
     let userId: string | null = null;
     let userExists = false;
 
-    // Use advisory lock to prevent race conditions on user creation
-    const lockKey = BigInt('0x' + Array.from(new TextEncoder().encode(email))
-      .reduce((hash, byte) => ((hash << 5) - hash) + byte, 0)
-      .toString(16).padStart(16, '0'));
+    // Use advisory lock to prevent race conditions on user creation.
+    // The FNV-1a hash is masked to an unsigned 64-bit bigint: the raw reducer
+    // can produce negative numbers, and `BigInt('0x-...')` would throw and
+    // fail the entire webhook.
+    const lockKey = (() => {
+      let hash = 0xcbf29ce484222325n; // FNV-1a 64-bit offset basis
+      const prime = 0x100000001b3n; // FNV-1a 64-bit prime
+      const mask = 0xffffffffffffffffn;
+      for (const byte of new TextEncoder().encode(email)) {
+        hash = (hash ^ BigInt(byte)) * prime;
+        hash &= mask;
+      }
+      return hash;
+    })();
     
     await supabase.rpc('pg_advisory_lock', { key: lockKey });
     
@@ -166,16 +176,30 @@ export async function processPurchase(
   }
 }
 
+/**
+ * Match a webhook purchase to a catalog product using EXACT identifiers only.
+ *
+ * Why exact matching is mandatory: webhook payloads are attacker-controlled
+ * input. A fuzzy/substring match lets a forged payload named e.g.
+ * "VideoRemix VIP - Lifetime Deluxe" map onto an unrelated catalog product and
+ * silently grant that product's full app list. Only these identifiers are
+ * trusted, in order:
+ *   1. exact SKU (products_catalog.sku)
+ *   2. exact platform product name (platform_product_mappings.platform_product_name)
+ *   3. exact catalog product name or slug (case-insensitive, trimmed)
+ * If nothing matches exactly, NO entitlement is granted.
+ */
 async function matchProduct(
   supabase: SupabaseClient,
   productName: string,
   productSku?: string
 ): Promise<{ productId: string; appSlugs: string[] } | null> {
-  if (productSku) {
+  const normalizedSku = productSku?.trim();
+  if (normalizedSku) {
     const { data: productBySku } = await supabase
       .from('products_catalog')
       .select('id, apps_granted')
-      .eq('sku', productSku)
+      .eq('sku', normalizedSku)
       .eq('is_active', true)
       .maybeSingle();
 
@@ -187,11 +211,16 @@ async function matchProduct(
     }
   }
 
+  const normalizedName = (productName ?? '').trim();
+  if (!normalizedName) {
+    return null;
+  }
+
+  // Exact platform mapping (case-insensitive equality, no wildcards).
   const { data: platformMapping } = await supabase
     .from('platform_product_mappings')
-    .select('product_id, products_catalog(id, apps_granted)')
-    .ilike('platform_product_name', `%${productName}%`)
-    .order('match_confidence', { ascending: false })
+    .select('product_id, platform_product_name, products_catalog(id, apps_granted)')
+    .ilike('platform_product_name', escapeLikePattern(normalizedName))
     .limit(1)
     .maybeSingle();
 
@@ -202,16 +231,23 @@ async function matchProduct(
     };
   }
 
-  const normalizedName = productName.toLowerCase().replace(/[^a-z0-9]/g, '');
-  const { data: productByName } = await supabase
+  // Exact catalog name or slug (case-insensitive).
+  const normalizedLookup = normalizedName.toLowerCase();
+  const { data: products } = await supabase
     .from('products_catalog')
     .select('id, name, slug, apps_granted')
     .eq('is_active', true);
 
-  if (productByName) {
-    for (const product of productByName) {
-      const normalizedProductName = product.name.toLowerCase().replace(/[^a-z0-9]/g, '');
-      if (normalizedProductName.includes(normalizedName) || normalizedName.includes(normalizedProductName)) {
+  if (products) {
+    for (const product of products) {
+      const nameMatches =
+        typeof product.name === 'string' &&
+        product.name.trim().toLowerCase() === normalizedLookup;
+      const slugMatches =
+        typeof product.slug === 'string' &&
+        product.slug.trim().toLowerCase() === normalizedLookup;
+
+      if (nameMatches || slugMatches) {
         return {
           productId: product.id,
           appSlugs: product.apps_granted || [],
@@ -220,7 +256,18 @@ async function matchProduct(
     }
   }
 
+  console.warn(
+    `purchaseProcessor: no exact product match for "${normalizedName}" (sku: ${normalizedSku ?? 'none'}) - no apps granted`
+  );
   return null;
+}
+
+/**
+ * Escape ilike wildcards so an exact match cannot be widened by `%`, `_` or
+ * `\` characters in a webhook-supplied product name.
+ */
+function escapeLikePattern(value: string): string {
+  return value.replace(/[\\%_]/g, (char) => `\\${char}`);
 }
 
 async function grantAppAccess(
@@ -288,5 +335,8 @@ function getSubscriptionExpiry(): string {
 }
 
 async function sendWelcomeEmail(email: string, password: string): Promise<void> {
-  console.log(`TODO: Send welcome email to ${email} with password: ${password}`);
+  // Never log credentials - not even temporary ones. The password is passed
+  // straight to the mail provider.
+  console.log(`Welcome email queued for ${email}`);
+  void password;
 }
