@@ -13,11 +13,12 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Video, CheckCircle2, Clapperboard } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "ai-screenrecorder";
 
 const AiScreenrecorderPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openaiApiKey: "",
     taskDescription: "",
@@ -54,20 +55,12 @@ const AiScreenrecorderPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-screenrecorder`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      const res = await runViaRunner("ai-screenrecorder", {
             enter_your_openai_api_key: formData.openaiApiKey,
             task_description: formData.taskDescription,
             recording_context: formData.recordingContext,
             output_format: formData.outputFormat,
-            userId: user?.id,
-          }),
-        }
-      );
+          });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Processing failed");
       setResult(data);

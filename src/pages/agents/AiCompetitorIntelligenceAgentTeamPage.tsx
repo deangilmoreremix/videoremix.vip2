@@ -12,9 +12,10 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { Loader2, Sparkles, Globe, Building2, Search } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const AiCompetitorIntelligenceAgentTeamPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({ 
     enter_your_company_url_: "", 
     enter_a_description_of_your_company_if_url_is_not_available: "" 
@@ -46,11 +47,7 @@ const AiCompetitorIntelligenceAgentTeamPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/competitor-spy-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("competitor-spy-ai", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

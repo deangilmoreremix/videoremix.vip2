@@ -12,9 +12,10 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { FileUploadZone } from "@/components/agent-ui/FileUploadZone";
 import { Loader2, Sparkles, Mic, Radio, Link2 } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const AiBlogToPodcastAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({ enter_blog_url: "" });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -43,11 +44,7 @@ const AiBlogToPodcastAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-dashboard-designer-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("dashboard-designer-ai", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

@@ -1,4 +1,5 @@
 import { SupabaseClient } from 'npm:@supabase/supabase-js@2';
+import { normalizeEmail, resolveVerifiedIdentity } from './identity.ts';
 
 export interface ProcessedPurchase {
   email: string;
@@ -13,14 +14,44 @@ export interface ProcessedPurchase {
   purchaseDate: Date;
 }
 
+export interface ProcessPurchaseResult {
+  success: boolean;
+  error?: string;
+  userId?: string;
+}
+
+/**
+ * Record a purchase and grant the entitlements its catalog product defines.
+ *
+ * IDENTITY CONTRACT (Clerk as customer IdP - do not regress):
+ *   The purchase MUST resolve to a verified Clerk identity via
+ *   public.clerk_identities (see _shared/identity.ts). Temporary Supabase-auth
+ *   customers are NEVER created: a UUID user id can never match a Clerk user,
+ *   so grants keyed by one land on an identity the purchaser cannot reach.
+ *   When identity cannot be verified this function fails CLOSED: the purchase
+ *   row is kept for reconciliation with user_id = NULL and status 'pending'
+ *   (no product grant, no subscription row). A later webhook re-delivery (or
+ *   scripts/migration-reconcile.mjs) completes it once the buyer has a
+ *   verified identity.
+ *
+ * Entitlement matching stays exact-match only (matchProduct below).
+ */
 export async function processPurchase(
   supabase: SupabaseClient,
   platform: string,
   purchase: ProcessedPurchase,
   webhookData: any
-): Promise<{ success: boolean; error?: string; userId?: string }> {
+): Promise<ProcessPurchaseResult> {
   try {
-    const email = purchase.email.toLowerCase().trim();
+    const email = normalizeEmail(purchase.email);
+
+    // A purchase without an email can never be resolved to an identity - and
+    // without email the purchase itself cannot be reconciled either. Record
+    // nothing (the webhook layer already logged the raw event).
+    if (!email) {
+      console.error('processPurchase: purchase has no email; refusing to record');
+      return { success: false, error: 'missing_email' };
+    }
 
     // FIRST: Check for existing purchase (idempotency check)
     // This prevents race conditions from duplicate webhooks
@@ -32,35 +63,72 @@ export async function processPurchase(
       .maybeSingle();
 
     if (existingPurchase) {
-      console.log(`Purchase ${purchase.transactionId} already exists, skipping`);
-      
-      // If purchase exists but wasn't fully processed, complete it
-      if (!existingPurchase.processed) {
-        const productMatch = await matchProduct(supabase, purchase.productName, purchase.productSku);
-        
-        if (productMatch && productMatch.appSlugs.length > 0) {
-          await grantAppAccess(
-            supabase,
-            existingPurchase.user_id,
-            productMatch.appSlugs,
-            existingPurchase.id,
-            purchase.isSubscription
-          );
-        }
-
-        await supabase
-          .from('purchases')
-          .update({ processed: true, processed_at: new Date().toISOString() })
-          .eq('id', existingPurchase.id);
+      if (existingPurchase.processed) {
+        console.log(`Purchase ${purchase.transactionId} already exists, skipping`);
+        return { success: true, userId: existingPurchase.user_id };
       }
-      
-      return { success: true, userId: existingPurchase.user_id };
+
+      // A previous delivery recorded the purchase but could not complete it
+      // (identity unverified at the time, or a grant failure). Retry the
+      // identity resolution now - the buyer may have signed up via Clerk
+      // since. If still unverified, stay pending and fail closed.
+      console.log(`Purchase ${purchase.transactionId} exists but is not processed; retrying`);
+      const retryIdentity = await resolveVerifiedIdentity(supabase, email);
+      if (retryIdentity.status !== 'verified') {
+        return { success: false, error: 'identity_unverified' };
+      }
+
+      const retryUserId = retryIdentity.identity.clerkUserId;
+      // Attach (or re-key) the purchase to the verified Clerk sub. A row may
+      // carry a legacy Supabase UUID user_id from before the Clerk migration;
+      // the verified identity is authoritative because its provenance was
+      // checked (svix-verified webhook or Clerk Backend API), never guessed.
+      if (existingPurchase.user_id !== retryUserId) {
+        const { error: attachError } = await supabase
+          .from('purchases')
+          .update({ user_id: retryUserId, status: 'completed' })
+          .eq('id', existingPurchase.id);
+        if (attachError) {
+          console.error('Failed to attach identity to existing purchase:', attachError.message);
+          return { success: false, error: 'Failed to record purchase' };
+        }
+      }
+      const productMatch = await matchProduct(supabase, purchase.productName, purchase.productSku);
+
+      if (productMatch && productMatch.appSlugs.length > 0) {
+        const grant = await grantAppAccess(
+          supabase,
+          retryUserId,
+          productMatch.appSlugs,
+          existingPurchase.id,
+          purchase.isSubscription
+        );
+        if (!grant.ok) {
+          return { success: false, error: 'Failed to grant app access' };
+        }
+      }
+
+      await supabase
+        .from('purchases')
+        .update({ processed: true, processed_at: new Date().toISOString() })
+        .eq('id', existingPurchase.id);
+
+      if (purchase.isSubscription && purchase.subscriptionId) {
+        await createSubscriptionStatus(
+          supabase,
+          retryUserId,
+          existingPurchase.id,
+          platform,
+          purchase.subscriptionId
+        );
+      }
+
+      return { success: true, userId: retryUserId };
     }
 
-    let userId: string | null = null;
-    let userExists = false;
-
-    // Use advisory lock to prevent race conditions on user creation.
+    // Use advisory lock to prevent race conditions on concurrent webhook
+    // deliveries for the same purchaser (duplicate purchase rows, double
+    // grant attempts).
     // The FNV-1a hash is masked to an unsigned 64-bit bigint: the raw reducer
     // can produce negative numbers, and `BigInt('0x-...')` would throw and
     // fail the entire webhook.
@@ -74,43 +142,30 @@ export async function processPurchase(
       }
       return hash;
     })();
-    
-    await supabase.rpc('pg_advisory_lock', { key: lockKey });
-    
+
+    // NOTE: supabase-js JSON-serializes RPC params; JSON.stringify throws on
+    // BigInt ("Do not know how to serialize a BigInt"), which would fail the
+    // entire webhook. pg_advisory_lock accepts the decimal string form.
+    const lockKeyParam = lockKey.toString();
+
+    await supabase.rpc('pg_advisory_lock', { key: lockKeyParam });
+
+    let verifiedUserId: string | null = null;
     try {
-      const { data: existingUser } = await supabase
-        .from('admin_profiles')
-        .select('user_id')
-        .eq('email', email)
-        .maybeSingle();
-
-      if (existingUser) {
-        userId = existingUser.user_id;
-        userExists = true;
+      // Resolve the buyer's verified Clerk identity. Fail closed: if this is
+      // not 'verified', no entitlement is granted and the purchase stays
+      // 'pending' with user_id NULL for reconciliation.
+      const identity = await resolveVerifiedIdentity(supabase, email);
+      if (identity.status === 'verified') {
+        verifiedUserId = identity.identity.clerkUserId;
       } else {
-        const tempPassword = generateSecurePassword();
-        const { data: newUser, error: signUpError } = await supabase.auth.admin.createUser({
-          email: email,
-          password: tempPassword,
-          email_confirm: true,
-          user_metadata: {
-            created_via: 'purchase_webhook',
-            platform: platform,
-          },
-        });
-
-        if (signUpError || !newUser.user) {
-          console.error('Failed to create user:', signUpError);
-          return { success: false, error: 'Failed to create user account' };
-        }
-
-        userId = newUser.user.id;
-
-        await sendWelcomeEmail(email, tempPassword);
+        console.warn(
+          `processPurchase: identity not verified for purchase ${purchase.transactionId} (${identity.status === 'unverified' ? identity.reason : 'unknown'}) - purchase recorded as pending, no access granted`
+        );
       }
     } finally {
       // Always release the lock
-      await supabase.rpc('pg_advisory_unlock', { key: lockKey });
+      await supabase.rpc('pg_advisory_unlock', { key: lockKeyParam });
     }
 
     const productMatch = await matchProduct(supabase, purchase.productName, purchase.productSku);
@@ -119,7 +174,7 @@ export async function processPurchase(
     const { data: purchaseRecord, error: purchaseError } = await supabase
       .from('purchases')
       .insert({
-        user_id: userId,
+        user_id: verifiedUserId,
         email: email,
         platform: platform,
         platform_transaction_id: purchase.transactionId,
@@ -129,7 +184,10 @@ export async function processPurchase(
         product_sku: purchase.productSku,
         amount: purchase.amount,
         currency: purchase.currency,
-        status: 'completed',
+        // An unverified-identity purchase is recorded as 'pending' (allowed by
+        // the purchases_status_check constraint) so it never masquerades as a
+        // completed grant. user_app_access is untouched in that case.
+        status: verifiedUserId ? 'completed' : 'pending',
         subscription_id: purchase.subscriptionId,
         is_subscription: purchase.isSubscription,
         purchase_date: purchase.purchaseDate.toISOString(),
@@ -144,14 +202,26 @@ export async function processPurchase(
       return { success: false, error: 'Failed to record purchase' };
     }
 
+    // Fail closed: without a verified identity there is no grant, no
+    // subscription row, and the purchase stays unprocessed.
+    if (!verifiedUserId) {
+      return { success: false, error: 'identity_unverified' };
+    }
+
     if (productMatch && productMatch.appSlugs.length > 0) {
-      await grantAppAccess(
+      const grant = await grantAppAccess(
         supabase,
-        userId,
+        verifiedUserId,
         productMatch.appSlugs,
         purchaseRecord.id,
         purchase.isSubscription
       );
+      if (!grant.ok) {
+        console.error(
+          `Failed to grant app access for purchase ${purchase.transactionId}: ${grant.error ?? 'unknown'}`
+        );
+        return { success: false, error: 'Failed to grant app access' };
+      }
     }
 
     await supabase
@@ -162,17 +232,17 @@ export async function processPurchase(
     if (purchase.isSubscription && purchase.subscriptionId) {
       await createSubscriptionStatus(
         supabase,
-        userId,
+        verifiedUserId,
         purchaseRecord.id,
         platform,
         purchase.subscriptionId
       );
     }
 
-    return { success: true, userId };
-  } catch (error) {
-    console.error('Error processing purchase:', error);
-    return { success: false, error: error.message };
+    return { success: true, userId: verifiedUserId };
+  } catch (error: any) {
+    console.error('Error processing purchase:', error?.message ?? error);
+    return { success: false, error: error?.message ?? 'Unknown error' };
   }
 }
 
@@ -225,10 +295,16 @@ async function matchProduct(
     .maybeSingle();
 
   if (platformMapping && platformMapping.products_catalog) {
-    return {
-      productId: platformMapping.products_catalog.id,
-      appSlugs: platformMapping.products_catalog.apps_granted || [],
-    };
+    // supabase-js types embedded resources as arrays; PostgREST returns an
+    // object for to-one embeds. Normalize so both shapes work.
+    const embedded = platformMapping.products_catalog;
+    const catalog = Array.isArray(embedded) ? embedded[0] : embedded;
+    if (catalog) {
+      return {
+        productId: catalog.id,
+        appSlugs: catalog.apps_granted || [],
+      };
+    }
   }
 
   // Exact catalog name or slug (case-insensitive).
@@ -270,13 +346,20 @@ function escapeLikePattern(value: string): string {
   return value.replace(/[\\%_]/g, (char) => `\\${char}`);
 }
 
+/**
+ * Grant app access for the verified Clerk user. upsert on
+ * (user_id, app_slug) makes retries idempotent. user_id is a Clerk sub and
+ * requires public.user_app_access.user_id to be TEXT (phase-2 re-key); if the
+ * column is still UUID the write fails and the caller reports grant failure
+ * (fail closed - no silent entitlement loss).
+ */
 async function grantAppAccess(
   supabase: SupabaseClient,
   userId: string,
   appSlugs: string[],
   purchaseId: string,
   isSubscription: boolean
-): Promise<void> {
+): Promise<{ ok: true } | { ok: false; error?: string }> {
   const accessRecords = appSlugs.map((slug) => ({
     user_id: userId,
     app_slug: slug,
@@ -288,10 +371,15 @@ async function grantAppAccess(
   }));
 
   for (const record of accessRecords) {
-    await supabase
+    const { error } = await supabase
       .from('user_app_access')
       .upsert(record, { onConflict: 'user_id,app_slug' });
+    if (error) {
+      return { ok: false, error: error.message };
+    }
   }
+
+  return { ok: true };
 }
 
 async function createSubscriptionStatus(
@@ -301,11 +389,23 @@ async function createSubscriptionStatus(
   platform: string,
   subscriptionId: string
 ): Promise<void> {
+  // Guard against duplicates on webhook re-delivery: subscription_status has
+  // no unique constraint on platform_subscription_id, so check first.
+  const { data: existing } = await supabase
+    .from('subscription_status')
+    .select('id')
+    .eq('platform_subscription_id', subscriptionId)
+    .maybeSingle();
+
+  if (existing) {
+    return;
+  }
+
   const now = new Date();
   const periodEnd = new Date(now);
   periodEnd.setMonth(periodEnd.getMonth() + 1);
 
-  await supabase.from('subscription_status').insert({
+  const { error } = await supabase.from('subscription_status').insert({
     user_id: userId,
     purchase_id: purchaseId,
     platform: platform,
@@ -315,28 +415,16 @@ async function createSubscriptionStatus(
     current_period_end: periodEnd.toISOString(),
     cancel_at_period_end: false,
   });
-}
 
-function generateSecurePassword(): string {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-  let password = '';
-  const array = new Uint8Array(16);
-  crypto.getRandomValues(array);
-  for (let i = 0; i < 16; i++) {
-    password += chars[array[i] % chars.length];
+  if (error) {
+    // Log and continue: the purchase is already granted and processed; the
+    // subscription row is reconcilable from the platform's API.
+    console.error('Failed to create subscription status:', error.message);
   }
-  return password;
 }
 
 function getSubscriptionExpiry(): string {
   const expiry = new Date();
   expiry.setMonth(expiry.getMonth() + 1);
   return expiry.toISOString();
-}
-
-async function sendWelcomeEmail(email: string, password: string): Promise<void> {
-  // Never log credentials - not even temporary ones. The password is passed
-  // straight to the mail provider.
-  console.log(`Welcome email queued for ${email}`);
-  void password;
 }

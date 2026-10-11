@@ -14,6 +14,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { MessageSquare, CheckCircle2, Users } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "ai-salesassistant";
 
@@ -26,7 +27,7 @@ const OBJECTION_OPTIONS = [
 ];
 
 const AiSalesassistantPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openaiApiKey: "",
     customerProfile: "",
@@ -64,21 +65,13 @@ const AiSalesassistantPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-salesassistant`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      const res = await runViaRunner("ai-salesassistant", {
             enter_your_openai_api_key: formData.openaiApiKey,
             customer_profile: formData.customerProfile,
             objection_type: formData.objection,
             product_or_service: formData.product,
             additional_context: formData.context,
-            userId: user?.id,
-          }),
-        }
-      );
+          });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Generation failed");
       setResult(data);

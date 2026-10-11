@@ -14,11 +14,12 @@ import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { FileUploadZone } from "@/components/agent-ui/FileUploadZone";
 import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'pdf-business-assistant-form';
 
 const ChatWithPdfPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [textValues, setTextValues] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
@@ -61,10 +62,7 @@ const ChatWithPdfPage: React.FC = () => {
       formData.append('file', file);
       formData.append('upload_a_pdf_file', textValues.upload_a_pdf_file || '');
       formData.append('ask_a_question_about_the_pdf', textValues.ask_a_question_about_the_pdf || '');
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/pdf-business-assistant`, {
-        method: 'POST',
-        body: formData
-      });
+      const res = await runViaRunner("pdf-business-assistant", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error?.message || data.error || "Request failed");
       setResult(data);

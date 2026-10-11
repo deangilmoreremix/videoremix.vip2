@@ -12,11 +12,12 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'ai-news-content-writer';
 
 const AiJournalistAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [openaiApiKey, setOpenaiApiKey] = useState("");
   const [topic, setTopic] = useState("");
   const [loading, setLoading] = useState(false);
@@ -47,15 +48,10 @@ const AiJournalistAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-news-content-writer`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const res = await runViaRunner("ai-news-content-writer", {
           enter_openai_api_key_to_access_gpt4o: openaiApiKey,
-          what_do_you_want_the_ai_journalist_to_write_an_article_on: topic,
-          userId: user?.id
-        })
-      });
+          what_do_you_want_the_ai_journalist_to_write_an_article_on: topic
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Article generation failed');
       setResult(data);

@@ -13,11 +13,12 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Sparkles, Image as ImageIcon, CheckCircle2 } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'ai-meme-generator-browseruse';
 
 const AiMemeGeneratorAgentBrowserusePage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     aiModel: 'gpt-5.5',
     openaiApiKey: '',
@@ -45,16 +46,11 @@ const AiMemeGeneratorAgentBrowserusePage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/revenue-data-analyst-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const res = await runViaRunner("revenue-data-analyst-ai", {
           select_ai_model: formData.aiModel,
           openai_api_key: formData.openaiApiKey,
-          meme_idea_input: formData.memeIdea,
-          userId: user?.id
-        })
-      });
+          meme_idea_input: formData.memeIdea
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

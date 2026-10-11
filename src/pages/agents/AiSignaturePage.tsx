@@ -14,6 +14,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Pen, CheckCircle2, User } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "ai-signature";
 
@@ -26,7 +27,7 @@ const STYLE_OPTIONS = [
 ];
 
 const AiSignaturePage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openaiApiKey: "",
     fullName: "",
@@ -64,21 +65,13 @@ const AiSignaturePage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-signature`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      const res = await runViaRunner("ai-signature", {
             enter_your_openai_api_key: formData.openaiApiKey,
             full_name: formData.fullName,
             preferred_style: formData.style,
             usage_context: formData.usageContext,
             additional_details: formData.additionalDetails,
-            userId: user?.id,
-          }),
-        }
-      );
+          });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Generation failed");
       setResult(data);

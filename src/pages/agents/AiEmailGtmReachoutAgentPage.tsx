@@ -12,11 +12,12 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'candidate-outreach-ai';
 
 const AiEmailGtmReachoutAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [activeTab, setActiveTab] = useState("main");
   const [loading, setLoading] = useState<string | null>(null);
   const [results, setResults] = useState<Record<string, any>>({});
@@ -63,11 +64,7 @@ const AiEmailGtmReachoutAgentPage: React.FC = () => {
     setLoading(activeTab);
     setErrors(prev => ({ ...prev, [activeTab]: "" }));
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/candidate-outreach-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, mode: activeTab, userId: user?.id })
-      });
+      const res = await runViaRunner("candidate-outreach-ai", { ...formData });
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || 'Failed');
       setResults(prev => ({ ...prev, [activeTab]: result }));

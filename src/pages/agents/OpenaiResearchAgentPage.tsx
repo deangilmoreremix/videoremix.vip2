@@ -11,9 +11,10 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Loader2, Sparkles, FileSearch, Brain } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const OpenaiResearchAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [activeTab, setActiveTab] = useState("main");
   const [topic, setTopic] = useState("");
   const [loading, setLoading] = useState<string | null>(null);
@@ -42,11 +43,7 @@ const OpenaiResearchAgentPage: React.FC = () => {
     setLoading(tabKey);
     setErrors(prev => ({ ...prev, [tabKey]: null }));
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/research-assistant-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, mode: tabKey, userId: user?.id })
-      });
+      const res = await runViaRunner("research-assistant-ai", { ...data });
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || 'Failed');
       setResults(prev => ({ ...prev, [tabKey]: result }));

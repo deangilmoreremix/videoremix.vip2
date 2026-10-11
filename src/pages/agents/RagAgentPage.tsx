@@ -11,6 +11,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
 import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { runViaRunner } from "./runViaRunner";
 
 interface Message {
   role: 'user' | 'assistant';
@@ -20,7 +21,7 @@ interface Message {
 const STORAGE_KEY = 'rag-agent-openai-messages';
 
 const RagAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
@@ -56,15 +57,10 @@ const RagAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/rag-agent-openai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const res = await runViaRunner("rag-agent-openai", {
           message: input,
-          history: messages.map(m => ({ role: m.role, content: m.content })),
-          userId: user?.id
-        })
-      });
+          history: messages.map(m => ({ role: m.role, content: m.content }))
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setMessages(prev => [...prev, { role: 'assistant', content: data.response || data.result || '' }]);

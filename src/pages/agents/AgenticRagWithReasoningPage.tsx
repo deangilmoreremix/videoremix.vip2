@@ -14,9 +14,10 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
 import { Loader2, Sparkles, Globe, Key, Link, HelpCircle, FileText } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const AgenticRagWithReasoningPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({ 
     openai_api_key: "", 
     add_new_url: "", 
@@ -49,11 +50,7 @@ const AgenticRagWithReasoningPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/gmail-intelligence-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("gmail-intelligence-ai", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

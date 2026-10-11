@@ -11,11 +11,12 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { Upload, FileText, Sparkles, Search } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'fact-check-ai';
 
 const CorrectiveRagPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [textValues, setTextValues] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
@@ -50,10 +51,7 @@ const CorrectiveRagPage: React.FC = () => {
       Object.entries(textValues).forEach(([key, value]) => {
         if (value) formData.append(key, value);
       });
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/fact-check-ai`, {
-        method: 'POST',
-        body: formData
-      });
+      const res = await runViaRunner("fact-check-ai", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);

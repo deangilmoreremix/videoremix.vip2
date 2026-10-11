@@ -14,6 +14,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { FileText, Users, CheckCircle2 } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "technical-writer-agent";
 
@@ -26,7 +27,7 @@ const DOC_TYPE_OPTIONS = [
 ];
 
 const TechnicalWriterPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openaiApiKey: "",
     topic: "",
@@ -64,21 +65,13 @@ const TechnicalWriterPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/technical-writer`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      const res = await runViaRunner("technical-writer", {
             enter_your_openai_api_key: formData.openaiApiKey,
             topic_or_subject: formData.topic,
             documentation_type: formData.docType,
             target_audience: formData.audience,
             key_points_to_cover: formData.keyPoints,
-            userId: user?.id,
-          }),
-        }
-      );
+          });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Generation failed");
       setResult(data);

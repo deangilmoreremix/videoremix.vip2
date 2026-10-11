@@ -14,9 +14,10 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
 import { Loader2, Sparkles, Link2, Key, Search, Lightbulb } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const AiBlogSearchPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({ 
     enter_your_openai_api_key: "", 
     link_paste_the_blog_link: "", 
@@ -49,11 +50,7 @@ const AiBlogSearchPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/blog-knowledge-search-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("blog-knowledge-search-ai", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

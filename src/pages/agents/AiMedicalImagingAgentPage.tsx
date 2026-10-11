@@ -12,11 +12,12 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { Upload, FileText, Image as ImageIcon, CheckCircle2 } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'investment-research-assistant';
 
 const AiMedicalImagingAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [openaiApiKey, setOpenaiApiKey] = useState('');
   const [imageDescription, setImageDescription] = useState('');
@@ -49,10 +50,7 @@ const AiMedicalImagingAgentPage: React.FC = () => {
       formData.append('file', file);
       formData.append('openai_api_key', openaiApiKey);
       formData.append('image_description', imageDescription);
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/investment-research-assistant`, {
-        method: 'POST',
-        body: formData
-      });
+      const res = await runViaRunner("investment-research-assistant", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);

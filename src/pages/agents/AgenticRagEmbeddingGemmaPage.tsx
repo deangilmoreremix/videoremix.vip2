@@ -7,9 +7,10 @@ import { Loader2, Sparkles, Brain } from "lucide-react";
 import { SmartInput } from "@/components/agent-ui/SmartInput";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
+import { runViaRunner } from "./runViaRunner";
 
 const AgenticRagEmbeddingGemmaPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({ add_url: "", enter_your_question: "" });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -41,11 +42,7 @@ const AgenticRagEmbeddingGemmaPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/research-paper-assistant`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("research-paper-assistant", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

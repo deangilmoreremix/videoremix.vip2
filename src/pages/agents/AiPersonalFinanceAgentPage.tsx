@@ -13,11 +13,12 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { TrendingUp, Wallet, Target, Sparkles, CheckCircle2, DollarSign } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'policy-compliance-assistant';
 
 const AiPersonalFinanceAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openaiApiKey: '',
     financialGoals: '',
@@ -45,16 +46,11 @@ const AiPersonalFinanceAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/policy-compliance-assistant`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const res = await runViaRunner("policy-compliance-assistant", {
           enter_openai_api_key_to_access_gpt4o: formData.openaiApiKey,
           what_are_your_financial_goals: formData.financialGoals,
-          describe_your_current_financial_situation: formData.currentSituation,
-          userId: user?.id
-        })
-      });
+          describe_your_current_financial_situation: formData.currentSituation
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

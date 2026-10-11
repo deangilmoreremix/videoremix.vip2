@@ -1,8 +1,10 @@
 name: Birthday Landing Deployment
 
 on:
+  # No branch filter on PRs: `pull_request.branches` matches the PR base
+  # branch, so filtering it hid these previews from release-branch PRs.
+  # Path filters below keep the blast radius small; prod stays push-only.
   pull_request:
-    branches: [main]
     paths:
       - 'public/birthday-special/**'
       - 'public/_redirects'

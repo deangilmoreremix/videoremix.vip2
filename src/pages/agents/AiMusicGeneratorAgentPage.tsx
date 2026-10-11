@@ -10,11 +10,12 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { Music, AudioWaveform, Sparkles, CheckCircle2, Play } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'ai-music-jingle-assistant';
 
 const AiMusicGeneratorAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     musicPrompt: ''
   });
@@ -40,14 +41,9 @@ const AiMusicGeneratorAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-music-jingle-assistant`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          enter_a_music_generation_prompt: formData.musicPrompt,
-          userId: user?.id
-        })
-      });
+      const res = await runViaRunner("ai-music-jingle-assistant", {
+          enter_a_music_generation_prompt: formData.musicPrompt
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

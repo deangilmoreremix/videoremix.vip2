@@ -13,11 +13,12 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Users, Briefcase, Mail, Video, Upload, FileText, CheckCircle2, UserPlus } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'ai-hiring-assistant';
 
 const AiRecruitmentAgentTeamPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({
     openaiApiKey: '',
@@ -67,10 +68,7 @@ const AiRecruitmentAgentTeamPage: React.FC = () => {
       formDataToSend.append('select_the_role_you', formData.roleToFill);
       formDataToSend.append('upload_your_resume_pdf', formData.resumePdf);
       formDataToSend.append('candidate', formData.candidate);
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-hiring-assistant`, {
-        method: 'POST',
-        body: formDataToSend
-      });
+      const res = await runViaRunner("ai-hiring-assistant", formDataToSend);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);

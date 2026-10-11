@@ -12,11 +12,12 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Calendar, Users, Clock, Target, CheckCircle2, FileText } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'startup-due-diligence-ai';
 
 const AiMeetingAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     companyName: '',
     meetingObjective: '',
@@ -46,18 +47,13 @@ const AiMeetingAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/startup-due-diligence-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const res = await runViaRunner("startup-due-diligence-ai", {
           enter_the_company_name: formData.companyName,
           enter_the_meeting_objective: formData.meetingObjective,
           enter_the_attendees_and_their_roles_one_per_line: formData.attendees,
           enter_the_meeting_duration_in_minutes: formData.duration,
-          enter_any_specific_areas_of_focus_or_concerns: formData.focusAreas,
-          userId: user?.id
-        })
-      });
+          enter_any_specific_areas_of_focus_or_concerns: formData.focusAreas
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

@@ -12,6 +12,7 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'local-business-growth-advisor';
 
@@ -26,7 +27,7 @@ const DOMAIN_SUGGESTIONS = [
 ];
 
 const AiDomainDeepResearchAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [topic, setTopic] = useState("");
   const [domain, setDomain] = useState("");
   const [loading, setLoading] = useState(false);
@@ -57,15 +58,10 @@ const AiDomainDeepResearchAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/local-business-growth-advisor`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const res = await runViaRunner("local-business-growth-advisor", {
           what_topic_would_you_like_to_research: topic,
-          what_domain_is_this_topic_in: domain,
-          userId: user?.id
-        })
-      });
+          what_domain_is_this_topic_in: domain
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Research failed');
       setResult(data);

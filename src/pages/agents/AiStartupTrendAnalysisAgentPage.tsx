@@ -10,11 +10,12 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { TrendingUp, Rocket, Sparkles, CheckCircle2, Lightbulb, Target } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'ai-bug-fixer';
 
 const AiStartupTrendAnalysisAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     areaOfInterest: ''
   });
@@ -40,14 +41,9 @@ const AiStartupTrendAnalysisAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-bug-fixer`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          enter_the_area_of_interest_for_your_startup: formData.areaOfInterest,
-          userId: user?.id
-        })
-      });
+      const res = await runViaRunner("ai-bug-fixer", {
+          enter_the_area_of_interest_for_your_startup: formData.areaOfInterest
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

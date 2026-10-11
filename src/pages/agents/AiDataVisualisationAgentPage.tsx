@@ -13,6 +13,7 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'local-tour-guide-ai';
 
@@ -22,7 +23,7 @@ const MODEL_OPTIONS = [
 ];
 
 const AiDataVisualisationAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [model, setModel] = useState("gpt-5.5");
   const [csvPath, setCsvPath] = useState("");
@@ -69,10 +70,7 @@ const AiDataVisualisationAgentPage: React.FC = () => {
       formData.append('choose_a_csv_file', csvPath);
       formData.append('show_full_dataset', showFullDataset ? "yes" : "no");
       formData.append('what_would_you_like_to_know_about_your_data', query);
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/local-tour-guide-ai`, {
-        method: 'POST',
-        body: formData
-      });
+      const res = await runViaRunner("local-tour-guide-ai", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Visualisation generation failed');
       setResult(data);

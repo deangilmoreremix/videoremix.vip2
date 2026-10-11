@@ -12,11 +12,12 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'deep-research-pro';
 
 const AiDeepResearchAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [openaiApiKey, setOpenaiApiKey] = useState("");
   const [topic, setTopic] = useState("");
   const [loading, setLoading] = useState(false);
@@ -47,15 +48,10 @@ const AiDeepResearchAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/deep-research-pro`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const res = await runViaRunner("deep-research-pro", {
           openai_api_key: openaiApiKey,
-          enter_your_research_topic: topic,
-          userId: user?.id
-        })
-      });
+          enter_your_research_topic: topic
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Research failed');
       setResult(data);

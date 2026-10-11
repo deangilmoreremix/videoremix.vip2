@@ -31,6 +31,20 @@ import {
   calculateUsageCredits,
   calculateRealtimeCredits,
 } from "../_shared/creditRates.ts";
+import {
+  classifyIncomingRequest,
+  computeRealtimeCreditsFromWindow,
+  createBillingTee as createCoreBillingTee,
+  creditGateHeaders,
+  deductUsageCredits as deductUsageCreditsCore,
+  deriveUserIdFromVerifiedContext,
+  evaluateCreditGate,
+  extractUpgradeToken,
+  extractUsageFromEvent,
+  insufficientCreditsBody,
+  type StreamBill,
+  type VerifiedAuthContextLike,
+} from "./credit-core.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -40,6 +54,10 @@ const corsHeaders = {
 // Credit balances live in the dedicated `credits` schema under the platform
 // app id (same id used by create-credit-checkout / webhook-stripe).
 const CREDITS_APP_ID = "videoremixvip";
+
+// Untrusted-input bounds for client-supplied vector store ids.
+const MAX_VECTOR_STORE_IDS = 20;
+const MAX_VECTOR_STORE_ID_LENGTH = 200;
 
 interface ServiceClients {
   /** Default-schema client (analytics tables such as ai_app_usage). */
@@ -86,32 +104,24 @@ function insufficientCreditsResponse(
   balance: number,
   model: string,
 ): Response {
-  return new Response(
-    JSON.stringify({
-      error: "INSUFFICIENT_CREDITS",
-      message: "Not enough credits to run this AI app. Purchase more credits to continue.",
-      required,
-      balance,
-      model,
-    }),
-    {
-      status: 402,
-      headers: {
-        ...corsHeaders,
-        "Content-Type": "application/json",
-        "X-Credits-Balance": String(balance),
-        "X-Credits-Required": String(required),
-      },
+  return new Response(JSON.stringify(insufficientCreditsBody({ required, balance, model })), {
+    status: 402,
+    headers: {
+      ...corsHeaders,
+      "Content-Type": "application/json",
+      ...creditGateHeaders({ balance, required }),
     },
-  );
+  });
 }
 
 /**
- * Deduct credits for a completed call. Never throws: billing failures are
- * logged (and surfaced to the caller via the X-Credits-Deducted header) so a
- * ledger outage cannot take down the user-facing response.
+ * Deduct credits for a completed call via the core helper, which issues a
+ * single atomic `deduct_credits` RPC. Never throws: billing failures are
+ * logged loudly (and reported to the caller as a zero deduction, i.e. an
+ * absent X-Credits-Deducted header) so a ledger outage cannot take down the
+ * user-facing response.
  */
-async function deductUsageCredits(params: {
+function deductUsageCredits(params: {
   clients: ServiceClients;
   userId: string;
   appId: string;
@@ -120,36 +130,21 @@ async function deductUsageCredits(params: {
   credits: number;
   inputTokens: number;
   outputTokens: number;
+  cachedInputTokens?: number;
   source: string;
 }): Promise<number> {
-  if (params.credits <= 0) return 0;
-
-  try {
-    const { error } = await params.clients.credits.rpc("deduct_credits", {
-      p_user_id: params.userId,
-      p_app_id: params.appId,
-      p_amount: params.credits,
-      p_type: "api_usage",
-      p_source: params.source,
-      p_source_id: `${params.appSlug}:${Date.now()}`,
-      p_metadata: {
-        app_slug: params.appSlug,
-        model: params.model,
-        input_tokens: params.inputTokens,
-        output_tokens: params.outputTokens,
-      },
-    });
-
-    if (error) {
-      console.error("Failed to deduct credits:", error.message);
-      return 0;
-    }
-
-    return params.credits;
-  } catch (err) {
-    console.error("deductUsageCredits error:", err);
-    return 0;
-  }
+  return deductUsageCreditsCore({
+    rpc: (fn, args) => params.clients.credits.rpc(fn, args),
+    userId: params.userId,
+    appId: params.appId,
+    appSlug: params.appSlug,
+    model: params.model,
+    credits: params.credits,
+    inputTokens: params.inputTokens,
+    outputTokens: params.outputTokens,
+    cachedInputTokens: params.cachedInputTokens,
+    source: params.source,
+  });
 }
 
 /** Analytics-only usage row (best effort, never blocks billing or response). */
@@ -172,12 +167,20 @@ async function recordAnalyticsRun(
 
 /**
  * Tee an SSE stream: forward every chunk to the client unchanged while
- * scanning for the terminal `response.completed` event so real token usage
- * can be billed after the stream finishes.
+ * scanning for the terminal `response.completed` usage event so real token
+ * usage can be billed after the stream finishes.
  *
- * The deduction runs when the upstream stream ends (or errors). If no usage
- * event is seen, the conservative pre-flight estimate is billed so spend is
- * never silently free.
+ * Billing rules (implemented in credit-core, proven by tests):
+ *  - terminal usage seen            -> exact usage credits;
+ *  - partial stream (abort/error)   -> conservative pre-flight estimate, so
+ *                                      partial provider spend is never free;
+ *  - zero bytes / terminal error    -> no charge at all (no provider spend).
+ * The stream is charged at most once (flush and cancel share a settled flag).
+ *
+ * The deduction runs when the upstream stream ends (or is cancelled). For
+ * streamed responses the charge lands in `credit_transactions`; the
+ * X-Credits-Deducted response header cannot be used here because headers are
+ * already sent by the time billing completes.
  */
 function createBillingTee(params: {
   clients: ServiceClients;
@@ -189,88 +192,24 @@ function createBillingTee(params: {
   estimatedInputTokens: number;
   estimatedOutputTokens: number;
 }): TransformStream<Uint8Array, Uint8Array> {
-  const decoder = new TextDecoder();
-  let buffer = "";
-  let inputTokens = 0;
-  let outputTokens = 0;
-  let sawUsage = false;
-  let settled = false;
-
-  const finalize = async () => {
-    if (settled) return;
-    settled = true;
-
-    const credits = sawUsage
-      ? Math.max(
-          calculateUsageCredits(params.model, inputTokens, outputTokens),
-          1,
-        )
-      : params.estimatedCredits;
-
-    await deductUsageCredits({
-      clients: params.clients,
-      userId: params.userId,
-      appId: params.appId,
-      appSlug: params.appSlug,
-      model: params.model,
-      credits,
-      inputTokens: sawUsage ? inputTokens : params.estimatedInputTokens,
-      outputTokens: sawUsage ? outputTokens : params.estimatedOutputTokens,
-      source: "run_ai_app",
-    });
-  };
-
-  return new TransformStream<Uint8Array, Uint8Array>({
-    transform(chunk, controller) {
-      // Forward to the client first: billing must never delay output.
-      controller.enqueue(chunk);
-
-      buffer += decoder.decode(chunk, { stream: true });
-
-      // SSE frames are separated by a blank line; parse complete frames only.
-      let separatorIndex = buffer.indexOf("\n\n");
-      while (separatorIndex !== -1) {
-        const frame = buffer.slice(0, separatorIndex);
-        buffer = buffer.slice(separatorIndex + 2);
-        separatorIndex = buffer.indexOf("\n\n");
-
-        for (const rawLine of frame.split("\n")) {
-          const line = rawLine.trim();
-          if (!line.startsWith("data:")) continue;
-          const payload = line.slice(5).trim();
-          if (!payload || payload === "[DONE]") continue;
-
-          try {
-            const event = JSON.parse(payload);
-            const usage = event?.response?.usage ?? event?.usage;
-            if (
-              (event?.type === "response.completed" || event?.type === "response.done") &&
-              usage
-            ) {
-              inputTokens = Number(usage.input_tokens ?? usage.prompt_tokens ?? 0);
-              outputTokens = Number(usage.output_tokens ?? usage.completion_tokens ?? 0);
-              sawUsage = true;
-            }
-          } catch {
-            // Partial/keep-alive frames are expected mid-stream; ignore.
-          }
-        }
-      }
-    },
-
-    async flush() {
-      try {
-        buffer += decoder.decode();
-      } catch {
-        // ignore decode flush errors
-      }
-      await finalize();
-    },
-
-    async cancel() {
-      // Client disconnected early: still bill what was consumed.
-      await finalize();
-    },
+  return createCoreBillingTee({
+    model: params.model,
+    estimatedCredits: params.estimatedCredits,
+    estimatedInputTokens: params.estimatedInputTokens,
+    estimatedOutputTokens: params.estimatedOutputTokens,
+    charge: (bill: StreamBill) =>
+      deductUsageCredits({
+        clients: params.clients,
+        userId: params.userId,
+        appId: params.appId,
+        appSlug: params.appSlug,
+        model: params.model,
+        credits: bill.credits,
+        inputTokens: bill.inputTokens,
+        outputTokens: bill.outputTokens,
+        cachedInputTokens: bill.cachedInputTokens,
+        source: "run_ai_app",
+      }),
   });
 }
 
@@ -289,16 +228,20 @@ function buildResponseTools(toolTypes: ToolType[] | undefined, inputs: Record<st
         tools.push({ type: "code_interpreter", container: { type: "auto" } });
         break;
       case "file_search": {
+        // Vector store ids are client-selectable, so they are untrusted input:
+        // keep only non-empty string ids, bound the count and the length of
+        // each id, and cap the total payload forwarded to the provider.
         const rawIds =
           inputs?.vector_store_ids ??
           inputs?.vectorStoreIds ??
           inputs?.vector_store_id ??
           inputs?.vectorStoreId;
-        const vectorStoreIds = Array.isArray(rawIds)
-          ? rawIds.filter(Boolean)
-          : rawIds
-            ? [rawIds]
-            : [];
+        const rawList = Array.isArray(rawIds) ? rawIds : rawIds ? [rawIds] : [];
+        const vectorStoreIds = rawList
+          .filter((id: unknown): id is string => typeof id === "string")
+          .map((id: string) => id.trim())
+          .filter((id: string) => id.length > 0 && id.length <= MAX_VECTOR_STORE_ID_LENGTH)
+          .slice(0, MAX_VECTOR_STORE_IDS);
 
         // file_search requires at least one vector store id. If the UI has not
         // created/selected one yet, omit the tool rather than sending an invalid request.
@@ -331,12 +274,15 @@ async function authenticateRequest(
         })
       : req;
 
+    // `auth: "user"` verifies a USER JWT (Clerk-issued on this platform):
+    // anon/publishable keys and service/secret keys do not match this mode,
+    // so they can never bill against a user balance.
     const { data: ctx, error } = await createSupabaseContext(authReq, { auth: "user" });
     if (error || !ctx) return null;
 
-    const userId =
-      (ctx.jwtClaims?.sub as string | undefined) ??
-      (ctx.userClaims?.id as string | undefined);
+    // The billed identity comes ONLY from verified claims — never from the
+    // request body, query string, or unverified headers.
+    const userId = deriveUserIdFromVerifiedContext(ctx as VerifiedAuthContextLike);
 
     return userId ? { userId } : null;
   } catch (error) {
@@ -365,30 +311,36 @@ serve(async (req) => {
     return new Response("ok", { headers: corsHeaders });
   }
 
-  if (req.headers.get("upgrade") === "websocket") {
-    const url = new URL(req.url);
-    const mode = url.searchParams.get("mode");
+  const url = new URL(req.url);
+  const upgrade = classifyIncomingRequest({
+    upgradeHeader: req.headers.get("upgrade"),
+    url,
+  });
 
-    if (mode === "realtime") {
-      // Identity is verified exactly once, here in the upgrade handler, and
-      // the verified id is passed down to the session handler.
-      const token = url.searchParams.get("access_token") ?? url.searchParams.get("token");
-      const auth = await authenticateRequest(req, token);
-      if (!auth) {
-        return new Response(JSON.stringify({ error: "Unauthorized" }), {
-          status: 401,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
-      return handleRealtimeSession(req, auth.userId);
-    }
-
+  if (upgrade.kind === "ws_unsupported") {
     // Normal SapienX runs use authenticated HTTP/SSE. Keeping a generic
     // unauthenticated WebSocket here would create an OpenAI-spend bypass.
     return new Response(JSON.stringify({ error: "Use authenticated HTTP/SSE for AI app runs" }), {
       status: 426,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
+  }
+
+  if (upgrade.kind === "ws_realtime") {
+    // Identity is verified exactly once, here in the upgrade handler, and
+    // the verified id is passed down to the session handler. Browser
+    // WebSockets cannot attach an Authorization header, so the verified
+    // token travels as a query parameter (same pattern Supabase realtime
+    // uses); it is verified server-side before the socket is accepted.
+    const token = extractUpgradeToken(url);
+    const auth = await authenticateRequest(req, token);
+    if (!auth) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    return handleRealtimeSession(req, auth.userId);
   }
 
   const auth = await authenticateRequest(req);
@@ -400,7 +352,17 @@ serve(async (req) => {
   }
 
   try {
-    const { appSlug, inputs, context, stream = true }: RunAIAppRequest = await req.json();
+    let payload: RunAIAppRequest;
+    try {
+      payload = await req.json();
+    } catch {
+      return new Response(JSON.stringify({ error: "Request body must be valid JSON" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const { appSlug, inputs, context, stream = true } = payload;
     // user_id comes ONLY from the verified JWT above.
     const userId = auth.userId;
 
@@ -472,21 +434,10 @@ serve(async (req) => {
     // Add parsing instructions
     requestBody.instructions = `Return valid JSON matching the expected output structure. No additional text outside JSON. Expected keys: ${config.expectedOutputKeys.join(", ")}`;
 
-    // A model with no known price can never be billed. Refuse the call rather
-    // than spending OpenAI credits we cannot charge for.
-    const model = requestBody.model;
-    if (!isSupportedModel(model)) {
-      console.error(`run-ai-app: unpriced model "${model}" configured for ${appSlug}`);
-      return new Response(
-        JSON.stringify({ error: "Model pricing is not configured for this app" }),
-        {
-          status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        },
-      );
-    }
-
     // --- Credit gate (402) BEFORE the OpenAI call -------------------------
+    // A model with no known price can never be billed, and a balance that
+    // cannot cover the conservative estimate must never reach the provider.
+    const model = requestBody.model;
     const estimatedInputTokens = estimateTokensFromText(inputContent);
     const estimatedOutputTokens = config.maxTokens ?? 1_000;
     const estimatedCredits = estimateRequestCredits(
@@ -496,16 +447,34 @@ serve(async (req) => {
     );
 
     const balance = await getCreditBalance(clients.credits, userId, CREDITS_APP_ID);
-    if (balance.error) {
-      console.error("Failed to check credit balance:", balance.error);
-      return new Response(JSON.stringify({ error: "Failed to check credit balance" }), {
-        status: 500,
+
+    const gate = evaluateCreditGate({
+      balanceError: balance.error,
+      balance: balance.balance,
+      requiredCredits: estimatedCredits,
+      model,
+      modelSupported: isSupportedModel(model),
+      appSlug,
+    });
+
+    if (!gate.ok) {
+      if (gate.status === 402) {
+        return new Response(JSON.stringify(gate.body), {
+          status: 402,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+            ...gate.headers,
+          },
+        });
+      }
+      console.error(
+        `run-ai-app credit gate refused ${appSlug}: ${JSON.stringify(gate.body)}`,
+      );
+      return new Response(JSON.stringify(gate.body), {
+        status: gate.status,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
-    }
-
-    if (balance.balance < estimatedCredits) {
-      return insufficientCreditsResponse(estimatedCredits, balance.balance, model);
     }
     // ----------------------------------------------------------------------
 
@@ -566,9 +535,17 @@ serve(async (req) => {
     // Parse output from Responses API format
     let parsedOutput = parseResponseOutput(openaiData);
 
-    const usage = openaiData.usage ?? {};
-    const inputTokens = Number(usage.input_tokens ?? usage.prompt_tokens ?? 0);
-    const outputTokens = Number(usage.output_tokens ?? usage.completion_tokens ?? 0);
+    // Map usage from the provider response (input/output/cached tokens).
+    // `input_tokens` already includes cached tokens, so they are never added
+    // on top; cached counts ride along in the ledger metadata.
+    const usage = extractUsageFromEvent(openaiData) ?? {
+      inputTokens: Number(openaiData.usage?.input_tokens ?? openaiData.usage?.prompt_tokens ?? 0),
+      outputTokens: Number(openaiData.usage?.output_tokens ?? openaiData.usage?.completion_tokens ?? 0),
+      cachedInputTokens: 0,
+    };
+    const inputTokens = usage.inputTokens;
+    const outputTokens = usage.outputTokens;
+    const cachedInputTokens = usage.cachedInputTokens;
     const actualCredits = Math.max(
       calculateUsageCredits(model, inputTokens, outputTokens),
       1,
@@ -583,6 +560,7 @@ serve(async (req) => {
       credits: actualCredits,
       inputTokens,
       outputTokens,
+      cachedInputTokens,
       source: "run_ai_app",
     });
 
@@ -906,8 +884,10 @@ async function handleRealtimeSession(req: Request, verifiedUserId: string): Prom
     if (billed || sessionStartTime === null) return;
     billed = true;
 
-    const durationSeconds = (Date.now() - sessionStartTime) / 1000;
-    const credits = calculateRealtimeCredits(durationSeconds);
+    // Bill the connected minutes exactly once, through the same atomic
+    // deduction RPC as text runs. A window that never really opened
+    // (sessionStartTime === null) or a degenerate duration bills nothing.
+    const credits = computeRealtimeCreditsFromWindow(sessionStartTime, Date.now());
 
     if (credits <= 0) return;
 

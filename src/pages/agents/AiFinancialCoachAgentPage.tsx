@@ -12,6 +12,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'profit-coach-ai-form';
 
@@ -22,7 +23,7 @@ const EXPENSE_ENTRY_OPTIONS = [
 ];
 
 const AiFinancialCoachAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     monthly_income_: "",
     number_of_dependants: "",
@@ -69,15 +70,10 @@ const AiFinancialCoachAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/profit-coach-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+      const res = await runViaRunner("profit-coach-ai", { 
           ...formData, 
-          debts: debtEntries,
-          userId: user?.id 
-        })
-      });
+          debts: debtEntries 
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Request failed');
       setResult(data);

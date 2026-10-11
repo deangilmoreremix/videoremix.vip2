@@ -14,6 +14,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Handshake, CheckCircle2, Users } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "smartcrmcloser";
 
@@ -25,7 +26,7 @@ const DEAL_STAGE_OPTIONS = [
 ];
 
 const SmartcrmcloserPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openaiApiKey: "",
     dealStage: "negotiation",
@@ -63,21 +64,13 @@ const SmartcrmcloserPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/smartcrmcloser`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      const res = await runViaRunner("smartcrmcloser", {
             enter_your_openai_api_key: formData.openaiApiKey,
             deal_stage: formData.dealStage,
             customer_info: formData.customerInfo,
             objection: formData.objection,
             product_details: formData.productDetails,
-            userId: user?.id,
-          }),
-        }
-      );
+          });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Analysis failed");
       setResult(data);

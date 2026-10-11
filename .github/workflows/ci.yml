@@ -3,8 +3,12 @@ name: CI/CD Pipeline
 on:
   push:
     branches: [main, develop]
+  # PRs must be gated by the full pipeline no matter which branch they target.
+  # `pull_request.branches` filters on the PR BASE branch, so restricting it to
+  # main/develop silently skips CI for release branches (e.g. PRs targeting
+  # fix/sapienx-130-app-catalog). Deliberately unfiltered: every PR is gated.
   pull_request:
-    branches: [main, develop]
+    types: [opened, synchronize, reopened, ready_for_review]
 
 jobs:
   build-and-test:

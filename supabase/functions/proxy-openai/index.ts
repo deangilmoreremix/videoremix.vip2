@@ -1,3 +1,18 @@
+// supabase/functions/proxy-openai/index.ts
+//
+// Authenticated OpenAI proxy with credit enforcement. Identity, credit gate,
+// stream billing, and the atomic deduction all run through the shared core in
+// ../run-ai-app/credit-core.ts (proven by tests/run-ai-app-credit-core.test.ts
+// and tests/credit-concurrency.test.ts):
+//   1. user_id comes only from the verified bearer token (never the body);
+//   2. unpriced models are refused (400 MODEL_NOT_PRICED) before any spend;
+//   3. a machine-readable 402 (INSUFFICIENT_CREDITS) precedes every OpenAI
+//      call whose balance cannot cover the conservative estimate;
+//   4. streamed runs are billed from real provider usage, exactly once, with
+//      no charge when the provider sent zero bytes or a terminal error event;
+//   5. deductions go through the single atomic `credits.deduct_credits` RPC
+//      on the service-role client (no read-modify-write in this file).
+
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import {
@@ -10,6 +25,17 @@ import {
   DALLE_CREDITS_PER_IMAGE,
   WHISPER_CREDITS_PER_MINUTE,
 } from '../_shared/creditRates.ts';
+import {
+  MODEL_NOT_PRICED_CODE,
+  createBillingTee,
+  creditGateHeaders,
+  deductUsageCredits,
+  evaluateCreditGate,
+  extractUsageFromEvent,
+  insufficientCreditsBody,
+  type RpcCaller,
+  type StreamBill,
+} from '../run-ai-app/credit-core.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -81,20 +107,28 @@ async function getBalance(userId: string, appId: string): Promise<{ balance: num
 
 function insufficientCreditsResponse(required: number, balance: number, model: string) {
   return new Response(
-    JSON.stringify({
-      error: 'Insufficient credits',
-      required,
-      balance,
-      model,
-    }),
+    JSON.stringify(insufficientCreditsBody({ required, balance, model, message: 'Insufficient credits' })),
     {
       status: 402,
       headers: {
         ...corsHeaders,
         'Content-Type': 'application/json',
-        'X-Credits-Balance': String(balance),
-        'X-Credits-Required': String(required),
+        ...creditGateHeaders({ balance, required }),
       },
+    }
+  );
+}
+
+function unsupportedModelResponse(model: string) {
+  return new Response(
+    JSON.stringify({
+      error: MODEL_NOT_PRICED_CODE,
+      message: `Model "${model}" is not supported by the credit billing system.`,
+      supported_models: Object.keys(MODEL_CREDIT_RATES),
+    }),
+    {
+      status: 400,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     }
   );
 }
@@ -137,6 +171,20 @@ function calculateActualCost(model: string, responseData: any): number {
   const inputTokens = Number(usage.prompt_tokens ?? usage.input_tokens ?? 0);
   const outputTokens = Number(usage.completion_tokens ?? usage.output_tokens ?? 0);
   return Math.max(calculateUsageCredits(model, inputTokens, outputTokens), 1);
+}
+
+/** Billed-token extraction for a completed (non-streaming) provider response. */
+function extractUsage(responseData: any): {
+  inputTokens: number;
+  outputTokens: number;
+  cachedInputTokens: number;
+} {
+  const parsed = extractUsageFromEvent(responseData);
+  return {
+    inputTokens: parsed?.inputTokens ?? 0,
+    outputTokens: parsed?.outputTokens ?? 0,
+    cachedInputTokens: parsed?.cachedInputTokens ?? 0,
+  };
 }
 
 serve(async (req: Request) => {
@@ -191,37 +239,34 @@ serve(async (req: Request) => {
 
     // 2. Unknown models have no price -> refuse (400) instead of guessing.
     if (!isSupportedModel(model)) {
-      return new Response(
-        JSON.stringify({
-          error: 'Unsupported model',
-          message: `Model "${model}" is not supported by the credit billing system.`,
-          supported_models: Object.keys(MODEL_CREDIT_RATES),
-        }),
-        {
-          status: 400,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
+      return unsupportedModelResponse(model);
     }
 
     // 3. Balance + cost estimate on the service-role credits client.
     const { balance, error: balanceError } = await getBalance(user_id, appId);
 
-    if (balanceError) {
-      console.error('Error fetching credit balance:', balanceError);
-      return new Response(
-        JSON.stringify({ error: 'Failed to check credit balance' }),
-        {
-          status: 500,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
-    }
-
     const estimatedCost = estimateRequestCost(model, requestBody);
 
-    if (balance < estimatedCost) {
-      return insufficientCreditsResponse(estimatedCost, balance, model);
+    // Credit gate (shared with run-ai-app): fail closed on balance-read
+    // errors, refuse unpriced models, and return a machine-readable 402
+    // BEFORE any OpenAI spend.
+    const gate = evaluateCreditGate({
+      balanceError: balanceError ? String(balanceError) : null,
+      balance,
+      requiredCredits: estimatedCost,
+      model,
+      modelSupported: isSupportedModel(model),
+    });
+
+    if (!gate.ok) {
+      if (gate.status === 402) {
+        return insufficientCreditsResponse(estimatedCost, balance, model);
+      }
+      console.error('proxy-openai credit gate refused:', JSON.stringify(gate.body));
+      return new Response(JSON.stringify(gate.body), {
+        status: gate.status,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     // Forward request to OpenAI
@@ -264,28 +309,28 @@ serve(async (req: Request) => {
       requestBody.stream === true &&
       openaiResponse.headers.get('content-type')?.includes('text/event-stream');
 
-    // Deduct via service-role RPC. Returns the credits actually charged (0 when
-    // the deduction failed, which is logged loudly for reconciliation).
-    const chargeCredits = async (amount: number): Promise<number> => {
+    // Deduct via the shared, atomic-RPC core. Returns the credits actually
+    // charged (0 when the deduction failed, which is logged loudly for
+    // reconciliation: CREDIT_SHORTFALL when the balance could not cover it).
+    const chargeCredits = async (
+      amount: number,
+      tokens?: { inputTokens?: number; outputTokens?: number; cachedInputTokens?: number },
+    ): Promise<number> => {
       if (amount <= 0) return 0;
-      const creditsClient = createCreditsClient();
-      const { error } = await creditsClient.rpc('deduct_credits', {
-        p_user_id: user_id,
-        p_app_id: appId,
-        p_amount: amount,
-        p_type: 'api_usage',
-        p_source: 'api_proxy',
-        p_source_id: `proxy:${Date.now()}`,
-        p_metadata: {
-          model,
-          path: openaiPath,
-        },
+      return deductUsageCredits({
+        rpc: ((fn: string, args: Record<string, unknown>) =>
+          createCreditsClient().rpc(fn, args)) as RpcCaller,
+        userId: user_id,
+        appId,
+        appSlug: 'proxy-openai',
+        model,
+        credits: amount,
+        inputTokens: tokens?.inputTokens ?? 0,
+        outputTokens: tokens?.outputTokens ?? 0,
+        cachedInputTokens: tokens?.cachedInputTokens ?? 0,
+        source: 'api_proxy',
+        sourceId: `proxy:${Date.now()}`,
       });
-      if (error) {
-        console.error('Error deducting credits:', error);
-        return 0;
-      }
-      return amount;
     };
 
     if (!openaiResponse.ok) {
@@ -303,61 +348,37 @@ serve(async (req: Request) => {
     // 4. Streaming responses are tee'd: the client stream is forwarded
     //    byte-for-byte while the terminal usage chunk is captured for billing.
     if (isStreamingResponse && openaiResponse.body) {
-      const decoder = new TextDecoder();
-      let buffer = '';
-      let actualCost = 0;
-      let sawUsage = false;
-      let charged = false;
+      // Tee with the shared billing core: exact usage when the terminal usage
+      // chunk arrived, the conservative estimate for a partially consumed
+      // stream (client abort), and NO charge when the provider delivered
+      // zero bytes or ended the stream with a terminal error event.
+      let estimateTokens = { inputTokens: 0, outputTokens: 0 };
+      if (model !== 'dall-e-3' && model !== 'whisper-1') {
+        estimateTokens = {
+          inputTokens: estimateChatInputTokens(requestBody),
+          outputTokens:
+            Number(requestBody?.max_tokens) ||
+            Number(requestBody?.max_completion_tokens) ||
+            DEFAULT_OUTPUT_TOKEN_ESTIMATE,
+        };
+      }
 
-      const finalizeCharge = async () => {
-        if (charged) return;
-        charged = true;
-        const amount = sawUsage ? Math.max(actualCost, 1) : estimatedCost;
-        const deducted = await chargeCredits(amount);
-        // Charge header is emitted on close of the streamed body via the
-        // cancel/finalize path; the response headers were already sent, so the
-        // authoritative balance lives in credit_transactions.
-        if (deducted === 0) {
-          console.error(`Credit deduction failed for user=${user_id} amount=${amount}`);
-        }
-      };
-
-      const tee = new TransformStream<Uint8Array, Uint8Array>({
-        transform(chunk, controller) {
-          controller.enqueue(chunk);
-
-          buffer += decoder.decode(chunk, { stream: true });
-          const lines = buffer.split('\n');
-          buffer = lines.pop() || '';
-
-          for (const line of lines) {
-            const trimmed = line.trim();
-            if (!trimmed.startsWith('data:')) continue;
-            const payload = trimmed.slice(5).trim();
-            if (!payload || payload === '[DONE]') continue;
-            try {
-              const chunkJson = JSON.parse(payload);
-              const usage = chunkJson?.usage;
-              if (usage) {
-                const inputTokens = Number(usage.prompt_tokens ?? usage.input_tokens ?? 0);
-                const outputTokens = Number(usage.completion_tokens ?? usage.output_tokens ?? 0);
-                actualCost = Math.max(
-                  calculateUsageCredits(model, inputTokens, outputTokens),
-                  1,
-                );
-                sawUsage = true;
-              }
-            } catch {
-              // ignore partial frames
-            }
+      const tee = createBillingTee({
+        model,
+        estimatedCredits: estimatedCost,
+        estimatedInputTokens: estimateTokens.inputTokens,
+        estimatedOutputTokens: estimateTokens.outputTokens,
+        charge: async (bill: StreamBill) => {
+          const deducted = await chargeCredits(bill.credits, {
+            inputTokens: bill.inputTokens,
+            outputTokens: bill.outputTokens,
+            cachedInputTokens: bill.cachedInputTokens,
+          });
+          // The response headers were already sent, so the authoritative
+          // balance lives in credit_transactions; failures are logged loudly.
+          if (deducted === 0) {
+            console.error(`Credit deduction failed for user=${user_id} amount=${bill.credits}`);
           }
-        },
-        async flush() {
-          buffer += decoder.decode();
-          await finalizeCharge();
-        },
-        async cancel() {
-          await finalizeCharge();
         },
       });
 
@@ -383,7 +404,12 @@ serve(async (req: Request) => {
 
     // Only deduct credits for successful responses
     const actualCost = calculateActualCost(model, responseData);
-    const deducted = await chargeCredits(actualCost);
+    const usage = extractUsage(responseData);
+    const deducted = await chargeCredits(actualCost, {
+      inputTokens: usage.inputTokens,
+      outputTokens: usage.outputTokens,
+      cachedInputTokens: usage.cachedInputTokens,
+    });
 
     const { balance: remainingBalance } = await getBalance(user_id, appId);
 

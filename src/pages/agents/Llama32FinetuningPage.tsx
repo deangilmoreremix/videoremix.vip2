@@ -14,6 +14,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Cpu, CheckCircle2, Layers } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "llama3.2-finetuning";
 
@@ -25,7 +26,7 @@ const TASK_TYPE_OPTIONS = [
 ];
 
 const Llama32FinetuningPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openaiApiKey: "",
     datasetDescription: "",
@@ -63,21 +64,13 @@ const Llama32FinetuningPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/llama3.2-finetuning`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      const res = await runViaRunner("llama3.2-finetuning", {
             enter_your_openai_api_key: formData.openaiApiKey,
             dataset_description: formData.datasetDescription,
             task_type: formData.taskType,
             training_epochs: formData.epochs,
             additional_instructions: formData.additionalInstructions,
-            userId: user?.id,
-          }),
-        }
-      );
+          });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Finetuning failed");
       setResult(data);

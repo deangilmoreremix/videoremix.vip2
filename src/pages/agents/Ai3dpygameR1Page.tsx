@@ -14,9 +14,10 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
 import { Loader2, Sparkles, Gamepad2, Key, Code, HelpCircle } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const Ai3dpygameR1Page: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({ 
     openai_api_key: "", 
     enter_your_pygame_query: "" 
@@ -48,11 +49,7 @@ const Ai3dpygameR1Page: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/video-knowledge-assistant`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("video-knowledge-assistant", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

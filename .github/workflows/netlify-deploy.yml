@@ -3,8 +3,13 @@ name: Netlify Deployment
 on:
   push:
     branches: [ main, master ]
+  # PRs must be gated by the full pipeline no matter which branch they target.
+  # `pull_request.branches` filters on the PR BASE branch, so restricting it to
+  # main/master silently skips CI + preview deploys for release branches (e.g.
+  # PRs targeting fix/sapienx-130-app-catalog). Deliberately unfiltered.
+  # NOTE: production deploys stay gated on push/workflow_dispatch below.
   pull_request:
-    branches: [ main, master ]
+    types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
     inputs:
       environment:

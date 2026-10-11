@@ -13,11 +13,12 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Calendar, Users, CheckCircle2 } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "sprint-planner-agent";
 
 const SprintPlannerPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openaiApiKey: "",
     projectOverview: "",
@@ -55,21 +56,13 @@ const SprintPlannerPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/sprint-planner`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      const res = await runViaRunner("sprint-planner-ai", {
             enter_your_openai_api_key: formData.openaiApiKey,
             project_overview_and_goals: formData.projectOverview,
             team_size: formData.teamSize,
             sprint_duration_weeks: formData.sprintDuration,
             backlog_items_or_epics: formData.backlogItems,
-            userId: user?.id,
-          }),
-        }
-      );
+          });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Planning failed");
       setResult(data);

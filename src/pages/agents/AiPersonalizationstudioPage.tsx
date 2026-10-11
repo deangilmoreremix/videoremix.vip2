@@ -14,6 +14,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Sparkles, CheckCircle2, Users } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "ai-personalizationstudio";
 
@@ -25,7 +26,7 @@ const PERSONALIZATION_TYPE_OPTIONS = [
 ];
 
 const AiPersonalizationstudioPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openaiApiKey: "",
     contentType: "email",
@@ -63,21 +64,13 @@ const AiPersonalizationstudioPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-personalizationstudio`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      const res = await runViaRunner("ai-personalizationstudio", {
             enter_your_openai_api_key: formData.openaiApiKey,
             personalization_type: formData.contentType,
             target_audience: formData.audience,
             personalization_goal: formData.personalizationGoal,
             available_data_points: formData.dataPoints,
-            userId: user?.id,
-          }),
-        }
-      );
+          });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Generation failed");
       setResult(data);

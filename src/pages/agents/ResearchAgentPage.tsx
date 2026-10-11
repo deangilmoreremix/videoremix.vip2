@@ -7,11 +7,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/ca
 import { SmartInput, SmartTextarea, ActionButton, ResultCard, ResultGrid, EmptyState, LoadingIndicator, ErrorMessage, FormSection } from "@/components/agent-ui";
 import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
 import { Sparkles, Search } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "research-agent-openai-form";
 
 const ResearchAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({ openai_api_key: "", _research_goal: "" });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -36,11 +37,7 @@ const ResearchAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/research-agent-openai-interaction-api`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("research-agent-openai-interaction-api", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

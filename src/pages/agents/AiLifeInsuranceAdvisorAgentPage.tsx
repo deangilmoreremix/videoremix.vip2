@@ -12,6 +12,7 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'ai-intake-voice-agent';
 
@@ -36,7 +37,7 @@ const INCOME_REPLACEMENT_OPTIONS = [
 ];
 
 const AiLifeInsuranceAdvisorAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({ 
     openai_api_key: "", 
     age: "", 
@@ -76,14 +77,9 @@ const AiLifeInsuranceAdvisorAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-intake-voice-agent`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          userId: user?.id
-        })
-      });
+      const res = await runViaRunner("ai-intake-voice-agent", {
+          ...formData
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Analysis failed');
       setResult(data);

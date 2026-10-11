@@ -12,11 +12,12 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Heart, Brain, Users, Activity, CheckCircle2, Lightbulb } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'financial-dashboard-ai';
 
 const AiMentalWellbeingAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     feeling: '',
     stressLevel: '5',
@@ -46,18 +47,13 @@ const AiMentalWellbeingAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/financial-dashboard-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const res = await runViaRunner("financial-dashboard-ai", {
           how_have_you_been_feeling_recently: formData.feeling,
           current_stress_level_110: formData.stressLevel,
           current_support_system: formData.supportSystem,
           any_significant_life_changes_or_events_recently: formData.lifeChanges,
-          current_symptoms: formData.symptoms,
-          userId: user?.id
-        })
-      });
+          current_symptoms: formData.symptoms
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

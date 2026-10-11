@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { getClerkTokenGetter } from "../../../utils/supabase";
+import { withVectorStoreIds } from "../../../config/vectorStores";
 import type { UseRunAIAppOptions, UseRunAIAppReturn, ConversationMessage } from "./types";
 
 /**
@@ -241,13 +242,18 @@ export function useRunAIApp(
       const contextPreamble = buildMultiTurnContext();
       const finalInputs = contextPreamble
         ? { ...inputs, _context: contextPreamble }
-        : inputs;
+        : { ...inputs };
+
+      // Attach the resolved vector store ids (localStorage selection or
+      // VITE_OPENAI_VECTOR_STORE_ID) so file_search-backed RAG apps get the
+      // tool enabled server-side. No-op when no store is configured.
+      const runnerInputs = withVectorStoreIds(finalInputs);
 
       // Use authenticated HTTP/SSE for normal app runs. Browser WebSockets cannot
       // attach the Authorization header used by our Clerk/Supabase integration,
       // so the old WebSocket-first path silently lost user identity.
       const attemptRun = async (): Promise<void> => {
-        return runSSE(finalInputs);
+        return runSSE(runnerInputs);
       };
 
       try {

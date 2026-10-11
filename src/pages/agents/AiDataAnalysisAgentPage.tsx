@@ -12,11 +12,12 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'local-business-analytics-ai';
 
 const AiDataAnalysisAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [apiKey, setApiKey] = useState("");
   const [csvPath, setCsvPath] = useState("");
@@ -60,10 +61,7 @@ const AiDataAnalysisAgentPage: React.FC = () => {
       formData.append('enter_your_openai_api_key', apiKey);
       formData.append('upload_a_csv_or_excel_file', csvPath);
       formData.append('ask_a_query_about_the_data', query);
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/local-business-analytics-ai`, {
-        method: 'POST',
-        body: formData
-      });
+      const res = await runViaRunner("local-business-analytics-ai", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Analysis failed');
       setResult(data);

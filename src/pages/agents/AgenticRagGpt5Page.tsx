@@ -9,9 +9,10 @@ import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
+import { runViaRunner } from "./runViaRunner";
 
 const AgenticRagGpt5Page: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({ 
     openai_api_key: "", 
     add_url: "", 
@@ -47,11 +48,7 @@ const AgenticRagGpt5Page: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/codebase-chat-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("codebase-chat-ai", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);
