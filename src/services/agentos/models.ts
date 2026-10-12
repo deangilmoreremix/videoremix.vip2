@@ -59,7 +59,13 @@ export async function estimateCredits(params: {
   completionTokens: number;
 }): Promise<AgentOSResult<number>> {
   const model = await getModelCatalogEntry(params.modelId);
-  if (model.error || !model.data) return model;
+  if (model.error || !model.data) {
+    return err(
+      model.error?.code ?? "not_found",
+      model.error?.message ?? "Model not found in the catalog",
+      model.error?.detail,
+    );
+  }
 
   const rateIn = model.data.credit_rate_in;
   const rateOut = model.data.credit_rate_out;

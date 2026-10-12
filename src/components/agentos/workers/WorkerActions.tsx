@@ -15,7 +15,7 @@ import {
   setWorkerStatus,
 } from "../../../services/agentos/workers";
 import { Button } from "../../ui/button";
-import { Modal } from "../../ui";
+import { Modal } from "../ui/Modal";
 
 export interface WorkerActionsProps {
   workerId: string;

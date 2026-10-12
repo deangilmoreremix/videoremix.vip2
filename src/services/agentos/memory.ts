@@ -161,7 +161,13 @@ export async function searchMemories(params: {
     workspaceId: params.workspaceId,
     kind: params.kind,
   });
-  if (rows.error || !rows.data) return rows;
+  if (rows.error || !rows.data) {
+    return err(
+      "database",
+      rows.error?.message ?? "Could not load memory",
+      rows.error?.detail,
+    );
+  }
 
   const importanceMin = params.importanceMin ?? 1;
   const needle = (params.query ?? "").trim().toLowerCase();

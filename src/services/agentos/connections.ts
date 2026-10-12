@@ -97,17 +97,23 @@ export async function connectAccount(
 ): Promise<AgentOSResult<ConnectedAccount>> {
   if (!input.integration_key) return err("validation", "integration_key is required");
 
-  // Re-check the integration support level client-side too, so the UI cannot
-  // even attempt a connection the runtime will refuse.
   const integration = await getIntegration(input.integration_key);
-  if (integration.error) return integration;
+  if (integration.error || !integration.data) {
+    return err(
+      integration.error?.code ?? "not_found",
+      integration.error?.message ?? "Integration not found",
+      integration.error?.detail,
+    );
+  }
+
+  const integrationData = integration.data;
 
   const { data, error } = await supabase.functions.invoke("agentos-connections", {
     body: {
       action: "connect",
       integration_key: input.integration_key,
-      account_label: input.account_label ?? integration.data.name,
-      scopes: input.scopes ?? integration.data.capabilities,
+      account_label: input.account_label ?? integrationData.name,
+      scopes: input.scopes ?? integrationData.capabilities,
       isolation: input.isolation ?? "tenant",
       workspace_id: input.workspace_id ?? null,
       metadata: input.metadata ?? {},
@@ -159,7 +165,14 @@ export async function deleteConnection(
 /** Tool keys available for assignment to a worker. */
 export async function listAssignableToolKeys(): Promise<AgentOSResult<string[]>> {
   const integrations = await listIntegrations();
-  if (integrations.error || !integrations.data) return integrations;
+  if (integrations.error || !integrations.data) {
+    // Map the error into this function's own return type.
+    return err(
+      "database",
+      integrations.error?.message ?? "Could not load the integration directory",
+      integrations.error?.detail,
+    );
+  }
 
   const keys = integrations.data
     .filter((integration) => integration.support === "supported" || integration.support === "limited")

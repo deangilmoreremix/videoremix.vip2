@@ -543,6 +543,7 @@ export interface AgentOSError {
     | 'validation'
     | 'conflict'
     | 'database'
+    | 'unsupported'
     | 'unknown';
   message: string;
   /** Original database error message, for operator diagnostics only. */

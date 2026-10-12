@@ -187,8 +187,7 @@ export async function updateWorker(
     return err("validation", "Temperature must be between 0 and 2");
   }
 
-  // deno-lint-ignore no-explicit-any -- Partial<Worker> shaped payload for Supabase
-  const patch: Record<string, any> = {};
+  const patch: Record<string, unknown> = {};
   if (input.name !== undefined) patch.name = input.name.trim();
   if (input.role !== undefined) patch.role = input.role;
   if (input.instructions !== undefined) patch.instructions = input.instructions;
