@@ -100,12 +100,24 @@ END;
 $$;
 
 -- Stamp owner_clerk_id from the verified JWT, ignoring any client value.
+--
+-- When the statement runs in a service-role context (an edge function or the
+-- scheduler sweep) there is no `request.jwt.claims` GUC, so the helper returns
+-- NULL. In that case the caller is server-side code that has ALREADY resolved
+-- the tenant from the row it is acting on, and it passes the owner explicitly
+-- (e.g. claim_due_tasks copies owner_clerk_id from the claimed task). We only
+-- override the value when a verified identity is present.
 CREATE OR REPLACE FUNCTION agentos.stamp_owner()
 RETURNS trigger
 LANGUAGE plpgsql
 AS $$
+DECLARE
+  v_actor text;
 BEGIN
-  NEW.owner_clerk_id := agentos.current_clerk_id();
+  v_actor := agentos.current_clerk_id();
+  IF v_actor IS NOT NULL THEN
+    NEW.owner_clerk_id := v_actor;
+  END IF;
   RETURN NEW;
 END;
 $$;

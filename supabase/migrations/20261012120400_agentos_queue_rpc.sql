@@ -283,10 +283,14 @@ BEGIN
     RETURNING t.*
   ), run_rows AS (
     INSERT INTO agentos.execution_runs
-      (task_id, worker_id, owner_clerk_id, status, trigger, attempt, lease_owner, lease_expires_at)
+      (task_id, worker_id, owner_clerk_id, status, trigger, attempt,
+       model_provider, model_id, lease_owner, lease_expires_at)
     SELECT cr.id, cr.assigned_worker_id, cr.owner_clerk_id, 'running',
-           cr.trigger, cr.attempt, p_worker_id, v_expiry
+           cr.trigger, cr.attempt,
+           w.model_provider, w.model_id,
+           p_worker_id, v_expiry
     FROM claimed cr
+    LEFT JOIN agentos.workers w ON w.id = cr.assigned_worker_id
     RETURNING agentos.execution_runs.id AS run_id,
               agentos.execution_runs.task_id AS run_task_id
   )
@@ -668,7 +672,6 @@ BEGIN
     RETURNING id INTO v_new_task;
 
     v_next := agentos.next_cron_run(v_sched.cron, v_sched.timezone, now());
-
     UPDATE agentos.schedules
       SET last_run_at = now(),
           next_run_at = v_next,
