@@ -1,0 +1,12 @@
+{
+  "baselineErrors": 1621,
+  "countingMethod": "Run `npx tsc -b` and count output lines matching the regex /error TS/ (each such line is one TypeScript compiler diagnostic). Example: npx tsc -b 2>&1 | grep -c 'error TS'",
+  "command": "npx tsc -b",
+  "recordedAt": "2026-10-12",
+  "recordedBy": "scripts/netlify-release-gate.mjs verification (branch kilo/pr19-completion, b7aad5cd)",
+  "notes": "Legacy TypeScript debt (down from ~3,435). The gate FAILS the Netlify build only when the measured error count EXCEEDS this baseline (regression). At-or-below baseline keeps the documented legacy debt non-blocking. To update after a burn-down, re-run the counting method above and edit baselineErrors; to prove the detector, run with NETLIFY_GATE_TSC_BASELINE=<lower number> (env override, no file edit).",
+  "reductionHistory": [
+    { "count": 3435, "note": "before @ path alias added to tsconfig.app.json" },
+    { "count": 1621, "note": "current documented legacy baseline" }
+  ]
+}
