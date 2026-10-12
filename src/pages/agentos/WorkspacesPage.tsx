@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { FolderKanban, Plus, Search, Users } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { AsyncBoundary } from "../../components/agentos/shared";
-import { EmptyState, PageHeader, Pill, Section, Spinner } from "../../components/agentos/ui";
+import { EmptyState, PageHeader, Pill, Spinner } from "../../components/agentos/ui";
 import { listWorkspaces } from "../../services/agentos/workspaces";
 import type { Workspace } from "../../types/agentos";
 
