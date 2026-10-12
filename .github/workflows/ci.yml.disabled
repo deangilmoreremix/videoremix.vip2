@@ -1,3 +1,6 @@
+# DISABLED (GitHub Actions retirement, 2026-10-12): this account is billing-locked so no job ever starts,
+# and Netlify is now the only build/test/deploy platform — the lint/vitest/build gate runs on every
+# Netlify build. Renamed to `.disabled` (content preserved for audit); see docs/NETLIFY-CICD.md.
 name: CI/CD Pipeline
 
 on:
