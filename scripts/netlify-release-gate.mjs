@@ -229,5 +229,34 @@ for (const r of results) {
   log(`  PASS ${r.id} (${r.secs}s)`);
 }
 log(`GATE RESULT: PASS — ${results.length} step(s), ${total}s total. Deploy may proceed.`);
+
+// Publish a machine-readable gate report inside the deploy output so anyone can
+// verify (from the live deploy URL) which checks actually ran during the
+// Netlify build. Non-secret data only.
+try {
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const distDir = path.resolve('dist');
+  if (fs.existsSync(distDir)) {
+    const report = {
+      gate: 'netlify-release-gate',
+      result: 'PASS',
+      commit: process.env.COMMIT_REF ?? null,
+      branch: process.env.BRANCH ?? null,
+      context: process.env.CONTEXT ?? null,
+      generatedAt: new Date().toISOString(),
+      steps: results,
+      totalSeconds: Number(total),
+    };
+    fs.writeFileSync(
+      path.join(distDir, 'release-gate-report.json'),
+      `${JSON.stringify(report, null, 2)}\n`,
+    );
+    log('Gate report published: /release-gate-report.json');
+  }
+} catch (err) {
+  log(`note: could not publish gate report (${err?.message ?? err})`);
+}
+
 process.exit(0);
 
