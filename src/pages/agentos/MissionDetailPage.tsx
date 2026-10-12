@@ -183,7 +183,7 @@ const MissionDetailPage: React.FC = () => {
                             <span>attempt {task.attempt}/{task.max_attempts}</span>
                             <span aria-hidden="true">·</span>
                             <span>trigger {task.trigger}</span>
-                            {task.worker_id ? null : (
+                            {task.assigned_worker_id ? null : (
                               <>
                                 <span aria-hidden="true">·</span>
                                 <span className="text-amber-300">no worker assigned</span>
