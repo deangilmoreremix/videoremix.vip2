@@ -22,10 +22,14 @@ export interface Transaction {
 export const CREDITS_PER_DOLLAR = 100_000;
 
 export const MODEL_CREDIT_RATES: Record<string, { input: number; output: number }> = {
-  'gpt-5.5': { input: 500_000, output: 1_500_000 },
+  'gpt-5.5': { input: 500_000, output: 3_000_000 },
   'gpt-5.5-mini': { input: 15_000, output: 60_000 },
-  'o3': { input: 1_500_000, output: 6_000_000 },
-  'o3-mini': { input: 300_000, output: 1_200_000 },
+  'o3': { input: 200_000, output: 800_000 },
+  'o3-mini': { input: 110_000, output: 440_000 },
+  'gpt-4o': { input: 250_000, output: 1_000_000 },
+  'gpt-4o-mini': { input: 15_000, output: 60_000 },
+  'o1': { input: 1_500_000, output: 6_000_000 },
+  'o1-mini': { input: 110_000, output: 440_000 },
 };
 
 export const DALLE_CREDITS_PER_IMAGE = 4_000;

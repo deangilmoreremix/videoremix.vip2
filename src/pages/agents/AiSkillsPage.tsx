@@ -13,11 +13,12 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Award, CheckCircle2, Users } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "ai-skills";
 
 const AiSkillsPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openaiApiKey: "",
     skillName: "",
@@ -54,20 +55,12 @@ const AiSkillsPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-skills`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      const res = await runViaRunner("ai-skills", {
             enter_your_openai_api_key: formData.openaiApiKey,
             skill_name: formData.skillName,
             skill_description: formData.skillDescription,
             target_audience: formData.targetAudience,
-            userId: user?.id,
-          }),
-        }
-      );
+          });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Generation failed");
       setResult(data);

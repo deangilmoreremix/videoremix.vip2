@@ -14,9 +14,10 @@ import { ResultCard } from "@/components/agent-ui/ResultCard";
 import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { Loader2, Upload, FileText } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const MultimodalDesignAgentTeamPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [textValues, setTextValues] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
@@ -42,10 +43,7 @@ const MultimodalDesignAgentTeamPage: React.FC = () => {
       formData.append('select_analysis_types', textValues.select_analysis_types || '');
       formData.append('focus_areas', textValues.focus_areas || '');
       formData.append('additional_context', textValues.additional_context || '');
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-design-studio`, {
-        method: 'POST',
-        body: formData
-      });
+      const res = await runViaRunner("ai-design-studio", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);

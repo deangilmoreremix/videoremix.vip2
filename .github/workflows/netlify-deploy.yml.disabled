@@ -1,10 +1,18 @@
+# DISABLED (GitHub Actions retirement, 2026-10-12): this account is billing-locked so no job ever starts,
+# and Netlify now owns builds, deploy previews and production deploys — no GitHub workflow auto-deploys.
+# Renamed to `.disabled` (content preserved for audit); see docs/NETLIFY-CICD.md.
 name: Netlify Deployment
 
 on:
   push:
     branches: [ main, master ]
+  # PRs must be gated by the full pipeline no matter which branch they target.
+  # `pull_request.branches` filters on the PR BASE branch, so restricting it to
+  # main/master silently skips CI + preview deploys for release branches (e.g.
+  # PRs targeting fix/sapienx-130-app-catalog). Deliberately unfiltered.
+  # NOTE: production deploys stay gated on push/workflow_dispatch below.
   pull_request:
-    branches: [ main, master ]
+    types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
     inputs:
       environment:
@@ -48,6 +56,9 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    env:
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
     steps:
       - name: Checkout code
@@ -88,6 +99,9 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
+    env:
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
     steps:
       - name: Checkout code

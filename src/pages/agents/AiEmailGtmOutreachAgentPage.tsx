@@ -12,6 +12,7 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'candidate-outreach-ai';
 
@@ -24,7 +25,7 @@ const EMAIL_STYLE_OPTIONS = [
 ];
 
 const AiEmailGtmOutreachAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [targetCompanies, setTargetCompanies] = useState("");
   const [productOffering, setProductOffering] = useState("");
   const [name, setName] = useState("");
@@ -71,20 +72,15 @@ const AiEmailGtmOutreachAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/candidate-outreach-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const res = await runViaRunner("candidate-outreach-ai", {
           target_companies_industry_size_region_tech_etc: targetCompanies,
           your_productservice_offering_13_sentences: productOffering,
           your_name: name,
           your_company: company,
           calendar_link_optional: calendarLink,
           number_of_companies: numberOfCompanies,
-          email_style: emailStyle,
-          userId: user?.id
-        })
-      });
+          email_style: emailStyle
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Email generation failed');
       setResult(data);

@@ -1,29 +1,19 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import AdminAppsManagement from '../src/components/admin/AdminAppsManagement';
-import { supabase } from '../src/utils/supabase';
-import * as supabaseClient from '../src/utils/supabaseClient';
 
-const mockFrom = vi.fn();
-const mockAuthGetSession = vi.fn();
-(globalThis as any).VITE_SUPABASE_URL = 'http://localhost';
+// The component authenticates Supabase Edge Function calls with the Clerk
+// session token (useSupabaseToken) and imports the Supabase client only for
+// module side effects. Stub both so the suite runs without live credentials.
+vi.mock('../src/hooks/useSupabaseToken', () => ({
+  useSupabaseToken: () => async () => 'dev-token',
+}));
 
-beforeEach(() => {
-  vi.clearAllMocks();
-  localStorage.clear();
-  (supabaseClient as any).default = supabase;
-  supabase.from = mockFrom;
-  mockFrom.mockReturnValue({
-    select: vi.fn().mockReturnThis(),
-    order: vi.fn().mockResolvedValue({ data: [], error: null }),
-  });
-  mockAuthGetSession.mockResolvedValue({ data: { session: { access_token: 'dev-token' } }, error: null });
-  supabase.auth = {
-    ...supabase.auth,
-    getSession: mockAuthGetSession,
-  };
-});
+vi.mock('../src/utils/supabase', () => ({
+  supabase: {},
+  setClerkTokenGetter: vi.fn(),
+}));
 
 const mockApps = [
   { id: '1', name: 'Test App 1', slug: 'test-app-1', description: 'Description 1', category: 'video', icon_url: '', netlify_url: null, custom_domain: null, is_active: true, is_featured: true, is_public: true, sort_order: 1, created_at: '', updated_at: '' },
@@ -36,6 +26,8 @@ const mockResponse = (data: any) => ({
 });
 
 beforeEach(() => {
+  vi.clearAllMocks();
+  localStorage.clear();
   global.fetch = vi.fn().mockResolvedValue(mockResponse({ success: true, data: mockApps, pagination: { page: 1, limit: 10, total: 2, totalPages: 1 } })) as any;
 });
 
@@ -48,6 +40,21 @@ it('should fetch and display apps successfully', async () => {
     expect(screen.getByText('Active')).toBeInTheDocument();
     expect(screen.getByText('Inactive')).toBeInTheDocument();
   });
+});
+
+it('should fetch apps with the Clerk bearer token', async () => {
+  render(<AdminAppsManagement />);
+
+  await waitFor(() => {
+    expect(screen.getByText('Test App 1')).toBeInTheDocument();
+  });
+
+  expect(global.fetch).toHaveBeenCalledWith(
+    expect.stringContaining('/functions/v1/admin-apps'),
+    expect.objectContaining({
+      headers: { Authorization: 'Bearer dev-token' },
+    }),
+  );
 });
 
 it('should display empty state when no apps found', async () => {

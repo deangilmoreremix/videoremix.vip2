@@ -168,6 +168,8 @@ export const INTERNAL_AI_APP_SLUGS = new Set([
   "vision-rag",
   "visualization-expert",
   "ai-sales-email-writer",
+  "ai-sales-email-writer-email-writer",
+  "ai-sales-email-writer-intelligence-pro",
   "ai-sales-intelligence-pro",
   "ai-app-builder-assistant",
 ]);

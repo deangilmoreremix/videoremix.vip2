@@ -8,6 +8,7 @@ import { SmartInput } from "@/components/agent-ui/SmartInput";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
+import { runViaRunner } from "./runViaRunner";
 
 interface Message {
   role: 'user' | 'assistant';
@@ -15,7 +16,7 @@ interface Message {
 }
 
 const HybridSearchRagPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
@@ -46,15 +47,10 @@ const HybridSearchRagPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/smart-search-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const res = await runViaRunner("smart-search-ai", {
           message: input,
-          history: messages.map(m => ({ role: m.role, content: m.content })),
-          userId: user?.id
-        })
-      });
+          history: messages.map(m => ({ role: m.role, content: m.content }))
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setMessages(prev => [...prev, { role: 'assistant', content: data.response || data.result || '' }]);

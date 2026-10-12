@@ -1,10 +1,41 @@
 [build]
-  command = "npm run build"
+  # The release gate IS the CI/CD: GitHub Actions are NOT used and MUST NOT gate
+  # deploys. Any non-zero exit from the gate fails the Netlify deploy.
+  # Gate steps (fail-fast): validate-env → lint → full vitest suite → catalog
+  # integrity suite → webhook security suites → tsc regression check → vite build.
+  command = "npm run release:gate"
   publish = "dist"
 
 [build.environment]
   NODE_VERSION = "20"
   NPM_VERSION = "10"
+  # Defensive: guarantees devDependencies (eslint/vitest/typescript/vite — the
+  # gate toolchain) install even if NODE_ENV=production is ever set at the site
+  # level. NODE_ENV is deliberately NOT set here: vite build already defaults to
+  # production mode, and Netlify's build image does not set NODE_ENV by default.
+  NPM_FLAGS = "--include=dev"
+
+# ---------------------------------------------------------------------------
+# Deploy context environment — NON-SECRET markers only.
+# SECRETS ARE NEVER COMMITTED HERE. Set them in the Netlify UI per context
+# (Site configuration → Build & deploy → Environment variables → scoped by
+# "Same value for all contexts" / "Different value for each deploy context"):
+#   All contexts:   VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY  (public values,
+#                   required by validate-env at build time)
+#   Production:     VITE_CLERK_PUBLISHABLE_KEY (prod), VITE_REQUEST_SIGNING_SECRET
+#                   or other server-only secrets — see docs/completion/netlify-cicd-implementation.md
+#   Deploy Preview: preview/test keys as needed
+# ---------------------------------------------------------------------------
+
+[context.production.environment]
+  VITE_APP_ENV = "production"
+
+[context.deploy-preview.environment]
+  VITE_APP_ENV = "preview"
+
+[context.branch-deploy.environment]
+  VITE_APP_ENV = "staging"
+
 
 # Personalization API endpoints - route to Netlify Functions
 [[redirects]]
@@ -40,32 +71,6 @@
 [[redirects]]
   from = "/auth/*"
   to = "https://bzxohkrxcwodllketcpz.supabase.co/auth/:splat"
-  status = 200
-
-# Personalization API routes (must come before catch-all)
-[[redirects]]
-  from = "/api/personalizer/scan"
-  to = "/.netlify/functions/personalizer-api"
-  status = 200
-
-[[redirects]]
-  from = "/api/personalizer/generate"
-  to = "/.netlify/functions/personalizer-api"
-  status = 200
-
-[[redirects]]
-  from = "/api/personalizer/save"
-  to = "/.netlify/functions/personalization-save-results"
-  status = 200
-
-[[redirects]]
-  from = "/api/personalizer/job/create"
-  to = "/.netlify/functions/personalization-scan-job-create"
-  status = 200
-
-[[redirects]]
-  from = "/api/personalizer/job/:jobId/status"
-  to = "/.netlify/functions/personalization-scan-job-status"
   status = 200
 
 # General API catch-all (after specific routes)

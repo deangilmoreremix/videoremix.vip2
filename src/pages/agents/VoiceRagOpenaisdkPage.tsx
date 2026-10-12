@@ -24,7 +24,7 @@ interface FormData {
 }
 
 const VoiceRagOpenaisdkPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);

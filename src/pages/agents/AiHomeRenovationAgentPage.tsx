@@ -13,11 +13,12 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { Sparkles } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'ai-home-renovation-agent-state';
 
 const AiHomeRenovationAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     enter_your_openai_api_key: "",
     room_type: "",
@@ -55,14 +56,9 @@ const AiHomeRenovationAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-home-renovation-agent`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          userId: user?.id
-        })
-      });
+      const res = await runViaRunner("ai-home-renovation-agent", {
+          ...formData
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Request failed');
       setResult(data);

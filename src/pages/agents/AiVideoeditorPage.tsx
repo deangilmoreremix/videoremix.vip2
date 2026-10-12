@@ -14,6 +14,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Video, CheckCircle2, Clapperboard } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "ai-videoeditor";
 
@@ -26,7 +27,7 @@ const EDIT_TYPE_OPTIONS = [
 ];
 
 const AiVideoeditorPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openaiApiKey: "",
     videoDescription: "",
@@ -64,21 +65,13 @@ const AiVideoeditorPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-videoeditor`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      const res = await runViaRunner("ai-videoeditor", {
             enter_your_openai_api_key: formData.openaiApiKey,
             video_description: formData.videoDescription,
             edit_type: formData.editType,
             specific_edits_needed: formData.editsNeeded,
             output_format: formData.outputFormat,
-            userId: user?.id,
-          }),
-        }
-      );
+          });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Processing failed");
       setResult(data);

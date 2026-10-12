@@ -10,9 +10,10 @@ import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { FileUploadZone } from "@/components/agent-ui/FileUploadZone";
 import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
+import { runViaRunner } from "./runViaRunner";
 
 const Ag2AdaptiveResearchTeamPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [textValues, setTextValues] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
@@ -57,10 +58,7 @@ const Ag2AdaptiveResearchTeamPage: React.FC = () => {
       formData.append('model', textValues.model || '');
       formData.append('upload_pdfs_or_text_files', textValues.upload_pdfs_or_text_files || '');
       formData.append('research_question', textValues.research_question || '');
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/pdf-business-assistant`, {
-        method: 'POST',
-        body: formData
-      });
+      const res = await runViaRunner("pdf-business-assistant", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);

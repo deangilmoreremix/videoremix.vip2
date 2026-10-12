@@ -9,6 +9,7 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'github-repo-assistant-form';
 
@@ -32,11 +33,7 @@ const AiTicTacToeAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/github-repo-assistant`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user?.id })
-      });
+      const res = await runViaRunner("github-repo-assistant", { userId: user?.id });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error?.message || data.error || "Request failed");
       setResult(data);

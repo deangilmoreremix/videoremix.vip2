@@ -12,6 +12,7 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'hiring-plan-builder';
 
@@ -51,7 +52,7 @@ const FITNESS_GOALS = [
 ];
 
 const AiHealthFitnessAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [openaiApiKey, setOpenaiApiKey] = useState("");
   const [age, setAge] = useState("");
   const [heightCm, setHeightCm] = useState("");
@@ -98,10 +99,7 @@ const AiHealthFitnessAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/hiring-plan-builder`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const res = await runViaRunner("hiring-plan-builder", {
           openai_api_key: openaiApiKey,
           age,
           height_cm: heightCm,
@@ -110,10 +108,8 @@ const AiHealthFitnessAgentPage: React.FC = () => {
           weight_kg: weightKg,
           sex,
           fitness_goals: fitnessGoals,
-          what_would_you_like_to_know: query,
-          userId: user?.id
-        })
-      });
+          what_would_you_like_to_know: query
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Analysis failed');
       setResult(data);

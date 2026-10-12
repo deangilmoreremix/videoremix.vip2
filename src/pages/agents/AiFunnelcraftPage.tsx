@@ -14,6 +14,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { GitBranch, CheckCircle2, Users } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "ai-funnelcraft";
 
@@ -26,7 +27,7 @@ const FUNNEL_STAGE_OPTIONS = [
 ];
 
 const AiFunnelcraftPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openaiApiKey: "",
     productDescription: "",
@@ -64,21 +65,13 @@ const AiFunnelcraftPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-funnelcraft`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      const res = await runViaRunner("ai-funnelcraft", {
             enter_your_openai_api_key: formData.openaiApiKey,
             product_or_service_description: formData.productDescription,
             target_audience: formData.targetAudience,
             funnel_stage: formData.funnelStage,
             campaign_goal: formData.goal,
-            userId: user?.id,
-          }),
-        }
-      );
+          });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Generation failed");
       setResult(data);

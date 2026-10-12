@@ -11,11 +11,12 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'ai-course-creator-assistant-form';
 
 const AiTeachingAgentTeamPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({ 
     enter_your_openai_api_key: "", 
     enter_the_topic_you_want_to_learn_about: "" 
@@ -46,11 +47,7 @@ const AiTeachingAgentTeamPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-course-creator-assistant`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("ai-course-creator-assistant", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error?.message || data.error || "Request failed");
       setResult(data);

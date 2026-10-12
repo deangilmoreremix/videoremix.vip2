@@ -13,11 +13,12 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { FileCode, CheckCircle2, Zap } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "python-expert-agent";
 
 const PythonExpertPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openaiApiKey: "",
     taskDescription: "",
@@ -54,20 +55,12 @@ const PythonExpertPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/python-expert`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      const res = await runViaRunner("python-expert", {
             enter_your_openai_api_key: formData.openaiApiKey,
             describe_your_python_task: formData.taskDescription,
             existing_code_if_any: formData.codeSnippet,
             preferred_libraries_or_frameworks: formData.libraries,
-            userId: user?.id,
-          }),
-        }
-      );
+          });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Analysis failed");
       setResult(data);

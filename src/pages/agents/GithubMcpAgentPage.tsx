@@ -11,11 +11,12 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { Github, Sparkles, Code, GitBranch } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'github-automation-agent';
 
 const GithubMcpAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openai_api_key: "",
     github_token: "",
@@ -53,11 +54,7 @@ const GithubMcpAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/github-automation-agent`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("github-automation-agent", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

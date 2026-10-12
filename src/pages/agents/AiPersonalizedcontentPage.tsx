@@ -14,6 +14,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Wand2, CheckCircle2, Users } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "ai-personalizedcontent";
 
@@ -26,7 +27,7 @@ const CONTENT_TYPE_OPTIONS = [
 ];
 
 const AiPersonalizedcontentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openaiApiKey: "",
     contentType: "email",
@@ -64,21 +65,13 @@ const AiPersonalizedcontentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-personalizedcontent`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      const res = await runViaRunner("ai-personalizedcontent", {
             enter_your_openai_api_key: formData.openaiApiKey,
             content_type: formData.contentType,
             target_audience: formData.audience,
             key_message_or_offer: formData.keyMessage,
             tone_and_style: formData.tone,
-            userId: user?.id,
-          }),
-        }
-      );
+          });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Generation failed");
       setResult(data);

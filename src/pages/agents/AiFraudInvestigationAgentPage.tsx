@@ -11,6 +11,7 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'fraud-investigation-assistant';
 
@@ -84,7 +85,7 @@ const ZIP_CODES = [
 ];
 
 const AiFraudInvestigationAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [model, setModel] = useState("gpt-5.5");
   const [zipCode, setZipCode] = useState("");
   const [loading, setLoading] = useState(false);
@@ -115,15 +116,10 @@ const AiFraudInvestigationAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/fraud-investigation-assistant`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const res = await runViaRunner("fraud-investigation-assistant", {
           model: model,
-          zip_code_cook_county_il: zipCode,
-          userId: user?.id
-        })
-      });
+          zip_code_cook_county_il: zipCode
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Investigation failed');
       setResult(data);

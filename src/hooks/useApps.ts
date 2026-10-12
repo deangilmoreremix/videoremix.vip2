@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../utils/supabase";
-import { transformApp, ComponentApp } from "../utils/appTransformers";
+import { transformApp, ComponentApp, type DatabaseApp } from "../utils/appTransformers";
 import { appConfig } from "../config/appConfig";
 import { appsData } from "../data/appsData";
 
@@ -57,6 +57,31 @@ const clearAppsCache = (): void => {
   }
 };
 
+type LocalCatalogApp = (typeof appsData)[number];
+
+const toDatabaseApp = (localApp: LocalCatalogApp): DatabaseApp => ({
+  id: localApp.id,
+  name: localApp.name,
+  slug: localApp.id,
+  description: localApp.description,
+  category: localApp.category,
+  image: localApp.image,
+  is_active: true,
+  is_featured: Boolean(localApp.popular),
+  is_public: true,
+  popular: localApp.popular,
+  new: localApp.new,
+  coming_soon: localApp.comingSoon,
+  price: localApp.price,
+  group: localApp.group,
+  sort_order: 0,
+  created_at: new Date(0).toISOString(),
+  updated_at: new Date(0).toISOString(),
+});
+
+const transformLocalCatalog = (): ComponentApp[] =>
+  appsData.map((localApp) => transformApp(toDatabaseApp(localApp)));
+
 export const useApps = () => {
   const [apps, setApps] = useState<ComponentApp[]>([]);
   const [loading, setLoading] = useState(true);
@@ -101,7 +126,7 @@ if (data && data.length > 0) {
       } else {
         // Empty result - fall back to local data
         console.log("[useApps] No data from Supabase, falling back to local data...");
-        const transformedApps = appsData.map(transformApp);
+        const transformedApps = transformLocalCatalog();
         setApps(transformedApps);
         setError(null);
       }
@@ -111,7 +136,7 @@ if (data && data.length > 0) {
 
       // Fall back to local apps data
       try {
-        const transformedApps = appsData.map(transformApp);
+        const transformedApps = transformLocalCatalog();
         setApps(transformedApps);
         setError(null);
       } catch (fallbackErr) {

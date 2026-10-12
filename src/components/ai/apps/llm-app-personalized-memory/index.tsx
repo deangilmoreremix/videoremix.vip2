@@ -1,8 +1,8 @@
 import React from "react";
-import { GenericAIApp } from "../GenericAIApp";
+import { MemoryChatApp } from "../MemoryChatApp";
 
 const LlmAppPersonalizedMemory: React.FC<any> = (props) => {
-  return <GenericAIApp {...props} appName="LLM App with Personalized Memory" />;
+  return <MemoryChatApp {...props} appName="LLM App with Personalized Memory" />;
 };
 
 export default LlmAppPersonalizedMemory;

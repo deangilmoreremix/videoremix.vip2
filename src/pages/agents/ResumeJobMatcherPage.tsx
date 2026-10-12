@@ -15,7 +15,7 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { Loader2, Upload, FileText } from "lucide-react";
 
 const ResumeJobMatcherPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [textValues, setTextValues] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);

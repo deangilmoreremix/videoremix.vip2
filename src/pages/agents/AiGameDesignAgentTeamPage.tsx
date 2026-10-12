@@ -14,6 +14,7 @@ import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'interview-summary-ai-form';
 
@@ -87,7 +88,7 @@ const LEVEL_OF_DETAIL_OPTIONS = [
 ];
 
 const AiGameDesignAgentTeamPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     background_vibe: "",
     game_type: "",
@@ -135,11 +136,7 @@ const AiGameDesignAgentTeamPage: React.FC = () => {
     setError(null);
     setRetryLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/interview-summary-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("interview-summary-ai", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error?.message || data.error || 'Request failed');
       setResult(data);

@@ -12,11 +12,12 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { ExamplePrompt } from "@/components/agent-ui/ExamplePrompt";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'gmail-intelligence-ai-form';
 
 const ChatWithGmailPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({ 
     enter_your_openai_api_key: "", 
     ask_any_question_about_your_emails: "" 
@@ -51,11 +52,7 @@ const ChatWithGmailPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/gmail-intelligence-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("gmail-intelligence-ai", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error?.message || data.error || "Request failed");
       setResult(data);

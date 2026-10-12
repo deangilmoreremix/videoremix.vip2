@@ -14,11 +14,12 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Film, Clapperboard, Clock, Users, Sparkles, CheckCircle2 } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'ai-video-script-producer';
 
 const AiMovieProductionAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openai_api_key: '',
     movie_idea: '',
@@ -48,18 +49,13 @@ const AiMovieProductionAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-video-script-producer`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const res = await runViaRunner("ai-video-script-producer", {
           openai_api_key: formData.openai_api_key,
           describe_your_movie_idea_in_a_few_sentences: formData.movie_idea,
           select_the_movie_genre: formData.genre,
           select_the_target_audience: formData.target_audience,
-          estimated_runtime_in_minutes: formData.runtime,
-          userId: user?.id
-        })
-      });
+          estimated_runtime_in_minutes: formData.runtime
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

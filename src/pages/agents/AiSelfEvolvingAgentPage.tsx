@@ -13,11 +13,12 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { Sparkles } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'ai-self-evolving-agent-state';
 
 const AiSelfEvolvingAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     enter_your_openai_api_key: "",
     initial_task: "",
@@ -55,14 +56,9 @@ const AiSelfEvolvingAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-self-evolving-agent`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          userId: user?.id
-        })
-      });
+      const res = await runViaRunner("ai-self-evolving-agent", {
+          ...formData
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Request failed');
       setResult(data);

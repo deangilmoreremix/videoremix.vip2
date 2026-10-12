@@ -1,39 +1,73 @@
 import { render, screen } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { Routes, Route, MemoryRouter } from 'react-router-dom';
-import { AuthProvider } from '../src/context/AuthContext';
 import * as AuthContext from '../src/context/AuthContext';
 import ProtectedRoute from '../src/components/ProtectedRoute';
+import React from 'react';
+
+// ProtectedRoute consumes the Clerk-backed AuthContext; Clerk itself is
+// irrelevant here, so the provider module is stubbed to keep the import chain
+// importable without a publishable key.
+vi.mock('../src/providers/ClerkProvider', () => ({
+  useUser: () => ({ user: null, isLoaded: true }),
+  useSession: () => ({ session: null, isLoaded: true }),
+  useSignIn: () => ({ isLoaded: true, signIn: null, setActive: vi.fn() }),
+  useSignUp: () => ({ isLoaded: true, signUp: null, setActive: vi.fn() }),
+  useClerk: () => ({ signOut: vi.fn() }),
+}));
 
 const DashboardPage = () => <div>Dashboard Content</div>;
 const SignInPage = () => <div>Sign In Page</div>;
 
-const renderProtectedRoute = (authState: any) => {
-  const mockNavigate = vi.fn();
-  vi.spyOn(AuthContext, 'useAuth').mockReturnValue(authState);
+const mockRefreshSession = vi.fn();
 
-  render(
-    <MemoryRouter initialEntries={['/dashboard']}>
-      <AuthProvider>
-        <Routes>
-          <Route path="/signin" element={<SignInPage />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <DashboardPage />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </AuthProvider>
-    </MemoryRouter>
-  );
+const authState = (overrides: Record<string, unknown> = {}) => ({
+  user: null,
+  session: null,
+  loading: false,
+  isAuthenticated: false,
+  authState: 'unauthenticated',
+  error: null,
+  sessionExpiresAt: null,
+  isSessionExpiringSoon: false,
+  refreshSession: mockRefreshSession,
+  signIn: vi.fn(),
+  signUp: vi.fn(),
+  signOut: vi.fn(),
+  resetPassword: vi.fn(),
+  updateProfile: vi.fn(),
+  clearError: vi.fn(),
+  ...overrides,
+});
 
-  return { mockNavigate };
+const mockUser = {
+  id: 'user_2abc123',
+  email: 'test@example.com',
+  app_metadata: {},
+  user_metadata: {},
 };
 
-describe('Protected Route', () => {
+const renderProtectedRoute = (state: Record<string, unknown>) => {
+  vi.spyOn(AuthContext, 'useAuth').mockReturnValue(authState(state) as any);
+
+  return render(
+    <MemoryRouter initialEntries={['/dashboard']}>
+      <Routes>
+        <Route path="/signin" element={<SignInPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </MemoryRouter>,
+  );
+};
+
+describe('ProtectedRoute (Clerk-backed auth)', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -44,204 +78,83 @@ describe('Protected Route', () => {
 
   describe('Unauthenticated Access', () => {
     it('should not render protected content when user is not authenticated', () => {
-      renderProtectedRoute({
-        user: null,
-        session: null,
-        loading: false,
-        signIn: vi.fn(),
-        signUp: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
-      });
+      renderProtectedRoute({});
 
       expect(screen.queryByText('Dashboard Content')).not.toBeInTheDocument();
     });
 
-    it('should redirect to signin when user is not authenticated', () => {
-      const { mockNavigate } = renderProtectedRoute({
-        user: null,
-        session: null,
-        loading: false,
-        signIn: vi.fn(),
-        signUp: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
-      });
+    it('should redirect to the signin route when user is not authenticated', () => {
+      renderProtectedRoute({});
 
       expect(screen.queryByText('Dashboard Content')).not.toBeInTheDocument();
-      expect(mockNavigate).not.toHaveBeenCalled();
+      expect(screen.getByText('Sign In Page')).toBeInTheDocument();
     });
   });
 
   describe('Authenticated Access', () => {
     it('should render protected content when user is authenticated', () => {
-      const mockUser = {
-        id: 'user-123',
-        email: 'test@example.com',
-        app_metadata: {},
-        user_metadata: {},
-        aud: 'authenticated',
-        created_at: '2024-01-01T00:00:00Z',
-      };
-
-      const { mockNavigate } = renderProtectedRoute({
+      renderProtectedRoute({
         user: mockUser,
-        session: { user: mockUser } as any,
-        loading: false,
-        signIn: vi.fn(),
-        signUp: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
+        session: { user: mockUser },
+        isAuthenticated: true,
+        authState: 'authenticated',
       });
 
       expect(screen.getByText('Dashboard Content')).toBeInTheDocument();
-      expect(mockNavigate).not.toHaveBeenCalled();
+      expect(screen.queryByText('Sign In Page')).not.toBeInTheDocument();
     });
   });
 
   describe('Loading State', () => {
-    it('should show loading indicator while auth state is being determined', () => {
-      renderProtectedRoute({
-        user: null,
-        session: null,
-        loading: true,
-        signIn: vi.fn(),
-        signUp: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
-      });
+    it('should show the session verification indicator while auth is loading', () => {
+      renderProtectedRoute({ loading: true, authState: 'loading' });
 
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByText('Verifying session...')).toBeInTheDocument();
+      expect(screen.queryByText('Dashboard Content')).not.toBeInTheDocument();
     });
 
-    it('should not render protected content while loading', () => {
-      renderProtectedRoute({
-        user: null,
-        session: null,
-        loading: true,
-        signIn: vi.fn(),
-        signUp: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
-      });
+    it('should wait when the auth state machine is still idle', () => {
+      renderProtectedRoute({ authState: 'idle' });
 
+      expect(screen.getByText('Verifying session...')).toBeInTheDocument();
       expect(screen.queryByText('Dashboard Content')).not.toBeInTheDocument();
     });
   });
-});
 
-describe('Auth Route Redirects', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
+  describe('Error State', () => {
+    it('should show an authentication error with a sign-in escape hatch', () => {
+      renderProtectedRoute({ authState: 'error', error: { message: 'token expired' } });
+
+      expect(screen.getByText('Authentication Error')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /go to sign in/i })).toBeInTheDocument();
+      expect(screen.queryByText('Dashboard Content')).not.toBeInTheDocument();
+    });
   });
 
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  const renderAuthRoute = (authState: any) => {
-    vi.spyOn(AuthContext, 'useAuth').mockReturnValue(authState);
-
-    render(
-      <MemoryRouter initialEntries={['/signin']}>
-        <AuthProvider>
-          <Routes>
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/signin" element={<SignInPage />} />
-          </Routes>
-        </AuthProvider>
-      </MemoryRouter>
-    );
-  };
-
-  describe('Signin Page with Authenticated User', () => {
-    it('should redirect authenticated users away from signin page', () => {
-      const mockUser = {
-        id: 'user-123',
-        email: 'test@example.com',
-        app_metadata: {},
-        user_metadata: {},
-        aud: 'authenticated',
-        created_at: '2024-01-01T00:00:00Z',
-      };
-
-      renderAuthRoute({
+  describe('Session Refresh', () => {
+    it('should proactively refresh an expiring authenticated session', () => {
+      renderProtectedRoute({
         user: mockUser,
-        session: { user: mockUser } as any,
-        loading: false,
-        signIn: vi.fn(),
-        signUp: vi.fn(),
-        signOut: vi.fn(),
-        resetPassword: vi.fn(),
-        updateProfile: vi.fn(),
+        session: { user: mockUser },
+        isAuthenticated: true,
+        authState: 'authenticated',
+        isSessionExpiringSoon: true,
       });
 
-      expect(screen.queryByText('Sign In Page')).not.toBeInTheDocument();
-    });
-  });
-});
-
-describe('Session Persistence', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  it('should maintain authentication state across route changes', () => {
-    const mockUser = {
-      id: 'user-123',
-      email: 'test@example.com',
-      app_metadata: {},
-      user_metadata: {},
-      aud: 'authenticated',
-      created_at: '2024-01-01T00:00:00Z',
-    };
-
-    const mockSession = {
-      user: mockUser,
-      access_token: 'token-123',
-      refresh_token: 'refresh-123',
-      expires_in: 3600,
-      expires_at: Date.now() + 3600000,
-      token_type: 'bearer',
-    };
-
-    vi.spyOn(AuthContext, 'useAuth').mockReturnValue({
-      user: mockUser,
-      session: mockSession as any,
-      loading: false,
-      signIn: vi.fn(),
-      signUp: vi.fn(),
-      signOut: vi.fn(),
-      resetPassword: vi.fn(),
-      updateProfile: vi.fn(),
+      expect(mockRefreshSession).toHaveBeenCalled();
+      expect(screen.getByText('Dashboard Content')).toBeInTheDocument();
     });
 
-    render(
-      <MemoryRouter initialEntries={['/dashboard']}>
-        <AuthProvider>
-          <Routes>
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <DashboardPage />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </AuthProvider>
-      </MemoryRouter>
-    );
+    it('should not refresh when the session is not expiring', () => {
+      renderProtectedRoute({
+        user: mockUser,
+        session: { user: mockUser },
+        isAuthenticated: true,
+        authState: 'authenticated',
+        isSessionExpiringSoon: false,
+      });
 
-    expect(screen.getByText('Dashboard Content')).toBeInTheDocument();
+      expect(mockRefreshSession).not.toHaveBeenCalled();
+    });
   });
 });

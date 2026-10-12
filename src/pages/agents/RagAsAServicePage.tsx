@@ -16,9 +16,10 @@ import { ResultCard } from "@/components/agent-ui/ResultCard";
 import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { Loader2, Sparkles } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const RagAsAServicePage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({ openai_api_key: "", enter_document_url: "", document_name_optional: "", upload_mode: "", enter_your_query: "" });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -29,11 +30,7 @@ const RagAsAServicePage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/business-knowledgebase-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("business-knowledgebase-ai", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

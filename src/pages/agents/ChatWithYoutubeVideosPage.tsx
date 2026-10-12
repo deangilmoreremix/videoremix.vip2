@@ -8,11 +8,12 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { FileText, Sparkles, Video } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'video-knowledge-assistant';
 
 const ChatWithYoutubeVideosPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({ openai_api_key: "", enter_youtube_video_url: "", ask_any_question_about_the_youtube_video: "" });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -48,11 +49,7 @@ const ChatWithYoutubeVideosPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/video-knowledge-assistant`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("video-knowledge-assistant", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

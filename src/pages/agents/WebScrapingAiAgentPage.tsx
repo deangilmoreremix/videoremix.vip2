@@ -15,9 +15,10 @@ import { ResultCard } from "@/components/agent-ui/ResultCard";
 import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { Loader2, Sparkles } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const WebScrapingAiAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({ enter_the_url_of_the_website_you_want_to_scrape: "", what_you_want_the_ai_agent_to_scrape_from_the_website: "" });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -28,11 +29,7 @@ const WebScrapingAiAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/lead-research-scraper-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("lead-research-scraper-ai", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

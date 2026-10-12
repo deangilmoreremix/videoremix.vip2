@@ -12,6 +12,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'ai-agency-builder-suite-form';
 
@@ -43,7 +44,7 @@ const BUDGET_OPTIONS = [
 ];
 
 const AiServicesAgencyPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openai_api_key: "",
     project_name: "",
@@ -92,11 +93,7 @@ const AiServicesAgencyPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-agency-builder-suite`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("ai-agency-builder-suite", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Request failed');
       setResult(data);

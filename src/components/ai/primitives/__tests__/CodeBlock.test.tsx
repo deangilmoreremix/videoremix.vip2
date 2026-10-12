@@ -28,7 +28,7 @@ describe("CodeBlock", () => {
   });
 
   it("shows line numbers when enabled", () => {
-    render(<CodeBlock code="line1\nline2" showLineNumbers />);
+    render(<CodeBlock code={"line1\nline2"} showLineNumbers />);
     const cells = document.querySelectorAll("td");
     expect(cells.length).toBe(4);
   });

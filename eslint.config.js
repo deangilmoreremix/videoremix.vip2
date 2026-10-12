@@ -22,6 +22,8 @@ export default tseslint.config(
       // Root-level debug / ad-hoc scripts that are not production TS
       'test-*.ts',
       'test-*.mjs',
+      // Agent skill content (not application source)
+      '.agents/**',
       'analyze-apis.js',
       'check_schema.js',
       'comprehensive-auth-test.mjs',
@@ -124,6 +126,26 @@ export default tseslint.config(
     files: ['src/lib/stripe-webhook.ts', 'src/lib/api-key-gate.ts'],
     rules: {
       'no-case-declarations': 'off',
+    },
+  },
+  // ------------------------------------------------------------------
+  // One-off maintenance scripts and vendored modules — grandfathered
+  // the same way as the generated directories above.  This is code
+  // that is run ad-hoc or imported as-is; it never receives new
+  // hand-written changes, so its legacy debt must not block CI.
+  // Application source under src/** stays fully linted.
+  // ------------------------------------------------------------------
+  {
+    files: [
+      'scripts/**/*.{ts,tsx}',
+      'personalization-module/**/*.{ts,tsx}',
+      'create-database-schema.ts',
+    ],
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/ban-ts-comment': 'off',
+      'no-useless-escape': 'off',
     },
   }
 );

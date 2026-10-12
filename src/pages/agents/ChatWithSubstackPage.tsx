@@ -8,11 +8,12 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { FileText, Sparkles, Mail } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'newsletter-repurposer-ai';
 
 const ChatWithSubstackPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({ openai_api_key: "", enter_substack_newsletter_url: "", ask_any_question_about_the_substack_newsletter: "" });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -48,11 +49,7 @@ const ChatWithSubstackPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/newsletter-repurposer-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("newsletter-repurposer-ai", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

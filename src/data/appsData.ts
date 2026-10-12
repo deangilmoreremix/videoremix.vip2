@@ -1,7 +1,7 @@
 import React from "react";
 import { Wand2 } from "lucide-react";
 import { updateAppThumbnails } from "../utils/thumbnailMapper";
-import { SalesCopy, appSalesCopy } from './appSalesCopy';
+import { SalesCopy } from './appSalesCopy';
 
 // App data structure
 interface App {
@@ -11,6 +11,7 @@ interface App {
   category: string;
   icon: React.ReactNode;
   image: string;
+  url?: string;
   popular?: boolean;
   new?: boolean;
   comingSoon?: boolean;

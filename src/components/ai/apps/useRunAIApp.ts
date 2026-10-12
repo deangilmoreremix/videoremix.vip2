@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
-import { supabase } from "../../../utils/supabaseClient";
 import { getClerkTokenGetter } from "../../../utils/supabase";
+import { withVectorStoreIds } from "../../../config/vectorStores";
 import type { UseRunAIAppOptions, UseRunAIAppReturn, ConversationMessage } from "./types";
 
 /**
@@ -30,24 +30,28 @@ export function useRunAIApp(
   const [errorSuggestion, setErrorSuggestion] = useState<string | undefined>(undefined);
 
   const fullResponseRef = useRef<any>(null);
+  // Holds the exact parsed output produced by the most recent run so the
+  // success callback receives the same value that was set into `output`
+  // (avoids handing callers a stale closure value or the raw OpenAI items array).
+  const finalOutputRef = useRef<any>(null);
   const eventSourceRef = useRef<EventSource | null>(null);
   const wsRef = useRef<WebSocket | null>(null);
   const retryCountRef = useRef(0);
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  useEffect(() => {
-    return () => {
-      if (eventSourceRef.current) {
-        eventSourceRef.current.close();
-      }
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
-    };
+  const teardownConnections = useCallback(() => {
+    if (eventSourceRef.current) {
+      eventSourceRef.current.close();
+    }
+    if (wsRef.current) {
+      wsRef.current.close();
+    }
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
   }, []);
+
+  useEffect(() => teardownConnections, [teardownConnections]);
 
   const parseErrorSuggestion = useCallback((errorMsg: string): string | undefined => {
     const msg = errorMsg.toLowerCase();
@@ -72,6 +76,16 @@ export function useRunAIApp(
     }
     if (msg.includes("quota") || msg.includes("exceeded")) {
       return "Usage quota exceeded. Please upgrade your plan or wait until your quota resets.";
+    }
+    if (
+      msg.includes("402") ||
+      msg.includes("insufficient_quota") ||
+      msg.includes("insufficient credit") ||
+      msg.includes("out of credit") ||
+      msg.includes("payment required") ||
+      msg.includes("no credits")
+    ) {
+      return "You're out of AI credits. Purchase more credits or upgrade your plan to keep running apps.";
     }
 
     return undefined;
@@ -115,7 +129,7 @@ export function useRunAIApp(
 
       const accessToken = await getAccessToken();
       const response = await fetch(
-        `${supabase.supabaseUrl}/functions/v1/run-ai-app`,
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/run-ai-app`,
         {
           method: "POST",
           headers: {
@@ -141,50 +155,64 @@ export function useRunAIApp(
 
         if (!reader) throw new Error("No reader available");
 
+        // Parse a single SSE "data:" line. Deltas are appended to accumulatedText
+        // (the only value surfaced to the UI — never the raw buffer), terminal /
+        // error events are surfaced via fullResponseRef / thrown errors.
+        const handleLine = (line: string) => {
+          if (!line.startsWith("data: ")) return;
+          const data = line.slice(6);
+          if (data === "[DONE]") {
+            setIsStreaming(false);
+            return;
+          }
+          try {
+            const parsed = JSON.parse(data);
+
+            if (parsed.type === "response.output_text.delta" && typeof parsed.delta === "string") {
+              accumulatedText += parsed.delta;
+              setStreamingContent(accumulatedText);
+            } else if (parsed.type === "response.completed") {
+              fullResponseRef.current = parsed.response ?? parsed;
+            } else if (parsed.type === "error") {
+              throw new Error(parsed.message || parsed.error?.message || "OpenAI streaming error");
+            }
+          } catch (eventError) {
+            // Ignore malformed SSE fragments, but preserve actual Error instances.
+            if (eventError instanceof Error && eventError.message !== "Unexpected end of JSON input") {
+              console.warn("[useRunAIApp] stream event parse warning:", eventError.message);
+            }
+          }
+        };
+
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
 
           buffer += decoder.decode(value, { stream: true });
-          setStreamingContent(buffer);
 
           const lines = buffer.split("\n");
           buffer = lines.pop() || "";
 
           for (const line of lines) {
-            if (line.startsWith("data: ")) {
-              const data = line.slice(6);
-              if (data === "[DONE]") {
-                setIsStreaming(false);
-                continue;
-              }
-              try {
-                const parsed = JSON.parse(data);
-
-                if (parsed.type === "response.output_text.delta" && typeof parsed.delta === "string") {
-                  accumulatedText += parsed.delta;
-                  setStreamingContent(accumulatedText);
-                } else if (parsed.type === "response.completed") {
-                  fullResponseRef.current = parsed.response ?? parsed;
-                } else if (parsed.type === "error") {
-                  throw new Error(parsed.message || parsed.error?.message || "OpenAI streaming error");
-                }
-              } catch (eventError) {
-                // Ignore malformed SSE fragments, but preserve actual Error instances.
-                if (eventError instanceof Error && eventError.message !== "Unexpected end of JSON input") {
-                  console.warn("[useRunAIApp] stream event parse warning:", eventError.message);
-                }
-              }
-            }
+            handleLine(line);
           }
         }
 
+        // Flush a trailing SSE line that arrived without a terminating newline.
+        if (buffer.trim()) {
+          handleLine(buffer.trimEnd());
+          buffer = "";
+        }
+
         if (accumulatedText) {
+          let parsed: any = accumulatedText;
           try {
-            setOutput(JSON.parse(accumulatedText));
+            parsed = JSON.parse(accumulatedText);
           } catch {
-            setOutput(accumulatedText);
+            // Non-JSON output is surfaced as plain text.
           }
+          setOutput(parsed);
+          finalOutputRef.current = parsed;
         }
 
         setStreamingContent(accumulatedText);
@@ -194,10 +222,11 @@ export function useRunAIApp(
 
         const result = data.output ?? data;
         setOutput(result);
+        finalOutputRef.current = result;
         fullResponseRef.current = data;
       }
     },
-    [slug]
+    [slug, getAccessToken]
   );
 
   const run = useCallback(
@@ -208,29 +237,40 @@ export function useRunAIApp(
       setStreamingContent("");
       setErrorSuggestion(undefined);
       fullResponseRef.current = null;
+      finalOutputRef.current = null;
 
       const contextPreamble = buildMultiTurnContext();
       const finalInputs = contextPreamble
         ? { ...inputs, _context: contextPreamble }
-        : inputs;
+        : { ...inputs };
+
+      // Attach the resolved vector store ids (localStorage selection or
+      // VITE_OPENAI_VECTOR_STORE_ID) so file_search-backed RAG apps get the
+      // tool enabled server-side. No-op when no store is configured.
+      const runnerInputs = withVectorStoreIds(finalInputs);
 
       // Use authenticated HTTP/SSE for normal app runs. Browser WebSockets cannot
       // attach the Authorization header used by our Clerk/Supabase integration,
       // so the old WebSocket-first path silently lost user identity.
       const attemptRun = async (): Promise<void> => {
-        return runSSE(finalInputs);
+        return runSSE(runnerInputs);
       };
 
       try {
         await attemptRun();
 
-        const finalOutput = fullResponseRef.current?.output ?? output;
+        const finalOutput = finalOutputRef.current ?? fullResponseRef.current?.output ?? output;
         options.onResult?.({
           success: true,
           output: finalOutput,
           metadata: fullResponseRef.current?.metadata ?? {},
         });
       } catch (err: any) {
+        // A user-initiated cancel (reset / "New") aborts the in-flight fetch.
+        // That is not a failure — clear transient state without an error banner.
+        if (err?.name === "AbortError") {
+          return;
+        }
         const msg =
           err?.message || err?.error || "Failed to run AI app";
         const suggestion = parseErrorSuggestion(msg);
@@ -255,14 +295,12 @@ export function useRunAIApp(
       }
     },
     [
-      slug,
       options,
       buildMultiTurnContext,
       runSSE,
       parseErrorSuggestion,
       autoRetry,
       maxRetries,
-      enableMultiTurn,
       output,
     ]
   );
@@ -274,18 +312,10 @@ export function useRunAIApp(
     setErrorSuggestion(undefined);
     fullResponseRef.current = null;
 
-    if (eventSourceRef.current) {
-      eventSourceRef.current.close();
-    }
-    if (wsRef.current) {
-      wsRef.current.close();
-    }
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
+    teardownConnections();
 
     options.onReset?.();
-  }, [options.onReset]);
+  }, [teardownConnections, options]);
 
   return {
     run,

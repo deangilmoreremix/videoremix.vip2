@@ -13,6 +13,7 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { SelectDropdown } from "@/components/agent-ui/SelectDropdown";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'real-estate-marketing-ai-form';
 
@@ -43,7 +44,7 @@ const TIMELINE_OPTIONS = [
 ];
 
 const AiRealEstateAgentTeamPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openai_api_key: "",
     _city: "",
@@ -90,11 +91,7 @@ const AiRealEstateAgentTeamPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/real-estate-marketing-ai`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("real-estate-marketing-ai", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Request failed');
       setResult(data);

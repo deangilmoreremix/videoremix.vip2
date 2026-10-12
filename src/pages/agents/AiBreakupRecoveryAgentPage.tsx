@@ -14,9 +14,10 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { FileUploadZone } from "@/components/agent-ui/FileUploadZone";
 import { Loader2, Heart, Upload, FileText, X } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const AiBreakupRecoveryAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({ 
     enter_your_openai_api_key: "", 
@@ -70,10 +71,7 @@ const AiBreakupRecoveryAgentPage: React.FC = () => {
       formDataToSend.append('how_are_you_feeling_what_happened', formData.how_are_you_feeling_what_happened);
       formDataToSend.append('upload_screenshots_of_your_chats_optional', formData.upload_screenshots_of_your_chats_optional);
       
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/multimodal-knowledge-ai`, {
-        method: 'POST',
-        body: formDataToSend
-      });
+      const res = await runViaRunner("multimodal-knowledge-ai", formDataToSend);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);

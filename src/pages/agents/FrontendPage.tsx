@@ -9,11 +9,12 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { Upload, Sparkles, Layout } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = 'private-chatgpt-clone-agent';
 
 const FrontendPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -42,10 +43,7 @@ const FrontendPage: React.FC = () => {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/private-chatgpt-clone`, {
-        method: 'POST',
-        body: formData
-      });
+      const res = await runViaRunner("private-chatgpt-clone", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);

@@ -7,6 +7,7 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { Zap, Sparkles, Code } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const DevpulseAiPage: React.FC = () => {
   const { user } = useAuth();
@@ -19,11 +20,7 @@ const DevpulseAiPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/personal-ai-memory-assistant`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user?.id })
-      });
+      const res = await runViaRunner("personal-ai-memory-assistant", { userId: user?.id });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

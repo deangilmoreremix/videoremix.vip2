@@ -13,11 +13,12 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Bug, CheckCircle2, AlertTriangle } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "debugger-agent";
 
 const DebuggerPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData, setFormData] = useState({
     openaiApiKey: "",
     codeSnippet: "",
@@ -54,20 +55,12 @@ const DebuggerPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/debugger`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      const res = await runViaRunner("debugger", {
             enter_your_openai_api_key: formData.openaiApiKey,
             paste_your_code_snippet: formData.codeSnippet,
             describe_the_error_or_issue: formData.errorDescription,
             programming_language: formData.language,
-            userId: user?.id,
-          }),
-        }
-      );
+          });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Debugging failed");
       setResult(data);

@@ -324,6 +324,8 @@ const productionReadySlugs = new Set([
 
 // Apps that have full Live Voice / Realtime API support in their custom UI
 // (uses the existing run-ai-app Edge Function with ?mode=realtime — no extra servers)
+// All 8 apps below have `realtime` in their server-side app-configs.ts entry
+// AND render RealtimeVoiceSession, so the flag now matches the real surface.
 export const VOICE_ENABLED_APPS = new Set([
   "ai-intake-voice-agent",
   "ai-dictation-assistant",
@@ -331,6 +333,10 @@ export const VOICE_ENABLED_APPS = new Set([
   "ai-app-builder-assistant",
   "build-plan-generator",
   "sprint-planner-ai",
+  // Strategy/consulting apps that declare realtime + render the voice UI
+  "ai-strategy-advisor",
+  "ai-business-growth-consultant",
+  "market-research-ai",
 ]);
 
 export function getAIAppComponent(slug: string): React.LazyExoticComponent<AIAppComponent> {

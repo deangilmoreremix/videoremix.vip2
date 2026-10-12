@@ -22,7 +22,7 @@ const AIAppRunnerPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { hasAccessToApp, loading: accessLoading, accessData } = useUserAccess();
+  const { hasAccessToApp, loading: accessLoading } = useUserAccess();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
   const importedApp = appsData.find((a) => a.id === slug);
@@ -45,6 +45,7 @@ const AIAppRunnerPage: React.FC = () => {
     : null;
 
   const [lastResult, setLastResult] = useState<any>(null);
+  const [isDemoResult, setIsDemoResult] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [lastError, setLastError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>("input");
@@ -52,22 +53,28 @@ const AIAppRunnerPage: React.FC = () => {
 
   // Fetch real usage on mount (graceful fallback if RPC not available)
   React.useEffect(() => {
-    if (user) {
-      supabase.rpc("get_ai_app_remaining_runs", { user_uuid: user.id, max_runs: 100 })
-        .then(({ data, error }) => {
-          if (error) {
-            console.warn("Usage tracking not available:", error.message);
-            return;
-          }
-          if (data !== null) {
-            const remaining = data as number;
-            setUsageData({ used: 100 - remaining, limit: 100 });
-          }
-        })
-        .catch((err) => {
-          console.warn("Usage tracking unavailable:", err);
+    if (!user) return;
+
+    const fetchUsage = async () => {
+      try {
+        const { data, error } = await supabase.rpc("get_ai_app_remaining_runs", {
+          user_uuid: user.id,
+          max_runs: 100,
         });
-    }
+        if (error) {
+          console.warn("Usage tracking not available:", error.message);
+          return;
+        }
+        if (data !== null) {
+          const remaining = data as number;
+          setUsageData({ used: 100 - remaining, limit: 100 });
+        }
+      } catch (err) {
+        console.warn("Usage tracking unavailable:", err);
+      }
+    };
+
+    fetchUsage();
   }, [user]);
 
   if (!slug || !isInternalAIApp(slug) || !app) {
@@ -189,6 +196,7 @@ const AIAppRunnerPage: React.FC = () => {
   const handleResult = useCallback((result: any) => {
     setLastResult(result);
     setLastError(null);
+    setIsDemoResult(!!result?.metadata?.demo);
     setActiveTab("results");
   }, []);
 
@@ -204,6 +212,7 @@ const AIAppRunnerPage: React.FC = () => {
   const handleReset = useCallback(() => {
     setLastResult(null);
     setLastError(null);
+    setIsDemoResult(false);
     setActiveTab("input");
   }, []);
 
@@ -248,7 +257,7 @@ const AIAppRunnerPage: React.FC = () => {
       // await supabase.from("ai_app_runs").insert({ user_id: user.id, app_slug: slug, storage_path: path, result_summary: ... });
 
       alert(`✅ Saved to your workspace!\nPath: ${path}\n(Cloud storage ready once bucket + policies are configured)`);
-    } catch (e: any) {
+    } catch {
       downloadResult(lastResult, fileName);
       alert("Cloud save unavailable — result downloaded locally instead.");
     }
@@ -318,6 +327,12 @@ const AIAppRunnerPage: React.FC = () => {
           </>
         ) : (
           <div className="space-y-6">
+            {isDemoResult && (
+              <div className="flex items-start gap-2 rounded-lg border border-amber-700 bg-amber-950/30 px-4 py-2.5 text-sm text-amber-300">
+                <span>Demo mode:</span>
+                <span>This app returned a placeholder because the server has no connected AI key/config for it. The output below is not a real specialized result. (See docs/completion/runtime-status.md)</span>
+              </div>
+            )}
             {lastResult ? (
               <ResultPanel
                 result={lastResult}

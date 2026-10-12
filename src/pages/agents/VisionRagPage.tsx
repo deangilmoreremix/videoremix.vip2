@@ -31,7 +31,7 @@ interface FormData {
 }
 
 const VisionRagPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [formData, setFormData] = useState<FormData>({
     openai_api_key: "",

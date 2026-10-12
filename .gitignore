@@ -39,3 +39,6 @@ dist-ssr
 scripts/_*.mjs
 scripts/_*.json
 src/data/appsData.ts.clean*
+
+# Local migration backup output, never commit
+scripts/backups/

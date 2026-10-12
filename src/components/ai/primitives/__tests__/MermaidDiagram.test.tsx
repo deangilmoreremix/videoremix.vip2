@@ -1,6 +1,23 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { MermaidDiagram } from "../MermaidDiagram";
 
+// The `mermaid` renderer is an external, heavy dependency that is intentionally
+// isolated so these tests verify MermaidDiagram's own logic (initialize call,
+// render invocation, error fallback, and SVG injection) without executing the
+// real parser. mermaid is a declared dependency (package.json "mermaid": "^12.1.0")
+// so the production build resolves it; see docs/completion/runtime-status.md.
+vi.mock("mermaid", () => ({
+  default: {
+    initialize: vi.fn(),
+    render: vi.fn(async (_id: string, diagram: string) => {
+      if (/not valid/i.test(diagram)) {
+        throw new Error("Invalid mermaid syntax");
+      }
+      return { svg: '<svg data-testid="mermaid-rendered"><g></g></svg>' };
+    }),
+  },
+}));
+
 describe("MermaidDiagram", () => {
   it("renders title when provided", () => {
     render(<MermaidDiagram diagram="graph TD;\nA-->B" title="Flow Diagram" />);

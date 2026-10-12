@@ -9,9 +9,10 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { ResultCard } from "@/components/agent-ui/ResultCard";
 import { Loader2, Crown, Gamepad2 } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const AiChessAgentPage: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
   const [formData] = useState({});
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -22,11 +23,7 @@ const AiChessAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-knowledgebase-debugger`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("ai-knowledgebase-debugger", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);
