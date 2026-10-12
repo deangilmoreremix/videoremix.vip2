@@ -51,6 +51,24 @@ const AppPage = lazy(() => import("./pages/AppPage"));
 const PricingPage = lazy(() => import("./pages/PricingPage"));
 const FAQPage = lazy(() => import("./pages/FAQPage"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+
+// SapienX AgentOS — loaded on demand so the workforce/runtime code never
+// bloats the dashboard bundle.
+const AgentOSMissionControlPage = lazy(() => import("./pages/agentos/MissionControlPage"));
+const AgentOSWorkforcePage = lazy(() => import("./pages/agentos/WorkforcePage"));
+const AgentOSWorkerNewPage = lazy(() => import("./pages/agentos/WorkerNewPage"));
+const AgentOSWorkerDetailPage = lazy(() => import("./pages/agentos/WorkerDetailPage"));
+const AgentOSWorkspacesPage = lazy(() => import("./pages/agentos/WorkspacesPage"));
+const AgentOSWorkspaceDetailPage = lazy(() => import("./pages/agentos/WorkspaceDetailPage"));
+const AgentOSMissionsPage = lazy(() => import("./pages/agentos/MissionsPage"));
+const AgentOSMissionNewPage = lazy(() => import("./pages/agentos/MissionNewPage"));
+const AgentOSMissionDetailPage = lazy(() => import("./pages/agentos/MissionDetailPage"));
+const AgentOSSchedulesPage = lazy(() => import("./pages/agentos/SchedulesPage"));
+const AgentOSApprovalsPage = lazy(() => import("./pages/agentos/ApprovalsPage"));
+const AgentOSOperationsPage = lazy(() => import("./pages/agentos/OperationsPage"));
+const AgentOSModelsPage = lazy(() => import("./pages/agentos/ModelsPage"));
+const AgentOSConnectionsPage = lazy(() => import("./pages/agentos/ConnectionsPage"));
+const AgentOSMemoryPage = lazy(() => import("./pages/agentos/MemoryPage"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
 const AdminSignUp = lazy(() => import("./components/admin/AdminSignUp"));
@@ -769,6 +787,200 @@ function App() {
                 <ErrorBoundary onError={handleError}>
                   <Suspense fallback={<SectionLoader />}>
                     <DashboardPage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* SapienX AgentOS — digital workforce, workspaces, missions, runtime */}
+          <Route
+            path="/agentos"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AgentOSMissionControlPage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentos/mission-control"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AgentOSMissionControlPage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentos/workforce"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AgentOSWorkforcePage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentos/workforce/new"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AgentOSWorkerNewPage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentos/workforce/:workerId"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AgentOSWorkerDetailPage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentos/workspaces"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AgentOSWorkspacesPage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentos/workspaces/:workspaceId"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AgentOSWorkspaceDetailPage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentos/missions"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AgentOSMissionsPage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentos/missions/new"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AgentOSMissionNewPage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentos/missions/:missionId"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AgentOSMissionDetailPage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentos/schedules"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AgentOSSchedulesPage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentos/approvals"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AgentOSApprovalsPage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentos/operations"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AgentOSOperationsPage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentos/models"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AgentOSModelsPage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentos/connections"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AgentOSConnectionsPage />
+                  </Suspense>
+                </ErrorBoundary>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentos/memory"
+            element={
+              <ProtectedRoute>
+                <ErrorBoundary onError={handleError}>
+                  <Suspense fallback={<SectionLoader />}>
+                    <AgentOSMemoryPage />
                   </Suspense>
                 </ErrorBoundary>
               </ProtectedRoute>
