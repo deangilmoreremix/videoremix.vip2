@@ -56,3 +56,8 @@ describe("appRegistry catalog invariants", () => {
     }
   });
 });
+
+// TEMPORARY certification probe — must fail and block the Netlify deploy.
+it("NEGATIVE PROBE: intentionally failing gate check", () => {
+  expect(1 + 1).toBe(3);
+});
