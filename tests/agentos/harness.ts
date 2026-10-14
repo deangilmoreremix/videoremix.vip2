@@ -114,10 +114,17 @@ class TableBuilder {
         };
       }
 
-      // RLS.
+      // RLS. A row is visible when the caller owns it OR the table is not
+      // tenant-scoped at all (the seeded catalogs: model_catalog,
+      // integrations). Requiring an exact owner match would hide those
+      // catalogs from every authenticated user, which is not what the real
+      // policies do.
       const sub = currentCaller();
       let rows = sub
-        ? table.rows.filter((row) => table.ownerOf(row) === sub)
+        ? table.rows.filter((row) => {
+            const owner = table.ownerOf(row);
+            return owner === sub || owner === null;
+          })
         : // Unauthenticated: only non-tenant-scoped catalogs are readable.
           table.rows.filter((row) => table.ownerOf(row) === null);
 
@@ -386,7 +393,12 @@ function matchesFilter(row: Row, filter: Filter): boolean {
     case "neq":
       return value !== filter.value;
     case "is":
-      return filter.value === null ? value === null : Boolean(value) === Boolean(filter.value);
+      // In Postgres an absent column value IS null, so is(null) must match both
+      // an explicit null and a column a fixture never set. Treating undefined
+      // as non-null here silently drops rows from every list query.
+      return filter.value === null
+        ? value === null || value === undefined
+        : value === filter.value;
     case "in":
       return Array.isArray(filter.value) && filter.value.includes(value);
     case "gt":
