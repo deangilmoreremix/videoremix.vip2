@@ -62,10 +62,16 @@ POLICY_COUNT=$(psql -d "${DB}" -tAc \
 echo "RLS policies: ${POLICY_COUNT}"
 
 # RLS must be enabled on every table in the schema.
+# RLS must be enabled on every table in the schema. The join must be
+# schema-qualified through pg_class/pg_namespace: joining pg_tables to pg_class
+# on relname ALONE matches a same-named table in another schema (this project
+# has public.tasks, public.workspaces, …), which silently reports a false zero.
 RLS_MISSING=$(psql -d "${DB}" -tAc "
-  SELECT count(*) FROM pg_tables t
-  JOIN pg_class c ON c.relname = t.tablename
-  WHERE t.schemaname = 'agentos'
+  SELECT count(*)
+  FROM pg_class c
+  JOIN pg_namespace n ON n.oid = c.relnamespace
+  WHERE n.nspname = 'agentos'
+    AND c.relkind = 'r'
     AND c.relrowsecurity = false")
 [ "${RLS_MISSING}" -eq 0 ] || { echo "FAIL: ${RLS_MISSING} agentos tables without RLS"; exit 1; }
 echo "every agentos table has RLS enabled"
