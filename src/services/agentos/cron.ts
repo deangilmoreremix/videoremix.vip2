@@ -61,7 +61,6 @@ function parsePart(part: string, fieldIndex: number): (value: number) => boolean
       }
     } else {
       lo = Number(token);
-      hi = step > 1 && token.includes("/") === false ? max : lo;
       if (!Number.isInteger(lo)) {
         throw new Error(`Invalid value "${token}" in cron field ${fieldIndex + 1}`);
       }
@@ -116,13 +115,22 @@ export function parseCron(expression: string): ParsedCron | null {
   }
 }
 
-/** Cron's classic day-of-week and day-of-month OR semantics. */
+/**
+ * Cron's classic day-of-week and day-of-month OR semantics.
+ *
+ * `date` holds the target zone's wall clock as a UTC epoch, so every field is
+ * read with the UTC accessors. Mixing in local reads (getDate/getDay) would
+ * silently evaluate the host's own timezone instead of the requested one.
+ */
 function dayMatches(parsed: ParsedCron, date: Date): boolean {
-  const dom = date.getDate();
-  const dow = date.getDay();
+  const dom = date.getUTCDate();
+  const dow = date.getUTCDay();
 
   const domOk = parsed.dayOfMonth.matches(dom);
-  const dowOk = parsed.dayOfWeek.matches(dow);
+  // Benchmark cron accepts both 0 and 7 for Sunday, but Date#getUTCDay() only
+  // returns 0-6. Testing dow+7 means a Sunday written as 7 still fires, and a
+  // span such as 6-7 keeps Sunday instead of silently dropping it.
+  const dowOk = parsed.dayOfWeek.matches(dow) || parsed.dayOfWeek.matches(dow + 7);
 
   if (!parsed.dayOfMonth.unrestricted && !parsed.dayOfWeek.unrestricted) {
     return domOk || dowOk;
@@ -136,15 +144,20 @@ const MINUTE_MS = 60_000;
 const HOUR_MS = 60 * MINUTE_MS;
 const DAY_MS = 24 * HOUR_MS;
 
-/** Safety net: stop searching after ~5 years of minute steps. */
-const MAX_STEPS = 5 * 366 * 24 * 60;
+/**
+ * Search budgets, counted separately so a single day-level skip cannot consume
+ * the minute budget. A never-matching expression must return null promptly
+ * rather than walking decades of calendar one step at a time.
+ */
+const MAX_MINUTE_STEPS = 5 * 366 * 24 * 60;
+const MAX_DAY_STEPS = 5 * 366 * 3;
 
 /**
- * The next time this expression fires at or after `base`.
+ * The next time this expression fires strictly after `base`.
  *
- * Returns null when the expression is unparseable or never matches (for
- * example the 31st of February), so callers can distinguish "no future run"
- * from "invalid input" only by pre-parsing.
+ * Returns null when the expression is unparseable or never matches (for example
+ * the 31st of February), so callers can distinguish "no future run" from
+ * "invalid input" only by pre-parsing.
  */
 export function nextCronRun(
   expression: string,
@@ -154,28 +167,36 @@ export function nextCronRun(
   const parsed = parseCron(expression);
   if (!parsed) return null;
 
-  // Work in the requested timezone's wall clock. To avoid pulling in a
-  // timezone database we compute the offset from the target zone once and apply
-  // it iteratively, which is correct for DST-aware zones within an hour of
-  // drift and exact for fixed-offset zones (including UTC).
+  // Work in the requested timezone's wall clock. To avoid pulling in a timezone
+  // database we compute the offset from the target zone once and apply it
+  // iteratively, which is correct for DST-aware zones within an hour of drift
+  // and exact for fixed-offset zones (including UTC).
   const offsetMs = getZoneOffsetMs(timezone);
-  const localCursor = new Date(base.getTime() + offsetMs);
+  const baseTimezone = base.getTime() + offsetMs;
+  const localCursor = new Date(baseTimezone);
 
-  // Step minute by minute in the zone's wall clock, skipping whole days when
-  // the day cannot match.
-  localCursor.setSeconds(0, 0);
+  // Step minute by minute in the zone's wall clock, skipping whole days when the
+  // day cannot match. localCursor is the wall clock, so the acceptance test must
+  // also run in wall-clock terms (baseTimezone) — comparing it to base.getTime()
+  // would shift the window by the whole offset and, west of UTC, skip the first
+  // candidate day outright.
+  localCursor.setUTCSeconds(0, 0);
 
-  let steps = 0;
-  while (steps < MAX_STEPS) {
-    steps += 1;
+  let minuteSteps = 0;
+  let daySteps = 0;
 
-    if (!parsed.month.matches(localCursor.getMonth() + 1)) {
+  while (minuteSteps < MAX_MINUTE_STEPS && daySteps < MAX_DAY_STEPS) {
+    minuteSteps += 1;
+
+    if (!parsed.month.matches(localCursor.getUTCMonth() + 1)) {
+      daySteps += 1;
       localCursor.setUTCDate(localCursor.getUTCDate() + 1);
       localCursor.setUTCHours(0, 0, 0, 0);
       continue;
     }
 
     if (!dayMatches(parsed, localCursor)) {
+      daySteps += 1;
       localCursor.setUTCDate(localCursor.getUTCDate() + 1);
       localCursor.setUTCHours(0, 0, 0, 0);
       continue;
@@ -184,6 +205,7 @@ export function nextCronRun(
     if (!parsed.hour.matches(localCursor.getUTCHours())) {
       const nextHour = localCursor.getUTCHours() + 1;
       if (nextHour >= 24) {
+        daySteps += 1;
         localCursor.setUTCDate(localCursor.getUTCDate() + 1);
         localCursor.setUTCHours(0, 0, 0, 0);
       } else {
@@ -197,7 +219,7 @@ export function nextCronRun(
       continue;
     }
 
-    if (localCursor.getTime() <= base.getTime()) {
+    if (localCursor.getTime() <= baseTimezone) {
       localCursor.setUTCMinutes(localCursor.getUTCMinutes() + 1, 0, 0);
       continue;
     }
