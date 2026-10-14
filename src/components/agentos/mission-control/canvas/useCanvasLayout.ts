@@ -206,7 +206,13 @@ export function resolveSelection(
   if (!nodeId) return { kind: "none" };
 
   const row = inputs.canvasNodes.find((node) => node.id === nodeId);
-  if (!row) return { kind: "none" };
+  if (!row) {
+    // Not persisted to the canvas table yet: on an unseeded board the nodes are
+    // derived directly from the user's rows, with ids shaped "<kind>:<refId>"
+    // (see deriveInitialLayout). Resolve those too so a click / command-bar
+    // selection opens the real record instead of falling back to the overview.
+    return resolveDerivedSelection(nodeId, inputs);
+  }
 
   if (row.node_kind === "worker" && row.ref_id) {
     const worker = inputs.workers.find((entry) => entry.id === row.ref_id);
@@ -233,6 +239,33 @@ export function resolveSelection(
     return { kind: "runtime", nodeId, run: run ?? null };
   }
 
+  return { kind: "none" };
+}
+
+// Resolve a derived (not-yet-saved) canvas node id of the form "<kind>:<refId>"
+// back to the row it represents.
+function resolveDerivedSelection(
+  nodeId: string,
+  inputs: CanvasInputs,
+): import("../inspector/InspectorPanel").InspectorSelection {
+  if (nodeId.startsWith("worker:")) {
+    const worker = inputs.workers.find((entry) => `worker:${entry.id}` === nodeId);
+    return worker ? { kind: "worker", nodeId, worker } : { kind: "none" };
+  }
+  if (nodeId.startsWith("mission:")) {
+    const mission = inputs.missions.find((entry) => `mission:${entry.id}` === nodeId);
+    if (!mission) return { kind: "none" };
+    const tasks = inputs.tasks.filter((task) => task.mission_id === mission.id);
+    return { kind: "task", nodeId, mission, tasks };
+  }
+  if (nodeId.startsWith("model:")) {
+    const model = inputs.models.find((entry) => `model:${entry.id}` === nodeId);
+    return model ? { kind: "model", nodeId, model } : { kind: "none" };
+  }
+  if (nodeId.startsWith("runtime:")) {
+    const run = inputs.runs.find((entry) => `runtime:${entry.id}` === nodeId) ?? inputs.runs[0] ?? null;
+    return { kind: "runtime", nodeId, run };
+  }
   return { kind: "none" };
 }
 

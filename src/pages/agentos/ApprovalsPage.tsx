@@ -21,7 +21,9 @@ const ApprovalsPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
   const [busyId, setBusyId] = useState<string | null>(null);
-  const [note, setNote] = useState("");
+  // One note per approval card: each decision must carry the note typed on
+  // its own card, not a single value shared across every row.
+  const [notes, setNotes] = useState<Record<string, string>>({});
 
   const reload = useCallback(() => setReloadKey((key) => key + 1), []);
 
@@ -48,16 +50,20 @@ const ApprovalsPage: React.FC = () => {
   const decide = useCallback(
     async (approvalId: string, decision: "approved" | "rejected") => {
       setBusyId(approvalId);
-      const result = await decideApproval({ approvalId, decision, note });
+      const result = await decideApproval({ approvalId, decision, note: notes[approvalId] ?? "" });
       setBusyId(null);
       if (result.error) {
         setError(result.error.message);
         return;
       }
-      setNote("");
+      setNotes((current) => {
+        const next = { ...current };
+        delete next[approvalId];
+        return next;
+      });
       reload();
     },
-    [note, reload],
+    [notes, reload],
   );
 
   if (loading) {
@@ -123,8 +129,10 @@ const ApprovalsPage: React.FC = () => {
                     </label>
                     <Textarea
                       id={`note-${approval.id}`}
-                      value={busyId === approval.id ? note : note}
-                      onChange={(event) => setNote(event.target.value)}
+                      value={notes[approval.id] ?? ""}
+                      onChange={(event) =>
+                        setNotes((current) => ({ ...current, [approval.id]: event.target.value }))
+                      }
                       rows={2}
                       placeholder="Why are you approving or rejecting this?"
                     />

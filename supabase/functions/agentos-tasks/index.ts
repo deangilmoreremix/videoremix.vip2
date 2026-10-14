@@ -88,6 +88,24 @@ async function handler(req: Request): Promise<Response> {
     const title = String((task as Record<string, unknown>).title ?? '').trim();
     if (!title) return fail('validation', 'task.title is required');
 
+    const handoffTo = (task as Record<string, unknown>).handoff_to_task_id;
+    if (typeof handoffTo === 'string') {
+      // A handoff edge names another task (the edge's task_id) that this task
+      // unblocks. The service client bypasses RLS, and the task_edges policy
+      // requires the caller to own the edge's task_id — enforce the same
+      // boundary here so a caller cannot requeue another tenant's task via
+      // complete_task's handoff fan-out.
+      const { data: target } = await supabase
+        .from('tasks')
+        .select('id')
+        .eq('id', handoffTo)
+        .eq('owner_clerk_id', caller.clerkUserId)
+        .maybeSingle();
+      if (!target) {
+        return fail('forbidden', 'handoff_to_task_id must reference your own task');
+      }
+    }
+
     const { data: created, error } = await supabase
       .from('tasks')
       .insert({
@@ -122,7 +140,6 @@ async function handler(req: Request): Promise<Response> {
       }
     }
 
-    const handoffTo = (task as Record<string, unknown>).handoff_to_task_id;
     if (typeof handoffTo === 'string') {
       await supabase.from('task_edges').insert({
         task_id: handoffTo,

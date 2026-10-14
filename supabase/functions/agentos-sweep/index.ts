@@ -73,6 +73,14 @@ Deno.serve((req) =>
       });
     }
     if (req.method !== 'POST') return fail('validation', 'Use POST');
+    // Scheduler-only. Both documented drivers (pg_cron in the project and an
+    // explicitly provisioned worker) present the service-role key, so this
+    // endpoint does not verify a user JWT: there is no browser caller. Without
+    // the service-role check the sweep would be anonymous, letting anyone
+    // enqueue schedules and expire leases across every tenant.
+    if (!req.headers.get('authorization')?.includes('service_role')) {
+      return fail('unauthenticated', 'Unauthorized');
+    }
     return handler();
   })(),
 );

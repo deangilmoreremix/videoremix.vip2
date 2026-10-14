@@ -11,6 +11,7 @@
 
 import { fail, ok, readJsonBody, withErrorGuard } from '../_shared/agentos-errors.ts';
 import { getServiceClient, verifyCaller } from '../_shared/agentos-client.ts';
+import { createClient } from 'npm:@supabase/supabase-js@2';
 
 interface ApprovalBody {
   approval_id?: string;
@@ -49,7 +50,23 @@ async function handler(req: Request): Promise<Response> {
     return fail('conflict', `approval is already ${approval.status}`);
   }
 
-  const { data: result, error } = await supabase.rpc('resolve_approval', {
+  // resolve_approval re-derives the acting user from the request JWT claims
+  // (agentos.current_clerk_id() reads request.jwt.claims ->> 'sub'). The
+  // service-role key carries no `sub`, so the RPC would refuse even the
+  // rightful owner; it must therefore be invoked with the caller's verified
+  // token forwarded, exactly like supabase/functions/analytics-events does.
+  // The ownership check above remains the authoritative tenant gate.
+  const callerClient = createClient(
+    Deno.env.get('SUPABASE_URL') ?? '',
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+    {
+      global: {
+        headers: { Authorization: req.headers.get('authorization') ?? '' },
+      },
+    },
+  );
+
+  const { data: result, error } = await callerClient.rpc('resolve_approval', {
     p_approval_id: approvalId,
     p_decision: decision,
     p_note: note ?? '',

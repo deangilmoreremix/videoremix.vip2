@@ -20,6 +20,7 @@ import {
 } from "./api";
 import { resolveSelection } from "./canvas/useCanvasLayout";
 import type { CanvasInputs } from "./canvas/useCanvasLayout";
+import { countPendingApprovals } from "../../../services/agentos/approvals";
 import type { Mission, Worker } from "../../../types/agentos";
 
 export interface MissionControlShellProps {
@@ -36,6 +37,7 @@ export const MissionControlShell: React.FC<MissionControlShellProps> = () => {
   const [seeding, setSeeding] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
   const [inspectorOpen, setInspectorOpen] = useState(true);
+  const [pendingApprovals, setPendingApprovals] = useState(0);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -53,6 +55,19 @@ export const MissionControlShell: React.FC<MissionControlShellProps> = () => {
   useEffect(() => {
     void load();
   }, [load]);
+
+  // Live pending-approval count for the sidebar badge; sourced from the
+  // approvals table rather than a hardcoded literal.
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      const result = await countPendingApprovals();
+      if (!cancelled && !result.error) setPendingApprovals(result.data ?? 0);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Cmd/Ctrl+K opens the command palette.
   useEffect(() => {
@@ -149,7 +164,7 @@ export const MissionControlShell: React.FC<MissionControlShellProps> = () => {
 
   return (
     <div className="flex h-[calc(100vh-4rem)] overflow-hidden">
-      <MissionControlSidebar pendingApprovalCount={0} />
+      <MissionControlSidebar pendingApprovalCount={pendingApprovals} />
       <div className="flex min-w-0 flex-1 flex-col">
         <MissionControlTopbar
           workspaces={data.workspaces}

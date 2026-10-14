@@ -171,9 +171,6 @@ async function handler(req: Request): Promise<Response> {
     }
     permissions = worker.permissions ?? {};
     ownerClerkId = worker.owner_clerk_id ?? caller.clerkUserId;
-
-    const allowed = body.tool === 'artifact_write' ? true : undefined;
-    void allowed;
   }
 
   const denied = permissions.denied_tools;

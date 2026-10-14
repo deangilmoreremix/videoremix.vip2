@@ -11,6 +11,7 @@ const MissionControlPage: React.FC = () => (
     <Helmet>
       <title>Mission Control — SapienX AgentOS</title>
     </Helmet>
+    <h1 className="sr-only">Mission Control</h1>
     <MissionControlShell />
   </>
 );

@@ -46,7 +46,6 @@ import {
   assemblePrompt,
   computeCredits,
   emitEvent,
-  evaluateToolCall,
   runModel,
   type ClaimedTask,
   type ExecutionSummary,
@@ -394,10 +393,14 @@ async function executeClaim(claim: ClaimedTask): Promise<ExecutionSummary> {
 async function handler(req: Request): Promise<Response> {
   // The scheduler may call this with the service-role key (no user JWT), which
   // is legitimate: it is executing the platform's own queue. A browser caller
-  // must still prove identity, and even then it may only claim its own work,
-  // which claim_due_tasks already enforces because the queue is tenant-scoped.
+  // must still prove identity, and even then it may only run its own work —
+  // enforced below, because claim_due_tasks is a scheduler RPC with no tenant
+  // predicate of its own.
   const caller = await verifyCaller(req);
-  const serviceCall = Boolean(req.headers.get('authorization')?.includes('service_role') || !caller);
+  // Only a request carrying the service-role key counts as a service call.
+  // `!caller` must NOT be treated as one: doing that made the guard below
+  // unreachable and let an anonymous caller claim every tenant's queue.
+  const serviceCall = Boolean(req.headers.get('authorization')?.includes('service_role'));
 
   if (!caller && !serviceCall) {
     return fail('unauthenticated', 'Unauthorized');
@@ -430,15 +433,44 @@ async function handler(req: Request): Promise<Response> {
     return ok({ claimed: 0, results: [] as ExecutionSummary[] });
   }
 
+  // claim_due_tasks is SECURITY DEFINER with no owner predicate: a user-scoped
+  // call claims every tenant's due tasks. A browser caller may only EXECUTE
+  // its own work, so foreign claims are released back to the queue untouched
+  // (our lease keeps other workers out until we release it).
+  const owned = caller
+    ? claimed.filter((claim) => claim.owner_clerk_id === caller.clerkUserId)
+    : claimed;
+
+  if (caller) {
+    for (const claim of claimed) {
+      if (claim.owner_clerk_id !== caller.clerkUserId) {
+        await supabase
+          .from('tasks')
+          .update({
+            status: 'queued',
+            lease_owner: null,
+            lease_expires_at: null,
+            run_after: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', claim.task_id);
+      }
+    }
+  }
+
+  if (owned.length === 0) {
+    return ok({ claimed: 0, results: [] as ExecutionSummary[] });
+  }
+
   await emitEvent({
     runId: null,
-    taskId: claimed[0].task_id,
+    taskId: owned[0].task_id,
     workerId: null,
-    ownerClerkId: claimed[0].owner_clerk_id,
+    ownerClerkId: owned[0].owner_clerk_id,
     kind: 'run.claimed',
     level: 'info',
-    message: `Claimed ${claimed.length} task(s) by ${workerId}`,
-    payload: { count: claimed.length, worker_id: workerId },
+    message: `Claimed ${owned.length} task(s) by ${workerId}`,
+    payload: { count: owned.length, worker_id: workerId },
   });
 
   // Guard the whole batch against the invocation budget. Any task that has not
@@ -446,7 +478,7 @@ async function handler(req: Request): Promise<Response> {
   const results: ExecutionSummary[] = [];
   const batchDeadline = Date.now() + RUNTIME_LIMITS.invokeTimeoutMs;
 
-  for (const claim of claimed) {
+  for (const claim of owned) {
     if (Date.now() >= batchDeadline) {
       results.push({
         taskId: claim.task_id,
@@ -460,7 +492,7 @@ async function handler(req: Request): Promise<Response> {
     results.push(await executeClaim(claim));
   }
 
-  return ok({ claimed: claimed.length, results });
+  return ok({ claimed: owned.length, results });
 }
 
 Deno.serve((req) =>

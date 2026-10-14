@@ -17,7 +17,7 @@ import { Textarea } from "../../components/ui/textarea";
 import { PageHeader, Section } from "../../components/agentos/ui";
 import { AsyncBoundary } from "../../components/agentos/shared";
 import { listWorkers } from "../../services/agentos/workers";
-import { createMission, createTask } from "../../services/agentos/missions";
+import { addTaskEdge, createMission, createTask } from "../../services/agentos/missions";
 import type { Worker } from "../../types/agentos";
 
 interface DraftTask {
@@ -123,14 +123,25 @@ const MissionNewPage: React.FC = () => {
       order.push(task.id);
     }
 
-    // Attach the tasks to the mission. The dependency edges are created by the
-    // task service as part of each createTask call ordering, so here we only
-    // need to link task -> mission.
+    // Attach the tasks to the mission, then persist the dependency edges the
+    // user drew between them (draft id -> real id). The mission and its tasks
+    // are the primary artifact, so a failed edge does not abort creation.
     const { supabase } = await import("../../utils/supabase");
     for (const draftId of order) {
       const taskId = idMap.get(draftId);
       if (!taskId) continue;
       await supabase.from("tasks").update({ mission_id: mission.data.id }).eq("id", taskId);
+    }
+
+    for (const task of named) {
+      const taskId = idMap.get(task.id);
+      if (!taskId) continue;
+      for (const depDraftId of task.dependsOn) {
+        const depTaskId = idMap.get(depDraftId);
+        if (!depTaskId || depTaskId === taskId) continue;
+        const edge = await addTaskEdge({ taskId, waitsFor: depTaskId, kind: "depends_on" });
+        if (edge.error) break;
+      }
     }
 
     setSubmitting(false);
