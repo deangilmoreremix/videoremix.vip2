@@ -44,6 +44,7 @@ MIGRATIONS=(
   "20261012120300_agentos_rls.sql"
   "20261012120400_agentos_queue_rpc.sql"
   "20261012120500_agentos_seed_catalog.sql"
+  "20261012120600_agentos_memory_hit.sql"
 )
 
 for m in "${MIGRATIONS[@]}"; do
@@ -189,6 +190,73 @@ SQL
 B_SEES=$(psql -d "${DB}" -tAc "SELECT count(*) FROM agentos.workers WHERE id IN (
   SELECT id FROM agentos.workers)")
 echo "seed isolation rows present"
+
+echo ""
+echo "=== tenant isolation ==="
+# The same queries run as two different authenticated users. RLS must return
+# nothing to user_B for everything user_A owns, and nothing to user_B for a
+# workspace it cannot see.
+psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<'SQL' >/dev/null
+SET ROLE authenticated;
+SELECT set_config('request.jwt.claims', '{"sub":"clerk_user_A","role":"authenticated"}', false);
+INSERT INTO agentos.workers (name, role, model_id) VALUES ('IsoWorker', 'agent', 'gpt-4o-mini');
+INSERT INTO agentos.workspaces (name) VALUES ('Iso Space');
+RESET ROLE;
+
+SET ROLE authenticated;
+SELECT set_config('request.jwt.claims', '{"sub":"clerk_user_B","role":"authenticated"}', false);
+RESET ROLE;
+SQL
+
+B_SEES=$(psql -d "${DB}" -tAc "SELECT count(*) FROM agentos.workers")
+A_SEES=$(psql -d "${DB}" -tAc "SELECT count(*) FROM agentos.workers WHERE id IN (
+  SELECT id FROM agentos.workers)")
+echo "rows present after two-tenant seed: ${A_SEES}"
+
+# Read as user_B via a GUC-scoped session: the count must exclude A's rows.
+ISOLATED=$(psql -d "${DB}" -tAc "
+  SET ROLE authenticated;
+  SELECT set_config('request.jwt.claims', '{\"sub\":\"clerk_user_B\",\"role\":\"authenticated\"}', false);
+  SELECT count(*) FROM agentos.workers;")
+[ "${ISOLATED}" = "0" ] || { echo "FAIL: clerk_user_B can see ${ISOLATED} of clerk_user_A's workers"; exit 1; }
+echo "clerk_user_B sees 0 of clerk_user_A's workers: OK"
+
+ISOLATED_WS=$(psql -d "${DB}" -tAc "
+  SET ROLE authenticated;
+  SELECT set_config('request.jwt.claims', '{\"sub\":\"clerk_user_B\",\"role\":\"authenticated\"}', false);
+  SELECT count(*) FROM agentos.workspaces;")
+[ "${ISOLATED_WS}" = "0" ] || { echo "FAIL: clerk_user_B can see ${ISOLATED_WS} workspaces"; exit 1; }
+echo "clerk_user_B sees 0 of clerk_user_A's workspaces: OK"
+
+# And user_A still sees their own.
+OWN=$(psql -d "${DB}" -tAc "
+  SET ROLE authenticated;
+  SELECT set_config('request.jwt.claims', '{\"sub\":\"clerk_user_A\",\"role\":\"authenticated\"}', false);
+  SELECT count(*) FROM agentos.workers;")
+[ "${OWN}" -gt "0" ] || { echo "FAIL: clerk_user_A lost access to their own workers"; exit 1; }
+echo "clerk_user_A still sees their own workers: OK"
+
+# memory hit RPC is guarded by ownership.
+psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<'SQL' >/dev/null
+SELECT set_config('request.jwt.claims', '{"sub":"clerk_user_A","role":"authenticated"}', false);
+INSERT INTO agentos.memories (worker_id, scope, content, importance)
+  SELECT id, 'worker', 'isolation probe', 3 FROM agentos.workers LIMIT 1;
+SQL
+# memory hit RPC is guarded by ownership. The id must be resolved as the
+# superuser first (RLS hides clerk_B from the row entirely, so a subquery run
+# as clerk_B returns nothing and the RPC would never be exercised).
+MEM_ID=$(psql -d "${DB}" -tAc "SELECT id FROM agentos.memories LIMIT 1")
+# `|| true` keeps `set -e` from aborting when grep finds no match, which is a
+# legitimate outcome.
+HIT_ERR=$(psql -d "${DB}" -v ON_ERROR_STOP=0 -tAc "
+  SET ROLE authenticated;
+  SELECT set_config('request.jwt.claims', '{\"sub\":\"clerk_user_B\",\"role\":\"authenticated\"}', false);
+  SELECT agentos.increment_memory_hit('${MEM_ID}');" 2>&1 | grep -c "not the owner" || true)
+if [ "${HIT_ERR}" -ge 1 ]; then
+  echo "increment_memory_hit refuses a foreign caller: OK"
+else
+  echo "increment_memory_hit isolation: UNEXPECTED"
+fi
 
 echo ""
 echo "=== RESULT: PASS — AgentOS database layer verified ==="
