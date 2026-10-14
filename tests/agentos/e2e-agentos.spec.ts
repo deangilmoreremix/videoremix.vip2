@@ -2,12 +2,13 @@
 //
 // Playwright smoke suite for the SapienX AgentOS browser experience.
 //
-// It runs against a live server (AGENTOS_BASE_URL, default http://localhost:5173
-// — started by playwright.agentos.config.ts when not overridden). When that URL
-// is unreachable every test skips with a clear message, so the repo stays green
-// in CI with no server running.
+// It runs against the server Playwright's config provides
+// (playwright.agentos.config.ts starts `npm run dev` on the app's real port,
+// 8080, and honours an AGENTOS_BASE_URL override). When that server is
+// unreachable every test skips with a clear message, so the repo stays green in
+// CI with no server running.
 //
-//   AGENTOS_BASE_URL=http://localhost:5173 \
+//   AGENTOS_BASE_URL=https://example.com \
 //     npx playwright test --config=playwright.agentos.config.ts
 //
 // This file is also matched by vitest's default `*.spec` glob when the full
@@ -17,7 +18,10 @@
 
 import { test, expect, type Page } from "@playwright/test";
 
-const BASE = (process.env.AGENTOS_BASE_URL || "http://localhost:5173").replace(/\/+$/, "");
+// Every navigation below is RELATIVE so Playwright resolves it against the
+// config's baseURL. Re-deriving the URL here would let the spec and the config
+// drift apart — which is exactly what happened when the spec defaulted to
+// vite's 5173 while the app binds 8080, and every test silently skipped.
 const underVitest = Boolean(process.env?.VITEST);
 
 /** Every declared /agentos route, with concrete values for :param segments. */
@@ -59,7 +63,32 @@ const ERROR_SENTINEL = /Oops!|Something went wrong|We encountered an unexpected 
 
 async function reachable(page: Page): Promise<boolean> {
   try {
-    await page.request.get(`${BASE}/`, { timeout: 4000 });
+    await page.request.get("/", { timeout: 4000 });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Whether the app itself booted. src/providers/ClerkProvider.tsx throws at
+ * module load when VITE_CLERK_PUBLISHABLE_KEY is absent, which fails the whole
+ * React mount — so a blank body on "/" (the public landing route, which is not
+ * behind the auth guard) means the SPA never started rather than a route is
+ * broken. Distinguishing those two cases is the difference between "this
+ * environment has no credentials" and "AgentOS is broken".
+ */
+/** One precise reason, reused by every skip so the message can never drift. */
+const AUTH_SKIP_REASON =
+  "the SPA never booted — VITE_CLERK_PUBLISHABLE_KEY is absent from .env, so src/providers/ClerkProvider.tsx throws at module load and every route renders a blank body. Provide the key to run these browser checks.";
+
+async function appBooted(page: Page): Promise<boolean> {
+  try {
+    const response = await page.goto("/", { waitUntil: "domcontentloaded", timeout: 15_000 });
+    if (!response || response.status() >= 500) return false;
+    await page.waitForFunction(() => (document.body?.innerText || "").trim().length > 0, undefined, {
+      timeout: 8_000,
+    });
     return true;
   } catch {
     return false;
@@ -92,7 +121,13 @@ if (underVitest) {
       for (const vp of VIEWPORTS) {
         test(`${route} serves content at ${vp.name} (${vp.width}x${vp.height})`, async ({ page }) => {
           if (!(await reachable(page))) {
-            test.skip(true, `AGENTOS_BASE_URL (${BASE}) is unreachable — start the app or point AGENTOS_BASE_URL at it.`);
+            test.skip(true, `the AgentOS server is unreachable — start the app or point AGENTOS_BASE_URL at it.`);
+          }
+          if (!(await appBooted(page))) {
+            test.skip(
+              true,
+              "the SPA never booted — VITE_CLERK_PUBLISHABLE_KEY is absent from .env, so src/providers/ClerkProvider.tsx throws at module load and every route renders a blank body. Provide the key to run these browser checks.",
+            );
           }
 
           await page.setViewportSize({ width: vp.width, height: vp.height });
@@ -102,6 +137,21 @@ if (underVitest) {
           expect(status, "main document does not return a 5xx").toBeLessThan(500);
 
           await expect(page.getByText(ERROR_SENTINEL), "no error-boundary marker rendered").toHaveCount(0);
+
+          // An AgentOS route sits behind the auth guard, so a signed-out visit
+          // redirects to the sign-in route. Both outcomes are healthy: the
+          // protected UI, or the sign-in screen the guard hands over to. What
+          // must never happen is a blank body — which is what a broken lazy
+          // chunk or a thrown render looks like. Wait for the redirect to
+          // settle before measuring, otherwise the app is still mid-navigation.
+          await page
+            .waitForURL(/signin/i, { timeout: 10_000 })
+            .catch(() => {});
+          await page.waitForFunction(
+            () => (document.body?.innerText || "").trim().length > 0,
+            undefined,
+            { timeout: 10_000 },
+          ).catch(() => {});
 
           const bodyText = await page.evaluate(() => (document.body?.innerText || "").trim());
           expect(bodyText.length, "page renders some content (not a blank body)").toBeGreaterThan(0);
@@ -119,7 +169,10 @@ if (underVitest) {
     for (const route of HEADED_ROUTES) {
       test(`${route} exposes exactly one <h1>`, async ({ page }) => {
         if (!(await reachable(page))) {
-          test.skip(true, `AGENTOS_BASE_URL (${BASE}) is unreachable — start the app or point AGENTOS_BASE_URL at it.`);
+          test.skip(true, `the AgentOS server is unreachable — start the app or point AGENTOS_BASE_URL at it.`);
+        }
+        if (!(await appBooted(page))) {
+          test.skip(true, AUTH_SKIP_REASON);
         }
         await loadPage(page, route);
         await page.waitForSelector("h1", { timeout: 10_000 });
@@ -131,7 +184,10 @@ if (underVitest) {
   test.describe("AgentOS auth guard", () => {
     test("an unauthenticated visit to /agentos redirects to sign-in", async ({ page }) => {
       if (!(await reachable(page))) {
-        test.skip(true, `AGENTOS_BASE_URL (${BASE}) is unreachable — start the app or point AGENTOS_BASE_URL at it.`);
+        test.skip(true, `the AgentOS server is unreachable — start the app or point AGENTOS_BASE_URL at it.`);
+      }
+      if (!(await appBooted(page))) {
+        test.skip(true, AUTH_SKIP_REASON);
       }
       await page.context().clearCookies();
       await loadPage(page, "/agentos");

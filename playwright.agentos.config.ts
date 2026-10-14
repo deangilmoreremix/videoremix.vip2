@@ -15,7 +15,12 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const override = (process.env.AGENTOS_BASE_URL || "").trim();
-const DEFAULT_URL = "http://localhost:5173";
+// The app's own vite config pins the dev port to 8080 (vite.config.ts:60), so
+// that is what `npm run dev` actually binds. Pointing this at vite's default of
+// 5173 made the webServer wait forever for a server that never appears.
+const DEFAULT_URL = "http://localhost:8080";
+/** The port the dev server binds, kept in sync with vite.config.ts. */
+const DEV_PORT = 8080;
 
 export default defineConfig({
   testDir: "./tests/agentos",
