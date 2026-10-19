@@ -84,9 +84,14 @@ export async function readJsonBody<T = Record<string, unknown>>(
 /**
  * Wrap a handler so an unexpected throw becomes a 500 envelope instead of an
  * unstructured stack trace leaking to the client.
+ *
+ * WHY THE HANDLER TAKES NO ARGUMENT
+ *   The guard is invoked as `withErrorGuard(async () => { ... })` inside the
+ *   Deno.serve callback, where the request is already in scope. Typing the
+ *   parameter as a Request would make every call site a type error.
  */
 export async function withErrorGuard(
-  handler: (req: Request) => Promise<Response>,
+  handler: () => Promise<Response>,
 ): Promise<Response> {
   try {
     return await handler();

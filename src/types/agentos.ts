@@ -527,6 +527,49 @@ export interface CanvasEdge {
 }
 
 // ---------------------------------------------------------------------------
+// Projections for the user-facing surfaces: artifacts, activity, notifications
+// ---------------------------------------------------------------------------
+
+/**
+ * The artifact kinds the `agentos.artifacts` table accepts (its CHECK
+ * constraint). Mirrors `Artifact["kind"]` so a filter chip and a card can
+ * share one vocabulary.
+ */
+export type ArtifactKind = 'file' | 'text' | 'image' | 'audio' | 'video' | 'report';
+
+/** Which table a merged activity entry came from. */
+export type ActivitySource = 'audit' | 'event';
+
+/**
+ * One row of the merged activity stream.
+ *
+ * WHY A PROJECTION
+ *   `agentos.audit_logs` (who changed what) and `agentos.execution_events`
+ *   (what the runtime did) have different shapes, but the activity timeline
+ *   renders both. This is the common shape they are projected into, so the
+ *   timeline has a single item component instead of two that drift apart.
+ */
+export interface ActivityEntry {
+  id: string;
+  /** The table this entry was read from. */
+  source: ActivitySource;
+  /** The audit action, or the execution event kind. */
+  kind: string;
+  /** The audit summary, or the execution event message. */
+  message: string;
+  /** The Clerk user id of the actor, when the row records one. */
+  actor_clerk_id: string | null;
+  /** The audit `acting_as` role. Execution events are written by the runtime. */
+  acting_as: 'user' | 'worker' | 'system' | null;
+  entity_type: string | null;
+  entity_id: string | null;
+  /** Set for execution events: the worker and task the event belongs to. */
+  worker_id: string | null;
+  task_id: string | null;
+  created_at: ISODateTime;
+}
+
+// ---------------------------------------------------------------------------
 // Result envelopes used by every AgentOS service
 // ---------------------------------------------------------------------------
 

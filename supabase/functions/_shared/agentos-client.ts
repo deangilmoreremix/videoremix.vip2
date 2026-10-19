@@ -56,6 +56,19 @@ export function getServiceClient(): AnySupabaseClient {
 }
 
 /**
+ * A client pinned to the `credits` schema.
+ *
+ * WHY A SEPARATE SCHEMA
+ *   The credit ledger lives in the `credits` schema, not in `agentos`, and
+ *   the shared service client is pinned to `agentos`. The billing RPC
+ *   (`credits.deduct_credits`) therefore has to be addressed against its own
+ *   schema, exactly like run-ai-app does.
+ */
+export function getCreditsClient(): AnySupabaseClient {
+  return getServiceClient().schema('credits');
+}
+
+/**
  * A client that acts as the CALLER (the request's own JWT) while still
  * resolving AgentOS objects in the `agentos` schema. The service-role key
  * carries no `sub`, so the SECURITY DEFINER RPCs that re-derive the acting

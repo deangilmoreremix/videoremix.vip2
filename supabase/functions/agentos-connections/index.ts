@@ -153,5 +153,5 @@ Deno.serve((req) =>
     }
     if (req.method !== 'POST') return fail('validation', 'Use POST');
     return handler(req);
-  })(),
+  }),
 );

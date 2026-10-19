@@ -106,6 +106,24 @@ async function handler(req: Request): Promise<Response> {
       }
     }
 
+    // The same boundary applies to the dependencies: an edge onto somebody
+    // else's task would make this task wait for — and then unblock — work
+    // this tenant does not own.
+    const dependsOn = (task as Record<string, unknown>).depends_on;
+    const dependencyIds = Array.isArray(dependsOn)
+      ? (dependsOn as unknown[]).filter((id): id is string => typeof id === 'string')
+      : [];
+    if (dependencyIds.length > 0) {
+      const { data: owned } = await supabase
+        .from('tasks')
+        .select('id')
+        .in('id', dependencyIds)
+        .eq('owner_clerk_id', caller.clerkUserId);
+      if ((owned ?? []).length !== dependencyIds.length) {
+        return fail('forbidden', 'depends_on must reference your own tasks');
+      }
+    }
+
     const { data: created, error } = await supabase
       .from('tasks')
       .insert({
@@ -130,26 +148,36 @@ async function handler(req: Request): Promise<Response> {
     const taskId = (created as { id: string }).id;
 
     // Attach dependency edges declared alongside the task.
-    const dependsOn = (task as Record<string, unknown>).depends_on;
-    if (Array.isArray(dependsOn) && dependsOn.length > 0) {
-      const edges = (dependsOn as unknown[])
-        .filter((id): id is string => typeof id === 'string')
-        .map((waitsFor) => ({ task_id: taskId, waits_for: waitsFor, kind: 'depends_on' }));
-      if (edges.length > 0) {
-        await supabase.from('task_edges').insert(edges);
+    if (dependencyIds.length > 0) {
+      const edges = dependencyIds.map((waitsFor) => ({
+        task_id: taskId,
+        waits_for: waitsFor,
+        kind: 'depends_on',
+      }));
+      const { error: edgeError } = await supabase.from('task_edges').insert(edges);
+      if (edgeError) {
+        return fail('internal', 'Could not attach the task dependencies', edgeError.message);
       }
     }
 
     if (typeof handoffTo === 'string') {
-      await supabase.from('task_edges').insert({
+      const { error: edgeError } = await supabase.from('task_edges').insert({
         task_id: handoffTo,
         waits_for: taskId,
         kind: 'handoff',
       });
+      if (edgeError) {
+        return fail('internal', 'Could not attach the handoff edge', edgeError.message);
+      }
     }
 
     // enqueue_task decides whether this is claimable now or blocked.
-    const { data: decision } = await supabase.rpc('enqueue_task', { p_task_id: taskId });
+    const { data: decision, error: enqueueError } = await supabase.rpc('enqueue_task', {
+      p_task_id: taskId,
+    });
+    if (enqueueError) {
+      return fail('internal', 'The task was created but could not be queued', enqueueError.message);
+    }
 
     const { data: updated } = await supabase
       .from('tasks')
@@ -179,19 +207,36 @@ async function handler(req: Request): Promise<Response> {
     }
 
     if (body.action === 'cancel') {
-      const { error } = await supabase
-        .from('tasks')
-        .update({ status: 'cancelled', completed_at: new Date().toISOString(), lease_owner: null, lease_expires_at: null })
-        .eq('id', body.task_id);
+      // cancel_task owns the cancellation: it cancels the dependents, voids
+      // the pending approval and rolls the mission up. Writing the status
+      // directly would skip all of that.
+      const { data: decision, error } = await supabase.rpc('cancel_task', {
+        p_task_id: body.task_id,
+        p_reason: 'cancelled by the operator',
+      });
       if (error) return fail('internal', 'Could not cancel task', error.message);
-      return ok({ task_id: body.task_id, status: 'cancelled' });
+      return ok({ task_id: body.task_id, status: decision ?? 'cancelled' });
     }
 
-    // Retry: requeue and reset the lease without incrementing the attempt
-    // count punitively — max_attempts still caps the total.
+    // Retry: requeue the task and reset the attempt counter, so the task gets
+    // its full budget again. A task that is waiting on a human decision is
+    // refused: requeueing it would race the approval gate.
+    if (task.status === 'waiting_approval') {
+      return fail('conflict', 'the task is waiting on a human approval; resolve the approval first');
+    }
+
     const { error } = await supabase
       .from('tasks')
-      .update({ status: 'queued', run_after: new Date().toISOString(), error: null, lease_owner: null, lease_expires_at: null })
+      .update({
+        status: 'queued',
+        attempt: 0,
+        run_after: new Date().toISOString(),
+        error: null,
+        lease_owner: null,
+        lease_expires_at: null,
+        blocked_reason: null,
+        updated_at: new Date().toISOString(),
+      })
       .eq('id', body.task_id);
     if (error) return fail('internal', 'Could not requeue task', error.message);
     return ok({ task_id: body.task_id, status: 'queued' });
@@ -215,5 +260,5 @@ Deno.serve((req) =>
       return fail('validation', 'Use GET or POST');
     }
     return handler(req);
-  })(),
+  }),
 );

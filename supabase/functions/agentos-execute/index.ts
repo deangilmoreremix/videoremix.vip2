@@ -40,13 +40,16 @@ import {
   readJsonBody,
   withErrorGuard,
 } from '../_shared/agentos-errors.ts';
-import { getServiceClient, verifyCaller } from '../_shared/agentos-client.ts';
+import { getCreditsClient, getServiceClient, verifyCaller } from '../_shared/agentos-client.ts';
 import {
   RUNTIME_LIMITS,
   assemblePrompt,
   computeCredits,
   emitEvent,
-  runModel,
+  hasGrantedApproval,
+  loadToolPolicy,
+  resolveOfferedTools,
+  runModelWithTools,
   type ClaimedTask,
   type ExecutionSummary,
 } from '../_shared/agentos-runtime.ts';
@@ -113,44 +116,166 @@ async function checkExecutionAllowed(claim: ClaimedTask): Promise<CreditCheck> {
   return { allowed: true, note: 'byok' };
 }
 
-/** Park a running task on the human approval gate. */
-async function parkForApproval(claim: ClaimedTask, runId: string | null): Promise<ExecutionSummary> {
+/**
+ * Record the failure of a claimed task and hand it back to the queue.
+ *
+ * WHY THE LEASE OWNER IS ALWAYS PASSED
+ *   complete_task / fail_task fence on the lease owner. The owner is the
+ *   identity this batch claimed the task with, so passing it is what proves
+ *   the task was not re-claimed by somebody else in the meantime.
+ */
+async function failClaim(params: {
+  claim: ClaimedTask;
+  runId: string | null;
+  leaseOwner: string;
+  message: string;
+  outcome?: ExecutionSummary['outcome'];
+}): Promise<ExecutionSummary> {
   const supabase = getServiceClient();
 
-  const { data: approvalId, error } = await supabase.rpc('request_approval', {
-    p_task_id: claim.task_id,
-    p_action_type: 'execute_task',
-    p_action_payload: { title: claim.title, worker: claim.worker_name },
-    p_reason: 'the worker requested human approval before continuing',
-    p_expires_in_seconds: 86_400,
+  await emitEvent({
+    runId: params.runId,
+    taskId: params.claim.task_id,
+    workerId: params.claim.worker_id,
+    ownerClerkId: params.claim.owner_clerk_id,
+    kind: 'run.failed',
+    level: 'error',
+    message: params.message,
+  });
+
+  const { data: decision, error } = await supabase.rpc('fail_task', {
+    p_task_id: params.claim.task_id,
+    p_error: params.message,
+    p_run_id: params.runId,
+    p_lease_owner: params.leaseOwner,
   });
 
   if (error) {
-    console.error('[agentos-execute] request_approval failed', error.message);
+    console.error('[agentos-execute] could not fail the task', error.message);
+    return {
+      taskId: params.claim.task_id,
+      workerId: params.claim.worker_id,
+      runId: params.runId,
+      outcome: 'failed',
+      detail: `${params.message} (the queue could not be updated: ${error.message})`,
+    };
+  }
+
+  return {
+    taskId: params.claim.task_id,
+    workerId: params.claim.worker_id,
+    runId: params.runId,
+    outcome: params.outcome ?? (decision === 'retry' ? 'retry' : 'failed'),
+    detail: params.message,
+  };
+}
+
+/**
+ * Park a running task on the human approval gate.
+ *
+ * WHY THE RUN ID IS PASSED
+ *   Without it the approval row has no link to the run that asked for it, and
+ *   the transcript of the parked run loses its context.
+ */
+async function parkForApproval(params: {
+  claim: ClaimedTask;
+  runId: string | null;
+  leaseOwner: string;
+  actionType: string;
+  actionPayload: Record<string, unknown>;
+  reason: string;
+}): Promise<ExecutionSummary> {
+  const supabase = getServiceClient();
+
+  const { data: approvalId, error } = await supabase.rpc('request_approval', {
+    p_task_id: params.claim.task_id,
+    p_action_type: params.actionType,
+    p_action_payload: params.actionPayload,
+    p_reason: params.reason,
+    p_expires_in_seconds: 86_400,
+    p_run_id: params.runId,
+  });
+
+  if (error) {
+    // The gate could not be opened: the task must not sit in 'running' with a
+    // lease nobody owns, so it is failed instead of being left dangling.
+    console.error('[agentos-execute] could not request the approval', error.message);
+    return failClaim({
+      claim: params.claim,
+      runId: params.runId,
+      leaseOwner: params.leaseOwner,
+      message: `the approval could not be requested: ${error.message}`,
+    });
   }
 
   await emitEvent({
-    runId,
-    taskId: claim.task_id,
-    workerId: claim.worker_id,
-    ownerClerkId: claim.owner_clerk_id,
+    runId: params.runId,
+    taskId: params.claim.task_id,
+    workerId: params.claim.worker_id,
+    ownerClerkId: params.claim.owner_clerk_id,
     kind: 'approval.requested',
     level: 'warn',
-    message: `Human approval required before running "${claim.title}"`,
-    payload: { approval_id: approvalId ?? null },
+    message: `Human approval required before running "${params.claim.title}"`,
+    payload: { approval_id: approvalId ?? null, action_type: params.actionType },
   });
 
   return {
-    taskId: claim.task_id,
-    workerId: claim.worker_id,
-    runId,
+    taskId: params.claim.task_id,
+    workerId: params.claim.worker_id,
+    runId: params.runId,
     outcome: 'waiting_approval',
     detail: 'task parked on the human approval gate',
   };
 }
 
+/**
+ * Debit the tenant for a completed run.
+ *
+ * WHY THE DEBIT IS PART OF THE RUN
+ *   The provider was already paid for the tokens. A run whose credits could
+ *   not be debited is not a successful run: the ledger has to agree with the
+ *   provider bill, so the failure is reported instead of being swallowed.
+ */
+async function debitCredits(params: {
+  ownerClerkId: string;
+  taskId: string;
+  runId: string | null;
+  workerId: string | null;
+  model: string;
+  promptTokens: number;
+  completionTokens: number;
+  credits: number;
+}): Promise<{ ok: boolean; error?: string }> {
+  const amount = Math.round(params.credits);
+  if (amount <= 0) return { ok: true };
+
+  const creditsClient = getCreditsClient();
+  const { error } = await creditsClient.rpc('deduct_credits', {
+    p_user_id: params.ownerClerkId,
+    p_app_id: 'agentos',
+    p_amount: amount,
+    p_type: 'api_usage',
+    p_source: 'agentos_execute',
+    p_source_id: params.runId ?? params.taskId,
+    p_metadata: {
+      task_id: params.taskId,
+      run_id: params.runId,
+      worker_id: params.workerId,
+      model: params.model,
+      prompt_tokens: params.promptTokens,
+      completion_tokens: params.completionTokens,
+    },
+  });
+
+  if (error) return { ok: false, error: error.message };
+  return { ok: true };
+}
+
 /** Execute one claimed task end to end. */
-async function executeClaim(claim: ClaimedTask): Promise<ExecutionSummary> {
+async function executeClaim(
+  claim: ClaimedTask,
+  leaseOwner: string,
+): Promise<ExecutionSummary> {
   const supabase = getServiceClient();
 
   await emitEvent({
@@ -176,56 +301,44 @@ async function executeClaim(claim: ClaimedTask): Promise<ExecutionSummary> {
   const runId: string | null = runRow?.id ?? null;
 
   if (!claim.worker_id) {
-    await emitEvent({
+    return failClaim({
+      claim,
       runId,
-      taskId: claim.task_id,
-      workerId: null,
-      ownerClerkId: claim.owner_clerk_id,
-      kind: 'run.failed',
-      level: 'error',
+      leaseOwner,
       message: `Task "${claim.title}" has no assigned worker`,
-    });
-    await supabase.rpc('fail_task', {
-      p_task_id: claim.task_id,
-      p_error: 'no worker assigned',
-      p_run_id: runId,
-    });
-    return {
-      taskId: claim.task_id,
-      workerId: null,
-      runId,
       outcome: 'no_worker',
-      detail: 'no worker assigned',
-    };
+    });
   }
 
   const credit = await checkExecutionAllowed(claim);
   if (!credit.allowed) {
-    await emitEvent({
+    return failClaim({
+      claim,
       runId,
-      taskId: claim.task_id,
-      workerId: claim.worker_id,
-      ownerClerkId: claim.owner_clerk_id,
-      kind: 'run.failed',
-      level: 'error',
+      leaseOwner,
       message: credit.note,
-    });
-    await supabase.rpc('fail_task', {
-      p_task_id: claim.task_id,
-      p_error: credit.note,
-      p_run_id: runId,
-    });
-    return {
-      taskId: claim.task_id,
-      workerId: claim.worker_id,
-      runId,
       outcome: 'no_credit',
-      detail: credit.note,
-    };
+    });
   }
 
   if (claim.requires_approval) {
-    return parkForApproval(claim, runId);
+    // A human who already approved this task must not be asked a second time,
+    // otherwise the released task parks itself forever.
+    const granted = await hasGrantedApproval({
+      supabase,
+      taskId: claim.task_id,
+      actionType: 'execute_task',
+    });
+    if (!granted) {
+      return parkForApproval({
+        claim,
+        runId,
+        leaseOwner,
+        actionType: 'execute_task',
+        actionPayload: { title: claim.title, worker: claim.worker_name },
+        reason: 'the worker requested human approval before continuing',
+      });
+    }
   }
 
   const { system, prompt, memoriesUsed } = await assemblePrompt(claim);
@@ -241,6 +354,21 @@ async function executeClaim(claim: ClaimedTask): Promise<ExecutionSummary> {
     payload: { memories: memoriesUsed, model: claim.model_id },
   });
 
+  // The tool policy is resolved once and used for both the offer list and
+  // every call the model makes.
+  const { permissions, policies } = await loadToolPolicy({
+    supabase,
+    workerId: claim.worker_id,
+    workspaceId: claim.workspace_id,
+  });
+
+  const tools = await resolveOfferedTools({
+    supabase,
+    workerTools: claim.worker_tools,
+    workerPermissions: permissions,
+    workspacePolicies: policies,
+  });
+
   const apiKey = Deno.env.get('OPENAI_API_KEY') ?? '';
 
   try {
@@ -252,10 +380,10 @@ async function executeClaim(claim: ClaimedTask): Promise<ExecutionSummary> {
       kind: 'model.request',
       level: 'info',
       message: `Calling ${claim.model_provider}:${claim.model_id}`,
-      payload: { model: claim.model_id, provider: claim.model_provider },
+      payload: { model: claim.model_id, provider: claim.model_provider, tools: tools.length },
     });
 
-    const result = await runModel({
+    const loop = await runModelWithTools({
       apiKey,
       system,
       prompt,
@@ -263,18 +391,61 @@ async function executeClaim(claim: ClaimedTask): Promise<ExecutionSummary> {
       fallbackModel: claim.fallback_model_id,
       temperature: Number(claim.temperature ?? 0.7),
       maxOutputTokens: Number(claim.max_output_tokens ?? 2048),
+      tools,
+      context: {
+        supabase,
+        workerId: claim.worker_id,
+        ownerClerkId: claim.owner_clerk_id,
+        taskId: claim.task_id,
+        runId,
+        permissions,
+        policies,
+        serviceToken: Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+        events: {
+          runId,
+          taskId: claim.task_id,
+          workerId: claim.worker_id,
+          ownerClerkId: claim.owner_clerk_id,
+        },
+      },
     });
 
-    const supabaseCredits = await getServiceClient();
-    const { data: catalog } = await supabaseCredits
+    if (loop.outcome === 'approval_required' && loop.approval) {
+      // The tool the model asked for is parked: the task waits for a human
+      // decision instead of running the tool.
+      return parkForApproval({
+        claim,
+        runId,
+        leaseOwner,
+        actionType: loop.approval.toolKey,
+        actionPayload: {
+          tool: loop.approval.toolKey,
+          args: loop.approval.args,
+          title: claim.title,
+          worker: claim.worker_name,
+        },
+        reason: loop.approval.reason,
+      });
+    }
+
+    if (loop.outcome === 'failed') {
+      return failClaim({
+        claim,
+        runId,
+        leaseOwner,
+        message: loop.detail ?? 'the execution did not complete',
+      });
+    }
+
+    const { data: catalog } = await supabase
       .from('model_catalog')
       .select('credit_rate_in, credit_rate_out')
-      .eq('id', result.modelUsed)
+      .eq('id', loop.modelUsed)
       .maybeSingle();
 
     const credits = computeCredits({
-      promptTokens: result.promptTokens,
-      completionTokens: result.completionTokens,
+      promptTokens: loop.promptTokens,
+      completionTokens: loop.completionTokens,
       rateIn: Number(catalog?.credit_rate_in ?? 0),
       rateOut: Number(catalog?.credit_rate_out ?? 0),
     });
@@ -285,9 +456,9 @@ async function executeClaim(claim: ClaimedTask): Promise<ExecutionSummary> {
       worker_id: claim.worker_id,
       run_id: runId,
       provider: claim.model_provider ?? 'openai',
-      model_id: result.modelUsed,
-      prompt_tokens: result.promptTokens,
-      completion_tokens: result.completionTokens,
+      model_id: loop.modelUsed,
+      prompt_tokens: loop.promptTokens,
+      completion_tokens: loop.completionTokens,
       credits,
       cost_usd: 0,
     });
@@ -297,9 +468,9 @@ async function executeClaim(claim: ClaimedTask): Promise<ExecutionSummary> {
         .from('execution_runs')
         .update({
           model_provider: claim.model_provider,
-          model_id: result.modelUsed,
-          prompt_tokens: result.promptTokens,
-          completion_tokens: result.completionTokens,
+          model_id: loop.modelUsed,
+          prompt_tokens: loop.promptTokens,
+          completion_tokens: loop.completionTokens,
           credits,
         })
         .eq('id', runId);
@@ -312,8 +483,8 @@ async function executeClaim(claim: ClaimedTask): Promise<ExecutionSummary> {
       ownerClerkId: claim.owner_clerk_id,
       kind: 'usage.recorded',
       level: 'info',
-      message: `Charged ${credits} credits on ${result.modelUsed}`,
-      payload: { credits, prompt_tokens: result.promptTokens, completion_tokens: result.completionTokens },
+      message: `Charged ${credits} credits on ${loop.modelUsed}`,
+      payload: { credits, prompt_tokens: loop.promptTokens, completion_tokens: loop.completionTokens },
     });
 
     await emitEvent({
@@ -323,22 +494,57 @@ async function executeClaim(claim: ClaimedTask): Promise<ExecutionSummary> {
       ownerClerkId: claim.owner_clerk_id,
       kind: 'model.response',
       level: 'success',
-      message: `Completed on ${result.modelUsed}${result.usedFallback ? ' (fallback model)' : ''}`,
-      payload: { model: result.modelUsed, used_fallback: result.usedFallback },
+      message: `Completed on ${loop.modelUsed}${loop.usedFallback ? ' (fallback model)' : ''}`,
+      payload: { model: loop.modelUsed, used_fallback: loop.usedFallback, tool_rounds: loop.rounds },
     });
 
-    await supabase.rpc('complete_task', {
+    // The ledger is charged BEFORE the task is completed: a run whose credits
+    // could not be debited must not be reported as a successful run.
+    const debit = await debitCredits({
+      ownerClerkId: claim.owner_clerk_id,
+      taskId: claim.task_id,
+      runId,
+      workerId: claim.worker_id,
+      model: loop.modelUsed,
+      promptTokens: loop.promptTokens,
+      completionTokens: loop.completionTokens,
+      credits,
+    });
+
+    if (!debit.ok) {
+      console.error('[agentos-execute] the credit debit failed', debit.error);
+      return failClaim({
+        claim,
+        runId,
+        leaseOwner,
+        message: `the credits could not be debited: ${debit.error ?? 'unknown error'}`,
+      });
+    }
+
+    const { error: completeError } = await supabase.rpc('complete_task', {
       p_task_id: claim.task_id,
       p_output: {
-        result: result.text,
-        model: result.modelUsed,
-        used_fallback: result.usedFallback,
-        prompt_tokens: result.promptTokens,
-        completion_tokens: result.completionTokens,
+        result: loop.text,
+        model: loop.modelUsed,
+        used_fallback: loop.usedFallback,
+        prompt_tokens: loop.promptTokens,
+        completion_tokens: loop.completionTokens,
         credits,
+        tool_rounds: loop.rounds,
       },
       p_run_id: runId,
+      p_lease_owner: leaseOwner,
     });
+
+    if (completeError) {
+      console.error('[agentos-execute] could not complete the task', completeError.message);
+      return failClaim({
+        claim,
+        runId,
+        leaseOwner,
+        message: `the task could not be completed: ${completeError.message}`,
+      });
+    }
 
     await emitEvent({
       runId,
@@ -356,36 +562,13 @@ async function executeClaim(claim: ClaimedTask): Promise<ExecutionSummary> {
       runId,
       outcome: 'succeeded',
       detail: 'task completed',
-      modelId: result.modelUsed,
-      tokens: { prompt: result.promptTokens, completion: result.completionTokens },
+      modelId: loop.modelUsed,
+      tokens: { prompt: loop.promptTokens, completion: loop.completionTokens },
       credits,
     };
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-
-    await emitEvent({
-      runId,
-      taskId: claim.task_id,
-      workerId: claim.worker_id,
-      ownerClerkId: claim.owner_clerk_id,
-      kind: 'run.failed',
-      level: 'error',
-      message,
-    });
-
-    const { data: decision } = await supabase.rpc('fail_task', {
-      p_task_id: claim.task_id,
-      p_error: message,
-      p_run_id: runId,
-    });
-
-    return {
-      taskId: claim.task_id,
-      workerId: claim.worker_id,
-      runId,
-      outcome: decision === 'retry' ? 'retry' : 'failed',
-      detail: message,
-    };
+    return failClaim({ claim, runId, leaseOwner, message });
   }
 }
 
@@ -454,6 +637,18 @@ async function handler(req: Request): Promise<Response> {
             updated_at: new Date().toISOString(),
           })
           .eq('id', claim.task_id);
+
+        // The claim created a run row for that task. Releasing the task
+        // without closing the run would leave an orphaned 'running' run that
+        // nothing ever finishes, so it is closed here.
+        await supabase
+          .from('execution_runs')
+          .update({
+            status: 'cancelled',
+            ended_at: new Date().toISOString(),
+          })
+          .eq('task_id', claim.task_id)
+          .eq('status', 'running');
       }
     }
   }
@@ -489,7 +684,7 @@ async function handler(req: Request): Promise<Response> {
       });
       continue;
     }
-    results.push(await executeClaim(claim));
+    results.push(await executeClaim(claim, workerId));
   }
 
   return ok({ claimed: owned.length, results });
@@ -508,5 +703,5 @@ Deno.serve((req) =>
     }
     if (req.method !== 'POST') return fail('validation', 'Use POST');
     return handler(req);
-  })(),
+  }),
 );

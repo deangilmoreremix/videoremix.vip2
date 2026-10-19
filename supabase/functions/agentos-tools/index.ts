@@ -15,6 +15,7 @@
 //                          system the dashboard uses
 //   videoremix_personalizer  run a Personalizer scan/generate/media job
 //   web_fetch              bounded server-side GET with a response-size cap
+//                          and an SSRF guard on every hop
 //   vector_search          keyword + recency search over the worker's memories
 //                          (the pgvector path is used when the embedding column
 //                          exists; without it this degrades to ranking, which is
@@ -24,13 +25,20 @@
 // Anything else — in particular any integration seeded with
 // support = 'unsupported' — is refused before execution. There is no path here
 // that can invoke an unsupported capability.
+//
+// WHY THE EXECUTION ITSELF LIVES IN THE SHARED RUNTIME
+//   The executor (agentos-execute) runs the same tools on the model's behalf.
+//   If the two paths implemented the tools separately, the policy would only
+//   be real on one of them, so both call the same helper.
 
 import { fail, ok, readJsonBody, withErrorGuard } from '../_shared/agentos-errors.ts';
 import { getServiceClient, verifyCaller } from '../_shared/agentos-client.ts';
-
-/** Hard cap on any fetched response body; keeps a runaway page from OOMing. */
-const MAX_FETCH_BYTES = 256 * 1024;
-const FETCH_TIMEOUT_MS = 20_000;
+import {
+  executeToolCall,
+  invokeCatalogApp,
+  vectorSearch,
+  webFetchGuarded,
+} from '../_shared/agentos-runtime.ts';
 
 interface ToolRequestBody {
   tool: string;
@@ -69,89 +77,18 @@ async function loadWorkerPermissions(supabase: any, workerId: string) {
   return data as null | { permissions: Record<string, any> | null; owner_clerk_id: string | null };
 }
 
-async function invokeCatalogApp(params: {
-  supabase: any;
-  args: Record<string, unknown>;
-  ownerClerkId: string;
-}): Promise<unknown> {
-  const slug = String(params.args.app_slug ?? '');
-  if (!slug) throw new Error('app_slug is required');
-
-  const inputs = (params.args.inputs ?? {}) as Record<string, unknown>;
-  const token = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
-
-  const response = await fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/run-ai-app`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ appSlug: slug, inputs, stream: false }),
-  });
-
-  const text = await response.text();
-  if (!response.ok) {
-    throw new Error(`run-ai-app returned ${response.status}: ${text.slice(0, 300)}`);
-  }
-
-  try {
-    return JSON.parse(text);
-  } catch {
-    return { raw: text };
-  }
-}
-
+/**
+ * A bounded server-side GET.
+ *
+ * WHY THE GUARD IS IN THE SHARED HELPER
+ *   The same fetch runs when a worker asks for it through the model. The
+ *   scheme, the resolved addresses and every redirect hop are checked in one
+ *   place so neither path can be the weaker one.
+ */
 async function webFetch(args: Record<string, unknown>): Promise<unknown> {
   const url = String(args.url ?? '');
   if (!/^https?:\/\//i.test(url)) throw new Error('url must be http(s)');
-
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-  try {
-    const response = await fetch(url, { signal: controller.signal, redirect: 'follow' });
-    if (!response.ok) throw new Error(`upstream ${response.status}`);
-    const contentType = response.headers.get('content-type') ?? '';
-    const buf = new Uint8Array(await response.arrayBuffer());
-    const body = new TextDecoder().decode(buf.subarray(0, MAX_FETCH_BYTES));
-    return {
-      url,
-      status: response.status,
-      content_type: contentType,
-      truncated: buf.byteLength > MAX_FETCH_BYTES,
-      bytes: Math.min(buf.byteLength, MAX_FETCH_BYTES),
-      body,
-    };
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-async function vectorSearch(params: {
-  supabase: any;
-  workerId: string;
-  args: Record<string, unknown>;
-}): Promise<unknown> {
-  const query = String(args.query ?? '').trim();
-  const limit = Math.min(Number(args.limit ?? 5), 20);
-  const { supabase, workerId } = params;
-
-  const { data, error } = await supabase
-    .from('memories')
-    .select('id, content, kind, importance, tags, last_used_at, created_at')
-    .eq('worker_id', workerId)
-    .order('importance', { ascending: false })
-    .limit(50);
-
-  if (error) throw new Error(error.message);
-  const rows = (data ?? []) as Array<Record<string, any>>;
-
-  if (query) {
-    const needle = query.toLowerCase();
-    const matched = rows.filter((row) => String(row.content).toLowerCase().includes(needle));
-    if (matched.length > 0) return { mode: 'keyword', results: matched.slice(0, limit) };
-  }
-
-  return { mode: 'recency', results: rows.slice(0, limit) };
+  return webFetchGuarded({ url });
 }
 
 async function handler(req: Request): Promise<Response> {
@@ -165,6 +102,10 @@ async function handler(req: Request): Promise<Response> {
   if (!body.tool) return fail('validation', 'tool is required');
 
   const supabase = getServiceClient();
+
+  // The service-role token authorizes the internal app-catalog call only; it
+  // never leaves the server.
+  const serviceToken = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
 
   // Resolve the tenant from the worker row, never from the request body, so a
   // caller cannot dispatch a tool against another tenant's worker.
@@ -208,7 +149,7 @@ async function handler(req: Request): Promise<Response> {
         }
         return ok({
           tool: body.tool,
-          result: await invokeCatalogApp({ supabase, args, ownerClerkId }),
+          result: await invokeCatalogApp({ args, serviceToken }),
         });
       }
 
@@ -231,26 +172,23 @@ async function handler(req: Request): Promise<Response> {
         if (permissions.allow_artifacts === false) {
           return fail('forbidden', 'artifact writing is disabled for this worker');
         }
-        const content = String(args.content ?? '');
-        if (!content) return fail('validation', 'content is required');
-        const { data, error } = await supabase
-          .from('artifacts')
-          .insert({
-            owner_clerk_id: ownerClerkId,
-            worker_id: body.worker_id ?? null,
-            run_id: body.run_id ?? null,
-            task_id: body.task_id ?? null,
-            kind: String(args.kind ?? 'text'),
-            name: String(args.name ?? 'artifact'),
-            preview: content.slice(0, 4000),
-            mime_type: 'text/plain',
-            size_bytes: new TextEncoder().encode(content).byteLength,
-            metadata: { origin: 'agentos-tools' },
-          })
-          .select('id, name, kind')
-          .single();
-        if (error) return fail('internal', 'Could not persist artifact', error.message);
-        return ok({ tool: body.tool, result: data });
+        // The shared helper also proves that the named task and run belong
+        // to this tenant before the artifact is written.
+        const outcome = await executeToolCall({
+          supabase,
+          toolKey: body.tool,
+          args,
+          workerId: body.worker_id ?? null,
+          ownerClerkId,
+          taskId: body.task_id ?? null,
+          runId: body.run_id ?? null,
+          permissions,
+          serviceToken,
+        });
+        if (!outcome.ok) {
+          return fail(outcome.code ?? 'internal', 'Tool execution failed', outcome.error);
+        }
+        return ok({ tool: body.tool, result: outcome.result });
       }
 
       default:
@@ -275,5 +213,5 @@ Deno.serve((req) =>
     }
     if (req.method !== 'POST') return fail('validation', 'Use POST');
     return handler(req);
-  })(),
+  }),
 );

@@ -67,6 +67,21 @@ async function handler(req: Request): Promise<Response> {
     return fail('internal', 'Could not resolve approval', error.message);
   }
 
+  // WHY THE APPROVAL FLAG IS CLEARED HERE
+  //   request_approval raises `requires_approval` on the task, and the
+  //   executor parks any task that still carries it. A human who approved
+  //   the task has made the decision, so the released task has to be allowed
+  //   to run instead of parking itself again.
+  if (result === 'approved' && approval.task_id) {
+    const { error: clearError } = await supabase
+      .from('tasks')
+      .update({ requires_approval: false })
+      .eq('id', approval.task_id);
+    if (clearError) {
+      console.error('[agentos-approvals] could not clear the approval flag', clearError.message);
+    }
+  }
+
   // Return the resulting task state so the UI can update without a second call.
   let task: unknown = null;
   if (approval.task_id) {
@@ -94,5 +109,5 @@ Deno.serve((req) =>
     }
     if (req.method !== 'POST') return fail('validation', 'Use POST');
     return handler(req);
-  })(),
+  }),
 );

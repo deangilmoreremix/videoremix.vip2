@@ -101,6 +101,26 @@ ON CONFLICT (key) DO UPDATE SET
   support = EXCLUDED.support,
   docs_url = EXCLUDED.docs_url;
 
+-- ---------------------------------------------------------------------------
+-- Tools the runtime dispatches by key
+--
+-- agentos-tools resolves the requested key against this directory BEFORE its
+-- dispatch switch, so a key that is missing here is unreachable: 'vector_search'
+-- and 'artifact_write' both answered "Unknown tool" even though the runtime
+-- implements them. They are inserted on their own with DO NOTHING so the
+-- fourteen catalog rows above are never rewritten or reordered.
+-- ---------------------------------------------------------------------------
+INSERT INTO agentos.integrations
+  (key, name, description, category, auth_type, capabilities, support, docs_url)
+VALUES
+  ('vector_search', 'Vector Search',
+   'Keyword and recency search over the durable memories of a worker.',
+   'knowledge', 'none', ARRAY['search'], 'supported', ''),
+  ('artifact_write', 'Artifact Write',
+   'Persist a text artifact for the run.',
+   'storage', 'none', ARRAY['files'], 'supported', '')
+ON CONFLICT (key) DO NOTHING;
+
 -- Defensive: if an OpenClaw row exists under a different key, it is recorded as
 -- unsupported rather than silently wired.
 UPDATE agentos.integrations

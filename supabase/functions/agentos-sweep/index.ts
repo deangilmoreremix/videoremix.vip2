@@ -2,7 +2,7 @@
 //
 // Scheduler + lease recovery sweep.
 //
-// Two responsibilities, both idempotent and safe to call concurrently:
+// Three responsibilities, all idempotent and safe to call concurrently:
 //
 //   1. dispatch_due_schedules() — enqueue a task for every schedule whose
 //      next_run_at has passed, then recompute next_run_at from the cron
@@ -12,6 +12,9 @@
 //   2. recover_stale_runs() — expire leases that outlived their worker, mark
 //      the run 'timeout', and requeue the task (or fail it when attempts are
 //      exhausted). This is what makes a crashed or over-budget executor safe.
+//
+//   3. expire_stale_approvals() — a parked task must not wait forever: an
+//      approval whose deadline passed is expired and its task is released.
 //
 // DRIVING IT
 //   This must be called on a schedule, typically one minute, by either pg_cron
@@ -49,14 +52,25 @@ async function handler(): Promise<Response> {
     return fail('internal', 'Lease recovery failed', recoverError.message);
   }
 
+  // A pending approval whose deadline passed holds its task hostage, so the
+  // sweep expires it and releases the task.
+  const { data: expired, error: expireError } = await supabase.rpc('expire_stale_approvals');
+  if (expireError) {
+    console.error('[agentos-sweep] approval expiry failed', expireError.message);
+    return fail('internal', 'Approval expiry failed', expireError.message);
+  }
+
   return ok({
     dispatched: (dispatched ?? []).length,
     recovered: (recovered ?? []).length,
+    expired_approvals: (expired ?? []).length,
     details: {
       // deno-lint-ignore no-explicit-any
       schedules: (dispatched ?? []).map((row: any) => ({ schedule_id: row.schedule_id, task_id: row.task_id })),
       // deno-lint-ignore no-explicit-any
       runs: (recovered ?? []).map((row: any) => ({ task_id: row.recovered_task_id, decision: row.decision })),
+      // deno-lint-ignore no-explicit-any
+      approvals: (expired ?? []).map((row: any) => ({ approval_id: row.expired_approval_id, task_id: row.task_id })),
     },
   });
 }
@@ -82,5 +96,5 @@ Deno.serve((req) =>
       return fail('unauthenticated', 'Unauthorized');
     }
     return handler();
-  })(),
+  }),
 );
