@@ -66,6 +66,7 @@ MIGRATIONS=(
   "20261012120800_agentos_security_lockdown.sql"
   "20261012120900_agentos_triggers_indexes.sql"
   "20261012121000_agentos_queue_semantics.sql"
+  "20261012121100_agentos_canvas_text_ids.sql"
 )
 
 for m in "${MIGRATIONS[@]}"; do
@@ -423,6 +424,19 @@ if [ "${HIT_ERR}" -ge 1 ]; then
 else
   fail "increment_memory_hit did not refuse a foreign caller"
 fi
+
+# --- the canvas stores its stable keys ------------------------------------
+psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<'SQL' >/dev/null
+SELECT set_config('request.jwt.claims', '{"sub":"clerk_user_A","role":"authenticated"}', false);
+INSERT INTO agentos.canvas_nodes (id, owner_clerk_id, node_kind, ref_id, label)
+  VALUES ('worker:probe', 'clerk_user_A', 'worker', NULL, 'Probe');
+INSERT INTO agentos.canvas_edges (id, owner_clerk_id, source_node_id, target_node_id, edge_kind)
+  VALUES ('edge:worker:probe->worker:probe2', 'clerk_user_A', 'worker:probe', 'worker:probe', 'handoff')
+  ON CONFLICT DO NOTHING;
+SQL
+
+CANVAS_NODE=$(psql -d "${DB}" -tAc "SELECT count(*) FROM agentos.canvas_nodes WHERE id = 'worker:probe'")
+check_eq "a canvas node can be stored under its stable key" "1" "${CANVAS_NODE}"
 
 # --- updated_at is maintained ---------------------------------------------
 psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<'SQL' >/dev/null

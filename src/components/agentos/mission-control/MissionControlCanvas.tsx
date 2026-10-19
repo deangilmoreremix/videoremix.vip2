@@ -41,6 +41,7 @@ import {
   deleteCanvasNode,
   saveCanvasEdge,
   saveCanvasPosition,
+  toCanvasNodeRow,
 } from "./api";
 import { buildLayout } from "./canvas/useCanvasLayout";
 import type { CanvasInputs } from "./canvas/useCanvasLayout";
@@ -135,17 +136,31 @@ export const MissionControlCanvas: React.FC<MissionControlCanvasProps> = ({
     }
   }, []);
 
-  const onConnect = useCallback((connection: Connection) => {
-    if (!connection.source || !connection.target) return;
-    void saveCanvasEdge({
-      workspace_id: null,
-      source_node_id: connection.source,
-      target_node_id: connection.target,
-      edge_kind: "handoff",
-      label: "handoff",
-      animated: true,
-    });
-  }, []);
+  const onConnect = useCallback(
+    (connection: Connection) => {
+      if (!connection.source || !connection.target) return;
+
+      // The edge has a foreign key to its two nodes, so both endpoints are
+      // persisted first — a node that was never dragged does not exist yet.
+      const endpoints = [connection.source, connection.target]
+        .map((id) => nodes.find((node) => node.id === id))
+        .filter((node): node is Node => Boolean(node))
+        .map((node) => toCanvasNodeRow(node, inputs));
+
+      void saveCanvasEdge(
+        {
+          workspace_id: null,
+          source_node_id: connection.source,
+          target_node_id: connection.target,
+          edge_kind: "handoff",
+          label: "handoff",
+          animated: true,
+        },
+        endpoints,
+      );
+    },
+    [nodes, inputs],
+  );
 
   const saveAll = useCallback(async () => {
     setSaving(true);

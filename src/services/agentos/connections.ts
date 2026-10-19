@@ -10,6 +10,7 @@
 import { supabase } from "../../utils/supabase";
 import { agentosDb, agentosErrorMessage } from "./client";
 import {
+  type AgentOSError,
   err,
   ok,
   type AgentOSResult,
@@ -18,6 +19,34 @@ import {
   type Integration,
   type IntegrationSupport,
 } from "../../types/agentos";
+
+/**
+ * Map an edge function's error envelope onto the shared AgentOSError codes.
+ *
+ * The edge functions already speak the same vocabulary (unauthenticated /
+ * forbidden / not_found / validation / conflict / unsupported / ...), so
+ * discarding it and reporting "unknown" throws away the one thing the UI
+ * needs: whether the user must sign in, cannot do this, or can retry.
+ */
+function mapServerCode(code: string | undefined): AgentOSError["code"] {
+  switch (code) {
+    case "unauthenticated":
+      return "unauthenticated";
+    case "forbidden":
+      return "forbidden";
+    case "not_found":
+      return "not_found";
+    case "validation":
+      return "validation";
+    case "conflict":
+      return "conflict";
+    case "unsupported":
+      return "unsupported";
+    default:
+      return "unknown";
+  }
+}
+
 
 /** Only these support levels may be surfaced or wired. */
 const SURFACEABLE_SUPPORT: IntegrationSupport[] = ["supported", "limited"];
@@ -127,7 +156,11 @@ export async function connectAccount(
   const envelope = data as
     | { data?: ConnectedAccount; error?: { code: string; message: string; detail?: string } };
   if (envelope?.error) {
-    return err("unknown", envelope.error.message, envelope.error.detail);
+    return err(
+      mapServerCode(envelope.error.code),
+      envelope.error.message,
+      envelope.error.detail,
+    );
   }
   if (!envelope?.data) return err("not_found", "The connection was not created");
 
@@ -147,7 +180,7 @@ export async function revokeAccount(
 
   const envelope = data as
     | { data?: { id: string; status: string }; error?: { code: string; message: string; detail?: string } };
-  if (envelope?.error) return err("unknown", envelope.error.message, envelope.error.detail);
+  if (envelope?.error) return err(mapServerCode(envelope.error.code), envelope.error.message, envelope.error.detail);
 
   return ok(envelope?.data ?? { id: connectionId, status: "revoked" });
 }

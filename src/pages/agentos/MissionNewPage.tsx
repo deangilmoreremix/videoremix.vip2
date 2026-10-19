@@ -17,9 +17,14 @@ import { Textarea } from "../../components/ui/textarea";
 import { PageHeader, Section } from "../../components/agentos/ui";
 import { AsyncBoundary } from "../../components/agentos/shared";
 import { listWorkers } from "../../services/agentos/workers";
-import { addTaskEdge, createMission, createTask } from "../../services/agentos/missions";
-import { agentosDb } from "../../services/agentos/client";
-import type { Worker } from "../../types/agentos";
+import { listWorkspaces } from "../../services/agentos/workspaces";
+import {
+  addTaskEdge,
+  attachTaskToMission,
+  createMission,
+  createTask,
+} from "../../services/agentos/missions";
+import type { Worker, Workspace } from "../../types/agentos";
 
 interface DraftTask {
   id: string;
@@ -37,6 +42,8 @@ const MissionNewPage: React.FC = () => {
 
   const [workers, setWorkers] = useState<Worker[]>([]);
   const [loadingWorkers, setLoadingWorkers] = useState(true);
+  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
+  const [workspaceId, setWorkspaceId] = useState("");
 
   const [title, setTitle] = useState("");
   const [goal, setGoal] = useState("");
@@ -53,6 +60,13 @@ const MissionNewPage: React.FC = () => {
       const result = await listWorkers();
       setWorkers(result.data ?? []);
       setLoadingWorkers(false);
+    })();
+  }, []);
+
+  useEffect(() => {
+    void (async () => {
+      const result = await listWorkspaces();
+      setWorkspaces(result.data ?? []);
     })();
   }, []);
 
@@ -92,10 +106,26 @@ const MissionNewPage: React.FC = () => {
       return;
     }
 
+    // A task without a worker can never be claimed: the queue parks it as
+    // blocked. Requiring the assignment up front is kinder than creating a
+    // mission that silently does nothing.
+    const unassigned = named.find((task) => !task.workerId);
+    if (unassigned) {
+      setError(
+        `Assign a worker to "${unassigned.title || "every task"}" — a task without one cannot run`,
+      );
+      return;
+    }
+
     setSubmitting(true);
     setError(null);
 
-    const mission = await createMission({ title, goal, description });
+    const mission = await createMission({
+      title,
+      goal,
+      description,
+      workspace_id: workspaceId || null,
+    });
     if (mission.error || !mission.data) {
       setSubmitting(false);
       setError(mission.error?.message ?? "Could not create the mission");
@@ -112,6 +142,7 @@ const MissionNewPage: React.FC = () => {
         title: task.title.trim(),
         description: task.description,
         assigned_worker_id: task.workerId || null,
+        workspace_id: workspaceId || null,
         trigger: "mission",
         input: {},
       });
@@ -130,7 +161,14 @@ const MissionNewPage: React.FC = () => {
     for (const draftId of order) {
       const taskId = idMap.get(draftId);
       if (!taskId) continue;
-      await agentosDb.from("tasks").update({ mission_id: mission.data.id }).eq("id", taskId);
+      const attached = await attachTaskToMission(taskId, mission.data.id);
+      if (attached.error) {
+        setSubmitting(false);
+        setError(
+          `The mission was created, but a task could not be attached: ${attached.error.message}`,
+        );
+        return;
+      }
     }
 
     for (const task of named) {
@@ -201,6 +239,28 @@ const MissionNewPage: React.FC = () => {
                   onChange={(event) => setDescription(event.target.value)}
                   rows={3}
                 />
+              </div>
+              <div>
+                <label className="text-xs text-white/50" htmlFor="mission-workspace">
+                  Workspace
+                </label>
+                <select
+                  id="mission-workspace"
+                  value={workspaceId}
+                  onChange={(event) => setWorkspaceId(event.target.value)}
+                  className="w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white"
+                >
+                  <option value="">No workspace</option>
+                  {workspaces.map((workspace) => (
+                    <option key={workspace.id} value={workspace.id}>
+                      {workspace.name}
+                    </option>
+                  ))}
+                </select>
+                <p className="mt-1 text-xs text-white/40">
+                  A mission without a workspace is private to you and never appears in a
+                  workspace&apos;s mission list.
+                </p>
               </div>
             </div>
           </Section>

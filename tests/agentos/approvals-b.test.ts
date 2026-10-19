@@ -147,13 +147,15 @@ describe("approvals service", () => {
       expect(result.data).toEqual({ resolution: "rejected", task: null });
     });
 
-    it("turns an error envelope into a service error", async () => {
+    it("turns an error envelope into a service error, keeping the server's code", async () => {
       stubInvoke("agentos-approvals", async () => ({
         error: { code: "forbidden", message: "Not your approval" },
       }));
 
       const result = await decideApproval({ approvalId: "ap1", decision: "approved" });
-      expect(result.error?.code).toBe("unknown");
+      // The code is preserved: the UI has to be able to tell "you may not do
+      // this" from "the request was malformed" from "try again".
+      expect(result.error?.code).toBe("forbidden");
       expect(result.error?.message).toBe("Not your approval");
       expect(result.data).toBeNull();
     });

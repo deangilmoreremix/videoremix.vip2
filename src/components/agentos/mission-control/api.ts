@@ -183,6 +183,87 @@ export function deriveInitialLayout(data: MissionControlData): {
 }
 
 /**
+ * Turn a canvas node into the row the database stores.
+ *
+ * The canvas identifies a node by a stable key (`worker:<uuid>`), so the
+ * entity it points at is recoverable from the key itself. The workspace is
+ * looked up from the entity, so a node inherits the workspace it belongs to.
+ */
+export function toCanvasNodeRow(
+  node: { id: string; type?: string; position: { x: number; y: number }; data?: Record<string, unknown> },
+  data: {
+    workers: Worker[];
+    missions: Mission[];
+    models: ModelCatalogEntry[];
+    runs: ExecutionRun[];
+    workspaces?: Workspace[];
+  },
+): {
+  id: string;
+  workspace_id: string | null;
+  node_kind: CanvasNodeKind;
+  ref_id: string | null;
+  label: string;
+  position: { x: number; y: number };
+  data: Record<string, unknown>;
+  z_index: number;
+} {
+  const [kind, refId] = splitCanvasKey(node.id);
+  const nodeKind = (node.type ?? kind ?? "worker") as CanvasNodeKind;
+  const nodeData = node.data ?? {};
+
+  let workspaceId: string | null = null;
+  let label = typeof nodeData.name === "string" ? nodeData.name : "";
+  let entityRef: string | null = refId ?? null;
+
+  if (nodeKind === "worker" && refId) {
+    const worker = data.workers.find((candidate) => candidate.id === refId);
+    workspaceId = worker?.workspace_id ?? null;
+    label = label || worker?.name || "Worker";
+  } else if (nodeKind === "task" && refId) {
+    const mission = data.missions.find((candidate) => candidate.id === refId);
+    workspaceId = mission?.workspace_id ?? null;
+    label = label || (typeof nodeData.title === "string" ? nodeData.title : mission?.title || "Mission");
+  } else if (nodeKind === "model") {
+    const modelId = typeof nodeData.modelId === "string" ? nodeData.modelId : null;
+    const model = data.models.find((candidate) => candidate.id === modelId);
+    label = label || model?.display_name || "Model";
+    entityRef = modelId;
+  } else if (nodeKind === "runtime") {
+    const runId = typeof nodeData.runId === "string" ? nodeData.runId : null;
+    const run = data.runs.find((candidate) => candidate.id === runId);
+    label = label || (run ? `Run ${run.status}` : "Run");
+    entityRef = runId;
+  } else if (nodeKind === "workspace" && refId) {
+    const workspace = data.workspaces?.find((candidate) => candidate.id === refId);
+    workspaceId = workspace?.id ?? null;
+    label = label || workspace?.name || "Workspace";
+  }
+
+  return {
+    id: node.id,
+    workspace_id: workspaceId,
+    node_kind: nodeKind,
+    ref_id: entityRef,
+    label,
+    position: { x: Math.round(node.position.x), y: Math.round(node.position.y) },
+    data: nodeData,
+    z_index: 0,
+  };
+}
+
+/** Split a canvas key into its kind and the entity id it points at. */
+function splitCanvasKey(id: string): [string | null, string | null] {
+  const separator = id.indexOf(":");
+  if (separator < 0) return [null, null];
+  const kind = id.slice(0, separator);
+  const rest = id.slice(separator + 1);
+  // An edge key looks like `edge:worker:<uuid>->mission:<uuid>`.
+  if (kind === "edge") return [null, null];
+  return [kind, rest.includes("->") ? null : rest];
+}
+
+/**
  * Persist a canvas node. The owner stamp comes from the BEFORE INSERT trigger,
  * so ownership cannot be forged from the browser.
  */
@@ -220,9 +301,35 @@ export async function deleteCanvasNode(nodeId: string): Promise<void> {
   await agentosDb.from("canvas_nodes").delete().eq("id", nodeId);
 }
 
-export async function saveCanvasEdge(edge: Omit<CanvasEdgeRow, "id"> & { id?: string }): Promise<void> {
+/**
+ * Persist a canvas edge.
+ *
+ * The edge references two canvas nodes, and the database enforces that with
+ * a foreign key — so both endpoints must exist first. A node that has never
+ * been dragged (and therefore never persisted) would otherwise make the edge
+ * insert fail with a foreign-key violation and the connection would be lost.
+ */
+export async function saveCanvasEdge(
+  edge: Omit<CanvasEdgeRow, "id"> & { id?: string },
+  endpoints?: Array<{
+    id: string;
+    workspace_id: string | null;
+    node_kind: CanvasNodeKind;
+    ref_id: string | null;
+    label: string;
+    position: { x: number; y: number };
+    data?: Record<string, unknown>;
+    z_index?: number;
+  }>,
+): Promise<void> {
+  if (endpoints) {
+    for (const node of endpoints) {
+      await saveCanvasNode(node);
+    }
+  }
+
   await agentosDb.from("canvas_edges").upsert({
-    id: edge.id ?? crypto.randomUUID(),
+    id: edge.id ?? `edge:${edge.source_node_id}->${edge.target_node_id}`,
     workspace_id: edge.workspace_id,
     source_node_id: edge.source_node_id,
     target_node_id: edge.target_node_id,
@@ -243,8 +350,8 @@ export async function seedCanvasFromData(data: MissionControlData): Promise<void
 
   // Replace the previous layout in one pass: delete rows the user no longer has
   // then insert the new set.
-  await agentosDb.from("canvas_edges").delete().neq("id", "00000000-0000-0000-0000-000000000000");
-  await agentosDb.from("canvas_nodes").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+  await agentosDb.from("canvas_edges").delete().neq("id", "__never__");
+  await agentosDb.from("canvas_nodes").delete().neq("id", "__never__");
 
   if (layout.nodes.length > 0) {
     await agentosDb.from("canvas_nodes").insert(

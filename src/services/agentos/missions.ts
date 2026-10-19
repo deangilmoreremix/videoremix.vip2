@@ -12,6 +12,7 @@
 import { supabase } from "../../utils/supabase";
 import { agentosDb, agentosErrorMessage } from "./client";
 import {
+  type AgentOSError,
   err,
   ok,
   type AgentOSResult,
@@ -20,6 +21,34 @@ import {
   type Task,
   type TaskEdge,
 } from "../../types/agentos";
+
+/**
+ * Map an edge function's error envelope onto the shared AgentOSError codes.
+ *
+ * The edge functions already speak the same vocabulary (unauthenticated /
+ * forbidden / not_found / validation / conflict / unsupported / ...), so
+ * discarding it and reporting "unknown" throws away the one thing the UI
+ * needs: whether the user must sign in, cannot do this, or can retry.
+ */
+function mapServerCode(code: string | undefined): AgentOSError["code"] {
+  switch (code) {
+    case "unauthenticated":
+      return "unauthenticated";
+    case "forbidden":
+      return "forbidden";
+    case "not_found":
+      return "not_found";
+    case "validation":
+      return "validation";
+    case "conflict":
+      return "conflict";
+    case "unsupported":
+      return "unsupported";
+    default:
+      return "unknown";
+  }
+}
+
 
 const FUNCTIONS_BASE = import.meta.env.VITE_SUPABASE_URL
   ? `${import.meta.env.VITE_SUPABASE_URL}/functions/v1`
@@ -35,7 +64,11 @@ async function callAction<T>(
   }
   const envelope = data as { data?: T; error?: { code: string; message: string; detail?: string } };
   if (envelope?.error) {
-    return err("unknown", envelope.error.message, envelope.error.detail);
+    return err(
+      mapServerCode(envelope.error.code),
+      envelope.error.message,
+      envelope.error.detail,
+    );
   }
   return ok((envelope?.data ?? null) as T);
 }
@@ -183,10 +216,33 @@ export async function createTask(input: CreateTaskInput): Promise<AgentOSResult<
   });
 
   if (response.error || !response.data) {
-    return err("unknown", response.error?.message ?? "Could not create task", response.error?.detail);
+    return err(response.error?.code ?? "unknown", response.error?.message ?? "Could not create task", response.error?.detail);
   }
 
   return ok(response.data.task);
+}
+
+/**
+ * Attach a task to a mission.
+ *
+ * The task is created by the agentos-tasks edge function (the queue owns the
+ * lifecycle), and the mission link is written afterwards: `mission_id` is one
+ * of the five columns the browser is allowed to update on agentos.tasks.
+ */
+export async function attachTaskToMission(
+  taskId: string,
+  missionId: string,
+): Promise<AgentOSResult<{ taskId: string; missionId: string }>> {
+  if (!taskId) return err("validation", "taskId is required");
+  if (!missionId) return err("validation", "missionId is required");
+
+  const { error } = await agentosDb
+    .from("tasks")
+    .update({ mission_id: missionId })
+    .eq("id", taskId);
+
+  if (error) return err("database", "Could not attach the task to the mission", agentosErrorMessage(error));
+  return ok({ taskId, missionId });
 }
 
 export async function cancelTask(taskId: string): Promise<AgentOSResult<{ status: string }>> {
@@ -195,7 +251,7 @@ export async function cancelTask(taskId: string): Promise<AgentOSResult<{ status
     action: "cancel",
     task_id: taskId,
   });
-  if (response.error) return err("unknown", response.error.message, response.error.detail);
+  if (response.error) return err(response.error.code, response.error.message, response.error.detail);
   return ok(response.data ?? { task_id: taskId, status: "cancelled" });
 }
 
@@ -205,7 +261,7 @@ export async function retryTask(taskId: string): Promise<AgentOSResult<{ status:
     action: "retry",
     task_id: taskId,
   });
-  if (response.error) return err("unknown", response.error.message, response.error.detail);
+  if (response.error) return err(response.error.code, response.error.message, response.error.detail);
   return ok(response.data ?? { task_id: taskId, status: "queued" });
 }
 
@@ -215,7 +271,7 @@ export async function runQueuedTasks(options: { limit?: number } = {}): Promise<
     limit: options.limit ?? 1,
   });
   if (response.error || !response.data) {
-    return err("unknown", response.error?.message ?? "Could not run tasks", response.error?.detail);
+    return err(response.error?.code ?? "unknown", response.error?.message ?? "Could not run tasks", response.error?.detail);
   }
   return ok(response.data);
 }

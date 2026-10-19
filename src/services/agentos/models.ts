@@ -11,6 +11,7 @@
 import { supabase } from "../../utils/supabase";
 import { agentosDb, agentosErrorMessage } from "./client";
 import {
+  type AgentOSError,
   err,
   ok,
   type AgentOSResult,
@@ -18,6 +19,34 @@ import {
   type ProviderConfig,
   type ProviderMode,
 } from "../../types/agentos";
+
+/**
+ * Map an edge function's error envelope onto the shared AgentOSError codes.
+ *
+ * The edge functions already speak the same vocabulary (unauthenticated /
+ * forbidden / not_found / validation / conflict / unsupported / ...), so
+ * discarding it and reporting "unknown" throws away the one thing the UI
+ * needs: whether the user must sign in, cannot do this, or can retry.
+ */
+function mapServerCode(code: string | undefined): AgentOSError["code"] {
+  switch (code) {
+    case "unauthenticated":
+      return "unauthenticated";
+    case "forbidden":
+      return "forbidden";
+    case "not_found":
+      return "not_found";
+    case "validation":
+      return "validation";
+    case "conflict":
+      return "conflict";
+    case "unsupported":
+      return "unsupported";
+    default:
+      return "unknown";
+  }
+}
+
 
 export async function listModelCatalog(options: {
   provider?: string;
@@ -129,7 +158,7 @@ export async function createProviderConfig(
       credential: input.credential,
     });
     if (test.error || !test.data) {
-      return err("unknown", test.error?.message ?? "Provider readiness test failed", test.error?.detail);
+      return err(test.error?.code ?? "unknown", test.error?.message ?? "Provider readiness test failed", test.error?.detail);
     }
     if (!test.data.ok) {
       return err("validation", "The credential did not pass the provider readiness test", test.data.error);
@@ -277,7 +306,11 @@ export async function testProvider(
   const envelope = data as
     | { data?: ProviderTestOutcome; error?: { code: string; message: string; detail?: string } };
   if (envelope?.error) {
-    return err("unknown", envelope.error.message, envelope.error.detail);
+    return err(
+      mapServerCode(envelope.error.code),
+      envelope.error.message,
+      envelope.error.detail,
+    );
   }
 
   return ok(envelope?.data ?? { ok: false, error: "no result" });

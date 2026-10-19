@@ -203,13 +203,15 @@ describe("missions service", () => {
       ]);
     });
 
-    it("turns an edge-function error envelope into a service error", async () => {
+    it("turns an edge-function error envelope into a service error, keeping the server's code", async () => {
       stubInvoke("agentos-tasks", async () => ({
         error: { code: "conflict", message: "Worker is offline" },
       }));
 
       const result = await createTask({ title: "Draft launch post" });
-      expect(result.error?.code).toBe("unknown");
+      // The code is preserved so the UI can distinguish a conflict from a
+      // validation error from a transient failure.
+      expect(result.error?.code).toBe("conflict");
       expect(result.error?.message).toBe("Worker is offline");
       expect(result.data).toBeNull();
     });
