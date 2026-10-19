@@ -48,6 +48,15 @@ DECLARE
   current_list text := '';
   updated_list text;
 BEGIN
+  -- The `authenticator` role exists on every Supabase project. It does not
+  -- exist on a bare Postgres (a local scratch cluster, for instance), and
+  -- ALTER ROLE on a missing role would abort the whole migration, so the
+  -- exposure step is skipped there and left to the operator.
+  IF to_regrole('authenticator') IS NULL THEN
+    RAISE NOTICE 'agentos: role "authenticator" not found; skipping the PostgREST exposure step.';
+    RETURN;
+  END IF;
+
   -- Read the role-level PostgREST setting, if the platform already set one.
   SELECT string_agg(value, ', ')
     INTO existing_config
@@ -82,8 +91,9 @@ COMMIT;
 -- Report the effective value for the operator's log.
 SELECT
   r.rolname AS role,
-  unnest(s.setconfig) AS setting
+  cfg.setting
 FROM pg_db_role_setting s
 JOIN pg_roles r ON r.oid = s.setrole
+CROSS JOIN LATERAL unnest(s.setconfig) AS cfg(setting)
 WHERE r.rolname = 'authenticator'
-  AND unnest(s.setconfig) LIKE 'pgrst.db_schemas=%';
+  AND cfg.setting LIKE 'pgrst.db_schemas=%';
