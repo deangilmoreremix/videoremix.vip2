@@ -429,14 +429,19 @@ fi
 psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<'SQL' >/dev/null
 SELECT set_config('request.jwt.claims', '{"sub":"clerk_user_A","role":"authenticated"}', false);
 INSERT INTO agentos.canvas_nodes (id, owner_clerk_id, node_kind, ref_id, label)
-  VALUES ('worker:probe', 'clerk_user_A', 'worker', NULL, 'Probe');
+  VALUES ('worker:probe', 'clerk_user_A', 'worker', NULL, 'Probe'),
+         ('worker:probe2', 'clerk_user_A', 'worker', NULL, 'Probe 2');
 INSERT INTO agentos.canvas_edges (id, owner_clerk_id, source_node_id, target_node_id, edge_kind)
-  VALUES ('edge:worker:probe->worker:probe2', 'clerk_user_A', 'worker:probe', 'worker:probe', 'handoff')
+  VALUES ('edge:worker:probe->worker:probe2', 'clerk_user_A', 'worker:probe', 'worker:probe2', 'handoff')
   ON CONFLICT DO NOTHING;
 SQL
 
 CANVAS_NODE=$(psql -d "${DB}" -tAc "SELECT count(*) FROM agentos.canvas_nodes WHERE id = 'worker:probe'")
 check_eq "a canvas node can be stored under its stable key" "1" "${CANVAS_NODE}"
+
+CANVAS_EDGE=$(psql -d "${DB}" -tAc \
+  "SELECT count(*) FROM agentos.canvas_edges WHERE id = 'edge:worker:probe->worker:probe2'")
+check_eq "a canvas edge can be stored under its stable key" "1" "${CANVAS_EDGE}"
 
 # --- updated_at is maintained ---------------------------------------------
 psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<'SQL' >/dev/null

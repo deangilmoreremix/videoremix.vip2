@@ -15,7 +15,7 @@ Status legend:
 
 ---
 
-## 1. The 7 migrations, in applied order
+## 1. The 12 migrations, in applied order
 
 `scripts/agentos-db-verify.sh` applies exactly these files, in this order, and
 stops on the first error. All 7 were applied cleanly to the local scratch DB:
@@ -29,6 +29,15 @@ stops on the first error. All 7 were applied cleanly to the local scratch DB:
 | 5 | `20261012120400_agentos_queue_rpc.sql` | applied |
 | 6 | `20261012120500_agentos_seed_catalog.sql` | applied |
 | 7 | `20261012120600_agentos_memory_hit.sql` | applied |
+| 8 | `20261012120700_agentos_expose_schema.sql` | local only — a project setting (exposes the `agentos` schema to PostgREST); guarded so a bare Postgres is not aborted |
+| 9 | `20261012120800_agentos_security_lockdown.sql` | local only — revokes the PUBLIC execute on the queue RPCs, makes the task UPDATE column-level, revokes the task DELETE, and adds the workspace-membership predicates |
+| 10 | `20261012120900_agentos_triggers_indexes.sql` | local only — `updated_at` triggers, the `invited_by` stamp, and the hot-path indexes |
+| 11 | `20261012121000_agentos_queue_semantics.sql` | local only — lease fencing, the retry budget, dependency-failure propagation, idempotent schedule dispatch, approval expiry, the cron day-of-week fix, `cancel_task` |
+| 12 | `20261012121100_agentos_canvas_text_ids.sql` | local only — the canvas ids become the stable keys the browser has always written |
+
+Migrations 1–7 are applied to the LIVE project; 8–12 are verified locally
+(PostgreSQL 14.24) and are ready to apply — see `LIVE_VERIFICATION.md` §1.6
+for the one prerequisite they need.
 
 The `NOTICE: ... does not exist, skipping` lines in the run log are the
 idempotent `CREATE OR REPLACE TRIGGER` / `CREATE POLICY` guards firing on a
@@ -178,6 +187,12 @@ the live database was left clean.**
 ## 6. Reproduce (exact commands)
 
 ### Local (self-contained scratch cluster)
+
+`scripts/agentos-db-verify.sh` applies all twelve migrations to a scratch
+cluster and runs **58 checks**: the structure, the privilege model (who may
+execute which function, and the column grants), the queue semantics, the
+tenant isolation, the forgery resistance and the canvas keys. It exits
+non-zero when a check fails.
 
 ```bash
 # 1. Postgres was not installed; install + start it

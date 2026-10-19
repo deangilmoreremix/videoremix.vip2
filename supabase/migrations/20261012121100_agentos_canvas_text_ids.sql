@@ -31,6 +31,12 @@ ALTER TABLE agentos.canvas_edges
 ALTER TABLE agentos.canvas_edges
   DROP CONSTRAINT IF EXISTS canvas_edges_target_node_id_fkey;
 
+-- The no-self-edge check compares the two endpoint columns, so it has to go
+-- while one of them is text and the other is still uuid (there is no
+-- text <> uuid operator). It is re-created below.
+ALTER TABLE agentos.canvas_edges
+  DROP CONSTRAINT IF EXISTS canvas_edges_no_self;
+
 -- The nodes.
 ALTER TABLE agentos.canvas_nodes
   ALTER COLUMN id TYPE text USING id::text;
@@ -64,6 +70,19 @@ BEGIN
     ALTER TABLE agentos.canvas_edges
       ADD CONSTRAINT canvas_edges_target_node_id_fkey
       FOREIGN KEY (target_node_id) REFERENCES agentos.canvas_nodes (id) ON DELETE CASCADE;
+  END IF;
+END $$;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint
+    WHERE conname = 'canvas_edges_no_self'
+      AND conrelid = 'agentos.canvas_edges'::regclass
+  ) THEN
+    ALTER TABLE agentos.canvas_edges
+      ADD CONSTRAINT canvas_edges_no_self
+      CHECK (source_node_id <> target_node_id);
   END IF;
 END $$;
 
