@@ -29,6 +29,18 @@ export interface InspectorPanelProps {
   onClose: () => void;
   onSelectWorker?: (workerId: string) => void;
   onSelectMission?: (missionId: string) => void;
+  /**
+   * The counts the overview panel shows. They used to default to zero, so the
+   * panel always read "0 workers / 0 workspaces / 0 missions" no matter what
+   * the user actually had.
+   */
+  counts?: { workers: number; workspaces: number; missions: number };
+  /**
+   * The missions each worker's tasks belong to, keyed by worker id. The
+   * worker inspector lists them, so without this it always said "No missions
+   * for this worker".
+   */
+  missionsByWorker?: Record<string, Mission[]>;
 }
 
 export const InspectorPanel: React.FC<InspectorPanelProps> = ({
@@ -36,6 +48,8 @@ export const InspectorPanel: React.FC<InspectorPanelProps> = ({
   onClose,
   onSelectWorker,
   onSelectMission,
+  counts,
+  missionsByWorker,
 }) => {
   return (
     <aside className="flex h-full w-[320px] shrink-0 flex-col border-l border-white/10 bg-[#0b0b0d]">
@@ -55,11 +69,18 @@ export const InspectorPanel: React.FC<InspectorPanelProps> = ({
       </header>
 
       <div className="flex-1 overflow-y-auto">
-        {selection.kind === "none" ? <OverviewPanel /> : null}
+        {selection.kind === "none" ? (
+          <OverviewPanel
+            workerCount={counts?.workers}
+            workspaceCount={counts?.workspaces}
+            missionCount={counts?.missions}
+          />
+        ) : null}
 
         {selection.kind === "worker" ? (
           <WorkerInspector
             worker={selection.worker}
+            missions={missionsByWorker?.[selection.worker.id] ?? []}
             onSelectWorker={onSelectWorker}
             onSelectMission={onSelectMission}
           />

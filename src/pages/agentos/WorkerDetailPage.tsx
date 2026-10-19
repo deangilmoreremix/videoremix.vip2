@@ -30,6 +30,7 @@ import {
   updateWorker,
 } from "../../services/agentos/workers";
 import { listMemories } from "../../services/agentos/memory";
+import { listRuns } from "../../services/agentos/runtime";
 import { listModelCatalog } from "../../services/agentos/models";
 import {
   DISPATCHABLE_TOOL_KEYS,
@@ -37,6 +38,7 @@ import {
   listIntegrations,
 } from "../../services/agentos/connections";
 import type {
+  ExecutionRun,
   Integration,
   ModelCatalogEntry,
   Worker,
@@ -56,6 +58,8 @@ const WorkerDetailPage: React.FC = () => {
   const [models, setModels] = useState<ModelCatalogEntry[]>([]);
   const [assignableKeys, setAssignableKeys] = useState<string[]>([]);
   const [integrations, setIntegrations] = useState<Integration[]>([]);
+  const [runs, setRuns] = useState<ExecutionRun[]>([]);
+  const [selectedRunId, setSelectedRunId] = useState<string | null>(null);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -83,13 +87,15 @@ const WorkerDetailPage: React.FC = () => {
 
     void (async () => {
       setLoading(true);
-      const [workerResult, toolsResult, memoryResult, modelResult, keysResult] = await Promise.all([
-        getWorker(workerId),
-        listWorkerTools(workerId),
-        listMemories({ workerId }),
-        listModelCatalog(),
-        listAssignableToolKeys(),
-      ]);
+      const [workerResult, toolsResult, memoryResult, modelResult, keysResult, runsResult] =
+        await Promise.all([
+          getWorker(workerId),
+          listWorkerTools(workerId),
+          listMemories({ workerId }),
+          listModelCatalog(),
+          listAssignableToolKeys(),
+          listRuns({ workerId, limit: 20 }),
+        ]);
 
       if (cancelled) return;
 
@@ -103,6 +109,12 @@ const WorkerDetailPage: React.FC = () => {
       setInstructions(workerResult.data.instructions ?? "");
       setGoals(workerResult.data.goals ?? "");
       setTools(toolsResult.data ?? []);
+
+      // The execution panel needs a run to show. Default to the most recent
+      // one so the panel is never empty for a worker that has run.
+      const workerRuns = runsResult.data ?? [];
+      setRuns(workerRuns);
+      setSelectedRunId((current) => current ?? workerRuns[0]?.id ?? null);
       setToolEnabled(
         Object.fromEntries((toolsResult.data ?? []).map((tool) => [tool.tool_key, tool.enabled])),
       );
@@ -591,7 +603,36 @@ const WorkerDetailPage: React.FC = () => {
               description="Live transcript of this worker's tasks, straight from the execution events table."
               className="mt-6"
             >
-              <ExecutionActivityPanel taskId={undefined} runId={undefined} />
+              {runs.length === 0 ? (
+                <p className="text-sm text-white/45">
+                  This worker has not run yet. Give it a task and the transcript appears here.
+                </p>
+              ) : (
+                <>
+                  <div className="mb-3 flex flex-wrap items-center gap-2">
+                    <label
+                      className="text-xs text-white/50"
+                      htmlFor="worker-run-picker"
+                    >
+                      Run
+                    </label>
+                    <select
+                      id="worker-run-picker"
+                      value={selectedRunId ?? ""}
+                      onChange={(event) => setSelectedRunId(event.target.value || null)}
+                      className="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-white"
+                    >
+                      {runs.map((run) => (
+                        <option key={run.id} value={run.id}>
+                          {new Date(run.started_at).toLocaleString()} —{" "}
+                          {run.status}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <ExecutionActivityPanel runId={selectedRunId ?? undefined} />
+                </>
+              )}
               <p className="mt-2 text-xs text-white/35">
                 Open a task from the{" "}
                 <button

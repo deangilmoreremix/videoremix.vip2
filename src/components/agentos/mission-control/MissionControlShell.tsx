@@ -125,6 +125,36 @@ export const MissionControlShell: React.FC<MissionControlShellProps> = () => {
     [data, selectedNodeId, inputs],
   );
 
+  /**
+   * The counts and the per-worker mission map the inspector shows. Both used
+   * to be missing, so the overview always read zero and the worker inspector
+   * always said it had no missions.
+   */
+  const inspectorFacts = useMemo(() => {
+    const workers = inputs.workers;
+    const missions = inputs.missions;
+    const tasks = inputs.tasks;
+
+    const missionsByWorker: Record<string, Mission[]> = {};
+    for (const task of tasks) {
+      if (!task.mission_id || !task.assigned_worker_id) continue;
+      const mission = missions.find((entry) => entry.id === task.mission_id);
+      if (!mission) continue;
+      const list = missionsByWorker[task.assigned_worker_id] ?? [];
+      if (!list.some((entry) => entry.id === mission.id)) list.push(mission);
+      missionsByWorker[task.assigned_worker_id] = list;
+    }
+
+    return {
+      counts: {
+        workers: workers.length,
+        workspaces: data?.workspaces.length ?? 0,
+        missions: missions.length,
+      },
+      missionsByWorker,
+    };
+  }, [inputs, data]);
+
   const searchable: { workers: Worker[]; missions: Mission[] } = useMemo(
     () => ({
       workers: inputs.workers,
@@ -188,6 +218,8 @@ export const MissionControlShell: React.FC<MissionControlShellProps> = () => {
           {inspectorOpen ? (
             <InspectorPanel
               selection={selection}
+              counts={inspectorFacts.counts}
+              missionsByWorker={inspectorFacts.missionsByWorker}
               onClose={() => setInspectorOpen(false)}
               onSelectWorker={(workerId) => setSelectedNodeId(`worker:${workerId}`)}
               onSelectMission={(missionId) => setSelectedNodeId(`mission:${missionId}`)}
