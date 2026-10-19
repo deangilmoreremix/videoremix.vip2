@@ -8,6 +8,7 @@
 // credential is exchanged for a server-side credential_ref.
 
 import { supabase } from "../../utils/supabase";
+import { agentosDb, agentosErrorMessage } from "./client";
 import {
   err,
   ok,
@@ -26,7 +27,7 @@ export async function listIntegrations(options: {
   support?: IntegrationSupport;
   includeUnsupported?: boolean;
 } = {}): Promise<AgentOSResult<Integration[]>> {
-  let query = supabase.from("integrations").select("*").order("name", { ascending: true });
+  let query = agentosDb.from("integrations").select("*").order("name", { ascending: true });
 
   if (options.category) query = query.eq("category", options.category);
 
@@ -38,20 +39,20 @@ export async function listIntegrations(options: {
   }
 
   const { data, error } = await query;
-  if (error) return err("database", "Could not load the integration directory", error.message);
+  if (error) return err("database", "Could not load the integration directory", agentosErrorMessage(error));
   return ok((data ?? []) as Integration[]);
 }
 
 export async function getIntegration(key: string): Promise<AgentOSResult<Integration>> {
   if (!key) return err("validation", "key is required");
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("integrations")
     .select("*")
     .eq("key", key)
     .maybeSingle();
 
-  if (error) return err("database", "Could not load the integration", error.message);
+  if (error) return err("database", "Could not load the integration", agentosErrorMessage(error));
   if (!data) return err("not_found", "Integration not found");
 
   const integration = data as Integration;
@@ -80,7 +81,7 @@ export interface CreateConnectionInput {
 export async function listConnectedAccounts(options: {
   includeRevoked?: boolean;
 } = {}): Promise<AgentOSResult<ConnectedAccount[]>> {
-  let query = supabase
+  let query = agentosDb
     .from("connected_accounts")
     .select("*")
     .order("connected_at", { ascending: false });
@@ -88,7 +89,7 @@ export async function listConnectedAccounts(options: {
   if (!options.includeRevoked) query = query.is("revoked_at", null);
 
   const { data, error } = await query;
-  if (error) return err("database", "Could not load connected accounts", error.message);
+  if (error) return err("database", "Could not load connected accounts", agentosErrorMessage(error));
   return ok((data ?? []) as ConnectedAccount[]);
 }
 
@@ -157,8 +158,8 @@ export async function deleteConnection(
 ): Promise<AgentOSResult<{ id: string }>> {
   if (!connectionId) return err("validation", "connectionId is required");
 
-  const { error } = await supabase.from("connected_accounts").delete().eq("id", connectionId);
-  if (error) return err("database", "Could not delete the connection", error.message);
+  const { error } = await agentosDb.from("connected_accounts").delete().eq("id", connectionId);
+  if (error) return err("database", "Could not delete the connection", agentosErrorMessage(error));
   return ok({ id: connectionId });
 }
 

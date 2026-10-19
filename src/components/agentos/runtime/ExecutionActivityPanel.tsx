@@ -10,7 +10,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AlertTriangle, CheckCircle2, Info, XCircle } from "lucide-react";
-import { supabase } from "../../../utils/supabase";
+import { agentosDb } from "../../../services/agentos/client";
 import type { ExecutionEvent } from "../../../types/agentos";
 import { EmptyState, Pill, Spinner } from "../ui";
 
@@ -59,7 +59,7 @@ export const ExecutionActivityPanel: React.FC<ExecutionActivityPanelProps> = ({
       return;
     }
 
-    let query = supabase
+    let query = agentosDb
       .from("execution_events")
       .select("*")
       .order("seq", { ascending: true })

@@ -10,6 +10,7 @@
 //   bookkeeping. The browser sends the intent, the server applies it.
 
 import { supabase } from "../../utils/supabase";
+import { agentosDb, agentosErrorMessage } from "./client";
 import {
   err,
   ok,
@@ -47,7 +48,7 @@ export async function listMissions(options: {
   status?: MissionStatus;
   limit?: number;
 } = {}): Promise<AgentOSResult<Mission[]>> {
-  let query = supabase
+  let query = agentosDb
     .from("missions")
     .select("*")
     .order("created_at", { ascending: false })
@@ -56,20 +57,20 @@ export async function listMissions(options: {
   if (options.status) query = query.eq("status", options.status);
 
   const { data, error } = await query;
-  if (error) return err("database", "Could not load missions", error.message);
+  if (error) return err("database", "Could not load missions", agentosErrorMessage(error));
   return ok((data ?? []) as Mission[]);
 }
 
 export async function getMission(missionId: string): Promise<AgentOSResult<Mission>> {
   if (!missionId) return err("validation", "missionId is required");
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("missions")
     .select("*")
     .eq("id", missionId)
     .maybeSingle();
 
-  if (error) return err("database", "Could not load mission", error.message);
+  if (error) return err("database", "Could not load mission", agentosErrorMessage(error));
   if (!data) return err("not_found", "Mission not found");
   return ok(data as Mission);
 }
@@ -87,7 +88,7 @@ export async function createMission(input: CreateMissionInput): Promise<AgentOSR
     return err("validation", "Give the mission a title");
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("missions")
     .insert({
       title: input.title.trim(),
@@ -100,7 +101,7 @@ export async function createMission(input: CreateMissionInput): Promise<AgentOSR
     .select("*")
     .single();
 
-  if (error) return err("database", "Could not create mission", error.message);
+  if (error) return err("database", "Could not create mission", agentosErrorMessage(error));
   return ok(data as Mission);
 }
 
@@ -121,14 +122,14 @@ export async function cancelMission(missionId: string): Promise<AgentOSResult<{ 
     if (result.data) cancelled += 1;
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("missions")
     .update({ status: "cancelled", completed_at: new Date().toISOString() })
     .eq("id", missionId)
     .select("id")
     .single();
 
-  if (error) return err("database", "Could not cancel mission", error.message);
+  if (error) return err("database", "Could not cancel mission", agentosErrorMessage(error));
 
   return ok({ missionId: (data as { id: string }).id, cancelledTasks: cancelled });
 }
@@ -157,7 +158,7 @@ export async function listTasks(options: {
   status?: string;
   limit?: number;
 } = {}): Promise<AgentOSResult<Task[]>> {
-  let query = supabase
+  let query = agentosDb
     .from("tasks")
     .select("*")
     .order("created_at", { ascending: false })
@@ -167,7 +168,7 @@ export async function listTasks(options: {
   if (options.status) query = query.eq("status", options.status);
 
   const { data, error } = await query;
-  if (error) return err("database", "Could not load tasks", error.message);
+  if (error) return err("database", "Could not load tasks", agentosErrorMessage(error));
   return ok((data ?? []) as Task[]);
 }
 
@@ -226,17 +227,17 @@ export async function runQueuedTasks(options: { limit?: number } = {}): Promise<
 export async function listTaskEdges(missionId: string): Promise<AgentOSResult<TaskEdge[]>> {
   if (!missionId) return err("validation", "missionId is required");
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("task_edges")
     .select("task_id, waits_for, kind, created_at")
     .in(
       "task_id",
       (
-        await supabase.from("tasks").select("id").eq("mission_id", missionId)
+        await agentosDb.from("tasks").select("id").eq("mission_id", missionId)
       ).data?.map((row: { id: string }) => row.id) ?? [],
     );
 
-  if (error) return err("database", "Could not load task dependencies", error.message);
+  if (error) return err("database", "Could not load task dependencies", agentosErrorMessage(error));
   return ok((data ?? []) as TaskEdge[]);
 }
 
@@ -261,13 +262,13 @@ export async function addTaskEdge(params: {
     return err("validation", "That dependency would create a cycle");
   }
 
-  const { error } = await supabase.from("task_edges").insert({
+  const { error } = await agentosDb.from("task_edges").insert({
     task_id: params.taskId,
     waits_for: params.waitsFor,
     kind: params.kind ?? "depends_on",
   });
 
-  if (error) return err("database", "Could not add task dependency", error.message);
+  if (error) return err("database", "Could not add task dependency", agentosErrorMessage(error));
   return ok({ task_id: params.taskId, waits_for: params.waitsFor });
 }
 
@@ -279,19 +280,19 @@ export async function removeTaskEdge(params: {
     return err("validation", "taskId and waitsFor are required");
   }
 
-  const { error } = await supabase
+  const { error } = await agentosDb
     .from("task_edges")
     .delete()
     .eq("task_id", params.taskId)
     .eq("waits_for", params.waitsFor);
 
-  if (error) return err("database", "Could not remove task dependency", error.message);
+  if (error) return err("database", "Could not remove task dependency", agentosErrorMessage(error));
   return ok({ task_id: params.taskId, waits_for: params.waitsFor });
 }
 
 /** Depth-first reachability check over the caller's visible task graph. */
 async function createsCycle(taskId: string, waitsFor: string): Promise<boolean> {
-  const { data: edges } = await supabase.from("task_edges").select("task_id, waits_for");
+  const { data: edges } = await agentosDb.from("task_edges").select("task_id, waits_for");
   if (!edges || edges.length === 0) return false;
 
   const adjacency = new Map<string, string[]>();

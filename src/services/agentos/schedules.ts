@@ -8,7 +8,7 @@
 //   become a task (see supabase/functions/agentos-sweep/index.ts). The UI says
 //   so explicitly instead of implying continuous execution.
 
-import { supabase } from "../../utils/supabase";
+import { agentosDb, agentosErrorMessage } from "./client";
 import {
   err,
   ok,
@@ -18,25 +18,25 @@ import {
 import { nextCronRun } from "./cron";
 
 export async function listSchedules(): Promise<AgentOSResult<Schedule[]>> {
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("schedules")
     .select("*")
     .order("created_at", { ascending: false });
 
-  if (error) return err("database", "Could not load schedules", error.message);
+  if (error) return err("database", "Could not load schedules", agentosErrorMessage(error));
   return ok((data ?? []) as Schedule[]);
 }
 
 export async function getSchedule(scheduleId: string): Promise<AgentOSResult<Schedule>> {
   if (!scheduleId) return err("validation", "scheduleId is required");
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("schedules")
     .select("*")
     .eq("id", scheduleId)
     .maybeSingle();
 
-  if (error) return err("database", "Could not load schedule", error.message);
+  if (error) return err("database", "Could not load schedule", agentosErrorMessage(error));
   if (!data) return err("not_found", "Schedule not found");
   return ok(data as Schedule);
 }
@@ -66,7 +66,7 @@ export async function createSchedule(input: CreateScheduleInput): Promise<AgentO
     return err("validation", "That cron expression never matches a future time");
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("schedules")
     .insert({
       title: input.title.trim(),
@@ -83,7 +83,7 @@ export async function createSchedule(input: CreateScheduleInput): Promise<AgentO
     .select("*")
     .single();
 
-  if (error) return err("database", "Could not create schedule", error.message);
+  if (error) return err("database", "Could not create schedule", agentosErrorMessage(error));
   return ok(data as Schedule);
 }
 
@@ -131,22 +131,22 @@ export async function updateSchedule(
   if (input.input !== undefined) patch.input = input.input;
   if (input.enabled !== undefined) patch.enabled = input.enabled;
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("schedules")
     .update(patch)
     .eq("id", scheduleId)
     .select("*")
     .single();
 
-  if (error) return err("database", "Could not update schedule", error.message);
+  if (error) return err("database", "Could not update schedule", agentosErrorMessage(error));
   return ok(data as Schedule);
 }
 
 export async function deleteSchedule(scheduleId: string): Promise<AgentOSResult<{ id: string }>> {
   if (!scheduleId) return err("validation", "scheduleId is required");
 
-  const { error } = await supabase.from("schedules").delete().eq("id", scheduleId);
-  if (error) return err("database", "Could not delete schedule", error.message);
+  const { error } = await agentosDb.from("schedules").delete().eq("id", scheduleId);
+  if (error) return err("database", "Could not delete schedule", agentosErrorMessage(error));
   return ok({ id: scheduleId });
 }
 
@@ -164,14 +164,14 @@ export async function setScheduleEnabled(
     if (next) patch.next_run_at = next.toISOString();
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("schedules")
     .update(patch)
     .eq("id", scheduleId)
     .select("*")
     .single();
 
-  if (error) return err("database", "Could not change schedule state", error.message);
+  if (error) return err("database", "Could not change schedule state", agentosErrorMessage(error));
   return ok(data as Schedule);
 }
 

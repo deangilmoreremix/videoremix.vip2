@@ -46,9 +46,31 @@ interface TableState {
   writableBy: (row: Row | undefined, caller: string | null) => boolean;
 }
 
+export interface MockSchemaClient {
+  from: (table: string) => TableBuilder;
+  rpc: (
+    name: string,
+    params?: Record<string, unknown>,
+  ) => Promise<{ data: unknown; error: unknown }>;
+}
+
 export interface MockSupabase {
   readonly tables: Map<string, TableState>;
+  /**
+   * The PUBLIC schema client — the shared browser client. The AgentOS tables
+   * live in the `agentos` schema, so this client must NOT be able to see them.
+   * Reading through it fails exactly the way the real project fails
+   * (PGRST205: the table is not in the public schema).
+   */
   from: (table: string) => TableBuilder;
+  /**
+   * `client.schema(name)`, mirroring supabase-js. Only the `agentos` schema is
+   * exposed by this harness; any other name fails the way PostgREST fails when
+   * a schema is not exposed (PGRST106).
+   */
+  schema: (name: string) => MockSchemaClient;
+  /** The `agentos`-scoped client. This is what AgentOS code must use. */
+  readonly agentos: MockSchemaClient;
   functions: {
     invoke: (
       name: string,
@@ -96,6 +118,7 @@ class TableBuilder {
   constructor(
     private readonly state: MockSupabase,
     private readonly table: string,
+    private readonly schemaName = "agentos",
   ) {}
 
   private tableState(): TableState | undefined {
@@ -110,7 +133,10 @@ class TableBuilder {
       if (!table) {
         return {
           data: null,
-          error: { message: `relation agentos.${this.table} does not exist` },
+          error: {
+            code: "PGRST205",
+            message: `Could not find the table '${this.schemaName}.${this.table}' in the schema cache`,
+          },
         };
       }
 
@@ -510,22 +536,60 @@ export function createMockSupabase(specs: Record<string, TableSpec> = {}): MockS
     tables.set(name, resolve(spec));
   }
 
-  const state: MockSupabase = {
-    tables,
+  const calls: Array<{ op: string; table: string; payload?: Row; where?: Record<string, unknown> }> = [];
+  const invokeCalls: Array<{ name: string; body: unknown }> = [];
+
+  /** Register a table with the factory's real tenant rules. */
+  const registerTable = (table: string): void => {
+    if (tables.has(table)) return;
+    const spec = allSpecs[table];
+    tables.set(table, resolve(spec));
+  };
+
+  /**
+   * The `agentos`-scoped client. This is the ONLY view of the AgentOS tables:
+   * AgentOS code must reach them through `supabase.schema("agentos")`.
+   */
+  const agentosClient: MockSchemaClient = {
     from: (table: string) => {
       // Auto-register an undeclared table using the SAME spec resolution the
       // factory used, so built-in rules (workspace_members, catalogs,
       // append-only tables) still apply to a table a test never seeded.
-      if (!tables.has(table)) {
-        const spec = allSpecs[table];
-        tables.set(table, resolve(table, spec));
-      }
-      return new TableBuilder(state, table);
+      registerTable(table);
+      return new TableBuilder(state, table, "agentos");
     },
+    rpc: async (name: string, params?: Record<string, unknown>) => {
+      const handler = rpcHandlers.get(name);
+      if (!handler) return { data: null, error: { message: `no rpc ${name}` } };
+      return { data: await handler(state, params ?? {}), error: null };
+    },
+  };
+
+  const state: MockSupabase = {
+    tables,
+    // The PUBLIC schema. The AgentOS tables live in `agentos`, so this client
+    // must not be able to see them — exactly like the real project, where
+    // `public.tasks` and `public.workspaces` exist but are a different thing.
+    from: (table: string) => new TableBuilder(publicView, table, "public"),
+    schema: (name: string) => {
+      if (name === "agentos") return agentosClient;
+      // PostgREST's answer for a schema the project does not expose.
+      return {
+        from: (table: string) => new TableBuilder(publicView, table, name),
+        rpc: async () => ({
+          data: null,
+          error: {
+            code: "PGRST106",
+            message: `Invalid schema: ${name}. Only the following schemas are exposed: public, graphql_public`,
+          },
+        }),
+      };
+    },
+    agentos: agentosClient,
     functions: {
       invoke: async (name: string, params: { body?: unknown }) => {
         const body = params.body ?? {};
-        state.invokeCalls.push({ name, body });
+        invokeCalls.push({ name, body });
         const handler = invokeHandlers.get(name);
         if (!handler) {
           return {
@@ -536,14 +600,26 @@ export function createMockSupabase(specs: Record<string, TableSpec> = {}): MockS
         return { data: await handler(state, body as Record<string, unknown>), error: null };
       },
     },
-    rpc: async (name: string, params?: Record<string, unknown>) => {
-      const handler = rpcHandlers.get(name);
-      if (!handler) return { data: null, error: { message: `no rpc ${name}` } };
-      return { data: await handler(state, params ?? {}), error: null };
-    },
-    calls: [],
-    invokeCalls: [],
+    rpc: async (name: string) => ({
+      data: null,
+      error: {
+        code: "PGRST202",
+        message: `Could not find the function public.${name} in the schema cache`,
+      },
+    }),
+    calls,
+    invokeCalls,
   };
+
+  /**
+   * The public schema's view of the database. It holds no AgentOS tables, so a
+   * query through the shared client fails the way the real project fails.
+   */
+  const publicView = {
+    ...state,
+    tables: new Map<string, TableState>(),
+    calls,
+  } as unknown as MockSupabase;
 
   return state;
 }
@@ -554,7 +630,7 @@ export function seed(state: MockSupabase, table: string, rows: Row[]): void {
   // test seeds before ever queryinging does not fall back to a permissive
   // default that would let any caller write any row.
   if (!state.tables.has(table)) {
-    state.from(table);
+    state.agentos.from(table);
   }
   state.tables.get(table)!.rows.push(...rows);
 }

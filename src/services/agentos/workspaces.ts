@@ -7,7 +7,7 @@
 // this service never inserts the membership row itself — a member invite is a
 // separate, explicit action by the workspace owner.
 
-import { supabase } from "../../utils/supabase";
+import { agentosDb, agentosErrorMessage } from "./client";
 import {
   err,
   ok,
@@ -40,25 +40,25 @@ export interface UpdateWorkspaceInput {
 export async function listWorkspaces(options: {
   includeArchived?: boolean;
 } = {}): Promise<AgentOSResult<Workspace[]>> {
-  let query = supabase.from("workspaces").select(COLUMNS);
+  let query = agentosDb.from("workspaces").select(COLUMNS);
   if (!options.includeArchived) query = query.is("archived_at", null);
   query = query.order("created_at", { ascending: false });
 
   const { data, error } = await query;
-  if (error) return err("database", "Could not load workspaces", error.message);
+  if (error) return err("database", "Could not load workspaces", agentosErrorMessage(error));
   return ok((data ?? []) as Workspace[]);
 }
 
 export async function getWorkspace(workspaceId: string): Promise<AgentOSResult<Workspace>> {
   if (!workspaceId) return err("validation", "workspaceId is required");
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("workspaces")
     .select(COLUMNS)
     .eq("id", workspaceId)
     .maybeSingle();
 
-  if (error) return err("database", "Could not load workspace", error.message);
+  if (error) return err("database", "Could not load workspace", agentosErrorMessage(error));
   if (!data) return err("not_found", "Workspace not found");
   return ok(data as Workspace);
 }
@@ -68,7 +68,7 @@ export async function createWorkspace(input: CreateWorkspaceInput): Promise<Agen
     return err("validation", "Give the workspace a name");
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("workspaces")
     .insert({
       name: input.name.trim(),
@@ -80,7 +80,7 @@ export async function createWorkspace(input: CreateWorkspaceInput): Promise<Agen
     .select(COLUMNS)
     .single();
 
-  if (error) return err("database", "Could not create workspace", error.message);
+  if (error) return err("database", "Could not create workspace", agentosErrorMessage(error));
   return ok(data as Workspace);
 }
 
@@ -101,14 +101,14 @@ export async function updateWorkspace(
   if (input.policies !== undefined) patch.policies = input.policies;
   if (input.settings !== undefined) patch.settings = input.settings;
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("workspaces")
     .update(patch)
     .eq("id", workspaceId)
     .select(COLUMNS)
     .single();
 
-  if (error) return err("database", "Could not update workspace", error.message);
+  if (error) return err("database", "Could not update workspace", agentosErrorMessage(error));
   return ok(data as Workspace);
 }
 
@@ -119,14 +119,14 @@ export async function updateWorkspace(
 export async function archiveWorkspace(workspaceId: string): Promise<AgentOSResult<Workspace>> {
   if (!workspaceId) return err("validation", "workspaceId is required");
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("workspaces")
     .update({ archived_at: new Date().toISOString() })
     .eq("id", workspaceId)
     .select(COLUMNS)
     .single();
 
-  if (error) return err("database", "Could not archive workspace", error.message);
+  if (error) return err("database", "Could not archive workspace", agentosErrorMessage(error));
   return ok(data as Workspace);
 }
 
@@ -139,13 +139,13 @@ export async function listWorkspaceMembers(
 ): Promise<AgentOSResult<WorkspaceMember[]>> {
   if (!workspaceId) return err("validation", "workspaceId is required");
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("workspace_members")
     .select(COLUMNS)
     .eq("workspace_id", workspaceId)
     .order("created_at", { ascending: true });
 
-  if (error) return err("database", "Could not load workspace members", error.message);
+  if (error) return err("database", "Could not load workspace members", agentosErrorMessage(error));
   return ok((data ?? []) as WorkspaceMember[]);
 }
 
@@ -165,7 +165,7 @@ export async function inviteMember(params: {
   }
 
   // Refuse to add a second owner: the DB creates one, and a workspace has one.
-  const { data: existing } = await supabase
+  const { data: existing } = await agentosDb
     .from("workspace_members")
     .select("role")
     .eq("workspace_id", params.workspaceId)
@@ -176,7 +176,7 @@ export async function inviteMember(params: {
     return err("conflict", "That member is already in this workspace");
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("workspace_members")
     .insert({
       workspace_id: params.workspaceId,
@@ -186,7 +186,7 @@ export async function inviteMember(params: {
     .select(COLUMNS)
     .single();
 
-  if (error) return err("database", "Could not add workspace member", error.message);
+  if (error) return err("database", "Could not add workspace member", agentosErrorMessage(error));
   return ok(data as WorkspaceMember);
 }
 
@@ -200,20 +200,20 @@ export async function updateMemberRole(params: {
     return err("validation", "workspaceId and memberClerkId are required");
   }
 
-  const { data: current, error: loadError } = await supabase
+  const { data: current, error: loadError } = await agentosDb
     .from("workspace_members")
     .select("role")
     .eq("workspace_id", params.workspaceId)
     .eq("member_clerk_id", params.memberClerkId)
     .maybeSingle();
 
-  if (loadError) return err("database", "Could not load member", loadError.message);
+  if (loadError) return err("database", "Could not load member", agentosErrorMessage(loadError));
   if (!current) return err("not_found", "Member not found");
   if (current.role === "owner") {
     return err("conflict", "The workspace owner role cannot be changed");
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("workspace_members")
     .update({ role: params.role })
     .eq("workspace_id", params.workspaceId)
@@ -221,7 +221,7 @@ export async function updateMemberRole(params: {
     .select(COLUMNS)
     .single();
 
-  if (error) return err("database", "Could not update member role", error.message);
+  if (error) return err("database", "Could not update member role", agentosErrorMessage(error));
   return ok(data as WorkspaceMember);
 }
 
@@ -234,25 +234,25 @@ export async function removeMember(params: {
     return err("validation", "workspaceId and memberClerkId are required");
   }
 
-  const { data: current, error: loadError } = await supabase
+  const { data: current, error: loadError } = await agentosDb
     .from("workspace_members")
     .select("role")
     .eq("workspace_id", params.workspaceId)
     .eq("member_clerk_id", params.memberClerkId)
     .maybeSingle();
 
-  if (loadError) return err("database", "Could not load member", loadError.message);
+  if (loadError) return err("database", "Could not load member", agentosErrorMessage(loadError));
   if (!current) return err("not_found", "Member not found");
   if (current.role === "owner") {
     return err("conflict", "The workspace owner cannot be removed");
   }
 
-  const { error } = await supabase
+  const { error } = await agentosDb
     .from("workspace_members")
     .delete()
     .eq("workspace_id", params.workspaceId)
     .eq("member_clerk_id", params.memberClerkId);
 
-  if (error) return err("database", "Could not remove workspace member", error.message);
+  if (error) return err("database", "Could not remove workspace member", agentosErrorMessage(error));
   return ok({ workspace_id: params.workspaceId, member_clerk_id: params.memberClerkId });
 }

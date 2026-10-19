@@ -8,7 +8,7 @@
 // boundary — this file cannot read or write another tenant's rows even by
 // mistake.
 
-import { supabase } from "../../utils/supabase";
+import { agentosDb, agentosErrorMessage } from "./client";
 import {
   err,
   ok,
@@ -68,7 +68,7 @@ export async function listWorkers(options: {
   includeArchived?: boolean;
   workspaceId?: string;
 } = {}): Promise<AgentOSResult<Worker[]>> {
-  let query = supabase.from("workers").select(WORKER_COLUMNS);
+  let query = agentosDb.from("workers").select(WORKER_COLUMNS);
 
   if (options.workspaceId) query = query.eq("workspace_id", options.workspaceId);
   if (!options.includeArchived) query = query.is("archived_at", null);
@@ -76,20 +76,20 @@ export async function listWorkers(options: {
   query = query.order("created_at", { ascending: false });
 
   const { data, error } = await query;
-  if (error) return err("database", "Could not load workers", error.message);
+  if (error) return err("database", "Could not load workers", agentosErrorMessage(error));
   return ok((data ?? []) as Worker[]);
 }
 
 export async function getWorker(workerId: string): Promise<AgentOSResult<Worker>> {
   if (!workerId) return err("validation", "workerId is required");
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("workers")
     .select(WORKER_COLUMNS)
     .eq("id", workerId)
     .maybeSingle();
 
-  if (error) return err("database", "Could not load worker", error.message);
+  if (error) return err("database", "Could not load worker", agentosErrorMessage(error));
   if (!data) return err("not_found", "Worker not found");
   return ok(data as Worker);
 }
@@ -105,7 +105,7 @@ export async function createWorker(input: CreateWorkerInput): Promise<AgentOSRes
     return err("validation", "Temperature must be between 0 and 2");
   }
 
-  const { data: created, error } = await supabase
+  const { data: created, error } = await agentosDb
     .from("workers")
     .insert({
       name: input.name.trim(),
@@ -128,7 +128,7 @@ export async function createWorker(input: CreateWorkerInput): Promise<AgentOSRes
     .select(WORKER_COLUMNS)
     .single();
 
-  if (error) return err("database", "Could not create worker", error.message);
+  if (error) return err("database", "Could not create worker", agentosErrorMessage(error));
 
   const worker = created as Worker;
 
@@ -147,8 +147,8 @@ export async function replaceWorkerTools(
   if (!workerId) return err("validation", "workerId is required");
   if (!Array.isArray(tools)) return err("validation", "tools must be an array");
 
-  const { error: deleteError } = await supabase.from("worker_tools").delete().eq("worker_id", workerId);
-  if (deleteError) return err("database", "Could not reset worker tools", deleteError.message);
+  const { error: deleteError } = await agentosDb.from("worker_tools").delete().eq("worker_id", workerId);
+  if (deleteError) return err("database", "Could not reset worker tools", agentosErrorMessage(deleteError));
 
   if (tools.length === 0) return ok([]);
 
@@ -159,19 +159,19 @@ export async function replaceWorkerTools(
     config: tool.config ?? {},
   }));
 
-  const { data, error } = await supabase.from("worker_tools").insert(rows).select("*");
-  if (error) return err("database", "Could not assign worker tools", error.message);
+  const { data, error } = await agentosDb.from("worker_tools").insert(rows).select("*");
+  if (error) return err("database", "Could not assign worker tools", agentosErrorMessage(error));
   return ok((data ?? []) as WorkerTool[]);
 }
 
 export async function listWorkerTools(workerId: string): Promise<AgentOSResult<WorkerTool[]>> {
   if (!workerId) return err("validation", "workerId is required");
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("worker_tools")
     .select("*")
     .eq("worker_id", workerId)
     .order("tool_key", { ascending: true });
-  if (error) return err("database", "Could not load worker tools", error.message);
+  if (error) return err("database", "Could not load worker tools", agentosErrorMessage(error));
   return ok((data ?? []) as WorkerTool[]);
 }
 
@@ -204,14 +204,14 @@ export async function updateWorker(
   if (input.heartbeat !== undefined) patch.heartbeat = input.heartbeat;
   if (input.knowledge !== undefined) patch.knowledge = input.knowledge;
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("workers")
     .update(patch)
     .eq("id", workerId)
     .select(WORKER_COLUMNS)
     .single();
 
-  if (error) return err("database", "Could not update worker", error.message);
+  if (error) return err("database", "Could not update worker", agentosErrorMessage(error));
   return ok(data as Worker);
 }
 
@@ -222,7 +222,7 @@ export async function setWorkerStatus(
 ): Promise<AgentOSResult<Worker>> {
   if (!workerId) return err("validation", "workerId is required");
 
-  const { data: current } = await supabase
+  const { data: current } = await agentosDb
     .from("workers")
     .select("status, archived_at")
     .eq("id", workerId)
@@ -238,14 +238,14 @@ export async function setWorkerStatus(
     patch.archived_at = null;
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("workers")
     .update(patch)
     .eq("id", workerId)
     .select(WORKER_COLUMNS)
     .single();
 
-  if (error) return err("database", "Could not change worker status", error.message);
+  if (error) return err("database", "Could not change worker status", agentosErrorMessage(error));
   return ok(data as Worker);
 }
 
@@ -262,7 +262,7 @@ export async function cloneWorker(workerId: string, overrides: { name?: string }
   const original = source.data;
   const name = overrides.name?.trim() || `${original.name} (copy)`;
 
-  const { data: created, error } = await supabase
+  const { data: created, error } = await agentosDb
     .from("workers")
     .insert({
       owner_clerk_id: original.owner_clerk_id,
@@ -289,7 +289,7 @@ export async function cloneWorker(workerId: string, overrides: { name?: string }
     .select(WORKER_COLUMNS)
     .single();
 
-  if (error) return err("database", "Could not clone worker", error.message);
+  if (error) return err("database", "Could not clone worker", agentosErrorMessage(error));
 
   const worker = created as Worker;
 
@@ -308,7 +308,7 @@ export async function cloneWorker(workerId: string, overrides: { name?: string }
 export async function deleteWorker(workerId: string): Promise<AgentOSResult<{ id: string }>> {
   if (!workerId) return err("validation", "workerId is required");
 
-  const { error } = await supabase.from("workers").delete().eq("id", workerId);
-  if (error) return err("database", "Could not delete worker", error.message);
+  const { error } = await agentosDb.from("workers").delete().eq("id", workerId);
+  if (error) return err("database", "Could not delete worker", agentosErrorMessage(error));
   return ok({ id: workerId });
 }

@@ -10,8 +10,7 @@
 // for a task to leave waiting_approval.
 
 import { fail, ok, readJsonBody, withErrorGuard } from '../_shared/agentos-errors.ts';
-import { getServiceClient, verifyCaller } from '../_shared/agentos-client.ts';
-import { createClient } from 'npm:@supabase/supabase-js@2';
+import { getCallerClient, getServiceClient, verifyCaller } from '../_shared/agentos-client.ts';
 
 interface ApprovalBody {
   approval_id?: string;
@@ -56,15 +55,7 @@ async function handler(req: Request): Promise<Response> {
   // rightful owner; it must therefore be invoked with the caller's verified
   // token forwarded, exactly like supabase/functions/analytics-events does.
   // The ownership check above remains the authoritative tenant gate.
-  const callerClient = createClient(
-    Deno.env.get('SUPABASE_URL') ?? '',
-    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
-    {
-      global: {
-        headers: { Authorization: req.headers.get('authorization') ?? '' },
-      },
-    },
-  );
+  const callerClient = getCallerClient(req);
 
   const { data: result, error } = await callerClient.rpc('resolve_approval', {
     p_approval_id: approvalId,

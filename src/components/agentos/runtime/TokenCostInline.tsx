@@ -4,7 +4,7 @@
 // every number shown is a real recorded cost.
 
 import { useEffect, useState } from "react";
-import { supabase } from "../../../utils/supabase";
+import { agentosDb } from "../../../services/agentos/client";
 
 export interface TokenCostInlineProps {
   workerId: string;
@@ -25,7 +25,7 @@ export const TokenCostInline: React.FC<TokenCostInlineProps> = ({ workerId }) =>
     let cancelled = false;
 
     void (async () => {
-      const { data } = await supabase
+      const { data } = await agentosDb
         .from("usage_records")
         .select("prompt_tokens, completion_tokens, credits")
         .eq("worker_id", workerId);

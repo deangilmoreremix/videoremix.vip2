@@ -51,14 +51,22 @@ async function loadIntegration(supabase: any, key: string) {
   return data as null | { key: string; support: string; capabilities: string[]; auth_type: string };
 }
 
-/** Load a worker's permission block, so tool policy is enforced server-side. */
+/**
+ * Load a worker's permission block, so tool policy is enforced server-side.
+ *
+ * The allow-list (`allowed_app_slugs`) lives INSIDE the `permissions` jsonb
+ * column — `agentos.workers` has no top-level `allowed_app_slugs` column, and
+ * selecting one makes PostgREST reject the whole query (PGRST100), which
+ * would leave every worker-scoped dispatch without a policy to enforce.
+ */
 async function loadWorkerPermissions(supabase: any, workerId: string) {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('workers')
-    .select('permissions, owner_clerk_id, allowed_app_slugs')
+    .select('permissions, owner_clerk_id')
     .eq('id', workerId)
     .maybeSingle();
-  return data as null | Record<string, any>;
+  if (error) throw new Error(`worker lookup failed: ${error.message}`);
+  return data as null | { permissions: Record<string, any> | null; owner_clerk_id: string | null };
 }
 
 async function invokeCatalogApp(params: {

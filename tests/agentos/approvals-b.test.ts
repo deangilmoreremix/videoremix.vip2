@@ -178,15 +178,15 @@ describe("approvals service", () => {
       // The harness read path has no `{ count: "exact", head: true }` support,
       // so inject the minimal chainable this one assertion needs.
       const client = createMockSupabase();
-      const realFrom = client.from.bind(client);
+      const realFrom = client.agentos.from.bind(client.agentos);
       const counted = {
         select: () => counted,
         eq: () => counted,
         then: (onFulfilled: (value: { count: number; error: null }) => unknown) =>
           Promise.resolve({ count: 2, error: null }).then(onFulfilled),
       };
-      client.from = ((table: string) =>
-        table === "approvals" ? counted : realFrom(table)) as unknown as typeof client.from;
+      client.agentos.from = ((table: string) =>
+        table === "approvals" ? counted : realFrom(table)) as unknown as typeof client.agentos.from;
       state.client = client;
 
       const result = await countPendingApprovals();
@@ -209,15 +209,15 @@ describe("approvals service", () => {
 
     it("reports a database error", async () => {
       const client = createMockSupabase();
-      const realFrom = client.from.bind(client);
+      const realFrom = client.agentos.from.bind(client.agentos);
       const failing = {
         select: () => failing,
         eq: () => failing,
         then: (onFulfilled: (value: { count: null; error: { message: string } }) => unknown) =>
           Promise.resolve({ count: null, error: { message: "count unavailable" } }).then(onFulfilled),
       };
-      client.from = ((table: string) =>
-        table === "approvals" ? failing : realFrom(table)) as unknown as typeof client.from;
+      client.agentos.from = ((table: string) =>
+        table === "approvals" ? failing : realFrom(table)) as unknown as typeof client.agentos.from;
       state.client = client;
 
       const result = await countPendingApprovals();

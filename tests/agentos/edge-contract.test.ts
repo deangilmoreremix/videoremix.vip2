@@ -303,7 +303,10 @@ describe('agentos edge functions: secret handling', () => {
     // no `sub` and would refuse even the rightful owner).
     expect(src).not.toMatch(/supabase\.rpc\('resolve_approval'/);
     expect(src).toContain("rpc('resolve_approval'");
-    expect(src).toContain("req.headers.get('authorization')");
+    // The caller's token is forwarded by the shared caller client.
+    expect(src).toContain("getCallerClient(req)");
+    const client = sharedSource('agentos-client.ts');
+    expect(client).toContain("req.headers.get('authorization')");
   });
 
   it('agentos-tools keeps the service-role token in an outbound header only', () => {
@@ -482,5 +485,94 @@ describe('browser services match the edge function contract', () => {
     const missions = readFileSync(join(SERVICES_DIR, 'missions.ts'), 'utf8');
     expect(missions).toContain('envelope?.data');
     expect(missions).toContain('supabase.functions.invoke(functionName, { body })');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Schema routing
+//
+// Every AgentOS object lives in the `agentos` schema, while the project also
+// exposes `public`. An unqualified query therefore never reaches the AgentOS
+// tables — and on this project `public.tasks` and `public.workspaces` exist, so
+// an unqualified query can silently read the WRONG table. These guards make
+// the schema explicit everywhere, so the regression fails here rather than on
+// a live project.
+// ---------------------------------------------------------------------------
+
+describe('agentos schema routing', () => {
+  const AGENTOS_SOURCE_DIRS = [
+    join(ROOT, 'src', 'services', 'agentos'),
+    join(ROOT, 'src', 'pages', 'agentos'),
+    join(ROOT, 'src', 'components', 'agentos'),
+  ];
+
+  function agentosSourceFiles(): string[] {
+    const files: string[] = [];
+    for (const dir of AGENTOS_SOURCE_DIRS) {
+      if (!existsSync(dir)) continue;
+      for (const entry of readdirSync(dir, { recursive: true })) {
+        const name = String(entry);
+        if (!/\.(ts|tsx)$/.test(name)) continue;
+        if (name.endsWith('.test.ts') || name.endsWith('.test.tsx')) continue;
+        // client.ts IS the schema client; it is asserted separately.
+        if (name === 'client.ts') continue;
+        files.push(join(dir, name));
+      }
+    }
+    return files;
+  }
+
+  /** Collapse whitespace so a chain broken over several lines still matches. */
+  function normalize(src: string): string {
+    return src.replace(/\/\/[^\n]*/g, ' ').replace(/\s+/g, ' ');
+  }
+
+  it('pins the service client to the agentos schema', () => {
+    const client = sharedSource('agentos-client.ts');
+    expect(client).toContain("AGENTOS_SCHEMA = 'agentos'");
+    expect(client).toContain('db: { schema: AGENTOS_SCHEMA }');
+  });
+
+  it('pins the browser client to the agentos schema', () => {
+    const client = readFileSync(join(SERVICES_DIR, 'client.ts'), 'utf8');
+    expect(client).toContain('AGENTOS_SCHEMA = "agentos"');
+    expect(client).toContain('base.schema(AGENTOS_SCHEMA)');
+  });
+
+  it('never queries AgentOS tables through the unqualified public client', () => {
+    const offenders: string[] = [];
+    for (const file of agentosSourceFiles()) {
+      const src = normalize(readFileSync(file, 'utf8'));
+      if (
+        /(?<!Array)(?<!agentosDb\s*)\.from\s*\(/.test(src) ||
+        /(?<!Array)(?<!agentosDb\s*)\.rpc\s*\(/.test(src)
+      ) {
+        offenders.push(file.replace(`${ROOT}/`, ''));
+      }
+    }
+    expect(offenders).toEqual([]);
+  });
+
+  it('routes every AgentOS table and RPC through the scoped client', () => {
+    for (const file of agentosSourceFiles()) {
+      const src = normalize(readFileSync(file, 'utf8'));
+      const tables = [...src.matchAll(/\.from\(\s*["']([a-z_]+)["']/g)].map((match) => match[1]);
+      for (const table of tables) {
+        const scoped = new RegExp(`agentosDb\\s*\\.from\\(\\s*["']${table}["']`);
+        expect(scoped.test(src), `${file.replace(`${ROOT}/`, '')} -> ${table}`).toBe(true);
+      }
+    }
+  });
+
+  it('never builds an un-pinned Supabase client inside an edge function', () => {
+    for (const name of AGENTOS_FUNCTIONS) {
+      const src = functionSource(name);
+      expect(src, name).not.toMatch(/createClient\(/);
+      // A function that touches the database must take its client from the
+      // shared helper, which pins the agentos schema.
+      if (/\.from\(|\.rpc\(/.test(src)) {
+        expect(src, name).toMatch(/getServiceClient|getCallerClient/);
+      }
+    }
   });
 });

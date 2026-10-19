@@ -9,7 +9,7 @@
 //   * derive a first canvas layout from those rows
 //   * persist node positions and edges to agentos.canvas_nodes / canvas_edges
 
-import { supabase } from "../../../utils/supabase";
+import { agentosDb } from "../../../services/agentos/client";
 import type {
   CanvasEdge,
   CanvasNodeKind,
@@ -60,14 +60,14 @@ const CANVAS_EDGE_COLUMNS = "id, workspace_id, source_node_id, target_node_id, e
 export async function loadMissionControlData(): Promise<MissionControlData> {
   const [workspaces, workers, missions, tasks, models, runs, canvasNodes, canvasEdges] =
     await Promise.all([
-      supabase.from("workspaces").select("*"),
-      supabase.from("workers").select("*").is("archived_at", null),
-      supabase.from("missions").select("*"),
-      supabase.from("tasks").select("*").order("created_at", { ascending: false }).limit(200),
-      supabase.from("model_catalog").select("*"),
-      supabase.from("execution_runs").select("*").order("started_at", { ascending: false }).limit(100),
-      supabase.from("canvas_nodes").select(CANVAS_NODE_COLUMNS),
-      supabase.from("canvas_edges").select(CANVAS_EDGE_COLUMNS),
+      agentosDb.from("workspaces").select("*"),
+      agentosDb.from("workers").select("*").is("archived_at", null),
+      agentosDb.from("missions").select("*"),
+      agentosDb.from("tasks").select("*").order("created_at", { ascending: false }).limit(200),
+      agentosDb.from("model_catalog").select("*"),
+      agentosDb.from("execution_runs").select("*").order("started_at", { ascending: false }).limit(100),
+      agentosDb.from("canvas_nodes").select(CANVAS_NODE_COLUMNS),
+      agentosDb.from("canvas_edges").select(CANVAS_EDGE_COLUMNS),
     ]);
 
   return {
@@ -196,7 +196,7 @@ export async function saveCanvasNode(node: {
   data?: Record<string, unknown>;
   z_index?: number;
 }): Promise<void> {
-  await supabase.from("canvas_nodes").upsert({
+  await agentosDb.from("canvas_nodes").upsert({
     id: node.id,
     workspace_id: node.workspace_id,
     node_kind: node.node_kind,
@@ -210,18 +210,18 @@ export async function saveCanvasNode(node: {
 }
 
 export async function saveCanvasPosition(nodeId: string, position: { x: number; y: number }): Promise<void> {
-  await supabase
+  await agentosDb
     .from("canvas_nodes")
     .update({ position, updated_at: new Date().toISOString() })
     .eq("id", nodeId);
 }
 
 export async function deleteCanvasNode(nodeId: string): Promise<void> {
-  await supabase.from("canvas_nodes").delete().eq("id", nodeId);
+  await agentosDb.from("canvas_nodes").delete().eq("id", nodeId);
 }
 
 export async function saveCanvasEdge(edge: Omit<CanvasEdgeRow, "id"> & { id?: string }): Promise<void> {
-  await supabase.from("canvas_edges").upsert({
+  await agentosDb.from("canvas_edges").upsert({
     id: edge.id ?? crypto.randomUUID(),
     workspace_id: edge.workspace_id,
     source_node_id: edge.source_node_id,
@@ -234,7 +234,7 @@ export async function saveCanvasEdge(edge: Omit<CanvasEdgeRow, "id"> & { id?: st
 }
 
 export async function deleteCanvasEdge(edgeId: string): Promise<void> {
-  await supabase.from("canvas_edges").delete().eq("id", edgeId);
+  await agentosDb.from("canvas_edges").delete().eq("id", edgeId);
 }
 
 /** Seed the user's canvas with their real workers, missions, models and run. */
@@ -243,11 +243,11 @@ export async function seedCanvasFromData(data: MissionControlData): Promise<void
 
   // Replace the previous layout in one pass: delete rows the user no longer has
   // then insert the new set.
-  await supabase.from("canvas_edges").delete().neq("id", "00000000-0000-0000-0000-000000000000");
-  await supabase.from("canvas_nodes").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+  await agentosDb.from("canvas_edges").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+  await agentosDb.from("canvas_nodes").delete().neq("id", "00000000-0000-0000-0000-000000000000");
 
   if (layout.nodes.length > 0) {
-    await supabase.from("canvas_nodes").insert(
+    await agentosDb.from("canvas_nodes").insert(
       layout.nodes.map((node) => ({
         id: node.id,
         workspace_id: node.workspace_id,
@@ -262,7 +262,7 @@ export async function seedCanvasFromData(data: MissionControlData): Promise<void
   }
 
   if (layout.edges.length > 0) {
-    await supabase.from("canvas_edges").insert(
+    await agentosDb.from("canvas_edges").insert(
       layout.edges.map((edge) => ({
         id: edge.id,
         workspace_id: edge.workspace_id,

@@ -14,12 +14,28 @@
 //   The same pattern as supabase/functions/run-ai-app/index.ts: the caller's
 //   Clerk user id comes ONLY from the verified JWT. It is never read from the
 //   request body. An unauthenticated request fails closed.
+//
+// SCHEMA
+//   Every AgentOS table, function and RPC lives in the `agentos` schema, while
+//   the project also exposes `public` (and `graphql_public`) to PostgREST.
+//   An unqualified `.from('tasks')` resolves against the exposed schemas, so it
+//   would never reach `agentos.tasks` — and on this project `public.tasks`
+//   exists, so it would silently read the WRONG table. The client below is
+//   therefore pinned to the `agentos` schema, which supabase-js sends as the
+//   `Accept-Profile` / `Content-Profile` header.
+//
+//   The schema must be exposed to PostgREST for this to work; see
+//   supabase/migrations/20261012120700_agentos_expose_schema.sql and
+//   scripts/agentos-verify-exposure.sh.
 
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import { createSupabaseContext } from 'npm:@supabase/server';
 
 // deno-lint-ignore no-explicit-any
 type AnySupabaseClient = any;
+
+/** The schema every AgentOS object lives in. */
+export const AGENTOS_SCHEMA = 'agentos';
 
 let cachedClient: AnySupabaseClient | null = null;
 
@@ -34,8 +50,29 @@ export function getServiceClient(): AnySupabaseClient {
 
   cachedClient = createClient(url, serviceKey, {
     auth: { persistSession: false, autoRefreshToken: false },
+    db: { schema: AGENTOS_SCHEMA },
   });
   return cachedClient;
+}
+
+/**
+ * A client that acts as the CALLER (the request's own JWT) while still
+ * resolving AgentOS objects in the `agentos` schema. The service-role key
+ * carries no `sub`, so the SECURITY DEFINER RPCs that re-derive the acting
+ * user refuse it; the caller's verified token has to be forwarded instead.
+ */
+export function getCallerClient(req: Request): AnySupabaseClient {
+  return createClient(
+    Deno.env.get('SUPABASE_URL') ?? '',
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+    {
+      global: {
+        headers: { Authorization: req.headers.get('authorization') ?? '' },
+      },
+      auth: { persistSession: false, autoRefreshToken: false },
+      db: { schema: AGENTOS_SCHEMA },
+    },
+  );
 }
 
 export interface VerifiedCaller {

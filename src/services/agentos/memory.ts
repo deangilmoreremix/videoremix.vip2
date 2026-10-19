@@ -10,7 +10,7 @@
 //   the pgvector `embedding` column is absent). See
 //   supabase/functions/_shared/agentos-runtime.ts:assemblePrompt().
 
-import { supabase } from "../../utils/supabase";
+import { agentosDb, agentosErrorMessage } from "./client";
 import {
   err,
   ok,
@@ -37,7 +37,7 @@ export async function listMemories(options: {
   kind?: MemoryKind;
   limit?: number;
 } = {}): Promise<AgentOSResult<WorkerMemory[]>> {
-  let query = supabase
+  let query = agentosDb
     .from("memories")
     .select("*")
     .order("created_at", { ascending: false })
@@ -48,20 +48,20 @@ export async function listMemories(options: {
   if (options.kind) query = query.eq("kind", options.kind);
 
   const { data, error } = await query;
-  if (error) return err("database", "Could not load memory", error.message);
+  if (error) return err("database", "Could not load memory", agentosErrorMessage(error));
   return ok((data ?? []) as WorkerMemory[]);
 }
 
 export async function getMemory(memoryId: string): Promise<AgentOSResult<WorkerMemory>> {
   if (!memoryId) return err("validation", "memoryId is required");
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("memories")
     .select("*")
     .eq("id", memoryId)
     .maybeSingle();
 
-  if (error) return err("database", "Could not load memory entry", error.message);
+  if (error) return err("database", "Could not load memory entry", agentosErrorMessage(error));
   if (!data) return err("not_found", "Memory entry not found");
   return ok(data as WorkerMemory);
 }
@@ -77,7 +77,7 @@ export async function createMemory(input: CreateMemoryInput): Promise<AgentOSRes
     return err("validation", "workspace_id is required for workspace-scoped memory");
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("memories")
     .insert({
       content: input.content.trim(),
@@ -92,7 +92,7 @@ export async function createMemory(input: CreateMemoryInput): Promise<AgentOSRes
     .select("*")
     .single();
 
-  if (error) return err("database", "Could not save memory", error.message);
+  if (error) return err("database", "Could not save memory", agentosErrorMessage(error));
   return ok(data as WorkerMemory);
 }
 
@@ -118,22 +118,22 @@ export async function updateMemory(
   if (input.importance !== undefined) patch.importance = input.importance;
   if (input.tags !== undefined) patch.tags = input.tags;
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("memories")
     .update(patch)
     .eq("id", memoryId)
     .select("*")
     .single();
 
-  if (error) return err("database", "Could not update memory", error.message);
+  if (error) return err("database", "Could not update memory", agentosErrorMessage(error));
   return ok(data as WorkerMemory);
 }
 
 export async function deleteMemory(memoryId: string): Promise<AgentOSResult<{ id: string }>> {
   if (!memoryId) return err("validation", "memoryId is required");
 
-  const { error } = await supabase.from("memories").delete().eq("id", memoryId);
-  if (error) return err("database", "Could not delete memory", error.message);
+  const { error } = await agentosDb.from("memories").delete().eq("id", memoryId);
+  if (error) return err("database", "Could not delete memory", agentosErrorMessage(error));
   return ok({ id: memoryId });
 }
 
@@ -213,7 +213,7 @@ export async function searchMemories(params: {
 export async function touchMemory(memoryId: string): Promise<AgentOSResult<null>> {
   if (!memoryId) return err("validation", "memoryId is required");
 
-  const { error } = await supabase.rpc("increment_memory_hit", { p_memory_id: memoryId });
-  if (error) return err("database", "Could not update memory usage", error.message);
+  const { error } = await agentosDb.rpc("increment_memory_hit", { p_memory_id: memoryId });
+  if (error) return err("database", "Could not update memory usage", agentosErrorMessage(error));
   return ok(null);
 }

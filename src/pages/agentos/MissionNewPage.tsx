@@ -18,6 +18,7 @@ import { PageHeader, Section } from "../../components/agentos/ui";
 import { AsyncBoundary } from "../../components/agentos/shared";
 import { listWorkers } from "../../services/agentos/workers";
 import { addTaskEdge, createMission, createTask } from "../../services/agentos/missions";
+import { agentosDb } from "../../services/agentos/client";
 import type { Worker } from "../../types/agentos";
 
 interface DraftTask {
@@ -126,11 +127,10 @@ const MissionNewPage: React.FC = () => {
     // Attach the tasks to the mission, then persist the dependency edges the
     // user drew between them (draft id -> real id). The mission and its tasks
     // are the primary artifact, so a failed edge does not abort creation.
-    const { supabase } = await import("../../utils/supabase");
     for (const draftId of order) {
       const taskId = idMap.get(draftId);
       if (!taskId) continue;
-      await supabase.from("tasks").update({ mission_id: mission.data.id }).eq("id", taskId);
+      await agentosDb.from("tasks").update({ mission_id: mission.data.id }).eq("id", taskId);
     }
 
     for (const task of named) {

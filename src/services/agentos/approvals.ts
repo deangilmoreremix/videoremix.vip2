@@ -8,6 +8,7 @@
 // pending gate without the ownership check the RPC performs.
 
 import { supabase } from "../../utils/supabase";
+import { agentosDb, agentosErrorMessage } from "./client";
 import {
   err,
   ok,
@@ -20,7 +21,7 @@ export async function listApprovals(options: {
   status?: ApprovalStatus;
   limit?: number;
 } = {}): Promise<AgentOSResult<Approval[]>> {
-  let query = supabase
+  let query = agentosDb
     .from("approvals")
     .select("*")
     .order("requested_at", { ascending: false })
@@ -29,20 +30,20 @@ export async function listApprovals(options: {
   if (options.status) query = query.eq("status", options.status);
 
   const { data, error } = await query;
-  if (error) return err("database", "Could not load approvals", error.message);
+  if (error) return err("database", "Could not load approvals", agentosErrorMessage(error));
   return ok((data ?? []) as Approval[]);
 }
 
 export async function getApproval(approvalId: string): Promise<AgentOSResult<Approval>> {
   if (!approvalId) return err("validation", "approvalId is required");
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("approvals")
     .select("*")
     .eq("id", approvalId)
     .maybeSingle();
 
-  if (error) return err("database", "Could not load approval", error.message);
+  if (error) return err("database", "Could not load approval", agentosErrorMessage(error));
   if (!data) return err("not_found", "Approval not found");
   return ok(data as Approval);
 }
@@ -88,11 +89,11 @@ export async function decideApproval(params: {
 
 /** Count of approvals waiting on a human, for sidebar badges. */
 export async function countPendingApprovals(): Promise<AgentOSResult<number>> {
-  const { count, error } = await supabase
+  const { count, error } = await agentosDb
     .from("approvals")
     .select("id", { count: "exact", head: true })
     .eq("status", "pending");
 
-  if (error) return err("database", "Could not count approvals", error.message);
+  if (error) return err("database", "Could not count approvals", agentosErrorMessage(error));
   return ok(count ?? 0);
 }

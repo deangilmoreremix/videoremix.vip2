@@ -9,6 +9,7 @@
 //   never enters this file, the browser, or the database.
 
 import { supabase } from "../../utils/supabase";
+import { agentosDb, agentosErrorMessage } from "./client";
 import {
   err,
   ok,
@@ -22,7 +23,7 @@ export async function listModelCatalog(options: {
   provider?: string;
   status?: "active" | "preview" | "deprecated";
 } = {}): Promise<AgentOSResult<ModelCatalogEntry[]>> {
-  let query = supabase
+  let query = agentosDb
     .from("model_catalog")
     .select("*")
     .order("provider", { ascending: true })
@@ -32,7 +33,7 @@ export async function listModelCatalog(options: {
   if (options.status) query = query.eq("status", options.status);
 
   const { data, error } = await query;
-  if (error) return err("database", "Could not load the model catalog", error.message);
+  if (error) return err("database", "Could not load the model catalog", agentosErrorMessage(error));
   return ok((data ?? []) as ModelCatalogEntry[]);
 }
 
@@ -41,13 +42,13 @@ export async function getModelCatalogEntry(
 ): Promise<AgentOSResult<ModelCatalogEntry>> {
   if (!modelId) return err("validation", "modelId is required");
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("model_catalog")
     .select("*")
     .eq("id", modelId)
     .maybeSingle();
 
-  if (error) return err("database", "Could not load the model", error.message);
+  if (error) return err("database", "Could not load the model", agentosErrorMessage(error));
   if (!data) return err("not_found", "Model not found in the catalog");
   return ok(data as ModelCatalogEntry);
 }
@@ -80,12 +81,12 @@ export async function estimateCredits(params: {
 // ---------------------------------------------------------------------------
 
 export async function listProviderConfigs(): Promise<AgentOSResult<ProviderConfig[]>> {
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("provider_configs")
     .select("*")
     .order("created_at", { ascending: false });
 
-  if (error) return err("database", "Could not load provider configs", error.message);
+  if (error) return err("database", "Could not load provider configs", agentosErrorMessage(error));
   return ok((data ?? []) as ProviderConfig[]);
 }
 
@@ -139,7 +140,7 @@ export async function createProviderConfig(
     lastTestAt = new Date().toISOString();
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("provider_configs")
     .insert({
       provider: input.provider,
@@ -154,7 +155,7 @@ export async function createProviderConfig(
     .select("*")
     .single();
 
-  if (error) return err("database", "Could not save provider config", error.message);
+  if (error) return err("database", "Could not save provider config", agentosErrorMessage(error));
   return ok(data as ProviderConfig);
 }
 
@@ -177,14 +178,14 @@ export async function updateProviderConfig(
   if (input.is_default !== undefined) patch.is_default = input.is_default;
   if (input.enabled !== undefined) patch.status = input.enabled ? "active" : "disabled";
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("provider_configs")
     .update(patch)
     .eq("id", providerConfigId)
     .select("*")
     .single();
 
-  if (error) return err("database", "Could not update provider config", error.message);
+  if (error) return err("database", "Could not update provider config", agentosErrorMessage(error));
   return ok(data as ProviderConfig);
 }
 
@@ -194,13 +195,13 @@ export async function retestProviderConfig(
 ): Promise<AgentOSResult<ProviderConfig>> {
   if (!providerConfigId) return err("validation", "providerConfigId is required");
 
-  const { data: config, error: loadError } = await supabase
+  const { data: config, error: loadError } = await agentosDb
     .from("provider_configs")
     .select("*")
     .eq("id", providerConfigId)
     .maybeSingle();
 
-  if (loadError) return err("database", "Could not load provider config", loadError.message);
+  if (loadError) return err("database", "Could not load provider config", agentosErrorMessage(loadError));
   if (!config) return err("not_found", "Provider config not found");
   const row = config as ProviderConfig;
 
@@ -217,14 +218,14 @@ export async function retestProviderConfig(
     status: test.data?.ok ? "active" : "error",
   };
 
-  const { data, error } = await supabase
+  const { data, error } = await agentosDb
     .from("provider_configs")
     .update(patch)
     .eq("id", providerConfigId)
     .select("*")
     .single();
 
-  if (error) return err("database", "Could not record the test result", error.message);
+  if (error) return err("database", "Could not record the test result", agentosErrorMessage(error));
   return ok(data as ProviderConfig);
 }
 
@@ -233,8 +234,8 @@ export async function deleteProviderConfig(
 ): Promise<AgentOSResult<{ id: string }>> {
   if (!providerConfigId) return err("validation", "providerConfigId is required");
 
-  const { error } = await supabase.from("provider_configs").delete().eq("id", providerConfigId);
-  if (error) return err("database", "Could not delete provider config", error.message);
+  const { error } = await agentosDb.from("provider_configs").delete().eq("id", providerConfigId);
+  if (error) return err("database", "Could not delete provider config", agentosErrorMessage(error));
   return ok({ id: providerConfigId });
 }
 

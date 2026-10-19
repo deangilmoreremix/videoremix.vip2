@@ -115,16 +115,41 @@ isolation is enforced by the database, live.
 
 | Item | Status (external) | Missing prerequisite |
 |------|-------------------|----------------------|
-| Deploy the 7 edge functions | BLOCKED | `supabase` CLI is not installed (`which supabase` → not found), and `SUPABASE_ACCESS_TOKEN` is rejected (HTTP 401 `Invalid access token`). Needs `supabase login` with a valid management token, or the Management API `/functions` endpoint with a valid token |
-| Continuous scheduled execution (pg_cron jobs actually calling the functions) | BLOCKED | Functions must be deployed first. `pg_cron` **is** available on this project, so the jobs can be scheduled the moment the functions exist — §4 has the exact SQL |
+| Expose the `agentos` schema to PostgREST | BLOCKED | The live project exposes `public, graphql_public` only, so an AgentOS read comes back `406 PGRST106` ("Invalid schema: agentos"). Needs the Dashboard toggle (Settings -> API -> Exposed schemas), the Management API (`npm run agentos:expose-schema`), or the SQL migration over a direct connection. Full detail in `docs/agentos/SCHEMA_EXPOSURE.md` |
+| Deploy the 7 edge functions | BLOCKED | `SUPABASE_ACCESS_TOKEN` is rejected by the Management API (HTTP 401 `Invalid access token`). Needs a valid token (issue one at https://supabase.com/dashboard/account/tokens); `npm run agentos:deploy-functions` then does the rest. The `supabase` CLI itself is available through `npx supabase@2` (2.109.0) |
+| Continuous scheduled execution (pg_cron jobs actually calling the functions) | BLOCKED | Functions must be deployed first. `pg_cron` **is** available on this project, so the jobs can be scheduled the moment the functions exist - §4 has the exact SQL |
 | Live execution against a model provider | BLOCKED | Functions deployed AND a valid provider key. `OPENAI_API_KEY` currently returns HTTP 401 `invalid_api_key` |
-| Live browser verification with a signed-in user | BLOCKED | A real `VITE_CLERK_PUBLISHABLE_KEY`. The current value is a `pk_…` placeholder, and `src/providers/ClerkProvider.tsx` throws at module load without a real key, so no page renders and the E2E suite skips (62 tests) rather than failing |
+| Live browser verification with a signed-in user | BLOCKED | A real `VITE_CLERK_PUBLISHABLE_KEY`. The variable is absent from `.env`, and `src/providers/ClerkProvider.tsx` throws at module load without a real one, so no page renders and the E2E suite skips (62 tests) rather than failing |
 
-> **Security remediation required (pre-existing).** `.env` is listed in
-> `.gitignore` yet is **tracked in git** (`git ls-files --error-unmatch .env` →
-> tracked) and contains live keys. Treat every one as compromised: remove it from
-> the index with `git rm --cached .env`, purge it from history, then rotate each
-> key. No values are reproduced here.
+### 1.7 The schema was never reachable from the application (found 2026-10-19)
+
+The verification above proves the **SQL** is correct. It could not prove that
+the **application** points at it - and it did not.
+
+Measured live on 2026-10-19:
+
+| Probe | Result |
+|-------|--------|
+| `GET /rest/v1/workers` (unqualified) | `404 PGRST205` - "Could not find the table 'public.workers'" |
+| `GET /rest/v1/workers` with `Accept-Profile: agentos` | `406 PGRST106` - "Only the following schemas are exposed: public, graphql_public" |
+| `GET /rest/v1/` (live PostgREST schema cache) | 352 paths / 280 definitions, **0** from `agentos` |
+| `GET /rest/v1/public.workspaces` | `200` - a legacy public table with the same name as an AgentOS table |
+| `GET /rest/v1/agentos.workers` (dotted path) | `404 PGRST205` - PostgREST does not resolve dotted table names |
+| `POST /rest/v1/rpc/public.current_clerk_user_id` | `404 PGRST202` - PostgREST prefixes the exposed schema itself |
+
+Every AgentOS query was unqualified, so it resolved against `public` and could
+never reach `agentos`. The code is now fixed - every browser service, page,
+canvas component and all seven edge functions pin the `agentos` schema - and
+the test harness now models the public/agentos split so the regression cannot
+come back. What remains is the project-level exposure listed in §1.6. Full
+account: `docs/agentos/SCHEMA_EXPOSURE.md`.
+
+> **Security remediation (pre-existing).** `.env` is listed in `.gitignore` yet was
+> **tracked in git** and contains live keys. **Step 1 is done in this pass:**
+> `git rm --cached .env` (committed on `kilo/agentos-port-completion`, 2026-10-19),
+> so the file is no longer tracked and the local working copy is untouched.
+> Steps 3-5 below — purging it from history and rotating every key — are
+> operator actions and remain open. No values are reproduced here.
 
 ---
 
@@ -142,16 +167,24 @@ Credential presence in `.env` (no values printed):
 | `VITE_CLERK_PUBLISHABLE_KEY` | **false** (blocks live browser verification) |
 | `DATABASE_URL` (or any Postgres connection string) | **false** (blocks direct `psql`) |
 
-CLIs available: `psql` only. **Not present:** `supabase`, `deno`, `netlify`
-(and `pg_lsclusters`/`pg_ctlcluster` before Postgres server was installed).
+Re-measured on 2026-10-19 (the port-completion pass): the same booleans hold.
+`SUPABASE_ACCESS_TOKEN` is still rejected by the Management API (HTTP 401
+`Invalid access token`), `VITE_CLERK_PUBLISHABLE_KEY` and `DATABASE_URL` are
+still absent, and `OPENAI_API_KEY` still returns HTTP 401 `invalid_api_key`.
+
+CLIs: the `supabase` CLI **is** reachable through `npx supabase@2` (2.109.0,
+pinned as a devDependency), so function deployment needs only a valid token -
+`npm run agentos:deploy-functions` performs the whole deployment.
+`deno` is not installed (edge functions cannot be served locally);
+`psql` and a Postgres server are not present in this container.
 
 ---
 
 ## 3. Operator runbook — deploy the 7 edge functions
 
-The Supabase CLI is not installed here, so these commands could not be run. Run
-them from a machine with the `supabase` CLI (v2.x) and a valid management token
-for project `bzxohkrxcwodllketcpz`:
+`npm run agentos:deploy-functions` does all of this in one command; it needs a
+valid management token (`SUPABASE_ACCESS_TOKEN`, currently rejected) and the
+project ref. The equivalent manual steps are:
 
 ```bash
 supabase login                       # authenticate (needs a valid SUPABASE_ACCESS_TOKEN)
