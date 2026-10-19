@@ -54,14 +54,132 @@ const read = (path: string) => readFileSync(path, "utf8");
 // ---------------------------------------------------------------------------
 // The declared route set, parsed from src/App.tsx.
 // ---------------------------------------------------------------------------
+/**
+ * Parse the route tree out of src/App.tsx.
+ *
+ * The AgentOS section is a LAYOUT route: `<Route path="/agentos">` with the
+ * pages as children whose paths are relative ("workforce", "missions/:id").
+ * A flat regex over every `path=` attribute would only see the relative
+ * fragments, so the tree is walked instead: a route that has children is a
+ * prefix for them.
+ */
+/**
+ * The index of the ">" that ends a JSX opening tag.
+ *
+ * A naive text.indexOf(">") stops inside `element={<ProtectedRoute>…}`, so the
+ * scan tracks braces, parens and quotes and only accepts a ">" at nesting
+ * depth zero.
+ */
+function openingTagEnd(text: string, from: number): number {
+  let index = from;
+  let braces = 0;
+  let parens = 0;
+  let quote: string | null = null;
+
+  while (index < text.length) {
+    const ch = text[index];
+    if (quote) {
+      if (ch === "\\") {
+        index += 2;
+        continue;
+      }
+      if (ch === quote) quote = null;
+      index += 1;
+      continue;
+    }
+    if (ch === '"' || ch === "'" || ch === "`") {
+      quote = ch;
+      index += 1;
+      continue;
+    }
+    if (ch === "{") {
+      braces += 1;
+      index += 1;
+      continue;
+    }
+    if (ch === "}") {
+      braces -= 1;
+      index += 1;
+      continue;
+    }
+    if (ch === "(") {
+      parens += 1;
+      index += 1;
+      continue;
+    }
+    if (ch === ")") {
+      parens -= 1;
+      index += 1;
+      continue;
+    }
+    if (ch === ">" && braces === 0 && parens === 0) return index;
+    index += 1;
+  }
+  return -1;
+}
+
 function declaredRoutes(): string[] {
   const source = read(APP_TSX);
   const routes: string[] = [];
-  const re = /path=(?:"([^"]*)"|'([^']*)')/g;
-  let match: RegExpExecArray | null;
-  while ((match = re.exec(source)) !== null) {
-    routes.push(match[1] ?? match[2]);
-  }
+
+  /**
+   * Parse the DIRECT children of a text block, resolving their paths against
+   * `prefix`. A route that has children is a layout: its path becomes the
+   * prefix for them.
+   */
+  const walk = (text: string, prefix: string): void => {
+    const token = /<Route\b|<\/Route>/g;
+    let match: RegExpExecArray | null;
+
+    while ((match = token.exec(text)) !== null) {
+      if (match[0] === "</Route>") continue;
+
+      const openEnd = openingTagEnd(text, match.index);
+      if (openEnd < 0) return;
+      const openTag = text.slice(match.index, openEnd);
+      const pathMatch = /\bpath=(?:"([^"]*)"|'([^']*)')/.exec(openTag);
+      const raw = pathMatch ? (pathMatch[1] ?? pathMatch[2] ?? "") : "";
+      const selfClosing = /\/\s*$/.test(openTag);
+
+      const absolute = raw.startsWith("/") ? raw : `${prefix.replace(/\/$/, "")}/${raw}`;
+
+      if (raw === "" || raw === "index") {
+        routes.push(prefix === "" ? "/" : prefix);
+      } else {
+        routes.push(absolute);
+      }
+
+      if (selfClosing) {
+        token.lastIndex = openEnd + 1;
+        continue;
+      }
+
+      // The block of this route runs to its matching </Route>.
+      let inner = 1;
+      const innerToken = /<Route\b|<\/Route>/g;
+      innerToken.lastIndex = openEnd + 1;
+      let innerMatch: RegExpExecArray | null;
+      let blockEnd = text.length;
+      while ((innerMatch = innerToken.exec(text)) !== null) {
+        if (innerMatch[0] === "</Route>") {
+          inner -= 1;
+          if (inner === 0) {
+            blockEnd = innerMatch.index;
+            break;
+          }
+        } else {
+          inner += 1;
+        }
+      }
+
+      const body = text.slice(openEnd + 1, blockEnd);
+      if (body.includes("<Route")) walk(body, absolute);
+
+      token.lastIndex = blockEnd;
+    }
+  };
+
+  walk(source, "");
   return routes;
 }
 
