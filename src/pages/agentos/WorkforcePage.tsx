@@ -7,9 +7,16 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
-import { Bot, Plus, Search } from "lucide-react";
+import { Bot, Plus } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
-import { EmptyState, PageHeader, Pill, Spinner, StatusDot } from "../../components/agentos/ui";
+import {
+  EmptyState,
+  FilterGroup,
+  PageHeader,
+  Pill,
+  SearchInput,
+  StatusDot,
+} from "../../components/agentos/ui";
 import { AsyncBoundary } from "../../components/agentos/shared";
 import { listWorkers } from "../../services/agentos/workers";
 import { WORKER_STATUS_STYLE } from "../../components/agentos/ui";
@@ -85,7 +92,7 @@ const WorkforcePage: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate("/agentos/workforce/new")}
-              className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-violet-500"
+              className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
             >
               <Plus className="h-4 w-4" aria-hidden="true" />
               New worker
@@ -94,31 +101,20 @@ const WorkforcePage: React.FC = () => {
         />
 
         <div className="mb-5 flex flex-wrap items-center gap-3">
-          <div className="relative min-w-[240px] flex-1">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" aria-hidden="true" />
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search workers by name, role or model"
-              className="w-full rounded-xl border border-white/10 bg-black/40 py-2 pl-9 pr-3 text-sm text-white placeholder-white/30 focus:border-violet-400/40 focus:outline-none"
-            />
-          </div>
-          <div className="flex items-center gap-1 rounded-xl border border-white/10 bg-black/40 p-1">
-            {FILTERS.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => setFilter(option.value)}
-                className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
-                  filter === option.value
-                    ? "bg-violet-500/20 text-violet-200"
-                    : "text-white/50 hover:text-white"
-                }`}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
+          <SearchInput
+            id="workforce-search"
+            label="Search workers by name, role or model"
+            value={query}
+            onChange={setQuery}
+            placeholder="Search workers by name, role or model"
+            className="min-w-[240px] flex-1"
+          />
+          <FilterGroup
+            label="Filter workers by status"
+            options={FILTERS}
+            value={filter}
+            onChange={setFilter}
+          />
         </div>
 
         <AsyncBoundary
@@ -141,7 +137,7 @@ const WorkforcePage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => navigate("/agentos/workforce/new")}
-                    className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-500"
+                    className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
                   >
                     <Plus className="h-4 w-4" aria-hidden="true" />
                     New worker
@@ -159,7 +155,7 @@ const WorkforcePage: React.FC = () => {
                   key={worker.id}
                   type="button"
                   onClick={() => navigate(`/agentos/workforce/${worker.id}`)}
-                  className="group rounded-2xl border border-white/10 bg-black/40 p-5 text-left transition hover:border-violet-400/30 hover:bg-black/60"
+                  className="group rounded-2xl border border-white/10 bg-black/40 p-5 text-left transition hover:border-violet-400/30 hover:bg-black/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
@@ -195,12 +191,6 @@ const WorkforcePage: React.FC = () => {
             })}
           </div>
         </AsyncBoundary>
-
-        {loading ? (
-          <div className="mt-4 flex justify-center">
-            <Spinner />
-          </div>
-        ) : null}
       </div>
     </>
   );

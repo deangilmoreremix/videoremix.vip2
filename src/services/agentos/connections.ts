@@ -185,16 +185,60 @@ export async function revokeAccount(
   return ok(envelope?.data ?? { id: connectionId, status: "revoked" });
 }
 
-/** Delete a revoked connection outright (revoked rows are hidden by default). */
+/**
+ * Delete a revoked connection outright (revoked rows are hidden by default).
+ *
+ * WHY THE GUARD
+ *   A connected account still holds a live authorization record. Deleting it
+ *   silently would leave the operator believing the surface is revoked when
+ *   the row — and with it the audit trail of what was authorized — is simply
+ *   gone. A revoked account must be revoked first, then deleted.
+ */
 export async function deleteConnection(
   connectionId: string,
 ): Promise<AgentOSResult<{ id: string }>> {
   if (!connectionId) return err("validation", "connectionId is required");
 
+  const { data: current, error: loadError } = await agentosDb
+    .from("connected_accounts")
+    .select("id, status")
+    .eq("id", connectionId)
+    .maybeSingle();
+
+  if (loadError) {
+    return err("database", "Could not load the connection", agentosErrorMessage(loadError));
+  }
+  if (!current) return err("not_found", "Connection not found");
+
+  if ((current as { status?: string }).status === "connected") {
+    return err("conflict", "Revoke the account before deleting it");
+  }
+
   const { error } = await agentosDb.from("connected_accounts").delete().eq("id", connectionId);
   if (error) return err("database", "Could not delete the connection", agentosErrorMessage(error));
   return ok({ id: connectionId });
 }
+
+/**
+ * The tool keys the runtime can actually dispatch to a model.
+ *
+ * WHY THIS LIST EXISTS IN THE BROWSER
+ *   The integration directory is wider than the runtime: it also lists the
+ *   connected surfaces (Gmail, Slack, Drive) that a worker reaches through an
+ *   app capability rather than through a model tool call. The runtime only
+ *   offers the model the keys it has a dispatch spec for, so assigning a
+ *   surface key produces a row the executor skips. The UI marks those keys
+ *   instead of pretending the assignment does something.
+ *
+ * Mirrors TOOL_SPECS in supabase/functions/_shared/agentos-runtime.ts.
+ */
+export const DISPATCHABLE_TOOL_KEYS: readonly string[] = [
+  "web_fetch",
+  "vector_search",
+  "artifact_write",
+  "videoremix_apps",
+  "videoremix_personalizer",
+];
 
 /** Tool keys available for assignment to a worker. */
 export async function listAssignableToolKeys(): Promise<AgentOSResult<string[]>> {

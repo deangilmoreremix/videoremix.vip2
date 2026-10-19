@@ -13,14 +13,18 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { AsyncBoundary } from "../../components/agentos/shared";
 import {
+  ConfirmDialog,
   EmptyState,
+  FilterGroup,
   PageHeader,
   Pill,
+  SearchInput,
   Section,
 } from "../../components/agentos/ui";
 import { Modal } from "../../components/agentos/ui/Modal";
 import {
   connectAccount,
+  deleteConnection,
   listConnectedAccounts,
   listIntegrations,
   revokeAccount,
@@ -62,6 +66,11 @@ const ConnectionsPage: React.FC = () => {
   const [scopes, setScopes] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
   const [dialogError, setDialogError] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
+  const [revokeError, setRevokeError] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [confirmRevoke, setConfirmRevoke] = useState<ConnectedAccount | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<ConnectedAccount | null>(null);
 
   const reload = useCallback(() => setReloadKey((key) => key + 1), []);
 
@@ -71,7 +80,9 @@ const ConnectionsPage: React.FC = () => {
       setLoading(true);
       const [integrationsResult, accountsResult] = await Promise.all([
         listIntegrations(),
-        listConnectedAccounts(),
+        // Revoked accounts stay visible: a revoked row is the one that can be
+        // deleted outright, and hiding it would leave no way to remove it.
+        listConnectedAccounts({ includeRevoked: true }),
       ]);
       if (cancelled) return;
       setIntegrations(integrationsResult.data ?? []);
@@ -136,13 +147,35 @@ const ConnectionsPage: React.FC = () => {
     reload();
   }, [connecting, label, scopes, credential, reload]);
 
-  const revoke = useCallback(
-    async (connectionId: string) => {
-      await revokeAccount(connectionId);
-      reload();
-    },
-    [reload],
-  );
+  const revoke = useCallback(async () => {
+    if (!confirmRevoke) return;
+    setSaving(true);
+    setRevokeError(null);
+    const result = await revokeAccount(confirmRevoke.id);
+    setSaving(false);
+    if (result.error) {
+      setRevokeError(`Could not revoke ${confirmRevoke.account_label}: ${result.error.message}`);
+      return;
+    }
+    setStatus(`${confirmRevoke.account_label} revoked`);
+    setConfirmRevoke(null);
+    reload();
+  }, [confirmRevoke, reload]);
+
+  const remove = useCallback(async () => {
+    if (!confirmDelete) return;
+    setSaving(true);
+    setDeleteError(null);
+    const result = await deleteConnection(confirmDelete.id);
+    setSaving(false);
+    if (result.error) {
+      setDeleteError(`Could not delete ${confirmDelete.account_label}: ${result.error.message}`);
+      return;
+    }
+    setStatus(`${confirmDelete.account_label} deleted`);
+    setConfirmDelete(null);
+    reload();
+  }, [confirmDelete, reload]);
 
   if (loading) {
     return (
@@ -166,29 +199,27 @@ const ConnectionsPage: React.FC = () => {
 
         <div className="mb-5 flex flex-wrap items-center gap-3">
           <div className="max-w-sm flex-1">
-            <Input
+            <SearchInput
+              id="connection-search"
+              label="Search integrations"
               value={query}
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={setQuery}
               placeholder="Search integrations"
             />
           </div>
-          <div className="flex items-center gap-1 rounded-xl border border-white/10 bg-black/40 p-1">
-            {SUPPORT_TABS.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => setTab(option.value)}
-                className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
-                  tab === option.value
-                    ? "bg-violet-500/20 text-violet-200"
-                    : "text-white/50 hover:text-white"
-                }`}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
+          <FilterGroup
+            label="Filter integrations by support level"
+            options={SUPPORT_TABS}
+            value={tab}
+            onChange={setTab}
+          />
         </div>
+
+        {status ? (
+          <p role="status" className="mb-4 text-sm text-white/60">
+            {status}
+          </p>
+        ) : null}
 
         <AsyncBoundary
           loading={false}
@@ -247,7 +278,7 @@ const ConnectionsPage: React.FC = () => {
 
         <Section
           title="Connected accounts"
-          description="Revoking removes the authorization record. The credential itself is discarded, not returned."
+          description="Revoking removes the authorization record. The credential itself is discarded, not returned. A revoked account can be deleted outright."
           className="mt-8"
         >
           {accounts.length === 0 ? (
@@ -288,23 +319,74 @@ const ConnectionsPage: React.FC = () => {
                       {account.last_checked_at
                         ? ` · checked ${new Date(account.last_checked_at).toLocaleString()}`
                         : ""}
+                      {account.revoked_at
+                        ? ` · revoked ${new Date(account.revoked_at).toLocaleString()}`
+                        : ""}
                     </p>
                   </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="border-rose-400/30 text-rose-300 hover:bg-rose-500/10"
-                    onClick={() => void revoke(account.id)}
-                  >
-                    <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
-                    Revoke
-                  </Button>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {account.status === "connected" ? (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="border-rose-400/30 text-rose-300 hover:bg-rose-500/10"
+                        onClick={() => {
+                          setRevokeError(null);
+                          setConfirmRevoke(account);
+                        }}
+                        aria-label={`Revoke ${account.account_label}`}
+                      >
+                        <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
+                        Revoke
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="border-rose-400/30 text-rose-300 hover:bg-rose-500/10"
+                        onClick={() => {
+                          setDeleteError(null);
+                          setConfirmDelete(account);
+                        }}
+                        aria-label={`Delete ${account.account_label}`}
+                      >
+                        <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
+                        Delete
+                      </Button>
+                    )}
+                  </div>
                 </li>
               ))}
             </ul>
           )}
         </Section>
       </div>
+
+      <ConfirmDialog
+        open={confirmRevoke !== null}
+        onOpenChange={(open) => {
+          if (!open) setConfirmRevoke(null);
+        }}
+        title={confirmRevoke ? `Revoke ${confirmRevoke.account_label}?` : "Revoke account"}
+        description="Revoking discards the credential and removes the authorization record. Workers can no longer use this surface."
+        confirmLabel="Revoke account"
+        busy={saving}
+        error={revokeError}
+        onConfirm={() => void revoke()}
+      />
+
+      <ConfirmDialog
+        open={confirmDelete !== null}
+        onOpenChange={(open) => {
+          if (!open) setConfirmDelete(null);
+        }}
+        title={confirmDelete ? `Delete ${confirmDelete.account_label}?` : "Delete connection"}
+        description="The authorization record is removed from the database. Only an account that is no longer connected can be deleted, and this cannot be undone."
+        confirmLabel="Delete connection"
+        busy={saving}
+        error={deleteError}
+        onConfirm={() => void remove()}
+      />
 
       {connecting ? (
         <Modal

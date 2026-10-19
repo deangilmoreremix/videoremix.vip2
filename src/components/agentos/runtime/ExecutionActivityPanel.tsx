@@ -50,7 +50,9 @@ export const ExecutionActivityPanel: React.FC<ExecutionActivityPanelProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
+  const [announcement, setAnnouncement] = useState("");
   const seenRef = useRef<Set<string>>(new Set());
+  const loadedRef = useRef(false);
 
   const load = useCallback(async () => {
     if (!taskId && !runId) {
@@ -77,7 +79,21 @@ export const ExecutionActivityPanel: React.FC<ExecutionActivityPanelProps> = ({
 
     const rows = (data ?? []) as ExecutionEvent[];
     setEvents(rows);
+
+    // WHY A SEPARATE LIVE REGION
+    //   The transcript used to be the live region itself, so every 2 s poll
+    //   re-announced the whole history — hundreds of events, every time. The
+    //   list is now static for assistive tech and a small live region
+    //   announces only what actually arrived, which is the only thing a
+    //   listener cares about.
+    const previous = seenRef.current;
+    const added = rows.filter((row) => !previous.has(row.id)).length;
     seenRef.current = new Set(rows.map((row) => row.id));
+    if (loadedRef.current && added > 0) {
+      setAnnouncement(`${added} new activity event${added === 1 ? "" : "s"}`);
+    }
+    loadedRef.current = true;
+
     setError(null);
     setLoading(false);
   }, [taskId, runId, limit]);
@@ -108,15 +124,21 @@ export const ExecutionActivityPanel: React.FC<ExecutionActivityPanelProps> = ({
     return () => window.clearInterval(timer);
   }, [taskId, runId, hasLiveRun, hasTerminal, load]);
 
-  if (loading) return <Spinner label="Loading activity…" className={className} />;
+  if (loading) {
+    return (
+      <div className={className}>
+        <Spinner label="Loading activity…" />
+      </div>
+    );
+  }
 
   if (error) {
     return (
-      <div className={className}>
+      <div className={className} role="alert">
         <button
           type="button"
           onClick={() => setReloadKey((key) => key + 1)}
-          className="text-xs text-rose-300 underline"
+          className="text-xs text-rose-300 underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-300/60"
         >
           Could not load activity ({error}) — retry
         </button>
@@ -136,34 +158,39 @@ export const ExecutionActivityPanel: React.FC<ExecutionActivityPanelProps> = ({
   }
 
   return (
-    <ol className={`space-y-2 ${className ?? ""}`} aria-live="polite">
-      {events.map((event) => {
-        const Icon = LEVEL_ICON[event.level] ?? Info;
-        const tone = LEVEL_TONE[event.level] ?? "sky";
-        return (
-          <li
-            key={event.id}
-            className="flex gap-3 rounded-xl border border-white/5 bg-black/30 px-3 py-2.5"
-          >
-            <Icon className="mt-0.5 h-4 w-4 shrink-0 text-white/40" aria-hidden="true" />
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center gap-2">
-                <Pill tone={tone}>{event.kind}</Pill>
-                <span className="text-[11px] text-white/35">
-                  {new Date(event.created_at).toLocaleTimeString()}
-                </span>
+    <div className={className}>
+      <p className="sr-only" role="status">
+        {announcement}
+      </p>
+      <ol className="space-y-2" aria-label="Execution activity">
+        {events.map((event) => {
+          const Icon = LEVEL_ICON[event.level] ?? Info;
+          const tone = LEVEL_TONE[event.level] ?? "sky";
+          return (
+            <li
+              key={event.id}
+              className="flex gap-3 rounded-xl border border-white/5 bg-black/30 px-3 py-2.5"
+            >
+              <Icon className="mt-0.5 h-4 w-4 shrink-0 text-white/40" aria-hidden="true" />
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Pill tone={tone}>{event.kind}</Pill>
+                  <span className="text-[11px] text-white/35">
+                    {new Date(event.created_at).toLocaleTimeString()}
+                  </span>
+                </div>
+                <p className="mt-1 break-words text-sm text-white/75">{event.message}</p>
+                {event.payload && Object.keys(event.payload).length > 0 ? (
+                  <pre className="mt-1.5 overflow-x-auto rounded-lg bg-black/40 p-2 text-[11px] text-white/45">
+                    {JSON.stringify(event.payload, null, 2)}
+                  </pre>
+                ) : null}
               </div>
-              <p className="mt-1 break-words text-sm text-white/75">{event.message}</p>
-              {event.payload && Object.keys(event.payload).length > 0 ? (
-                <pre className="mt-1.5 overflow-x-auto rounded-lg bg-black/40 p-2 text-[11px] text-white/45">
-                  {JSON.stringify(event.payload, null, 2)}
-                </pre>
-              ) : null}
-            </div>
-          </li>
-        );
-      })}
-    </ol>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
   );
 };
 

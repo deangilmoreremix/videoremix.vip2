@@ -232,6 +232,11 @@ export interface Task {
   input: Record<string, unknown>;
   output: Record<string, unknown> | null;
   error: string | null;
+  /**
+   * Why the queue parked this task (no worker assigned, a dependency failed,
+   * …). Null while the task is claimable.
+   */
+  blocked_reason: string | null;
   attempt: number;
   max_attempts: number;
   trigger: TaskTrigger;

@@ -255,6 +255,59 @@ export async function cancelTask(taskId: string): Promise<AgentOSResult<{ status
   return ok(response.data ?? { task_id: taskId, status: "cancelled" });
 }
 
+export interface UpdateTaskInput {
+  title?: string;
+  description?: string;
+  priority?: number;
+  run_after?: string;
+  mission_id?: string | null;
+}
+
+/**
+ * Edit a task's metadata.
+ *
+ * WHY ONLY THESE COLUMNS
+ *   The queue owns the lifecycle of a task: status, attempt, lease, output,
+ *   error and the approval link are written by the queue RPCs, and the
+ *   lockdown migration reduced the browser's UPDATE grant on agentos.tasks to
+ *   exactly title, description, priority, run_after and mission_id. Sending
+ *   anything else would be rejected by the database, so the service refuses
+ *   it before the round trip.
+ */
+export async function updateTask(
+  taskId: string,
+  input: UpdateTaskInput,
+): Promise<AgentOSResult<Task>> {
+  if (!taskId) return err("validation", "taskId is required");
+  if (input.title !== undefined && input.title.trim().length === 0) {
+    return err("validation", "Give the task a title");
+  }
+  if (input.priority !== undefined && (input.priority < 1 || input.priority > 10)) {
+    return err("validation", "Priority must be between 1 and 10");
+  }
+
+  const patch: Record<string, unknown> = {};
+  if (input.title !== undefined) patch.title = input.title.trim();
+  if (input.description !== undefined) patch.description = input.description;
+  if (input.priority !== undefined) patch.priority = input.priority;
+  if (input.run_after !== undefined) patch.run_after = input.run_after;
+  if (input.mission_id !== undefined) patch.mission_id = input.mission_id;
+
+  if (Object.keys(patch).length === 0) {
+    return err("validation", "Nothing to change");
+  }
+
+  const { data, error } = await agentosDb
+    .from("tasks")
+    .update(patch)
+    .eq("id", taskId)
+    .select("*")
+    .single();
+
+  if (error) return err("database", "Could not update the task", agentosErrorMessage(error));
+  return ok(data as Task);
+}
+
 export async function retryTask(taskId: string): Promise<AgentOSResult<{ status: string }>> {
   if (!taskId) return err("validation", "taskId is required");
   const response = await callAction<{ task_id: string; status: string }>("agentos-tasks", {

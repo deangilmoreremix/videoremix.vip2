@@ -6,10 +6,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
-import { FolderKanban, Plus, Search, Users } from "lucide-react";
+import { FolderKanban, Plus, Users } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { AsyncBoundary } from "../../components/agentos/shared";
-import { EmptyState, PageHeader, Pill, Spinner } from "../../components/agentos/ui";
+import { EmptyState, Modal, PageHeader, Pill, SearchInput } from "../../components/agentos/ui";
 import { listWorkspaces } from "../../services/agentos/workspaces";
 import type { Workspace } from "../../types/agentos";
 
@@ -102,7 +102,7 @@ const WorkspacesPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowCreate(true)}
-              className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-violet-500"
+              className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
             >
               <Plus className="h-4 w-4" aria-hidden="true" />
               New workspace
@@ -111,15 +111,14 @@ const WorkspacesPage: React.FC = () => {
         />
 
         <div className="mb-5">
-          <div className="relative max-w-md">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" aria-hidden="true" />
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search workspaces"
-              className="w-full rounded-xl border border-white/10 bg-black/40 py-2 pl-9 pr-3 text-sm text-white placeholder-white/30 focus:border-violet-400/40 focus:outline-none"
-            />
-          </div>
+          <SearchInput
+            id="workspaces-search"
+            label="Search workspaces"
+            value={query}
+            onChange={setQuery}
+            placeholder="Search workspaces"
+            className="max-w-md"
+          />
         </div>
 
         <AsyncBoundary
@@ -142,7 +141,7 @@ const WorkspacesPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowCreate(true)}
-                    className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-500"
+                    className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
                   >
                     <Plus className="h-4 w-4" aria-hidden="true" />
                     New workspace
@@ -158,7 +157,7 @@ const WorkspacesPage: React.FC = () => {
                 key={workspace.id}
                 type="button"
                 onClick={() => navigate(`/agentos/workspaces/${workspace.id}`)}
-                className="group rounded-2xl border border-white/10 bg-black/40 p-5 text-left transition hover:border-violet-400/30 hover:bg-black/60"
+                className="group rounded-2xl border border-white/10 bg-black/40 p-5 text-left transition hover:border-violet-400/30 hover:bg-black/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-violet-300">
@@ -188,76 +187,18 @@ const WorkspacesPage: React.FC = () => {
           </div>
         </AsyncBoundary>
 
-        {loading ? (
-          <div className="mt-4 flex justify-center">
-            <Spinner />
-          </div>
-        ) : null}
-
         {showCreate ? (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-            <div className="w-full max-w-lg rounded-2xl border border-white/10 bg-[#0d0d0f] p-6">
-              <h2 className="text-lg font-semibold text-white">New workspace</h2>
-              <p className="mt-1 text-sm text-white/50">
-                You are added as the workspace owner automatically.
-              </p>
-
-              <div className="mt-5 space-y-4">
-                <div>
-                  <label className="text-xs text-white/50" htmlFor="ws-name">
-                    Name
-                  </label>
-                  <input
-                    id="ws-name"
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                    className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"
-                    placeholder="Marketing Team"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs text-white/50" htmlFor="ws-description">
-                    Description
-                  </label>
-                  <input
-                    id="ws-description"
-                    value={description}
-                    onChange={(event) => setDescription(event.target.value)}
-                    className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs text-white/50" htmlFor="ws-goals">
-                    Goals
-                  </label>
-                  <textarea
-                    id="ws-goals"
-                    value={goals}
-                    onChange={(event) => setGoals(event.target.value)}
-                    rows={2}
-                    className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs text-white/50" htmlFor="ws-instructions">
-                    Operating instructions
-                  </label>
-                  <textarea
-                    id="ws-instructions"
-                    value={instructions}
-                    onChange={(event) => setInstructions(event.target.value)}
-                    rows={3}
-                    className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"
-                  />
-                </div>
-                {createError ? <p className="text-sm text-rose-300">{createError}</p> : null}
-              </div>
-
-              <div className="mt-6 flex justify-end gap-2">
+          <Modal
+            open={showCreate}
+            onOpenChange={setShowCreate}
+            title="New workspace"
+            description="You are added as the workspace owner automatically."
+            footer={
+              <div className="flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setShowCreate(false)}
-                  className="rounded-xl border border-white/10 px-4 py-2 text-sm text-white/70 hover:bg-white/5"
+                  className="rounded-xl border border-white/10 px-4 py-2 text-sm text-white/70 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
                 >
                   Cancel
                 </button>
@@ -265,13 +206,68 @@ const WorkspacesPage: React.FC = () => {
                   type="button"
                   disabled={creating}
                   onClick={() => void createWorkspace()}
-                  className="rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-500 disabled:opacity-50"
+                  className="rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60 disabled:opacity-50"
                 >
                   {creating ? "Creating…" : "Create workspace"}
                 </button>
               </div>
+            }
+          >
+            <div className="space-y-4">
+              <div>
+                <label className="text-xs text-white/50" htmlFor="ws-name">
+                  Name
+                </label>
+                <input
+                  id="ws-name"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/50"
+                  placeholder="Marketing Team"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-white/50" htmlFor="ws-description">
+                  Description
+                </label>
+                <input
+                  id="ws-description"
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                  className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/50"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-white/50" htmlFor="ws-goals">
+                  Goals
+                </label>
+                <textarea
+                  id="ws-goals"
+                  value={goals}
+                  onChange={(event) => setGoals(event.target.value)}
+                  rows={2}
+                  className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/50"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-white/50" htmlFor="ws-instructions">
+                  Operating instructions
+                </label>
+                <textarea
+                  id="ws-instructions"
+                  value={instructions}
+                  onChange={(event) => setInstructions(event.target.value)}
+                  rows={3}
+                  className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/50"
+                />
+              </div>
+              {createError ? (
+                <p role="alert" className="text-sm text-rose-300">
+                  {createError}
+                </p>
+              ) : null}
             </div>
-          </div>
+          </Modal>
         ) : null}
       </div>
     </>

@@ -46,17 +46,41 @@ function mapServerCode(code: string | undefined): AgentOSError["code"] {
 }
 
 
-export async function listApprovals(options: {
-  status?: ApprovalStatus;
+/**
+ * The statuses an approval can hold once it is no longer waiting on a human.
+ *
+ * `expired` and `cancelled` are decisions the system made, not the operator,
+ * but they are decided rows: they carry a decided_at and they belong in the
+ * history the operator can read.
+ */
+export const DECIDED_APPROVAL_STATUSES: readonly ApprovalStatus[] = [
+  "approved",
+  "rejected",
+  "expired",
+  "cancelled",
+];
+
+export interface ListApprovalsOptions {
+  /** One status, or several. Omit to return every approval. */
+  status?: ApprovalStatus | ApprovalStatus[];
   limit?: number;
-} = {}): Promise<AgentOSResult<Approval[]>> {
+}
+
+export async function listApprovals(
+  options: ListApprovalsOptions = {},
+): Promise<AgentOSResult<Approval[]>> {
   let query = agentosDb
     .from("approvals")
     .select("*")
     .order("requested_at", { ascending: false })
     .limit(options.limit ?? 100);
 
-  if (options.status) query = query.eq("status", options.status);
+  if (Array.isArray(options.status)) {
+    if (options.status.length === 0) return ok([]);
+    query = query.in("status", options.status);
+  } else if (options.status) {
+    query = query.eq("status", options.status);
+  }
 
   const { data, error } = await query;
   if (error) return err("database", "Could not load approvals", agentosErrorMessage(error));

@@ -2,9 +2,17 @@
 //
 // Inline token/credit readout for a worker, rendered from the usage table so
 // every number shown is a real recorded cost.
+//
+// WHY THE NUMBERS GO THROUGH THE SHARED HELPER
+//   The usage table stores its counters in Postgres `numeric` columns, and
+//   the PostgREST client returns those as strings ("1200", "12.50"). Adding
+//   them as strings would concatenate them ("12001200"), and printing them
+//   raw would show the storage precision. format/numbers.ts owns that rule
+//   for every AgentOS surface, so this component uses it too.
 
 import { useEffect, useState } from "react";
 import { agentosDb } from "../../../services/agentos/client";
+import { formatCredits, formatInteger, toNumber } from "../format";
 
 export interface TokenCostInlineProps {
   workerId: string;
@@ -32,14 +40,14 @@ export const TokenCostInline: React.FC<TokenCostInlineProps> = ({ workerId }) =>
 
       if (cancelled) return;
       const rows = (data ?? []) as Array<{
-        prompt_tokens: number;
-        completion_tokens: number;
-        credits: number;
+        prompt_tokens: number | string | null;
+        completion_tokens: number | string | null;
+        credits: number | string | null;
       }>;
       setTotals({
-        prompt_tokens: rows.reduce((sum, row) => sum + Number(row.prompt_tokens ?? 0), 0),
-        completion_tokens: rows.reduce((sum, row) => sum + Number(row.completion_tokens ?? 0), 0),
-        credits: rows.reduce((sum, row) => sum + Number(row.credits ?? 0), 0),
+        prompt_tokens: rows.reduce((sum, row) => sum + (toNumber(row.prompt_tokens) ?? 0), 0),
+        completion_tokens: rows.reduce((sum, row) => sum + (toNumber(row.completion_tokens) ?? 0), 0),
+        credits: rows.reduce((sum, row) => sum + (toNumber(row.credits) ?? 0), 0),
         runs: rows.length,
       });
     })();
@@ -55,8 +63,8 @@ export const TokenCostInline: React.FC<TokenCostInlineProps> = ({ workerId }) =>
 
   return (
     <span className="text-xs tabular-nums text-white/55">
-      {totals.prompt_tokens.toLocaleString()} in · {totals.completion_tokens.toLocaleString()} out ·{" "}
-      <span className="text-violet-300">{Math.round(totals.credits).toLocaleString()} credits</span>
+      {formatInteger(totals.prompt_tokens)} in · {formatInteger(totals.completion_tokens)} out ·{" "}
+      <span className="text-violet-300">{formatCredits(totals.credits)} credits</span>
     </span>
   );
 };

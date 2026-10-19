@@ -13,8 +13,8 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
 import { AsyncBoundary } from "../../components/agentos/shared";
-import { EmptyState, PageHeader, Pill, Section } from "../../components/agentos/ui";
-import { Modal } from "../../components/agentos/ui/Modal";
+import { ConfirmDialog, EmptyState, Modal, PageHeader, Pill, Section } from "../../components/agentos/ui";
+import { absoluteTime, machineTime } from "../../components/agentos/format";
 import {
   createSchedule,
   deleteSchedule,
@@ -56,6 +56,10 @@ const SchedulesPage: React.FC = () => {
   const [draft, setDraft] = useState<Draft | null>(null);
   const [saving, setSaving] = useState(false);
   const [draftError, setDraftError] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<Schedule | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   const reload = useCallback(() => setReloadKey((key) => key + 1), []);
 
@@ -123,7 +127,12 @@ const SchedulesPage: React.FC = () => {
 
   const toggle = useCallback(
     async (schedule: Schedule) => {
-      await setScheduleEnabled(schedule.id, !schedule.enabled);
+      setActionError(null);
+      const result = await setScheduleEnabled(schedule.id, !schedule.enabled);
+      if (result.error) {
+        setActionError(`Could not change "${schedule.title}": ${result.error.message}`);
+        return;
+      }
       reload();
     },
     [reload],
@@ -131,7 +140,15 @@ const SchedulesPage: React.FC = () => {
 
   const remove = useCallback(
     async (schedule: Schedule) => {
-      await deleteSchedule(schedule.id);
+      setDeleting(true);
+      setDeleteError(null);
+      const result = await deleteSchedule(schedule.id);
+      setDeleting(false);
+      if (result.error) {
+        setDeleteError(result.error.message);
+        return;
+      }
+      setPendingDelete(null);
       reload();
     },
     [reload],
@@ -186,6 +203,11 @@ const SchedulesPage: React.FC = () => {
           }
         >
           <div className="space-y-3">
+            {actionError ? (
+              <p role="alert" className="text-sm text-rose-300">
+                {actionError}
+              </p>
+            ) : null}
             {schedules.map((schedule) => (
               <Section key={schedule.id}>
                 <div className="flex flex-wrap items-start justify-between gap-4">
@@ -204,12 +226,19 @@ const SchedulesPage: React.FC = () => {
                         worker: {schedule.worker_id ? workerNameById.get(schedule.worker_id) ?? "unknown" : "unassigned"}
                       </span>
                       <span>
-                        next: {schedule.next_run_at ? new Date(schedule.next_run_at).toLocaleString() : "none"}
+                        next:{" "}
+                        {schedule.next_run_at ? (
+                          <time dateTime={machineTime(schedule.next_run_at)} title={absoluteTime(schedule.next_run_at)}>
+                            {absoluteTime(schedule.next_run_at)}
+                          </time>
+                        ) : (
+                          "none"
+                        )}
                       </span>
                       <span>
                         last:{" "}
                         {schedule.last_run_at
-                          ? `${new Date(schedule.last_run_at).toLocaleString()} (${schedule.last_status ?? "unknown"})`
+                          ? `${absoluteTime(schedule.last_run_at)} (${schedule.last_status ?? "unknown"})`
                           : "never"}
                       </span>
                       {schedule.last_error ? (
@@ -243,7 +272,10 @@ const SchedulesPage: React.FC = () => {
                       variant="outline"
                       size="sm"
                       className="border-rose-400/30 text-rose-300 hover:bg-rose-500/10"
-                      onClick={() => void remove(schedule)}
+                      onClick={() => {
+                        setDeleteError(null);
+                        setPendingDelete(schedule);
+                      }}
                       aria-label={`Delete ${schedule.title}`}
                     >
                       <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
@@ -332,7 +364,7 @@ const SchedulesPage: React.FC = () => {
                 id="sched-worker"
                 value={draft.workerId}
                 onChange={(event) => setDraft({ ...draft, workerId: event.target.value })}
-                className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/50"
               >
                 <option value="">Unassigned</option>
                 {workers.map((worker) => (
@@ -365,10 +397,36 @@ const SchedulesPage: React.FC = () => {
               Enabled
             </label>
 
-            {draftError ? <p className="text-sm text-rose-300">{draftError}</p> : null}
+            {draftError ? (
+              <p role="alert" className="text-sm text-rose-300">
+                {draftError}
+              </p>
+            ) : null}
           </div>
         </Modal>
       ) : null}
+
+      <ConfirmDialog
+        open={Boolean(pendingDelete)}
+        onOpenChange={(open) => {
+          if (!open) {
+            setPendingDelete(null);
+            setDeleteError(null);
+          }
+        }}
+        title="Delete this schedule?"
+        description={
+          pendingDelete
+            ? `“${pendingDelete.title}” will stop being dispatched to ${pendingDelete.worker_id ? workerNameById.get(pendingDelete.worker_id) ?? "its worker" : "a worker"}. This cannot be undone.`
+            : undefined
+        }
+        confirmLabel="Delete schedule"
+        busy={deleting}
+        error={deleteError}
+        onConfirm={() => {
+          if (pendingDelete) void remove(pendingDelete);
+        }}
+      />
     </>
   );
 };

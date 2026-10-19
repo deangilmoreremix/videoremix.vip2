@@ -9,22 +9,41 @@ import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
 import { Button } from "../../components/ui/button";
-import { Bot, Target } from "lucide-react";
+import { Input } from "../../components/ui/input";
+import { Textarea } from "../../components/ui/textarea";
+import { Archive, Bot, Pencil, Target } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { AsyncBoundary } from "../../components/agentos/shared";
-import { EmptyState, PageHeader, Pill, Section, Spinner } from "../../components/agentos/ui";
 import {
+  ConfirmDialog,
+  EmptyState,
+  PageHeader,
+  Pill,
+  Section,
+  Spinner,
+} from "../../components/agentos/ui";
+import { Modal } from "../../components/agentos/ui/Modal";
+import {
+  archiveWorkspace,
   getWorkspace,
   inviteMember,
   listWorkspaceMembers,
   removeMember,
   updateMemberRole,
+  updateWorkspace,
 } from "../../services/agentos/workspaces";
 import { listWorkers } from "../../services/agentos/workers";
 import { listMissions } from "../../services/agentos/missions";
 import type { Mission, Worker, Workspace, WorkspaceMember, WorkspaceRole } from "../../types/agentos";
 
 type TabKey = "overview" | "members" | "policies" | "workers" | "missions";
+
+interface WorkspaceDraft {
+  name: string;
+  description: string;
+  goals: string;
+  instructions: string;
+}
 
 const ROLES: Array<{ value: Exclude<WorkspaceRole, "owner">; label: string }> = [
   { value: "admin", label: "Admin" },
@@ -50,6 +69,15 @@ const WorkspaceDetailPage: React.FC = () => {
   const [inviteRole, setInviteRole] = useState<Exclude<WorkspaceRole, "owner">>("member");
   const [inviteBusy, setInviteBusy] = useState(false);
   const [inviteError, setInviteError] = useState<string | null>(null);
+
+  // Edit + archive.
+  const [draft, setDraft] = useState<WorkspaceDraft | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [draftError, setDraftError] = useState<string | null>(null);
+  const [confirmArchive, setConfirmArchive] = useState(false);
+  const [archiveError, setArchiveError] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   const reload = useCallback(() => setReloadKey((key) => key + 1), []);
 
@@ -108,14 +136,68 @@ const WorkspaceDetailPage: React.FC = () => {
     reload();
   }, [workspaceId, inviteId, inviteRole, reload]);
 
+  const openEdit = useCallback(() => {
+    if (!workspace) return;
+    setDraft({
+      name: workspace.name,
+      description: workspace.description ?? "",
+      goals: workspace.goals ?? "",
+      instructions: workspace.instructions ?? "",
+    });
+    setDraftError(null);
+  }, [workspace]);
+
+  const save = useCallback(async () => {
+    if (!workspace || !draft) return;
+    if (!draft.name.trim()) {
+      setDraftError("Give the workspace a name");
+      return;
+    }
+
+    setSaving(true);
+    setDraftError(null);
+    const result = await updateWorkspace(workspace.id, {
+      name: draft.name,
+      description: draft.description,
+      goals: draft.goals,
+      instructions: draft.instructions,
+    });
+    setSaving(false);
+
+    if (result.error) {
+      setDraftError(result.error.message);
+      return;
+    }
+    if (result.data) setWorkspace(result.data);
+    setDraft(null);
+    setStatus("Workspace updated");
+    reload();
+  }, [workspace, draft, reload]);
+
+  const archive = useCallback(async () => {
+    if (!workspace) return;
+    setSaving(true);
+    setArchiveError(null);
+    const result = await archiveWorkspace(workspace.id);
+    setSaving(false);
+    if (result.error) {
+      setArchiveError(`Could not archive the workspace: ${result.error.message}`);
+      return;
+    }
+    setConfirmArchive(false);
+    navigate("/agentos/workspaces");
+  }, [workspace, navigate]);
+
   const changeRole = useCallback(
     async (memberClerkId: string, role: Exclude<WorkspaceRole, "owner">) => {
       if (!workspaceId) return;
+      setActionError(null);
       const result = await updateMemberRole({ workspaceId, memberClerkId, role });
       if (result.error) {
-        setInviteError(result.error.message);
+        setActionError(`Could not change the role: ${result.error.message}`);
         return;
       }
+      setStatus("Role updated");
       reload();
     },
     [workspaceId, reload],
@@ -124,11 +206,13 @@ const WorkspaceDetailPage: React.FC = () => {
   const dropMember = useCallback(
     async (memberClerkId: string) => {
       if (!workspaceId) return;
+      setActionError(null);
       const result = await removeMember({ workspaceId, memberClerkId });
       if (result.error) {
-        setInviteError(result.error.message);
+        setActionError(`Could not remove the member: ${result.error.message}`);
         return;
       }
+      setStatus("Member removed");
       reload();
     },
     [workspaceId, reload],
@@ -167,7 +251,42 @@ const WorkspaceDetailPage: React.FC = () => {
               ]}
               title={workspace.name}
               description={workspace.description || "No description"}
+              actions={
+                <div className="flex flex-wrap items-center gap-2">
+                  <Button variant="outline" size="sm" onClick={openEdit}>
+                    <Pencil className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
+                    Edit
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-amber-400/30 text-amber-300 hover:bg-amber-500/10"
+                    onClick={() => setConfirmArchive(true)}
+                  >
+                    <Archive className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
+                    Archive
+                  </Button>
+                </div>
+              }
             />
+
+            {workspace.archived_at ? (
+              <p className="mb-4 rounded-xl border border-amber-400/20 bg-amber-500/5 px-4 py-2.5 text-sm text-amber-200/80">
+                This workspace is archived. It is hidden from the default list and its workers are
+                no longer dispatched.
+              </p>
+            ) : null}
+
+            {status ? (
+              <p role="status" className="mb-4 text-sm text-white/60">
+                {status}
+              </p>
+            ) : null}
+            {actionError ? (
+              <p role="alert" className="mb-4 text-sm text-rose-300">
+                {actionError}
+              </p>
+            ) : null}
 
             <Tabs value={tab} onValueChange={(value) => setTab(value as TabKey)}>
               <TabsList>
@@ -179,8 +298,22 @@ const WorkspaceDetailPage: React.FC = () => {
               </TabsList>
 
               <TabsContent value="overview" className="pt-4">
-                <Section title="Goals and instructions" description="Shared context for every worker in this workspace.">
+                <Section
+                  title="Goals and instructions"
+                  description="Shared context for every worker in this workspace."
+                  actions={
+                    <Button variant="outline" size="sm" onClick={openEdit}>
+                      Edit
+                    </Button>
+                  }
+                >
                   <div className="space-y-4 text-sm">
+                    <div>
+                      <p className="text-white/45">Description</p>
+                      <p className="mt-1 whitespace-pre-wrap text-white/75">
+                        {workspace.description || "No description set."}
+                      </p>
+                    </div>
                     <div>
                       <p className="text-white/45">Goals</p>
                       <p className="mt-1 whitespace-pre-wrap text-white/75">
@@ -407,6 +540,91 @@ const WorkspaceDetailPage: React.FC = () => {
           </>
         ) : null}
       </AsyncBoundary>
+
+      {draft ? (
+        <Modal
+          open
+          onOpenChange={(open) => {
+            if (!open) setDraft(null);
+          }}
+          title="Edit workspace"
+          description="The goals and instructions are shared with every worker in this workspace."
+          footer={
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" size="sm" onClick={() => setDraft(null)}>
+                Cancel
+              </Button>
+              <Button size="sm" disabled={saving} onClick={() => void save()}>
+                {saving ? "Saving…" : "Save changes"}
+              </Button>
+            </div>
+          }
+        >
+          <div className="space-y-4">
+            <div>
+              <label className="text-xs text-white/50" htmlFor="ws-name">
+                Name
+              </label>
+              <Input
+                id="ws-name"
+                value={draft.name}
+                onChange={(event) => setDraft({ ...draft, name: event.target.value })}
+              />
+            </div>
+            <div>
+              <label className="text-xs text-white/50" htmlFor="ws-description">
+                Description
+              </label>
+              <Input
+                id="ws-description"
+                value={draft.description}
+                onChange={(event) => setDraft({ ...draft, description: event.target.value })}
+              />
+            </div>
+            <div>
+              <label className="text-xs text-white/50" htmlFor="ws-goals">
+                Goals
+              </label>
+              <Textarea
+                id="ws-goals"
+                value={draft.goals}
+                onChange={(event) => setDraft({ ...draft, goals: event.target.value })}
+                rows={3}
+                placeholder="Ship a weekly competitor brief."
+              />
+            </div>
+            <div>
+              <label className="text-xs text-white/50" htmlFor="ws-instructions">
+                Operating instructions
+              </label>
+              <Textarea
+                id="ws-instructions"
+                value={draft.instructions}
+                onChange={(event) => setDraft({ ...draft, instructions: event.target.value })}
+                rows={4}
+                placeholder="Cite every source and never send an email without approval."
+              />
+            </div>
+
+            {draftError ? (
+              <p role="alert" className="text-sm text-rose-300">
+                {draftError}
+              </p>
+            ) : null}
+          </div>
+        </Modal>
+      ) : null}
+
+      <ConfirmDialog
+        open={confirmArchive}
+        onOpenChange={setConfirmArchive}
+        title={`Archive ${workspace?.name ?? "workspace"}?`}
+        description="Archived workspaces are hidden from the default list. The workers and missions inside are kept — nothing is deleted."
+        confirmLabel="Archive workspace"
+        busy={saving}
+        error={archiveError}
+        onConfirm={() => void archive()}
+      />
     </div>
   );
 };

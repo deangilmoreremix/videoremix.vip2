@@ -97,8 +97,12 @@ export async function estimateCredits(params: {
     );
   }
 
-  const rateIn = model.data.credit_rate_in;
-  const rateOut = model.data.credit_rate_out;
+  const rateIn = Number(model.data.credit_rate_in);
+  const rateOut = Number(model.data.credit_rate_out);
+  if (!Number.isFinite(rateIn) || !Number.isFinite(rateOut)) {
+    return err("validation", "That model has no usable credit rates");
+  }
+
   const credits =
     (params.promptTokens * rateIn) / 1000 + (params.completionTokens * rateOut) / 1000;
 
@@ -201,11 +205,51 @@ export async function updateProviderConfig(
 ): Promise<AgentOSResult<ProviderConfig>> {
   if (!providerConfigId) return err("validation", "providerConfigId is required");
 
+  const { data: current, error: loadError } = await agentosDb
+    .from("provider_configs")
+    .select("*")
+    .eq("id", providerConfigId)
+    .maybeSingle();
+
+  if (loadError) {
+    return err("database", "Could not load provider config", agentosErrorMessage(loadError));
+  }
+  if (!current) return err("not_found", "Provider config not found");
+
+  const row = current as ProviderConfig;
+
   const patch: Record<string, unknown> = {};
   if (input.label !== undefined) patch.label = input.label;
   if (input.model_ids !== undefined) patch.model_ids = input.model_ids;
   if (input.is_default !== undefined) patch.is_default = input.is_default;
-  if (input.enabled !== undefined) patch.status = input.enabled ? "active" : "disabled";
+  if (input.enabled !== undefined) {
+    // The enabled flag IS the status: a disabled provider is one the runtime
+    // must not route through. A provider whose last readiness test failed
+    // stays in the error state — switching it back on does not make it work,
+    // and hiding that would be a lie.
+    patch.status =
+      input.enabled
+        ? row.status === "error"
+          ? "error"
+          : "active"
+        : "disabled";
+  }
+
+  // There can only be one default per provider: uq_agentos_provider_default
+  // is a partial unique index on (owner_clerk_id, provider). Clearing the
+  // sibling first keeps the write from failing with a constraint violation.
+  if (input.is_default === true) {
+    const { error: clearError } = await agentosDb
+      .from("provider_configs")
+      .update({ is_default: false })
+      .eq("provider", row.provider)
+      .neq("id", providerConfigId)
+      .eq("is_default", true);
+
+    if (clearError) {
+      return err("database", "Could not clear the previous default provider", agentosErrorMessage(clearError));
+    }
+  }
 
   const { data, error } = await agentosDb
     .from("provider_configs")

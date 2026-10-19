@@ -12,18 +12,26 @@ import { useNavigate } from "react-router-dom";
 import { Activity, Play } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { AsyncBoundary } from "../../components/agentos/shared";
-import { PageHeader, Pill, Section, Stat, TASK_STATUS_STYLE } from "../../components/agentos/ui";
+import {
+  FilterGroup,
+  PageHeader,
+  Pill,
+  Section,
+  Stat,
+  TASK_STATUS_STYLE,
+} from "../../components/agentos/ui";
+import { absoluteTime, machineTime } from "../../components/agentos/format";
 import { ExecutionActivityPanel } from "../../components/agentos/runtime";
 import { listTasks, runQueuedTasks } from "../../services/agentos/missions";
 import { listRuns, listRecentEvents } from "../../services/agentos/runtime";
 import { listWorkers } from "../../services/agentos/workers";
 import type { ExecutionEvent, ExecutionRun, Task, Worker } from "../../types/agentos";
 
-const RANGE_HOURS: Array<{ value: number; label: string }> = [
-  { value: 1, label: "1h" },
-  { value: 24, label: "24h" },
-  { value: 168, label: "7d" },
-  { value: 720, label: "30d" },
+const RANGE_HOURS: Array<{ value: string; label: string }> = [
+  { value: "1", label: "1h" },
+  { value: "24", label: "24h" },
+  { value: "168", label: "7d" },
+  { value: "720", label: "30d" },
 ];
 
 interface ModelUsage {
@@ -178,23 +186,17 @@ const OperationsPage: React.FC = () => {
         </PageHeader>
 
         <div className="mb-5 flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-1 rounded-xl border border-white/10 bg-black/40 p-1">
-            {RANGE_HOURS.map((range) => (
-              <button
-                key={range.value}
-                type="button"
-                onClick={() => setRangeHours(range.value)}
-                className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
-                  rangeHours === range.value
-                    ? "bg-violet-500/20 text-violet-200"
-                    : "text-white/50 hover:text-white"
-                }`}
-              >
-                {range.label}
-              </button>
-            ))}
-          </div>
-          {runNotice ? <p className="text-xs text-white/50">{runNotice}</p> : null}
+          <FilterGroup
+            label="Time range"
+            options={RANGE_HOURS}
+            value={String(rangeHours)}
+            onChange={(value) => setRangeHours(Number(value))}
+          />
+          {runNotice ? (
+            <p role="status" className="text-xs text-white/50">
+              {runNotice}
+            </p>
+          ) : null}
         </div>
 
         <AsyncBoundary
@@ -249,13 +251,16 @@ const OperationsPage: React.FC = () => {
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
+                    <caption className="sr-only">
+                      Model usage: runs, prompt tokens, completion tokens and credits per model.
+                    </caption>
                     <thead>
                       <tr className="text-left text-xs text-white/40">
-                        <th className="pb-2 pr-4 font-medium">Model</th>
-                        <th className="pb-2 pr-4 font-medium">Runs</th>
-                        <th className="pb-2 pr-4 text-right font-medium">Prompt</th>
-                        <th className="pb-2 pr-4 text-right font-medium">Completion</th>
-                        <th className="pb-2 text-right font-medium">Credits</th>
+                        <th scope="col" className="pb-2 pr-4 font-medium">Model</th>
+                        <th scope="col" className="pb-2 pr-4 font-medium">Runs</th>
+                        <th scope="col" className="pb-2 pr-4 text-right font-medium">Prompt</th>
+                        <th scope="col" className="pb-2 pr-4 text-right font-medium">Completion</th>
+                        <th scope="col" className="pb-2 text-right font-medium">Credits</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -314,7 +319,7 @@ const OperationsPage: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => navigate(`/agentos/workforce/${row.workerId}`)}
-                          className="truncate text-sm text-white/80 hover:text-violet-200"
+                          className="truncate text-sm text-white/80 hover:text-violet-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
                         >
                           {row.name}
                         </button>
@@ -334,7 +339,7 @@ const OperationsPage: React.FC = () => {
 
             <Section
               title="Task status"
-              description="Live counts straight from the queue."
+              description="Task counts straight from the queue."
             >
               <div className="flex flex-wrap gap-2">
                 {Object.entries(taskCounts).map(([status, count]) => {
@@ -353,7 +358,7 @@ const OperationsPage: React.FC = () => {
 
             <Section
               title="Live activity"
-              description="Last 100 execution events, newest first. Polls while a run is live."
+              description="Last 100 execution events, newest first. Refreshes when the range changes or the queue runs."
             >
               <div className="mb-3 flex items-center gap-2 text-xs text-white/40">
                 <Activity className="h-3.5 w-3.5" aria-hidden="true" />
@@ -374,9 +379,13 @@ const OperationsPage: React.FC = () => {
                         <Pill tone={event.level === "error" ? "rose" : event.level === "success" ? "emerald" : "sky"}>
                           {event.kind}
                         </Pill>
-                        <span className="text-[11px] text-white/30">
-                          {new Date(event.created_at).toLocaleString()}
-                        </span>
+                        <time
+                          dateTime={machineTime(event.created_at)}
+                          className="text-[11px] text-white/30"
+                          title={absoluteTime(event.created_at)}
+                        >
+                          {absoluteTime(event.created_at)}
+                        </time>
                       </div>
                       <p className="mt-1 text-xs text-white/65">{event.message}</p>
                     </li>

@@ -11,6 +11,9 @@ export { PageHeader } from "./PageHeader";
 export { Section } from "./Section";
 export { Stat } from "./Stat";
 export { Modal } from "./Modal";
+export { ConfirmDialog } from "./ConfirmDialog";
+export { SearchInput } from "./SearchInput";
+export { FilterGroup, type FilterOption } from "./FilterGroup";
 export {
   DOT_CLASS,
   TASK_STATUS_STYLE,

@@ -9,3 +9,4 @@
 
 export { relativeTime, absoluteTime, machineTime } from "./relativeTime";
 export { formatBytes, formatBytesTotal } from "./bytes";
+export { toNumber, formatDecimal, formatInteger, formatCredits } from "./numbers";

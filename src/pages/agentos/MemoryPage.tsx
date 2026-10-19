@@ -6,15 +6,33 @@
 // The ranking shown here is a UI preview. The runtime performs the real
 // retrieval when a task executes (worker identity + task + top-K memories,
 // ranked by importance × recency, keyword when pgvector is absent).
+//
+// WHY THE SEARCH RESULT SET IS ITS OWN STATE
+//   The list and the search results are two different sets of rows, and the
+//   scope filter has to apply to both. Keeping them in one array meant the
+//   "worker" tab could show workspace memories after a search, and the empty
+//   state could not tell "you have no memory" from "your search matched
+//   nothing" once the search box was edited. The applied query is tracked
+//   separately from the text in the box, so the empty state always describes
+//   the rows that are actually on screen.
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { BrainCircuit, Plus, Search, Trash2 } from "lucide-react";
+import { BrainCircuit, Plus, Trash2 } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Textarea } from "../../components/ui/textarea";
 import { AsyncBoundary } from "../../components/agentos/shared";
-import { EmptyState, PageHeader, Pill, Section } from "../../components/agentos/ui";
-import { Modal } from "../../components/agentos/ui/Modal";
+import {
+  ConfirmDialog,
+  EmptyState,
+  FilterGroup,
+  Modal,
+  PageHeader,
+  Pill,
+  SearchInput,
+  Section,
+} from "../../components/agentos/ui";
+import { absoluteTime, machineTime, relativeTime } from "../../components/agentos/format";
 import { createMemory, deleteMemory, listMemories, searchMemories, updateMemory } from "../../services/agentos/memory";
 import { listWorkers } from "../../services/agentos/workers";
 import { listWorkspaces } from "../../services/agentos/workspaces";
@@ -23,6 +41,15 @@ import type { MemoryKind, WorkerMemory, Worker, Workspace } from "../../types/ag
 const KINDS: MemoryKind[] = ["fact", "preference", "note", "knowledge", "file", "summary"];
 
 const IMPORTANCE_LABEL = ["", "lowest", "low", "normal", "high", "critical"];
+
+const SCOPES: Array<{ value: "all" | "worker" | "workspace"; label: string }> = [
+  { value: "all", label: "All" },
+  { value: "worker", label: "Worker" },
+  { value: "workspace", label: "Workspace" },
+];
+
+const FIELD_CLASS =
+  "mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/50";
 
 const MemoryPage: React.FC = () => {
   const [memories, setMemories] = useState<WorkerMemory[]>([]);
@@ -33,6 +60,9 @@ const MemoryPage: React.FC = () => {
   const [reloadKey, setReloadKey] = useState(0);
 
   const [query, setQuery] = useState("");
+  const [appliedQuery, setAppliedQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<WorkerMemory[] | null>(null);
+  const [searchError, setSearchError] = useState<string | null>(null);
   const [scope, setScope] = useState<"all" | "worker" | "workspace">("all");
   const [searching, setSearching] = useState(false);
 
@@ -49,6 +79,12 @@ const MemoryPage: React.FC = () => {
   const [editing, setEditing] = useState<WorkerMemory | null>(null);
   const [editContent, setEditContent] = useState("");
   const [editImportance, setEditImportance] = useState(3);
+  const [editError, setEditError] = useState<string | null>(null);
+  const [editSaving, setEditSaving] = useState(false);
+
+  const [pendingDelete, setPendingDelete] = useState<WorkerMemory | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   const reload = useCallback(() => setReloadKey((key) => key + 1), []);
 
@@ -96,23 +132,33 @@ const MemoryPage: React.FC = () => {
   );
 
   const runSearch = useCallback(async () => {
+    const needle = query.trim();
+    if (!needle) return;
+
     setSearching(true);
+    setSearchError(null);
     const result = await searchMemories({
-      query,
+      query: needle,
       limit: 50,
       importanceMin: 1,
     });
-    if (result.error) {
-      setError(result.error.message);
-    } else {
-      setError(null);
-      setMemories((result.data ?? []) as WorkerMemory[]);
-    }
     setSearching(false);
+
+    if (result.error) {
+      // The previous result set stays on screen; the failure is reported
+      // next to the search box instead of replacing the whole page.
+      setSearchError(result.error.message);
+      return;
+    }
+    setAppliedQuery(needle);
+    setSearchResults((result.data ?? []) as WorkerMemory[]);
   }, [query]);
 
   const clearSearch = useCallback(() => {
     setQuery("");
+    setAppliedQuery("");
+    setSearchResults(null);
+    setSearchError(null);
     reload();
   }, [reload]);
 
@@ -153,38 +199,48 @@ const MemoryPage: React.FC = () => {
 
   const submitEdit = useCallback(async () => {
     if (!editing) return;
+    if (!editContent.trim()) {
+      setEditError("Memory content cannot be empty");
+      return;
+    }
+    setEditSaving(true);
+    setEditError(null);
     const result = await updateMemory(editing.id, {
       content: editContent,
       importance: editImportance,
     });
+    setEditSaving(false);
     if (result.error) {
-      setDialogError(result.error.message);
+      setEditError(result.error.message);
       return;
     }
     setEditing(null);
     reload();
   }, [editing, editContent, editImportance, reload]);
 
-  const remove = useCallback(
-    async (memoryId: string) => {
-      await deleteMemory(memoryId);
-      reload();
-    },
-    [reload],
-  );
+  const confirmDelete = useCallback(async () => {
+    if (!pendingDelete) return;
+    setDeleting(true);
+    setDeleteError(null);
+    const result = await deleteMemory(pendingDelete.id);
+    setDeleting(false);
+    if (result.error) {
+      setDeleteError(result.error.message);
+      return;
+    }
+    setPendingDelete(null);
+    reload();
+  }, [pendingDelete, reload]);
 
-  const visible = useMemo(
-    () => (scope === "all" ? memories : memories.filter((memory) => memory.scope === scope)),
-    [memories, scope],
-  );
+  // The scope filter applies to the list and to the search results alike, so
+  // the "worker" tab can never show a workspace memory.
+  const visible = useMemo(() => {
+    const source = searchResults ?? memories;
+    if (scope === "all") return source;
+    return source.filter((memory) => memory.scope === scope);
+  }, [memories, searchResults, scope]);
 
-  if (loading) {
-    return (
-      <div className="mx-auto max-w-4xl px-6 py-8">
-        <p className="text-sm text-white/40">Loading memory…</p>
-      </div>
-    );
-  }
+  const hasSearch = appliedQuery.trim().length > 0;
 
   return (
     <>
@@ -205,58 +261,66 @@ const MemoryPage: React.FC = () => {
         />
 
         <div className="mb-5 flex flex-wrap items-center gap-3">
-          <div className="relative min-w-[240px] flex-1">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" aria-hidden="true" />
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              onKeyDown={(event) => {
-                if (event.key === "Enter") void runSearch();
-              }}
-              placeholder="Search memory"
-              className="w-full rounded-xl border border-white/10 bg-black/40 py-2 pl-9 pr-3 text-sm text-white placeholder-white/30 focus:border-violet-400/40 focus:outline-none"
-            />
-          </div>
-          <Button variant="outline" size="sm" disabled={searching || !query.trim()} onClick={() => void runSearch()}>
+          <SearchInput
+            id="memory-search"
+            label="Search memory"
+            value={query}
+            onChange={setQuery}
+            onSubmit={() => void runSearch()}
+            placeholder="Search memory"
+            className="min-w-[240px] flex-1"
+          />
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={searching || !query.trim()}
+            onClick={() => void runSearch()}
+          >
             {searching ? "Searching…" : "Search"}
           </Button>
-          {query ? (
+          {query || hasSearch ? (
             <Button variant="ghost" size="sm" onClick={clearSearch}>
               Clear
             </Button>
           ) : null}
-          <div className="flex items-center gap-1 rounded-xl border border-white/10 bg-black/40 p-1">
-            {(["all", "worker", "workspace"] as const).map((option) => (
-              <button
-                key={option}
-                type="button"
-                onClick={() => setScope(option)}
-                className={`rounded-lg px-3 py-1.5 text-xs font-medium capitalize transition ${
-                  scope === option ? "bg-violet-500/20 text-violet-200" : "text-white/50 hover:text-white"
-                }`}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
+          <FilterGroup
+            label="Filter memory by scope"
+            options={SCOPES}
+            value={scope}
+            onChange={setScope}
+          />
         </div>
 
+        {searchError ? (
+          <p role="alert" className="mb-4 text-sm text-rose-300">
+            Search failed: {searchError}
+          </p>
+        ) : null}
+
+        {hasSearch ? (
+          <p className="mb-4 text-xs text-white/40">
+            {visible.length} memor{visible.length === 1 ? "y" : "ies"} match
+            {scope === "all" ? "" : ` the ${scope} scope`} for “{appliedQuery}”.
+          </p>
+        ) : null}
+
         <AsyncBoundary
-          loading={false}
+          loading={loading}
           error={error}
           onRetry={reload}
           isEmpty={visible.length === 0}
+          loadingRows={3}
           empty={
             <EmptyState
               icon={BrainCircuit}
-              title={query ? "No memories match that search" : "No memory yet"}
+              title={hasSearch ? "No memories match that search" : "No memory yet"}
               description={
-                query
-                  ? "Try different words."
+                hasSearch
+                  ? `Nothing matched “${appliedQuery}”. Try different words, or widen the scope filter.`
                   : "Add a fact, a preference, or a knowledge note and it will be available to the worker it belongs to."
               }
               action={
-                query ? null : (
+                hasSearch ? null : (
                   <Button size="sm" onClick={() => setDialogOpen(true)}>
                     Add memory
                   </Button>
@@ -284,7 +348,11 @@ const MemoryPage: React.FC = () => {
                       {memory.content}
                     </p>
                     <p className="mt-1.5 text-[11px] text-white/30">
-                      added {new Date(memory.created_at).toLocaleString()} · source {memory.source}
+                      added{" "}
+                      <time dateTime={machineTime(memory.created_at)} title={absoluteTime(memory.created_at)}>
+                        {relativeTime(memory.created_at)}
+                      </time>{" "}
+                      · source {memory.source}
                       {(memory.tags ?? []).length > 0 ? ` · ${memory.tags.join(", ")}` : ""}
                     </p>
                   </div>
@@ -296,6 +364,7 @@ const MemoryPage: React.FC = () => {
                         setEditing(memory);
                         setEditContent(memory.content);
                         setEditImportance(memory.importance);
+                        setEditError(null);
                       }}
                     >
                       Edit
@@ -304,8 +373,11 @@ const MemoryPage: React.FC = () => {
                       variant="outline"
                       size="sm"
                       className="border-rose-400/30 text-rose-300 hover:bg-rose-500/10"
-                      onClick={() => void remove(memory.id)}
-                      aria-label="Delete memory"
+                      onClick={() => {
+                        setDeleteError(null);
+                        setPendingDelete(memory);
+                      }}
+                      aria-label={`Delete memory: ${memory.content.slice(0, 40)}`}
                     >
                       <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
                     </Button>
@@ -342,7 +414,7 @@ const MemoryPage: React.FC = () => {
               id="mem-scope"
               value={draftScope}
               onChange={(event) => setDraftScope(event.target.value as "worker" | "workspace")}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"
+              className={FIELD_CLASS}
             >
               <option value="worker">Worker</option>
               <option value="workspace">Workspace</option>
@@ -358,7 +430,7 @@ const MemoryPage: React.FC = () => {
                 id="mem-worker"
                 value={draftWorkerId}
                 onChange={(event) => setDraftWorkerId(event.target.value)}
-                className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"
+                className={FIELD_CLASS}
               >
                 <option value="">Choose a worker…</option>
                 {workers.map((worker) => (
@@ -377,7 +449,7 @@ const MemoryPage: React.FC = () => {
                 id="mem-workspace"
                 value={draftWorkspaceId}
                 onChange={(event) => setDraftWorkspaceId(event.target.value)}
-                className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"
+                className={FIELD_CLASS}
               >
                 <option value="">Choose a workspace…</option>
                 {workspaces.map((workspace) => (
@@ -397,7 +469,7 @@ const MemoryPage: React.FC = () => {
               id="mem-kind"
               value={draftKind}
               onChange={(event) => setDraftKind(event.target.value as MemoryKind)}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"
+              className={FIELD_CLASS}
             >
               {KINDS.map((kind) => (
                 <option key={kind} value={kind}>
@@ -436,14 +508,21 @@ const MemoryPage: React.FC = () => {
             />
           </div>
 
-          {dialogError ? <p className="text-sm text-rose-300">{dialogError}</p> : null}
+          {dialogError ? (
+            <p role="alert" className="text-sm text-rose-300">
+              {dialogError}
+            </p>
+          ) : null}
         </div>
       </Modal>
 
       <Modal
         open={Boolean(editing)}
         onOpenChange={(open) => {
-          if (!open) setEditing(null);
+          if (!open) {
+            setEditing(null);
+            setEditError(null);
+          }
         }}
         title="Edit memory"
         footer={
@@ -451,8 +530,8 @@ const MemoryPage: React.FC = () => {
             <Button variant="outline" size="sm" onClick={() => setEditing(null)}>
               Cancel
             </Button>
-            <Button size="sm" onClick={() => void submitEdit()}>
-              Save changes
+            <Button size="sm" disabled={editSaving} onClick={() => void submitEdit()}>
+              {editSaving ? "Saving…" : "Save changes"}
             </Button>
           </div>
         }
@@ -484,8 +563,34 @@ const MemoryPage: React.FC = () => {
               className="mt-2 w-full"
             />
           </div>
+
+          {editError ? (
+            <p role="alert" className="text-sm text-rose-300">
+              {editError}
+            </p>
+          ) : null}
         </div>
       </Modal>
+
+      <ConfirmDialog
+        open={Boolean(pendingDelete)}
+        onOpenChange={(open) => {
+          if (!open) {
+            setPendingDelete(null);
+            setDeleteError(null);
+          }
+        }}
+        title="Delete this memory?"
+        description={
+          pendingDelete
+            ? `“${pendingDelete.content.slice(0, 120)}” will be removed for everyone it was shared with. This cannot be undone.`
+            : undefined
+        }
+        confirmLabel="Delete memory"
+        busy={deleting}
+        error={deleteError}
+        onConfirm={() => void confirmDelete()}
+      />
     </>
   );
 };

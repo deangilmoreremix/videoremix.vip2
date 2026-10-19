@@ -51,6 +51,13 @@ export interface UpdateWorkerInput {
   instructions?: string;
   goals?: string;
   accent?: string;
+  status?: WorkerStatus;
+  /**
+   * Set to null to bring an archived worker back into the default lists.
+   * The archive flag is a separate column from the status, so clearing it is
+   * the only way to un-hide a worker that was archived.
+   */
+  archived_at?: string | null;
   model_provider?: string;
   model_id?: string;
   fallback_provider?: string | null;
@@ -193,6 +200,10 @@ export async function updateWorker(
   if (input.instructions !== undefined) patch.instructions = input.instructions;
   if (input.goals !== undefined) patch.goals = input.goals;
   if (input.accent !== undefined) patch.accent = input.accent;
+  if (input.status !== undefined) patch.status = input.status;
+  // `null` is a meaningful value here: it clears archived_at, which is the
+  // only way an archived worker becomes visible again.
+  if (input.archived_at !== undefined) patch.archived_at = input.archived_at;
   if (input.model_provider !== undefined) patch.model_provider = input.model_provider;
   if (input.model_id !== undefined) patch.model_id = input.model_id;
   if (input.fallback_provider !== undefined) patch.fallback_provider = input.fallback_provider;
