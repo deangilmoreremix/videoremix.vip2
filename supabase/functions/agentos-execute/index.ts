@@ -150,6 +150,14 @@ async function failClaim(params: {
     p_lease_owner: params.leaseOwner,
   });
 
+  // The thread has to say why there is no answer: a chat that waits for a
+  // reply that is never coming is worse than one that says what happened.
+  await appendWorkerNote({
+    claim: params.claim,
+    runId: params.runId,
+    content: `The worker did not answer: ${params.message}`,
+  });
+
   if (error) {
     console.error('[agentos-execute] could not fail the task', error.message);
     return {
@@ -219,6 +227,12 @@ async function parkForApproval(params: {
     payload: { approval_id: approvalId ?? null, action_type: params.actionType },
   });
 
+  await appendWorkerNote({
+    claim: params.claim,
+    runId: params.runId,
+    content: `The worker is waiting for a human approval before it can answer: ${params.reason}`,
+  });
+
   return {
     taskId: params.claim.task_id,
     workerId: params.claim.worker_id,
@@ -269,6 +283,181 @@ async function debitCredits(params: {
 
   if (error) return { ok: false, error: error.message };
   return { ok: true };
+}
+
+/**
+ * The channel a conversation belongs to, derived from the trigger of the task
+ * that opened it. The column is a CHECK constraint over the channels the
+ * product knows about, so an unknown trigger falls back to the UI channel.
+ */
+function channelForTrigger(trigger: string | null): string {
+  switch (trigger) {
+    case 'schedule':
+      return 'schedule';
+    case 'mission':
+      return 'mission';
+    case 'api':
+      return 'api';
+    default:
+      return 'ui';
+  }
+}
+
+/** The trigger of a task. The claim does not carry it, so it is read back. */
+async function taskTrigger(taskId: string): Promise<string | null> {
+  const supabase = getServiceClient();
+  const { data } = await supabase
+    .from('tasks')
+    .select('trigger')
+    .eq('id', taskId)
+    .maybeSingle();
+  return (data?.trigger as string | undefined) ?? null;
+}
+
+/**
+ * Find the thread a run belongs to, opening one when there is none.
+ *
+ * WHY THE TASK NAMES THE THREAD
+ *   A chat message becomes a task, and the task carries the conversation it
+ *   belongs to. The runtime therefore never has to guess: the id is in the
+ *   task input.
+ *
+ * WHY THE TITLE IS THE FALLBACK
+ *   A task that was not started from a chat (a schedule, a mission, an API
+ *   call) has no thread to name. The title is the only link left, and the
+ *   conversation that carries the same title for the same worker and the same
+ *   owner IS that task's thread. When there is none, one is opened so the
+ *   answer is not lost.
+ */
+async function resolveConversationId(claim: ClaimedTask): Promise<string | null> {
+  const supabase = getServiceClient();
+
+  const fromInput = claim.input?.conversation_id;
+  if (typeof fromInput === 'string' && fromInput.length > 0) return fromInput;
+
+  const { data: existing } = await supabase
+    .from('conversations')
+    .select('id')
+    .eq('worker_id', claim.worker_id)
+    .eq('owner_clerk_id', claim.owner_clerk_id)
+    .eq('title', claim.title)
+    .order('updated_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (existing?.id) return existing.id as string;
+
+  const trigger = await taskTrigger(claim.task_id);
+  const { data: created, error } = await supabase
+    .from('conversations')
+    .insert({
+      worker_id: claim.worker_id,
+      workspace_id: claim.workspace_id,
+      owner_clerk_id: claim.owner_clerk_id,
+      title: claim.title,
+      channel: channelForTrigger(trigger),
+    })
+    .select('id')
+    .single();
+
+  if (error) {
+    console.error('[agentos-execute] could not open a conversation for the reply', error.message);
+    return null;
+  }
+
+  return (created?.id as string | undefined) ?? null;
+}
+
+/** Has this run already written to a conversation? */
+async function hasMessageForRun(runId: string | null): Promise<boolean> {
+  if (!runId) return false;
+  const supabase = getServiceClient();
+  const { data } = await supabase
+    .from('messages')
+    .select('id')
+    .eq('run_id', runId)
+    .limit(1);
+  return Boolean(data && data.length > 0);
+}
+
+/**
+ * Write the worker's answer into the thread the task belongs to.
+ *
+ * WHY THE RUNTIME WRITES THE REPLY
+ *   The answer only exists after the model has run, and the model runs in the
+ *   queue — not in the browser. So the thread is written from both ends: the
+ *   browser appends the person's turn, the runtime appends the worker's turn.
+ *
+ * WHY IT IS IDEMPOTENT PER RUN
+ *   A run can be executed more than once (the invocation budget can expire
+ *   after the model answered but before the task was completed; the lease is
+ *   then recovered and the task is re-claimed). The reply is keyed on the run
+ *   id, so one run never writes its answer twice.
+ */
+async function appendWorkerReply(params: {
+  claim: ClaimedTask;
+  runId: string | null;
+  content: string;
+  tokens?: number;
+}): Promise<void> {
+  const content = params.content.trim();
+  if (!content) return;
+
+  const supabase = getServiceClient();
+
+  const conversationId = await resolveConversationId(params.claim);
+  if (!conversationId) return;
+
+  if (await hasMessageForRun(params.runId)) return;
+
+  const { error } = await supabase.from('messages').insert({
+    conversation_id: conversationId,
+    owner_clerk_id: params.claim.owner_clerk_id,
+    role: 'assistant',
+    content,
+    run_id: params.runId,
+    tokens: params.tokens ?? 0,
+    tool_calls: [],
+  });
+
+  if (error) {
+    console.error('[agentos-execute] could not write the reply to the conversation', error.message);
+  }
+}
+
+/**
+ * Record in the thread that the run produced no answer.
+ *
+ * WHY ONLY FOR A THREAD THAT ALREADY EXISTS
+ *   A task that was not started from a chat must not open a thread just to
+ *   say it failed: the failure is already in the execution transcript. A chat
+ *   would otherwise wait forever for an answer that is never coming.
+ */
+async function appendWorkerNote(params: {
+  claim: ClaimedTask;
+  runId: string | null;
+  content: string;
+}): Promise<void> {
+  const conversationId = params.claim.input?.conversation_id;
+  if (typeof conversationId !== 'string' || conversationId.length === 0) return;
+
+  const supabase = getServiceClient();
+
+  if (await hasMessageForRun(params.runId)) return;
+
+  const { error } = await supabase.from('messages').insert({
+    conversation_id: conversationId,
+    owner_clerk_id: params.claim.owner_clerk_id,
+    role: 'system',
+    content: params.content.trim(),
+    run_id: params.runId,
+    tokens: 0,
+    tool_calls: [],
+  });
+
+  if (error) {
+    console.error('[agentos-execute] could not write the note to the conversation', error.message);
+  }
 }
 
 /** Execute one claimed task end to end. */
@@ -369,6 +558,27 @@ async function executeClaim(
     workspacePolicies: policies,
   });
 
+  // Does the model accept a temperature? The reasoning models (gpt-5, o3,
+  // o4-mini) refuse one that is not their default, so the parameter is
+  // omitted for them. A model that is not in the catalog keeps the default
+  // (send it) rather than guessing.
+  //
+  // WHY THE CATALOG FUNCTION
+  //   agentos.model_supports_temperature() is the catalog's own answer to
+  //   that question, in one round trip, and it is what the browser asks too.
+  //   Reading the column directly would be the same question asked twice.
+  let modelSupportsTemperature = true;
+  try {
+    const { data: supports } = await supabase.rpc('model_supports_temperature', {
+      p_model_id: claim.model_id ?? '',
+    });
+    if (typeof supports === 'boolean') {
+      modelSupportsTemperature = supports;
+    }
+  } catch (error) {
+    console.warn('[agentos-execute] could not read the model capabilities', error);
+  }
+
   const apiKey = Deno.env.get('OPENAI_API_KEY') ?? '';
 
   try {
@@ -390,12 +600,16 @@ async function executeClaim(
       model: claim.model_id ?? 'gpt-4o-mini',
       fallbackModel: claim.fallback_model_id,
       temperature: Number(claim.temperature ?? 0.7),
+      // The reasoning models refuse a temperature that is not their default,
+      // so the catalog decides whether one is sent at all.
+      supportsTemperature: modelSupportsTemperature,
       maxOutputTokens: Number(claim.max_output_tokens ?? 2048),
       tools,
       context: {
         supabase,
         workerId: claim.worker_id,
         ownerClerkId: claim.owner_clerk_id,
+        workspaceId: claim.workspace_id,
         taskId: claim.task_id,
         runId,
         permissions,
@@ -554,6 +768,15 @@ async function executeClaim(
       kind: 'run.succeeded',
       level: 'success',
       message: `"${claim.title}" finished`,
+    });
+
+    // The answer goes back into the thread the task came from, so the person
+    // who asked reads it where they asked.
+    await appendWorkerReply({
+      claim,
+      runId,
+      content: loop.text,
+      tokens: loop.completionTokens,
     });
 
     return {

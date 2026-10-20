@@ -59,7 +59,9 @@ export const AgentOSNav: React.FC = () => {
   return (
     <nav
       aria-label="AgentOS"
-      className="flex flex-wrap items-center gap-2 border-b border-white/10 px-4 py-3 sm:px-6"
+      // The app's own header is fixed (z-40), so the section nav sits below it
+      // and sticks there while the page scrolls.
+      className="sticky top-16 z-30 flex flex-wrap items-center gap-2 border-b border-white/10 bg-[#0a0a0a]/95 px-4 py-3 backdrop-blur sm:px-6"
     >
       <div className="flex flex-1 flex-wrap items-center gap-1">
         {ENTRIES.map((entry) => {

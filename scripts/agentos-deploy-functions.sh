@@ -56,6 +56,13 @@ echo
 
 npx --yes supabase@2 link --project-ref "${PROJECT_REF}"
 
+# The functions are useless without the schema: a fresh project gets the
+# functions and no tables, so every read 404s on PostgREST. The migrations go
+# first, and a failure here stops the deployment.
+echo
+echo "--- applying the migrations"
+npx --yes supabase@2 db push --project-ref "${PROJECT_REF}"
+
 for fn in "${FUNCTIONS[@]}"; do
   echo
   echo "--- deploying ${fn}"
@@ -66,3 +73,11 @@ echo
 echo "=== All AgentOS edge functions deployed ==="
 echo "Next: scripts/agentos-verify-exposure.sh, then the pg_cron runbook in"
 echo "      docs/agentos/LIVE_VERIFICATION.md §4."
+echo
+echo "The sweep and the executor are scheduled by the migration"
+echo "supabase/migrations/20261012121300_agentos_writers.sql, which reads the"
+echo "project URL and the service key from the vault at run time. If the vault"
+echo "has no service_role_key secret yet, the cron jobs stay DISABLED:"
+echo "  psql \"$DATABASE_URL\" -c \"SELECT vault.create_secret('https://<project-ref>.supabase.co', 'project_url');\""
+echo "  psql \"$DATABASE_URL\" -c \"SELECT vault.create_secret('<service-role-key>', 'service_role_key');\""
+echo "  psql \"$DATABASE_URL\" -c \"SELECT agentos.register_scheduler_jobs();\""

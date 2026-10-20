@@ -21,7 +21,7 @@ import {
 import { AsyncBoundary } from "../../components/agentos/shared";
 import { createWorker } from "../../services/agentos/workers";
 import { listWorkspaces } from "../../services/agentos/workspaces";
-import { listModelCatalog } from "../../services/agentos/models";
+import { listRoutableModels } from "../../services/agentos/models";
 import { DISPATCHABLE_TOOL_KEYS, listIntegrations } from "../../services/agentos/connections";
 import { listSchedules } from "../../services/agentos/schedules";
 import type { Integration, ModelCatalogEntry, Workspace } from "../../types/agentos";
@@ -116,7 +116,7 @@ const WorkerNewPage: React.FC = () => {
     setLoading(true);
     const [modelsResult, workspacesResult, integrationsResult, schedulesResult] =
       await Promise.all([
-        listModelCatalog(),
+        listRoutableModels(),
         listWorkspaces(),
         listIntegrations(),
         listSchedules(),

@@ -260,6 +260,8 @@ const AGENTOS_ROUTE_NAMES = [
   "ModelsPage",
   "ConnectionsPage",
   "MemoryPage",
+  "ArtifactsPage",
+  "ActivityPage",
 ];
 
 // Literal specifiers keep every page module statically resolvable by Vite.
@@ -279,6 +281,8 @@ const PAGE_LOADERS: Record<string, () => Promise<{ default: unknown }>> = {
   ModelsPage: () => import("../../src/pages/agentos/ModelsPage"),
   ConnectionsPage: () => import("../../src/pages/agentos/ConnectionsPage"),
   MemoryPage: () => import("../../src/pages/agentos/MemoryPage"),
+  ArtifactsPage: () => import("../../src/pages/agentos/ArtifactsPage"),
+  ActivityPage: () => import("../../src/pages/agentos/ActivityPage"),
 };
 
 const EXPECTED_AGENTOS_ROUTES = [
@@ -298,6 +302,8 @@ const EXPECTED_AGENTOS_ROUTES = [
   "/agentos/models",
   "/agentos/connections",
   "/agentos/memory",
+  "/agentos/artifacts",
+  "/agentos/activity",
 ];
 
 describe("AgentOS route registration (src/App.tsx)", () => {

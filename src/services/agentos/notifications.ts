@@ -7,12 +7,9 @@
 //   `owner_clerk_id` and nothing else that narrows it.
 //
 // WHY THERE IS NO WORKSPACE FILTER
-//   Verified against the migration
-//   (supabase/migrations/20261012120200_agentos_knowledge_connections.sql):
-//   agentos.notifications has NO workspace_id column. Filtering on one would
-//   fail at runtime with PGRST100, so the option is accepted for call-site
-//   symmetry and deliberately NOT applied — a notification is addressed to a
-//   person, not to a workspace.
+//   The notifications table has no workspace_id column, so the option is
+//   accepted for call-site symmetry and deliberately NOT applied — a
+//   notification is addressed to a person, not to a workspace.
 //
 // WRITES
 //   Marking a notification read is a client write, which the notifications_all

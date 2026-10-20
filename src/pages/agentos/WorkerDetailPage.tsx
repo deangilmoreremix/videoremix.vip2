@@ -25,6 +25,12 @@ import { AsyncBoundary } from "../../components/agentos/shared";
 import { ExecutionActivityPanel, TokenCostInline } from "../../components/agentos/runtime";
 import { WorkerActions } from "../../components/agentos/workers";
 import {
+  ConversationComposer,
+  ConversationList,
+  ConversationThread,
+} from "../../components/agentos/conversations";
+import type { SendWorkerMessageResult } from "../../services/agentos/conversations";
+import {
   getWorker,
   listWorkerTools,
   replaceWorkerTools,
@@ -32,7 +38,7 @@ import {
 } from "../../services/agentos/workers";
 import { listMemories } from "../../services/agentos/memory";
 import { listRuns } from "../../services/agentos/runtime";
-import { listModelCatalog } from "../../services/agentos/models";
+import { listRoutableModels } from "../../services/agentos/models";
 import {
   DISPATCHABLE_TOOL_KEYS,
   listAssignableToolKeys,
@@ -114,6 +120,25 @@ const WorkerDetailPage: React.FC = () => {
   // The app slug the operator is typing.
   const [slugInput, setSlugInput] = useState("");
 
+  // Conversations with this worker. The panel owns the list and the thread;
+  // the page only remembers which thread is open and when something changed.
+  const [conversationId, setConversationId] = useState<string | null>(null);
+  const [conversationRefreshKey, setConversationRefreshKey] = useState(0);
+  const [threadRefreshKey, setThreadRefreshKey] = useState(0);
+
+  const refreshConversations = useCallback(
+    () => setConversationRefreshKey((key) => key + 1),
+    [],
+  );
+
+  const handleConversationSent = useCallback((result: SendWorkerMessageResult) => {
+    // The message may have opened a thread of its own, so the open thread
+    // follows it and both views refresh.
+    setConversationId(result.conversation.id);
+    setConversationRefreshKey((key) => key + 1);
+    setThreadRefreshKey((key) => key + 1);
+  }, []);
+
   const reload = useCallback(() => setReloadKey((key) => key + 1), []);
 
   useEffect(() => {
@@ -127,7 +152,7 @@ const WorkerDetailPage: React.FC = () => {
           getWorker(workerId),
           listWorkerTools(workerId),
           listMemories({ workerId }),
-          listModelCatalog(),
+          listRoutableModels(),
           listAssignableToolKeys(),
           listRuns({ workerId, limit: 20 }),
         ]);
@@ -1177,6 +1202,34 @@ const WorkerDetailPage: React.FC = () => {
                 </button>{" "}
                 view to see its full transcript.
               </p>
+            </Section>
+
+            <Section
+              title="Conversations"
+              description="Talk to this worker. Every message becomes a task, and the worker answers when the queue runs it."
+              className="mt-6"
+            >
+              <div className="grid gap-5 lg:grid-cols-[minmax(0,240px)_minmax(0,1fr)]">
+                <ConversationList
+                  workerId={worker.id}
+                  selectedConversationId={conversationId}
+                  onSelect={(conversation) => setConversationId(conversation?.id ?? null)}
+                  refreshKey={conversationRefreshKey}
+                />
+                <div className="space-y-4">
+                  <ConversationThread
+                    conversationId={conversationId}
+                    refreshKey={threadRefreshKey}
+                    onChanged={refreshConversations}
+                  />
+                  <ConversationComposer
+                    workerId={worker.id}
+                    conversationId={conversationId}
+                    workspaceId={worker.workspace_id}
+                    onSent={handleConversationSent}
+                  />
+                </div>
+              </div>
             </Section>
           </>
         ) : null}

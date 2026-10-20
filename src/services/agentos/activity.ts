@@ -9,11 +9,12 @@
 //   merges them into a single newest-first stream, tagging each entry with the
 //   table it came from.
 //
-// WHY THERE IS NO AUDIT WRITER YET
-//   Nothing in this port writes agentos.audit_logs — the table exists and is
-//   RLS-protected, but no service, edge function, or trigger inserts into it.
-//   Until a writer lands the audit side of the stream is always empty, and
-//   the activity page says so plainly rather than pretending otherwise.
+// WHERE THE AUDIT ROWS COME FROM
+//   The audit trail is written by the database: the agentos_audit_row_change
+//   trigger (supabase/migrations/20261012121300_agentos_writers.sql) records
+//   an actor-attributed row for every mutation that matters, with the changed
+//   columns only. The execution events are written by the runtime. The two
+//   answer different questions, so the page shows both.
 
 import { agentosDb, agentosErrorMessage } from "./client";
 import {

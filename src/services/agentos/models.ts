@@ -82,6 +82,35 @@ export async function listModelCatalog(options: {
   return ok((data ?? []) as ModelCatalogEntry[]);
 }
 
+/**
+ * The models a worker can actually be routed through.
+ *
+ * The catalog also holds models that cannot serve a chat completion (an
+ * embedding model) and models that are not routable (deprecated). Offering
+ * them in a worker's model picker produces a run that fails for a reason the
+ * user cannot see, so they are filtered out here.
+ */
+export async function listRoutableModels(options: {
+  provider?: string;
+} = {}): Promise<AgentOSResult<ModelCatalogEntry[]>> {
+  const result = await listModelCatalog({ provider: options.provider, status: "active" });
+  if (result.error || !result.data) {
+    return err(result.error?.code ?? "database", result.error?.message ?? "Could not load the models", result.error?.detail);
+  }
+
+  const routable = (result.data as ModelCatalogEntry[]).filter((model) => {
+    const entry = model as ModelCatalogEntry & {
+      supports_chat?: boolean;
+    };
+    // A catalog that predates the capability columns has no flag, and every
+    // model in it is routable.
+    if (typeof entry.supports_chat !== "boolean") return true;
+    return entry.supports_chat;
+  });
+
+  return ok(routable);
+}
+
 export async function getModelCatalogEntry(
   modelId: string,
 ): Promise<AgentOSResult<ModelCatalogEntry>> {

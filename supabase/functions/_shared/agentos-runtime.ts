@@ -262,6 +262,12 @@ export async function runModel(params: {
   model: string;
   fallbackModel?: string | null;
   temperature: number;
+  /**
+   * Whether the model accepts a temperature. False for the reasoning models
+   * (gpt-5, gpt-5-mini, o3, o4-mini), which refuse one that is not their
+   * default. The catalog carries it (model_catalog.supports_temperature).
+   */
+  supportsTemperature?: boolean;
   maxOutputTokens: number;
   /** The tools the worker is allowed to use. Empty keeps the plain call. */
   tools?: ToolDefinition[];
@@ -288,10 +294,16 @@ export async function runModel(params: {
         const body: Record<string, unknown> = {
           model: attempt.model,
           instructions: params.system,
-          temperature: params.temperature,
           max_output_tokens: params.maxOutputTokens,
           store: false,
         };
+        // Some models reject a temperature other than their default (the
+        // reasoning models: gpt-5, o3, o4-mini). The catalog records which
+        // ones, and the parameter is omitted rather than sent with a value the
+        // provider will refuse.
+        if (params.supportsTemperature !== false) {
+          body.temperature = params.temperature;
+        }
         // A plain call keeps the historical shape; a tool round replays the
         // conversation so the provider can see what the tools returned.
         body.input = params.inputItems && params.inputItems.length > 0
@@ -718,6 +730,8 @@ export interface ToolExecutionContext {
   ownerClerkId: string;
   taskId: string | null;
   runId: string | null;
+  /** The workspace the run belongs to, when it has one. */
+  workspaceId?: string | null;
   permissions: Record<string, any>;
   /** The service-role token, used only for the internal app-catalog call. */
   serviceToken: string;
@@ -789,10 +803,14 @@ export async function executeToolCall(
           worker_id: context.workerId,
           run_id: context.runId,
           task_id: context.taskId,
+          workspace_id: context.workspaceId ?? null,
           kind: String(args.kind ?? 'text'),
           name: String(args.name ?? 'artifact'),
           preview: content.slice(0, 4000),
-          mime_type: 'text/plain',
+          // Where the content lives, when the caller stored it somewhere. The
+          // content itself is the preview; the path is the pointer.
+          storage_path: args.storage_path ? String(args.storage_path) : null,
+          mime_type: args.mime_type ? String(args.mime_type) : 'text/plain',
           size_bytes: new TextEncoder().encode(content).byteLength,
           metadata: { origin: 'agentos-tools' },
         })
@@ -1245,6 +1263,8 @@ export interface ToolLoopContext {
   supabase: Rpc;
   workerId: string | null;
   ownerClerkId: string;
+  /** The workspace the run belongs to, when it has one. */
+  workspaceId?: string | null;
   taskId: string | null;
   runId: string | null;
   permissions: Record<string, any>;
@@ -1308,6 +1328,8 @@ export async function runModelWithTools(params: {
   model: string;
   fallbackModel?: string | null;
   temperature: number;
+  /** Whether the model accepts a temperature (see runModel). */
+  supportsTemperature?: boolean;
   maxOutputTokens: number;
   tools: ToolDefinition[];
   context: ToolLoopContext;
@@ -1329,6 +1351,7 @@ export async function runModelWithTools(params: {
       model: params.model,
       fallbackModel: params.fallbackModel,
       temperature: params.temperature,
+      supportsTemperature: params.supportsTemperature,
       maxOutputTokens: params.maxOutputTokens,
       tools: params.tools,
       inputItems: round === 0 ? undefined : conversation,
@@ -1490,6 +1513,7 @@ export async function runModelWithTools(params: {
           ownerClerkId: context.ownerClerkId,
           taskId: context.taskId,
           runId: context.runId,
+          workspaceId: context.workspaceId ?? null,
           permissions: context.permissions,
           serviceToken: context.serviceToken,
         });

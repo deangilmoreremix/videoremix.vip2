@@ -1,2 +1,66 @@
+# supabase/config.toml
+#
+# The project the AgentOS port targets. `supabase link` fills in the
+# project_id; everything else here is what the CLI needs to apply the
+# migrations and serve the functions locally.
+
+project_id = "bzxohkrxcwodllketcpz"
+
+[db]
+# The AgentOS migrations live in supabase/migrations and are applied in
+# filename order. There are thirteen of them; `supabase db push` applies the
+# ones the project has not seen yet.
+major_version = 15
+
+[api]
+# The `agentos` schema is exposed ALONGSIDE the app's own public schema.
+# `supabase migrations/20261012120700_agentos_expose_schema.sql` sets the
+# same list on the authenticator role; this keeps the local CLI in step.
+schemas = ["public", "graphql_public", "agentos"]
+extra_search_path = ["public", "graphql_public"]
+max_rows = 1000
+
+[db.migrations]
+# The port's migrations are plain SQL and are applied in order; there is
+# nothing to seed locally.
+schema_paths = []
+
+[auth]
+enabled = true
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173", "http://localhost:8080"]
+jwt_expiry = 3600
+enable_signup = true
+
 [auth.email]
+enable_signup = true
+# The AgentOS flows (the BYOK credential references, the invitation flow)
+# are created from a verified session; confirmation adds a step the port
+# does not need.
 enable_confirmations = false
+
+[functions.agentos-tasks]
+verify_jwt = true
+
+[functions.agentos-approvals]
+verify_jwt = true
+
+[functions.agentos-connections]
+verify_jwt = true
+
+[functions.agentos-provider-test]
+verify_jwt = true
+
+[functions.agentos-execute]
+# The executor is called by the scheduler with the service-role key, and by
+# the browser with the user's token. The JWT gate is therefore off: the
+# function authenticates the caller itself (service_role for the sweep, the
+# caller's token for a manual run) and refuses anything else.
+verify_jwt = false
+
+[functions.agentos-sweep]
+# The sweep is a scheduler job: it authenticates with the service-role key.
+verify_jwt = false
+
+[functions.agentos-tools]
+verify_jwt = true

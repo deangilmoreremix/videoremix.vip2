@@ -42,6 +42,8 @@ const AGENTOS_ROUTES = [
   "/agentos/models",
   "/agentos/connections",
   "/agentos/memory",
+  "/agentos/artifacts",
+  "/agentos/activity",
 ];
 
 // Routes that always render a deterministic <h1> (a page header) regardless of
