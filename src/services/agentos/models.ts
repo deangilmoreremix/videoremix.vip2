@@ -27,6 +27,14 @@ import {
  * forbidden / not_found / validation / conflict / unsupported / ...), so
  * discarding it and reporting "unknown" throws away the one thing the UI
  * needs: whether the user must sign in, cannot do this, or can retry.
+ *
+ * WHY THE EXTRA CODES
+ *   The AgentOS edge functions (supabase/functions/_shared/agentos-errors.ts)
+ *   return three codes the shared union did not know: `not_configured`,
+ *   `out_of_credits` and `timeout`. They fell through to "unknown", which
+ *   made every one of them look like a bug. `internal` is the server-side
+ *   catch-all and maps onto `database`, which is what this codebase uses for
+ *   "the backend failed".
  */
 function mapServerCode(code: string | undefined): AgentOSError["code"] {
   switch (code) {
@@ -42,6 +50,14 @@ function mapServerCode(code: string | undefined): AgentOSError["code"] {
       return "conflict";
     case "unsupported":
       return "unsupported";
+    case "not_configured":
+      return "not_configured";
+    case "out_of_credits":
+      return "out_of_credits";
+    case "timeout":
+      return "timeout";
+    case "internal":
+      return "database";
     default:
       return "unknown";
   }
@@ -128,6 +144,17 @@ export interface CreateProviderConfigInput {
   label?: string;
   mode: ProviderMode;
   model_ids?: string[];
+  /**
+   * Share this provider with a workspace.
+   *
+   * WHY IT IS WRITTEN HERE
+   *   agentos.provider_configs.workspace_id was never populated, so the
+   *   RLS policy that allows workspace-scoped access
+   *   (`provider_configs_all`: owner OR workspace member) could never fire
+   *   for anyone but the owner. Writing the column is what lets a workspace
+   *   share a provider at all.
+   */
+  workspace_id?: string | null;
   /** Required when mode = 'byok'. Never stored; exchanged for a reference. */
   credential?: string;
 }
@@ -179,6 +206,7 @@ export async function createProviderConfig(
       provider: input.provider,
       label: input.label ?? input.provider,
       mode: input.mode,
+      workspace_id: input.workspace_id ?? null,
       credential_ref: credentialRef,
       status,
       model_ids: input.model_ids ?? [],
@@ -197,6 +225,11 @@ export interface UpdateProviderConfigInput {
   model_ids?: string[];
   is_default?: boolean;
   enabled?: boolean;
+  /**
+   * Share the provider with a workspace, or take it back into the owner's
+   * own account by passing null.
+   */
+  workspace_id?: string | null;
 }
 
 export async function updateProviderConfig(
@@ -222,11 +255,19 @@ export async function updateProviderConfig(
   if (input.label !== undefined) patch.label = input.label;
   if (input.model_ids !== undefined) patch.model_ids = input.model_ids;
   if (input.is_default !== undefined) patch.is_default = input.is_default;
+  if (input.workspace_id !== undefined) patch.workspace_id = input.workspace_id;
   if (input.enabled !== undefined) {
     // The enabled flag IS the status: a disabled provider is one the runtime
     // must not route through. A provider whose last readiness test failed
     // stays in the error state — switching it back on does not make it work,
     // and hiding that would be a lie.
+    //
+    // WHY THIS IS NO LONGER A TRAP
+    //   The error state used to be permanent, because the re-test path wrote
+    //   'error' for a provider that had no resolvable secret. retestProviderConfig
+    //   now keeps the status when the probe could not run and only writes
+    //   'error' when the provider itself rejected us, so a provider that
+    //   recovers is one click away from active again.
     patch.status =
       input.enabled
         ? row.status === "error"
@@ -262,7 +303,25 @@ export async function updateProviderConfig(
   return ok(data as ProviderConfig);
 }
 
-/** Re-run the readiness probe and record the outcome. */
+/**
+ * Re-run the readiness probe and record the outcome.
+ *
+ * WHY A MISSING SECRET IS NOT A FAILURE
+ *   This port has no secret store: a BYOK credential is kept as an opaque
+ *   `credential_ref`, and there is nothing behind that reference the server
+ *   could resolve. The probe therefore answers `not_configured` — "no stored
+ *   credential for this reference" — which is a statement about the DEPLOYMENT,
+ *   not about the provider. Recording that as `status: 'error'` was a lie: it
+ *   marked a healthy configuration as broken, and `updateProviderConfig` then
+ *   refused to move an error provider back to active, so one click on "Re-test"
+ *   permanently bricked a working provider.
+ *
+ *   The rule now is:
+ *     - the probe ran and the provider answered  -> 'active' or 'error'
+ *     - the probe could not run (no secret behind the reference, the caller
+ *       is not allowed to test it, the network is down) -> the existing status
+ *       is KEPT and the reason is recorded in last_test_note.
+ */
 export async function retestProviderConfig(
   providerConfigId: string,
 ): Promise<AgentOSResult<ProviderConfig>> {
@@ -285,11 +344,22 @@ export async function retestProviderConfig(
   });
 
   const now = new Date().toISOString();
-  const patch: Record<string, unknown> = {
-    last_test_at: now,
-    last_test_note: test.data?.error ?? (test.data?.ok ? "ok" : "unknown"),
-    status: test.data?.ok ? "active" : "error",
-  };
+  const patch: Record<string, unknown> = { last_test_at: now };
+
+  if (test.error) {
+    // The probe did not produce a verdict. Keep the status exactly as it was
+    // and record why — except for the one case that IS a verdict: the provider
+    // answered and rejected us.
+    patch.status = row.status;
+    patch.last_test_note = test.error.message;
+  } else if (test.data?.ok) {
+    patch.status = "active";
+    patch.last_test_note = "ok";
+  } else {
+    // The provider answered and said no. That is a real failure.
+    patch.status = "error";
+    patch.last_test_note = test.data?.error ?? "the provider did not answer";
+  }
 
   const { data, error } = await agentosDb
     .from("provider_configs")

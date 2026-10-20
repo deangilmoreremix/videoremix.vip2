@@ -134,17 +134,31 @@ export async function archiveWorkspace(workspaceId: string): Promise<AgentOSResu
 // Members
 // ---------------------------------------------------------------------------
 
+/**
+ * List the members of a workspace.
+ *
+ * WHY THE DEFAULT EXCLUDES REVOKED MEMBERS
+ *   A revoked member is not a member: agentos.is_workspace_member() ignores a
+ *   row with revoked_at set, so the default list matches what the runtime
+ *   believes. The workspace owner passes includeRevoked to see the full
+ *   membership history, revoked rows included.
+ */
 export async function listWorkspaceMembers(
   workspaceId: string,
+  options: { includeRevoked?: boolean } = {},
 ): Promise<AgentOSResult<WorkspaceMember[]>> {
   if (!workspaceId) return err("validation", "workspaceId is required");
 
-  const { data, error } = await agentosDb
+  let query = agentosDb
     .from("workspace_members")
     .select(COLUMNS)
-    .eq("workspace_id", workspaceId)
-    .order("created_at", { ascending: true });
+    .eq("workspace_id", workspaceId);
 
+  if (!options.includeRevoked) query = query.is("revoked_at", null);
+
+  query = query.order("created_at", { ascending: true });
+
+  const { data, error } = await query;
   if (error) return err("database", "Could not load workspace members", agentosErrorMessage(error));
   return ok((data ?? []) as WorkspaceMember[]);
 }
@@ -167,13 +181,30 @@ export async function inviteMember(params: {
   // Refuse to add a second owner: the DB creates one, and a workspace has one.
   const { data: existing } = await agentosDb
     .from("workspace_members")
-    .select("role")
+    .select("role, revoked_at")
     .eq("workspace_id", params.workspaceId)
     .eq("member_clerk_id", params.memberClerkId.trim())
     .maybeSingle();
 
-  if (existing) {
+  if (existing && !existing.revoked_at) {
     return err("conflict", "That member is already in this workspace");
+  }
+
+  // A member who was revoked keeps their row (the revoke is a timestamp, not a
+  // delete), so re-inviting them clears the revocation instead of failing.
+  if (existing) {
+    const { data: restored, error: restoreError } = await agentosDb
+      .from("workspace_members")
+      .update({ revoked_at: null, role: params.role ?? "member" })
+      .eq("workspace_id", params.workspaceId)
+      .eq("member_clerk_id", params.memberClerkId.trim())
+      .select(COLUMNS)
+      .maybeSingle();
+
+    if (restoreError) {
+      return err("database", "Could not add workspace member", agentosErrorMessage(restoreError));
+    }
+    return ok(restored as WorkspaceMember);
   }
 
   const { data, error } = await agentosDb
@@ -225,18 +256,29 @@ export async function updateMemberRole(params: {
   return ok(data as WorkspaceMember);
 }
 
-/** Remove a member. The owner cannot be removed. */
+/**
+ * Revoke a member. The owner cannot be revoked.
+ *
+ * WHY A SOFT REVOKE
+ *   agentos.workspace_members has a revoked_at column and a partial index on
+ *   the live members, and agentos.is_workspace_member() ignores a revoked row
+ *   — but nothing ever wrote the column, because this function deleted the
+ *   row instead. Deleting it destroyed the record of who had been in the
+ *   workspace and when they left. A revoke now stamps revoked_at and leaves
+ *   the row, so the membership history survives and the member stops being a
+ *   member immediately.
+ */
 export async function removeMember(params: {
   workspaceId: string;
   memberClerkId: string;
-}): Promise<AgentOSResult<{ workspace_id: string; member_clerk_id: string }>> {
+}): Promise<AgentOSResult<{ workspace_id: string; member_clerk_id: string; revoked_at: string }>> {
   if (!params.workspaceId || !params.memberClerkId) {
     return err("validation", "workspaceId and memberClerkId are required");
   }
 
   const { data: current, error: loadError } = await agentosDb
     .from("workspace_members")
-    .select("role")
+    .select("role, revoked_at")
     .eq("workspace_id", params.workspaceId)
     .eq("member_clerk_id", params.memberClerkId)
     .maybeSingle();
@@ -246,13 +288,28 @@ export async function removeMember(params: {
   if (current.role === "owner") {
     return err("conflict", "The workspace owner cannot be removed");
   }
+  if (current.revoked_at) {
+    return err("conflict", "That member has already been revoked");
+  }
 
-  const { error } = await agentosDb
+  const revokedAt = new Date().toISOString();
+  const { data, error } = await agentosDb
     .from("workspace_members")
-    .delete()
+    .update({ revoked_at: revokedAt })
     .eq("workspace_id", params.workspaceId)
-    .eq("member_clerk_id", params.memberClerkId);
+    .eq("member_clerk_id", params.memberClerkId)
+    .select(COLUMNS)
+    .maybeSingle();
 
-  if (error) return err("database", "Could not remove workspace member", agentosErrorMessage(error));
-  return ok({ workspace_id: params.workspaceId, member_clerk_id: params.memberClerkId });
+  if (error) return err("database", "Could not revoke workspace member", agentosErrorMessage(error));
+  // The row was readable but the update affected nothing: the membership
+  // policy only lets the workspace owner change membership.
+  if (!data) {
+    return err("forbidden", "Only the workspace owner can revoke a member");
+  }
+  return ok({
+    workspace_id: params.workspaceId,
+    member_clerk_id: params.memberClerkId,
+    revoked_at: (data as { revoked_at?: string }).revoked_at ?? revokedAt,
+  });
 }

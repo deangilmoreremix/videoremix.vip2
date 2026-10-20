@@ -67,6 +67,8 @@ MIGRATIONS=(
   "20261012120900_agentos_triggers_indexes.sql"
   "20261012121000_agentos_queue_semantics.sql"
   "20261012121100_agentos_canvas_text_ids.sql"
+  "20261012121200_agentos_tool_assignments.sql"
+  "20261012121300_agentos_writers.sql"
 )
 
 for m in "${MIGRATIONS[@]}"; do
@@ -436,6 +438,39 @@ INSERT INTO agentos.canvas_edges (id, owner_clerk_id, source_node_id, target_nod
   ON CONFLICT DO NOTHING;
 SQL
 
+# --- the worker's tool assignments reach the claim ----------------------
+psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<'SQL' >/dev/null
+SELECT set_config('request.jwt.claims', '{"sub":"clerk_user_A","role":"authenticated"}', false);
+INSERT INTO agentos.worker_tools (worker_id, owner_clerk_id, tool_key, enabled)
+  SELECT id, 'clerk_user_A', 'web_fetch', true FROM agentos.workers WHERE name = 'Verifier';
+INSERT INTO agentos.worker_tools (worker_id, owner_clerk_id, tool_key, enabled)
+  SELECT id, 'clerk_user_A', 'gmail', false FROM agentos.workers WHERE name = 'Verifier';
+INSERT INTO agentos.tasks (title, description, assigned_worker_id, status, trigger, run_after)
+  SELECT 'Tooled task', 'd', id, 'queued', 'manual', now() - interval '1 minute'
+  FROM agentos.workers WHERE name = 'Verifier';
+SQL
+
+TOOLS_SEEN=$(psql -d "${DB}" -tAc "
+  SELECT count(*) FROM agentos.claim_due_tasks('verify-worker-tools', 5, 120) q
+  WHERE q.task_id IN (SELECT id FROM agentos.tasks WHERE title = 'Tooled task')
+    AND q.worker_tools @> '[{\"tool_key\": \"web_fetch\"}]'")
+check_eq "the assigned tools reach the claimed task" "1" "${TOOLS_SEEN}"
+
+# The task above has been leased by the claim, so the second claim needs a
+# task of its own: a leased task is never claimed twice.
+psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<'SQL' >/dev/null
+SELECT set_config('request.jwt.claims', '{"sub":"clerk_user_A","role":"authenticated"}', false);
+INSERT INTO agentos.tasks (title, description, assigned_worker_id, status, trigger, run_after)
+  SELECT 'Tooled task (disabled)', 'd', id, 'queued', 'manual', now() - interval '1 minute'
+  FROM agentos.workers WHERE name = 'Verifier';
+SQL
+
+DISABLED_SEEN=$(psql -d "${DB}" -tAc "
+  SELECT count(*) FROM agentos.claim_due_tasks('verify-worker-tools', 5, 120) q
+  WHERE q.task_id IN (SELECT id FROM agentos.tasks WHERE title = 'Tooled task (disabled)')
+    AND q.worker_tools @> '[{\"tool_key\": \"gmail\", \"enabled\": false}]'")
+check_eq "a disabled tool is reported as disabled" "1" "${DISABLED_SEEN}"
+
 CANVAS_NODE=$(psql -d "${DB}" -tAc "SELECT count(*) FROM agentos.canvas_nodes WHERE id = 'worker:probe'")
 check_eq "a canvas node can be stored under its stable key" "1" "${CANVAS_NODE}"
 
@@ -450,6 +485,284 @@ SQL
 UPDATED=$(psql -d "${DB}" -tAc \
   "SELECT updated_at > created_at FROM agentos.workspaces WHERE name='Renamed'")
 check_eq "updated_at is maintained by the trigger" "t" "${UPDATED}"
+
+# --- the notification writer ------------------------------------------------
+# A task that fails must tell its owner exactly once.
+psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<'SQL' >/dev/null
+DO $$
+DECLARE
+  v_worker uuid;
+  v_task   uuid;
+BEGIN
+  SELECT id INTO v_worker FROM agentos.workers WHERE name = 'Verifier' LIMIT 1;
+  INSERT INTO agentos.tasks
+    (title, description, assigned_worker_id, status, trigger, attempt,
+     max_attempts, owner_clerk_id)
+  VALUES
+    ('Fails loudly', 'd', v_worker, 'running', 'manual', 3, 3, 'clerk_user_A')
+  RETURNING id INTO v_task;
+
+  -- attempt = max_attempts, so this is a terminal failure, not a retry.
+  PERFORM agentos.fail_task(v_task, 'the model exploded', NULL::uuid, 30, NULL::text);
+END $$;
+SQL
+
+FAIL_TASK_ID=$(psql -d "${DB}" -tAc "SELECT id FROM agentos.tasks WHERE title = 'Fails loudly'")
+
+FAIL_NOTIF=$(psql -d "${DB}" -tAc \
+  "SELECT count(*) FROM agentos.notifications
+    WHERE kind = 'task_failed' AND entity_id = '${FAIL_TASK_ID}'")
+check_eq "a failed task notifies its owner exactly once" "1" "${FAIL_NOTIF}"
+
+FAIL_NOTIF_OWNER=$(psql -d "${DB}" -tAc \
+  "SELECT owner_clerk_id FROM agentos.notifications
+    WHERE kind = 'task_failed' AND entity_id = '${FAIL_TASK_ID}'")
+check_eq "the failure notification is addressed to the task owner" "clerk_user_A" "${FAIL_NOTIF_OWNER}"
+
+FAIL_NOTIF_BODY=$(psql -d "${DB}" -tAc \
+  "SELECT body FROM agentos.notifications
+    WHERE kind = 'task_failed' AND entity_id = '${FAIL_TASK_ID}'")
+case "${FAIL_NOTIF_BODY}" in
+  *"the model exploded"*)
+    pass "the failure notification carries the error"
+    ;;
+  *)
+    fail "the failure notification does not carry the error (got '${FAIL_NOTIF_BODY}')"
+    ;;
+esac
+
+# A task that completes notifies its owner as well.
+psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<'SQL' >/dev/null
+INSERT INTO agentos.tasks (title, description, status, trigger, owner_clerk_id)
+  VALUES ('Finishes cleanly', 'd', 'running', 'manual', 'clerk_user_A');
+SQL
+
+DONE_TASK_ID=$(psql -d "${DB}" -tAc "SELECT id FROM agentos.tasks WHERE title = 'Finishes cleanly'")
+psql -d "${DB}" -q -c \
+  "SELECT agentos.complete_task('${DONE_TASK_ID}', '{\"ok\":true}'::jsonb, NULL::uuid, NULL::text)" >/dev/null
+
+DONE_NOTIF=$(psql -d "${DB}" -tAc \
+  "SELECT count(*) FROM agentos.notifications
+    WHERE kind = 'task_completed' AND entity_id = '${DONE_TASK_ID}'")
+check_eq "a completed task notifies its owner" "1" "${DONE_NOTIF}"
+
+# An approval that is waiting for a human notifies the owner of the approval.
+psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<'SQL' >/dev/null
+INSERT INTO agentos.tasks (title, description, status, trigger, owner_clerk_id)
+  VALUES ('Needs a human', 'd', 'running', 'manual', 'clerk_user_A');
+SQL
+
+APPR_TASK_ID=$(psql -d "${DB}" -tAc "SELECT id FROM agentos.tasks WHERE title = 'Needs a human'")
+APPR_ID=$(psql -d "${DB}" -tAc \
+  "SELECT agentos.request_approval('${APPR_TASK_ID}', 'send_email', '{}'::jsonb, 'please confirm', 3600, NULL::uuid)")
+
+APPR_NOTIF=$(psql -d "${DB}" -tAc \
+  "SELECT count(*) FROM agentos.notifications
+    WHERE kind = 'approval' AND entity_id = '${APPR_ID}'")
+check_eq "an approval request notifies the owner" "1" "${APPR_NOTIF}"
+
+APPR_NOTIF_OWNER=$(psql -d "${DB}" -tAc \
+  "SELECT owner_clerk_id FROM agentos.notifications
+    WHERE kind = 'approval' AND entity_id = '${APPR_ID}'")
+check_eq "the approval notification is addressed to the approval owner" "clerk_user_A" "${APPR_NOTIF_OWNER}"
+
+# One row per event: a sweep that re-reads the queue writes nothing.
+NOTIF_TOTAL_BEFORE=$(psql -d "${DB}" -tAc "SELECT count(*) FROM agentos.notifications")
+psql -d "${DB}" -q -c "SELECT agentos.dispatch_due_schedules()" >/dev/null
+NOTIF_TOTAL_AFTER=$(psql -d "${DB}" -tAc "SELECT count(*) FROM agentos.notifications")
+check_eq "a sweep that dispatches nothing new writes no notification" \
+  "${NOTIF_TOTAL_BEFORE}" "${NOTIF_TOTAL_AFTER}"
+
+# --- the audit writer -------------------------------------------------------
+psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<'SQL' >/dev/null
+INSERT INTO agentos.tasks (title, description, status, trigger, owner_clerk_id)
+  VALUES ('Audited task', 'd', 'pending', 'manual', 'clerk_user_A');
+SQL
+
+AUDIT_TASK_ID=$(psql -d "${DB}" -tAc "SELECT id FROM agentos.tasks WHERE title = 'Audited task'")
+
+psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<SQL >/dev/null
+SELECT set_config('request.jwt.claims', '{"sub":"clerk_user_A","role":"authenticated"}', false);
+UPDATE agentos.tasks SET status = 'queued' WHERE id = '${AUDIT_TASK_ID}';
+SQL
+
+AUDIT_ROWS=$(psql -d "${DB}" -tAc \
+  "SELECT count(*) FROM agentos.audit_logs
+    WHERE action = 'task.status' AND entity_type = 'task' AND entity_id = '${AUDIT_TASK_ID}'")
+check_eq "a task status change is audited exactly once" "1" "${AUDIT_ROWS}"
+
+AUDIT_ACTOR=$(psql -d "${DB}" -tAc \
+  "SELECT actor_clerk_id FROM agentos.audit_logs
+    WHERE action = 'task.status' AND entity_id = '${AUDIT_TASK_ID}'")
+check_eq "the audit row is attributed to the signed-in actor" "clerk_user_A" "${AUDIT_ACTOR}"
+
+AUDIT_ROLE=$(psql -d "${DB}" -tAc \
+  "SELECT acting_as FROM agentos.audit_logs
+    WHERE action = 'task.status' AND entity_id = '${AUDIT_TASK_ID}'")
+check_eq "a human action is audited as a user" "user" "${AUDIT_ROLE}"
+
+AUDIT_BEFORE=$(psql -d "${DB}" -tAc \
+  "SELECT before->>'status' FROM agentos.audit_logs
+    WHERE action = 'task.status' AND entity_id = '${AUDIT_TASK_ID}'")
+check_eq "the audit row records the previous status" "pending" "${AUDIT_BEFORE}"
+
+AUDIT_AFTER=$(psql -d "${DB}" -tAc \
+  "SELECT after->>'status' FROM agentos.audit_logs
+    WHERE action = 'task.status' AND entity_id = '${AUDIT_TASK_ID}'")
+check_eq "the audit row records the new status" "queued" "${AUDIT_AFTER}"
+
+AUDIT_SUMMARY=$(psql -d "${DB}" -tAc \
+  "SELECT summary FROM agentos.audit_logs
+    WHERE action = 'task.status' AND entity_id = '${AUDIT_TASK_ID}'")
+if [ "${AUDIT_SUMMARY#*pending*"queued"*}" != "${AUDIT_SUMMARY}" ]; then
+  pass "the audit summary describes the transition"
+else
+  fail "the audit summary does not describe the transition (got '${AUDIT_SUMMARY}')"
+fi
+
+# A server-side change is attributed to the system, not to a person.
+SYS_ROLE=$(psql -d "${DB}" -tAc \
+  "SELECT acting_as FROM agentos.audit_logs
+    WHERE action = 'task.status' AND entity_id = '${FAIL_TASK_ID}'")
+check_eq "a server-side change is audited as the system" "system" "${SYS_ROLE}"
+
+SYS_ACTOR=$(psql -d "${DB}" -tAc \
+  "SELECT actor_clerk_id FROM agentos.audit_logs
+    WHERE action = 'task.status' AND entity_id = '${FAIL_TASK_ID}'")
+check_eq "a server-side change is attributed to the owner of the row" "clerk_user_A" "${SYS_ACTOR}"
+
+# A worker update is audited too.
+psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<'SQL' >/dev/null
+SELECT set_config('request.jwt.claims', '{"sub":"clerk_user_A","role":"authenticated"}', false);
+UPDATE agentos.workers SET role = 'senior agent' WHERE name = 'Verifier';
+SQL
+
+WORKER_AUDIT=$(psql -d "${DB}" -tAc \
+  "SELECT count(*) FROM agentos.audit_logs
+    WHERE action = 'worker.updated' AND entity_type = 'worker'")
+if [ "${WORKER_AUDIT}" -ge 1 ]; then
+  pass "a worker update is audited"
+else
+  fail "a worker update was not audited"
+fi
+
+# An update that only moves updated_at is not an auditable action.
+psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<'SQL' >/dev/null
+UPDATE agentos.workers SET updated_at = now() WHERE name = 'Verifier';
+SQL
+
+TOUCH_AUDIT=$(psql -d "${DB}" -tAc \
+  "SELECT count(*) FROM agentos.audit_logs
+    WHERE action = 'worker.updated'
+      AND before->>'updated_at' IS NOT NULL
+      AND after->>'updated_at' IS NOT NULL
+      AND before->'updated_at' = after->'updated_at'")
+check_eq "a touch-only update is not audited" "0" "${TOUCH_AUDIT}"
+
+# The noisy tables are deliberately NOT audited.
+NOISE_AUDIT=$(psql -d "${DB}" -tAc \
+  "SELECT count(*) FROM agentos.audit_logs
+    WHERE entity_type IN ('execution_event', 'usage_record', 'message', 'memory', 'canvas_node')")
+check_eq "the noisy tables are not audited" "0" "${NOISE_AUDIT}"
+
+# --- the usage cost ---------------------------------------------------------
+psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<'SQL' >/dev/null
+INSERT INTO agentos.usage_records
+  (owner_clerk_id, provider, model_id, prompt_tokens, completion_tokens)
+  VALUES ('clerk_user_A', 'openai', 'gpt-4o-mini', 1000000, 100000);
+SQL
+
+USAGE_COST=$(psql -d "${DB}" -tAc \
+  "SELECT cost_usd FROM agentos.usage_records WHERE model_id = 'gpt-4o-mini' LIMIT 1")
+check_eq "a usage record carries a real cost, not zero" "0.00210000" "${USAGE_COST}"
+
+USAGE_CREDITS=$(psql -d "${DB}" -tAc \
+  "SELECT credits FROM agentos.usage_records WHERE model_id = 'gpt-4o-mini' LIMIT 1")
+check_eq "the usage record is priced in credits" "210.000000" "${USAGE_CREDITS}"
+
+USAGE_COST_ZERO=$(psql -d "${DB}" -tAc \
+  "SELECT count(*) FROM agentos.usage_records WHERE cost_usd = 0")
+check_eq "no usage record is left at zero cost" "0" "${USAGE_COST_ZERO}"
+
+# --- the model catalog ------------------------------------------------------
+CAT_TEMPERATURE=$(psql -d "${DB}" -tAc \
+  "SELECT count(*) FROM agentos.model_catalog WHERE supports_temperature = false")
+check_eq "the reasoning models are marked as rejecting a temperature" "4" "${CAT_TEMPERATURE}"
+
+CAT_TEMP_CHAT=$(psql -d "${DB}" -tAc \
+  "SELECT supports_temperature FROM agentos.model_catalog WHERE id = 'gpt-4o-mini'")
+check_eq "a chat model still accepts a temperature" "t" "${CAT_TEMP_CHAT}"
+
+CAT_TEMP_HELPER=$(psql -d "${DB}" -tAc "SELECT agentos.model_supports_temperature('gpt-5')")
+check_eq "the runtime is told that gpt-5 rejects a temperature" "f" "${CAT_TEMP_HELPER}"
+
+CAT_TEMP_DEFAULT=$(psql -d "${DB}" -tAc "SELECT agentos.model_supports_temperature('gpt-4o-mini')")
+check_eq "an ordinary model is reported as accepting a temperature" "t" "${CAT_TEMP_DEFAULT}"
+
+CAT_CHAT=$(psql -d "${DB}" -tAc \
+  "SELECT supports_chat FROM agentos.model_catalog WHERE id = 'text-embedding-3-large'")
+check_eq "the embedding model is not offered as a chat model" "f" "${CAT_CHAT}"
+
+CAT_EMBED_STATUS=$(psql -d "${DB}" -tAc \
+  "SELECT status FROM agentos.model_catalog WHERE id = 'text-embedding-3-large'")
+check_eq "the embedding model is not in the routable set" "deprecated" "${CAT_EMBED_STATUS}"
+
+CAT_EMBED_CHAT=$(psql -d "${DB}" -tAc \
+  "SELECT count(*) FROM agentos.model_catalog
+    WHERE status = 'active' AND capabilities @> ARRAY['embeddings']")
+check_eq "no embedding-only model is offered as an active model" "0" "${CAT_EMBED_CHAT}"
+
+# --- the scheduler ----------------------------------------------------------
+# The registration must be idempotent and must never take the migration down.
+SCHED_REPORT=$(psql -d "${DB}" -tAc "SELECT agentos.register_scheduler_jobs()")
+if [ -n "${SCHED_REPORT}" ]; then
+  pass "the scheduler registration reports its outcome (${SCHED_REPORT})"
+else
+  fail "the scheduler registration reported nothing"
+fi
+
+CRON_AVAILABLE=$(psql -d "${DB}" -tAc \
+  "SELECT count(*) FROM pg_proc p
+     JOIN pg_namespace n ON n.oid = p.pronamespace
+    WHERE n.nspname = 'cron' AND p.proname = 'schedule'")
+if [ "${CRON_AVAILABLE}" -gt 0 ]; then
+  REGISTERED=$(psql -d "${DB}" -tAc \
+    "SELECT count(*) FROM cron.job WHERE jobname IN ('agentos-sweep', 'agentos-execute')")
+  check_eq "the sweep and the execute job are registered" "2" "${REGISTERED}"
+
+  psql -d "${DB}" -q -c "SELECT agentos.register_scheduler_jobs()" >/dev/null
+  REGISTERED_AGAIN=$(psql -d "${DB}" -tAc \
+    "SELECT count(*) FROM cron.job WHERE jobname IN ('agentos-sweep', 'agentos-execute')")
+  check_eq "re-registering never duplicates a job" "2" "${REGISTERED_AGAIN}"
+
+  CRON_COMMAND=$(psql -d "${DB}" -tAc \
+    "SELECT count(*) FROM cron.job
+      WHERE jobname IN ('agentos-sweep', 'agentos-execute')
+        AND command LIKE '%invoke_edge_function%'")
+  check_eq "the registered job calls the edge function" "2" "${CRON_COMMAND}"
+else
+  # A bare PostgreSQL has no pg_cron: the migration must skip the jobs and
+  # say so, and everything else must still work.
+  check_eq "on a bare cluster the scheduler is skipped with a notice" \
+    "skipped: pg_cron is not installed" "${SCHED_REPORT}"
+  pass "pg_cron is not installed: the scheduler jobs were skipped by design"
+fi
+
+# The sweep must move the schedule forward, not just leave it due.
+psql -d "${DB}" -v ON_ERROR_STOP=1 -q <<'SQL' >/dev/null
+INSERT INTO agentos.schedules (owner_clerk_id, title, prompt, cron, next_run_at)
+  VALUES ('clerk_user_A', 'Every minute', 'p', '* * * * *', now() - interval '1 minute');
+SQL
+
+NEXT_BEFORE=$(psql -d "${DB}" -tAc \
+  "SELECT next_run_at FROM agentos.schedules WHERE title = 'Every minute'")
+psql -d "${DB}" -q -c "SELECT agentos.dispatch_due_schedules()" >/dev/null
+NEXT_AFTER=$(psql -d "${DB}" -tAc \
+  "SELECT next_run_at FROM agentos.schedules WHERE title = 'Every minute'")
+
+ADVANCED=$(psql -d "${DB}" -tAc \
+  "SELECT ('${NEXT_AFTER}'::timestamptz > '${NEXT_BEFORE}'::timestamptz)")
+check_eq "the schedule's next_run_at advances after a dispatch" "t" "${ADVANCED}"
 
 # --- summary ---------------------------------------------------------------
 echo ""

@@ -29,6 +29,12 @@ import {
  * forbidden / not_found / validation / conflict / unsupported / ...), so
  * discarding it and reporting "unknown" throws away the one thing the UI
  * needs: whether the user must sign in, cannot do this, or can retry.
+ *
+ * WHY THE EXTRA CODES
+ *   The AgentOS edge functions (supabase/functions/_shared/agentos-errors.ts)
+ *   also return `not_configured`, `out_of_credits` and `timeout`, which the
+ *   shared union did not know — they all surfaced as "unknown". `internal` is
+ *   the server-side catch-all and maps onto `database`.
  */
 function mapServerCode(code: string | undefined): AgentOSError["code"] {
   switch (code) {
@@ -44,6 +50,14 @@ function mapServerCode(code: string | undefined): AgentOSError["code"] {
       return "conflict";
     case "unsupported":
       return "unsupported";
+    case "not_configured":
+      return "not_configured";
+    case "out_of_credits":
+      return "out_of_credits";
+    case "timeout":
+      return "timeout";
+    case "internal":
+      return "database";
     default:
       return "unknown";
   }
@@ -353,6 +367,12 @@ export async function listTaskEdges(missionId: string): Promise<AgentOSResult<Ta
 /**
  * Add a dependency. Rejects self-references and any edge that would create a
  * cycle, because the claim logic treats unmet dependencies as a hard gate.
+ *
+ * WHY THE DUPLICATE CHECK
+ *   The edge is a pair (task, waits_for). Adding the same pair twice is not a
+ *   second dependency — it is the same one, and it makes the dependency list
+ *   show a row the operator never asked for. The pair is refused here with a
+ *   validation message instead of being written and read back.
  */
 export async function addTaskEdge(params: {
   taskId: string;
@@ -364,6 +384,11 @@ export async function addTaskEdge(params: {
   }
   if (params.taskId === params.waitsFor) {
     return err("validation", "A task cannot depend on itself");
+  }
+
+  const duplicate = await hasTaskEdge(params.taskId, params.waitsFor);
+  if (duplicate) {
+    return err("conflict", "That dependency already exists");
   }
 
   const wouldCycle = await createsCycle(params.taskId, params.waitsFor);
@@ -379,6 +404,19 @@ export async function addTaskEdge(params: {
 
   if (error) return err("database", "Could not add task dependency", agentosErrorMessage(error));
   return ok({ task_id: params.taskId, waits_for: params.waitsFor });
+}
+
+/** Is this exact dependency already recorded? */
+async function hasTaskEdge(taskId: string, waitsFor: string): Promise<boolean> {
+  const { data, error } = await agentosDb
+    .from("task_edges")
+    .select("task_id")
+    .eq("task_id", taskId)
+    .eq("waits_for", waitsFor)
+    .maybeSingle();
+
+  if (error) return false;
+  return Boolean(data);
 }
 
 export async function removeTaskEdge(params: {

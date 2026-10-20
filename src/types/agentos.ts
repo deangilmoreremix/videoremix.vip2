@@ -592,6 +592,17 @@ export interface AgentOSError {
     | 'conflict'
     | 'database'
     | 'unsupported'
+    /**
+     * The deployment is not configured for the requested operation — the
+     * edge functions return this for a provider whose credential reference
+     * has no secret behind it. It is NOT a failure of the caller's request,
+     * so the UI must not present it as one.
+     */
+    | 'not_configured'
+    /** The account has no credits left for the requested model call. */
+    | 'out_of_credits'
+    /** The upstream provider did not answer in time. */
+    | 'timeout'
     | 'unknown';
   message: string;
   /** Original database error message, for operator diagnostics only. */

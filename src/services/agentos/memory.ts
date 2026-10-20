@@ -101,6 +101,16 @@ export interface UpdateMemoryInput {
   kind?: MemoryKind;
   importance?: number;
   tags?: string[];
+  /**
+   * Where this memory came from — a manual note, a document, a run.
+   *
+   * WHY IT IS EDITABLE
+   *   The column has been on the row since the table was created and the
+   *   runtime reads it to tell an ingested file from something a person
+   *   typed. It was written on create and never again, so the edit form
+   *   could not correct a mislabelled source.
+   */
+  source?: string;
 }
 
 export async function updateMemory(
@@ -117,6 +127,7 @@ export async function updateMemory(
   if (input.kind !== undefined) patch.kind = input.kind;
   if (input.importance !== undefined) patch.importance = input.importance;
   if (input.tags !== undefined) patch.tags = input.tags;
+  if (input.source !== undefined) patch.source = input.source.trim();
 
   const { data, error } = await agentosDb
     .from("memories")

@@ -25,6 +25,12 @@ import {
  * forbidden / not_found / validation / conflict / unsupported / ...), so
  * discarding it and reporting "unknown" throws away the one thing the UI
  * needs: whether the user must sign in, cannot do this, or can retry.
+ *
+ * WHY THE EXTRA CODES
+ *   The AgentOS edge functions (supabase/functions/_shared/agentos-errors.ts)
+ *   also return `not_configured`, `out_of_credits` and `timeout`, which the
+ *   shared union did not know — they all surfaced as "unknown". `internal` is
+ *   the server-side catch-all and maps onto `database`.
  */
 function mapServerCode(code: string | undefined): AgentOSError["code"] {
   switch (code) {
@@ -40,6 +46,14 @@ function mapServerCode(code: string | undefined): AgentOSError["code"] {
       return "conflict";
     case "unsupported":
       return "unsupported";
+    case "not_configured":
+      return "not_configured";
+    case "out_of_credits":
+      return "out_of_credits";
+    case "timeout":
+      return "timeout";
+    case "internal":
+      return "database";
     default:
       return "unknown";
   }

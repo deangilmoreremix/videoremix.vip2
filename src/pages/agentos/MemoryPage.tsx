@@ -51,6 +51,18 @@ const SCOPES: Array<{ value: "all" | "worker" | "workspace"; label: string }> = 
 const FIELD_CLASS =
   "mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/50";
 
+/**
+ * Tags are stored as a text array. The form edits them as one comma-separated
+ * line, because a chip editor for a field nobody uses is a chip editor nobody
+ * fills in.
+ */
+function splitTags(value: string): string[] {
+  return value
+    .split(",")
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+}
+
 const MemoryPage: React.FC = () => {
   const [memories, setMemories] = useState<WorkerMemory[]>([]);
   const [workers, setWorkers] = useState<Worker[]>([]);
@@ -73,12 +85,17 @@ const MemoryPage: React.FC = () => {
   const [draftWorkerId, setDraftWorkerId] = useState("");
   const [draftWorkspaceId, setDraftWorkspaceId] = useState("");
   const [draftImportance, setDraftImportance] = useState(3);
+  const [draftTags, setDraftTags] = useState("");
+  const [draftSource, setDraftSource] = useState("");
   const [saving, setSaving] = useState(false);
   const [dialogError, setDialogError] = useState<string | null>(null);
 
   const [editing, setEditing] = useState<WorkerMemory | null>(null);
   const [editContent, setEditContent] = useState("");
   const [editImportance, setEditImportance] = useState(3);
+  const [editKind, setEditKind] = useState<MemoryKind>("note");
+  const [editTags, setEditTags] = useState("");
+  const [editSource, setEditSource] = useState("");
   const [editError, setEditError] = useState<string | null>(null);
   const [editSaving, setEditSaving] = useState(false);
 
@@ -185,6 +202,8 @@ const MemoryPage: React.FC = () => {
       worker_id: draftScope === "worker" ? draftWorkerId : undefined,
       workspace_id: draftScope === "workspace" ? draftWorkspaceId : undefined,
       importance: draftImportance,
+      tags: splitTags(draftTags),
+      source: draftSource.trim() || undefined,
     });
     setSaving(false);
     if (result.error) {
@@ -194,8 +213,10 @@ const MemoryPage: React.FC = () => {
     setDialogOpen(false);
     setDraftContent("");
     setDraftImportance(3);
+    setDraftTags("");
+    setDraftSource("");
     reload();
-  }, [draftContent, draftKind, draftScope, draftWorkerId, draftWorkspaceId, draftImportance, reload]);
+  }, [draftContent, draftKind, draftScope, draftWorkerId, draftWorkspaceId, draftImportance, draftTags, draftSource, reload]);
 
   const submitEdit = useCallback(async () => {
     if (!editing) return;
@@ -208,6 +229,9 @@ const MemoryPage: React.FC = () => {
     const result = await updateMemory(editing.id, {
       content: editContent,
       importance: editImportance,
+      kind: editKind,
+      tags: splitTags(editTags),
+      source: editSource.trim() || "manual",
     });
     setEditSaving(false);
     if (result.error) {
@@ -216,7 +240,7 @@ const MemoryPage: React.FC = () => {
     }
     setEditing(null);
     reload();
-  }, [editing, editContent, editImportance, reload]);
+  }, [editing, editContent, editImportance, editKind, editTags, editSource, reload]);
 
   const confirmDelete = useCallback(async () => {
     if (!pendingDelete) return;
@@ -340,6 +364,9 @@ const MemoryPage: React.FC = () => {
                         {memory.scope}: {scopeLabel(memory)}
                       </Pill>
                       <Pill tone="slate">{IMPORTANCE_LABEL[memory.importance]} importance</Pill>
+                      <Pill tone="slate" title="Where this memory came from">
+                        source: {memory.source || "manual"}
+                      </Pill>
                       {memory.hit_count > 0 ? (
                         <Pill tone="slate">used {memory.hit_count}×</Pill>
                       ) : null}
@@ -364,6 +391,9 @@ const MemoryPage: React.FC = () => {
                         setEditing(memory);
                         setEditContent(memory.content);
                         setEditImportance(memory.importance);
+                        setEditKind(memory.kind);
+                        setEditTags((memory.tags ?? []).join(", "));
+                        setEditSource(memory.source ?? "");
                         setEditError(null);
                       }}
                     >
@@ -493,6 +523,35 @@ const MemoryPage: React.FC = () => {
           </div>
 
           <div>
+            <label className="text-xs text-white/50" htmlFor="mem-source">
+              Source
+            </label>
+            <input
+              id="mem-source"
+              value={draftSource}
+              onChange={(event) => setDraftSource(event.target.value)}
+              placeholder="manual"
+              className={FIELD_CLASS}
+            />
+            <p className="mt-1 text-[11px] text-white/35">
+              Where this memory came from — a person, a document, or a run.
+            </p>
+          </div>
+
+          <div>
+            <label className="text-xs text-white/50" htmlFor="mem-tags">
+              Tags (comma-separated)
+            </label>
+            <input
+              id="mem-tags"
+              value={draftTags}
+              onChange={(event) => setDraftTags(event.target.value)}
+              placeholder="pricing, competitor"
+              className={FIELD_CLASS}
+            />
+          </div>
+
+          <div>
             <label className="text-xs text-white/50" htmlFor="mem-importance">
               Importance ({IMPORTANCE_LABEL[draftImportance]})
             </label>
@@ -546,6 +605,53 @@ const MemoryPage: React.FC = () => {
               value={editContent}
               onChange={(event) => setEditContent(event.target.value)}
               rows={4}
+            />
+          </div>
+          <div>
+            <label className="text-xs text-white/50" htmlFor="edit-kind">
+              Kind
+            </label>
+            <select
+              id="edit-kind"
+              value={editKind}
+              onChange={(event) => setEditKind(event.target.value as MemoryKind)}
+              className={FIELD_CLASS}
+            >
+              {KINDS.map((kind) => (
+                <option key={kind} value={kind}>
+                  {kind}
+                </option>
+              ))}
+            </select>
+            <p className="mt-1 text-[11px] text-white/35">
+              The kinds the database accepts: {KINDS.join(", ")}.
+            </p>
+          </div>
+          <div>
+            <label className="text-xs text-white/50" htmlFor="edit-source">
+              Source
+            </label>
+            <input
+              id="edit-source"
+              value={editSource}
+              onChange={(event) => setEditSource(event.target.value)}
+              placeholder="manual"
+              className={FIELD_CLASS}
+            />
+            <p className="mt-1 text-[11px] text-white/35">
+              Where this memory came from — a person, a document, or a run.
+            </p>
+          </div>
+          <div>
+            <label className="text-xs text-white/50" htmlFor="edit-tags">
+              Tags (comma-separated)
+            </label>
+            <input
+              id="edit-tags"
+              value={editTags}
+              onChange={(event) => setEditTags(event.target.value)}
+              placeholder="pricing, competitor"
+              className={FIELD_CLASS}
             />
           </div>
           <div>

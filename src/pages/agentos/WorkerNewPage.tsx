@@ -22,7 +22,7 @@ import { AsyncBoundary } from "../../components/agentos/shared";
 import { createWorker } from "../../services/agentos/workers";
 import { listWorkspaces } from "../../services/agentos/workspaces";
 import { listModelCatalog } from "../../services/agentos/models";
-import { listIntegrations } from "../../services/agentos/connections";
+import { DISPATCHABLE_TOOL_KEYS, listIntegrations } from "../../services/agentos/connections";
 import { listSchedules } from "../../services/agentos/schedules";
 import type { Integration, ModelCatalogEntry, Workspace } from "../../types/agentos";
 
@@ -46,6 +46,7 @@ interface Draft {
   allow_artifacts: boolean;
   denied_tools: string[];
   approval_required_actions: string[];
+  allowed_app_slugs: string[];
   cron: string;
   timezone: string;
   heartbeat_enabled: boolean;
@@ -69,6 +70,7 @@ const EMPTY_DRAFT: Draft = {
   allow_artifacts: true,
   denied_tools: [],
   approval_required_actions: [],
+  allowed_app_slugs: [],
   cron: "0 9 * * 1",
   timezone: "UTC",
   heartbeat_enabled: false,
@@ -135,11 +137,21 @@ const WorkerNewPage: React.FC = () => {
     setDraft((current) => ({ ...current, ...next }));
   }, []);
 
-  const toolKeys = useMemo(() => integrations.map((integration) => integration.key), [integrations]);
   const toolNames = useMemo(
     () => new Map(integrations.map((integration) => [integration.key, integration.name])),
     [integrations],
   );
+
+  /**
+   * Only the tools the runtime can dispatch are offered.
+   *
+   * WHY NOT THE WHOLE CATALOG
+   *   The integration directory lists sixteen entries; the runtime has a
+   *   dispatch spec for five of them. Offering the rest produced a tool
+   *   assignment the executor silently skips, so the operator believed the
+   *   worker had a capability it could never use.
+   */
+  const toolKeys = useMemo(() => [...DISPATCHABLE_TOOL_KEYS], []);
 
   const submit = useCallback(async () => {
     if (!draft.name.trim()) {
@@ -159,13 +171,22 @@ const WorkerNewPage: React.FC = () => {
       fallback_model_id: draft.fallback_model_id || null,
       temperature: draft.temperature,
       max_output_tokens: draft.max_output_tokens,
-      tools: draft.tool_keys.map((tool_key) => ({ tool_key })),
+      // Only the dispatchable keys are written: a draft saved in an earlier
+      // session may still hold a key the runtime cannot dispatch.
+      tools: draft.tool_keys
+        .filter((tool_key) => DISPATCHABLE_TOOL_KEYS.includes(tool_key))
+        .map((tool_key) => ({ tool_key })),
       memory_enabled: draft.memory_enabled,
       permissions: {
         allow_web_access: draft.allow_web_access,
         allow_artifacts: draft.allow_artifacts,
-        denied_tools: draft.denied_tools,
-        approval_required_actions: draft.approval_required_actions,
+        denied_tools: draft.denied_tools.filter((toolKey) =>
+          DISPATCHABLE_TOOL_KEYS.includes(toolKey),
+        ),
+        approval_required_actions: draft.approval_required_actions.filter((action) =>
+          DISPATCHABLE_TOOL_KEYS.includes(action),
+        ),
+        allowed_app_slugs: draft.allowed_app_slugs,
       },
       heartbeat: draft.heartbeat_enabled
         ? {
@@ -402,7 +423,7 @@ const WorkerNewPage: React.FC = () => {
             {step === 3 ? (
               <Section
                 title="Tools"
-                description="Capabilities this worker may call. Unsupported integrations never appear."
+                description="Capabilities this worker may call. Only the tools the runtime can dispatch are offered; the rest of the integration catalog is a connected surface, not a callable tool."
               >
                 <ul className="space-y-1.5">
                   {toolKeys.map((key) => {
@@ -436,6 +457,11 @@ const WorkerNewPage: React.FC = () => {
                     <li className="text-sm text-white/45">No assignable integrations.</li>
                   ) : null}
                 </ul>
+                <p className="mt-3 text-[11px] text-white/35">
+                  A key that is not dispatchable — a connected surface such as a mailbox or a
+                  document store — is assigned on the worker page and marked as surface only. It
+                  records the connection; it never becomes a callable tool.
+                </p>
               </Section>
             ) : null}
 
@@ -478,7 +504,7 @@ const WorkerNewPage: React.FC = () => {
                       checked={draft.allow_web_access}
                       onChange={(event) => patch({ allow_web_access: event.target.checked })}
                     />
-                    Allow web access (server-side fetch)
+                    Allow web access (gates the web_fetch tool)
                   </label>
                   <label className="flex items-center gap-2 text-sm text-white/70">
                     <input
@@ -486,40 +512,106 @@ const WorkerNewPage: React.FC = () => {
                       checked={draft.allow_artifacts}
                       onChange={(event) => patch({ allow_artifacts: event.target.checked })}
                     />
-                    Allow writing artifacts
+                    Allow writing artifacts (gates the artifact_write tool)
                   </label>
 
                   <div>
-                    <Label htmlFor="w-denied">Denied tools (comma-separated)</Label>
-                    <Input
-                      id="w-denied"
-                      value={draft.denied_tools.join(", ")}
-                      onChange={(event) =>
-                        patch({
-                          denied_tools: event.target.value
-                            .split(",")
-                            .map((value) => value.trim())
-                            .filter(Boolean),
-                        })
-                      }
-                    />
+                    <p className="text-xs text-white/50" id="w-denied-label">
+                      Denied tools
+                    </p>
+                    <div
+                      role="group"
+                      aria-labelledby="w-denied-label"
+                      className="mt-2 flex flex-wrap gap-2"
+                    >
+                      {toolKeys.map((key) => {
+                        const denied = draft.denied_tools.includes(key);
+                        return (
+                          <button
+                            key={key}
+                            type="button"
+                            aria-pressed={denied}
+                            onClick={() =>
+                              patch({
+                                denied_tools: denied
+                                  ? draft.denied_tools.filter((value) => value !== key)
+                                  : [...draft.denied_tools, key],
+                              })
+                            }
+                            className={`rounded-full border px-2.5 py-0.5 text-[11px] transition ${
+                              denied
+                                ? "border-rose-400/40 bg-rose-500/15 text-rose-200"
+                                : "border-white/10 bg-white/5 text-white/50"
+                            }`}
+                          >
+                            {key}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <p className="mt-1 text-[11px] text-white/35">
+                      A denied tool is never offered to the model, even when it is assigned.
+                    </p>
                   </div>
 
                   <div>
-                    <Label htmlFor="w-approval-actions">Actions requiring approval</Label>
+                    <p className="text-xs text-white/50" id="w-approval-label">
+                      Actions that require a human approval
+                    </p>
+                    <div
+                      role="group"
+                      aria-labelledby="w-approval-label"
+                      className="mt-2 flex flex-wrap gap-2"
+                    >
+                      {toolKeys.map((key) => {
+                        const gated = draft.approval_required_actions.includes(key);
+                        return (
+                          <button
+                            key={key}
+                            type="button"
+                            aria-pressed={gated}
+                            onClick={() =>
+                              patch({
+                                approval_required_actions: gated
+                                  ? draft.approval_required_actions.filter((value) => value !== key)
+                                  : [...draft.approval_required_actions, key],
+                              })
+                            }
+                            className={`rounded-full border px-2.5 py-0.5 text-[11px] transition ${
+                              gated
+                                ? "border-amber-400/40 bg-amber-500/15 text-amber-200"
+                                : "border-white/10 bg-white/5 text-white/50"
+                            }`}
+                          >
+                            {key}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <p className="mt-1 text-[11px] text-white/35">
+                      The runtime matches this list against the action type of a tool call, which is
+                      the tool key itself.
+                    </p>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="w-allowed-apps">Allowed app slugs</Label>
                     <Input
-                      id="w-approval-actions"
-                      value={draft.approval_required_actions.join(", ")}
+                      id="w-allowed-apps"
+                      value={draft.allowed_app_slugs.join(", ")}
                       onChange={(event) =>
                         patch({
-                          approval_required_actions: event.target.value
+                          allowed_app_slugs: event.target.value
                             .split(",")
                             .map((value) => value.trim())
                             .filter(Boolean),
                         })
                       }
-                      placeholder="send_email, publish_content"
+                      placeholder="ai-design-studio, video-clipper"
                     />
+                    <p className="mt-1 text-[11px] text-white/35">
+                      An empty list means every app in the catalog is allowed.
+                    </p>
                   </div>
                 </div>
               </Section>
@@ -635,6 +727,11 @@ const WorkerNewPage: React.FC = () => {
                   {draft.denied_tools.length > 0 ? (
                     <Pill tone="rose">denied: {draft.denied_tools.join(", ")}</Pill>
                   ) : null}
+                  {draft.allowed_app_slugs.length > 0 ? (
+                    <Pill tone="violet">apps: {draft.allowed_app_slugs.join(", ")}</Pill>
+                  ) : (
+                    <Pill tone="slate">apps: all</Pill>
+                  )}
                 </div>
 
                 {submitError ? <p className="mt-4 text-sm text-rose-300">{submitError}</p> : null}

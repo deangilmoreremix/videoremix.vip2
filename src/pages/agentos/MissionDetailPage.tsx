@@ -7,7 +7,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
-import { Ban, Link2, Pencil, Play, RotateCcw, Trash2 } from "lucide-react";
+import { Ban, Link2, Pencil, Play, Plus, RotateCcw, Trash2 } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
@@ -19,6 +19,7 @@ import {
 import { MISSION_STATUS_STYLE, ConfirmDialog, PageHeader, Pill, Section, Spinner } from "../../components/agentos/ui";
 import { Modal } from "../../components/agentos/ui/Modal";
 import {
+  addTaskEdge,
   cancelMission,
   cancelTask,
   getMission,
@@ -40,6 +41,36 @@ interface TaskDraft {
 }
 
 const PRIORITIES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+/**
+ * Would the edge "taskId waits for waitsFor" close a loop?
+ *
+ * WHY THE CHECK IS HERE AND NOT ONLY IN THE SERVICE
+ *   The queue treats an unmet dependency as a hard gate, and a cycle makes
+ *   every task in it unclaimable — the mission stalls with no error. The
+ *   service refuses the edge too (it walks the whole edge table, including
+ *   edges that leave this mission), but this check answers immediately so the
+ *   operator sees the reason without a round trip.
+ */
+function createsCycle(edges: TaskEdge[], taskId: string, waitsFor: string): boolean {
+  const adjacency = new Map<string, string[]>();
+  for (const edge of edges) {
+    const list = adjacency.get(edge.task_id) ?? [];
+    list.push(edge.waits_for);
+    adjacency.set(edge.task_id, list);
+  }
+
+  const stack = [waitsFor];
+  const seen = new Set<string>();
+  while (stack.length > 0) {
+    const current = stack.pop() as string;
+    if (current === taskId) return true;
+    if (seen.has(current)) continue;
+    seen.add(current);
+    for (const next of adjacency.get(current) ?? []) stack.push(next);
+  }
+  return false;
+}
 
 const MissionDetailPage: React.FC = () => {
   const { missionId } = useParams<{ missionId: string }>();
@@ -66,6 +97,13 @@ const MissionDetailPage: React.FC = () => {
   const [cancelError, setCancelError] = useState<string | null>(null);
   const [confirmRemoveEdge, setConfirmRemoveEdge] = useState<TaskEdge | null>(null);
   const [edgeError, setEdgeError] = useState<string | null>(null);
+
+  // Adding a dependency.
+  const [edgeDialogOpen, setEdgeDialogOpen] = useState(false);
+  const [edgeTaskId, setEdgeTaskId] = useState("");
+  const [edgeWaitsFor, setEdgeWaitsFor] = useState("");
+  const [edgeSaving, setEdgeSaving] = useState(false);
+  const [edgeAddError, setEdgeAddError] = useState<string | null>(null);
 
   const reload = useCallback(() => setReloadKey((key) => key + 1), []);
 
@@ -223,6 +261,56 @@ const MissionDetailPage: React.FC = () => {
     setConfirmRemoveEdge(null);
     reload();
   }, [confirmRemoveEdge, reload]);
+
+  const openAddEdge = useCallback(() => {
+    setEdgeTaskId("");
+    setEdgeWaitsFor("");
+    setEdgeAddError(null);
+    setEdgeDialogOpen(true);
+  }, []);
+
+  /**
+   * Add a dependency between two tasks of this mission.
+   *
+   * WHY EVERY RULE IS CHECKED HERE FIRST
+   *   A task that waits for itself, a dependency that already exists, and a
+   *   dependency that closes a cycle are all refusals the operator can be
+   *   told about immediately. The service enforces the same rules (and knows
+   *   about edges outside this mission), so its answer is the final one.
+   */
+  const addEdge = useCallback(async () => {
+    if (!edgeTaskId || !edgeWaitsFor) {
+      setEdgeAddError("Choose the task and the task it waits for");
+      return;
+    }
+    if (edgeTaskId === edgeWaitsFor) {
+      setEdgeAddError("A task cannot wait for itself");
+      return;
+    }
+    if (
+      edges.some((edge) => edge.task_id === edgeTaskId && edge.waits_for === edgeWaitsFor)
+    ) {
+      setEdgeAddError("That dependency already exists");
+      return;
+    }
+    if (createsCycle(edges, edgeTaskId, edgeWaitsFor)) {
+      setEdgeAddError("That dependency would create a cycle");
+      return;
+    }
+
+    setEdgeSaving(true);
+    setEdgeAddError(null);
+    const result = await addTaskEdge({ taskId: edgeTaskId, waitsFor: edgeWaitsFor });
+    setEdgeSaving(false);
+
+    if (result.error) {
+      setEdgeAddError(`Could not add the dependency: ${result.error.message}`);
+      return;
+    }
+    setEdgeDialogOpen(false);
+    setNotice("Dependency added");
+    reload();
+  }, [edgeTaskId, edgeWaitsFor, edges, reload]);
 
   if (!missionId) return null;
 
@@ -405,10 +493,22 @@ const MissionDetailPage: React.FC = () => {
               title="Dependencies"
               description="What each task waits for. The queue refuses to claim a task whose dependency has not completed."
               className="mt-6"
+              actions={
+                <Button
+                  size="sm"
+                  disabled={tasks.length < 2}
+                  onClick={openAddEdge}
+                  aria-label="Add a dependency"
+                >
+                  <Plus className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
+                  Add dependency
+                </Button>
+              }
             >
               {edges.length === 0 ? (
                 <p className="text-sm text-white/45">
                   No dependencies. Every task in this mission can be claimed on its own.
+                  {tasks.length < 2 ? " Add a second task to give one something to wait for." : ""}
                 </p>
               ) : (
                 <ul className="space-y-2">
@@ -542,6 +642,76 @@ const MissionDetailPage: React.FC = () => {
           </div>
         </Modal>
       ) : null}
+
+      <Modal
+        open={edgeDialogOpen}
+        onOpenChange={(open) => {
+          if (!open) setEdgeDialogOpen(false);
+        }}
+        title="Add dependency"
+        description="The chosen task will wait for the other one. The queue refuses to claim a task whose dependency has not completed."
+        footer={
+          <div className="flex justify-end gap-2">
+            <Button variant="outline" size="sm" onClick={() => setEdgeDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button size="sm" disabled={edgeSaving} onClick={() => void addEdge()}>
+              {edgeSaving ? "Adding…" : "Add dependency"}
+            </Button>
+          </div>
+        }
+      >
+        <div className="space-y-4">
+          <div>
+            <label className="text-xs text-white/50" htmlFor="edge-task">
+              Task
+            </label>
+            <select
+              id="edge-task"
+              value={edgeTaskId}
+              onChange={(event) => setEdgeTaskId(event.target.value)}
+              className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"
+            >
+              <option value="">Choose a task…</option>
+              {tasks.map((task) => (
+                <option key={task.id} value={task.id}>
+                  {task.title}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="text-xs text-white/50" htmlFor="edge-waits-for">
+              Waits for
+            </label>
+            <select
+              id="edge-waits-for"
+              value={edgeWaitsFor}
+              onChange={(event) => setEdgeWaitsFor(event.target.value)}
+              className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"
+            >
+              <option value="">Choose a task…</option>
+              {tasks.map((task) => (
+                <option key={task.id} value={task.id}>
+                  {task.title}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <p className="text-[11px] text-white/35">
+            A task cannot wait for itself, the same dependency cannot be added twice, and a
+            dependency that would close a cycle is refused — a cycle leaves every task in it
+            unclaimable.
+          </p>
+
+          {edgeAddError ? (
+            <p role="alert" className="text-sm text-rose-300">
+              {edgeAddError}
+            </p>
+          ) : null}
+        </div>
+      </Modal>
 
       <ConfirmDialog
         open={confirmCancelMission}

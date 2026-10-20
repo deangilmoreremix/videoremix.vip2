@@ -11,6 +11,7 @@ import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
 import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
 import {
@@ -42,11 +43,17 @@ import type {
   Integration,
   ModelCatalogEntry,
   Worker,
+  WorkerHeartbeat,
+  WorkerKnowledgeRef,
   WorkerMemory,
+  WorkerPermissions,
   WorkerTool,
 } from "../../types/agentos";
 
 type TabKey = "identity" | "model" | "memory" | "policies";
+
+/** The kinds a knowledge source may have (mirrors WorkerKnowledgeRef). */
+const KNOWLEDGE_KINDS: WorkerKnowledgeRef["kind"][] = ["note", "file", "url", "memory"];
 
 const WorkerDetailPage: React.FC = () => {
   const { workerId } = useParams<{ workerId: string }>();
@@ -79,6 +86,34 @@ const WorkerDetailPage: React.FC = () => {
   const [toolsSaving, setToolsSaving] = useState(false);
   const [toolsNote, setToolsNote] = useState<string | null>(null);
 
+  // Permission editor. The runtime enforces these keys before it offers a
+  // tool to the model, so they were never editable — the column stayed `{}`
+  // and the guardrails the runtime reads could not be set at all.
+  const [permissions, setPermissions] = useState<WorkerPermissions>({});
+  const [permissionsSaving, setPermissionsSaving] = useState(false);
+  const [permissionsNote, setPermissionsNote] = useState<string | null>(null);
+  const [permissionsError, setPermissionsError] = useState<string | null>(null);
+
+  // Knowledge editor: the sources handed to the worker with the prompt.
+  const [knowledge, setKnowledge] = useState<WorkerKnowledgeRef[]>([]);
+  const [knowledgeDraft, setKnowledgeDraft] = useState<{
+    name: string;
+    kind: WorkerKnowledgeRef["kind"];
+    ref: string;
+  }>({ name: "", kind: "url", ref: "" });
+  const [knowledgeSaving, setKnowledgeSaving] = useState(false);
+  const [knowledgeNote, setKnowledgeNote] = useState<string | null>(null);
+  const [knowledgeError, setKnowledgeError] = useState<string | null>(null);
+
+  // Heartbeat editor: the recurring prompt configuration on the worker row.
+  const [heartbeat, setHeartbeat] = useState<WorkerHeartbeat>({ enabled: false });
+  const [heartbeatSaving, setHeartbeatSaving] = useState(false);
+  const [heartbeatNote, setHeartbeatNote] = useState<string | null>(null);
+  const [heartbeatError, setHeartbeatError] = useState<string | null>(null);
+
+  // The app slug the operator is typing.
+  const [slugInput, setSlugInput] = useState("");
+
   const reload = useCallback(() => setReloadKey((key) => key + 1), []);
 
   useEffect(() => {
@@ -109,6 +144,12 @@ const WorkerDetailPage: React.FC = () => {
       setInstructions(workerResult.data.instructions ?? "");
       setGoals(workerResult.data.goals ?? "");
       setTools(toolsResult.data ?? []);
+
+      // The editors start from what is persisted, not from a blank: a switch
+      // must show the state the runtime is actually enforcing.
+      setPermissions(workerResult.data.permissions ?? {});
+      setKnowledge(workerResult.data.knowledge ?? []);
+      setHeartbeat(workerResult.data.heartbeat ?? { enabled: false });
 
       // The execution panel needs a run to show. Default to the most recent
       // one so the panel is never empty for a worker that has run.
@@ -230,6 +271,68 @@ const WorkerDetailPage: React.FC = () => {
     );
     reload();
   }, [worker, toolKeys, toolEnabled, assignedKeys, reload]);
+
+  /**
+   * Save the runtime's guardrails for this worker.
+   *
+   * WHY THIS WRITES THE WHOLE BLOCK
+   *   `permissions` is one jsonb column, so a partial update is not possible:
+   *   the editor always writes the complete set of keys the runtime reads.
+   */
+  const savePermissions = useCallback(async () => {
+    if (!worker) return;
+    setPermissionsSaving(true);
+    setPermissionsNote(null);
+    setPermissionsError(null);
+
+    const result = await updateWorker(worker.id, { permissions });
+    setPermissionsSaving(false);
+    if (result.error) {
+      setPermissionsError(`Could not save the permissions: ${result.error.message}`);
+      return;
+    }
+    if (result.data) setWorker(result.data);
+    setPermissionsNote("Permissions saved");
+  }, [worker, permissions]);
+
+  const saveKnowledge = useCallback(async () => {
+    if (!worker) return;
+    setKnowledgeSaving(true);
+    setKnowledgeNote(null);
+    setKnowledgeError(null);
+
+    const result = await updateWorker(worker.id, { knowledge });
+    setKnowledgeSaving(false);
+    if (result.error) {
+      setKnowledgeError(`Could not save the knowledge sources: ${result.error.message}`);
+      return;
+    }
+    if (result.data) setWorker(result.data);
+    setKnowledgeNote("Knowledge sources saved");
+  }, [worker, knowledge]);
+
+  const saveHeartbeat = useCallback(async () => {
+    if (!worker) return;
+    setHeartbeatSaving(true);
+    setHeartbeatNote(null);
+    setHeartbeatError(null);
+
+    const result = await updateWorker(worker.id, { heartbeat });
+    setHeartbeatSaving(false);
+    if (result.error) {
+      setHeartbeatError(`Could not save the heartbeat: ${result.error.message}`);
+      return;
+    }
+    if (result.data) setWorker(result.data);
+    setHeartbeatNote("Heartbeat saved");
+  }, [worker, heartbeat]);
+
+  /** Add or remove one entry of a string list held in the editor state. */
+  const toggleListEntry = useCallback(
+    (list: string[], entry: string): string[] =>
+      list.includes(entry) ? list.filter((value) => value !== entry) : [...list, entry],
+    [],
+  );
 
   /**
    * Bring an archived worker back. The archive flag is a separate column from
@@ -370,15 +473,24 @@ const WorkerDetailPage: React.FC = () => {
 
                 <Section
                   title="Knowledge"
-                  description="Reference material handed to the worker with the prompt."
+                  description="Reference material handed to the worker with the prompt. Saved onto the worker record."
+                  actions={
+                    <Button
+                      size="sm"
+                      disabled={knowledgeSaving}
+                      onClick={() => void saveKnowledge()}
+                    >
+                      {knowledgeSaving ? "Saving…" : "Save sources"}
+                    </Button>
+                  }
                 >
-                  {(worker.knowledge ?? []).length === 0 ? (
+                  {knowledge.length === 0 ? (
                     <p className="text-sm text-white/45">
                       No knowledge sources attached to this worker.
                     </p>
                   ) : (
                     <ul className="space-y-2">
-                      {(worker.knowledge ?? []).map((entry, index) => (
+                      {knowledge.map((entry, index) => (
                         <li
                           key={`${entry.name}-${index}`}
                           className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-white/5 bg-black/30 px-3 py-2.5"
@@ -389,11 +501,108 @@ const WorkerDetailPage: React.FC = () => {
                               <p className="mt-0.5 break-all text-[11px] text-white/35">{entry.ref}</p>
                             ) : null}
                           </div>
-                          <Pill tone="sky">{entry.kind}</Pill>
+                          <div className="flex items-center gap-2">
+                            <Pill tone="sky">{entry.kind}</Pill>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="border-rose-400/30 text-rose-300 hover:bg-rose-500/10"
+                              onClick={() =>
+                                setKnowledge((current) => current.filter((_, position) => position !== index))
+                              }
+                              aria-label={`Remove the knowledge source ${entry.name}`}
+                            >
+                              Remove
+                            </Button>
+                          </div>
                         </li>
                       ))}
                     </ul>
                   )}
+
+                  <div className="mt-4 border-t border-white/5 pt-4">
+                    <p className="text-xs text-white/50">Add a source</p>
+                    <div className="mt-2 grid gap-3 sm:grid-cols-[1fr_140px]">
+                      <div>
+                        <Label htmlFor="knowledge-name">Name</Label>
+                        <Input
+                          id="knowledge-name"
+                          value={knowledgeDraft.name}
+                          onChange={(event) =>
+                            setKnowledgeDraft({ ...knowledgeDraft, name: event.target.value })
+                          }
+                          placeholder="Competitor pricing page"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="knowledge-kind">Kind</Label>
+                        <select
+                          id="knowledge-kind"
+                          value={knowledgeDraft.kind}
+                          onChange={(event) =>
+                            setKnowledgeDraft({
+                              ...knowledgeDraft,
+                              kind: event.target.value as WorkerKnowledgeRef["kind"],
+                            })
+                          }
+                          className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"
+                        >
+                          {KNOWLEDGE_KINDS.map((kind) => (
+                            <option key={kind} value={kind}>
+                              {kind}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="mt-3">
+                      <Label htmlFor="knowledge-ref">Reference</Label>
+                      <Input
+                        id="knowledge-ref"
+                        value={knowledgeDraft.ref}
+                        onChange={(event) =>
+                          setKnowledgeDraft({ ...knowledgeDraft, ref: event.target.value })
+                        }
+                        placeholder="https://example.com/pricing"
+                      />
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="mt-3"
+                      onClick={() => {
+                        const name = knowledgeDraft.name.trim();
+                        if (!name) {
+                          setKnowledgeError("Give the source a name");
+                          return;
+                        }
+                        setKnowledgeError(null);
+                        setKnowledge((current) => [
+                          ...current,
+                          {
+                            name,
+                            kind: knowledgeDraft.kind,
+                            ...(knowledgeDraft.ref.trim() ? { ref: knowledgeDraft.ref.trim() } : {}),
+                          },
+                        ]);
+                        setKnowledgeDraft({ name: "", kind: knowledgeDraft.kind, ref: "" });
+                        setKnowledgeNote("Source added — save to persist it");
+                      }}
+                    >
+                      Add source
+                    </Button>
+                  </div>
+
+                  {knowledgeError ? (
+                    <p role="alert" className="mt-3 text-sm text-rose-300">
+                      {knowledgeError}
+                    </p>
+                  ) : null}
+                  {knowledgeNote ? (
+                    <p role="status" className="mt-3 text-xs text-white/45">
+                      {knowledgeNote}
+                    </p>
+                  ) : null}
                 </Section>
               </TabsContent>
 
@@ -447,7 +656,7 @@ const WorkerDetailPage: React.FC = () => {
 
                 <Section
                   title="Tools"
-                  description="What this worker may call. The executor reads these rows before it offers a tool to the model, so a tool that is off is never offered."
+                  description="What this worker may call. Only the tools the runtime can dispatch are offered; a key that is already assigned but no longer dispatchable is kept and marked. The executor reads these rows before it offers a tool to the model, so a tool that is off is never offered."
                   actions={
                     <Button size="sm" disabled={toolsSaving} onClick={() => void saveTools()}>
                       {toolsSaving ? "Saving…" : "Save tools"}
@@ -557,7 +766,331 @@ const WorkerDetailPage: React.FC = () => {
               </TabsContent>
 
               <TabsContent value="policies" className="space-y-4 pt-4">
-                <Section title="Policies" description="Guardrails applied by the runtime before any tool executes.">
+                <Section
+                  title="Permissions"
+                  description="Enforced by the runtime before a tool is offered to the model. A denied tool is never offered; a gated action parks the task until a human approves it."
+                  actions={
+                    <Button
+                      size="sm"
+                      disabled={permissionsSaving}
+                      onClick={() => void savePermissions()}
+                    >
+                      {permissionsSaving ? "Saving…" : "Save permissions"}
+                    </Button>
+                  }
+                >
+                  <div className="space-y-5">
+                    <div role="group" aria-label="Capability switches" className="space-y-2">
+                      <button
+                        type="button"
+                        aria-pressed={permissions.allow_web_access !== false}
+                        onClick={() =>
+                          setPermissions({
+                            ...permissions,
+                            allow_web_access: permissions.allow_web_access === false,
+                          })
+                        }
+                        className={`w-full rounded-xl border px-3 py-2 text-left text-sm transition ${
+                          permissions.allow_web_access !== false
+                            ? "border-emerald-400/40 bg-emerald-500/10 text-emerald-100"
+                            : "border-white/10 bg-black/40 text-white/60"
+                        }`}
+                      >
+                        Web access
+                        <span className="ml-2 text-[11px] text-white/40">
+                          {permissions.allow_web_access !== false
+                            ? "on — the web_fetch tool may run"
+                            : "off — the web_fetch tool is refused"}
+                        </span>
+                      </button>
+
+                      <button
+                        type="button"
+                        aria-pressed={permissions.allow_artifacts !== false}
+                        onClick={() =>
+                          setPermissions({
+                            ...permissions,
+                            allow_artifacts: permissions.allow_artifacts === false,
+                          })
+                        }
+                        className={`w-full rounded-xl border px-3 py-2 text-left text-sm transition ${
+                          permissions.allow_artifacts !== false
+                            ? "border-emerald-400/40 bg-emerald-500/10 text-emerald-100"
+                            : "border-white/10 bg-black/40 text-white/60"
+                        }`}
+                      >
+                        Artifacts
+                        <span className="ml-2 text-[11px] text-white/40">
+                          {permissions.allow_artifacts !== false
+                            ? "on — the artifact_write tool may run"
+                            : "off — the artifact_write tool is refused"}
+                        </span>
+                      </button>
+                    </div>
+
+                    <div>
+                      <p className="text-xs text-white/50" id="worker-denied-tools-label">
+                        Denied tools
+                      </p>
+                      <div
+                        role="group"
+                        aria-labelledby="worker-denied-tools-label"
+                        className="mt-2 flex flex-wrap gap-2"
+                      >
+                        {DISPATCHABLE_TOOL_KEYS.map((toolKey) => {
+                          const denied = (permissions.denied_tools ?? []).includes(toolKey);
+                          return (
+                            <button
+                              key={toolKey}
+                              type="button"
+                              aria-pressed={denied}
+                              onClick={() =>
+                                setPermissions({
+                                  ...permissions,
+                                  denied_tools: toggleListEntry(
+                                    permissions.denied_tools ?? [],
+                                    toolKey,
+                                  ),
+                                })
+                              }
+                              className={`rounded-full border px-2.5 py-0.5 text-[11px] transition ${
+                                denied
+                                  ? "border-rose-400/40 bg-rose-500/15 text-rose-200"
+                                  : "border-white/10 bg-white/5 text-white/50"
+                              }`}
+                            >
+                              {toolKey}
+                            </button>
+                          );
+                        })}
+                      </div>
+                      <p className="mt-1 text-[11px] text-white/35">
+                        A denied tool is never offered to the model, even when it is assigned on the
+                        Model &amp; tools tab.
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="text-xs text-white/50" id="worker-approval-actions-label">
+                        Actions that require a human approval
+                      </p>
+                      <div
+                        role="group"
+                        aria-labelledby="worker-approval-actions-label"
+                        className="mt-2 flex flex-wrap gap-2"
+                      >
+                        {DISPATCHABLE_TOOL_KEYS.map((toolKey) => {
+                          const gated = (permissions.approval_required_actions ?? []).includes(
+                            toolKey,
+                          );
+                          return (
+                            <button
+                              key={toolKey}
+                              type="button"
+                              aria-pressed={gated}
+                              onClick={() =>
+                                setPermissions({
+                                  ...permissions,
+                                  approval_required_actions: toggleListEntry(
+                                    permissions.approval_required_actions ?? [],
+                                    toolKey,
+                                  ),
+                                })
+                              }
+                              className={`rounded-full border px-2.5 py-0.5 text-[11px] transition ${
+                                gated
+                                  ? "border-amber-400/40 bg-amber-500/15 text-amber-200"
+                                  : "border-white/10 bg-white/5 text-white/50"
+                              }`}
+                            >
+                              {toolKey}
+                            </button>
+                          );
+                        })}
+                      </div>
+                      <p className="mt-1 text-[11px] text-white/35">
+                        The runtime matches this list against the action type of a tool call, which is
+                        the tool key itself. A gated action parks the task for approval instead of
+                        running.
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="text-xs text-white/50" id="worker-app-slugs-label">
+                        Allowed app slugs
+                      </p>
+                      {(permissions.allowed_app_slugs ?? []).length > 0 ? (
+                        <ul className="mt-2 flex flex-wrap gap-2">
+                          {(permissions.allowed_app_slugs ?? []).map((slug) => (
+                            <li key={slug}>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setPermissions({
+                                    ...permissions,
+                                    allowed_app_slugs: toggleListEntry(
+                                      permissions.allowed_app_slugs ?? [],
+                                      slug,
+                                    ),
+                                  })
+                                }
+                                className="rounded-full border border-violet-400/40 bg-violet-500/15 px-2.5 py-0.5 text-[11px] text-violet-200"
+                                aria-label={`Remove ${slug} from the allowed apps`}
+                              >
+                                {slug} ×
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="mt-2 text-[11px] text-white/35">
+                          Every app in the catalog is allowed.
+                        </p>
+                      )}
+                      <div className="mt-2 flex flex-wrap items-end gap-2">
+                        <div className="min-w-[200px] flex-1">
+                          <Label htmlFor="worker-app-slug">App slug</Label>
+                          <Input
+                            id="worker-app-slug"
+                            value={slugInput}
+                            onChange={(event) => setSlugInput(event.target.value)}
+                            placeholder="ai-design-studio"
+                          />
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            const slug = slugInput.trim();
+                            if (!slug) {
+                              setPermissionsError("Enter an app slug");
+                              return;
+                            }
+                            setPermissionsError(null);
+                            setPermissions({
+                              ...permissions,
+                              allowed_app_slugs: toggleListEntry(
+                                permissions.allowed_app_slugs ?? [],
+                                slug,
+                              ),
+                            });
+                            setSlugInput("");
+                          }}
+                        >
+                          Add app
+                        </Button>
+                      </div>
+                      <p className="mt-1 text-[11px] text-white/35">
+                        An empty list means every app in the catalog is allowed. A list restricts this
+                        worker to the apps you name.
+                      </p>
+                    </div>
+                  </div>
+
+                  {permissionsError ? (
+                    <p role="alert" className="mt-4 text-sm text-rose-300">
+                      {permissionsError}
+                    </p>
+                  ) : null}
+                  {permissionsNote ? (
+                    <p role="status" className="mt-4 text-xs text-white/45">
+                      {permissionsNote}
+                    </p>
+                  ) : null}
+                </Section>
+
+                <Section
+                  title="Heartbeat"
+                  description="The recurring prompt configuration stored on this worker."
+                  actions={
+                    <Button
+                      size="sm"
+                      disabled={heartbeatSaving}
+                      onClick={() => void saveHeartbeat()}
+                    >
+                      {heartbeatSaving ? "Saving…" : "Save heartbeat"}
+                    </Button>
+                  }
+                >
+                  <div className="space-y-4">
+                    <button
+                      type="button"
+                      aria-pressed={heartbeat.enabled === true}
+                      onClick={() =>
+                        setHeartbeat({ ...heartbeat, enabled: !heartbeat.enabled })
+                      }
+                      className={`w-full rounded-xl border px-3 py-2 text-left text-sm transition ${
+                        heartbeat.enabled
+                          ? "border-emerald-400/40 bg-emerald-500/10 text-emerald-100"
+                          : "border-white/10 bg-black/40 text-white/60"
+                      }`}
+                    >
+                      Heartbeat
+                      <span className="ml-2 text-[11px] text-white/40">
+                        {heartbeat.enabled
+                          ? "on — the worker runs on this schedule"
+                          : "off — the worker only runs when it is given a task"}
+                      </span>
+                    </button>
+
+                    {heartbeat.enabled ? (
+                      <>
+                        <div className="grid gap-4 sm:grid-cols-2">
+                          <div>
+                            <Label htmlFor="worker-heartbeat-cron">Cron</Label>
+                            <Input
+                              id="worker-heartbeat-cron"
+                              value={heartbeat.cron ?? ""}
+                              onChange={(event) =>
+                                setHeartbeat({ ...heartbeat, cron: event.target.value })
+                              }
+                              placeholder="0 9 * * 1"
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="worker-heartbeat-timezone">Timezone</Label>
+                            <Input
+                              id="worker-heartbeat-timezone"
+                              value={heartbeat.timezone ?? ""}
+                              onChange={(event) =>
+                                setHeartbeat({ ...heartbeat, timezone: event.target.value })
+                              }
+                              placeholder="UTC"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <Label htmlFor="worker-heartbeat-prompt">Heartbeat prompt</Label>
+                          <Textarea
+                            id="worker-heartbeat-prompt"
+                            value={heartbeat.prompt ?? ""}
+                            onChange={(event) =>
+                              setHeartbeat({ ...heartbeat, prompt: event.target.value })
+                            }
+                            rows={3}
+                            placeholder="Check the pipeline and report anything overdue."
+                          />
+                        </div>
+                      </>
+                    ) : null}
+                  </div>
+
+                  {heartbeatError ? (
+                    <p role="alert" className="mt-4 text-sm text-rose-300">
+                      {heartbeatError}
+                    </p>
+                  ) : null}
+                  {heartbeatNote ? (
+                    <p role="status" className="mt-4 text-xs text-white/45">
+                      {heartbeatNote}
+                    </p>
+                  ) : null}
+                </Section>
+
+                <Section
+                  title="Runtime summary"
+                  description="Settings the runtime reads from this worker record."
+                >
                   <dl className="grid gap-3 text-sm sm:grid-cols-2">
                     <div>
                       <dt className="text-white/45">Web access</dt>

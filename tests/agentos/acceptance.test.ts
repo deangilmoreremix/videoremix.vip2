@@ -755,9 +755,19 @@ describe("AgentOS acceptance scenarios", () => {
       expect((await getIntegration("openclaw_gateway")).error?.code).toBe("unsupported");
 
       // So an unsupported tool cannot be assigned to a worker.
+      //
+      // WHY THE DISPATCHABLE SET AND NOT THE DIRECTORY
+      //   The directory is wider than the runtime: it also lists connected
+      //   surfaces (browser_session and friends) that a worker reaches
+      //   through an app capability rather than through a model tool call.
+      //   Only the keys the runtime has a dispatch spec for may be offered,
+      //   or the picker would produce a tool assignment the executor skips.
       expect((await listAssignableToolKeys()).data?.sort()).toEqual([
-        "browser_session",
+        "artifact_write",
+        "vector_search",
         "videoremix_apps",
+        "videoremix_personalizer",
+        "web_fetch",
       ]);
 
       // A supported integration can be connected with scoped authorization.

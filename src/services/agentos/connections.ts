@@ -27,6 +27,12 @@ import {
  * forbidden / not_found / validation / conflict / unsupported / ...), so
  * discarding it and reporting "unknown" throws away the one thing the UI
  * needs: whether the user must sign in, cannot do this, or can retry.
+ *
+ * WHY THE EXTRA CODES
+ *   The AgentOS edge functions (supabase/functions/_shared/agentos-errors.ts)
+ *   also return `not_configured`, `out_of_credits` and `timeout`, which the
+ *   shared union did not know — they all surfaced as "unknown". `internal` is
+ *   the server-side catch-all and maps onto `database`.
  */
 function mapServerCode(code: string | undefined): AgentOSError["code"] {
   switch (code) {
@@ -42,6 +48,14 @@ function mapServerCode(code: string | undefined): AgentOSError["code"] {
       return "conflict";
     case "unsupported":
       return "unsupported";
+    case "not_configured":
+      return "not_configured";
+    case "out_of_credits":
+      return "out_of_credits";
+    case "timeout":
+      return "timeout";
+    case "internal":
+      return "database";
     default:
       return "unknown";
   }
@@ -240,9 +254,26 @@ export const DISPATCHABLE_TOOL_KEYS: readonly string[] = [
   "videoremix_personalizer",
 ];
 
-/** Tool keys available for assignment to a worker. */
+/**
+ * Tool keys available for assignment to a worker.
+ *
+ * WHY ONLY THE DISPATCHABLE SET
+ *   The integration directory lists sixteen entries, but the runtime can only
+ *   dispatch five of them (TOOL_SPECS in
+ *   supabase/functions/_shared/agentos-runtime.ts). The rest are surfaces a
+ *   worker reaches through an app capability, not a model tool call. Offering
+ *   them in a picker produced a tool assignment the executor silently skips,
+ *   so the operator believed the worker had a capability it could never use.
+ *
+ *   The dispatchable set is therefore the whole answer. A key the directory
+ *   explicitly marks unsupported is still dropped: the runtime refuses it
+ *   before dispatch (resolveOfferedTools) whatever the picker says.
+ */
 export async function listAssignableToolKeys(): Promise<AgentOSResult<string[]>> {
-  const integrations = await listIntegrations();
+  // The unsupported rows are read too: a key the directory marks unsupported
+  // is refused by the runtime before dispatch, so it must not be offered even
+  // though the runtime has a dispatch spec for it.
+  const integrations = await listIntegrations({ includeUnsupported: true });
   if (integrations.error || !integrations.data) {
     // Map the error into this function's own return type.
     return err(
@@ -252,9 +283,11 @@ export async function listAssignableToolKeys(): Promise<AgentOSResult<string[]>>
     );
   }
 
-  const keys = integrations.data
-    .filter((integration) => integration.support === "supported" || integration.support === "limited")
-    .map((integration) => integration.key);
+  const unsupported = new Set(
+    integrations.data
+      .filter((integration) => integration.support === "unsupported")
+      .map((integration) => integration.key),
+  );
 
-  return ok(keys);
+  return ok(DISPATCHABLE_TOOL_KEYS.filter((key) => !unsupported.has(key)));
 }

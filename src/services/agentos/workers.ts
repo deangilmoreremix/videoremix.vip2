@@ -14,6 +14,9 @@ import {
   ok,
   type AgentOSResult,
   type Worker,
+  type WorkerHeartbeat,
+  type WorkerKnowledgeRef,
+  type WorkerPermissions,
   type WorkerStatus,
   type WorkerTool,
 } from "../../types/agentos";
@@ -40,8 +43,12 @@ export interface CreateWorkerInput {
   max_output_tokens?: number;
   tools?: Array<{ tool_key: string; enabled?: boolean; config?: Record<string, unknown> }>;
   memory_enabled?: boolean;
-  permissions?: Record<string, unknown>;
-  heartbeat?: Record<string, unknown>;
+  /**
+   * The runtime's guardrails for this worker. Typed, not a free-form bag,
+   * because the runtime reads exactly these keys.
+   */
+  permissions?: WorkerPermissions;
+  heartbeat?: WorkerHeartbeat;
   accent?: string;
 }
 
@@ -65,9 +72,9 @@ export interface UpdateWorkerInput {
   temperature?: number;
   max_output_tokens?: number;
   memory_enabled?: boolean;
-  permissions?: Record<string, unknown>;
-  heartbeat?: Record<string, unknown>;
-  knowledge?: Array<{ name: string; kind: string; ref?: string }>;
+  permissions?: WorkerPermissions;
+  heartbeat?: WorkerHeartbeat;
+  knowledge?: WorkerKnowledgeRef[];
 }
 
 /** List workers the caller owns or can see through workspace membership. */

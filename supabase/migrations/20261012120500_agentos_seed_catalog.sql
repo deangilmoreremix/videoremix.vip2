@@ -1,9 +1,17 @@
 -- AgentOS seed data: routable model catalog and the integration directory.
 --
 -- The model catalog is the single source of truth for what a worker may be
--- routed to. Credit rates mirror supabase/functions/_shared/creditRates.ts
--- (the billing authority) so the UI cannot promise a cheaper price than the
--- runtime charges.
+-- routed to.
+--
+-- WHAT THE CREDIT RATES ARE
+--   credit_rate_in / credit_rate_out are the PER-THOUSAND-TOKEN credit
+--   rates the runtime charges: a run costs
+--     (prompt_tokens * credit_rate_in + completion_tokens * credit_rate_out)
+--     / 1000
+--   credits. That is the arithmetic of computeCredits() in
+--   supabase/functions/_shared/agentos-runtime.ts and of estimateCredits() in
+--   src/services/agentos/models.ts, so the catalog, the browser estimate and
+--   the debit against the user's balance all agree.
 --
 -- The integration directory is descriptive only: it records what the platform
 -- supports. Entries marked 'unsupported' are intentionally NOT wired into the
@@ -16,6 +24,15 @@ BEGIN;
 -- through the OpenAI Responses API service already used by the 130-app catalog
 -- runner. Other providers are represented as provider_config rows only when a
 -- BYOK credential has been verified, never as implicit defaults.)
+--
+-- text-embedding-3-large IS NOT A CHAT MODEL
+--   It was seeded as an ACTIVE, routable model, so it was offered in the
+--   worker's model picker and a worker could be pointed at a model that can
+--   only ever fail: it serves embeddings, never a chat completion. It is
+--   marked 'deprecated' here, which keeps it out of the routable (active)
+--   set; the precise reason is recorded on the catalog row as
+--   supports_chat = false by 20261012121300_agentos_writers.sql, and the
+--   runtime asks the catalog (agentos.model_supports_chat) before routing.
 -- ---------------------------------------------------------------------------
 INSERT INTO agentos.model_catalog
   (id, provider, display_name, family, context_window, capabilities,
@@ -27,7 +44,7 @@ VALUES
   ('gpt-4o-mini',           'openai', 'GPT-4o mini',           'gpt-4o',    128000, ARRAY['text','vision','tools'],             0.15, 0.6, 'active'),
   ('o3',                    'openai', 'o3',                    'reasoning', 200000, ARRAY['text','vision','tools','reasoning'], 10,   40,  'active'),
   ('o4-mini',               'openai', 'o4-mini',               'reasoning', 200000, ARRAY['text','tools','reasoning'],          1.1,  4.4, 'active'),
-  ('text-embedding-3-large','openai', 'text-embedding-3-large','embedding',  8191,  ARRAY['embeddings'],                        0.13,  0,  'active')
+  ('text-embedding-3-large','openai', 'text-embedding-3-large','embedding',  8191,  ARRAY['embeddings'],                        0.13,  0,  'deprecated')
 ON CONFLICT (id) DO UPDATE SET
   display_name = EXCLUDED.display_name,
   family = EXCLUDED.family,

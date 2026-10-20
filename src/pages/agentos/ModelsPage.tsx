@@ -4,6 +4,13 @@
 //
 // BYOK is read-only from the browser: a credential is sent once to the
 // provider-test endpoint and only the returned credential_ref is displayed.
+//
+// WHAT THIS PAGE DOES NOT CLAIM
+//   A BYOK credential is stored as a reference, and this port has no secret
+//   store behind that reference: the runtime always calls the provider with
+//   the platform key. The copy on this page says so — a provider that cannot
+//   be routed through is described as not routable rather than as a working
+//   alternative to the platform key.
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
@@ -32,7 +39,8 @@ import {
   testProvider,
   updateProviderConfig,
 } from "../../services/agentos/models";
-import type { ModelCatalogEntry, ProviderConfig, ProviderMode } from "../../types/agentos";
+import { listWorkspaces } from "../../services/agentos/workspaces";
+import type { ModelCatalogEntry, ProviderConfig, ProviderMode, Workspace } from "../../types/agentos";
 
 const CAPABILITY_LABELS: Record<string, string> = {
   text: "text",
@@ -52,6 +60,7 @@ interface ProviderDraft {
   modelIds: string[];
   isDefault: boolean;
   enabled: boolean;
+  workspaceId: string;
 }
 
 interface EstimateDraft {
@@ -63,6 +72,7 @@ interface EstimateDraft {
 const ModelsPage: React.FC = () => {
   const [models, setModels] = useState<ModelCatalogEntry[]>([]);
   const [providers, setProviders] = useState<ProviderConfig[]>([]);
+  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
@@ -76,6 +86,7 @@ const ModelsPage: React.FC = () => {
   const [mode, setMode] = useState<ProviderMode>("platform");
   const [label, setLabel] = useState("");
   const [credential, setCredential] = useState("");
+  const [workspaceId, setWorkspaceId] = useState("");
 
   // Provider configuration.
   const [draft, setDraft] = useState<ProviderDraft | null>(null);
@@ -103,13 +114,15 @@ const ModelsPage: React.FC = () => {
     let cancelled = false;
     void (async () => {
       setLoading(true);
-      const [modelsResult, providersResult] = await Promise.all([
+      const [modelsResult, providersResult, workspacesResult] = await Promise.all([
         listModelCatalog(),
         listProviderConfigs(),
+        listWorkspaces(),
       ]);
       if (cancelled) return;
       setModels(modelsResult.data ?? []);
       setProviders(providersResult.data ?? []);
+      setWorkspaces(workspacesResult.data ?? []);
       setError(modelsResult.error?.message ?? providersResult.error?.message ?? null);
       setLoading(false);
     })();
@@ -136,6 +149,9 @@ const ModelsPage: React.FC = () => {
       provider,
       mode,
       label: label || provider,
+      // The workspace the provider is shared with. Writing it is what lets
+      // the workspace-scoped RLS policy apply.
+      workspace_id: workspaceId || null,
       credential: mode === "byok" ? credential : undefined,
     });
     setSaving(false);
@@ -146,9 +162,10 @@ const ModelsPage: React.FC = () => {
     setDialogOpen(false);
     setCredential("");
     setLabel("");
+    setWorkspaceId("");
     setStatus("Provider added");
     reload();
-  }, [provider, mode, label, credential, reload]);
+  }, [provider, mode, label, credential, workspaceId, reload]);
 
   const retest = useCallback(
     async (providerConfig: ProviderConfig) => {
@@ -161,11 +178,19 @@ const ModelsPage: React.FC = () => {
         setActionError(`Could not test ${providerConfig.label}: ${result.error.message}`);
         return;
       }
-      setStatus(
-        result.data?.status === "active"
-          ? `${providerConfig.label} passed the readiness test`
-          : `${providerConfig.label} failed the readiness test`,
-      );
+      const note = result.data?.last_test_note ?? "";
+      if (result.data?.status === "active") {
+        setStatus(`${providerConfig.label} passed the readiness test`);
+      } else if (result.data?.status === "error") {
+        setStatus(`${providerConfig.label} failed the readiness test: ${note}`);
+      } else {
+        // The probe could not run (for example: the credential is stored as a
+        // reference and this deployment has no secret store behind it). That
+        // is not a failure of the provider, so it is not reported as one.
+        setStatus(
+          `${providerConfig.label} was not tested: ${note || "the provider could not be probed"}`,
+        );
+      }
       reload();
     },
     [reload],
@@ -196,6 +221,7 @@ const ModelsPage: React.FC = () => {
       modelIds: providerConfig.model_ids ?? [],
       isDefault: providerConfig.is_default,
       enabled: providerConfig.status !== "disabled",
+      workspaceId: providerConfig.workspace_id ?? "",
     });
     setDraftError(null);
     setActionError(null);
@@ -216,6 +242,7 @@ const ModelsPage: React.FC = () => {
       model_ids: draft.modelIds,
       is_default: draft.isDefault,
       enabled: draft.enabled,
+      workspace_id: draft.workspaceId || null,
     });
     setSaving(false);
 
@@ -281,7 +308,13 @@ const ModelsPage: React.FC = () => {
     setProbeBusy(false);
 
     if (result.error) {
-      setProbeNote(`Probe failed: ${result.error.message}`);
+      // "not configured" is not a failed probe: the reference cannot be
+      // resolved because this deployment has no secret store behind it.
+      setProbeNote(
+        result.error.code === "not_configured"
+          ? `Not tested: ${result.error.message}`
+          : `Probe failed: ${result.error.message}`,
+      );
       return;
     }
     if (!result.data?.ok) {
@@ -308,7 +341,7 @@ const ModelsPage: React.FC = () => {
       <div className="mx-auto max-w-6xl px-6 py-8">
         <PageHeader
           title="Models"
-          description="The routable model catalog and the providers a worker may be routed through."
+          description="The model catalog the runtime can call, and the provider credentials configured for your account."
         />
 
         <div className="mb-5 max-w-md">
@@ -404,7 +437,7 @@ const ModelsPage: React.FC = () => {
 
         <Section
           title="Providers"
-          description="Credentials never leave the server. This page shows references only."
+          description="A credential is stored as an opaque reference, never in the browser. Platform-mode providers run on the platform key. A BYOK provider is not routable until a secret store is wired behind its reference."
           actions={
             <Button size="sm" onClick={() => setDialogOpen(true)}>
               <Plus className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
@@ -416,7 +449,7 @@ const ModelsPage: React.FC = () => {
             <EmptyState
               icon={KeyRound}
               title="No providers configured"
-              description="Runs use the platform key by default. Add a BYOK provider to route some workers through your own account."
+              description="Runs use the platform key by default. You can still store a BYOK credential here, but it stays a reference until a secret store is wired — it does not route runs yet."
               action={
                 <Button size="sm" onClick={() => setDialogOpen(true)}>
                   Add provider
@@ -449,6 +482,18 @@ const ModelsPage: React.FC = () => {
                         {providerConfig.status}
                       </Pill>
                       {providerConfig.is_default ? <Pill tone="amber">default</Pill> : null}
+                      {providerConfig.mode === "byok" ? (
+                        <Pill tone="amber" title="No secret store is wired behind the reference yet">
+                          not routable
+                        </Pill>
+                      ) : null}
+                      {providerConfig.workspace_id ? (
+                        <Pill tone="violet">
+                          workspace:{" "}
+                          {workspaces.find((w) => w.id === providerConfig.workspace_id)?.name ??
+                            providerConfig.workspace_id}
+                        </Pill>
+                      ) : null}
                     </div>
                     <p className="mt-0.5 text-[11px] text-white/35">
                       {providerConfig.credential_ref
@@ -459,6 +504,12 @@ const ModelsPage: React.FC = () => {
                         : ""}
                       {providerConfig.last_test_note ? ` · ${providerConfig.last_test_note}` : ""}
                     </p>
+                    {providerConfig.mode === "byok" ? (
+                      <p className="mt-0.5 text-[11px] text-white/35">
+                        The credential is stored as a reference. Nothing in this deployment can
+                        resolve it to a key yet, so this provider does not route runs.
+                      </p>
+                    ) : null}
                     <p className="mt-0.5 text-[11px] text-white/35">
                       models:{" "}
                       {(providerConfig.model_ids ?? []).length > 0
@@ -578,6 +629,28 @@ const ModelsPage: React.FC = () => {
               </p>
             </div>
 
+            <div>
+              <label className="text-xs text-white/50" htmlFor="provider-workspace">
+                Share with a workspace
+              </label>
+              <select
+                id="provider-workspace"
+                value={draft.workspaceId}
+                onChange={(event) => setDraft({ ...draft, workspaceId: event.target.value })}
+                className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"
+              >
+                <option value="">Personal (no workspace)</option>
+                {workspaces.map((workspace) => (
+                  <option key={workspace.id} value={workspace.id}>
+                    {workspace.name}
+                  </option>
+                ))}
+              </select>
+              <p className="mt-1 text-[11px] text-white/35">
+                A workspace-scoped provider is visible to that workspace&apos;s members.
+              </p>
+            </div>
+
             <div role="group" aria-label="Provider routing" className="space-y-2">
               <button
                 type="button"
@@ -610,7 +683,9 @@ const ModelsPage: React.FC = () => {
                 Enabled
                 <span className="ml-2 text-[11px] text-white/40">
                   {draft.enabled
-                    ? "on — the runtime may route through this provider"
+                    ? draft.mode === "byok"
+                      ? "on — enabled for this account, but a BYOK credential does not route runs until a secret store is wired"
+                      : "on — the runtime may route through this provider with the platform key"
                     : "off — the runtime must not route through this provider"}
                 </span>
               </button>
@@ -633,7 +708,9 @@ const ModelsPage: React.FC = () => {
                   {probeBusy ? "Probing…" : "Probe provider"}
                 </Button>
                 <span className="text-[11px] text-white/35">
-                  Asks the provider whether it answers now. Nothing is recorded.
+                  Asks the provider whether it answers now. Nothing is recorded. A BYOK reference
+                  cannot be resolved without a secret store, so the probe reports that it is not
+                  configured rather than failing.
                 </span>
               </div>
               {probeNote ? (
@@ -770,6 +847,11 @@ const ModelsPage: React.FC = () => {
               <option value="platform">Platform key</option>
               <option value="byok">Bring your own key</option>
             </select>
+            <p className="mt-1 text-[11px] text-white/35">
+              {mode === "platform"
+                ? "The platform key on the server runs the models. Nothing is stored against your account."
+                : "Your credential is verified once and stored as a reference. This deployment has no secret store behind that reference yet, so a BYOK provider does not route runs."}
+            </p>
           </div>
           <div>
             <label className="text-xs text-white/50" htmlFor="prov-label">
@@ -781,6 +863,27 @@ const ModelsPage: React.FC = () => {
               onChange={(event) => setLabel(event.target.value)}
               placeholder="My OpenAI key"
             />
+          </div>
+          <div>
+            <label className="text-xs text-white/50" htmlFor="prov-workspace">
+              Share with a workspace
+            </label>
+            <select
+              id="prov-workspace"
+              value={workspaceId}
+              onChange={(event) => setWorkspaceId(event.target.value)}
+              className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"
+            >
+              <option value="">Personal (no workspace)</option>
+              {workspaces.map((workspace) => (
+                <option key={workspace.id} value={workspace.id}>
+                  {workspace.name}
+                </option>
+              ))}
+            </select>
+            <p className="mt-1 text-[11px] text-white/35">
+              A workspace-scoped provider is visible to that workspace&apos;s members.
+            </p>
           </div>
           {mode === "byok" ? (
             <div>
@@ -801,7 +904,11 @@ const ModelsPage: React.FC = () => {
             </div>
           ) : null}
 
-          {dialogError ? <p className="text-sm text-rose-300">{dialogError}</p> : null}
+          {dialogError ? (
+            <p role="alert" className="text-sm text-rose-300">
+              {dialogError}
+            </p>
+          ) : null}
         </div>
       </Modal>
     </>

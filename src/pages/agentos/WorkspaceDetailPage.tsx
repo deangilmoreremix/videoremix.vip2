@@ -89,7 +89,9 @@ const WorkspaceDetailPage: React.FC = () => {
       setLoading(true);
       const [workspaceResult, membersResult, workersResult, missionsResult] = await Promise.all([
         getWorkspace(workspaceId),
-        listWorkspaceMembers(workspaceId),
+        // The membership history matters to the owner, so revoked members are
+        // listed too — they are shown as revoked instead of vanishing.
+        listWorkspaceMembers(workspaceId, { includeRevoked: true }),
         listWorkers({ workspaceId }),
         listMissions(),
       ]);
@@ -209,10 +211,10 @@ const WorkspaceDetailPage: React.FC = () => {
       setActionError(null);
       const result = await removeMember({ workspaceId, memberClerkId });
       if (result.error) {
-        setActionError(`Could not remove the member: ${result.error.message}`);
+        setActionError(`Could not revoke the member: ${result.error.message}`);
         return;
       }
-      setStatus("Member removed");
+      setStatus("Member revoked");
       reload();
     },
     [workspaceId, reload],
@@ -335,7 +337,7 @@ const WorkspaceDetailPage: React.FC = () => {
                   title="Members"
                   description={
                     isOwner
-                      ? "Invite by Clerk user id. The owner role is immutable."
+                      ? "Invite by Clerk user id. The owner role is immutable. A revoked member keeps their row and is shown as revoked."
                       : "Only the workspace owner can change membership."
                   }
                 >
@@ -343,55 +345,67 @@ const WorkspaceDetailPage: React.FC = () => {
                     <p className="text-sm text-white/45">No members recorded.</p>
                   ) : (
                     <ul className="space-y-2">
-                      {members.map((member) => (
-                        <li
-                          key={member.member_clerk_id}
-                          className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/5 bg-black/30 px-3 py-2.5"
-                        >
-                          <div className="min-w-0">
-                            <p className="truncate text-sm text-white/80">
-                              {member.member_clerk_id}
-                              {member.member_clerk_id === user?.id ? " (you)" : ""}
-                            </p>
-                            <p className="text-[11px] text-white/35">
-                              joined {new Date(member.created_at).toLocaleDateString()}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            {isOwner && member.role !== "owner" ? (
-                              <select
-                                value={member.role}
-                                onChange={(event) =>
-                                  void changeRole(
-                                    member.member_clerk_id,
-                                    event.target.value as Exclude<WorkspaceRole, "owner">,
-                                  )
-                                }
-                                className="rounded-lg border border-white/10 bg-black/40 px-2 py-1 text-xs text-white"
-                              >
-                                {ROLES.map((role) => (
-                                  <option key={role.value} value={role.value}>
-                                    {role.label}
-                                  </option>
-                                ))}
-                              </select>
-                            ) : (
-                              <Pill tone={member.role === "owner" ? "violet" : "slate"}>
-                                {member.role}
-                              </Pill>
-                            )}
-                            {isOwner && member.role !== "owner" ? (
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => void dropMember(member.member_clerk_id)}
-                              >
-                                Remove
-                              </Button>
-                            ) : null}
-                          </div>
-                        </li>
-                      ))}
+                      {members.map((member) => {
+                        const revoked = Boolean(member.revoked_at);
+                        return (
+                          <li
+                            key={member.member_clerk_id}
+                            className={`flex flex-wrap items-center justify-between gap-3 rounded-xl border px-3 py-2.5 ${
+                              revoked
+                                ? "border-white/5 bg-black/20 opacity-60"
+                                : "border-white/5 bg-black/30"
+                            }`}
+                          >
+                            <div className="min-w-0">
+                              <p className="truncate text-sm text-white/80">
+                                {member.member_clerk_id}
+                                {member.member_clerk_id === user?.id ? " (you)" : ""}
+                              </p>
+                              <p className="text-[11px] text-white/35">
+                                joined {new Date(member.created_at).toLocaleDateString()}
+                                {revoked && member.revoked_at
+                                  ? ` · revoked ${new Date(member.revoked_at).toLocaleDateString()}`
+                                  : ""}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              {revoked ? (
+                                <Pill tone="amber">revoked</Pill>
+                              ) : isOwner && member.role !== "owner" ? (
+                                <select
+                                  value={member.role}
+                                  onChange={(event) =>
+                                    void changeRole(
+                                      member.member_clerk_id,
+                                      event.target.value as Exclude<WorkspaceRole, "owner">,
+                                    )
+                                  }
+                                  className="rounded-lg border border-white/10 bg-black/40 px-2 py-1 text-xs text-white"
+                                >
+                                  {ROLES.map((role) => (
+                                    <option key={role.value} value={role.value}>
+                                      {role.label}
+                                    </option>
+                                  ))}
+                                </select>
+                              ) : (
+                                <Pill tone={member.role === "owner" ? "violet" : "slate"}>
+                                  {member.role}
+                                </Pill>
+                              )}
+                              {isOwner && !revoked && member.role !== "owner" ? (
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => void dropMember(member.member_clerk_id)}
+                                >
+                                  Revoke
+                                </Button>
+                              ) : null}
+                            </div>
+                          </li>
+                        );
+                      })}
                     </ul>
                   )}
 
