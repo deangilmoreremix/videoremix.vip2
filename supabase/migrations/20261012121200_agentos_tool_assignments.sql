@@ -92,6 +92,15 @@ BEGIN
     FROM candidates c
     WHERE t.id = c.id
     RETURNING t.*
+  ), mission_started AS (
+    -- A mission starts when its first task is claimed. The column used to
+    -- stay NULL forever, so the mission list could not say when the work
+    -- actually began.
+    UPDATE agentos.missions m
+      SET started_at = COALESCE(m.started_at, v_claim), updated_at = v_claim
+    FROM claimed c
+    WHERE m.id = c.mission_id AND m.started_at IS NULL
+    RETURNING m.id
   ), run_rows AS (
     INSERT INTO agentos.execution_runs
       (task_id, worker_id, owner_clerk_id, status, trigger, attempt,

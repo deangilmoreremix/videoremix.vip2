@@ -12,7 +12,7 @@ accessibility pass. What remains is `BLOCKED (external)` — it needs a valid
 Supabase management token, a direct Postgres connection string, a real
 `VITE_CLERK_PUBLISHABLE_KEY`, or one Dashboard toggle.
 
-**Five real defects were found and fixed in this pass.** The previous status
+**Nine real defects were found and fixed in this pass.** The previous status
 document reported "0 INCOMPLETE" because the verification was database-only
 and the test harness was schema-blind. Both now cover the data path.
 
@@ -38,13 +38,22 @@ and the test harness was schema-blind. Both now cover the data path.
 5. **The canvas was never saved.** Its ids are stable keys (`worker:<uuid>`),
    but the table declared `id uuid`, so every write was rejected and a drag
    was lost on refresh.
+6. **The tool assignments never reached the model.** The picker writes
+   `agentos.worker_tools`, but the queue returned the tools from the legacy
+   `workers.tools` jsonb that nothing writes — so the runtime was offered no
+   tools at all, silently.
+7. **Nothing ever ran on a schedule.** No cron job called the sweep, so a
+   schedule row was written by the UI and never fired.
+8. **The notification bell and the audit trail had readers but no writers.**
+9. **There was no way to talk to a worker.** The conversation tables existed
+   and nothing used them.
 
-- **`npx vitest run`** → `Test Files 54 passed (54) · Tests 945 passed (945)`
-- **`npx vitest run tests/agentos/`** → `Test Files 13 passed (13) · Tests 311 passed (311)`
-- **`scripts/agentos-db-verify.sh`** → **58 checks, 0 failures** against a real PostgreSQL 14.24 cluster (all 12 migrations applied)
+- **`npx vitest run`** → `Test Files 55 passed (55) · Tests 955 passed (955)`
+- **`npx vitest run tests/agentos/`** → `Test Files 14 passed (14) · Tests 321 passed (321)`
+- **`npm run agentos:db-verify`** → **92 checks, 0 failures** against a real PostgreSQL 14.24 cluster (all 14 migrations applied)
 - **`npm run lint`** → `0 errors` (800 warnings, within the 821 budget)
 - **`npx tsc --noEmit -p tsconfig.app.json`** → `1619` total `error TS` (baseline 1621), of which **`0`** are in `src/{pages,components,services,types}/agentos`
-- **`npm run release:gate`** → `GATE RESULT: PASS`
+- **`npm run release:gate`** → `GATE RESULT: PASS` (7/7 steps)
 - **Schema exposure (live)** → `npm run agentos:verify-exposure` → **FAIL: PGRST106 "Only the following schemas are exposed: public, graphql_public"** — the project-level step, deliberately left to the end
 
 Status legend: **COMPLETE** (implemented AND verified by a command actually run) ·
@@ -153,11 +162,19 @@ Status legend: **COMPLETE** (implemented AND verified by a command actually run)
 
 ---
 
+## Setup
+
+`docs/agentos/SETUP.md` is the ordered runbook: the environment, the
+migrations, the schema exposure, the functions and their secrets, the
+scheduler, the browser and the tests — each step idempotent and
+self-verifying.
+
 ## Companion files
 
 - `docs/agentos/SCHEMA_EXPOSURE.md` — the schema-routing defect, the fix, the tests that guard it, and the project-level step that is left.
 - `docs/agentos/DB_VERIFICATION.md` — local + live DB evidence, every RPC semantic, tenant isolation, reproduce commands.
 - `docs/agentos/LIVE_VERIFICATION.md` — what live work was attempted, real outcomes, blocked prerequisites, the deploy + pg_cron runbook, and the `.env`-tracked-in-git security remediation.
-- `scripts/agentos-db-verify.sh` (`npm run agentos:db-verify`) — applies all 12 migrations to a scratch cluster and runs 58 checks.
+- `docs/agentos/SETUP.md` — the ordered setup runbook.
+- `scripts/agentos-db-verify.sh` (`npm run agentos:db-verify`) — applies all 14 migrations to a scratch cluster and runs 92 checks.
 - `scripts/agentos-verify-exposure.sh` (`npm run agentos:verify-exposure`, `npm run agentos:expose-schema`) — one-command check (and apply) for the PostgREST exposure.
 - `scripts/agentos-deploy-functions.sh` (`npm run agentos:deploy-functions`) — one-command deployment of the seven edge functions.

@@ -107,6 +107,9 @@ async function handler(req: Request): Promise<Response> {
         metadata: body.metadata ?? {},
         isolation,
         health_status: 'unknown',
+        // The account was just checked (it was connected); the column is the
+        // product's only record of when a connection was last exercised.
+        last_checked_at: new Date().toISOString(),
       })
       .select('*')
       .single();
@@ -131,7 +134,12 @@ async function handler(req: Request): Promise<Response> {
 
   const { data: updated, error } = await supabase
     .from('connected_accounts')
-    .update({ status: 'revoked', revoked_at: new Date().toISOString(), health_status: 'failed' })
+    .update({
+      status: 'revoked',
+      revoked_at: new Date().toISOString(),
+      health_status: 'failed',
+      last_checked_at: new Date().toISOString(),
+    })
     .eq('id', body.connection_id)
     .select('id, status')
     .single();

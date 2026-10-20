@@ -56,6 +56,20 @@ function agentosColumns(): Map<string, Set<string>> {
 
       columns.set(table, names);
     }
+
+    // Columns added by a later migration with ALTER TABLE (the model
+    // catalog's capability flags, the notifications' workspace, ...). Without
+    // these the guard would call a real column missing and send the next
+    // change to a function instead.
+    const alterPattern =
+      /ALTER TABLE agentos\.(\w+)\s+ADD COLUMN(?: IF NOT EXISTS)?\s+(\w+)/gi;
+    let alter: RegExpExecArray | null;
+    while ((alter = alterPattern.exec(sql)) !== null) {
+      const table = alter[1].toLowerCase();
+      const names = columns.get(table) ?? new Set<string>();
+      names.add(alter[2].toLowerCase());
+      columns.set(table, names);
+    }
   }
 
   return columns;

@@ -422,7 +422,16 @@ async function appendWorkerReply(params: {
 
   if (error) {
     console.error('[agentos-execute] could not write the reply to the conversation', error.message);
+    return;
   }
+
+  // The run belongs to the conversation it answered in: execution_runs has a
+  // conversation_id column that nothing wrote, so the runtime's transcript
+  // and the thread could not be joined.
+  await supabase
+    .from('execution_runs')
+    .update({ conversation_id: conversationId })
+    .eq('id', params.runId);
 }
 
 /**
