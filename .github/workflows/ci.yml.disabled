@@ -1,10 +1,17 @@
+# DISABLED (GitHub Actions retirement, 2026-10-12): this account is billing-locked so no job ever starts,
+# and Netlify is now the only build/test/deploy platform — the lint/vitest/build gate runs on every
+# Netlify build. Renamed to `.disabled` (content preserved for audit); see docs/NETLIFY-CICD.md.
 name: CI/CD Pipeline
 
 on:
   push:
     branches: [main, develop]
+  # PRs must be gated by the full pipeline no matter which branch they target.
+  # `pull_request.branches` filters on the PR BASE branch, so restricting it to
+  # main/develop silently skips CI for release branches (e.g. PRs targeting
+  # fix/sapienx-130-app-catalog). Deliberately unfiltered: every PR is gated.
   pull_request:
-    branches: [main, develop]
+    types: [opened, synchronize, reopened, ready_for_review]
 
 jobs:
   build-and-test:
@@ -30,13 +37,14 @@ jobs:
       - name: Run linter
         run: npm run lint
       
+      # Legacy type debt: ~1.6k pre-existing errors repo-wide; tracked separately from the build gate.
+      # Type check is reported here but kept non-blocking until the baseline is burned down.
       - name: Run type check
         run: npx tsc --noEmit
         continue-on-error: true
       
       - name: Run tests
         run: npm test -- --run
-        continue-on-error: true
       
       - name: Build project
         run: npm run build
