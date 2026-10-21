@@ -17,6 +17,23 @@ if (!clerkPubKey) {
 }
 
 /**
+ * The frontend API of the Clerk instance.
+ *
+ * WHY IT IS DECLARED
+ *   Clerk's older publishable keys carried the instance's host inside the key
+ *   itself (base64), and the SDK read the host from there. The key this
+ *   project builds with does not: the SDK fell back to its default and asked
+ *   for `https://.clerk.accounts.dev/…`, which is not where this instance
+ *   lives, so the Clerk script never loaded and the sign-in form never
+ *   appeared — the page sat on "Loading" for ever.
+ *
+ *   Declaring the host removes the dependency on the key's format entirely.
+ */
+const clerkFrontendApi = (
+  import.meta.env.VITE_CLERK_FRONTEND_API || "clerk.auth.videoremix.vip"
+).trim();
+
+/**
  * The Clerk provider.
  *
  * WHY THE ROUTER IS WIRED IN
@@ -37,6 +54,7 @@ const ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <ClerkProviderBase
       publishableKey={clerkPubKey}
+      frontendApi={clerkFrontendApi}
       routerPush={(to) => navigate(to)}
       routerReplace={(to) => navigate(to, { replace: true })}
       signInUrl="/signin"
