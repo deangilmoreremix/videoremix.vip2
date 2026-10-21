@@ -121,7 +121,43 @@ isolation is enforced by the database, live.
 | Live execution against a model provider | BLOCKED | Functions deployed AND a valid provider key. `OPENAI_API_KEY` currently returns HTTP 401 `invalid_api_key` |
 | Live browser verification with a signed-in user | BLOCKED | A real `VITE_CLERK_PUBLISHABLE_KEY`. The variable is absent from `.env`, and `src/providers/ClerkProvider.tsx` throws at module load without a real one, so no page renders and the E2E suite skips (62 tests) rather than failing |
 
-### 1.7 The schema was never reachable from the application (found 2026-10-19)
+### 1.6b What is LIVE on the project now (2026-10-21)
+
+The port has been applied to `bzxohkrxcwodllketcpz` and verified there.
+
+| What | State | Evidence |
+|------|-------|----------|
+| The 14 AgentOS migrations | APPLIED | 24 tables, 39 policies, 38 functions; all 14 recorded in `supabase_migrations.schema_migrations`, so `supabase db push` will not re-apply them |
+| The security lockdown | APPLIED | `no SECURITY DEFINER function is executable by PUBLIC`; `authenticated cannot execute claim_due_tasks`; `authenticated may update only the metadata columns of tasks` |
+| The `agentos` schema exposed to PostgREST | APPLIED | `GET /rest/v1/workers` with `Accept-Profile: agentos` → **HTTP 200** |
+| `pg_net` | INSTALLED | it was missing, so the scheduler had been skipped; `CREATE EXTENSION pg_net` was needed |
+| The vault | SEEDED | `project_url` and `service_role_key` (the plaintext column, see below) |
+| The scheduler | REGISTERED | `agentos-sweep` and `agentos-execute`, `* * * * *`, **active** |
+| The scheduler's HTTP path | PROVEN | `agentos.invoke_edge_function('agentos-sweep')` reaches the functions endpoint with the right auth header (404 only because the functions are not deployed yet) |
+| The live database behaviour | VERIFIED | `scripts/agentos-db-verify-live.sh` → **24 checks, 0 failures**: the queue claims and releases, the tool assignments reach the claim, an approval parks and releases the task, the notification and audit writers fire, the sweep dispatches exactly once, another tenant sees nothing, and a client cannot forge an owner |
+| The seven edge functions | **NOT DEPLOYED** | `agentos-tasks` → `404 "Requested function was not found"` (while `run-ai-app` answers, so the probe is sound) |
+| The browser | **BLOCKED** | no `VITE_CLERK_PUBLISHABLE_KEY`; `ClerkProvider` throws and the app does not boot |
+| The model provider | **BLOCKED** | `OPENAI_API_KEY` → HTTP 401 `invalid_api_key` |
+
+### Three defects the live run found (all fixed)
+
+1. **The exposure migration set only `pgrst.db_schemas`.** This project also
+   carries the legacy `pgrst.db_schema` (which holds another feature's `bba`
+   schema), and that is where the search path comes from: the profile was
+   accepted but the table was not found. The migration now sets both keys —
+   appending `agentos` to whatever each already holds — and sends BOTH
+   notifications, because a config reload is not a schema-cache reload.
+2. **The vault reader read the encrypted column.** `vault.decrypted_secrets`
+   exposes `secret` (the ciphertext) and `decrypted_secret` (the plaintext);
+   the reader took `secret`, so the scheduler was authenticating with
+   ciphertext.
+3. **`complete_task` and `fail_task` existed in two overloads each.** A call
+   naming `p_task_id`, `p_output` and `p_run_id` matches both, so the call
+   was ambiguous — in SQL and in PostgREST, which resolves an RPC by its
+   parameter names. This would have broken the deployed functions' completion
+   path. The stale signatures are dropped.
+
+## 1.7 The schema was never reachable from the application (found 2026-10-19)
 
 The verification above proves the **SQL** is correct. It could not prove that
 the **application** points at it - and it did not.

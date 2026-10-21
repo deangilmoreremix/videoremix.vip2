@@ -54,7 +54,12 @@ and the test harness was schema-blind. Both now cover the data path.
 - **`npm run lint`** → `0 errors` (800 warnings, within the 821 budget)
 - **`npx tsc --noEmit -p tsconfig.app.json`** → `1619` total `error TS` (baseline 1621), of which **`0`** are in `src/{pages,components,services,types}/agentos`
 - **`npm run release:gate`** → `GATE RESULT: PASS` (7/7 steps)
-- **Schema exposure (live)** → `npm run agentos:verify-exposure` → **FAIL: PGRST106 "Only the following schemas are exposed: public, graphql_public"** — the project-level step, deliberately left to the end
+- **Schema exposure (live)** → **DONE** (2026-10-21): `GET /rest/v1/workers` with `Accept-Profile: agentos` → HTTP 200
+- **Live database behaviour** → `npm run agentos:db-verify-live` → **24 checks, 0 failures** on the real project
+- **Scheduler** → `agentos-sweep` and `agentos-execute` registered with pg_cron, **active**; the vault holds the URL and key
+- **Edge functions (live)** → **not deployed**: `agentos-tasks` → 404 "Requested function was not found" — needs a management token
+- **Browser** → **blocked**: no `VITE_CLERK_PUBLISHABLE_KEY`, so `ClerkProvider` throws and the app does not boot
+- **Model provider** → **blocked**: `OPENAI_API_KEY` → 401 `invalid_api_key`
 
 Status legend: **COMPLETE** (implemented AND verified by a command actually run) ·
 **BLOCKED (external)** (needs a credential/CLI/service/project setting this environment lacks) ·
@@ -131,8 +136,10 @@ Status legend: **COMPLETE** (implemented AND verified by a command actually run)
 | Migrations applied to the LIVE project | COMPLETE (7 of 12) | the first seven were applied over direct Postgres SSL with `-v ON_ERROR_STOP=1`; the schema was then measured: 24 tables, 38 policies, 0 tables without RLS, 7 models, 14 integrations, 19 SECURITY DEFINER functions. The five added by this pass (exposure, lockdown, triggers/indexes, queue semantics, canvas ids) are verified on a local PostgreSQL 14.24 and are ready to apply |
 | Live queue / approval / dispatch / isolation | COMPLETE | verified live before this pass (see `DB_VERIFICATION.md`) |
 | Scheduling infrastructure | COMPLETE | `pg_cron` and `supabase_vault` are present on the live project |
-| **Schema exposed to PostgREST (live)** | **BLOCKED (external)** | live PostgREST exposes `public, graphql_public` only → `PGRST106`. Needs the Dashboard toggle, `npm run agentos:expose-schema` (a management token) or the SQL migration over a direct connection. The code is already correct and guarded by tests |
-| **The five new migrations applied (live)** | **BLOCKED (external)** | same direct-connection prerequisite |
+| **Schema exposed to PostgREST (live)** | COMPLETE | applied over a direct connection; the profile the browser sends returns 200 |
+| **The seven new migrations applied (live)** | COMPLETE | applied and recorded in the migration ledger; the live schema is hardened (no PUBLIC-executable privileged function, column-level task grants) |
+| **The scheduler (live)** | COMPLETE | `pg_net` installed, the vault seeded, the sweep and the executor registered with pg_cron and active |
+| **The live database behaviour** | COMPLETE | `scripts/agentos-db-verify-live.sh` → 24 checks, 0 failures (queue, approval gate, writers, dispatch, tenant boundary, scheduler) |
 | Edge function deployment (7 functions) | **BLOCKED (external)** | `SUPABASE_ACCESS_TOKEN` in `.env` is rejected by the Management API (HTTP 401 `Invalid access token`). `npm run agentos:deploy-functions` performs the whole deployment once a valid token exists |
 | Continuous scheduled execution (pg_cron) | **BLOCKED (external)** | follows the deployment step; `pg_cron` **is** available; the SQL is in `LIVE_VERIFICATION.md` §4 |
 | Live execution against a model provider | **BLOCKED (external)** | `OPENAI_API_KEY` currently returns HTTP 401 `invalid_api_key` |
@@ -145,8 +152,8 @@ Status legend: **COMPLETE** (implemented AND verified by a command actually run)
 
 | Status | Count | Items |
 |--------|-------|-------|
-| COMPLETE | **57** | 17 Database + 15 Runtime + 14 Application + 7 Live/deployment + 4 Architecture constraints |
-| BLOCKED (external) | **8** | schema exposure to PostgREST; the five new migrations applied live; edge-function deployment; continuous pg_cron scheduling; live model execution; live browser verification / E2E execution; committed-secret rotation and history purge (one row, two operator actions) |
+| COMPLETE | **63** | 17 Database + 15 Runtime + 14 Application + 13 Live/deployment + 4 Architecture constraints |
+| BLOCKED (external) | **4** | edge-function deployment (a management token); live model execution (a working provider key); live browser verification / E2E execution (a Clerk key); committed-secret rotation and history purge (one row, two operator actions) |
 | INCOMPLETE | **0** | none — every defect found in this pass is fixed and guarded by a test |
 
 ---
