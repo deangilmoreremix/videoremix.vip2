@@ -93,8 +93,21 @@ BEGIN
   CROSS JOIN LATERAL unnest(s.setconfig) AS value
   WHERE r.rolname = 'authenticator';
 
-  existing_schemas := substring(COALESCE(existing_schemas, '') FROM 'pgrst\.db_schemas=(.*)$');
-  existing_schema := substring(COALESCE(existing_schema, '') FROM 'pgrst\.db_schema=(.*)$');
+  -- split_part, not substring: `substring(x from 'pattern')` returns the first
+  -- CAPTURE GROUP, and NULL when the pattern does not match — so a project
+  -- with no such setting produced NULL here, and the ALTER ROLE below was
+  -- then issued with a NULL value. The value after the first '=' is what is
+  -- wanted.
+  existing_schemas := split_part(COALESCE(existing_schemas, ''), '=', 2);
+  existing_schema := split_part(COALESCE(existing_schema, ''), '=', 2);
+
+  -- `ALTER ROLE ... SET x = NULL` is stored as the literal text 'NULL'.
+  IF existing_schemas IS NULL OR btrim(existing_schemas) = '' OR upper(btrim(existing_schemas)) = 'NULL' THEN
+    existing_schemas := '';
+  END IF;
+  IF existing_schema IS NULL OR btrim(existing_schema) = '' OR upper(btrim(existing_schema)) = 'NULL' THEN
+    existing_schema := '';
+  END IF;
 
   -- Append `agentos` to each list, if it is not there already.
   IF existing_schemas = '' THEN
