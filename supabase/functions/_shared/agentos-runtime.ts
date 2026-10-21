@@ -221,7 +221,11 @@ export interface ModelCallResult {
 }
 
 async function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise<T> {
-  let timer: number | undefined;
+  // ReturnType<typeof setTimeout>, not `number`: with the npm dependencies
+  // resolved, the DOM/Node typings disagree about what setTimeout returns
+  // (number in Deno, Timeout in Node), and a hard-coded `number` fails the
+  // type check under one of them.
+  let timer: ReturnType<typeof setTimeout> | undefined;
   try {
     return await Promise.race([
       promise,

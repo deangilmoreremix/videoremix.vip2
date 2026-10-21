@@ -13,6 +13,8 @@
     "agentos:expose-schema": "bash scripts/agentos-verify-exposure.sh --apply",
     "agentos:deploy-functions": "bash scripts/agentos-deploy-functions.sh",
     "agentos:db-verify": "bash scripts/agentos-db-verify.sh",
+    "agentos:db-verify-live": "bash scripts/agentos-db-verify-live.sh",
+    "agentos:check-functions": "bash scripts/agentos-check-functions.sh",
     "agentos:e2e": "playwright test --config=playwright.agentos.config.ts",
     "supabase:link": "supabase link --project-ref ${SUPABASE_PROJECT_ID:-bzxohkrxcwodllketcpz}",
     "supabase:db-push": "supabase db push",
