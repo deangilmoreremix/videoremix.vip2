@@ -7,6 +7,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { SignIn } from "@clerk/react";
+import ClerkUnavailableNotice from "../components/ClerkUnavailableNotice";
 import MagicSparkles from "../components/MagicSparkles";
 import SparkleEffect from "../components/SparkleEffect";
 import ParticleBackground from "../components/premium/ParticleBackground";
@@ -108,6 +109,8 @@ const SignInPage: React.FC = () => {
                  },
                }}
              />
+
+            <ClerkUnavailableNotice />
 
              {/* Benefits section */}
              <div className="mt-8 bg-gray-800/40 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
