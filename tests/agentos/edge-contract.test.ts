@@ -198,7 +198,12 @@ describe('agentos edge functions: authentication', () => {
     // The cron path is keyed on the service-role credential ONLY. Treating
     // `!caller` as a service call made the guard below unreachable and let an
     // anonymous caller claim every tenant's queue.
-    expect(src).toContain("req.headers.get('authorization')?.includes('service_role')");
+    // The service call is decided by the platform's own verification of the
+    // credential, not by a substring test: a real service-role key is a JWT
+    // whose base64 does NOT contain the text 'service_role', so the substring
+    // test rejected the scheduler's own calls.
+    expect(src).toContain('await isServiceRoleRequest(req)');
+    expect(src).not.toContain("includes('service_role')");
     expect(src).not.toMatch(/service_role['"]?\)\s*\|\|\s*!caller/);
     expect(src).toContain('if (!caller && !serviceCall)');
   });
@@ -215,7 +220,10 @@ describe('agentos edge functions: authentication', () => {
     // No browser caller exists, so the sweep does not verify a user JWT; it
     // must instead refuse anyone without the service-role key.
     expect(src).not.toContain('verifyCaller');
-    expect(src).toContain("includes('service_role')");
+    // The service credential is verified by the platform (both the new
+    // secret key and the legacy service-role JWT are accepted).
+    expect(src).toContain('await isServiceRoleRequest(req)');
+    expect(src).not.toContain("includes('service_role')");
     expect(src).toContain("fail('unauthenticated'");
     expect(src).toMatch(/\/\/[^\n]*service-role/i);
     expect(src).toMatch(/pg_cron|provisioned worker/);
@@ -526,6 +534,16 @@ describe('agentos schema routing', () => {
   function normalize(src: string): string {
     return src.replace(/\/\/[^\n]*/g, ' ').replace(/\s+/g, ' ');
   }
+
+  it('verifies the service credential with the platform, not a substring', () => {
+    const client = sharedSource('agentos-client.ts');
+    expect(client).toContain('isServiceRoleRequest');
+    // The platform verifies it: the new secret key through the 'secret' mode,
+    // the legacy service-role JWT through the admin endpoint, which accepts
+    // only service-level credentials.
+    expect(client).toContain("auth: 'secret'");
+    expect(client).toContain('/auth/v1/admin/users');
+  });
 
   it('pins the service client to the agentos schema', () => {
     const client = sharedSource('agentos-client.ts');

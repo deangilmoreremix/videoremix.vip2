@@ -112,6 +112,51 @@ export async function verifyCaller(req: Request): Promise<VerifiedCaller | null>
   }
 }
 
+/**
+ * True when the request carries a SERVICE credential (the service-role key).
+ *
+ * WHY NOT A SUBSTRING CHECK
+ *   The check used to be `authorization.includes('service_role')`, which looks
+ *   for the literal text in the header. A real service-role key is a JWT, and
+ *   the base64 of its payload does NOT contain that substring — so the
+ *   scheduler's own calls were rejected with "Unauthorized" and the sweep and
+ *   the executor could never run. It is also the wrong shape for a security
+ *   check: a substring can be forged.
+ *
+ *   The platform's own helper verifies the credential properly (against the
+ *   project's key set and JWT secret) and accepts both key formats: the
+ *   legacy `service_role` JWT and the new `sb_secret_…` key.
+ */
+export async function isServiceRoleRequest(req: Request): Promise<boolean> {
+  // 1. The new key format: the platform verifies it against the project's
+  //    secret key set. It expects the key in the `apikey` header, which is
+  //    where the Supabase SDK puts it.
+  try {
+    const { data: ctx, error } = await createSupabaseContext(req, { auth: 'secret' });
+    if (!error && ctx) return true;
+  } catch (err) {
+    console.error('[agentos] secret credential verification failed:', err);
+  }
+
+  // 2. The legacy `service_role` JWT: it is not a "secret key" in the new
+  //    key system, so the mode above does not match it. The platform's admin
+  //    endpoint accepts ONLY service-level credentials, so asking it is a
+  //    verification, not a guess — a user token or an anon key is refused.
+  const token = (req.headers.get('authorization') ?? '').replace(/^Bearer\s+/i, '').trim();
+  const url = Deno.env.get('SUPABASE_URL');
+  if (!token || !url) return false;
+
+  try {
+    const response = await fetch(`${url}/auth/v1/admin/users?limit=1`, {
+      headers: { apikey: token, Authorization: `Bearer ${token}` },
+    });
+    return response.ok;
+  } catch (err) {
+    console.error('[agentos] service credential check failed:', err);
+    return false;
+  }
+}
+
 /** True when the request carries a caller whose tenant owns the row. */
 export function tenantMatches(ownerClerkId: string | null | undefined, caller: VerifiedCaller): boolean {
   if (!ownerClerkId) return false;

@@ -61,7 +61,47 @@ npx --yes supabase@2 link --project-ref "${PROJECT_REF}"
 # first, and a failure here stops the deployment.
 echo
 echo "--- applying the migrations"
-npx --yes supabase@2 db push --project-ref "${PROJECT_REF}"
+#
+# `supabase db push` cannot be used on this project: the live migration
+# ledger holds thirty-five migrations whose files are not in this repository
+# (they were applied to the project by other means), and the CLI refuses to
+# push while the remote history contains versions it cannot find locally.
+#
+# The migrations are therefore applied over a direct connection, and only the
+# ones the ledger does not know about: the first seven are NOT re-runnable
+# (their CREATE POLICY statements would collide with the ones already there).
+apply_migrations() {
+  if [ -z "${DATABASE_URL:-}" ]; then
+    echo "  DATABASE_URL is not set: skipping the migrations."
+    echo "  (the schema is applied by hand: psql \$DATABASE_URL -f supabase/migrations/<file>.sql)"
+    return 0
+  fi
+
+  export PGSSLMODE="${PGSSLMODE:-require}"
+  for migration in "${ROOT}"/supabase/migrations/20261012*.sql; do
+    name="$(basename "${migration}")"
+    version="${name%%_*}"
+    applied=$(psql "${DATABASE_URL}" -tAc \
+      "SELECT count(*) FROM supabase_migrations.schema_migrations WHERE version = '${version}'" 2>/dev/null || echo 0)
+    if [ "${applied}" = "0" ]; then
+      echo "  applying ${name}"
+      if ! psql "${DATABASE_URL}" -v ON_ERROR_STOP=1 -q -f "${migration}" >/tmp/agentos-migration.log 2>&1; then
+        echo "  FAILED to apply ${name}"
+        tail -5 /tmp/agentos-migration.log
+        return 1
+      fi
+      # Record it, so the next run (and `supabase db push`) knows about it.
+      psql "${DATABASE_URL}" -q -c \
+        "INSERT INTO supabase_migrations.schema_migrations (version, name, created_by)
+         VALUES ('${version}', '${name#*_}', 'psql')
+         ON CONFLICT (version) DO NOTHING" >/dev/null 2>&1 || true
+    else
+      echo "  already applied: ${name}"
+    fi
+  done
+}
+
+apply_migrations || exit 1
 
 for fn in "${FUNCTIONS[@]}"; do
   echo

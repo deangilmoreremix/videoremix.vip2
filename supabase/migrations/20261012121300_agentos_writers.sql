@@ -487,6 +487,15 @@ BEGIN
 END;
 $$;
 
+-- The blanket grant in the lockdown migration ran BEFORE these functions
+-- existed, so the ones this migration creates need their own grant. The
+-- service role needs them (the runtime reads the model key from the vault);
+-- the browser never does — a browser that could call these would be able to
+-- read the service credential.
+GRANT EXECUTE ON FUNCTION agentos.vault_secret(text) TO service_role;
+GRANT EXECUTE ON FUNCTION agentos.edge_function_base_url() TO service_role;
+GRANT EXECUTE ON FUNCTION agentos.edge_function_service_key() TO service_role;
+
 COMMENT ON FUNCTION agentos.vault_secret(text) IS
   'Reads one secret from the Supabase vault by name. NULL when the vault or the secret is absent.';
 
@@ -601,6 +610,10 @@ BEGIN
     url := v_url || '/functions/v1/' || p_function,
     headers := jsonb_build_object(
                  'Content-Type', 'application/json',
+                 -- The key goes in BOTH headers: the platform verifies a
+                 -- secret key in `apikey`, and the legacy service-role JWT
+                 -- is read from `Authorization`.
+                 'apikey', v_key,
                  'Authorization', 'Bearer ' || v_key),
     body := jsonb_build_object('source', 'pg_cron', 'scheduled_at', now())
   );

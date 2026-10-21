@@ -40,7 +40,12 @@ import {
   readJsonBody,
   withErrorGuard,
 } from '../_shared/agentos-errors.ts';
-import { getCreditsClient, getServiceClient, verifyCaller } from '../_shared/agentos-client.ts';
+import {
+  getCreditsClient,
+  getServiceClient,
+  isServiceRoleRequest,
+  verifyCaller,
+} from '../_shared/agentos-client.ts';
 import {
   RUNTIME_LIMITS,
   assemblePrompt,
@@ -92,7 +97,7 @@ async function checkExecutionAllowed(claim: ClaimedTask): Promise<CreditCheck> {
     }
   }
 
-  const apiKey = Deno.env.get('OPENAI_API_KEY') ?? '';
+  const apiKey = await resolveModelKey(supabase);
   if (apiKey) return { allowed: true, note: 'platform key' };
 
   // No platform key: BYOK is only usable through a verified provider config,
@@ -588,7 +593,7 @@ async function executeClaim(
     console.warn('[agentos-execute] could not read the model capabilities', error);
   }
 
-  const apiKey = Deno.env.get('OPENAI_API_KEY') ?? '';
+  const apiKey = await resolveModelKey(supabase);
 
   try {
     await emitEvent({
@@ -815,7 +820,7 @@ async function handler(req: Request): Promise<Response> {
   // Only a request carrying the service-role key counts as a service call.
   // `!caller` must NOT be treated as one: doing that made the guard below
   // unreachable and let an anonymous caller claim every tenant's queue.
-  const serviceCall = Boolean(req.headers.get('authorization')?.includes('service_role'));
+  const serviceCall = await isServiceRoleRequest(req);
 
   if (!caller && !serviceCall) {
     return fail('unauthenticated', 'Unauthorized');
@@ -920,6 +925,31 @@ async function handler(req: Request): Promise<Response> {
   }
 
   return ok({ claimed: owned.length, results });
+}
+
+/**
+ * The model provider key.
+ *
+ * The environment is the normal place for it (the platform's function
+ * secrets). But the secrets API is not always writable with the token at
+ * hand — the Management API answers "Invalid access token" on the secrets
+ * endpoint for some personal access tokens, while the function deployment
+ * endpoint works — so the key can also live in the vault, next to the
+ * scheduler's own credentials. The vault is read through the database, with
+ * the service client, which the function already has.
+ */
+async function resolveModelKey(supabase: any): Promise<string> {
+  const fromEnv = (Deno.env.get('OPENAI_API_KEY') ?? '').trim();
+  if (fromEnv) return fromEnv;
+
+  try {
+    const { data, error } = await supabase.rpc('vault_secret', { p_name: 'openai_api_key' });
+    if (!error && typeof data === 'string' && data.trim()) return data.trim();
+  } catch (err) {
+    console.warn('[agentos-execute] could not read the model key from the vault', err);
+  }
+
+  return '';
 }
 
 Deno.serve((req) =>

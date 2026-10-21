@@ -35,7 +35,7 @@
 //   recurring automation actually fire.
 
 import { ok, fail, withErrorGuard } from '../_shared/agentos-errors.ts';
-import { getServiceClient } from '../_shared/agentos-client.ts';
+import { getServiceClient, isServiceRoleRequest } from '../_shared/agentos-client.ts';
 
 async function handler(): Promise<Response> {
   const supabase = getServiceClient();
@@ -92,7 +92,7 @@ Deno.serve((req) =>
     // endpoint does not verify a user JWT: there is no browser caller. Without
     // the service-role check the sweep would be anonymous, letting anyone
     // enqueue schedules and expire leases across every tenant.
-    if (!req.headers.get('authorization')?.includes('service_role')) {
+    if (!(await isServiceRoleRequest(req))) {
       return fail('unauthenticated', 'Unauthorized');
     }
     return handler();
