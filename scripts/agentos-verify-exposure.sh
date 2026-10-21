@@ -55,48 +55,33 @@ PROJECT_REF="$(printf '%s' "${URL}" | sed -E 's#https?://([^.]+)\..*#\1#')"
 
 if [ "${APPLY}" = "1" ]; then
   echo "=== Exposing the 'agentos' schema on ${PROJECT_REF} ==="
-  if [ -z "${SUPABASE_ACCESS_TOKEN:-}" ]; then
-    echo "FAIL: --apply needs SUPABASE_ACCESS_TOKEN (the Management API token)."
-    echo "      Issue one at https://supabase.com/dashboard/account/tokens"
-    echo "      (Dashboard -> Account -> Access Tokens -> Generate new token)."
-    echo "      Without it, use the Dashboard (Settings -> API -> Exposed schemas)"
-    echo "      or apply supabase/migrations/20261012120700_agentos_expose_schema.sql"
-    echo "      over a direct Postgres connection."
-    exit 2
+  #
+  # HOW IT IS EXPOSED
+  #   There is no Management API endpoint for the API configuration in the
+  #   current API version (both GET and PATCH on /v1/projects/{ref}/config/api
+  #   answer 404), so the exposed schemas are changed either from the
+  #   Dashboard (Settings -> API -> Exposed schemas) or with the migration,
+  #   which sets the same list on the authenticator role.
+  #
+  #   The migration is the scripted route and it is idempotent: it appends
+  #   `agentos` to whatever the project already exposes and reloads
+  #   PostgREST's configuration AND its schema cache.
+  if [ -n "${DATABASE_URL:-}" ]; then
+    export PGSSLMODE="${PGSSLMODE:-require}"
+    MIGRATION="${ROOT}/supabase/migrations/20261012120700_agentos_expose_schema.sql"
+    echo "--- applying ${MIGRATION}"
+    if ! psql "${DATABASE_URL}" -v ON_ERROR_STOP=1 -f "${MIGRATION}"; then
+      echo "FAIL: the migration could not be applied."
+      exit 1
+    fi
+    echo
+  else
+    echo "DATABASE_URL is not set, so the migration cannot be applied from here."
+    echo "Do it with one of these:"
+    echo "  * psql \"\$DATABASE_URL\" -v ON_ERROR_STOP=1 -f supabase/migrations/20261012120700_agentos_expose_schema.sql"
+    echo "  * Dashboard -> Settings -> API -> Exposed schemas -> add 'agentos'"
+    echo
   fi
-
-  # The project currently exposes 'public, graphql_public'. Append 'agentos'
-  # LAST: PostgREST resolves an unqualified table name against the first
-  # matching schema, so 'public' must stay first or the AgentOS 'tasks' and
-  # 'workspaces' tables would shadow the app's own same-named public tables.
-  CURRENT_SCHEMAS="public, graphql_public"
-  EXPOSED=$(curl -s -H "Authorization: Bearer ${SUPABASE_ACCESS_TOKEN}" \
-    "https://api.supabase.com/v1/projects/${PROJECT_REF}/config/api" |
-    python3 -c "import json,sys;print(json.load(sys.stdin).get('db_schemas',''))" 2>/dev/null || true)
-
-  if [ -n "${EXPOSED}" ]; then
-    case ",${EXPOSED}," in
-      *,agentos,*) CURRENT_SCHEMAS="${EXPOSED}" ;;
-      *) CURRENT_SCHEMAS="${EXPOSED}, agentos" ;;
-    esac
-  fi
-
-  echo "exposed schemas -> ${CURRENT_SCHEMAS}"
-  APPLY_RESPONSE=$(curl -s -o /tmp/agentos-exposure-apply.json -w '%{http_code}' -X PATCH \
-    "https://api.supabase.com/v1/projects/${PROJECT_REF}/config/api" \
-    -H "Authorization: Bearer ${SUPABASE_ACCESS_TOKEN}" \
-    -H "Content-Type: application/json" \
-    -d "{\"db_schemas\": \"${CURRENT_SCHEMAS}\"}")
-
-  echo "PATCH /v1/projects/${PROJECT_REF}/config/api -> HTTP ${APPLY_RESPONSE}"
-  cat /tmp/agentos-exposure-apply.json 2>/dev/null | head -c 400
-  echo
-  if [ "${APPLY_RESPONSE}" != "200" ] && [ "${APPLY_RESPONSE}" != "201" ]; then
-    echo "FAIL: the Management API refused the change (HTTP ${APPLY_RESPONSE})."
-    echo "      Use the Dashboard or the SQL migration instead."
-    exit 1
-  fi
-  echo
 fi
 
 echo "=== AgentOS schema exposure check ==="

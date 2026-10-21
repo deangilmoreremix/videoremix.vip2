@@ -24,14 +24,22 @@ Every step is idempotent and every step verifies itself.
 | The functions' types | `npm run agentos:check-functions` → all 7 type-check under Deno |
 | The app | boots in a browser on every route; the Clerk key is the one the deployed site ships with |
 
+**DEPLOYED AND RUNNING (2026-10-21):**
+
+| | Evidence |
+|---|---|
+| The 7 edge functions | deployed; the scheduler calls both every minute and gets `200` with real payloads |
+| The scheduler | `agentos-sweep` and `agentos-execute` in `cron.job`, **active**; a live task was claimed, run, and its events written |
+| The service credential | verified by the platform (the new secret key and the legacy service-role JWT both work) — a substring test had been rejecting the scheduler's own calls |
+| The model key | read from the environment **or** the vault (`openai_api_key`); the Management API refuses to write function secrets with some tokens, so the vault is the reliable place |
+
 **Still to do — each needs one credential:**
 
 | | Needs | Then |
 |---|---|---|
-| Deploy the 7 edge functions | a management token (`sbp_…`) | `npm run agentos:deploy-functions` |
-| Run the model | a working `OPENAI_API_KEY` | `npm run agentos:secrets` (it is a function secret) |
+| Run the model | a **working** `OPENAI_API_KEY` (the current one answers `401 invalid_api_key`) | put it in the vault: `SELECT vault.create_secret('sk-…', 'openai_api_key', 'the model key')`, or set the function secret |
 | Sign in locally | `http://localhost:8080` added to the Clerk instance's allowed origins | the Clerk dashboard → Allowed origins |
-| Publish to videoremix.vip | the port branch merged into the branch Netlify builds | the Netlify UI triggers the build, which runs the release gate |
+| Publish to videoremix.vip | the port branch on the branch Netlify builds | the Netlify UI triggers the build, which runs the release gate |
 
 The `sb_secret_…` key does **not** work with the Management API (it answers
 `401 JWT could not be decoded`), so the deployment needs a personal access
