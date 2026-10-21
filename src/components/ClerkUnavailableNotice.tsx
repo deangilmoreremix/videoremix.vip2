@@ -8,23 +8,48 @@
 //
 // It renders nothing while Clerk is healthy, and an explanation with a way out
 // when it is not.
+//
+// WHY IT READS THE GLOBAL INSTEAD OF useClerk()
+//   `useClerk()` throws when it is rendered outside a <ClerkProvider>. This
+//   notice is mounted on the sign-in and sign-up pages, which are rendered
+//   inside the provider, but the component is also rendered by tests and by
+//   any shell that mounts a page without one — and a hook that throws there
+//   takes the whole tree down. The SDK's state is on `window.Clerk` anyway,
+//   and reading it needs no context at all.
 
 import { useEffect, useState } from "react";
-import { useClerk } from "@clerk/react";
 
 const WAIT_MS = 8000;
+const POLL_MS = 500;
+
+function clerkHasLoaded(): boolean {
+  if (typeof window === "undefined") return false;
+  const clerk = (window as unknown as { Clerk?: { loaded?: boolean } }).Clerk;
+  return Boolean(clerk?.loaded);
+}
 
 export const ClerkUnavailableNotice: React.FC = () => {
-  const clerk = useClerk();
   const [stalled, setStalled] = useState(false);
 
   useEffect(() => {
-    if (clerk.loaded) return;
-    const timer = setTimeout(() => setStalled(true), WAIT_MS);
-    return () => clearTimeout(timer);
-  }, [clerk.loaded]);
+    if (clerkHasLoaded()) return;
 
-  if (!stalled || clerk.loaded) return null;
+    const started = Date.now();
+    const timer = setInterval(() => {
+      if (clerkHasLoaded()) {
+        clearInterval(timer);
+        return;
+      }
+      if (Date.now() - started >= WAIT_MS) {
+        setStalled(true);
+        clearInterval(timer);
+      }
+    }, POLL_MS);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  if (!stalled) return null;
 
   return (
     <div
