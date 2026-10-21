@@ -323,8 +323,16 @@ export async function runModel(params: {
           body.tool_choice = 'auto';
         }
 
+        // The provider's base URL is configurable: the platform's own
+        // provider is OpenAI-compatible, so a deployment that should use it
+        // (rather than a key from OpenAI) only has to set OPENAI_BASE_URL.
+        const baseUrl = (Deno.env.get('OPENAI_BASE_URL') ?? 'https://api.openai.com').replace(
+          /\/+$/,
+          '',
+        );
+
         const response = await withTimeout(
-          fetch('https://api.openai.com/v1/responses', {
+          fetch(`${baseUrl}/v1/responses`, {
             method: 'POST',
             headers: {
               Authorization: `Bearer ${params.apiKey}`,
