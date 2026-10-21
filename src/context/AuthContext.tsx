@@ -172,8 +172,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
   }, []);
 
+  // Clerk never finishing its handshake must not become an endless spinner.
+  //
+  // WHY
+  //   `loading` is only cleared once Clerk reports that it has loaded. If the
+  //   Clerk script is blocked (an extension, a network filter), if the origin
+  //   is not one of the instance's allowed origins (a deploy preview, a
+  //   different port), or if the Clerk API is unreachable, that never happens
+  //   — and every protected route sits on "Loading" for ever with no way out.
+  //
+  //   After a bounded wait the app treats the session as unauthenticated and
+  //   says what went wrong, so the user can be sent to the sign-in page
+  //   instead of staring at a spinner.
+  const CLERK_LOAD_TIMEOUT_MS = 12_000;
+
   useEffect(() => {
-    if (!clerkUser.isLoaded || !clerkSession.isLoaded) return;
+    if (!clerkUser.isLoaded || !clerkSession.isLoaded) {
+      const timer = setTimeout(() => {
+        if (mountedRef.current && !clerkUser.isLoaded) {
+          setLoading(false);
+          setAuthState("error");
+          setError({
+            message:
+              "Clerk could not be initialised, so the sign-in state is unknown. This usually means the site is not one of the instance's allowed origins, or that an extension is blocking clerk.auth.videoremix.vip.",
+            code: "clerk_not_loaded",
+            recoverable: true,
+          });
+        }
+      }, CLERK_LOAD_TIMEOUT_MS);
+      return () => clearTimeout(timer);
+    }
 
     setLoading(false);
 

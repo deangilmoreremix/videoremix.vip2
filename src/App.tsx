@@ -1034,7 +1034,7 @@ function App() {
 
           {/* Auth pages */}
           <Route
-            path="/signin"
+            path="/signin/*"
             element={
               <ErrorBoundary onError={handleError}>
                 <Suspense fallback={<SectionLoader />}>
@@ -1045,7 +1045,7 @@ function App() {
           />
 
           <Route
-            path="/signup"
+            path="/signup/*"
             element={
               <ErrorBoundary onError={handleError}>
                 <Suspense fallback={<SectionLoader />}>

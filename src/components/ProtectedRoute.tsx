@@ -16,7 +16,7 @@ interface ProtectedRouteProps {
  * - Handles edge cases (tab switching, session expiry, etc.)
  */
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { user, loading, authState, isAuthenticated, isSessionExpiringSoon, refreshSession } = useAuth();
+  const { user, loading, authState, error, isAuthenticated, isSessionExpiringSoon, refreshSession } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -64,7 +64,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
           <div className="text-red-500 text-5xl mb-4">⚠️</div>
           <h2 className="text-xl font-semibold mb-2">Authentication Error</h2>
           <p className="text-gray-400 mb-4">
-            There was a problem verifying your session. Please try signing in again.
+            {error?.message ??
+              "There was a problem verifying your session. Please try signing in again."}
           </p>
           <button
             onClick={() => navigate("/signin", { state: { from: location.pathname } })}
