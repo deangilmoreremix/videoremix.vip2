@@ -671,6 +671,17 @@ BEGIN
     v_job_execute := cron.schedule(
       'agentos-execute', '* * * * *',
       'SELECT agentos.invoke_edge_function(''agentos-execute'')');
+
+    -- pg_net keeps EVERY response it collects, and the scheduler produces one
+    -- per minute per job. Left alone, the shared response table grows without
+    -- bound. This job trims it; it needs no extension of its own beyond
+    -- pg_cron.
+    IF EXISTS (SELECT 1 FROM cron.job WHERE jobname = 'agentos-net-cleanup') THEN
+      PERFORM cron.unschedule('agentos-net-cleanup');
+    END IF;
+    PERFORM cron.schedule(
+      'agentos-net-cleanup', '17 * * * *',
+      'DELETE FROM net._http_response WHERE created_at < now() - interval ''1 day''');
   EXCEPTION WHEN others THEN
     -- A scheduler that cannot be registered must never take the migration
     -- down with it: the rest of the port does not depend on it.

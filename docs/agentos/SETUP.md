@@ -9,6 +9,36 @@ Every step is idempotent and every step verifies itself.
 
 ---
 
+## Where the port stands (2026-10-21)
+
+**LIVE and verified on `bzxohkrxcwodllketcpz`:**
+
+| | |
+|---|---|
+| The 14 migrations | applied, and recorded in `supabase_migrations.schema_migrations` |
+| The schema exposure | `GET /rest/v1/workers` with `Accept-Profile: agentos` → **HTTP 200** |
+| The security lockdown | no SECURITY DEFINER function is executable by PUBLIC; the task UPDATE is column-level; the DELETE is revoked |
+| The browser's data path | `authenticated` has USAGE on the schema and the table grants; `anon` has none |
+| The scheduler | `pg_net` installed, the vault seeded, `agentos-sweep` and `agentos-execute` registered with pg_cron and **active** (plus a `agentos-net-cleanup` job that trims the pg_net response table) |
+| The live behaviour | `npm run agentos:db-verify-live` → **24 checks, 0 failures** |
+| The functions' types | `npm run agentos:check-functions` → all 7 type-check under Deno |
+| The app | boots in a browser on every route; the Clerk key is the one the deployed site ships with |
+
+**Still to do — each needs one credential:**
+
+| | Needs | Then |
+|---|---|---|
+| Deploy the 7 edge functions | a management token (`sbp_…`) | `npm run agentos:deploy-functions` |
+| Run the model | a working `OPENAI_API_KEY` | `npm run agentos:secrets` (it is a function secret) |
+| Sign in locally | `http://localhost:8080` added to the Clerk instance's allowed origins | the Clerk dashboard → Allowed origins |
+| Publish to videoremix.vip | the port branch merged into the branch Netlify builds | the Netlify UI triggers the build, which runs the release gate |
+
+The `sb_secret_…` key does **not** work with the Management API (it answers
+`401 JWT could not be decoded`), so the deployment needs a personal access
+token, not the project's secret key.
+
+---
+
 ## 0. What you need
 
 | What | Where it comes from | Used for |
