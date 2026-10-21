@@ -365,6 +365,13 @@ BEGIN
 END;
 $$;
 
+-- The three-argument version from the original queue migration is dropped:
+-- with the four-argument version present, a call that names p_task_id,
+-- p_output and p_run_id matches BOTH (the fourth parameter has a default),
+-- and the call is ambiguous — in SQL and in PostgREST, which resolves an RPC
+-- by its parameter names.
+DROP FUNCTION IF EXISTS agentos.complete_task(uuid, jsonb, uuid);
+
 -- ===========================================================================
 -- 5. fail_task: lease fencing + propagate the failure to dependents
 -- ===========================================================================
@@ -449,6 +456,10 @@ BEGIN
   RETURN v_decision;
 END;
 $$;
+
+-- The same ambiguity as complete_task: the four-argument version from the
+-- original queue migration is dropped.
+DROP FUNCTION IF EXISTS agentos.fail_task(uuid, text, uuid, integer);
 
 -- ===========================================================================
 -- 6. cancel_task: cancel a task, its dependents, and roll the mission up

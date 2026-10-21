@@ -440,9 +440,17 @@ BEGIN
     RETURN NULL;
   END IF;
 
-  -- supabase_vault.decrypted_secrets is the current name of the view;
-  -- vault.decrypted_secrets is the older one. Both are read, and the column
-  -- is called 'secret' in one version and 'decrypted_secret' in the other.
+  -- The vault ships two views and they do NOT agree on the column:
+  --
+  --   supabase_vault.decrypted_secrets (current) exposes the PLAINTEXT in
+  --     `secret` — the view has already decrypted it.
+  --   vault.decrypted_secrets (older) exposes BOTH: `secret` is the
+  --     ENCRYPTED blob and `decrypted_secret` is the plaintext.
+  --
+  -- Reading `secret` from the older view returns ciphertext, and a
+  -- ciphertext service key is worse than no key at all: the call is
+  -- authorised-looking and fails. So the plaintext column is read first, and
+  -- `secret` is only used where the view has nothing else.
   IF to_regclass('supabase_vault.decrypted_secrets') IS NOT NULL THEN
     BEGIN
       EXECUTE 'SELECT s.secret FROM supabase_vault.decrypted_secrets s
@@ -461,11 +469,17 @@ BEGIN
 
   IF v_secret IS NULL AND to_regclass('vault.decrypted_secrets') IS NOT NULL THEN
     BEGIN
-      EXECUTE 'SELECT s.secret FROM vault.decrypted_secrets s
+      EXECUTE 'SELECT s.decrypted_secret FROM vault.decrypted_secrets s
                 WHERE s.name = $1 LIMIT 1'
         INTO v_secret USING p_name;
     EXCEPTION WHEN others THEN
-      v_secret := NULL;
+      BEGIN
+        EXECUTE 'SELECT s.secret FROM vault.decrypted_secrets s
+                  WHERE s.name = $1 LIMIT 1'
+          INTO v_secret USING p_name;
+      EXCEPTION WHEN others THEN
+        v_secret := NULL;
+      END;
     END;
   END IF;
 
