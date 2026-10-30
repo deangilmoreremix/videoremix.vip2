@@ -183,7 +183,7 @@ const MissionNewPage: React.FC = () => {
     }
 
     setSubmitting(false);
-    navigate(`/agentos/missions/${mission.data.id}`);
+    navigate(`/dashboard/missions/${mission.data.id}`);
   }, [title, goal, description, tasks, navigate]);
 
   return (
@@ -192,11 +192,11 @@ const MissionNewPage: React.FC = () => {
         <title>New mission — SapienX AgentOS</title>
       </Helmet>
 
-      <div className="mx-auto max-w-3xl px-6 py-8">
+      <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
         <PageHeader
           breadcrumbs={[
-            { label: "AgentOS", to: "/agentos" },
-            { label: "Missions", to: "/agentos/missions" },
+            { label: "AgentOS", to: "/dashboard/mission-control" },
+            { label: "Missions", to: "/dashboard/missions" },
             { label: "New" },
           ]}
           title="New mission"
@@ -386,7 +386,7 @@ const MissionNewPage: React.FC = () => {
           {error ? <p className="text-sm text-rose-300">{error}</p> : null}
 
           <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => navigate("/agentos/missions")}>
+            <Button variant="outline" onClick={() => navigate("/dashboard/missions")}>
               Cancel
             </Button>
             <Button disabled={submitting} onClick={() => void submit()}>

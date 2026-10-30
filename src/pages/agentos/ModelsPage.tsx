@@ -326,7 +326,7 @@ const ModelsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-6xl px-6 py-8">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
         <Spinner label="Loading model catalog…" />
       </div>
     );
@@ -338,7 +338,7 @@ const ModelsPage: React.FC = () => {
         <title>Models — SapienX AgentOS</title>
       </Helmet>
 
-      <div className="mx-auto max-w-6xl px-6 py-8">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
         <PageHeader
           title="Models"
           description="The model catalog the runtime can call, and the provider credentials configured for your account."
@@ -612,7 +612,7 @@ const ModelsPage: React.FC = () => {
                       }
                       className={`rounded-full border px-2.5 py-0.5 text-[11px] transition ${
                         active
-                          ? "border-violet-400/40 bg-violet-500/20 text-violet-200"
+                          ? "border-agentos-brand/40 bg-agentos-brand/20 text-agentos-brand-soft"
                           : "border-white/10 bg-white/5 text-white/50"
                       }`}
                     >
@@ -778,7 +778,7 @@ const ModelsPage: React.FC = () => {
             </div>
 
             {estimateResult ? (
-              <p role="status" className="text-sm text-violet-200">
+              <p role="status" className="text-sm text-agentos-brand-soft">
                 Estimated cost: {estimateResult} credits
               </p>
             ) : null}

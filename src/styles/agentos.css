@@ -1,0 +1,264 @@
+/*
+ * SapienX AgentOS design tokens, ported from upstream app/globals.css
+ * (github.com/SapienXai/AgentOS, MIT).
+ *
+ * The tokens are scoped to the dashboard so the marketing site keeps its own
+ * look. The layout sets data-agentos-theme on <html> while it is mounted, so
+ * dialogs — which render in a portal outside .agentos-root — share them. Dark
+ * is the default, as upstream; "light" switches to upstream's warm palette.
+ */
+
+html[data-agentos-theme],
+.agentos-root {
+  --font-display: "Futura", "Avenir Next", "Inter", sans-serif;
+  --font-body: "Avenir Next", "Helvetica Neue", "Inter", sans-serif;
+  --font-mono: "SF Mono", "Menlo", monospace;
+
+  --background: 222 36% 6%;
+  --foreground: 215 24% 94%;
+  --card: 222 28% 10%;
+  --muted: 222 20% 15%;
+  --muted-foreground: 218 13% 66%;
+  --border: 220 18% 19%;
+  --primary: 345 100% 49%;
+  --primary-foreground: 0 0% 100%;
+  --accent: 345 94% 13%;
+  --accent-foreground: 345 100% 68%;
+  --ring: 345 100% 49%;
+
+  --agentos-brand-primary: 345 100% 49%;
+  --agentos-operational-accent: 264 70% 64%;
+  --status-success: 153 71% 49%;
+  --status-warning: 38 92% 60%;
+  --status-danger: 0 73% 57%;
+  --status-purple: 264 70% 64%;
+
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.035) inset, 0 18px 54px rgba(0, 0, 0, 0.28);
+  --shadow-panel: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 22px 70px rgba(0, 0, 0, 0.34);
+  --shadow-glow: 0 0 0 1px rgba(250, 0, 63, 0.10), 0 24px 80px rgba(0, 0, 0, 0.42);
+  --surface-panel: linear-gradient(180deg, hsl(222 28% 12% / 0.92), hsl(222 36% 8% / 0.88));
+  --surface-panel-border: hsl(var(--border) / 0.92);
+
+  --sidebar-rail: 56px;
+  --sidebar-open: 292px;
+}
+
+.agentos-root {
+  min-height: 100vh;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-body);
+  color-scheme: dark;
+}
+
+.agentos-root h1,
+.agentos-root h2,
+.agentos-root .font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+.agentos-root ::selection {
+  background: hsl(var(--primary) / 0.35);
+}
+
+/* :where keeps this at zero specificity, so a control's own focus style wins. */
+:where(.agentos-root) :where(:focus-visible) {
+  outline: 2px solid hsl(var(--ring) / 0.75);
+  outline-offset: 2px;
+}
+
+/* The panel surface upstream uses for its sidebar, inspector and cards. */
+.agentos-panel {
+  background: var(--surface-panel);
+  border: 1px solid var(--surface-panel-border);
+  box-shadow: var(--shadow-panel);
+  backdrop-filter: blur(18px);
+}
+
+.agentos-card {
+  background: hsl(var(--card) / 0.72);
+  border: 1px solid hsl(var(--border) / 0.9);
+  box-shadow: var(--shadow-card);
+}
+
+/* The page backdrop: upstream's cyan grid with a fine dot lattice. */
+.mission-canvas-backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+  pointer-events: none;
+}
+
+.mission-canvas-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 0%, hsl(var(--primary) / 0.10), transparent 42%),
+    radial-gradient(circle at 92% 12%, hsl(var(--agentos-operational-accent) / 0.10), transparent 40%),
+    linear-gradient(180deg, rgba(2, 6, 17, 0.02), rgba(2, 6, 17, 0.12));
+}
+
+.mission-canvas-pattern {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(125, 211, 252, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 211, 252, 0.13) 1px, transparent 1px),
+    radial-gradient(circle, rgba(96, 165, 250, 0.28) 1.7px, transparent 2px);
+  background-size: 88px 88px, 88px 88px, 22px 22px;
+  background-position: 0 0, 0 0, 2px 2px;
+  mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.98) 62%, rgba(0, 0, 0, 0.9) 84%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.98) 62%, rgba(0, 0, 0, 0.9) 84%, transparent 100%);
+}
+
+/* Content pages show a fainter grid than the canvas. */
+.agentos-page-backdrop .mission-canvas-pattern {
+  opacity: 0.35;
+}
+
+/* React Flow chrome inside the canvas. */
+.agentos-root .react-flow__controls {
+  background: var(--surface-panel);
+  border: 1px solid var(--surface-panel-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-panel);
+}
+
+.agentos-root .react-flow__controls-button {
+  background: transparent;
+  border-bottom: 1px solid hsl(var(--border));
+  fill: hsl(var(--foreground));
+}
+
+.agentos-root .react-flow__controls-button:hover {
+  background: hsl(var(--muted));
+}
+
+.agentos-root .react-flow__minimap {
+  background: hsl(var(--card) / 0.9);
+  border: 1px solid hsl(var(--border));
+  border-radius: 12px;
+}
+
+.agentos-root .react-flow__attribution {
+  display: none;
+}
+
+@keyframes agentos-pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  70% { transform: scale(1.35); opacity: 0; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+@keyframes agentos-float-up {
+  from { transform: translateY(6px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.agentos-pulse-ring { animation: agentos-pulse-ring 2.4s ease-out infinite; }
+.agentos-float-up { animation: agentos-float-up 0.35s ease-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .agentos-pulse-ring,
+  .agentos-float-up { animation: none; }
+}
+
+/* ------------------------------------------------------------------------
+ * Light theme: upstream's warm palette (mission-shell--light).
+ *
+ * The pages are written dark-first with white/black alpha utilities, as
+ * upstream's are, so light mode remaps those utilities here — the same
+ * approach upstream takes.
+ * ---------------------------------------------------------------------- */
+html[data-agentos-theme="light"],
+html[data-agentos-theme="light"] .agentos-root {
+  --background: 30 45% 97%;
+  --foreground: 22 18% 15%;
+  --card: 0 0% 100%;
+  --muted: 30 30% 93%;
+  --muted-foreground: 24 10% 40%;
+  --border: 28 24% 84%;
+  --accent: 345 100% 96%;
+  --accent-foreground: 345 92% 43%;
+  --agentos-operational-accent: 264 58% 54%;
+  --shadow-card: 0 1px 2px rgba(45, 36, 31, 0.05), 0 16px 42px rgba(45, 36, 31, 0.08);
+  --shadow-panel: 0 18px 54px rgba(45, 36, 31, 0.10);
+  --shadow-glow: 0 0 0 1px rgba(250, 0, 63, 0.06), 0 24px 80px rgba(45, 36, 31, 0.10);
+  --surface-panel: linear-gradient(180deg, rgba(255, 252, 248, 0.95), rgba(251, 247, 243, 0.92));
+}
+
+html[data-agentos-theme="light"] .agentos-root {
+  color-scheme: light;
+}
+
+html[data-agentos-theme="light"] .mission-canvas-pattern {
+  background-image:
+    linear-gradient(rgba(153, 122, 100, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(153, 122, 100, 0.12) 1px, transparent 1px),
+    radial-gradient(circle, rgba(185, 145, 114, 0.24) 1.7px, transparent 2px);
+}
+
+html[data-agentos-theme="light"] .mission-canvas-backdrop::after {
+  background:
+    radial-gradient(circle at 18% 0%, hsl(var(--primary) / 0.06), transparent 42%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(229, 215, 204, 0.06));
+}
+
+html[data-agentos-theme="light"] .text-white { color: hsl(var(--foreground)) !important; }
+html[data-agentos-theme="light"] [class*="text-white/"] { color: hsl(var(--muted-foreground)) !important; }
+html[data-agentos-theme="light"] [class*="border-white/"] { border-color: hsl(var(--border)) !important; }
+html[data-agentos-theme="light"] [class*="divide-white/"] > * + * { border-color: hsl(var(--border)) !important; }
+html[data-agentos-theme="light"] [class*="bg-white/"] { background-color: hsl(var(--muted) / 0.7) !important; }
+html[data-agentos-theme="light"] [class*="bg-black/"] { background-color: hsl(var(--card) / 0.85) !important; }
+html[data-agentos-theme="light"] [class*="text-emerald-"] { color: hsl(153 64% 32%) !important; }
+html[data-agentos-theme="light"] [class*="text-amber-"] { color: hsl(34 85% 34%) !important; }
+html[data-agentos-theme="light"] [class*="text-rose-"] { color: hsl(345 92% 43%) !important; }
+html[data-agentos-theme="light"] [class*="text-sky-"] { color: hsl(206 80% 36%) !important; }
+html[data-agentos-theme="light"] input,
+html[data-agentos-theme="light"] textarea,
+html[data-agentos-theme="light"] select {
+  background-color: rgba(255, 255, 255, 0.84) !important;
+  color: hsl(var(--foreground)) !important;
+  border-color: hsl(var(--border)) !important;
+}
+html[data-agentos-theme="light"] input::placeholder,
+html[data-agentos-theme="light"] textarea::placeholder {
+  color: rgba(116, 102, 92, 0.72) !important;
+}
+/* Solid brand buttons keep white text in both themes. */
+html[data-agentos-theme="light"] .bg-agentos-brand,
+html[data-agentos-theme="light"] .bg-agentos-brand .text-white,
+html[data-agentos-theme="light"] .bg-agentos-brand.text-white {
+  color: #fff !important;
+}
+
+/* ------------------------------------------------------------------------
+ * The shared UI primitives (src/components/ui/*) are written against shadcn
+ * token classes that the site's Tailwind config does not generate. Inside
+ * the dashboard they resolve to the AgentOS tokens, so a default Button is
+ * the brand colour and an outline Button sits on the panel surface.
+ * ---------------------------------------------------------------------- */
+html[data-agentos-theme] .bg-primary { background-color: hsl(var(--primary)); }
+html[data-agentos-theme] .hover\:bg-primary\/90:hover { background-color: hsl(var(--primary) / 0.9); }
+html[data-agentos-theme] .text-primary { color: hsl(var(--accent-foreground)); }
+html[data-agentos-theme] .text-primary-foreground { color: hsl(var(--primary-foreground)); }
+html[data-agentos-theme] .bg-destructive { background-color: hsl(var(--status-danger)); }
+html[data-agentos-theme] .hover\:bg-destructive\/90:hover { background-color: hsl(var(--status-danger) / 0.9); }
+html[data-agentos-theme] .text-destructive-foreground { color: #fff; }
+html[data-agentos-theme] .bg-secondary { background-color: hsl(var(--muted)); }
+html[data-agentos-theme] .text-secondary-foreground { color: hsl(var(--foreground)); }
+html[data-agentos-theme] .border-input { border-color: hsl(var(--border)); }
+html[data-agentos-theme] .bg-background { background-color: hsl(var(--card) / 0.6); }
+html[data-agentos-theme] .hover\:bg-accent:hover { background-color: hsl(var(--muted)); }
+html[data-agentos-theme] .hover\:text-accent-foreground:hover { color: hsl(var(--foreground)); }
+html[data-agentos-theme] .text-foreground { color: hsl(var(--foreground)); }
+html[data-agentos-theme] .placeholder\:text-muted-foreground::placeholder { color: hsl(var(--muted-foreground)); }
+html[data-agentos-theme] .focus-visible\:ring-ring:focus-visible { --tw-ring-color: hsl(var(--ring)); }
+html[data-agentos-theme] [role="dialog"] {
+  font-family: var(--font-body);
+}

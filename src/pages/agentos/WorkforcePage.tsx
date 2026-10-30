@@ -84,15 +84,15 @@ const WorkforcePage: React.FC = () => {
         <title>Workforce — SapienX AgentOS</title>
       </Helmet>
 
-      <div className="mx-auto max-w-7xl px-6 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
         <PageHeader
           title="Workforce"
           description="Your digital workers. Each one has an identity, a role, a model, and its own tools."
           actions={
             <button
               type="button"
-              onClick={() => navigate("/agentos/workforce/new")}
-              className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
+              onClick={() => navigate("/dashboard/workforce/new")}
+              className="inline-flex items-center gap-2 rounded-xl bg-agentos-brand px-4 py-2 text-sm font-medium text-white transition hover:bg-agentos-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/60"
             >
               <Plus className="h-4 w-4" aria-hidden="true" />
               New worker
@@ -136,8 +136,8 @@ const WorkforcePage: React.FC = () => {
                 query ? null : (
                   <button
                     type="button"
-                    onClick={() => navigate("/agentos/workforce/new")}
-                    className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
+                    onClick={() => navigate("/dashboard/workforce/new")}
+                    className="inline-flex items-center gap-2 rounded-xl bg-agentos-brand px-4 py-2 text-sm font-medium text-white hover:bg-agentos-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/60"
                   >
                     <Plus className="h-4 w-4" aria-hidden="true" />
                     New worker
@@ -154,16 +154,16 @@ const WorkforcePage: React.FC = () => {
                 <button
                   key={worker.id}
                   type="button"
-                  onClick={() => navigate(`/agentos/workforce/${worker.id}`)}
-                  className="group rounded-2xl border border-white/10 bg-black/40 p-5 text-left transition hover:border-violet-400/30 hover:bg-black/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
+                  onClick={() => navigate(`/dashboard/workforce/${worker.id}`)}
+                  className="group rounded-2xl border border-white/10 bg-black/40 p-5 text-left transition hover:border-agentos-brand/30 hover:bg-black/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/60"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-violet-300">
+                      <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-agentos-brand-soft">
                         <Bot className="h-5 w-5" aria-hidden="true" />
                       </div>
                       <div>
-                        <p className="font-medium text-white group-hover:text-violet-200">
+                        <p className="font-medium text-white group-hover:text-agentos-brand-soft">
                           {worker.name}
                         </p>
                         <p className="text-xs text-white/45">{worker.role || "unassigned role"}</p>

@@ -56,8 +56,8 @@ export function FilterGroup<T extends string>({
             aria-pressed={active}
             onClick={() => onChange(option.value)}
             className={cn(
-              "rounded-lg px-3 py-1.5 text-xs font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60",
-              active ? "bg-violet-500/20 text-violet-200" : "text-white/50 hover:text-white",
+              "rounded-lg px-3 py-1.5 text-xs font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/60",
+              active ? "bg-agentos-brand/20 text-agentos-brand-soft" : "text-white/50 hover:text-white",
               buttonClassName,
             )}
           >

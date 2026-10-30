@@ -24,7 +24,7 @@ export const Section: React.FC<SectionProps> = ({
 }) => (
   <section
     className={cn(
-      "rounded-2xl border border-white/10 bg-black/40 backdrop-blur",
+      "agentos-card rounded-2xl backdrop-blur",
       className,
     )}
   >

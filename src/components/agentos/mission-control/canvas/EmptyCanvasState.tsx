@@ -34,7 +34,7 @@ export const EmptyCanvasState: React.FC<EmptyCanvasStateProps> = ({
       }
       action={
         <div className="flex flex-wrap justify-center gap-2">
-          <Button variant="outline" onClick={() => navigate("/agentos/workforce/new")}>
+          <Button variant="outline" onClick={() => navigate("/dashboard/workforce/new")}>
             <Bot className="mr-2 h-4 w-4" aria-hidden="true" />
             New worker
           </Button>

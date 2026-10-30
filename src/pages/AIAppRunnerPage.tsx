@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { Loader2, Lock, Sparkles } from "lucide-react";
 import { AIAppShell } from "../components/ai/AIAppShell";
 import { appsData } from "../data/appsData";
@@ -21,6 +21,9 @@ type TabType = "input" | "results";
 const AIAppRunnerPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  // Inside the dashboard the library is /dashboard/apps; on the public site it is /apps.
+  const { pathname } = useLocation();
+  const libraryPath = pathname.startsWith("/dashboard/") ? "/dashboard/apps" : "/apps";
   const { user } = useAuth();
   const { hasAccessToApp, loading: accessLoading } = useUserAccess();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
@@ -83,7 +86,7 @@ const AIAppRunnerPage: React.FC = () => {
         <div className="text-center">
           <h1 className="text-2xl font-bold">App not found</h1>
           <p className="mt-2 text-gray-400">This AI app is not available.</p>
-          <button onClick={() => navigate("/apps")} className="mt-4 rounded-lg bg-primary-600 px-6 py-2 text-white hover:bg-primary-500">
+          <button onClick={() => navigate(libraryPath)} className="mt-4 rounded-lg bg-primary-600 px-6 py-2 text-white hover:bg-primary-500">
             Browse all apps
           </button>
         </div>
@@ -101,7 +104,7 @@ const AIAppRunnerPage: React.FC = () => {
           <p className="text-gray-400 mb-6">Sign in and purchase <span className="text-white font-semibold">{mergedApp?.name || slug}</span> to use this AI app.</p>
           <div className="flex gap-3 justify-center">
             <Button onClick={() => navigate("/signin")} className="bg-primary-600 hover:bg-primary-500">Sign In</Button>
-            <Button onClick={() => navigate("/apps")} variant="outline" className="border-gray-700">Browse All Apps</Button>
+            <Button onClick={() => navigate(libraryPath)} variant="outline" className="border-gray-700">Browse All Apps</Button>
           </div>
         </div>
       </div>
@@ -165,7 +168,7 @@ const AIAppRunnerPage: React.FC = () => {
               <Button onClick={() => setShowPurchaseModal(true)} className="bg-primary-600 hover:bg-primary-500 py-6 px-8 text-lg">
                 Unlock for ${mergedApp?.price || 97}
               </Button>
-              <Button onClick={() => navigate("/apps")} variant="outline" className="border-gray-700 py-6 px-8 text-lg">
+              <Button onClick={() => navigate(libraryPath)} variant="outline" className="border-gray-700 py-6 px-8 text-lg">
                 Browse All Apps
               </Button>
             </div>

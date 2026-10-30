@@ -148,7 +148,7 @@ export const NotificationList: React.FC<NotificationListProps> = ({
                 className={`w-full rounded-xl border px-3 py-2 text-left transition ${
                   notification.read_at
                     ? "border-white/5 bg-black/20 hover:border-white/10"
-                    : "border-violet-400/20 bg-violet-500/10 hover:border-violet-400/30"
+                    : "border-agentos-brand/20 bg-agentos-brand/10 hover:border-agentos-brand/30"
                 }`}
               >
                 <div className="flex items-start justify-between gap-2">

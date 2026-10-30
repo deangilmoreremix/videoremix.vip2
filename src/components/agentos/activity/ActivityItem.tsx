@@ -71,7 +71,7 @@ const EVENT_VISUALS: Record<string, { icon: LucideIcon; tone: PillTone }> = {
 
 const TONE_CLASS: Record<PillTone, string> = {
   neutral: "border-white/15 bg-white/5 text-white/70",
-  violet: "border-violet-400/30 bg-violet-500/15 text-violet-200",
+  violet: "border-agentos-brand/30 bg-agentos-brand/15 text-agentos-brand-soft",
   emerald: "border-emerald-400/30 bg-emerald-500/15 text-emerald-200",
   amber: "border-amber-400/30 bg-amber-500/15 text-amber-200",
   rose: "border-rose-400/30 bg-rose-500/15 text-rose-200",
@@ -107,21 +107,21 @@ function activityVisual(entry: ActivityEntry): { icon: LucideIcon; tone: PillTon
  */
 function activityLink(entry: ActivityEntry): ActivityLink | null {
   if (entry.source === "event") {
-    if (entry.task_id) return { to: "/agentos/operations", label: "task" };
-    if (entry.worker_id) return { to: `/agentos/workforce/${entry.worker_id}`, label: "worker" };
+    if (entry.task_id) return { to: "/dashboard/operations", label: "task" };
+    if (entry.worker_id) return { to: `/dashboard/workforce/${entry.worker_id}`, label: "worker" };
     return null;
   }
 
   const id = entry.entity_id;
   if (!id) return null;
   if (entry.entity_type === "worker") {
-    return { to: `/agentos/workforce/${id}`, label: "worker" };
+    return { to: `/dashboard/workforce/${id}`, label: "worker" };
   }
   if (entry.entity_type === "mission") {
-    return { to: `/agentos/missions/${id}`, label: "mission" };
+    return { to: `/dashboard/missions/${id}`, label: "mission" };
   }
   if (entry.entity_type) {
-    return { to: "/agentos/operations", label: entry.entity_type };
+    return { to: "/dashboard/operations", label: entry.entity_type };
   }
   return null;
 }
@@ -171,7 +171,7 @@ export const ActivityItem: React.FC<ActivityItemProps> = ({ entry, currentUserId
             <span>system</span>
           )}
           {link ? (
-            <Link to={link.to} className="text-violet-300/80 hover:text-violet-200">
+            <Link to={link.to} className="text-agentos-brand-soft/80 hover:text-agentos-brand-soft">
               {link.label}
             </Link>
           ) : null}

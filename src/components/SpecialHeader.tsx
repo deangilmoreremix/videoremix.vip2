@@ -107,7 +107,7 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
           {/* The AgentOS workforce section is otherwise unreachable: nothing
               in the product pointed at it. */}
           <Link
-            to="/agentos"
+            to="/dashboard/mission-control"
             className="text-white/80 hover:text-white px-3 py-2 text-sm font-medium"
           >
             AgentOS
@@ -203,7 +203,7 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                 Pricing
               </Link>
               <Link
-                to="/agentos"
+                to="/dashboard/mission-control"
                 className="block text-white hover:bg-gray-800 px-3 py-2 rounded-md"
                 onClick={() => setMobileMenuOpen(false)}
               >

@@ -26,7 +26,7 @@ export const OverviewPanel: React.FC<OverviewPanelProps> = ({
       <Section title="Your workspace" description="What the canvas is showing you.">
         <dl className="space-y-3 text-sm">
           <div className="flex items-center gap-2.5">
-            <Bot className="h-4 w-4 text-violet-300" aria-hidden="true" />
+            <Bot className="h-4 w-4 text-agentos-brand-soft" aria-hidden="true" />
             <dt className="flex-1 text-white/60">Workers</dt>
             <dd className="tabular-nums text-white">{workerCount}</dd>
           </div>
@@ -43,10 +43,10 @@ export const OverviewPanel: React.FC<OverviewPanelProps> = ({
         </dl>
 
         <div className="mt-4 flex flex-wrap gap-2">
-          <Button size="sm" variant="outline" onClick={() => navigate("/agentos/workforce/new")}>
+          <Button size="sm" variant="outline" onClick={() => navigate("/dashboard/workforce/new")}>
             New worker
           </Button>
-          <Button size="sm" variant="outline" onClick={() => navigate("/agentos/missions/new")}>
+          <Button size="sm" variant="outline" onClick={() => navigate("/dashboard/missions/new")}>
             New mission
           </Button>
         </div>

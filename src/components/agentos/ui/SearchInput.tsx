@@ -64,7 +64,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
         placeholder={placeholder}
         autoFocus={autoFocus}
         className={cn(
-          "w-full rounded-xl border border-white/10 bg-black/40 py-2 pl-9 pr-3 text-sm text-white placeholder-white/30 focus:border-violet-400/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/50",
+          "w-full rounded-xl border border-white/10 bg-black/40 py-2 pl-9 pr-3 text-sm text-white placeholder-white/30 focus:border-agentos-brand/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/50",
           inputClassName,
         )}
       />

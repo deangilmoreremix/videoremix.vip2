@@ -172,7 +172,7 @@ const OperationsPage: React.FC = () => {
         <title>Operations — SapienX AgentOS</title>
       </Helmet>
 
-      <div className="mx-auto max-w-7xl px-6 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
         <PageHeader
           title="Operations"
           description="Task health, model usage, credits, and failures — aggregated from the execution tables."
@@ -274,7 +274,7 @@ const OperationsPage: React.FC = () => {
                           <td className="py-2 pr-4 text-right tabular-nums text-white/60">
                             {row.completionTokens.toLocaleString()}
                           </td>
-                          <td className="py-2 text-right tabular-nums text-violet-300">
+                          <td className="py-2 text-right tabular-nums text-agentos-brand-soft">
                             {Math.round(row.credits).toLocaleString()}
                           </td>
                         </tr>
@@ -318,15 +318,15 @@ const OperationsPage: React.FC = () => {
                       >
                         <button
                           type="button"
-                          onClick={() => navigate(`/agentos/workforce/${row.workerId}`)}
-                          className="truncate text-sm text-white/80 hover:text-violet-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
+                          onClick={() => navigate(`/dashboard/workforce/${row.workerId}`)}
+                          className="truncate text-sm text-white/80 hover:text-agentos-brand-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/60"
                         >
                           {row.name}
                         </button>
                         <span className="flex shrink-0 items-center gap-2 text-xs text-white/45">
                           <span>{row.runs} runs</span>
                           {row.failures > 0 ? <Pill tone="rose">{row.failures} failed</Pill> : null}
-                          <span className="tabular-nums text-violet-300">
+                          <span className="tabular-nums text-agentos-brand-soft">
                             {Math.round(row.credits).toLocaleString()} cr
                           </span>
                         </span>

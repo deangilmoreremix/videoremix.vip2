@@ -316,14 +316,14 @@ const MissionDetailPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-5xl px-6 py-8">
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
         <Spinner label="Loading mission…" />
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-8">
+    <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
       <AsyncBoundary
         loading={false}
         error={error}
@@ -339,8 +339,8 @@ const MissionDetailPage: React.FC = () => {
 
             <PageHeader
               breadcrumbs={[
-                { label: "AgentOS", to: "/agentos" },
-                { label: "Missions", to: "/agentos/missions" },
+                { label: "AgentOS", to: "/dashboard/mission-control" },
+                { label: "Missions", to: "/dashboard/missions" },
                 { label: mission.title },
               ]}
               title={mission.title}
@@ -399,7 +399,7 @@ const MissionDetailPage: React.FC = () => {
                           onClick={() => setSelectedTaskId(task.id)}
                           className="min-w-0 flex-1 text-left"
                         >
-                          <p className="text-sm font-medium text-white hover:text-violet-200">
+                          <p className="text-sm font-medium text-white hover:text-agentos-brand-soft">
                             {task.title}
                           </p>
                           {task.description ? (
@@ -565,7 +565,7 @@ const MissionDetailPage: React.FC = () => {
             </Section>
 
             <div className="mt-6">
-              <Button variant="outline" onClick={() => navigate("/agentos/missions")}>
+              <Button variant="outline" onClick={() => navigate("/dashboard/missions")}>
                 Back to missions
               </Button>
             </div>

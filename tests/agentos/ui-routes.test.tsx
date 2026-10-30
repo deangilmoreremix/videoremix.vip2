@@ -57,7 +57,7 @@ const read = (path: string) => readFileSync(path, "utf8");
 /**
  * Parse the route tree out of src/App.tsx.
  *
- * The AgentOS section is a LAYOUT route: `<Route path="/agentos">` with the
+ * The AgentOS section is a LAYOUT route: `<Route path="/dashboard">` with the
  * pages as children whose paths are relative ("workforce", "missions/:id").
  * A flat regex over every `path=` attribute would only see the relative
  * fragments, so the tree is walked instead: a route that has children is a
@@ -217,7 +217,7 @@ function resolves(target: string): boolean {
 /**
  * Extract every internal AgentOS link target from a source string. Targets are
  * the only link-bearing literals in this surface and always begin with
- * `/agentos` or `/dashboard`; template interpolations (`${…}`) become a
+ * `/dashboard` (or the legacy `/agentos`); template interpolations (`${…}`) become a
  * placeholder that any `:param` segment accepts.
  */
 function extractLinkTargets(source: string): string[] {
@@ -286,24 +286,28 @@ const PAGE_LOADERS: Record<string, () => Promise<{ default: unknown }>> = {
 };
 
 const EXPECTED_AGENTOS_ROUTES = [
-  "/agentos",
-  "/agentos/mission-control",
-  "/agentos/workforce",
-  "/agentos/workforce/new",
-  "/agentos/workforce/:workerId",
-  "/agentos/workspaces",
-  "/agentos/workspaces/:workspaceId",
-  "/agentos/missions",
-  "/agentos/missions/new",
-  "/agentos/missions/:missionId",
-  "/agentos/schedules",
-  "/agentos/approvals",
-  "/agentos/operations",
-  "/agentos/models",
-  "/agentos/connections",
-  "/agentos/memory",
-  "/agentos/artifacts",
-  "/agentos/activity",
+  "/dashboard",
+  "/dashboard/mission-control",
+  "/dashboard/workforce",
+  "/dashboard/workforce/new",
+  "/dashboard/workforce/:workerId",
+  "/dashboard/workspaces",
+  "/dashboard/workspaces/:workspaceId",
+  "/dashboard/missions",
+  "/dashboard/missions/new",
+  "/dashboard/missions/:missionId",
+  "/dashboard/schedules",
+  "/dashboard/approvals",
+  "/dashboard/operations",
+  "/dashboard/models",
+  "/dashboard/connections",
+  "/dashboard/memory",
+  "/dashboard/artifacts",
+  "/dashboard/activity",
+  "/dashboard/tasks",
+  "/dashboard/settings",
+  "/dashboard/apps",
+  "/dashboard/my-apps",
 ];
 
 describe("AgentOS route registration (src/App.tsx)", () => {
@@ -311,7 +315,7 @@ describe("AgentOS route registration (src/App.tsx)", () => {
     expect(ROUTES.length).toBeGreaterThan(0);
   });
 
-  it.each(EXPECTED_AGENTOS_ROUTES)("declares the /agentos route %s", (route) => {
+  it.each(EXPECTED_AGENTOS_ROUTES)("declares the dashboard route %s", (route) => {
     expect(ROUTES).toContain(route);
   });
 

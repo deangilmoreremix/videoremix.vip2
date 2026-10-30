@@ -59,7 +59,7 @@ export const Modal: React.FC<ModalProps> = ({
       <DialogContent
         aria-modal="true"
         className={cn(
-          "max-w-lg border-white/10 bg-[#0d0d0f] text-white",
+          "max-w-lg border-white/10 bg-agentos-card text-white",
           className,
         )}
         onCloseAutoFocus={(event) => {

@@ -187,7 +187,7 @@ const WorkspaceDetailPage: React.FC = () => {
       return;
     }
     setConfirmArchive(false);
-    navigate("/agentos/workspaces");
+    navigate("/dashboard/workspaces");
   }, [workspace, navigate]);
 
   const changeRole = useCallback(
@@ -224,14 +224,14 @@ const WorkspaceDetailPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-5xl px-6 py-8">
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
         <Spinner label="Loading workspace…" />
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-8">
+    <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
       <AsyncBoundary
         loading={false}
         error={error}
@@ -247,8 +247,8 @@ const WorkspaceDetailPage: React.FC = () => {
 
             <PageHeader
               breadcrumbs={[
-                { label: "AgentOS", to: "/agentos" },
-                { label: "Workspaces", to: "/agentos/workspaces" },
+                { label: "AgentOS", to: "/dashboard/mission-control" },
+                { label: "Workspaces", to: "/dashboard/workspaces" },
                 { label: workspace.name },
               ]}
               title={workspace.name}
@@ -492,7 +492,7 @@ const WorkspaceDetailPage: React.FC = () => {
                       title="No workers in this workspace"
                       description="Create a worker and assign it to this workspace."
                       action={
-                        <Button size="sm" onClick={() => navigate("/agentos/workforce/new")}>
+                        <Button size="sm" onClick={() => navigate("/dashboard/workforce/new")}>
                           New worker
                         </Button>
                       }
@@ -503,8 +503,8 @@ const WorkspaceDetailPage: React.FC = () => {
                         <li key={worker.id}>
                           <button
                             type="button"
-                            onClick={() => navigate(`/agentos/workforce/${worker.id}`)}
-                            className="flex w-full items-center justify-between rounded-xl border border-white/5 bg-black/30 px-3 py-2.5 text-left hover:border-violet-400/30"
+                            onClick={() => navigate(`/dashboard/workforce/${worker.id}`)}
+                            className="flex w-full items-center justify-between rounded-xl border border-white/5 bg-black/30 px-3 py-2.5 text-left hover:border-agentos-brand/30"
                           >
                             <span className="text-sm text-white/80">{worker.name}</span>
                             <span className="flex items-center gap-2">
@@ -527,7 +527,7 @@ const WorkspaceDetailPage: React.FC = () => {
                       title="No missions yet"
                       description="Create a mission to group tasks and assign them to workers."
                       action={
-                        <Button size="sm" onClick={() => navigate("/agentos/missions/new")}>
+                        <Button size="sm" onClick={() => navigate("/dashboard/missions/new")}>
                           New mission
                         </Button>
                       }
@@ -538,8 +538,8 @@ const WorkspaceDetailPage: React.FC = () => {
                         <li key={mission.id}>
                           <button
                             type="button"
-                            onClick={() => navigate(`/agentos/missions/${mission.id}`)}
-                            className="flex w-full items-center justify-between rounded-xl border border-white/5 bg-black/30 px-3 py-2.5 text-left hover:border-violet-400/30"
+                            onClick={() => navigate(`/dashboard/missions/${mission.id}`)}
+                            className="flex w-full items-center justify-between rounded-xl border border-white/5 bg-black/30 px-3 py-2.5 text-left hover:border-agentos-brand/30"
                           >
                             <span className="text-sm text-white/80">{mission.title}</span>
                             <Pill tone="sky">{mission.status}</Pill>

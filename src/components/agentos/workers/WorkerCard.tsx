@@ -22,7 +22,7 @@ export const WorkerCard: React.FC<WorkerCardProps> = ({ worker, onSelect }) => {
       onSelect(worker.id);
       return;
     }
-    navigate(`/agentos/workforce/${worker.id}`);
+    navigate(`/dashboard/workforce/${worker.id}`);
   };
 
   const activeTools = (worker.tools ?? []).filter((tool) => tool.enabled).length;
@@ -31,15 +31,15 @@ export const WorkerCard: React.FC<WorkerCardProps> = ({ worker, onSelect }) => {
     <button
       type="button"
       onClick={handleClick}
-      className="group rounded-2xl border border-white/10 bg-black/40 p-5 text-left transition hover:border-violet-400/30 hover:bg-black/60"
+      className="group rounded-2xl border border-white/10 bg-black/40 p-5 text-left transition hover:border-agentos-brand/30 hover:bg-black/60"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-violet-300">
+          <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-agentos-brand-soft">
             <Bot className="h-5 w-5" aria-hidden="true" />
           </div>
           <div>
-            <p className="font-medium text-white group-hover:text-violet-200">{worker.name}</p>
+            <p className="font-medium text-white group-hover:text-agentos-brand-soft">{worker.name}</p>
             <p className="text-xs text-white/45">{worker.role || "unassigned role"}</p>
           </div>
         </div>

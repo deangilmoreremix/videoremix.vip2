@@ -211,7 +211,7 @@ const WorkerNewPage: React.FC = () => {
       } catch {
         // Ignore: the worker exists either way.
       }
-      navigate(`/agentos/workforce/${result.data.id}`);
+      navigate(`/dashboard/workforce/${result.data.id}`);
     }
   }, [draft, navigate]);
 
@@ -223,11 +223,11 @@ const WorkerNewPage: React.FC = () => {
         <title>New worker — Workforce</title>
       </Helmet>
 
-      <div className="mx-auto max-w-3xl px-6 py-8">
+      <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
         <PageHeader
           breadcrumbs={[
-            { label: "AgentOS", to: "/agentos" },
-            { label: "Workforce", to: "/agentos/workforce" },
+            { label: "AgentOS", to: "/dashboard/mission-control" },
+            { label: "Workforce", to: "/dashboard/workforce" },
             { label: "New" },
           ]}
           title="New worker"
@@ -242,7 +242,7 @@ const WorkerNewPage: React.FC = () => {
                 onClick={() => setStep(index)}
                 className={`flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] transition ${
                   index === step
-                    ? "border-violet-400/40 bg-violet-500/20 text-violet-200"
+                    ? "border-agentos-brand/40 bg-agentos-brand/20 text-agentos-brand-soft"
                     : index < step
                       ? "border-emerald-400/25 bg-emerald-500/10 text-emerald-200"
                       : "border-white/10 bg-white/5 text-white/40"
@@ -301,7 +301,7 @@ const WorkerNewPage: React.FC = () => {
                           onClick={() => patch({ accent })}
                           className={`rounded-full border px-2.5 py-0.5 text-[11px] ${
                             draft.accent === accent
-                              ? "border-violet-400/40 bg-violet-500/20 text-violet-200"
+                              ? "border-agentos-brand/40 bg-agentos-brand/20 text-agentos-brand-soft"
                               : "border-white/10 bg-white/5 text-white/45"
                           }`}
                         >
@@ -433,7 +433,7 @@ const WorkerNewPage: React.FC = () => {
                         <label
                           className={`flex cursor-pointer items-center justify-between gap-3 rounded-xl border px-3 py-2 transition ${
                             active
-                              ? "border-violet-400/30 bg-violet-500/10"
+                              ? "border-agentos-brand/30 bg-agentos-brand/10"
                               : "border-white/5 bg-black/30"
                           }`}
                         >
@@ -482,8 +482,8 @@ const WorkerNewPage: React.FC = () => {
                   Add and edit memory entries from the{" "}
                   <button
                     type="button"
-                    className="text-violet-300 underline"
-                    onClick={() => navigate("/agentos/memory")}
+                    className="text-agentos-brand-soft underline"
+                    onClick={() => navigate("/dashboard/memory")}
                   >
                     Memory
                   </button>{" "}

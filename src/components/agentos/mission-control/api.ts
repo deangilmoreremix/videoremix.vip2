@@ -99,8 +99,10 @@ export function deriveInitialLayout(data: MissionControlData): {
   const nodes: CanvasNodeRow[] = [];
   const edges: CanvasEdgeRow[] = [];
 
-  const COL = { worker: -360, mission: 40, model: 40, runtime: 300 };
-  const ROW = 90;
+  // A node is 220px wide and ~130px tall with its footer; the columns and
+  // rows leave room for that and for the edge labels between them.
+  const COL = { worker: -420, mission: 40, model: 40, runtime: 520 };
+  const ROW = 170;
 
   data.workers.forEach((worker, index) => {
     nodes.push({
@@ -153,7 +155,7 @@ export function deriveInitialLayout(data: MissionControlData): {
       node_kind: "model",
       ref_id: null,
       label: model.display_name,
-      position: { x: index * 200, y: -140 },
+      position: { x: COL.model + index * 260, y: -230 },
       data: {
         modelId: model.id,
         provider: model.provider,
@@ -173,7 +175,7 @@ export function deriveInitialLayout(data: MissionControlData): {
       node_kind: "runtime",
       ref_id: latestRun.id,
       label: `Run ${latestRun.status}`,
-      position: { x: COL.runtime, y: -140 },
+      position: { x: COL.runtime, y: 0 },
       data: { status: latestRun.status, runId: latestRun.id, model: latestRun.model_id },
       z_index: 300,
     });

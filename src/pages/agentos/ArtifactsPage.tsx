@@ -119,7 +119,7 @@ const ArtifactsPage: React.FC = () => {
         <title>Artifacts — SapienX AgentOS</title>
       </Helmet>
 
-      <div className="mx-auto max-w-7xl px-6 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
         <PageHeader
           title="Artifacts"
           description="Files, reports, and generated media produced by your workers."
@@ -136,7 +136,7 @@ const ArtifactsPage: React.FC = () => {
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search loaded artifacts"
               aria-label="Search artifacts"
-              className="w-full rounded-xl border border-white/10 bg-black/40 py-2 pl-9 pr-3 text-sm text-white placeholder-white/30 focus:border-violet-400/40 focus:outline-none"
+              className="w-full rounded-xl border border-white/10 bg-black/40 py-2 pl-9 pr-3 text-sm text-white placeholder-white/30 focus:border-agentos-brand/40 focus:outline-none"
             />
           </div>
 
@@ -148,7 +148,7 @@ const ArtifactsPage: React.FC = () => {
                 onClick={() => setKind(option)}
                 className={`rounded-lg px-3 py-1.5 text-xs font-medium capitalize transition ${
                   kind === option
-                    ? "bg-violet-500/20 text-violet-200"
+                    ? "bg-agentos-brand/20 text-agentos-brand-soft"
                     : "text-white/50 hover:text-white"
                 }`}
               >
@@ -260,8 +260,8 @@ const ArtifactsPage: React.FC = () => {
                     <dd>
                       {selectedWorkerName ? (
                         <Link
-                          to={`/agentos/workforce/${selected.worker_id}`}
-                          className="text-violet-300 hover:text-violet-200"
+                          to={`/dashboard/workforce/${selected.worker_id}`}
+                          className="text-agentos-brand-soft hover:text-agentos-brand-soft"
                         >
                           {selectedWorkerName}
                         </Link>

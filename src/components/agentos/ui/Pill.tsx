@@ -17,7 +17,7 @@ export type PillTone =
 
 const TONE_CLASS: Record<PillTone, string> = {
   neutral: "border-white/15 bg-white/5 text-white/70",
-  violet: "border-violet-400/30 bg-violet-500/15 text-violet-200",
+  violet: "border-agentos-brand/30 bg-agentos-brand/15 text-agentos-brand-soft",
   emerald: "border-emerald-400/30 bg-emerald-500/15 text-emerald-200",
   amber: "border-amber-400/30 bg-amber-500/15 text-amber-200",
   rose: "border-rose-400/30 bg-rose-500/15 text-rose-200",

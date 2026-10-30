@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
@@ -122,7 +122,11 @@ const WorkerDetailPage: React.FC = () => {
 
   // Conversations with this worker. The panel owns the list and the thread;
   // the page only remembers which thread is open and when something changed.
-  const [conversationId, setConversationId] = useState<string | null>(null);
+  // The command bar opens a worker on the thread it just wrote into.
+  const [searchParams] = useSearchParams();
+  const [conversationId, setConversationId] = useState<string | null>(
+    () => searchParams.get("conversation"),
+  );
   const [conversationRefreshKey, setConversationRefreshKey] = useState(0);
   const [threadRefreshKey, setThreadRefreshKey] = useState(0);
 
@@ -383,14 +387,14 @@ const WorkerDetailPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-5xl px-6 py-8">
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
         <Spinner label="Loading worker…" />
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-8">
+    <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
       <AsyncBoundary
         loading={false}
         error={error}
@@ -406,8 +410,8 @@ const WorkerDetailPage: React.FC = () => {
 
             <PageHeader
               breadcrumbs={[
-                { label: "AgentOS", to: "/agentos" },
-                { label: "Workforce", to: "/agentos/workforce" },
+                { label: "AgentOS", to: "/dashboard/mission-control" },
+                { label: "Workforce", to: "/dashboard/workforce" },
                 { label: worker.name },
               ]}
               title={worker.name}
@@ -704,7 +708,7 @@ const WorkerDetailPage: React.FC = () => {
                               key={toolKey}
                               className={`flex flex-wrap items-center justify-between gap-3 rounded-xl border px-3 py-2.5 ${
                                 enabled
-                                  ? "border-violet-400/25 bg-black/30"
+                                  ? "border-agentos-brand/25 bg-black/30"
                                   : "border-white/5 bg-black/20"
                               }`}
                             >
@@ -762,8 +766,8 @@ const WorkerDetailPage: React.FC = () => {
                       No memory yet. Add context under{" "}
                       <button
                         type="button"
-                        className="text-violet-300 underline"
-                        onClick={() => navigate("/agentos/memory")}
+                        className="text-agentos-brand-soft underline"
+                        onClick={() => navigate("/dashboard/memory")}
                       >
                         Memory
                       </button>
@@ -959,7 +963,7 @@ const WorkerDetailPage: React.FC = () => {
                                     ),
                                   })
                                 }
-                                className="rounded-full border border-violet-400/40 bg-violet-500/15 px-2.5 py-0.5 text-[11px] text-violet-200"
+                                className="rounded-full border border-agentos-brand/40 bg-agentos-brand/15 px-2.5 py-0.5 text-[11px] text-agentos-brand-soft"
                                 aria-label={`Remove ${slug} from the allowed apps`}
                               >
                                 {slug} ×
@@ -1195,8 +1199,8 @@ const WorkerDetailPage: React.FC = () => {
                 Open a task from the{" "}
                 <button
                   type="button"
-                  className="text-violet-300 underline"
-                  onClick={() => navigate("/agentos/missions")}
+                  className="text-agentos-brand-soft underline"
+                  onClick={() => navigate("/dashboard/missions")}
                 >
                   missions
                 </button>{" "}

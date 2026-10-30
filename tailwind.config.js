@@ -30,6 +30,19 @@ export default {
           900: '#831843',
           950: '#500724',
         },
+        // SapienX AgentOS tokens (src/styles/agentos.css), only defined
+        // inside .agentos-root.
+        agentos: {
+          brand: 'hsl(var(--agentos-brand-primary) / <alpha-value>)',
+          'brand-soft': 'hsl(var(--accent-foreground) / <alpha-value>)',
+          accent: 'hsl(var(--agentos-operational-accent) / <alpha-value>)',
+          bg: 'hsl(var(--background) / <alpha-value>)',
+          card: 'hsl(var(--card) / <alpha-value>)',
+          muted: 'hsl(var(--muted) / <alpha-value>)',
+          border: 'hsl(var(--border) / <alpha-value>)',
+          fg: 'hsl(var(--foreground) / <alpha-value>)',
+          subtle: 'hsl(var(--muted-foreground) / <alpha-value>)',
+        },
         gray: {
           750: '#374151', // Additional gray shade for hover states
           850: '#1a202c', // Additional gray shade for backgrounds
@@ -37,6 +50,7 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
+        display: ['Futura', 'Avenir Next', 'Inter', 'sans-serif'],
       },
       backgroundImage: {
         'noise': "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")",

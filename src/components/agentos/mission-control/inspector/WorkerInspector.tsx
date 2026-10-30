@@ -29,7 +29,7 @@ export const WorkerInspector: React.FC<WorkerInspectorProps> = ({
     <div className="space-y-4 p-4">
       <Section>
         <div className="flex items-start gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-violet-300">
+          <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-agentos-brand-soft">
             <Bot className="h-5 w-5" aria-hidden="true" />
           </div>
           <div className="min-w-0 flex-1">
@@ -85,7 +85,7 @@ export const WorkerInspector: React.FC<WorkerInspectorProps> = ({
           className="mt-3"
           onClick={() => {
             onSelectWorker?.(worker.id);
-            navigate(`/agentos/workforce/${worker.id}`);
+            navigate(`/dashboard/workforce/${worker.id}`);
           }}
         >
           Open worker
@@ -104,9 +104,9 @@ export const WorkerInspector: React.FC<WorkerInspectorProps> = ({
                   type="button"
                   onClick={() => {
                     onSelectMission?.(mission.id);
-                    navigate(`/agentos/missions/${mission.id}`);
+                    navigate(`/dashboard/missions/${mission.id}`);
                   }}
-                  className="w-full rounded-lg border border-white/5 bg-black/30 px-2.5 py-2 text-left text-xs text-white/75 hover:border-violet-400/30"
+                  className="w-full rounded-lg border border-white/5 bg-black/30 px-2.5 py-2 text-left text-xs text-white/75 hover:border-agentos-brand/30"
                 >
                   {mission.title}
                 </button>

@@ -25,7 +25,7 @@ export interface MissionNodeShellProps {
 }
 
 const ACCENT_BORDER: Record<MissionNodeShellProps["accent"], string> = {
-  worker: "border-violet-400/30",
+  worker: "border-agentos-brand/35",
   task: "border-sky-400/30",
   model: "border-emerald-400/30",
   runtime: "border-amber-400/30",
@@ -33,7 +33,7 @@ const ACCENT_BORDER: Record<MissionNodeShellProps["accent"], string> = {
 };
 
 const ACCENT_ICON: Record<MissionNodeShellProps["accent"], string> = {
-  worker: "text-violet-300",
+  worker: "text-agentos-brand",
   task: "text-sky-300",
   model: "text-emerald-300",
   runtime: "text-amber-300",
@@ -55,13 +55,15 @@ export const MissionNodeShell: React.FC<MissionNodeShellProps> = ({
 }) => (
   <div
     className={cn(
-      "w-[220px] rounded-2xl border bg-[#0d0d0f]/95 backdrop-blur transition",
-      selected ? "border-violet-400/60 shadow-lg shadow-violet-500/10" : ACCENT_BORDER[accent],
+      "w-[220px] rounded-2xl border bg-agentos-card/90 shadow-[var(--shadow-card)] backdrop-blur transition",
+      selected
+        ? "border-agentos-brand/70 shadow-[var(--shadow-glow)] ring-1 ring-agentos-brand/40"
+        : ACCENT_BORDER[accent],
       className,
     )}
   >
     {showTargetHandle ? (
-      <Handle type="target" position={Position.Left} className="!h-2 !w-2 !bg-white/30" />
+      <Handle type="target" position={Position.Left} className="!h-2 !w-2 !border-0 !bg-agentos-brand/70" />
     ) : null}
 
     <div className="flex items-start gap-2.5 p-3">
@@ -85,7 +87,7 @@ export const MissionNodeShell: React.FC<MissionNodeShellProps> = ({
     {children ? <div className="border-t border-white/5 px-3 py-2">{children}</div> : null}
 
     {showSourceHandle ? (
-      <Handle type="source" position={Position.Right} className="!h-2 !w-2 !bg-white/30" />
+      <Handle type="source" position={Position.Right} className="!h-2 !w-2 !border-0 !bg-agentos-brand/70" />
     ) : null}
   </div>
 );

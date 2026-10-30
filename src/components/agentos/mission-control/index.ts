@@ -2,7 +2,6 @@
 
 export { MissionControlShell } from "./MissionControlShell";
 export { MissionControlCanvas } from "./MissionControlCanvas";
-export { MissionControlSidebar } from "./MissionControlSidebar";
 export { MissionControlTopbar } from "./MissionControlTopbar";
 export { MissionConnectionEdge } from "./MissionConnectionEdge";
 export { CommandBar } from "./command-bar/CommandBar";

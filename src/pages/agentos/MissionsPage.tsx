@@ -85,15 +85,15 @@ const MissionsPage: React.FC = () => {
         <title>Missions — SapienX AgentOS</title>
       </Helmet>
 
-      <div className="mx-auto max-w-5xl px-6 py-8">
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
         <PageHeader
           title="Missions"
           description="A mission groups tasks and assigns them to workers. Every state below comes from the task queue, not a mock."
           actions={
             <button
               type="button"
-              onClick={() => navigate("/agentos/missions/new")}
-              className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-violet-500"
+              onClick={() => navigate("/dashboard/missions/new")}
+              className="inline-flex items-center gap-2 rounded-xl bg-agentos-brand px-4 py-2 text-sm font-medium text-white transition hover:bg-agentos-brand"
             >
               <Plus className="h-4 w-4" aria-hidden="true" />
               New mission
@@ -109,7 +109,7 @@ const MissionsPage: React.FC = () => {
               onClick={() => setFilter(option.value)}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
                 filter === option.value
-                  ? "bg-violet-500/20 text-violet-200"
+                  ? "bg-agentos-brand/20 text-agentos-brand-soft"
                   : "text-white/50 hover:text-white"
               }`}
             >
@@ -132,8 +132,8 @@ const MissionsPage: React.FC = () => {
               action={
                 <button
                   type="button"
-                  onClick={() => navigate("/agentos/missions/new")}
-                  className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-500"
+                  onClick={() => navigate("/dashboard/missions/new")}
+                  className="inline-flex items-center gap-2 rounded-xl bg-agentos-brand px-4 py-2 text-sm font-medium text-white hover:bg-agentos-brand"
                 >
                   <Plus className="h-4 w-4" aria-hidden="true" />
                   New mission
@@ -150,8 +150,8 @@ const MissionsPage: React.FC = () => {
                 <button
                   key={mission.id}
                   type="button"
-                  onClick={() => navigate(`/agentos/missions/${mission.id}`)}
-                  className="block w-full rounded-2xl border border-white/10 bg-black/40 p-5 text-left transition hover:border-violet-400/30 hover:bg-black/60"
+                  onClick={() => navigate(`/dashboard/missions/${mission.id}`)}
+                  className="block w-full rounded-2xl border border-white/10 bg-black/40 p-5 text-left transition hover:border-agentos-brand/30 hover:bg-black/60"
                 >
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="min-w-0">
@@ -183,8 +183,8 @@ const MissionsPage: React.FC = () => {
             run the queue on demand from{" "}
             <button
               type="button"
-              className="text-violet-300 underline"
-              onClick={() => navigate("/agentos/operations")}
+              className="text-agentos-brand-soft underline"
+              onClick={() => navigate("/dashboard/operations")}
             >
               Operations
             </button>

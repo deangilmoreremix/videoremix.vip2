@@ -26,24 +26,24 @@ const underVitest = Boolean(process.env?.VITEST);
 
 /** Every declared /agentos route, with concrete values for :param segments. */
 const AGENTOS_ROUTES = [
-  "/agentos",
-  "/agentos/mission-control",
-  "/agentos/workforce",
-  "/agentos/workforce/new",
-  "/agentos/workforce/demo-worker",
-  "/agentos/workspaces",
-  "/agentos/workspaces/demo-workspace",
-  "/agentos/missions",
-  "/agentos/missions/new",
-  "/agentos/missions/demo-mission",
-  "/agentos/schedules",
-  "/agentos/approvals",
-  "/agentos/operations",
-  "/agentos/models",
-  "/agentos/connections",
-  "/agentos/memory",
-  "/agentos/artifacts",
-  "/agentos/activity",
+  "/dashboard",
+  "/dashboard/mission-control",
+  "/dashboard/workforce",
+  "/dashboard/workforce/new",
+  "/dashboard/workforce/demo-worker",
+  "/dashboard/workspaces",
+  "/dashboard/workspaces/demo-workspace",
+  "/dashboard/missions",
+  "/dashboard/missions/new",
+  "/dashboard/missions/demo-mission",
+  "/dashboard/schedules",
+  "/dashboard/approvals",
+  "/dashboard/operations",
+  "/dashboard/models",
+  "/dashboard/connections",
+  "/dashboard/memory",
+  "/dashboard/artifacts",
+  "/dashboard/activity",
 ];
 
 // Routes that always render a deterministic <h1> (a page header) regardless of
@@ -192,7 +192,7 @@ if (underVitest) {
         test.skip(true, AUTH_SKIP_REASON);
       }
       await page.context().clearCookies();
-      await loadPage(page, "/agentos");
+      await loadPage(page, "/dashboard/mission-control");
       await page.waitForURL(/signin/i, { timeout: 15_000 });
       expect(page.url(), "unauthenticated /agentos lands on the sign-in route").toMatch(/signin/i);
     });

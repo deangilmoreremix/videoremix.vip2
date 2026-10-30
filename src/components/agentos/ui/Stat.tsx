@@ -20,7 +20,7 @@ const VALUE_CLASS = {
   amber: "text-amber-300",
   rose: "text-rose-300",
   sky: "text-sky-300",
-  violet: "text-violet-300",
+  violet: "text-agentos-brand-soft",
 } as const;
 
 export const Stat: React.FC<StatProps> = ({
@@ -32,7 +32,7 @@ export const Stat: React.FC<StatProps> = ({
 }) => (
   <div
     className={cn(
-      "rounded-2xl border border-white/10 bg-black/40 p-4",
+      "agentos-card rounded-2xl p-4",
       className,
     )}
   >

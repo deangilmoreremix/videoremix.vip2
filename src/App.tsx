@@ -50,7 +50,6 @@ const AppPage = lazy(() => import("./pages/AppPage"));
 // Generic pages
 const PricingPage = lazy(() => import("./pages/PricingPage"));
 const FAQPage = lazy(() => import("./pages/FAQPage"));
-const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 
 // SapienX AgentOS — loaded on demand so the workforce/runtime code never
 // bloats the dashboard bundle.
@@ -72,6 +71,11 @@ const AgentOSMemoryPage = lazy(() => import("./pages/agentos/MemoryPage"));
 const AgentOSArtifactsPage = lazy(() => import("./pages/agentos/ArtifactsPage"));
 const AgentOSActivityPage = lazy(() => import("./pages/agentos/ActivityPage"));
 const AgentOSLayout = lazy(() => import("./pages/agentos/AgentOSLayout"));
+const AgentOSDashboardHomePage = lazy(() => import("./pages/agentos/DashboardHomePage"));
+const AgentOSTasksPage = lazy(() => import("./pages/agentos/TasksPage"));
+const AgentOSSettingsPage = lazy(() => import("./pages/agentos/SettingsPage"));
+const AgentOSAppsPage = lazy(() => import("./pages/agentos/AppsPage"));
+const LegacyAgentOSRedirect = lazy(() => import("./pages/agentos/LegacyAgentOSRedirect"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
 const AdminSignUp = lazy(() => import("./components/admin/AdminSignUp"));
@@ -782,27 +786,13 @@ function App() {
             }
           />
 
-          {/* SapienX is the single authenticated VideoRemix dashboard shell */}
-          <Route
-            path="/dashboard/*"
-            element={
-              <ProtectedRoute>
-                <ErrorBoundary onError={handleError}>
-                  <Suspense fallback={<SectionLoader />}>
-                    <DashboardPage />
-                  </Suspense>
-                </ErrorBoundary>
-              </ProtectedRoute>
-            }
-          />
-
-          {/* SapienX AgentOS — digital workforce, workspaces, missions, runtime */}
           {/*
-            The section has its own layout: the nav bar and the notification bell
-            are rendered once here, and every page below renders inside it.
+            SapienX AgentOS is the authenticated dashboard. The shell (sidebar,
+            topbar, notification bell) is rendered once by the layout, and every
+            page below renders inside it through <Outlet />.
           */}
           <Route
-            path="/agentos"
+            path="/dashboard"
             element={
               <ProtectedRoute>
                 <ErrorBoundary onError={handleError}>
@@ -813,134 +803,142 @@ function App() {
               </ProtectedRoute>
             }
           >
-          <Route
-            index
-            element={
-              <Suspense fallback={<SectionLoader />}>
-                <AgentOSMissionControlPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="mission-control"
-            element={
-              <Suspense fallback={<SectionLoader />}>
-                <AgentOSMissionControlPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="workforce"
-            element={
-              <Suspense fallback={<SectionLoader />}>
-                <AgentOSWorkforcePage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="workforce/new"
-            element={
-              <Suspense fallback={<SectionLoader />}>
-                <AgentOSWorkerNewPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="workforce/:workerId"
-            element={
-              <Suspense fallback={<SectionLoader />}>
-                <AgentOSWorkerDetailPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="workspaces"
-            element={
-              <Suspense fallback={<SectionLoader />}>
-                <AgentOSWorkspacesPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="workspaces/:workspaceId"
-            element={
-              <Suspense fallback={<SectionLoader />}>
-                <AgentOSWorkspaceDetailPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="missions"
-            element={
-              <Suspense fallback={<SectionLoader />}>
-                <AgentOSMissionsPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="missions/new"
-            element={
-              <Suspense fallback={<SectionLoader />}>
-                <AgentOSMissionNewPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="missions/:missionId"
-            element={
-              <Suspense fallback={<SectionLoader />}>
-                <AgentOSMissionDetailPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="schedules"
-            element={
-              <Suspense fallback={<SectionLoader />}>
-                <AgentOSSchedulesPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="approvals"
-            element={
-              <Suspense fallback={<SectionLoader />}>
-                <AgentOSApprovalsPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="operations"
-            element={
-              <Suspense fallback={<SectionLoader />}>
-                <AgentOSOperationsPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="models"
-            element={
-              <Suspense fallback={<SectionLoader />}>
-                <AgentOSModelsPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="connections"
-            element={
-              <Suspense fallback={<SectionLoader />}>
-                <AgentOSConnectionsPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="memory"
-            element={
-              <Suspense fallback={<SectionLoader />}>
-                <AgentOSMemoryPage />
-              </Suspense>
-            }
-          />
+            <Route
+              index
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSDashboardHomePage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="mission-control"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSMissionControlPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="workforce"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSWorkforcePage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="workforce/new"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSWorkerNewPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="workforce/:workerId"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSWorkerDetailPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="workspaces"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSWorkspacesPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="workspaces/:workspaceId"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSWorkspaceDetailPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="missions"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSMissionsPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="missions/new"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSMissionNewPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="missions/:missionId"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSMissionDetailPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="tasks"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSTasksPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="schedules"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSSchedulesPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="approvals"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSApprovalsPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="operations"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSOperationsPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="models"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSModelsPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="connections"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSConnectionsPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="memory"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSMemoryPage />
+                </Suspense>
+              }
+            />
             <Route
               path="artifacts"
               element={
@@ -957,7 +955,51 @@ function App() {
                 </Suspense>
               }
             />
+            <Route
+              path="settings"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSSettingsPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="apps"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSAppsPage surface="apps" />
+                </Suspense>
+              }
+            />
+            <Route
+              path="my-apps"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentOSAppsPage surface="my-apps" />
+                </Suspense>
+              }
+            />
+            {/* The Awesome LLM apps run inside the dashboard shell. */}
+            <Route
+              path="apps/:slug"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AIAppRunnerPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="agents/:id"
+              element={
+                <Suspense fallback={<SectionLoader />}>
+                  <AgentPage />
+                </Suspense>
+              }
+            />
           </Route>
+
+          {/* The section used to live at /agentos; old links keep working. */}
+          <Route path="/agentos/*" element={<LegacyAgentOSRedirect />} />
 
           <Route
             path="/profile"

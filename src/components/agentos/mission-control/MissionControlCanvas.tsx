@@ -14,7 +14,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
   applyEdgeChanges,
   applyNodeChanges,
-  Background,
   Controls,
   MiniMap,
   ReactFlow,
@@ -67,7 +66,7 @@ export interface MissionControlCanvasProps {
   hasUnsavedChanges?: boolean;
 }
 
-export const MissionControlCanvas: React.FC<MissionControlCanvasProps> = ({
+const CanvasInner: React.FC<MissionControlCanvasProps> = ({
   inputs,
   selectedNodeId,
   onSelectNode,
@@ -219,7 +218,10 @@ export const MissionControlCanvas: React.FC<MissionControlCanvasProps> = ({
 
   if (!hasContent && !hasPersisted) {
     return (
-      <div className="grid h-full place-items-center p-8">
+      <div className="relative grid h-full place-items-center p-8">
+        <div className="mission-canvas-backdrop">
+          <div className="mission-canvas-pattern" />
+        </div>
         <EmptyCanvasState
           hasWorkers={inputs.workers.length > 0}
           onSeedSample={onSeed}
@@ -231,6 +233,10 @@ export const MissionControlCanvas: React.FC<MissionControlCanvasProps> = ({
 
   return (
     <div className="relative h-full w-full">
+      {/* Upstream's backdrop: a cyan grid every 88px with a 22px dot lattice. */}
+      <div className="mission-canvas-backdrop">
+        <div className="mission-canvas-pattern" />
+      </div>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -246,26 +252,23 @@ export const MissionControlCanvas: React.FC<MissionControlCanvasProps> = ({
         elementsSelectable
         selectNodesOnDrag={false}
         fitView
+        fitViewOptions={{ padding: 0.25, maxZoom: 1 }}
         minZoom={0.2}
         maxZoom={2}
         proOptions={{ hideAttribution: true }}
-        className="bg-[#0a0a0a]"
+        className="!bg-transparent"
       >
-        <Background gap={24} size={1} color="#ffffff10" />
         <MiniMap
           pannable
           zoomable
-          className="!border !border-white/10 !bg-[#0d0d0f]"
-          maskColor="rgba(0,0,0,0.6)"
-          nodeColor={() => "#a78bfa"}
+          className="hidden sm:block"
+          maskColor="rgba(5, 10, 18, 0.62)"
+          nodeColor={() => "hsl(345 100% 49%)"}
         />
-        <Controls
-          showInteractive={false}
-          className="!border-white/10 !bg-[#0d0d0f] [&>button]:!border-white/10 [&>button]:!bg-[#0d0d0f] [&>button]:!text-white/50 [&>button:hover]:!bg-white/5"
-        />
+        <Controls showInteractive={false} />
       </ReactFlow>
 
-      <div className="pointer-events-none absolute bottom-4 left-4 z-10">
+      <div className="pointer-events-none absolute bottom-4 left-1/2 z-10 -translate-x-1/2">
         <CanvasToolbar
           zoomIn={() => zoomIn({ duration: 200 })}
           zoomOut={() => zoomOut({ duration: 200 })}
@@ -281,7 +284,7 @@ export const MissionControlCanvas: React.FC<MissionControlCanvasProps> = ({
 
       {confirmDelete ? (
         <div className="absolute inset-0 z-20 grid place-items-center bg-black/60 p-6">
-          <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-[#0d0d0f] p-5">
+          <div className="agentos-panel w-full max-w-sm rounded-2xl p-5">
             <h3 className="text-sm font-semibold text-white">Remove this node?</h3>
             <p className="mt-1.5 text-sm text-white/50">
               This removes the node from your saved layout. The worker, mission or model it
@@ -310,13 +313,20 @@ export const MissionControlCanvas: React.FC<MissionControlCanvasProps> = ({
   );
 };
 
-// reactflow's zoom helpers require being inside a provider; this wrapper keeps
-// the consumer API simple (the shell renders <ReactFlowProvider>).
+// reactflow's zoom helpers (useReactFlow) only work under a provider. Nothing
+// rendered one, so the canvas threw "zustand provider" the moment it had a
+// node to show; the exported component now supplies its own.
+export const MissionControlCanvas: React.FC<MissionControlCanvasProps> = (props) => (
+  <ReactFlowProvider>
+    <CanvasInner {...props} />
+  </ReactFlowProvider>
+);
+
 function useCanvasFlow() {
   const { zoomIn, zoomOut, fitView } = useReactFlowInternal();
   return { zoomIn, zoomOut, fitView };
 }
 
-import { useReactFlow as useReactFlowInternal } from "reactflow";
+import { ReactFlowProvider, useReactFlow as useReactFlowInternal } from "reactflow";
 
 export default MissionControlCanvas;

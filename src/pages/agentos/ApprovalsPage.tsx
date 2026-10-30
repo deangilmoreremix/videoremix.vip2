@@ -129,7 +129,7 @@ const ApprovalsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-4xl px-6 py-8">
+      <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8">
         <Spinner label="Loading approvals…" />
       </div>
     );
@@ -141,7 +141,7 @@ const ApprovalsPage: React.FC = () => {
         <title>Approvals — SapienX AgentOS</title>
       </Helmet>
 
-      <div className="mx-auto max-w-4xl px-6 py-8">
+      <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8">
         <PageHeader
           title="Approvals"
           description="Sensitive actions wait here. Nothing runs past a gate until you decide."
@@ -205,8 +205,8 @@ const ApprovalsPage: React.FC = () => {
                       </Pill>
                       {worker ? (
                         <Link
-                          to={`/agentos/workforce/${worker.id}`}
-                          className="text-violet-300 underline"
+                          to={`/dashboard/workforce/${worker.id}`}
+                          className="text-agentos-brand-soft underline"
                         >
                           {worker.name}
                         </Link>
@@ -217,10 +217,10 @@ const ApprovalsPage: React.FC = () => {
                         <Link
                           to={
                             task.mission_id
-                              ? `/agentos/missions/${task.mission_id}`
-                              : "/agentos/missions"
+                              ? `/dashboard/missions/${task.mission_id}`
+                              : "/dashboard/missions"
                           }
-                          className="text-violet-300 underline"
+                          className="text-agentos-brand-soft underline"
                         >
                           {task.title}
                         </Link>

@@ -48,14 +48,14 @@ export const ArtifactCard: React.FC<ArtifactCardProps> = ({
     <button
       type="button"
       onClick={() => onSelect?.(artifact)}
-      className="group flex h-full flex-col rounded-2xl border border-white/10 bg-black/40 p-4 text-left transition hover:border-violet-400/30 hover:bg-black/60"
+      className="group flex h-full flex-col rounded-2xl border border-white/10 bg-black/40 p-4 text-left transition hover:border-agentos-brand/30 hover:bg-black/60"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-white/10 bg-white/5 text-violet-300">
+          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-white/10 bg-white/5 text-agentos-brand-soft">
             <Icon className="h-4 w-4" aria-hidden="true" />
           </div>
-          <p className="truncate text-sm font-medium text-white group-hover:text-violet-200">
+          <p className="truncate text-sm font-medium text-white group-hover:text-agentos-brand-soft">
             {artifact.name}
           </p>
         </div>

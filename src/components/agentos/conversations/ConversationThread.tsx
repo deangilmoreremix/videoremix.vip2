@@ -39,7 +39,7 @@ export interface ConversationThreadProps {
 const ROLE_STYLE: Record<string, { label: string; bubble: string; align: string }> = {
   user: {
     label: "You",
-    bubble: "border-violet-400/30 bg-violet-500/10 text-white/85",
+    bubble: "border-agentos-brand/30 bg-agentos-brand/10 text-white/85",
     align: "ml-auto",
   },
   assistant: {

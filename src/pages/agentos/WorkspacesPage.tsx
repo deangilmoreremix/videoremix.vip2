@@ -83,7 +83,7 @@ const WorkspacesPage: React.FC = () => {
       setCreateError(result.error.message);
       return;
     }
-    if (result.data) navigate(`/agentos/workspaces/${result.data.id}`);
+    if (result.data) navigate(`/dashboard/workspaces/${result.data.id}`);
   }, [name, description, goals, instructions, navigate]);
 
   if (!user) return null;
@@ -94,7 +94,7 @@ const WorkspacesPage: React.FC = () => {
         <title>Workspaces — SapienX AgentOS</title>
       </Helmet>
 
-      <div className="mx-auto max-w-7xl px-6 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
         <PageHeader
           title="Workspaces"
           description="Shared context for a team of workers: goals, instructions, policies, and membership."
@@ -102,7 +102,7 @@ const WorkspacesPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowCreate(true)}
-              className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
+              className="inline-flex items-center gap-2 rounded-xl bg-agentos-brand px-4 py-2 text-sm font-medium text-white transition hover:bg-agentos-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/60"
             >
               <Plus className="h-4 w-4" aria-hidden="true" />
               New workspace
@@ -141,7 +141,7 @@ const WorkspacesPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowCreate(true)}
-                    className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
+                    className="inline-flex items-center gap-2 rounded-xl bg-agentos-brand px-4 py-2 text-sm font-medium text-white hover:bg-agentos-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/60"
                   >
                     <Plus className="h-4 w-4" aria-hidden="true" />
                     New workspace
@@ -156,16 +156,16 @@ const WorkspacesPage: React.FC = () => {
               <button
                 key={workspace.id}
                 type="button"
-                onClick={() => navigate(`/agentos/workspaces/${workspace.id}`)}
-                className="group rounded-2xl border border-white/10 bg-black/40 p-5 text-left transition hover:border-violet-400/30 hover:bg-black/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
+                onClick={() => navigate(`/dashboard/workspaces/${workspace.id}`)}
+                className="group rounded-2xl border border-white/10 bg-black/40 p-5 text-left transition hover:border-agentos-brand/30 hover:bg-black/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/60"
               >
                 <div className="flex items-start justify-between gap-3">
-                  <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-violet-300">
+                  <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-agentos-brand-soft">
                     <FolderKanban className="h-5 w-5" aria-hidden="true" />
                   </div>
                   <Users className="h-4 w-4 text-white/25" aria-hidden="true" />
                 </div>
-                <p className="mt-3 font-medium text-white group-hover:text-violet-200">
+                <p className="mt-3 font-medium text-white group-hover:text-agentos-brand-soft">
                   {workspace.name}
                 </p>
                 <p className="mt-1 line-clamp-2 text-xs text-white/50">
@@ -198,7 +198,7 @@ const WorkspacesPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowCreate(false)}
-                  className="rounded-xl border border-white/10 px-4 py-2 text-sm text-white/70 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
+                  className="rounded-xl border border-white/10 px-4 py-2 text-sm text-white/70 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/60"
                 >
                   Cancel
                 </button>
@@ -206,7 +206,7 @@ const WorkspacesPage: React.FC = () => {
                   type="button"
                   disabled={creating}
                   onClick={() => void createWorkspace()}
-                  className="rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60 disabled:opacity-50"
+                  className="rounded-xl bg-agentos-brand px-4 py-2 text-sm font-medium text-white hover:bg-agentos-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/60 disabled:opacity-50"
                 >
                   {creating ? "Creating…" : "Create workspace"}
                 </button>
@@ -222,7 +222,7 @@ const WorkspacesPage: React.FC = () => {
                   id="ws-name"
                   value={name}
                   onChange={(event) => setName(event.target.value)}
-                  className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/50"
+                  className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/50"
                   placeholder="Marketing Team"
                 />
               </div>
@@ -234,7 +234,7 @@ const WorkspacesPage: React.FC = () => {
                   id="ws-description"
                   value={description}
                   onChange={(event) => setDescription(event.target.value)}
-                  className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/50"
+                  className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/50"
                 />
               </div>
               <div>
@@ -246,7 +246,7 @@ const WorkspacesPage: React.FC = () => {
                   value={goals}
                   onChange={(event) => setGoals(event.target.value)}
                   rows={2}
-                  className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/50"
+                  className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/50"
                 />
               </div>
               <div>
@@ -258,7 +258,7 @@ const WorkspacesPage: React.FC = () => {
                   value={instructions}
                   onChange={(event) => setInstructions(event.target.value)}
                   rows={3}
-                  className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/50"
+                  className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/50"
                 />
               </div>
               {createError ? (

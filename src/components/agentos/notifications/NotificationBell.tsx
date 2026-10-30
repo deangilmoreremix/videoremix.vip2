@@ -85,11 +85,11 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
         onClick={() => setOpen((value) => !value)}
         aria-label={unread > 0 ? `Notifications, ${unread} unread` : "Notifications"}
         aria-expanded={open}
-        className="relative grid h-9 w-9 place-items-center rounded-xl border border-white/10 bg-black/40 text-white/60 transition hover:border-violet-400/30 hover:text-white"
+        className="relative grid h-9 w-9 place-items-center rounded-xl border border-white/10 bg-black/40 text-white/60 transition hover:border-agentos-brand/30 hover:text-white"
       >
         <Bell className="h-4 w-4" aria-hidden="true" />
         {unread > 0 ? (
-          <span className="absolute -right-1 -top-1 min-w-[1.1rem] rounded-full border border-[#0d0d0f] bg-violet-500 px-1 text-center text-[10px] font-semibold leading-[1.1rem] text-white">
+          <span className="absolute -right-1 -top-1 min-w-[1.1rem] rounded-full border border-[#0d0d0f] bg-agentos-brand px-1 text-center text-[10px] font-semibold leading-[1.1rem] text-white">
             {unread > 99 ? "99+" : unread}
           </span>
         ) : null}
@@ -103,7 +103,7 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
             onClick={() => setOpen(false)}
             className="fixed inset-0 z-40 cursor-default"
           />
-          <div className="absolute right-0 z-50 mt-2 w-[22rem] max-w-[calc(100vw-2rem)] rounded-2xl border border-white/10 bg-[#0d0d0f] p-3 shadow-2xl">
+          <div className="absolute right-0 z-50 mt-2 w-[22rem] max-w-[calc(100vw-2rem)] rounded-2xl border border-white/10 bg-agentos-card p-3 shadow-2xl">
             {list}
           </div>
         </>

@@ -162,7 +162,7 @@ const SchedulesPage: React.FC = () => {
         <title>Schedules — SapienX AgentOS</title>
       </Helmet>
 
-      <div className="mx-auto max-w-5xl px-6 py-8">
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
         <PageHeader
           title="Schedules"
           description="Recurring tasks. A schedule records intent and its next run; the executor must be driven for it to fire."
@@ -364,7 +364,7 @@ const SchedulesPage: React.FC = () => {
                 id="sched-worker"
                 value={draft.workerId}
                 onChange={(event) => setDraft({ ...draft, workerId: event.target.value })}
-                className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/50"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/50"
               >
                 <option value="">Unassigned</option>
                 {workers.map((worker) => (

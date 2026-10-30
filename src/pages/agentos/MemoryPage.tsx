@@ -49,7 +49,7 @@ const SCOPES: Array<{ value: "all" | "worker" | "workspace"; label: string }> = 
 ];
 
 const FIELD_CLASS =
-  "mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/50";
+  "mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agentos-brand/50";
 
 /**
  * Tags are stored as a text array. The form edits them as one comma-separated
@@ -272,7 +272,7 @@ const MemoryPage: React.FC = () => {
         <title>Memory — SapienX AgentOS</title>
       </Helmet>
 
-      <div className="mx-auto max-w-4xl px-6 py-8">
+      <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8">
         <PageHeader
           title="Memory"
           description="Durable context attached to a worker or a workspace. Retrieved at execution time."

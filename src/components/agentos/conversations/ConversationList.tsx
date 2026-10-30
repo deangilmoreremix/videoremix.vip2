@@ -104,7 +104,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({
                   aria-current={selected ? "true" : undefined}
                   className={`w-full rounded-xl border px-3 py-2.5 text-left transition ${
                     selected
-                      ? "border-violet-400/40 bg-violet-500/10"
+                      ? "border-agentos-brand/40 bg-agentos-brand/10"
                       : "border-white/5 bg-black/30 hover:border-white/15"
                   }`}
                 >

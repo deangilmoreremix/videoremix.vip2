@@ -64,7 +64,7 @@ export const TokenCostInline: React.FC<TokenCostInlineProps> = ({ workerId }) =>
   return (
     <span className="text-xs tabular-nums text-white/55">
       {formatInteger(totals.prompt_tokens)} in · {formatInteger(totals.completion_tokens)} out ·{" "}
-      <span className="text-violet-300">{formatCredits(totals.credits)} credits</span>
+      <span className="text-agentos-brand-soft">{formatCredits(totals.credits)} credits</span>
     </span>
   );
 };

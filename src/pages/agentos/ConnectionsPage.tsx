@@ -179,7 +179,7 @@ const ConnectionsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-6xl px-6 py-8">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
         <p className="text-sm text-white/40">Loading connections…</p>
       </div>
     );
@@ -191,7 +191,7 @@ const ConnectionsPage: React.FC = () => {
         <title>Connections — SapienX AgentOS</title>
       </Helmet>
 
-      <div className="mx-auto max-w-6xl px-6 py-8">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
         <PageHeader
           title="Connected surfaces"
           description="Integrations a worker may call. Credentials are stored server-side; this page shows references and scopes only."
@@ -445,7 +445,7 @@ const ConnectionsPage: React.FC = () => {
                       }
                       className={`rounded-full border px-2.5 py-0.5 text-[11px] transition ${
                         active
-                          ? "border-violet-400/40 bg-violet-500/20 text-violet-200"
+                          ? "border-agentos-brand/40 bg-agentos-brand/20 text-agentos-brand-soft"
                           : "border-white/10 bg-white/5 text-white/50"
                       }`}
                     >

@@ -143,7 +143,7 @@ export const WorkerActions: React.FC<WorkerActionsProps> = ({
                   const result = await setWorkerStatus(workerId, "archived");
                   if (result.error) throw new Error(result.error.message);
                   setConfirmArchive(false);
-                  navigate("/agentos/workforce");
+                  navigate("/dashboard/workforce");
                 })
               }
             >
@@ -183,7 +183,7 @@ export const WorkerActions: React.FC<WorkerActionsProps> = ({
                   const result = await deleteWorker(workerId);
                   if (result.error) throw new Error(result.error.message);
                   setConfirmDelete(false);
-                  navigate("/agentos/workforce");
+                  navigate("/dashboard/workforce");
                 })
               }
             >

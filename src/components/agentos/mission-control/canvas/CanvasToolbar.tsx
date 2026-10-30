@@ -38,7 +38,7 @@ export const CanvasToolbar: React.FC<CanvasToolbarProps> = ({
   hasUnsavedChanges = false,
   canSave = true,
 }) => (
-  <div className="pointer-events-auto flex items-center gap-1 rounded-xl border border-white/10 bg-[#0d0d0f]/90 p-1 backdrop-blur">
+  <div className="pointer-events-auto flex items-center gap-1 rounded-xl border border-white/10 bg-agentos-card/90 p-1 backdrop-blur">
     <Button
       variant="ghost"
       size="sm"
@@ -72,7 +72,7 @@ export const CanvasToolbar: React.FC<CanvasToolbarProps> = ({
     <Button
       variant="ghost"
       size="sm"
-      className={`h-8 px-2.5 text-xs ${hasUnsavedChanges ? "text-violet-300" : "text-white/50"}`}
+      className={`h-8 px-2.5 text-xs ${hasUnsavedChanges ? "text-agentos-brand-soft" : "text-white/50"}`}
       onClick={onSave}
       disabled={saving || !canSave}
     >
