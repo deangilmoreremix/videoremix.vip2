@@ -1,5 +1,24 @@
 # SapienX AgentOS Port — Status
 
+## 2026-10-31 — AgentOS is the dashboard
+
+Branch `claude/friendly-bardeen-jkbcy3`. Everything below was run, not assumed.
+
+| What | State | Evidence |
+|---|---|---|
+| AgentOS is `/dashboard` | DONE | one layout route in `src/App.tsx`; `/agentos/*` redirects to the same page under `/dashboard`; `tests/agentos/ui-routes.test.tsx` checks every route and that no link is dead |
+| Upstream look (SapienXai/AgentOS, MIT) | DONE | tokens in `src/styles/agentos.css`; 56px rail that expands and pins; grouped nav; floating topbar; dark/light; full-bleed Mission Control with a resizable, collapsible inspector. Screenshots at 1440px and 390px, dark and light: no page errors, no horizontal scroll |
+| Command bar instructs an agent | DONE | ⌘K → pick an agent → the text goes through `sendWorkerMessage` (a conversation message and a queued task) |
+| Mission Control crash | FIXED | the canvas never had a `ReactFlowProvider`, so it threw as soon as there was a node; rows were 90px apart for ~130px nodes |
+| Awesome LLM apps in the dashboard | DONE | 117 apps in the library; 17 open their agent page at `/dashboard/agents/:id`, 100 open the runner at `/dashboard/apps/:slug`, inside the shell |
+| Converted apps use their converted UI | FIXED | 25 converted UIs were registered under pre-rebrand slugs and never found; `CONVERTED_APP_ALIASES` (browser) and the copy in the functions resolve them; `tests/converted-app-aliases.test.ts` |
+| Live `run-ai-app` | **NEEDS DEPLOY** | live is v51 (May), which only knows pre-rebrand slugs, so 96 of the 100 runner apps answer "Demo mode". `supabase/functions/run-ai-app-live` is v51 plus the slug lookup (no credit charging, as chosen); deploy it as `run-ai-app` — see its README |
+| Credit billing for apps | NOT LIVE | `../run-ai-app` (the credit-gated version) needs the `credits` schema, whose four migrations are not applied live |
+| Scheduler | ON | `agentos-sweep` and `agentos-execute` were inactive; re-enabled, and both answered 200 on their first tick |
+| Tests | PASS | `npx vitest run` → 940 tests pass; 3 suite files cannot load without a `.env` (unchanged by this work) |
+| Lint / types / build | PASS | lint 0 errors (801 warnings, budget 821); 0 tsc errors in the AgentOS paths; `vite build` succeeds |
+| Signed-in browser run on the live site | NOT YET | needs the branch deployed and a sign-in |
+
 **Repository:** `/workspace/app`  **Branch:** `kilo/agentos-port-completion` (from `kilo/agentos-master-port`)
 **Evidence date:** 2026-10-19  **Verifier:** the completion pass
 
