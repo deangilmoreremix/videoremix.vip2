@@ -14,8 +14,8 @@ vi.mock("../src/utils/supabase", () => ({ supabase: {}, supabaseAuth: {}, setCle
 
 const ROOT = join(__dirname, "..");
 
-function serverMap(): Record<string, string> {
-  const source = readFileSync(join(ROOT, "supabase/functions/run-ai-app/converted-app-aliases.ts"), "utf8");
+function serverMap(fn = "run-ai-app"): Record<string, string> {
+  const source = readFileSync(join(ROOT, `supabase/functions/${fn}/converted-app-aliases.ts`), "utf8");
   return Object.fromEntries([...source.matchAll(/^ {2}"([a-z0-9-]+)": "([a-z0-9-]+)",$/gm)].map((m) => [m[1], m[2]]));
 }
 
@@ -28,6 +28,7 @@ describe("converted app aliases", () => {
   it("browser and run-ai-app resolve the same apps to the same converted slug", async () => {
     const { CONVERTED_APP_ALIASES } = await import("../src/components/ai/apps/registry");
     expect(serverMap()).toEqual(CONVERTED_APP_ALIASES);
+    expect(serverMap("run-ai-app-live")).toEqual(CONVERTED_APP_ALIASES);
     expect(Object.keys(CONVERTED_APP_ALIASES).length).toBe(25);
   });
 
@@ -48,5 +49,14 @@ describe("converted app aliases", () => {
     expect(awesome.length).toBe(117);
     const unrunnable = awesome.filter((app) => !AGENT_PAGE_SLUGS.has(app.slug) && !isInternalAIApp(app.slug));
     expect(unrunnable.map((app) => app.slug)).toEqual([]);
+  });
+
+  it("the live runner has a config for every Awesome LLM app that opens in the runner", async () => {
+    const { APP_REGISTRY } = await import("../src/config/appRegistry");
+    const { AGENT_PAGE_SLUGS } = await import("../src/config/agentRegistry");
+    const { getAppConfig } = await import("../supabase/functions/run-ai-app-live/app-configs.ts");
+    const runner = APP_REGISTRY.filter((app) => app.family === "awesome-llm" && !AGENT_PAGE_SLUGS.has(app.slug));
+    expect(runner.length).toBe(100);
+    expect(runner.filter((app) => !getAppConfig(app.slug)).map((app) => app.slug)).toEqual([]);
   });
 });
