@@ -84,6 +84,8 @@ export function isNavLinkActive(link: AgentOSNavLink, pathname: string): boolean
 
 /** The label of the section the pathname belongs to, for the topbar title. */
 export function currentNavLabel(pathname: string): string {
+  // An app's agent page belongs to the app library, like its runner does.
+  if (/^\/dashboard\/agents\//.test(pathname)) return "App Library";
   const match = [...AGENTOS_NAV]
     .sort((a, b) => b.to.length - a.to.length)
     .find((link) => isNavLinkActive(link, pathname));

@@ -59,4 +59,9 @@ describe("converted app aliases", () => {
     expect(runner.length).toBe(100);
     expect(runner.filter((app) => !getAppConfig(app.slug)).map((app) => app.slug)).toEqual([]);
   });
+
+  it("returns the same component for an app on every call, so its form is not remounted", async () => {
+    const { getAIAppComponent } = await import("../src/components/ai/apps/registry");
+    expect(getAIAppComponent("ai-blog-to-podcast-agent")).toBe(getAIAppComponent("ai-blog-to-podcast-agent"));
+  });
 });

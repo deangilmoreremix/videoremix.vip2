@@ -2,7 +2,7 @@ import * as React from "react";
 import { useCallback, useState } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
-import { Upload, XCircle, FileText, AlertCircle, CheckCircle } from "lucide-react";
+import { Upload, XCircle, FileText, AlertCircle, CheckCircle, Info } from "lucide-react";
 
 export interface FileUploadZoneProps {
   accept?: string;

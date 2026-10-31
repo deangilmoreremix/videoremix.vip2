@@ -368,16 +368,26 @@ function registryKey(slug: string): string {
   return slug in registry ? slug : (CONVERTED_APP_ALIASES[slug] ?? slug);
 }
 
+const lazyComponents = new Map<string, React.LazyExoticComponent<AIAppComponent>>();
+
 export function getAIAppComponent(slug: string): React.LazyExoticComponent<AIAppComponent> {
   if (!isInternalAIApp(slug)) {
     throw new Error(`"${slug}" is not one of the internal AI apps`);
   }
 
-  const loader = registry[registryKey(slug)];
+  const key = registryKey(slug);
+  const loader = registry[key];
   if (loader) {
-    return React.lazy(() =>
-      loader().catch(() => ({ default: GenericAIApp }))
-    );
+    // One lazy component per app. The runner calls this on every render, and
+    // a fresh React.lazy is a new component type each time, so the app's form
+    // was remounted — losing what the user typed — whenever the runner
+    // re-rendered (a run starting, a result arriving).
+    let component = lazyComponents.get(key);
+    if (!component) {
+      component = React.lazy(() => loader().catch(() => ({ default: GenericAIApp })));
+      lazyComponents.set(key, component);
+    }
+    return component;
   }
 
   return GenericAIApp as any;
