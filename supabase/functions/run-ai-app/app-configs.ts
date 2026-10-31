@@ -1,5 +1,6 @@
 // supabase/functions/run-ai-app/app-configs.ts
 import { getAwesomeLlmFallbackMeta } from "./awesome-llm-fallbacks.ts";
+import { CONVERTED_APP_ALIASES } from "./converted-app-aliases.ts";
 // Per-app configuration for all 95 internal AI apps
 // Tool types: web_search_preview, file_search, vision, code_execution
 
@@ -905,6 +906,10 @@ export const APP_CONFIGS: Record<string, AppConfig> = {
 export function getAppConfig(slug: string): AppConfig | null {
   const specialized = APP_CONFIGS[slug];
   if (specialized) return specialized;
+
+  // A converted app whose tuned config is still keyed by its legacy slug.
+  const alias = CONVERTED_APP_ALIASES[slug];
+  if (alias && APP_CONFIGS[alias]) return APP_CONFIGS[alias];
 
   const fallback = getAwesomeLlmFallbackMeta(slug);
   if (!fallback) return null;

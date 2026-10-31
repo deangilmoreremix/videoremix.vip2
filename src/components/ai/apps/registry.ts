@@ -2,6 +2,8 @@ import React from "react";
 import { type AIAppComponent } from "./types";
 import { GenericAIApp } from "./GenericAIApp";
 import { isInternalAIApp } from "../../../config/internalAIApps";
+import { LEGACY_SLUG_ALIASES } from "../../../utils/appLaunch";
+import { AGENT_PAGE_SLUGS } from "../../../config/agentRegistry";
 
 // Re-export so consumers can import from registry.ts directly
 export { isInternalAIApp };
@@ -339,12 +341,39 @@ export const VOICE_ENABLED_APPS = new Set([
   "market-research-ai",
 ]);
 
+/**
+ * Converted apps registered under their pre-rebrand slug, keyed by the
+ * customer-facing slug the catalog uses (e.g. "ai-blog-to-podcast-agent" →
+ * "blog-to-podcast-ai"). The app library launches the customer-facing slug,
+ * so without this the converted UI was never found and the app fell back to
+ * the generic form. When several legacy slugs alias one app, the first one in
+ * LEGACY_SLUG_ALIASES wins. Apps with their own agent page (AGENT_PAGE_SLUGS)
+ * never open in the runner, so they are left out.
+ *
+ * run-ai-app keeps the same map (supabase/functions/run-ai-app/
+ * converted-app-aliases.ts) so the converted UI is paired with its tuned
+ * server config; a test keeps the two identical.
+ */
+export const CONVERTED_APP_ALIASES: Readonly<Record<string, string>> = (() => {
+  const map: Record<string, string> = {};
+  for (const [legacy, canonical] of Object.entries(LEGACY_SLUG_ALIASES)) {
+    if (canonical in registry || canonical in map || AGENT_PAGE_SLUGS.has(canonical)) continue;
+    if (legacy in registry) map[canonical] = legacy;
+  }
+  return map;
+})();
+
+/** The registry key an app slug is served by: its own, or its converted alias. */
+function registryKey(slug: string): string {
+  return slug in registry ? slug : (CONVERTED_APP_ALIASES[slug] ?? slug);
+}
+
 export function getAIAppComponent(slug: string): React.LazyExoticComponent<AIAppComponent> {
   if (!isInternalAIApp(slug)) {
     throw new Error(`"${slug}" is not one of the internal AI apps`);
   }
 
-  const loader = registry[slug];
+  const loader = registry[registryKey(slug)];
   if (loader) {
     return React.lazy(() =>
       loader().catch(() => ({ default: GenericAIApp }))
@@ -355,11 +384,11 @@ export function getAIAppComponent(slug: string): React.LazyExoticComponent<AIApp
 }
 
 export function isAIAppImplemented(slug: string): boolean {
-  return slug in registry;
+  return registryKey(slug) in registry;
 }
 
 export function isAIAppProductionReady(slug: string): boolean {
-  return productionReadySlugs.has(slug);
+  return productionReadySlugs.has(slug) || productionReadySlugs.has(registryKey(slug));
 }
 
 export function getImplementedAIAppSlugs(): string[] {
