@@ -251,3 +251,21 @@ describe("nextCronRun", () => {
     });
   });
 });
+
+// The zone offset must be the one in force at the scheduled time, not at the
+// base time (nor at "now"): these cross each DST change in New York.
+describe("nextCronRun across a DST change", () => {
+  it("puts a summer run at 09:00 EDT when computed in winter", () => {
+    // Base: Sat 7 Mar 2026, EST (UTC-5). DST starts Sun 8 Mar.
+    expect(nextAt("0 9 9 3 *", new Date("2026-03-07T12:00:00Z"), "America/New_York")).toBe(
+      "2026-03-09T13:00:00.000Z",
+    );
+  });
+
+  it("puts a winter run at 09:00 EST when computed in summer", () => {
+    // Base: Sat 31 Oct 2026, EDT (UTC-4). DST ends Sun 1 Nov.
+    expect(nextAt("0 9 2 11 *", new Date("2026-10-31T12:00:00Z"), "America/New_York")).toBe(
+      "2026-11-02T14:00:00.000Z",
+    );
+  });
+});

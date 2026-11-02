@@ -167,11 +167,12 @@ export function nextCronRun(
   const parsed = parseCron(expression);
   if (!parsed) return null;
 
-  // Work in the requested timezone's wall clock. To avoid pulling in a timezone
-  // database we compute the offset from the target zone once and apply it
-  // iteratively, which is correct for DST-aware zones within an hour of drift
-  // and exact for fixed-offset zones (including UTC).
-  const offsetMs = getZoneOffsetMs(timezone);
+  // Work in the requested timezone's wall clock. The offset is taken at the
+  // base instant to place the cursor, and again at the matched instant when
+  // converting back (see toUtc), so a run on the far side of a DST change is
+  // still at the right wall-clock time. It used to be sampled at "now", which
+  // put every schedule computed across a DST change an hour off.
+  const offsetMs = getZoneOffsetMs(timezone, base);
   const baseTimezone = base.getTime() + offsetMs;
   const localCursor = new Date(baseTimezone);
 
@@ -224,20 +225,30 @@ export function nextCronRun(
       continue;
     }
 
-    return new Date(localCursor.getTime() - offsetMs);
+    return toUtc(localCursor.getTime(), timezone, offsetMs);
   }
 
   return null;
 }
 
-/** Offset of `timezone` from UTC in ms at the current instant. */
-function getZoneOffsetMs(timezone: string): number {
+/**
+ * The UTC instant of a wall-clock time in `timezone`. The zone's offset is
+ * looked up at the instant itself: first guessed with the base offset, then
+ * re-sampled once at the guess, which is exact on either side of a change.
+ */
+function toUtc(wallClockMs: number, timezone: string, guessOffsetMs: number): Date {
+  const guess = wallClockMs - guessOffsetMs;
+  const offset = getZoneOffsetMs(timezone, new Date(guess));
+  return new Date(wallClockMs - offset);
+}
+
+/** Offset of `timezone` from UTC in ms at the instant `at`. */
+function getZoneOffsetMs(timezone: string, at: Date): number {
   const zone = timezone?.trim() || "UTC";
-  const now = new Date();
+  const now = at;
   try {
     // Intl gives the zone's local time for a given instant; the difference is
-    // the offset. Fixed-offset zones (UTC, Etc/GMT+5) are exact; DST zones are
-    // exact at the sampled instant and drift by at most the DST delta.
+    // the offset at that instant.
     const formatter = new Intl.DateTimeFormat("en-US", {
       timeZone: zone,
       year: "numeric",
