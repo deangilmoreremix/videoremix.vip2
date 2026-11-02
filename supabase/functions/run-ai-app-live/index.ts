@@ -7,6 +7,7 @@
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { getAppConfig, type ToolType } from "./app-configs.ts";
+import { MISSING_KEY_MESSAGE, resolveProvider, stripKeyFields } from "./credentials.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -55,7 +56,12 @@ serve(async (req) => {
   }
 
   try {
-    const { appSlug, inputs, context, userId, stream = true }: RunAIAppRequest = await req.json();
+    const body = await req.json();
+    const { appSlug, context, userId, stream = true }: RunAIAppRequest = body;
+    // The user's own key pays for the run; it never stays in the inputs,
+    // which are written into the prompt below.
+    const provider = resolveProvider(body.credentials, body.inputs);
+    const inputs = stripKeyFields(body.inputs) as RunAIAppRequest["inputs"];
 
     if (!appSlug) {
       return new Response(JSON.stringify({ error: "appSlug is required" }), {
@@ -70,14 +76,20 @@ serve(async (req) => {
     );
 
     const config = getAppConfig(appSlug);
-    const openaiKey = Deno.env.get("OPENAI_API_KEY");
 
-    if (!config || !openaiKey) {
+    if (!provider) {
+      return new Response(JSON.stringify({ error: MISSING_KEY_MESSAGE, code: "missing_api_key" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    if (!config) {
       const fallback = {
         success: true,
         appSlug,
         output: {
-          summary: `Demo mode for ${appSlug}. Connect OPENAI_API_KEY and add config for full AI.`,
+          summary: `${appSlug} has no configuration on this server yet.`,
           message: "Add your OpenAI key in Supabase Edge secrets",
         },
         metadata: { model: "fallback", demo: true, timestamp: new Date().toISOString() },
@@ -123,7 +135,7 @@ serve(async (req) => {
 
     // Prepare the request body for Responses API
     const requestBody: any = {
-      model: config.model || "gpt-4o-mini",
+      model: provider.model ?? (config.model || "gpt-4o-mini"),
       input: inputContent,
       stream: stream !== false,
     };
@@ -136,12 +148,12 @@ serve(async (req) => {
     // Add parsing instructions
     requestBody.instruction = `Return valid JSON matching the expected output structure. No additional text outside JSON. Expected keys: ${config.expectedOutputKeys.join(", ")}`;
 
-    // Make the API call
-    const response = await fetch("https://api.openai.com/v1/responses", {
+    // Make the API call, on the user's own key
+    const response = await fetch(provider.url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${openaiKey}`,
+        Authorization: `Bearer ${provider.apiKey}`,
       },
       body: JSON.stringify(requestBody),
     });
@@ -227,7 +239,9 @@ async function handleWebSocket(req: Request): Promise<Response> {
   socket.onmessage = async (event) => {
     try {
       const data = JSON.parse(event.data);
-      const { appSlug, inputs, context, userId, stream = true } = data;
+      const { appSlug, context, userId, stream = true } = data;
+      const provider = resolveProvider(data.credentials, data.inputs);
+      const inputs = stripKeyFields(data.inputs);
 
       if (!appSlug) {
         socket.send(JSON.stringify({ error: "appSlug is required" }));
@@ -241,14 +255,19 @@ async function handleWebSocket(req: Request): Promise<Response> {
       );
 
       const config = getAppConfig(appSlug);
-      const openaiKey = Deno.env.get("OPENAI_API_KEY");
 
-      if (!config || !openaiKey) {
+      if (!provider) {
+        socket.send(JSON.stringify({ error: MISSING_KEY_MESSAGE, code: "missing_api_key" }));
+        socket.close();
+        return;
+      }
+
+      if (!config) {
         socket.send(JSON.stringify({
           success: true,
           appSlug,
           output: {
-            summary: `Demo mode for ${appSlug}. Connect OPENAI_API_KEY and add config for full AI.`,
+            summary: `${appSlug} has no configuration on this server yet.`,
             message: "Add your OpenAI key in Supabase Edge secrets",
           },
           metadata: { model: "fallback", demo: true, timestamp: new Date().toISOString() },
@@ -286,7 +305,7 @@ async function handleWebSocket(req: Request): Promise<Response> {
       }
 
       const requestBody: any = {
-        model: config.model || "gpt-4o-mini",
+        model: provider.model ?? (config.model || "gpt-4o-mini"),
         input: inputContent,
         stream: stream !== false,
       };
@@ -297,11 +316,11 @@ async function handleWebSocket(req: Request): Promise<Response> {
 
       requestBody.instruction = `Return valid JSON matching the expected output structure. No additional text outside JSON. Expected keys: ${config.expectedOutputKeys.join(", ")}`;
 
-      const response = await fetch("https://api.openai.com/v1/responses", {
+      const response = await fetch(provider.url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${openaiKey}`,
+          Authorization: `Bearer ${provider.apiKey}`,
         },
         body: JSON.stringify(requestBody),
       });

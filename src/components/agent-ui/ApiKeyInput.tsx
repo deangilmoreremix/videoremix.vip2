@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
+import { forgetKey, getStoredKey, providerForField } from "@/lib/userApiKeys";
 
 export interface ApiKeyInputProps extends Omit<React.ComponentProps<"input">, "onChange"> {
   label: string;
@@ -26,6 +27,16 @@ export function ApiKeyInput({
 }: ApiKeyInputProps) {
   const [showKey, setShowKey] = React.useState(false);
   const inputId = id || `apikey-${label.toLowerCase().replace(/\s+/g, '-')}`;
+
+  // The user's key is remembered on this device only (src/lib/userApiKeys.ts):
+  // an empty field is filled with it once, so they do not retype it per app.
+  const provider = providerForField(`${props.name ?? ""} ${label}`);
+  const [stored, setStored] = React.useState(() => getStoredKey(provider));
+  React.useEffect(() => {
+    if (!value && stored) onChange(stored);
+    // Fill once, on mount; later edits are the user's.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="space-y-2">
@@ -64,6 +75,23 @@ export function ApiKeyInput({
           {showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
         </button>
       </div>
+
+      {stored && value === stored ? (
+        <p className="text-xs text-gray-400">
+          Saved on this device only.{" "}
+          <button
+            type="button"
+            className="underline underline-offset-2 hover:text-gray-200"
+            onClick={() => {
+              forgetKey(provider);
+              setStored("");
+              onChange("");
+            }}
+          >
+            Forget key
+          </button>
+        </p>
+      ) : null}
 
       {/* Helper text */}
       {helperText && !error && (

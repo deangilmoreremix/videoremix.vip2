@@ -15,6 +15,7 @@ import PurchaseModal from "../components/PurchaseModal";
 import { getEnhancedAppData } from "../data/enhancedAppsData";
 import { getAppUrl } from "../config/appUrls";
 import { Button } from "../components/ui/button";
+import { YourApiKeyField } from "../components/ai/YourApiKeyField";
 
 type TabType = "input" | "results";
 
@@ -318,6 +319,7 @@ const AIAppRunnerPage: React.FC = () => {
       <div className="min-h-[400px]">
         {activeTab === "input" ? (
           <>
+            <YourApiKeyField />
             <AppComponent
               appId={slug}
               appName={mergedApp?.name || app.name}

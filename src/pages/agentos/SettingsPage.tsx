@@ -3,12 +3,14 @@
 // Route: /dashboard/settings — the operator's preferences for the dashboard
 // and the places their account and model settings live.
 
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { ArrowRight, Coins, Cpu, Moon, Plug, Sun, UserRound } from "lucide-react";
 import { PageHeader, Section } from "../../components/agentos/ui";
 import { useAgentOSTheme, type AgentOSTheme } from "../../components/agentos/shell/theme";
 import { cn } from "../../lib/utils";
+import { forgetKey, getStoredKey, type KeyProvider } from "../../lib/userApiKeys";
 
 const THEMES: Array<{ value: AgentOSTheme; label: string; icon: typeof Sun }> = [
   { value: "dark", label: "Dark", icon: Moon },
@@ -22,8 +24,18 @@ const LINKS = [
   { to: "/credits", label: "Credits & billing", hint: "Your plan and the credits your agents spend.", icon: Coins },
 ];
 
+const PROVIDERS: Array<{ id: KeyProvider; label: string }> = [
+  { id: "openai", label: "OpenAI" },
+  { id: "xai", label: "xAI (Grok)" },
+];
+
+const mask = (key: string) => (key.length > 10 ? `${key.slice(0, 5)}…${key.slice(-4)}` : "saved");
+
 const SettingsPage: React.FC = () => {
   const { theme, setTheme } = useAgentOSTheme();
+  const [keys, setKeys] = useState(() =>
+    Object.fromEntries(PROVIDERS.map(({ id }) => [id, getStoredKey(id)])) as Record<KeyProvider, string>,
+  );
 
   return (
     <>
@@ -54,6 +66,38 @@ const SettingsPage: React.FC = () => {
               </button>
             ))}
           </div>
+        </Section>
+
+        <Section
+          title="Your API keys"
+          description="The apps run on your own provider keys. They are saved in this browser only and sent only with your runs."
+          className="mt-5"
+          contentClassName="p-0"
+        >
+          <ul className="divide-y divide-white/[0.06]">
+            {PROVIDERS.map(({ id, label }) => (
+              <li key={id} className="flex items-center justify-between gap-3 px-5 py-4">
+                <span className="min-w-0">
+                  <span className="block text-sm text-white">{label}</span>
+                  <span className="block font-mono text-xs text-white/45">
+                    {keys[id] ? mask(keys[id]) : "Not saved. You are asked for it when you run an app."}
+                  </span>
+                </span>
+                {keys[id] ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      forgetKey(id);
+                      setKeys((current) => ({ ...current, [id]: "" }));
+                    }}
+                    className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-white/70 hover:bg-white/[0.06]"
+                  >
+                    Forget key
+                  </button>
+                ) : null}
+              </li>
+            ))}
+          </ul>
         </Section>
 
         <Section title="Account and workforce" className="mt-5" contentClassName="p-0">

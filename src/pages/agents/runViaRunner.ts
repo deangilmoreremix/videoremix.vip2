@@ -1,4 +1,5 @@
 import { getClerkTokenGetter } from "../../utils/supabase";
+import { MISSING_KEY_MESSAGE, resolveCredentials, splitCredentials } from "../../lib/userApiKeys";
 
 /**
  * Canonical bridge from the legacy `/agents/:slug` pages to the shared
@@ -69,9 +70,17 @@ export async function runViaRunner(
   appSlug: string,
   inputs: Record<string, unknown> | FormData,
 ): Promise<RunnerResponseLike> {
-  const payload: Record<string, unknown> =
+  const raw: Record<string, unknown> =
     inputs instanceof FormData ? formDataToObject(inputs) : { ...inputs };
-  delete payload.userId;
+  delete raw.userId;
+
+  // The user's API key never travels with the inputs (run-ai-app writes the
+  // inputs into the prompt); it is sent apart, and only to pay for this run.
+  const { inputs: payload, credentials: typed } = splitCredentials(raw);
+  const credentials = resolveCredentials(typed);
+  if (!credentials.openai && !credentials.xai) {
+    return { ok: false, status: 400, json: async () => ({ error: MISSING_KEY_MESSAGE }) };
+  }
 
   let token = "";
   try {
@@ -88,7 +97,7 @@ export async function runViaRunner(
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ appSlug, inputs: payload, stream: false }),
+      body: JSON.stringify({ appSlug, inputs: payload, credentials, stream: false }),
     },
   );
 

@@ -20,10 +20,47 @@ function jsonResponse(body: unknown, ok = true, status = 200): Response {
   } as unknown as Response;
 }
 
+// The user's own API key, as saved on this device (src/lib/userApiKeys.ts).
+// tests/setup.ts stubs localStorage with no-op mocks, so a real store is used.
+const SAVED_KEY = "sk-saved-on-device";
+const store = new Map<string, string>();
+vi.stubGlobal("localStorage", {
+  getItem: (key: string) => store.get(key) ?? null,
+  setItem: (key: string, value: string) => void store.set(key, value),
+  removeItem: (key: string) => void store.delete(key),
+  clear: () => store.clear(),
+  key: () => null,
+  get length() { return store.size; },
+});
+
 describe("runViaRunner (legacy agent pages → canonical runner bridge)", () => {
   beforeEach(() => {
     fetchMock.mockReset();
     getTokenMock.mockClear();
+    store.clear();
+    store.set("videoremix.apiKey.openai", SAVED_KEY);
+  });
+
+  it("sends the user's key as credentials, never inside the inputs", async () => {
+    fetchMock.mockResolvedValue(jsonResponse({ success: true, output: { summary: "s" } }));
+
+    await runViaRunner("deep-research-pro", { topic: "AI", enter_your_openai_api_key: "sk-typed-in-form" });
+
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+    expect(body.inputs).toEqual({ topic: "AI" });
+    expect(body.credentials).toEqual({ openai: "sk-typed-in-form" });
+    expect(JSON.stringify(body.inputs)).not.toContain("sk-");
+  });
+
+  it("refuses to run without any key, and does not call the server", async () => {
+    store.clear();
+
+    const res = await runViaRunner("deep-research-pro", { topic: "AI" });
+    const data = await res.json();
+
+    expect(res.ok).toBe(false);
+    expect(data.error).toMatch(/Add your OpenAI API key/);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it("posts to run-ai-app with the Clerk bearer token and appSlug", async () => {

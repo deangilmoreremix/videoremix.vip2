@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { getClerkTokenGetter } from "../../../utils/supabase";
 import { withVectorStoreIds } from "../../../config/vectorStores";
+import { MISSING_KEY_MESSAGE, resolveCredentials, splitCredentials } from "../../../lib/userApiKeys";
 import type { UseRunAIAppOptions, UseRunAIAppReturn, ConversationMessage } from "./types";
 
 /**
@@ -127,6 +128,15 @@ export function useRunAIApp(
 
       abortControllerRef.current = new AbortController();
 
+      // The user's API key is sent apart from the inputs (which the runner
+      // writes into the prompt) and only authenticates this user's run.
+      const { inputs: cleanInputs, credentials: typed } = splitCredentials(finalInputs);
+      const credentials = resolveCredentials(typed);
+      if (!credentials.openai && !credentials.xai) {
+        setIsStreaming(false);
+        throw new Error(MISSING_KEY_MESSAGE);
+      }
+
       const accessToken = await getAccessToken();
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/run-ai-app`,
@@ -136,7 +146,7 @@ export function useRunAIApp(
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-          body: JSON.stringify({ appSlug: slug, inputs: finalInputs, stream: true }),
+          body: JSON.stringify({ appSlug: slug, inputs: cleanInputs, credentials, stream: true }),
           signal: abortControllerRef.current.signal,
         }
       );
