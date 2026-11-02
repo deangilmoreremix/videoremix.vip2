@@ -93,7 +93,7 @@ const AiServicesAgencyPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("ai-agency-builder-suite", { ...formData });
+      const res = await runViaRunner("ai-services-agency-crewai", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Request failed');
       setResult(data);

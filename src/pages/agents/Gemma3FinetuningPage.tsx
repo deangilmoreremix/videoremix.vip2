@@ -64,7 +64,7 @@ const Gemma3FinetuningPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("gemma3-finetuning", {
+      const res = await runViaRunner("gemma-3-fine-tuning", {
             enter_your_openai_api_key: formData.openaiApiKey,
             dataset_description: formData.datasetDescription,
             task_type: formData.taskType,

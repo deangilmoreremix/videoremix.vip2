@@ -57,7 +57,7 @@ const RagAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("rag-agent-openai", {
+      const res = await runViaRunner("rag-agent-with-cohere", {
           message: input,
           history: messages.map(m => ({ role: m.role, content: m.content }))
         });

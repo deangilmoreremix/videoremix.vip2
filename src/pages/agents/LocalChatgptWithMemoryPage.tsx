@@ -9,6 +9,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { Loader2, Bot, User, Trash2, Send } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 interface Message {
   role: 'user' | 'assistant';
@@ -34,15 +35,11 @@ const LocalChatgptWithMemoryPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/local-chatgpt-with-memory`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const res = await runViaRunner("local-chatgpt-clone-with-memory", {
           message: input,
           history: messages.map(m => ({ role: m.role, content: m.content })),
           userId: user?.id
-        })
-      });
+        });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setMessages(prev => [...prev, { role: 'assistant', content: data.response || data.result || '' }]);

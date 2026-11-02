@@ -58,7 +58,7 @@ const Ag2AdaptiveResearchTeamPage: React.FC = () => {
       formData.append('model', textValues.model || '');
       formData.append('upload_pdfs_or_text_files', textValues.upload_pdfs_or_text_files || '');
       formData.append('research_question', textValues.research_question || '');
-      const res = await runViaRunner("pdf-business-assistant", formData);
+      const res = await runViaRunner("ag2-adaptive-research-team", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);

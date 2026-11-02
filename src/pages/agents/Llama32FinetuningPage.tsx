@@ -64,7 +64,7 @@ const Llama32FinetuningPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("llama3.2-finetuning", {
+      const res = await runViaRunner("llama-3-2-fine-tuning", {
             enter_your_openai_api_key: formData.openaiApiKey,
             dataset_description: formData.datasetDescription,
             task_type: formData.taskType,

@@ -68,7 +68,7 @@ const AiRecruitmentAgentTeamPage: React.FC = () => {
       formDataToSend.append('select_the_role_you', formData.roleToFill);
       formDataToSend.append('upload_your_resume_pdf', formData.resumePdf);
       formDataToSend.append('candidate', formData.candidate);
-      const res = await runViaRunner("ai-hiring-assistant", formDataToSend);
+      const res = await runViaRunner("ai-recruitment-agent-team", formDataToSend);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);

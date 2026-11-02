@@ -49,7 +49,7 @@ const ChatWithYoutubeVideosPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("video-knowledge-assistant", { ...formData });
+      const res = await runViaRunner("chat-with-youtube-videos", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

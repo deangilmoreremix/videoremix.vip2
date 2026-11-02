@@ -15,6 +15,7 @@ import { ResultCard } from "@/components/agent-ui/ResultCard";
 import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { Loader2, Upload, FileText } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const RagChainPage: React.FC = () => {
   useAuth();
@@ -40,10 +41,7 @@ const RagChainPage: React.FC = () => {
       formData.append('bulb_enter_your_query_about_the_pharmaceutical_industry', textValues.bulb_enter_your_query_about_the_pharmaceutical_industry || '');
       formData.append('enter_your_openai_api_key', textValues.enter_your_openai_api_key || '');
       formData.append('upload_your_research_documents_related_to_pharmaceutical_sciences_optional_memo', textValues.upload_your_research_documents_related_to_pharmaceutical_sciences_optional_memo || '');
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/rag-chain`, {
-        method: 'POST',
-        body: formData
-      });
+      const res = await runViaRunner("basic-rag-chain", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);

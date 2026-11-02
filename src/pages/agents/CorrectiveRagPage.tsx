@@ -51,7 +51,7 @@ const CorrectiveRagPage: React.FC = () => {
       Object.entries(textValues).forEach(([key, value]) => {
         if (value) formData.append(key, value);
       });
-      const res = await runViaRunner("fact-check-ai", formData);
+      const res = await runViaRunner("corrective-rag-crag", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);

@@ -47,7 +47,7 @@ const AiMeetingAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("startup-due-diligence-ai", {
+      const res = await runViaRunner("ai-meeting-agent", {
           enter_the_company_name: formData.companyName,
           enter_the_meeting_objective: formData.meetingObjective,
           enter_the_attendees_and_their_roles_one_per_line: formData.attendees,

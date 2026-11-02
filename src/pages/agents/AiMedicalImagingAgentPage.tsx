@@ -38,7 +38,7 @@ const AiMedicalImagingAgentPage: React.FC = () => {
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ openaiApiKey, imageDescription }));
-  }, [apiKey, imageDescription]);
+  }, [openaiApiKey, imageDescription]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,7 +50,7 @@ const AiMedicalImagingAgentPage: React.FC = () => {
       formData.append('file', file);
       formData.append('openai_api_key', openaiApiKey);
       formData.append('image_description', imageDescription);
-      const res = await runViaRunner("investment-research-assistant", formData);
+      const res = await runViaRunner("ai-medical-imaging-agent", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);

@@ -13,6 +13,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Network, MessageSquare, CheckCircle2 } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "multi-llm-memory";
 
@@ -54,20 +55,13 @@ const MultiLlmMemoryPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/multi-llm-memory`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      const res = await runViaRunner("multi-llm-application-with-shared-memory", {
             enter_your_openai_api_key: formData.openaiApiKey,
             your_query: formData.query,
             models_to_compare: formData.models,
             comparison_focus: formData.comparisonFocus,
             userId: user?.id,
-          }),
-        }
-      );
+          });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Comparison failed");
       setResult(data);

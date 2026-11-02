@@ -35,7 +35,7 @@ const LocalHybridSearchRagPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("local-smart-search-ai", {
+      const res = await runViaRunner("local-hybrid-search-rag", {
           message: input,
           history: messages.map(m => ({ role: m.role, content: m.content }))
         });

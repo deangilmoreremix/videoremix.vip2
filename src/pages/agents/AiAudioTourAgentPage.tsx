@@ -49,7 +49,7 @@ const AiAudioTourAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("ai-audio-guide-creator", { ...formData });
+      const res = await runViaRunner("ai-audio-tour-agent", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

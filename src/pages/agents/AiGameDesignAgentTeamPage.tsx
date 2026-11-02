@@ -136,7 +136,7 @@ const AiGameDesignAgentTeamPage: React.FC = () => {
     setError(null);
     setRetryLoading(true);
     try {
-      const res = await runViaRunner("interview-summary-ai", { ...formData });
+      const res = await runViaRunner("ai-game-design-agent-team", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error?.message || data.error || 'Request failed');
       setResult(data);

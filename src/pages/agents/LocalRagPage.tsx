@@ -12,6 +12,7 @@ import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Loader2, Sparkles, Globe, HelpCircle } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const LocalRagPage: React.FC = () => {
   const { user } = useAuth();
@@ -46,11 +47,7 @@ const LocalRagPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/llama3-1-local-rag`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("local-rag-agent", { ...formData, userId: user?.id });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

@@ -1,3 +1,4 @@
+import { runViaRunner } from "./runViaRunner";
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
@@ -41,11 +42,7 @@ const TrustGatedAgentTeamPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/trust-gated-agent-team`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, userId: user?.id })
-      });
+      const res = await runViaRunner("trust-gated-multi-agent-research-team", { ...formData, userId: user?.id });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

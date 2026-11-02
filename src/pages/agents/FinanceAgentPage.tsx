@@ -1,3 +1,4 @@
+import { runViaRunner } from "./runViaRunner";
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
@@ -92,11 +93,7 @@ const FinanceAgentPage: React.FC = () => {
     setStockData(null);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/finance-agent`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'getStock', symbol: sym.toUpperCase() })
-      });
+      const response = await runViaRunner("ai-finance-agent-team", { action: 'getStock', symbol: sym.toUpperCase() });
 
       const data = await response.json();
 
@@ -120,16 +117,12 @@ const FinanceAgentPage: React.FC = () => {
     setAiInsight(null);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/finance-agent`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const response = await runViaRunner("ai-finance-agent-team", {
           action: 'analyze',
           symbol: stockData.symbol,
           stockData: stockData,
           userId: user?.id
-        })
-      });
+        });
 
       const data = await response.json();
 
@@ -151,16 +144,12 @@ const FinanceAgentPage: React.FC = () => {
 
     setAiLoading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/finance-agent`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const response = await runViaRunner("ai-finance-agent-team", {
           action: 'ask',
           question: aiQuestion,
           symbol: stockData.symbol,
           stockInfo: stockData
-        })
-      });
+        });
 
       const data = await response.json();
       setAiInsight(prev => ({

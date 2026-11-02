@@ -49,7 +49,7 @@ const Ai3dpygameR1Page: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("video-knowledge-assistant", { ...formData });
+      const res = await runViaRunner("ai-3d-pygame-agent", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

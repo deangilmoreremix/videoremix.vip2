@@ -47,7 +47,7 @@ const AiTravelAgentMemoryPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("build-plan-generator", {
+      const res = await runViaRunner("ai-travel-agent-with-memory", {
           message: input,
           history: messages.map(m => ({ role: m.role, content: m.content }))
         });

@@ -61,7 +61,7 @@ const AiDataAnalysisAgentPage: React.FC = () => {
       formData.append('enter_your_openai_api_key', apiKey);
       formData.append('upload_a_csv_or_excel_file', csvPath);
       formData.append('ask_a_query_about_the_data', query);
-      const res = await runViaRunner("local-business-analytics-ai", formData);
+      const res = await runViaRunner("ai-data-analysis-agent", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Analysis failed');
       setResult(data);

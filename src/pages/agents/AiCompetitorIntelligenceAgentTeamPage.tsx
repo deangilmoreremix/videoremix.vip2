@@ -47,7 +47,7 @@ const AiCompetitorIntelligenceAgentTeamPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("competitor-spy-ai", { ...formData });
+      const res = await runViaRunner("ai-competitor-intelligence-agent-team", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

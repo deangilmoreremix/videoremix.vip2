@@ -62,7 +62,7 @@ const OpenaiSdkCrashCoursePage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("openai-sdk-crash-course", {
+      const res = await runViaRunner("openai-agents-sdk-crash-course", {
             enter_your_openai_api_key: formData.openaiApiKey,
             topic_or_concept: formData.topic,
             difficulty_level: formData.level,

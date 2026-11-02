@@ -31,7 +31,7 @@ const XaiFinanceAgentPage: React.FC = () => {
   const handleSubmit = async (tabKey: string, data: any) => {
     setLoading(tabKey);
     try {
-      const res = await runViaRunner("finance-research-ai", { ...data });
+      const res = await runViaRunner("xai-finance-agent", { ...data });
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || 'Failed');
       setResults(prev => ({ ...prev, [tabKey]: result }));

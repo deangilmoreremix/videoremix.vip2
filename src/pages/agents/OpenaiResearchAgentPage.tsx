@@ -43,7 +43,7 @@ const OpenaiResearchAgentPage: React.FC = () => {
     setLoading(tabKey);
     setErrors(prev => ({ ...prev, [tabKey]: null }));
     try {
-      const res = await runViaRunner("research-assistant-ai", { ...data });
+      const res = await runViaRunner("openai-research-agent", { ...data });
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || 'Failed');
       setResults(prev => ({ ...prev, [tabKey]: result }));

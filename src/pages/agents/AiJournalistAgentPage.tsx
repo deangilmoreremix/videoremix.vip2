@@ -48,7 +48,7 @@ const AiJournalistAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("ai-news-content-writer", {
+      const res = await runViaRunner("ai-journalist-agent", {
           enter_openai_api_key_to_access_gpt4o: openaiApiKey,
           what_do_you_want_the_ai_journalist_to_write_an_article_on: topic
         });

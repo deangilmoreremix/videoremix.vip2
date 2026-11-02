@@ -9,6 +9,7 @@ import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { ResultCard } from "@/components/agent-ui/ResultCard";
 import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
 import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
+import { runViaRunner } from "./runViaRunner";
 
 const RagDatabaseRoutingPage: React.FC = () => {
   const { user } = useAuth();
@@ -25,11 +26,7 @@ const RagDatabaseRoutingPage: React.FC = () => {
   const handleSubmit = async (tabKey: string, data: any) => {
     setLoading(tabKey);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/rag-database-routing`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, mode: tabKey, userId: user?.id })
-      });
+      const res = await runViaRunner("rag-with-database-routing", { ...data, mode: tabKey, userId: user?.id });
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || 'Failed');
       setResults(prev => ({ ...prev, [tabKey]: result }));

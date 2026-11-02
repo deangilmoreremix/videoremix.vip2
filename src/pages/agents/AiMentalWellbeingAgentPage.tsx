@@ -47,7 +47,7 @@ const AiMentalWellbeingAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("financial-dashboard-ai", {
+      const res = await runViaRunner("ai-mental-wellbeing-agent", {
           how_have_you_been_feeling_recently: formData.feeling,
           current_stress_level_110: formData.stressLevel,
           current_support_system: formData.supportSystem,

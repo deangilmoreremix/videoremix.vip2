@@ -56,7 +56,7 @@ const AiNewsAndPodcastAgentsPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("ai-news-and-podcast-agents", {
+      const res = await runViaRunner("ai-social-media-news-and-podcast-agent", {
           ...formData
         });
       const data = await res.json();

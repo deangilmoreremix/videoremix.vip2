@@ -52,7 +52,7 @@ const ChatWithGmailPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("gmail-intelligence-ai", { ...formData });
+      const res = await runViaRunner("chat-with-gmail", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error?.message || data.error || "Request failed");
       setResult(data);

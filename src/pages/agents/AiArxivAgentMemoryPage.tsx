@@ -48,7 +48,7 @@ const AiArxivAgentMemoryPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("research-memory-assistant", { ...formData });
+      const res = await runViaRunner("ai-arxiv-agent-with-memory", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

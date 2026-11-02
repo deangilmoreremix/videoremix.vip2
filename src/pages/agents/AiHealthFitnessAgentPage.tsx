@@ -99,7 +99,7 @@ const AiHealthFitnessAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("hiring-plan-builder", {
+      const res = await runViaRunner("ai-health-fitness-agent", {
           openai_api_key: openaiApiKey,
           age,
           height_cm: heightCm,

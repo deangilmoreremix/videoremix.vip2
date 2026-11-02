@@ -47,7 +47,7 @@ const HybridSearchRagPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("smart-search-ai", {
+      const res = await runViaRunner("hybrid-search-rag-cloud", {
           message: input,
           history: messages.map(m => ({ role: m.role, content: m.content }))
         });

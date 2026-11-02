@@ -50,7 +50,7 @@ const AgenticRagWithReasoningPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("gmail-intelligence-ai", { ...formData });
+      const res = await runViaRunner("agentic-rag-with-reasoning", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

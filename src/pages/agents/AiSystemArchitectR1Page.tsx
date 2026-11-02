@@ -47,7 +47,7 @@ const AiSystemArchitectR1Page: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("ai-fullstack-builder", {
+      const res = await runViaRunner("ai-system-architect-agent", {
           message: input,
           history: messages.map(m => ({ role: m.role, content: m.content }))
         });

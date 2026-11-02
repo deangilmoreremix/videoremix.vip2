@@ -47,7 +47,7 @@ const ContextualaiRagAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("market-research-ai", {
+      const res = await runViaRunner("contextual-ai-rag-agent", {
           message: input,
           history: messages.map(m => ({ role: m.role, content: m.content }))
         });

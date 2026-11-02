@@ -23,7 +23,7 @@ const AiChessAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("ai-knowledgebase-debugger", { ...formData });
+      const res = await runViaRunner("ai-chess-agent", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

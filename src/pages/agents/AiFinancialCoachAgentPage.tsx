@@ -70,7 +70,7 @@ const AiFinancialCoachAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("profit-coach-ai", { 
+      const res = await runViaRunner("ai-financial-coach-agent", { 
           ...formData, 
           debts: debtEntries 
         });

@@ -30,7 +30,7 @@ const RagAsAServicePage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("business-knowledgebase-ai", { ...formData });
+      const res = await runViaRunner("rag-as-a-service", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

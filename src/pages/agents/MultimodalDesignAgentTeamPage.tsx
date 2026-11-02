@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/ca
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
 import { SmartInput } from "@/components/agent-ui/SmartInput";
+import { SmartTextarea } from "@/components/agent-ui/SmartTextarea";
 import { ActionButton } from "@/components/agent-ui/ActionButton";
 import { ResultCard } from "@/components/agent-ui/ResultCard";
 import { LoadingIndicator } from "@/components/agent-ui/LoadingIndicator";
@@ -43,7 +44,7 @@ const MultimodalDesignAgentTeamPage: React.FC = () => {
       formData.append('select_analysis_types', textValues.select_analysis_types || '');
       formData.append('focus_areas', textValues.focus_areas || '');
       formData.append('additional_context', textValues.additional_context || '');
-      const res = await runViaRunner("ai-design-studio", formData);
+      const res = await runViaRunner("multimodal-design-agent-team", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);

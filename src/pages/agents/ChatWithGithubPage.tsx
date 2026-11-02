@@ -53,7 +53,7 @@ const ChatWithGithubPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("github-repo-assistant", { ...formData });
+      const res = await runViaRunner("chat-with-github-gpt-llama3", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error?.message || data.error || "Request failed");
       setResult(data);

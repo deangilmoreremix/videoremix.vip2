@@ -1,3 +1,4 @@
+import { runViaRunner } from "./runViaRunner";
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
@@ -77,16 +78,12 @@ const WebScrapingAgentPage: React.FC = () => {
     setResult(null);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/web-scraping-agent`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const response = await runViaRunner("web-scraping-ai-agent", {
           url: url.trim(),
           prompt: prompt.trim(),
           mode,
           userId: user?.id
-        })
-      });
+        });
 
       const data = await response.json();
 

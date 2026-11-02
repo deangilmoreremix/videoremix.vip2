@@ -66,7 +66,7 @@ const AiLegalAgentTeamPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("contract-summary-ai", { ...formData });
+      const res = await runViaRunner("ai-legal-agent-team-cloud-local", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Request failed');
       setResult(data);

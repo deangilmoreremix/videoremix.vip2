@@ -54,7 +54,7 @@ const GithubMcpAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("github-automation-agent", { ...formData });
+      const res = await runViaRunner("github-mcp-agent", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

@@ -13,6 +13,7 @@ import { EmptyState } from "@/components/agent-ui/EmptyState";
 import { ResultCard, ResultGrid } from "@/components/agent-ui/ResultCard";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { Brain, User, MessageSquare, CheckCircle2 } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "llm-app-personalized-memory";
 
@@ -54,20 +55,13 @@ const LlmAppPersonalizedMemoryPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/llm-app-personalized-memory`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      const res = await runViaRunner("llm-app-with-personalized-memory", {
             enter_openai_api_key: formData.openaiApiKey,
             enter_your_username: formData.username,
             ask_chatgpt: formData.userQuery,
             context_hint: formData.contextHint,
             userId: user?.id,
-          }),
-        }
-      );
+          });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Query failed");
       setResult(data);

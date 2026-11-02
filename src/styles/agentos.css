@@ -262,3 +262,15 @@ html[data-agentos-theme] .focus-visible\:ring-ring:focus-visible { --tw-ring-col
 html[data-agentos-theme] [role="dialog"] {
   font-family: var(--font-body);
 }
+
+/* The React conversions were written as full pages; inside the dashboard
+   they sit in the content column instead of claiming the whole screen. */
+.converted-app .min-h-screen {
+  min-height: auto;
+}
+
+/* Chat-style conversions size themselves to the whole screen; inside the
+   dashboard they get the screen minus the topbar and the back link. */
+.converted-app .h-screen {
+  height: calc(100vh - 7rem);
+}

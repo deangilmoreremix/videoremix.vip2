@@ -41,7 +41,7 @@ const AiMusicGeneratorAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("ai-music-jingle-assistant", {
+      const res = await runViaRunner("ai-music-generator-agent", {
           enter_a_music_generation_prompt: formData.musicPrompt
         });
       const data = await res.json();

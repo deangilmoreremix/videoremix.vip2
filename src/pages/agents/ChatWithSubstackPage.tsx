@@ -49,7 +49,7 @@ const ChatWithSubstackPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("newsletter-repurposer-ai", { ...formData });
+      const res = await runViaRunner("chat-with-substack", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

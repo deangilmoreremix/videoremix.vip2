@@ -4,12 +4,22 @@ import { motion } from "framer-motion";
 import { HelpCircle, Lightbulb, Sparkles } from "lucide-react";
 
 export interface EmptyStateProps {
-  icon?: React.ReactNode;
+  /** An element (<Bot />) or an icon component (Bot); many pages pass the latter. */
+  icon?: React.ReactNode | React.ElementType;
   title: string;
   description: string;
   action?: React.ReactNode;
   tips?: string[];
   image?: string; // Not used currently but kept for future
+}
+
+// lucide icons are forwardRef objects ({ $$typeof, render }), so a plain
+// function check is not enough: rendering one as a child crashes the page.
+function isComponent(icon: unknown): icon is React.ElementType {
+  return (
+    typeof icon === "function" ||
+    (typeof icon === "object" && icon !== null && !React.isValidElement(icon) && "$$typeof" in icon)
+  );
 }
 
 export function EmptyState({
@@ -27,7 +37,7 @@ export function EmptyState({
       className="flex flex-col items-center justify-center py-16 px-4 text-center"
     >
       <div className="mb-4 opacity-40">
-        {icon}
+        {isComponent(icon) ? React.createElement(icon, { className: "h-10 w-10" }) : icon}
       </div>
 
       <h3 className="text-lg font-medium text-white mb-2 max-w-md">

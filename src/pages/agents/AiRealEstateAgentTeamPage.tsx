@@ -91,7 +91,7 @@ const AiRealEstateAgentTeamPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("real-estate-marketing-ai", { ...formData });
+      const res = await runViaRunner("ai-real-estate-agent-team", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Request failed');
       setResult(data);

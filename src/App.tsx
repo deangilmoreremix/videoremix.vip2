@@ -75,6 +75,7 @@ const AgentOSDashboardHomePage = lazy(() => import("./pages/agentos/DashboardHom
 const AgentOSTasksPage = lazy(() => import("./pages/agentos/TasksPage"));
 const AgentOSSettingsPage = lazy(() => import("./pages/agentos/SettingsPage"));
 const AgentOSAppsPage = lazy(() => import("./pages/agentos/AppsPage"));
+const AgentOSDashboardAppPage = lazy(() => import("./pages/agentos/DashboardAppPage"));
 const LegacyAgentOSRedirect = lazy(() => import("./pages/agentos/LegacyAgentOSRedirect"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
@@ -984,7 +985,7 @@ function App() {
               path="apps/:slug"
               element={
                 <Suspense fallback={<SectionLoader />}>
-                  <AIAppRunnerPage />
+                  <AgentOSDashboardAppPage />
                 </Suspense>
               }
             />

@@ -49,7 +49,7 @@ const AiMovieProductionAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("ai-video-script-producer", {
+      const res = await runViaRunner("ai-movie-production-agent", {
           openai_api_key: formData.openai_api_key,
           describe_your_movie_idea_in_a_few_sentences: formData.movie_idea,
           select_the_movie_genre: formData.genre,

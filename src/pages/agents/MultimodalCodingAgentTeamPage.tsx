@@ -41,7 +41,7 @@ const MultimodalCodingAgentTeamPage: React.FC = () => {
       formData.append('openai_api_key', textValues.openai_api_key || '');
       formData.append('upload_an_image_of_your_coding_problem_optional', textValues.upload_an_image_of_your_coding_problem_optional || '');
       formData.append('or_type_your_coding_problem_here', textValues.or_type_your_coding_problem_here || '');
-      const res = await runViaRunner("ai-app-builder-assistant", formData);
+      const res = await runViaRunner("multimodal-coding-agent-team", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);

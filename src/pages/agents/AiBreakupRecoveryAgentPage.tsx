@@ -71,7 +71,7 @@ const AiBreakupRecoveryAgentPage: React.FC = () => {
       formDataToSend.append('how_are_you_feeling_what_happened', formData.how_are_you_feeling_what_happened);
       formDataToSend.append('upload_screenshots_of_your_chats_optional', formData.upload_screenshots_of_your_chats_optional);
       
-      const res = await runViaRunner("multimodal-knowledge-ai", formDataToSend);
+      const res = await runViaRunner("ai-breakup-recovery-agent", formDataToSend);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);

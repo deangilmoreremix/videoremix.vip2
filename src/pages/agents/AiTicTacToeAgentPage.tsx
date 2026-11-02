@@ -33,7 +33,7 @@ const AiTicTacToeAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("github-repo-assistant", { userId: user?.id });
+      const res = await runViaRunner("ai-tic-tac-toe-agent", { userId: user?.id });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error?.message || data.error || "Request failed");
       setResult(data);

@@ -53,7 +53,7 @@ const CustomerSupportVoiceAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("local-business-voice-assistant", { ...formData });
+      const res = await runViaRunner("customer-support-voice-agent", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

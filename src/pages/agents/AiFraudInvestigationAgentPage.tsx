@@ -116,7 +116,7 @@ const AiFraudInvestigationAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("fraud-investigation-assistant", {
+      const res = await runViaRunner("ai-fraud-investigation-agent", {
           model: model,
           zip_code_cook_county_il: zipCode
         });

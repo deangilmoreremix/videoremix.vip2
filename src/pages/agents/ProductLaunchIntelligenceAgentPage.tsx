@@ -11,6 +11,7 @@ import { FormSection } from "@/components/agent-ui/FormSection";
 import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Loader2, Sparkles, Rocket, Key } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const ProductLaunchIntelligenceAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -42,11 +43,7 @@ const ProductLaunchIntelligenceAgentPage: React.FC = () => {
     setLoading(tabKey);
     setErrors(prev => ({ ...prev, [tabKey]: null }));
     try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/product-launch-intelligence-agent`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, mode: tabKey, userId: user?.id })
-      });
+      const res = await runViaRunner("ai-product-launch-intelligence-agent", { ...data, mode: tabKey, userId: user?.id });
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || 'Failed');
       setResults(prev => ({ ...prev, [tabKey]: result }));

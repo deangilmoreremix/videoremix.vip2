@@ -56,7 +56,7 @@ const MultimodalUiuxFeedbackAgentTeamPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("multimodal-uiux-feedback-agent-team", {
+      const res = await runViaRunner("multimodal-ui-ux-feedback-agent-team", {
           ...formData
         });
       const data = await res.json();

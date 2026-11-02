@@ -13,6 +13,7 @@ import { ErrorMessage } from "@/components/agent-ui/ErrorMessage";
 import { FormSection } from "@/components/agent-ui/FormSection";
 import { FileUploadZone } from "@/components/agent-ui/FileUploadZone";
 import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
+import { runViaRunner } from "./runViaRunner";
 
 const STORAGE_KEY = "voice-rag-openaisdk-form";
 
@@ -71,10 +72,7 @@ const VoiceRagOpenaisdkPage: React.FC = () => {
       formDataToSend.append('select_voice', formData.select_voice || '');
       formDataToSend.append('upload_pdf', formData.upload_pdf || '');
       formDataToSend.append('what_would_you_like_to_know_about_the_documentation', formData.question || '');
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/voice-rag-openaisdk`, {
-        method: 'POST',
-        body: formDataToSend
-      });
+      const res = await runViaRunner("voice-rag-agent-openai-sdk", formDataToSend);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);

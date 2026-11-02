@@ -48,7 +48,7 @@ const AiDeepResearchAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("deep-research-pro", {
+      const res = await runViaRunner("ai-deep-research-agent", {
           openai_api_key: openaiApiKey,
           enter_your_research_topic: topic
         });

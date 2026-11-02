@@ -46,7 +46,7 @@ const AiMemeGeneratorAgentBrowserusePage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("revenue-data-analyst-ai", {
+      const res = await runViaRunner("ai-meme-generator-agent-browser", {
           select_ai_model: formData.aiModel,
           openai_api_key: formData.openaiApiKey,
           meme_idea_input: formData.memeIdea

@@ -42,7 +42,7 @@ const AgenticRagEmbeddingGemmaPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("research-paper-assistant", { ...formData });
+      const res = await runViaRunner("agentic-rag-with-embedding-gemma", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

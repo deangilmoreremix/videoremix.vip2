@@ -44,7 +44,7 @@ const AiBlogToPodcastAgentPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await runViaRunner("dashboard-designer-ai", { ...formData });
+      const res = await runViaRunner("ai-blog-to-podcast-agent", { ...formData });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data);

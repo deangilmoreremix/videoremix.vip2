@@ -62,7 +62,7 @@ const ChatWithPdfPage: React.FC = () => {
       formData.append('file', file);
       formData.append('upload_a_pdf_file', textValues.upload_a_pdf_file || '');
       formData.append('ask_a_question_about_the_pdf', textValues.ask_a_question_about_the_pdf || '');
-      const res = await runViaRunner("pdf-business-assistant", formData);
+      const res = await runViaRunner("chat-with-pdf-gpt-llama3", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error?.message || data.error || "Request failed");
       setResult(data);

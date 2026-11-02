@@ -14,6 +14,7 @@ import { FileUploadZone } from "@/components/agent-ui/FileUploadZone";
 import { ApiKeyInput } from "@/components/agent-ui/ApiKeyInput";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Loader2, Upload, FileText, Image, Sparkles } from "lucide-react";
+import { runViaRunner } from "./runViaRunner";
 
 const MultimodalAiAgentPage: React.FC = () => {
   useAuth();
@@ -59,10 +60,7 @@ const MultimodalAiAgentPage: React.FC = () => {
       formData.append('enter_your_openai_api_key', textValues.enter_your_openai_api_key || '');
       formData.append('upload_image', textValues.upload_image || '');
       formData.append('enter_your_taskquestion_for_the_ai_agent', textValues.enter_your_taskquestion_for_the_ai_agent || '');
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/multimodal-ai-agent`, {
-        method: 'POST',
-        body: formData
-      });
+      const res = await runViaRunner("gemini-multimodal-agent", formData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setResult(data);
