@@ -9,29 +9,32 @@ import {
   useSignUp,
   useClerk,
 } from "@clerk/react";
-
-const clerkPubKey = (import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || "").trim();
-
-if (!clerkPubKey) {
-  throw new Error("Missing VITE_CLERK_PUBLISHABLE_KEY. Add it to your .env file.");
-}
+import { resolvePublishableKey } from "./clerkKey";
 
 /**
  * The frontend API of the Clerk instance.
  *
- * WHY IT IS DECLARED
- *   Clerk's older publishable keys carried the instance's host inside the key
- *   itself (base64), and the SDK read the host from there. The key this
- *   project builds with does not: the SDK fell back to its default and asked
- *   for `https://.clerk.accounts.dev/…`, which is not where this instance
- *   lives, so the Clerk script never loaded and the sign-in form never
- *   appeared — the page sat on "Loading" for ever.
- *
- *   Declaring the host removes the dependency on the key's format entirely.
+ * Clerk v6 has no frontendApi prop: the SDK loads its script from the host
+ * encoded in the publishable key. This value is only used to rebuild the key
+ * when the configured one is malformed (see ./clerkKey.ts).
  */
 const clerkFrontendApi = (
   import.meta.env.VITE_CLERK_FRONTEND_API || "clerk.auth.videoremix.vip"
 ).trim();
+
+// The SDK loads its script from the host inside the key, so a malformed key
+// (production once shipped one for ".clerk.accounts.dev") is rebuilt from the
+// frontend API above. See ./clerkKey.ts.
+const resolvedKey = resolvePublishableKey(
+  import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || "",
+  clerkFrontendApi,
+);
+if (resolvedKey.rebuilt) {
+  console.warn(
+    `VITE_CLERK_PUBLISHABLE_KEY does not point at a real host; using the key for ${clerkFrontendApi}. Fix the build environment.`,
+  );
+}
+const clerkPubKey = resolvedKey.key;
 
 /**
  * The Clerk provider.
@@ -54,7 +57,6 @@ const ProviderInner: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <ClerkProviderBase
       publishableKey={clerkPubKey}
-      frontendApi={clerkFrontendApi}
       routerPush={(to) => navigate(to)}
       routerReplace={(to) => navigate(to, { replace: true })}
       signInUrl="/signin"
