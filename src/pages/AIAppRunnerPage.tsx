@@ -53,34 +53,6 @@ const AIAppRunnerPage: React.FC = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [lastError, setLastError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>("input");
-  const [usageData, setUsageData] = useState<{ used: number; limit: number }>({ used: 0, limit: 100 });
-
-  // Fetch real usage on mount (graceful fallback if RPC not available)
-  React.useEffect(() => {
-    if (!user) return;
-
-    const fetchUsage = async () => {
-      try {
-        const { data, error } = await supabase.rpc("get_ai_app_remaining_runs", {
-          user_uuid: user.id,
-          max_runs: 100,
-        });
-        if (error) {
-          console.warn("Usage tracking not available:", error.message);
-          return;
-        }
-        if (data !== null) {
-          const remaining = data as number;
-          setUsageData({ used: 100 - remaining, limit: 100 });
-        }
-      } catch (err) {
-        console.warn("Usage tracking unavailable:", err);
-      }
-    };
-
-    fetchUsage();
-  }, [user]);
-
   if (!slug || !isInternalAIApp(slug) || !app) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#0a0a0a] text-white">
@@ -295,7 +267,6 @@ const AIAppRunnerPage: React.FC = () => {
       onSave={handleSaveToProject}
       onDownload={handleDownload}
       isRunning={isRunning}
-      usage={usageData}
       activeTab={activeTab}
       onTabChange={setActiveTab}
       hasResults={!!lastResult}

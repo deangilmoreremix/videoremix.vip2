@@ -23,7 +23,7 @@ export const AIAppShell: React.FC<AIAppShellProps> = ({
   appName,
   appSlug,
   children,
-  usage = { used: 12, limit: 100 },
+  usage,
   onSave,
   onDownload,
   isRunning = false,
@@ -33,7 +33,7 @@ export const AIAppShell: React.FC<AIAppShellProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  const usagePercent = Math.min((usage.used / usage.limit) * 100, 100);
+  const usagePercent = usage ? Math.min((usage.used / usage.limit) * 100, 100) : 0;
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
@@ -59,21 +59,27 @@ export const AIAppShell: React.FC<AIAppShellProps> = ({
             </div>
           </div>
 
-          {/* Usage Meter */}
-          <div className="hidden items-center gap-3 md:flex">
-            <div className="flex items-center gap-2 text-sm text-gray-400">
-              <BarChart3 className="h-4 w-4" />
-              <span>
-                {usage.used} / {usage.limit} runs
-              </span>
+          {/* Usage: a meter only when a limit actually applies. Apps run on the
+              user's own provider key, so by default there is no platform limit
+              to show (the old "12 / 100 runs" was a placeholder). */}
+          {usage ? (
+            <div className="hidden items-center gap-3 md:flex">
+              <div className="flex items-center gap-2 text-sm text-gray-400">
+                <BarChart3 className="h-4 w-4" />
+                <span>
+                  {usage.used} / {usage.limit} runs
+                </span>
+              </div>
+              <div className="h-2 w-24 overflow-hidden rounded-full bg-gray-800">
+                <div
+                  className="h-full rounded-full bg-primary-500 transition-all"
+                  style={{ width: `${usagePercent}%` }}
+                />
+              </div>
             </div>
-            <div className="h-2 w-24 overflow-hidden rounded-full bg-gray-800">
-              <div
-                className="h-full rounded-full bg-primary-500 transition-all"
-                style={{ width: `${usagePercent}%` }}
-              />
-            </div>
-          </div>
+          ) : (
+            <span className="hidden text-xs text-gray-400 md:inline">Runs on your own OpenAI key</span>
+          )}
 
           {/* Actions */}
           <div className="flex items-center gap-2">
