@@ -1,0 +1,149 @@
+/*
+ * Public landing page (route "/"). Everything is scoped to .vr-landing so the
+ * rest of the site keeps its own look.
+ */
+@import "@fontsource/anton/latin-400.css";
+
+.vr-landing {
+  --lp-bg: #050607;
+  --lp-fg: #f4f3ef;
+  --lp-gold: #ffd083;
+  --lp-amber: 240 173 67;
+  --lp-purple: 138 49 216;
+  min-height: 100vh;
+  background: var(--lp-bg);
+  color: var(--lp-fg);
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+.vr-landing h1,
+.vr-landing h2,
+.vr-landing h3 {
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+}
+
+.vr-landing ::selection { background: rgb(var(--lp-amber) / 0.35); }
+
+.vr-landing :focus-visible {
+  outline: 2px solid rgb(var(--lp-amber) / 0.8);
+  outline-offset: 2px;
+}
+
+/* Condensed uppercase display face used by the hero headline. */
+.lp-display {
+  font-family: Anton, "Arial Black", Impact, sans-serif !important;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  line-height: 0.93;
+}
+
+.lp-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgb(var(--lp-amber));
+}
+
+.lp-h2 {
+  font-size: clamp(28px, 4.2vw, 40px);
+  font-weight: 400;
+  letter-spacing: -1.1px;
+  line-height: 1.08;
+}
+
+/* Thin gold-outlined card. */
+.lp-card {
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.008));
+  border: 1px solid rgb(var(--lp-amber) / 0.21);
+  border-radius: 12px;
+}
+
+/* Large feature panel with a gold edge and a purple glow. */
+.lp-panel {
+  background-image:
+    radial-gradient(circle at 77% 48%, rgb(var(--lp-purple) / 0.16), transparent 34%),
+    linear-gradient(110deg, rgb(var(--lp-amber) / 0.09), rgba(255, 255, 255, 0.02) 46%, rgb(var(--lp-purple) / 0.05));
+  border: 1px solid rgb(var(--lp-amber) / 0.28);
+  border-radius: 13px;
+  box-shadow: inset 0 1px 0 rgba(255, 236, 185, 0.1), 0 18px 48px rgba(0, 0, 0, 0.2);
+}
+
+.lp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: filter 0.2s, border-color 0.2s, background-color 0.2s, transform 0.2s;
+}
+.lp-btn-lg { height: 48px; padding: 0 26px; font-size: 13px; }
+
+.lp-btn-primary {
+  color: #fff;
+  background-image: linear-gradient(110deg, #e41636, #e9183c);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 10px 30px rgba(228, 22, 54, 0.25);
+}
+.lp-btn-primary:hover { filter: brightness(1.12); }
+
+.lp-btn-ghost {
+  color: var(--lp-fg);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.02);
+}
+.lp-btn-ghost:hover { border-color: rgb(var(--lp-amber) / 0.6); }
+
+.lp-btn-gold {
+  color: var(--lp-fg);
+  border: 1px solid rgb(var(--lp-amber) / 0.45);
+  background: rgba(0, 0, 0, 0.3);
+}
+.lp-btn-gold:hover { border-color: rgb(var(--lp-amber)); }
+
+.lp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: rgba(244, 243, 239, 0.85);
+}
+
+/* Endless horizontal ticker. The track holds the items twice. */
+.lp-marquee { overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+.lp-marquee-track { display: flex; width: max-content; animation: lp-marquee 40s linear infinite; }
+.lp-marquee-fast .lp-marquee-track { animation-duration: 22s; }
+@keyframes lp-marquee { to { transform: translateX(-50%); } }
+
+/* Hero backdrop: glowing amber rings. */
+.lp-rings {
+  background:
+    repeating-radial-gradient(circle at 50% 50%, rgb(var(--lp-amber) / 0.16) 0 1px, transparent 1px 34px),
+    radial-gradient(circle at 50% 50%, rgb(var(--lp-amber) / 0.28), rgb(var(--lp-purple) / 0.08) 40%, transparent 68%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 30%, transparent 70%);
+}
+.lp-spin { animation: lp-spin 120s linear infinite; }
+@keyframes lp-spin { to { transform: rotate(360deg); } }
+
+.lp-float { animation: lp-float 6s ease-in-out infinite; }
+@keyframes lp-float { 50% { transform: translateY(-8px); } }
+
+.lp-scroll-dot { animation: lp-scroll 1.8s ease-in-out infinite; }
+@keyframes lp-scroll { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(8px); opacity: 0; } 100% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-marquee-track, .lp-spin, .lp-float, .lp-scroll-dot { animation: none; }
+}

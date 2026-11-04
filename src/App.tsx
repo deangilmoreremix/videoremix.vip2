@@ -44,7 +44,7 @@ function debugDynamicImport<T>(
 }
 
 // Lazy loaded components for better performance
-const LandingPage = lazy(debugDynamicImport(() => import("./components/premium/LandingPage"), "LandingPage"));
+const LandingPage = lazy(debugDynamicImport(() => import("./pages/landing/AgentLandingPage"), "AgentLandingPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
 
 // Generic pages
@@ -655,15 +655,15 @@ function App() {
       </Helmet>
       <div className="flex flex-col min-h-screen bg-gray-900 text-white">
 
-        {!isAdminPage && !isBirthdaySpecialPage && !isDashboardPage && <SpecialHeader topOffset={0} />}
+        {!isAdminPage && !isBirthdaySpecialPage && !isDashboardPage && !isLandingPage && <SpecialHeader topOffset={0} />}
 
-        {!isAdminPage && !isBirthdaySpecialPage && !isDashboardPage && <ScrollProgressBar topOffset={0} />}
+        {!isAdminPage && !isBirthdaySpecialPage && !isDashboardPage && !isLandingPage && <ScrollProgressBar topOffset={0} />}
 
-        {!isMobile && !isTablet && !isAdminPage && !isBirthdaySpecialPage && !isDashboardPage && <CustomCursor />}
+        {!isMobile && !isTablet && !isAdminPage && !isBirthdaySpecialPage && !isDashboardPage && !isLandingPage && <CustomCursor />}
 
-        {!isAdminPage && !isBirthdaySpecialPage && !isDashboardPage && <AudioPlayer />}
+        {!isAdminPage && !isBirthdaySpecialPage && !isDashboardPage && !isLandingPage && <AudioPlayer />}
 
-        {!isAdminPage && !isBirthdaySpecialPage && !isDashboardPage && <LiveActivityIndicator />}
+        {!isAdminPage && !isBirthdaySpecialPage && !isDashboardPage && !isLandingPage && <LiveActivityIndicator />}
 
         {/* Global Personalizer Button - only for authenticated users, not on landing/auth pages */}
         {!isAdminPage && showGlobalPersonalizer && (

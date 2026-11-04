@@ -41,7 +41,7 @@ import { listWorkers } from "../../services/agentos/workers";
 import { listMissions, listTasks } from "../../services/agentos/missions";
 import { listApprovals } from "../../services/agentos/approvals";
 import type { Approval, Mission, Task, TaskStatus, Worker } from "../../types/agentos";
-import { dashboardAppTarget } from "./AppsPage";
+import { dashboardAppTarget } from "../../config/appTargets";
 
 interface HomeData {
   workers: Worker[];

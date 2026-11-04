@@ -22,6 +22,7 @@ import {
   type AppMeta,
 } from "../../config/appRegistry";
 import { AGENT_PAGE_SLUGS } from "../../config/agentRegistry";
+import { dashboardAppTarget } from "../../config/appTargets";
 import { hasConvertedPage } from "../../config/convertedAppPages";
 import { useUserAccess } from "../../hooks/useUserAccess";
 import { EmptyState, FilterGroup, PageHeader, Pill, SearchInput, Spinner } from "../../components/agentos/ui";
@@ -35,18 +36,6 @@ const FAMILY_FILTERS: Array<{ value: FamilyFilter; label: string }> = [
   { value: "awesome-llm", label: "Awesome LLM" },
   { value: "external", label: "VideoRemix" },
 ];
-
-/** Where an app opens from inside the dashboard. */
-export function dashboardAppTarget(app: AppMeta): { kind: "route" | "external"; destination: string } {
-  if (app.family === "external") {
-    const destination = app.externalUrl || app.url;
-    if (destination) return { kind: "external", destination };
-  }
-  if (AGENT_PAGE_SLUGS.has(app.slug)) {
-    return { kind: "route", destination: `/dashboard/agents/${app.slug}` };
-  }
-  return { kind: "route", destination: `/dashboard/apps/${app.slug}` };
-}
 
 const AppsPage: React.FC<{ surface: AppsSurface }> = ({ surface }) => {
   const navigate = useNavigate();

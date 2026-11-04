@@ -30,6 +30,16 @@ export default {
           900: '#831843',
           950: '#500724',
         },
+        // Public landing page palette (src/styles/landing.css).
+        lp: {
+          bg: '#050607',
+          fg: '#f4f3ef',
+          gold: '#ffd083',
+          amber: '#f0ad43',
+          red: '#e41636',
+          purple: '#8a31d8',
+          magenta: '#e2457e',
+        },
         // SapienX AgentOS tokens (src/styles/agentos.css), only defined
         // inside .agentos-root.
         agentos: {
