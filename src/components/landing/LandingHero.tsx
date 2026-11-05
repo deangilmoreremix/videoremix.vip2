@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthContext";
 import HeroVisual from "./HeroVisual";
 import { LANDING_APP_COUNT } from "./landingData";
 
-const BADGES = ["Awesome LLM Apps", "Runs in browser", "BYOK", "No setup", "Multi-agent teams", "RAG", "Voice", "MCP"];
+const BADGES = ["VideoRemix VIP", "Runs in browser", "BYOK", "No setup", "Multi-agent teams", "RAG", "Voice", "MCP"];
 
 const TRIO = [
   { glyph: "◆", color: "text-lp-purple", title: "Instant apps", sub: "Nothing to install" },

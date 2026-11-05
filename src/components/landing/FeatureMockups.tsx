@@ -66,8 +66,8 @@ const ITEMS = [
     ),
   },
   {
-    title: "Open foundation",
-    sub: "Built on the open-source Awesome LLM Apps.",
+    title: "Always growing",
+    sub: "New apps and updates added regularly.",
     mock: (
       <Frame>
         <div className="relative h-full">

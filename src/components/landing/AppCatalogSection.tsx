@@ -5,13 +5,14 @@ import type { AppMeta } from "../../config/appRegistry";
 import { dashboardAppTarget } from "../../config/appTargets";
 import { Eyebrow, Gold } from "./ui";
 import Reveal from "./Reveal";
-import { ACTIVE_GROUPS, AWESOME_LLM_REPO_URL, LANDING_APPS, countInGroup, groupInfo } from "./landingData";
+import { ACTIVE_GROUPS, LANDING_APPS, countInGroup, groupInfo, resolveAppImage } from "./landingData";
 
 const INITIAL_VISIBLE = 12;
 
 const AppCard: React.FC<{ app: AppMeta; onOpen: (app: AppMeta) => void }> = ({ app, onOpen }) => {
   const [imageFailed, setImageFailed] = useState(false);
   const group = groupInfo(app.group);
+  const image = resolveAppImage(app);
 
   return (
     <button
@@ -20,9 +21,9 @@ const AppCard: React.FC<{ app: AppMeta; onOpen: (app: AppMeta) => void }> = ({ a
       className="lp-card group flex h-full w-full flex-col overflow-hidden text-left transition duration-200 hover:-translate-y-0.5 hover:border-lp-amber/60"
     >
       <div className="relative aspect-[16/9] w-full overflow-hidden bg-black">
-        {app.thumbnail && !imageFailed ? (
+        {image && !imageFailed ? (
           <img
-            src={app.thumbnail}
+            src={image}
             alt=""
             loading="lazy"
             decoding="async"
@@ -112,16 +113,7 @@ const AppCatalogSection: React.FC = () => {
             Every agent you need. <Gold>Ready to run.</Gold>
           </h2>
           <p className="mt-4 text-[14px] text-lp-fg/60">
-            The complete{" "}
-            <a
-              href={AWESOME_LLM_REPO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-lp-gold underline decoration-lp-amber/40 underline-offset-4 hover:decoration-lp-amber"
-            >
-              Awesome LLM Apps
-            </a>{" "}
-            collection, from starter agents to multi-agent teams. Pick one and run it.
+            Every app in the VideoRemix VIP library, from starter agents to multi-agent teams. Pick one and run it.
           </p>
         </Reveal>
 

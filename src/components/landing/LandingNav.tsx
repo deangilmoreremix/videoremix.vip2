@@ -12,7 +12,7 @@ const LINKS = [
 ];
 
 export const Wordmark: React.FC<{ size?: "md" | "lg" }> = ({ size = "md" }) => (
-  <Link to="/" className="flex items-center gap-2" aria-label="VideoRemix home">
+  <Link to="/" className="flex items-center gap-2" aria-label="VideoRemix VIP home">
     <span
       aria-hidden
       className={`grid grid-cols-2 gap-[3px] rounded-[7px] bg-lp-red p-[5px] ${size === "lg" ? "h-9 w-9" : "h-8 w-8"}`}
@@ -25,6 +25,7 @@ export const Wordmark: React.FC<{ size?: "md" | "lg" }> = ({ size = "md" }) => (
     <span className={`font-bold tracking-tight text-lp-fg ${size === "lg" ? "text-2xl" : "text-xl"}`}>
       Video<span className="text-lp-red">Remix</span>
     </span>
+    <span className="rounded-[5px] bg-lp-gold px-1.5 py-0.5 text-[10px] font-extrabold leading-none tracking-wider text-black">VIP</span>
   </Link>
 );
 

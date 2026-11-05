@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { getAppMeta, type AppMeta } from "../../config/appRegistry";
 import { dashboardAppTarget } from "../../config/appTargets";
 import Reveal from "./Reveal";
-import { groupInfo } from "./landingData";
+import { groupInfo, resolveAppImage } from "./landingData";
 
 const TEAM = [
   { slug: "ai-deep-research-agent", role: "Researcher", tag: "Research", glyph: "◎", color: "text-lp-amber" },
@@ -15,14 +15,15 @@ const TEAM = [
 
 const Portrait: React.FC<{ app: AppMeta }> = ({ app }) => {
   const [failed, setFailed] = useState(false);
-  if (!app.thumbnail || failed) {
+  const image = resolveAppImage(app);
+  if (!image || failed) {
     return (
       <div className="grid h-full w-full place-items-center bg-gradient-to-b from-lp-amber/20 to-black">
         <span className="font-mono text-4xl text-lp-gold/70">{groupInfo(app.group).glyph}</span>
       </div>
     );
   }
-  return <img src={app.thumbnail} alt="" loading="lazy" onError={() => setFailed(true)} className="h-full w-full object-cover" />;
+  return <img src={image} alt="" loading="lazy" onError={() => setFailed(true)} className="h-full w-full object-cover" />;
 };
 
 const TeamSection: React.FC = () => {

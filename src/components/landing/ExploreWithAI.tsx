@@ -20,10 +20,10 @@ const ExploreWithAI: React.FC = () => (
       <Reveal>
         <Eyebrow>Explore with AI</Eyebrow>
         <h2 className="lp-h2 text-lp-fg">
-          Understand VideoRemix with <Gold>your favorite AI</Gold>
+          Understand VideoRemix VIP with <Gold>your favorite AI</Gold>
         </h2>
         <p className="mt-3 max-w-md text-[13px] leading-relaxed text-lp-fg/60">
-          Ask your preferred AI assistant what VideoRemix can do, which apps fit your work and how it compares.
+          Ask your preferred AI assistant what VideoRemix VIP can do, which apps fit your work and how it compares.
         </p>
       </Reveal>
       <ul className="grid grid-cols-3 gap-2.5 sm:grid-cols-5">

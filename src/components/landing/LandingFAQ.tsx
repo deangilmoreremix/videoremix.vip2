@@ -6,8 +6,8 @@ import { Eyebrow, Gold } from "./ui";
 
 const FAQS = [
   {
-    q: "What is VideoRemix?",
-    a: `An app library of ${LANDING_APP_COUNT} ready-to-run AI apps: agents, multi-agent teams, RAG pipelines, voice agents, MCP agents and more, from the open-source Awesome LLM Apps collection. Each one runs in your browser.`,
+    q: "What is VideoRemix VIP?",
+    a: `An app library of ${LANDING_APP_COUNT} ready-to-run AI apps: agents, multi-agent teams, RAG pipelines, voice agents, MCP agents and more. Each one runs in your browser.`,
   },
   { q: "Do I need to know how to code?", a: "No. Each app opens as a simple form or chat. Fill in what it asks for and run it." },
   {

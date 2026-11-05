@@ -161,7 +161,7 @@ const LandingPricing: React.FC = () => {
         <Reveal className="lp-panel mt-8 flex flex-col items-start justify-between gap-4 px-6 py-6 sm:flex-row sm:items-center sm:px-8">
           <div>
             <p className="text-[15px] font-semibold text-lp-fg">Need team rollouts, white-label or custom apps?</p>
-            <p className="mt-1 text-[12px] text-lp-fg/55">Bring VideoRemix into your agency or company with a tailored plan.</p>
+            <p className="mt-1 text-[12px] text-lp-fg/55">Bring VideoRemix VIP into your agency or company with a tailored plan.</p>
           </div>
           <Link to="/pricing" className="lp-btn lp-btn-gold">
             Compare all plans <span aria-hidden>→</span>

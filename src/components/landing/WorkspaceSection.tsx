@@ -9,8 +9,8 @@ const PLATFORMS = ["⌘ Browser", "▭ Desktop", "▯ Mobile"];
 const VALUES = [
   { glyph: "◎", text: "Bring your own models" },
   { glyph: "●", text: "Private workspaces" },
-  { glyph: "◆", text: "Regular app updates" },
-  { glyph: "◇", text: "Open-source foundation" },
+  { glyph: "◆", text: "New apps added regularly" },
+  { glyph: "◇", text: "Saved run history" },
   { glyph: "⌁", text: "One-click launch" },
   { glyph: "▦", text: "16 app categories" },
 ];
@@ -22,7 +22,7 @@ const WorkspaceSection: React.FC = () => {
       <section id="workspace" className="scroll-mt-20 px-4 sm:px-6">
         <Reveal className="lp-panel mx-auto grid max-w-[1180px] items-center gap-10 p-6 sm:p-10 lg:grid-cols-[0.8fr_1.2fr] lg:p-12">
           <div>
-            <Eyebrow>VideoRemix Workspace</Eyebrow>
+            <Eyebrow>VideoRemix VIP Workspace</Eyebrow>
             <h2 className="lp-h2 text-lp-fg">
               Your AI app library,
               <br />

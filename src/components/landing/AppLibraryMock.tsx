@@ -1,6 +1,6 @@
 import React from "react";
 import { LayoutGrid, Bot, Activity, KeyRound, Settings, Search, Plus } from "lucide-react";
-import { ACTIVE_GROUPS, LANDING_APPS, THUMBNAIL_APPS, groupInfo } from "./landingData";
+import { ACTIVE_GROUPS, LANDING_APPS, THUMBNAIL_APPS, groupInfo, resolveAppImage } from "./landingData";
 
 // A static, decorative rendering of the dashboard's app library, built in HTML
 // so it always matches the real catalog.
@@ -21,7 +21,7 @@ const AppLibraryMock: React.FC<{ offset?: number; title?: string }> = ({ offset 
         <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
         <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
         <span className="h-2 w-2 rounded-full bg-[#28c840]" />
-        <span className="ml-3 text-[9px] text-white/50">VideoRemix · {title}</span>
+        <span className="ml-3 text-[9px] text-white/50">VideoRemix VIP · {title}</span>
         <span className="ml-auto h-1.5 w-1.5 rounded-full bg-emerald-400" />
       </div>
       <div className="flex">
@@ -65,9 +65,9 @@ const AppLibraryMock: React.FC<{ offset?: number; title?: string }> = ({ offset 
             {apps.map((app) => (
               <div key={app.slug} className="overflow-hidden rounded-md border border-white/10 bg-white/[0.02]">
                 <div className="aspect-[16/9] bg-gradient-to-br from-lp-amber/20 to-lp-purple/25">
-                  {app.thumbnail && (
+                  {resolveAppImage(app) && (
                     <img
-                      src={app.thumbnail}
+                      src={resolveAppImage(app) ?? ""}
                       alt=""
                       loading="lazy"
                       className="h-full w-full object-cover"

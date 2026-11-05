@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Github, Globe } from "lucide-react";
+import { Globe } from "lucide-react";
 import { Wordmark } from "./LandingNav";
-import { AWESOME_LLM_REPO_URL } from "./landingData";
 
 const COLUMNS = [
   {
@@ -57,14 +56,11 @@ const LandingFooter: React.FC = () => (
         <div>
           <Wordmark size="lg" />
           <p className="mt-4 max-w-[240px] text-[13px] leading-relaxed text-lp-fg/55">
-            The AI app platform to find, run and manage ready-made AI agents.
+            VideoRemix VIP: the AI app platform to find, run and manage ready-made AI agents.
           </p>
           <div className="mt-5 flex gap-3">
             <a href="https://videoremix.vip" aria-label="Website" className="grid h-7 w-7 place-items-center rounded-full border border-white/20 text-lp-fg/70 hover:text-lp-fg">
               <Globe size={13} />
-            </a>
-            <a href={AWESOME_LLM_REPO_URL} target="_blank" rel="noopener noreferrer" aria-label="Awesome LLM Apps on GitHub" className="grid h-7 w-7 place-items-center rounded-full border border-white/20 text-lp-fg/70 hover:text-lp-fg">
-              <Github size={13} />
             </a>
           </div>
         </div>
@@ -85,10 +81,7 @@ const LandingFooter: React.FC = () => (
       </div>
 
       <p className="mt-12 border-t border-white/10 py-6 text-center text-[9px] uppercase tracking-[0.2em] text-lp-fg/45">
-        © {new Date().getFullYear()} VideoRemix.vip. All rights reserved.{" "}
-        <a href={AWESOME_LLM_REPO_URL} target="_blank" rel="noopener noreferrer" className="text-lp-amber hover:text-lp-gold">
-          Apps from Awesome LLM Apps (Apache-2.0)
-        </a>{" "}
+        © {new Date().getFullYear()} VideoRemix VIP. All rights reserved.{" "}
         <span className="text-lp-amber">✦</span>
       </p>
     </div>

@@ -20,7 +20,7 @@ const UseCases: React.FC = () => (
           already on <Gold>your plate.</Gold>
         </h2>
         <p className="mt-4 max-w-sm text-[13px] leading-relaxed text-lp-fg/60">
-          VideoRemix gives creators and teams one place to run the AI apps that keep their work moving.
+          VideoRemix VIP gives creators and teams one place to run the AI apps that keep their work moving.
         </p>
         <a href="#pricing" className="lp-btn lp-btn-gold mt-7">
           Explore plans <span aria-hidden>→</span>

@@ -1,8 +1,8 @@
 // src/pages/landing/AgentLandingPage.tsx
 //
 // Route: / — the public landing page. Its layout follows the
-// agentos.sapienx.app landing page, with VideoRemix branding, and it
-// showcases the Awesome LLM Apps catalog. It renders its own nav and footer,
+// agentos.sapienx.app landing page, with VideoRemix VIP branding, and it
+// showcases the app catalog. It renders its own nav and footer,
 // so App.tsx hides the global site chrome on this route.
 
 import React from "react";
@@ -27,8 +27,8 @@ import "../../styles/landing.css";
 const AgentLandingPage: React.FC = () => (
   <div className="vr-landing">
     <SEO
-      title={`VideoRemix.vip — ${LANDING_APP_COUNT} ready-to-run AI apps and agents`}
-      description={`Run ${LANDING_APP_COUNT} AI agents, multi-agent teams, RAG pipelines, voice and MCP agents from the Awesome LLM Apps collection in your browser. No setup.`}
+      title={`VideoRemix VIP — ${LANDING_APP_COUNT} ready-to-run AI apps and agents`}
+      description={`Run ${LANDING_APP_COUNT} AI agents, multi-agent teams, RAG pipelines, voice and MCP agents in your browser with VideoRemix VIP. No setup.`}
       url="https://videoremix.vip/"
     />
     <LandingNav />

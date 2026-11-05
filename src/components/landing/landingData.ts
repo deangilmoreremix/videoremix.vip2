@@ -5,6 +5,7 @@
 // collection (github.com/Shubhamsaboo/awesome-llm-apps) converted to run here.
 
 import { APP_REGISTRY, type AppMeta } from "../../config/appRegistry";
+import { getLocalThumbnailPath } from "../../utils/thumbnailMapper";
 
 export interface GroupInfo {
   key: string;
@@ -53,11 +54,41 @@ export function countInGroup(group: string): number {
 /** Groups that actually hold apps, so a chip never filters to nothing. */
 export const ACTIVE_GROUPS = GROUPS.filter((g) => countInGroup(g.key) > 0);
 
-export const AWESOME_LLM_REPO_URL = "https://github.com/Shubhamsaboo/awesome-llm-apps";
 
-/** Apps with a thumbnail, for the decorative collages. */
-export const THUMBNAIL_APPS: AppMeta[] = LANDING_APPS.filter((app) => Boolean(app.thumbnail));
+/**
+ * Apps whose real screenshots come from the upstream awesome-llm-apps repo
+ * (docs/gallery and per-app assets), copied to public/landing/upstream/.
+ */
+const UPSTREAM_IMAGE_SLUGS = new Set([
+  "project-graveyard",
+  "self-improving-agent-skills",
+  "advisor-orchestrator-worker",
+  "ai-fraud-investigation-agent",
+  "ai-home-renovation-agent",
+  "insurance-claim-live-agent-team",
+  "always-on-hacker-news-briefing-agent",
+]);
+
+/** True when the app has a real upstream screenshot. */
+export function hasUpstreamImage(slug: string): boolean {
+  return UPSTREAM_IMAGE_SLUGS.has(slug);
+}
+
+/**
+ * The best image for an app: its upstream screenshot, else the catalog's local
+ * thumbnail, else null (callers draw a glyph card). The catalog's Supabase
+ * thumbnail URLs are dead (404), so they are never used here.
+ */
+export function resolveAppImage(app: AppMeta): string | null {
+  if (UPSTREAM_IMAGE_SLUGS.has(app.slug)) return `/landing/upstream/${app.slug}.webp`;
+  return getLocalThumbnailPath(app.slug) ?? null;
+}
+
+/** Apps with an image, for the decorative collages: real screenshots first. */
+export const THUMBNAIL_APPS: AppMeta[] = [...LANDING_APPS.filter((app) => hasUpstreamImage(app.slug))].concat(
+  LANDING_APPS.filter((app) => !hasUpstreamImage(app.slug) && resolveAppImage(app) !== null),
+);
 
 /** Search an AI assistant for VideoRemix: the "Explore with AI" tiles. */
 export const EXPLORE_PROMPT =
-  "Explain what VideoRemix.vip (videoremix.vip) is: an app library of ready-to-run AI agents and LLM apps from the Awesome LLM Apps collection. What can I do with it and who is it for?";
+  "Explain what VideoRemix VIP (videoremix.vip) is: an app library of ready-to-run AI agents and LLM apps. What can I do with it and who is it for?";
