@@ -86,8 +86,8 @@ const AIAppRunnerPage: React.FC = () => {
 
   const hasAccess = hasAccessToApp(slug);
 
-  // Show loading while checking access
-  if (accessLoading) {
+  // Show loading while checking access (free apps need no lookup)
+  if (accessLoading && !hasAccess) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#0a0a0a] text-white">
         <div className="text-center">

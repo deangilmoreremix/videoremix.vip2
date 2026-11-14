@@ -1,6 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../utils/supabase";
 import { resolveCanonicalSlug } from "../utils/appLaunch";
+import { APP_REGISTRY } from "../config/appRegistry";
+
+/**
+ * The Awesome LLM apps are free for every signed-in user: they run on the
+ * user's own OpenAI key (src/lib/userApiKeys.ts), so there is nothing to buy.
+ * Purchases still decide access to anything else.
+ */
+const FREE_APP_SLUGS: ReadonlySet<string> = new Set(
+  APP_REGISTRY.filter((app) => app.family === "awesome-llm").map((app) => app.slug),
+);
 import {
   purchaseService,
   UserAppAccess,
@@ -261,6 +271,9 @@ export const useUserAccess = (): UnifiedAccessData & {
 
       const canonicalRequested = resolveCanonicalSlug(appSlug) ?? appSlug;
 
+      // Signed in is enough for the free apps.
+      if (clerkUser && FREE_APP_SLUGS.has(canonicalRequested)) return true;
+
       // Check direct purchases first
       if (
         purchasedApps.some(
@@ -280,12 +293,13 @@ export const useUserAccess = (): UnifiedAccessData & {
 
       return false;
     },
-    [purchasedApps, accessData],
+    [purchasedApps, accessData, clerkUser],
   );
 
   const checkAccess = useCallback(async (appSlug: string): Promise<boolean> => {
     const user = clerkUser;
     if (!user) return false;
+    if (FREE_APP_SLUGS.has(resolveCanonicalSlug(appSlug) ?? appSlug)) return true;
 
     return await purchaseService.checkUserHasAccess(user.id, appSlug);
   }, [clerkUser?.id]);

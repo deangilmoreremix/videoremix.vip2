@@ -8,7 +8,8 @@
 // An Awesome LLM app opens inside the dashboard at /dashboard/apps/:slug (the
 // AI app runner) or /dashboard/agents/:slug (the agent pages), so the
 // operator never leaves the shell; an external VideoRemix app opens in a new
-// tab. A locked app still opens its runner, which offers the purchase.
+// tab. Awesome LLM apps are free to every signed-in user (they run on the
+// user's own key); a locked VideoRemix app still offers the purchase.
 
 import { useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
@@ -157,7 +158,9 @@ const AppsPage: React.FC<{ surface: AppsSurface }> = ({ surface }) => {
                           <AppWindow className="h-5 w-5 text-agentos-brand" aria-hidden="true" />
                         )}
                       </span>
-                      <Pill tone={owned ? "emerald" : "slate"}>{owned ? "Unlocked" : "Locked"}</Pill>
+                      <Pill tone={owned ? "emerald" : "slate"}>
+                        {owned ? (external ? "Unlocked" : "Free") : "Locked"}
+                      </Pill>
                     </div>
                     <h3 className="mt-5 font-medium text-white">{app.name}</h3>
                     <p className="mt-2 line-clamp-2 text-xs leading-5 text-white/45">{app.description}</p>
