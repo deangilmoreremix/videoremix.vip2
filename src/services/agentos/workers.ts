@@ -330,3 +330,48 @@ export async function deleteWorker(workerId: string): Promise<AgentOSResult<{ id
   if (error) return err("database", "Could not delete worker", agentosErrorMessage(error));
   return ok({ id: workerId });
 }
+
+/** The tool through which an agent runs the VideoRemix apps. */
+export const APPS_TOOL_KEY = "videoremix_apps";
+
+/**
+ * Make sure the worker can actually run apps: an agent given apps but not the
+ * apps tool would never be offered them by the runtime.
+ */
+export async function ensureAppsTool(workerId: string): Promise<AgentOSResult<WorkerTool[]>> {
+  const current = await listWorkerTools(workerId);
+  if (current.error) return current;
+  const tools = current.data ?? [];
+  if (tools.some((tool) => tool.tool_key === APPS_TOOL_KEY && tool.enabled)) return ok(tools);
+  return replaceWorkerTools(workerId, [
+    ...tools
+      .filter((tool) => tool.tool_key !== APPS_TOOL_KEY)
+      .map((tool) => ({ tool_key: tool.tool_key, enabled: tool.enabled, config: tool.config ?? {} })),
+    { tool_key: APPS_TOOL_KEY, enabled: true },
+  ]);
+}
+
+/**
+ * "Hire as agent": a new agent whose job is one app. It may run only that app
+ * (through the apps tool) and is told how to use it.
+ */
+export async function hireAppAgent(app: {
+  slug: string;
+  name: string;
+  description: string;
+}): Promise<AgentOSResult<Worker>> {
+  return createWorker({
+    name: app.name,
+    role: `Runs ${app.name}`,
+    instructions: [
+      `You run the VideoRemix app "${app.name}" (slug ${app.slug}) for your owner.`,
+      `What it does: ${app.description}`,
+      `When you are given a job, call the videoremix_apps tool with app_slug "${app.slug}" and`,
+      `inputs { "request": "<the job, with every URL and detail you were given>" }.`,
+      "Then report the app's result clearly. If the job is unclear, ask one short question first.",
+    ].join("\n"),
+    goals: `Get useful results from ${app.name}.`,
+    permissions: { allowed_app_slugs: [app.slug], allow_web_access: true, allow_artifacts: true },
+    tools: [{ tool_key: APPS_TOOL_KEY, enabled: true }],
+  });
+}

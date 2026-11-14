@@ -25,6 +25,7 @@ import {
 import { AGENT_PAGE_SLUGS } from "../../config/agentRegistry";
 import { hasConvertedPage } from "../../config/convertedAppPages";
 import { useUserAccess } from "../../hooks/useUserAccess";
+import { HireAgentButton } from "../../components/agentos/apps/HireAgentButton";
 import { EmptyState, FilterGroup, PageHeader, Pill, SearchInput, Spinner } from "../../components/agentos/ui";
 
 export type AppsSurface = "apps" | "my-apps";
@@ -144,7 +145,7 @@ const AppsPage: React.FC<{ surface: AppsSurface }> = ({ surface }) => {
               const owned = hasAccessToApp(app.slug);
               const external = app.family === "external";
               return (
-                <li key={app.slug}>
+                <li key={app.slug} className="relative">
                   <button
                     type="button"
                     onClick={() => launch(app)}
@@ -164,20 +165,29 @@ const AppsPage: React.FC<{ surface: AppsSurface }> = ({ surface }) => {
                     </div>
                     <h3 className="mt-5 font-medium text-white">{app.name}</h3>
                     <p className="mt-2 line-clamp-2 text-xs leading-5 text-white/45">{app.description}</p>
-                    <div className="mt-auto flex items-center justify-between pt-5 text-xs text-white/40">
+                    <div
+                      className={`mt-auto flex items-center justify-between pt-5 text-xs text-white/40 ${
+                        external ? "" : "pr-28"
+                      }`}
+                    >
                       <span className="flex items-center gap-2">
                         {external ? "VideoRemix app" : "Awesome LLM"}
                         {hasConvertedPage(app.slug) || AGENT_PAGE_SLUGS.has(app.slug) ? (
                           <Pill tone="violet">React app</Pill>
                         ) : null}
                       </span>
-                      {owned ? (
-                        <Play className="h-4 w-4 group-hover:text-white" aria-hidden="true" />
-                      ) : (
-                        <LockKeyhole className="h-4 w-4" aria-hidden="true" />
-                      )}
+                      {external ? (
+                        owned ? (
+                          <Play className="h-4 w-4 group-hover:text-white" aria-hidden="true" />
+                        ) : (
+                          <LockKeyhole className="h-4 w-4" aria-hidden="true" />
+                        )
+                      ) : null}
                     </div>
                   </button>
+                  {external ? null : (
+                    <HireAgentButton slug={app.slug} compact className="absolute bottom-4 right-4" />
+                  )}
                 </li>
               );
             })}

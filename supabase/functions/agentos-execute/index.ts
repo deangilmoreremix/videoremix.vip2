@@ -57,7 +57,9 @@ import {
   runModelWithTools,
   type ClaimedTask,
   type ExecutionSummary,
+  resolveOwnerApiKey,
 } from '../_shared/agentos-runtime.ts';
+import { MISSING_OWNER_KEY_MESSAGE } from '../_shared/app-catalog-tool.ts';
 
 /** Credit gate: never spend on OpenAI without a positive provider balance. */
 interface CreditCheck {
@@ -97,28 +99,12 @@ async function checkExecutionAllowed(claim: ClaimedTask): Promise<CreditCheck> {
     }
   }
 
-  const apiKey = await resolveModelKey(supabase);
-  if (apiKey) return { allowed: true, note: 'platform key' };
-
-  // No platform key: BYOK is only usable through a verified provider config,
-  // and the runtime resolves it server-side. If neither is configured the task
-  // fails with an explicit configuration error rather than pretending to run.
-  const { data: provider } = await supabase
-    .from('provider_configs')
-    .select('status')
-    .eq('owner_clerk_id', claim.owner_clerk_id)
-    .eq('status', 'active')
-    .limit(1)
-    .maybeSingle();
-
-  if (!provider) {
-    return {
-      allowed: false,
-      note: 'no AI provider is configured (set OPENAI_API_KEY or connect a verified BYOK provider)',
-    };
-  }
-
-  return { allowed: true, note: 'byok' };
+  // Agents run on their owner's own key ("Let my agents use this key" in
+  // Settings). The platform never pays for a customer's runs, so without the
+  // owner's key the task fails with a message that says what to do.
+  const apiKey = await resolveRunKey(supabase, claim.owner_clerk_id);
+  if (apiKey.key) return { allowed: true, note: apiKey.source };
+  return { allowed: false, note: MISSING_OWNER_KEY_MESSAGE };
 }
 
 /**
@@ -593,7 +579,8 @@ async function executeClaim(
     console.warn('[agentos-execute] could not read the model capabilities', error);
   }
 
-  const apiKey = await resolveModelKey(supabase);
+  const runKey = await resolveRunKey(supabase, claim.owner_clerk_id);
+  const apiKey = runKey.key;
 
   try {
     await emitEvent({
@@ -629,6 +616,8 @@ async function executeClaim(
         permissions,
         policies,
         serviceToken: Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+        // The apps the agent runs are billed to the same owner key.
+        ownerApiKey: runKey.source === 'owner key' ? apiKey : undefined,
         events: {
           runId,
           taskId: claim.task_id,
@@ -727,8 +716,9 @@ async function executeClaim(
     });
 
     // The ledger is charged BEFORE the task is completed: a run whose credits
-    // could not be debited must not be reported as a successful run.
-    const debit = await debitCredits({
+    // could not be debited must not be reported as a successful run. A run on
+    // the owner's own key costs the platform nothing, so it is not charged.
+    const debit = runKey.source !== 'platform key' ? { ok: true as const, error: undefined } : await debitCredits({
       ownerClerkId: claim.owner_clerk_id,
       taskId: claim.task_id,
       runId,
@@ -938,6 +928,24 @@ async function handler(req: Request): Promise<Response> {
  * scheduler's own credentials. The vault is read through the database, with
  * the service client, which the function already has.
  */
+/**
+ * The key a run uses: the owner's own key. The platform key is used only when
+ * the deployment explicitly allows it (AGENTOS_ALLOW_PLATFORM_KEY=true), for
+ * internal testing.
+ */
+async function resolveRunKey(
+  supabase: any,
+  ownerClerkId: string,
+): Promise<{ key: string; source: 'owner key' | 'platform key' | 'none' }> {
+  const owner = await resolveOwnerApiKey(supabase, ownerClerkId);
+  if (owner) return { key: owner, source: 'owner key' };
+  if ((Deno.env.get('AGENTOS_ALLOW_PLATFORM_KEY') ?? '').trim() === 'true') {
+    const platform = await resolveModelKey(supabase);
+    if (platform) return { key: platform, source: 'platform key' };
+  }
+  return { key: '', source: 'none' };
+}
+
 async function resolveModelKey(supabase: any): Promise<string> {
   const fromEnv = (Deno.env.get('OPENAI_API_KEY') ?? '').trim();
   if (fromEnv) return fromEnv;

@@ -35,10 +35,11 @@ import { fail, ok, readJsonBody, withErrorGuard } from '../_shared/agentos-error
 import { getServiceClient, verifyCaller } from '../_shared/agentos-client.ts';
 import {
   executeToolCall,
-  invokeCatalogApp,
+  resolveOwnerApiKey,
   vectorSearch,
   webFetchGuarded,
 } from '../_shared/agentos-runtime.ts';
+import { MISSING_OWNER_KEY_MESSAGE } from '../_shared/app-catalog-tool.ts';
 
 interface ToolRequestBody {
   tool: string;
@@ -141,16 +142,26 @@ async function handler(req: Request): Promise<Response> {
     switch (body.tool) {
       case 'videoremix_apps':
       case 'videoremix_personalizer': {
-        // Enforce the catalog app allow-list when the worker declares one.
-        const slug = String(args.app_slug ?? '');
-        const allowedApps = permissions.allowed_app_slugs;
-        if (Array.isArray(allowedApps) && allowedApps.length > 0 && !allowedApps.includes(slug)) {
-          return fail('forbidden', `${slug} is not in this worker's allowed app list`);
-        }
-        return ok({
-          tool: body.tool,
-          result: await invokeCatalogApp({ args, serviceToken }),
+        // The shared helper checks the slug is an app and on the worker's
+        // allow-list; the run is billed to the owner's own key.
+        const ownerApiKey = await resolveOwnerApiKey(supabase, ownerClerkId);
+        if (!ownerApiKey) return fail('validation', MISSING_OWNER_KEY_MESSAGE);
+        const outcome = await executeToolCall({
+          supabase,
+          toolKey: body.tool,
+          args,
+          workerId: body.worker_id ?? null,
+          ownerClerkId,
+          taskId: body.task_id ?? null,
+          runId: body.run_id ?? null,
+          permissions,
+          serviceToken,
+          ownerApiKey,
         });
+        if (!outcome.ok) {
+          return fail(outcome.code ?? 'internal', outcome.error ?? 'Tool execution failed');
+        }
+        return ok({ tool: body.tool, result: outcome.result });
       }
 
       case 'web_fetch': {

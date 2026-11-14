@@ -19,7 +19,8 @@ import {
   Spinner,
 } from "../../components/agentos/ui";
 import { AsyncBoundary } from "../../components/agentos/shared";
-import { createWorker } from "../../services/agentos/workers";
+import { APPS_TOOL_KEY, createWorker } from "../../services/agentos/workers";
+import { AppPicker } from "../../components/agentos/apps/AppPicker";
 import { listWorkspaces } from "../../services/agentos/workspaces";
 import { listRoutableModels } from "../../services/agentos/models";
 import { DISPATCHABLE_TOOL_KEYS, listIntegrations } from "../../services/agentos/connections";
@@ -173,9 +174,14 @@ const WorkerNewPage: React.FC = () => {
       max_output_tokens: draft.max_output_tokens,
       // Only the dispatchable keys are written: a draft saved in an earlier
       // session may still hold a key the runtime cannot dispatch.
-      tools: draft.tool_keys
-        .filter((tool_key) => DISPATCHABLE_TOOL_KEYS.includes(tool_key))
-        .map((tool_key) => ({ tool_key })),
+      // An agent given apps also gets the apps tool, or the runtime would
+      // never offer them.
+      tools: [
+        ...new Set([
+          ...draft.tool_keys.filter((tool_key) => DISPATCHABLE_TOOL_KEYS.includes(tool_key)),
+          ...(draft.allowed_app_slugs.length > 0 ? [APPS_TOOL_KEY] : []),
+        ]),
+      ].map((tool_key) => ({ tool_key })),
       memory_enabled: draft.memory_enabled,
       permissions: {
         allow_web_access: draft.allow_web_access,
@@ -595,23 +601,12 @@ const WorkerNewPage: React.FC = () => {
                   </div>
 
                   <div>
-                    <Label htmlFor="w-allowed-apps">Allowed app slugs</Label>
-                    <Input
+                    <Label htmlFor="w-allowed-apps-search">Apps this agent may run</Label>
+                    <AppPicker
                       id="w-allowed-apps"
-                      value={draft.allowed_app_slugs.join(", ")}
-                      onChange={(event) =>
-                        patch({
-                          allowed_app_slugs: event.target.value
-                            .split(",")
-                            .map((value) => value.trim())
-                            .filter(Boolean),
-                        })
-                      }
-                      placeholder="ai-design-studio, video-clipper"
+                      value={draft.allowed_app_slugs}
+                      onChange={(allowed_app_slugs) => patch({ allowed_app_slugs })}
                     />
-                    <p className="mt-1 text-[11px] text-white/35">
-                      An empty list means every app in the catalog is allowed.
-                    </p>
                   </div>
                 </div>
               </Section>
@@ -728,7 +723,7 @@ const WorkerNewPage: React.FC = () => {
                     <Pill tone="rose">denied: {draft.denied_tools.join(", ")}</Pill>
                   ) : null}
                   {draft.allowed_app_slugs.length > 0 ? (
-                    <Pill tone="violet">apps: {draft.allowed_app_slugs.join(", ")}</Pill>
+                    <Pill tone="violet">{draft.allowed_app_slugs.length} app{draft.allowed_app_slugs.length === 1 ? "" : "s"}</Pill>
                   ) : (
                     <Pill tone="slate">apps: all</Pill>
                   )}

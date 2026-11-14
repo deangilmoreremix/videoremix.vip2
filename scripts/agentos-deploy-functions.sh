@@ -41,6 +41,7 @@ FUNCTIONS=(
   agentos-connections
   agentos-tools
   agentos-provider-test
+  agentos-user-keys
 )
 
 if [ -z "${SUPABASE_ACCESS_TOKEN:-}" ]; then

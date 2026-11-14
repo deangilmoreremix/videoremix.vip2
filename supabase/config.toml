@@ -64,3 +64,8 @@ verify_jwt = false
 
 [functions.agentos-tools]
 verify_jwt = true
+
+[functions.agentos-user-keys]
+# The function verifies the caller's Clerk token itself (verifyCaller) and
+# acts only for that caller.
+verify_jwt = false

@@ -78,6 +78,9 @@ const AgentOSTasksPage = lazy(() => import("./pages/agentos/TasksPage"));
 const AgentOSSettingsPage = lazy(() => import("./pages/agentos/SettingsPage"));
 const AgentOSAppsPage = lazy(() => import("./pages/agentos/AppsPage"));
 const AgentOSDashboardAppPage = lazy(() => import("./pages/agentos/DashboardAppPage"));
+const AppTopBar = lazy(() =>
+  import("./components/agentos/apps/HireAgentButton").then((module) => ({ default: module.AppTopBar })),
+);
 const LegacyAgentOSRedirect = lazy(() => import("./pages/agentos/LegacyAgentOSRedirect"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
@@ -995,6 +998,7 @@ function App() {
               path="agents/:id"
               element={
                 <Suspense fallback={<SectionLoader />}>
+                  <AppTopBar />
                   <AgentPage />
                 </Suspense>
               }
