@@ -205,3 +205,13 @@ self-verifying.
 - `scripts/agentos-db-verify.sh` (`npm run agentos:db-verify`) — applies all 14 migrations to a scratch cluster and runs 92 checks.
 - `scripts/agentos-verify-exposure.sh` (`npm run agentos:verify-exposure`, `npm run agentos:expose-schema`) — one-command check (and apply) for the PostgREST exposure.
 - `scripts/agentos-deploy-functions.sh` (`npm run agentos:deploy-functions`) — one-command deployment of the seven edge functions.
+
+## 2026-11-14 — agents run the apps on the owner's key (live)
+
+Verified on the live project and on https://videoremix.vip (bundle `index-C83sJpkT.js`, `main` at `0a5f2631`):
+
+- Edge functions deployed with the CLI: `agentos-user-keys` v1 (new, `verify_jwt` off, verifies the Clerk caller itself), `agentos-execute` v6, `agentos-tools` v2. All three answer 401 to an unauthenticated call.
+- Agents run on the owner's OpenAI key, saved under Settings → "Let my agents use this key" (checked with OpenAI, stored in Supabase Vault via `agentos.store_user_key`, only a four-character hint is ever returned). Without it a task fails with a message saying where to add it. The platform key is used only with `AGENTOS_ALLOW_PLATFORM_KEY=true`; owner-key runs are not charged credits.
+- The `videoremix_apps` tool lists the agent's allowed apps (enum of slugs from the generated `_shared/app-catalog.ts`, 117 apps; regenerate with `npx tsx scripts/agentos/generate-app-catalog.ts`). Unknown slugs are refused with suggestions.
+- "Hire as agent" on every Awesome LLM app card and app page creates an agent limited to that app with the apps tool on. The worker pages have a searchable app picker.
+- Not yet verified: an end-to-end agent run with a real user key (needs a signed-in user with a saved key).
