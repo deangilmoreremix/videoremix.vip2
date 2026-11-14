@@ -64,7 +64,7 @@ describe('SignInPage (Clerk prebuilt implementation)', () => {
 
       expect(screen.getByText(/welcome back/i)).toBeInTheDocument();
       expect(
-        screen.getByText(/sign in to continue your personalized marketing journey/i),
+        screen.getByText(/sign in to your ai apps and agents/i),
       ).toBeInTheDocument();
     });
 
@@ -80,9 +80,9 @@ describe('SignInPage (Clerk prebuilt implementation)', () => {
       renderSignInPage();
 
       expect(screen.getByText(/what you'll get with videoremix.vip/i)).toBeInTheDocument();
-      expect(screen.getByText(/37\+ marketing personalization tools/i)).toBeInTheDocument();
-      expect(screen.getByText(/unlimited audience segmentation/i)).toBeInTheDocument();
-      expect(screen.getByText(/ai-powered campaign personalization/i)).toBeInTheDocument();
+      expect(screen.getByText(/117 ai apps, free with your own openai key/i)).toBeInTheDocument();
+      expect(screen.getByText(/ai agents that run the apps for you/i)).toBeInTheDocument();
+      expect(screen.getByText(/missions, schedules and mission control/i)).toBeInTheDocument();
     });
 
     it('should set the page title via Helmet', async () => {

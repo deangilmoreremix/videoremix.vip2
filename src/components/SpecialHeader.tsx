@@ -70,7 +70,7 @@ const SpecialHeader: React.FC<SpecialHeaderProps> = ({ topOffset = 0 }) => {
                 VideoRemix.vip
               </span>
               <div className="text-xs text-primary-300">
-                AI MARKETING PLATFORM
+                SAPIENX AGENTOS
               </div>
             </div>
           </Link>

@@ -44,7 +44,9 @@ function debugDynamicImport<T>(
 }
 
 // Lazy loaded components for better performance
-const LandingPage = lazy(debugDynamicImport(() => import("./components/premium/LandingPage"), "LandingPage"));
+// The SapienX AgentOS landing page. The earlier marketing-personalization page
+// (components/premium/LandingPage) is no longer routed.
+const LandingPage = lazy(debugDynamicImport(() => import("./pages/SapienXLandingPage"), "LandingPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
 
 // Generic pages

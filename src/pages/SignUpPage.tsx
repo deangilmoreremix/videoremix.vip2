@@ -21,7 +21,7 @@ const SignUpPage: React.FC = () => {
         <title>Sign Up | VideoRemix.vip</title>
         <meta
           name="description"
-          content="Create your VideoRemix.vip account and start building personalized marketing campaigns that drive results."
+          content="Create your SapienX AgentOS account on VideoRemix.vip: 117 AI apps and an AI workforce to run them."
         />
       </Helmet>
 
@@ -69,7 +69,7 @@ const SignUpPage: React.FC = () => {
                     VideoRemix.vip
                   </span>
                   <div className="text-xs text-primary-300">
-                    Marketing Personalization Platform
+                    SapienX AgentOS · AI apps and agents
                   </div>
                  </div>
                </a>
@@ -80,8 +80,8 @@ const SignUpPage: React.FC = () => {
                  </h1>
                </MagicSparkles>
                <p className="text-gray-300 text-lg">
-                 Join thousands using personalized marketing to scale their
-                 business
+                 117 AI apps and an AI workforce to run them, on your own
+                 OpenAI key
                </p>
              </div>
 
@@ -127,15 +127,15 @@ const SignUpPage: React.FC = () => {
                  </li>
                  <li className="flex items-start">
                    <span className="text-primary-400 mr-2">✓</span>
-                   <span>Access to 37+ marketing tools immediately</span>
+                   <span>117 AI apps, free with your own OpenAI key</span>
                  </li>
                  <li className="flex items-start">
                    <span className="text-primary-400 mr-2">✓</span>
-                   <span>Create personalized campaigns in minutes</span>
+                   <span>AI agents that run the apps for you</span>
                  </li>
                  <li className="flex items-start">
                    <span className="text-primary-400 mr-2">✓</span>
-                   <span>Join thousands of successful marketers</span>
+                   <span>Run your first app in under a minute</span>
                  </li>
                </ul>
              </div>

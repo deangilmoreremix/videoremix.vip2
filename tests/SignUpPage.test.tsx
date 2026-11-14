@@ -64,7 +64,7 @@ describe('SignUpPage (Clerk prebuilt implementation)', () => {
 
       expect(screen.getByText(/start your journey/i)).toBeInTheDocument();
       expect(
-        screen.getByText(/join thousands using personalized marketing/i),
+        screen.getByText(/117 ai apps and an ai workforce to run them/i),
       ).toBeInTheDocument();
     });
 
@@ -81,7 +81,7 @@ describe('SignUpPage (Clerk prebuilt implementation)', () => {
 
       expect(screen.getByText(/start your account today/i)).toBeInTheDocument();
       expect(screen.getByText(/no credit card required to start/i)).toBeInTheDocument();
-      expect(screen.getByText(/37\+ marketing tools immediately/i)).toBeInTheDocument();
+      expect(screen.getByText(/117 ai apps, free with your own openai key/i)).toBeInTheDocument();
     });
 
     it('should set the page title via Helmet', async () => {
