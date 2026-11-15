@@ -154,7 +154,7 @@ const AiMedicalImagingAgentPage: React.FC = () => {
                   label="OpenAI API Key"
                   value={openaiApiKey}
                   onChange={setOpenaiApiKey}
-                  helperText="Required for OpenAI analysis. Your key is stored locally."
+                  helperText="Required for OpenAI analysis. Saved on this device and sent only with your runs."
                   required
                 />
 

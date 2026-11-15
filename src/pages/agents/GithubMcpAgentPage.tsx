@@ -135,7 +135,7 @@ const GithubMcpAgentPage: React.FC = () => {
                       onChange={(value) => setFormData(prev => ({ ...prev, openai_api_key: value }))}
                       type="password"
                       placeholder="sk-..."
-                      helperText="Your API key is stored locally"
+                      helperText="Saved on this device and sent only with your runs"
                     />
 
                     <SmartInput

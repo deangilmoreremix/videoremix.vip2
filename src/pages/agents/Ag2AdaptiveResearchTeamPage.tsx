@@ -111,7 +111,7 @@ const Ag2AdaptiveResearchTeamPage: React.FC = () => {
                     label="OpenAI API Key"
                     value={textValues.openai_api_key || ''}
                     onChange={(val) => setTextValues(prev => ({ ...prev, openai_api_key: val }))}
-                    helperText="Your API key is stored locally and never sent to our servers"
+                    helperText="Saved on this device. It's sent with each run to call OpenAI and isn't stored on our servers."
                     required={false}
                   />
                 </div>

@@ -98,4 +98,4 @@ export function resolveCredentials(typed: UserCredentials): UserCredentials {
 
 /** Shown when a run is attempted with no key at all. */
 export const MISSING_KEY_MESSAGE =
-  "Add your OpenAI API key to run this app. It is used only for your runs and is saved on this device only.";
+  "Add your OpenAI API key to run this app. It's saved on this device and sent only with your runs.";

@@ -117,7 +117,7 @@ const MultimodalAiAgentPage: React.FC = () => {
                       name="enter_your_openai_api_key"
                       value={textValues.enter_your_openai_api_key || ''}
                       onChange={(val) => setTextValues(prev => ({ ...prev, enter_your_openai_api_key: val }))}
-                      helperText="Your key is stored locally and never sent to our servers"
+                      helperText="Saved on this device. It's sent with each run to call OpenAI and isn't stored on our servers."
                       required
                     />
                   </FormSection>

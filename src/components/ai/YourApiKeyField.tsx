@@ -22,7 +22,7 @@ export function YourApiKeyField() {
           storeKey("openai", next);
         }}
         placeholder="sk-..."
-        helperText="Runs are billed to your own OpenAI account. The key is saved on this device only and is never stored on our servers."
+        helperText="Runs are billed to your own OpenAI account. Saved on this device. It's sent with each run to call OpenAI and isn't stored on our servers."
         autoComplete="off"
       />
     </div>

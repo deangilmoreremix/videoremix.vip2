@@ -177,7 +177,7 @@ const AiDataAnalysisAgentPage: React.FC = () => {
                   onChange={setApiKey}
                   type="password"
                   placeholder="sk-... (leave blank to use stored key)"
-                  helperText="Your API key is stored locally and never sent to our servers"
+                  helperText="Saved on this device. It's sent with each run to call OpenAI and isn't stored on our servers."
                   required
                 />
 

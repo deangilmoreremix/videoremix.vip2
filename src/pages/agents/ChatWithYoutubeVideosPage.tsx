@@ -122,7 +122,7 @@ const ChatWithYoutubeVideosPage: React.FC = () => {
                   onChange={(value) => setFormData(prev => ({ ...prev, openai_api_key: value }))}
                   type="password"
                   placeholder="sk-..."
-                  helperText="Your API key is stored locally and never sent to our servers"
+                  helperText="Saved on this device. It's sent with each run to call OpenAI and isn't stored on our servers."
                   required
                 />
 

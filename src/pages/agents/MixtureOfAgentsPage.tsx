@@ -97,7 +97,7 @@ const MixtureOfAgentsPage: React.FC = () => {
                       name="openai_api_key"
                       value={formData.openai_api_key}
                       onChange={(val) => setFormData({ ...formData, openai_api_key: val })}
-                      helperText="Your key is stored locally and never sent to our servers"
+                      helperText="Saved on this device. It's sent with each run to call OpenAI and isn't stored on our servers."
                       required
                     />
                   </FormSection>
