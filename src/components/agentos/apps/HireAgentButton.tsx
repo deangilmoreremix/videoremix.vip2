@@ -5,7 +5,7 @@
 
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Bot, Workflow } from "lucide-react";
+import { ArrowLeft, Bot, CalendarClock, Workflow } from "lucide-react";
 import { getAppMeta } from "../../../config/appRegistry";
 import { hireAppAgent } from "../../../services/agentos/workers";
 import { cn } from "../../../lib/utils";
@@ -80,6 +80,15 @@ export const AppTopBar: React.FC<{ slug?: string }> = ({ slug }) => {
           >
             <Workflow className="h-3.5 w-3.5" aria-hidden="true" />
             Use in a mission
+          </Link>
+        ) : null}
+        {getAppMeta(appSlug)?.family === "awesome-llm" ? (
+          <Link
+            to={`/dashboard/schedules?app=${encodeURIComponent(appSlug)}`}
+            className="hidden items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1.5 text-xs text-white/75 hover:bg-white/[0.06] sm:inline-flex"
+          >
+            <CalendarClock className="h-3.5 w-3.5" aria-hidden="true" />
+            Schedule
           </Link>
         ) : null}
         <HireAgentButton slug={appSlug} />

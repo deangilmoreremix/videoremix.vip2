@@ -13,11 +13,13 @@ import type {
   ExecutionRun,
   Mission,
   ModelCatalogEntry,
+  Schedule,
   Task,
   Worker,
 } from "../../../../types/agentos";
 import type { CanvasEdgeRow, CanvasNodeRow } from "../api";
 import { deriveInitialLayout } from "../api";
+import { buildAppLayer } from "./appNodes";
 
 export interface CanvasInputs {
   workers: Worker[];
@@ -27,6 +29,8 @@ export interface CanvasInputs {
   runs: ExecutionRun[];
   canvasNodes: CanvasNodeRow[];
   canvasEdges: CanvasEdgeRow[];
+  /** Schedules, so the apps they run show on the board. */
+  schedules?: Schedule[];
 }
 
 export interface CanvasLayout {
@@ -74,6 +78,7 @@ export function buildLayout(inputs: CanvasInputs): CanvasLayout {
           runs: inputs.runs,
           canvasNodes: [],
           canvasEdges: [],
+          schedules: [],
         });
 
   const missionById = new Map(inputs.missions.map((mission) => [mission.id, mission]));
@@ -188,7 +193,22 @@ export function buildLayout(inputs: CanvasInputs): CanvasLayout {
     animated: row.animated,
   }));
 
-  return { nodes, edges };
+  // The apps the workforce uses, linked to the agents and missions using them.
+  const nodeIds = new Set(nodes.map((node) => node.id));
+  const apps = buildAppLayer({
+    workers: inputs.workers,
+    missions: inputs.missions,
+    tasks: inputs.tasks,
+    schedules: inputs.schedules ?? [],
+    nodeIds,
+    // A band under everything else on the board.
+    origin: {
+      x: Math.min(-420, ...nodes.map((node) => node.position.x)),
+      y: nodes.reduce((max, node) => Math.max(max, node.position.y), 0) + 220,
+    },
+  });
+
+  return { nodes: [...nodes, ...apps.nodes], edges: [...edges, ...apps.edges] };
 }
 
 export interface SelectionResolution {

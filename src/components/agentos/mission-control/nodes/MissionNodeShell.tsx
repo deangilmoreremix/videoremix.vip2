@@ -16,7 +16,7 @@ export interface MissionNodeShellProps {
   status?: StatusTone;
   statusLabel?: string;
   icon: ReactNode;
-  accent: "worker" | "task" | "model" | "runtime" | "workspace";
+  accent: "worker" | "task" | "model" | "runtime" | "workspace" | "app";
   selected?: boolean;
   children?: ReactNode;
   showSourceHandle?: boolean;
@@ -30,6 +30,7 @@ const ACCENT_BORDER: Record<MissionNodeShellProps["accent"], string> = {
   model: "border-emerald-400/30",
   runtime: "border-amber-400/30",
   workspace: "border-white/15",
+  app: "border-fuchsia-400/30",
 };
 
 const ACCENT_ICON: Record<MissionNodeShellProps["accent"], string> = {
@@ -38,6 +39,7 @@ const ACCENT_ICON: Record<MissionNodeShellProps["accent"], string> = {
   model: "text-emerald-300",
   runtime: "text-amber-300",
   workspace: "text-white/50",
+  app: "text-fuchsia-300",
 };
 
 export const MissionNodeShell: React.FC<MissionNodeShellProps> = ({

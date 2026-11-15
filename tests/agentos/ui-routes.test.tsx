@@ -211,7 +211,9 @@ function routeMatches(declared: string, target: string): boolean {
 }
 
 function resolves(target: string): boolean {
-  return ROUTES.some((declared) => routeMatches(declared, target));
+  // A query string ("?app=…") is not part of the route.
+  const path = target.split("?")[0];
+  return ROUTES.some((declared) => routeMatches(declared, path));
 }
 
 /**

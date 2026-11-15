@@ -96,6 +96,7 @@ export const MissionControlShell: React.FC = () => {
         runs: data.runs,
         canvasNodes: data.canvasNodes,
         canvasEdges: data.canvasEdges,
+        schedules: data.schedules,
       };
     }
     return {
@@ -106,6 +107,7 @@ export const MissionControlShell: React.FC = () => {
       runs: data.runs,
       canvasNodes: data.canvasNodes.filter((node) => node.workspace_id === activeWorkspaceId),
       canvasEdges: data.canvasEdges.filter((edge) => edge.workspace_id === activeWorkspaceId),
+      schedules: data.schedules.filter((schedule) => schedule.workspace_id === activeWorkspaceId),
     };
   }, [data, activeWorkspaceId]);
 

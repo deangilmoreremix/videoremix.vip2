@@ -58,8 +58,13 @@ export const Modal: React.FC<ModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         aria-modal="true"
+        // The shared dialog hard-codes a white surface (bg-white,
+        // border-slate-200) by string concatenation, so a plain class here
+        // loses to it in the stylesheet and every AgentOS dialog rendered as
+        // white text on white. The important modifier makes the dark surface
+        // win.
         className={cn(
-          "max-w-lg border-white/10 bg-agentos-card text-white",
+          "max-h-[90vh] max-w-lg overflow-y-auto !border-white/10 !bg-agentos-card text-white",
           className,
         )}
         onCloseAutoFocus={(event) => {

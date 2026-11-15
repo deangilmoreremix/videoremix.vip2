@@ -15,6 +15,7 @@ import type {
   CanvasNodeKind,
   Mission,
   ModelCatalogEntry,
+  Schedule,
   Task,
   Worker,
   Workspace,
@@ -30,6 +31,7 @@ export interface MissionControlData {
   runs: ExecutionRun[];
   canvasNodes: CanvasNodeRow[];
   canvasEdges: CanvasEdgeRow[];
+  schedules: Schedule[];
 }
 
 export interface CanvasNodeRow {
@@ -58,7 +60,7 @@ const CANVAS_EDGE_COLUMNS = "id, workspace_id, source_node_id, target_node_id, e
 
 /** Load everything the canvas needs in one pass. */
 export async function loadMissionControlData(): Promise<MissionControlData> {
-  const [workspaces, workers, missions, tasks, models, runs, canvasNodes, canvasEdges] =
+  const [workspaces, workers, missions, tasks, models, runs, canvasNodes, canvasEdges, schedules] =
     await Promise.all([
       agentosDb.from("workspaces").select("*"),
       agentosDb.from("workers").select("*").is("archived_at", null),
@@ -68,6 +70,7 @@ export async function loadMissionControlData(): Promise<MissionControlData> {
       agentosDb.from("execution_runs").select("*").order("started_at", { ascending: false }).limit(100),
       agentosDb.from("canvas_nodes").select(CANVAS_NODE_COLUMNS),
       agentosDb.from("canvas_edges").select(CANVAS_EDGE_COLUMNS),
+      agentosDb.from("schedules").select("*"),
     ]);
 
   return {
@@ -79,6 +82,7 @@ export async function loadMissionControlData(): Promise<MissionControlData> {
     runs: (runs.data ?? []) as ExecutionRun[],
     canvasNodes: (canvasNodes.data ?? []) as CanvasNodeRow[],
     canvasEdges: (canvasEdges.data ?? []) as CanvasEdgeRow[],
+    schedules: (schedules.data ?? []) as Schedule[],
   };
 }
 
