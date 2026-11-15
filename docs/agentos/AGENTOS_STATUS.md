@@ -226,3 +226,13 @@ Live on https://videoremix.vip (`main` at `ef8f73b9`, bundle `index-piO2Fz2U.js`
 - Steps are created with their mission and dependency in one call (no more race where a dependent step could start first); `agentos-tasks` only links a task to the caller's own mission.
 - The key wording on the converted apps now says the key is saved on the device and sent with each run.
 - Verified in the preview harness (builder, template, chained creation payload, mission page with results, phone width) and by unit tests. Not yet verified: a real mission run with a user's saved agent key.
+
+## 2026-11-15 (later) — scheduled apps, apps on the canvas (live)
+
+Live on https://videoremix.vip (`main` at `8dd344d1`, bundle `index-CXRefmAv.js`).
+
+- **Queue fix (applied live, migration `20261115012416_agentos_app_steps_without_worker`):** `enqueue_task` parked and `claim_due_tasks` skipped every task without a worker, so app steps from the previous release could not run. Both now let a task with `input.app_step` through; a task with neither a worker nor an app step is still parked. Verified the live definitions contain the change and keep their grants (service_role only).
+- **Schedules** can run an app: app, "what should it do each time", timing presets in words or a custom cron, browser timezone by default. "Schedule" on app pages opens it prefilled. The scheduler (`agentos-sweep` / `agentos-execute` cron jobs) was already active.
+- **Mission Control** shows the apps the workforce uses, linked to the agents allowed to run them and the missions whose steps run them, with "scheduled" and running state. App nodes are derived, not stored.
+- **Fix:** every AgentOS dialog rendered white text on white (the shared dialog's hard-coded `bg-white` won); the dark surface now wins.
+- Verified in the preview harness and by unit tests. Not yet verified: a real scheduled run or mission run with a user's saved agent key.
