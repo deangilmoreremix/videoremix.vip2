@@ -6,6 +6,7 @@
 //   POST { action: "status" }                         → { openai: { saved, hint, updated_at } }
 //   POST { action: "save", provider: "openai", key }  → checks the key with OpenAI, then stores it
 //   POST { action: "delete", provider: "openai" }     → removes it
+//   POST { action: "check", provider: "openai", key } → checks a key with OpenAI and stores nothing
 //
 // SECURITY
 //   * The caller is verified (Clerk JWT); the owner is always the caller,
@@ -19,7 +20,7 @@ import { fail, ok, readJsonBody, withErrorGuard } from '../_shared/agentos-error
 import { getServiceClient, verifyCaller } from '../_shared/agentos-client.ts';
 
 interface UserKeysBody {
-  action?: 'status' | 'save' | 'delete';
+  action?: 'status' | 'save' | 'delete' | 'check';
   provider?: string;
   key?: string;
 }
@@ -79,6 +80,16 @@ async function handler(req: Request): Promise<Response> {
     const { error } = await supabase.rpc('delete_user_key', { p_owner: owner, p_provider: provider });
     if (error) return fail('internal', 'Could not remove the key.');
     return ok(await status(supabase, owner));
+  }
+
+  if (action === 'check') {
+    const key = String(body.key ?? '').trim();
+    if (key.length < 20 || /\s/.test(key)) {
+      return fail('validation', 'That does not look like an OpenAI API key.');
+    }
+    const check = await checkOpenAIKey(key);
+    if (!check.ok) return fail('validation', check.error ?? 'OpenAI did not accept this key.');
+    return ok({ works: true });
   }
 
   if (action === 'save') {

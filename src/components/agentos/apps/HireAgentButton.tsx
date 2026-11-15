@@ -3,12 +3,13 @@
 // "Hire as agent": turns an app into an AgentOS agent whose job is that app,
 // then opens the agent so the owner can give it work.
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Bot, CalendarClock, Workflow } from "lucide-react";
 import { getAppMeta } from "../../../config/appRegistry";
 import { hireAppAgent } from "../../../services/agentos/workers";
 import { cn } from "../../../lib/utils";
+import { recordRecentApp } from "../../../lib/recentApps";
 
 export const HireAgentButton: React.FC<{ slug: string; className?: string; compact?: boolean }> = ({
   slug,
@@ -64,6 +65,10 @@ export const HireAgentButton: React.FC<{ slug: string; className?: string; compa
 export const AppTopBar: React.FC<{ slug?: string }> = ({ slug }) => {
   const params = useParams<{ slug?: string; id?: string }>();
   const appSlug = slug ?? params.slug ?? params.id ?? "";
+  // The home page lists the apps opened most recently.
+  useEffect(() => {
+    if (getAppMeta(appSlug)?.family === "awesome-llm") recordRecentApp(appSlug);
+  }, [appSlug]);
   return (
     <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 pt-4 sm:px-6">
       <Link

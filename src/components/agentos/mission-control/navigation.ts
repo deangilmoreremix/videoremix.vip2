@@ -48,30 +48,32 @@ export interface AgentOSNavLink {
 }
 
 export const AGENTOS_NAV_SECTIONS: readonly AgentOSNavSection[] = [
-  { id: "operate", label: "Operate" },
+  { id: "apps", label: "Apps" },
+  { id: "operate", label: "AI workforce" },
   { id: "connect", label: "Connect" },
   { id: "system", label: "System" },
-  { id: "apps", label: "Apps" },
 ];
 
+// Apps first: most people come to run an app. The workforce, which runs apps
+// for them, follows. The rail (collapsed sidebar) keeps the five most used.
 export const AGENTOS_NAV: readonly AgentOSNavLink[] = [
-  { id: "home", to: "/dashboard", label: "Home", icon: Inbox, section: "operate", rail: true, end: true },
-  { id: "mission-control", to: "/dashboard/mission-control", label: "Mission Control", icon: Gauge, section: "operate", rail: true },
+  { id: "home", to: "/dashboard", label: "Home", icon: Inbox, section: "apps", rail: true, end: true },
+  { id: "apps", to: "/dashboard/apps", label: "App Library", icon: Grid2X2, section: "apps", rail: true },
+  { id: "my-apps", to: "/dashboard/my-apps", label: "My Apps", icon: AppWindow, section: "apps", rail: false },
+  { id: "mission-control", to: "/dashboard/mission-control", label: "Mission Control", icon: Gauge, section: "operate", rail: false },
   { id: "workforce", to: "/dashboard/workforce", label: "Agents", icon: Bot, section: "operate", rail: true },
   { id: "missions", to: "/dashboard/missions", label: "Missions", icon: ListChecks, section: "operate", rail: true },
-  { id: "tasks", to: "/dashboard/tasks", label: "Tasks", icon: ClipboardList, section: "operate", rail: true },
-  { id: "approvals", to: "/dashboard/approvals", label: "Human Control", icon: ShieldAlert, section: "operate", rail: true, showsApprovalBadge: true },
   { id: "schedules", to: "/dashboard/schedules", label: "Schedules", icon: CalendarClock, section: "operate", rail: false },
+  { id: "tasks", to: "/dashboard/tasks", label: "Tasks", icon: ClipboardList, section: "operate", rail: false },
+  { id: "approvals", to: "/dashboard/approvals", label: "Approvals", icon: ShieldAlert, section: "operate", rail: false, showsApprovalBadge: true },
   { id: "workspaces", to: "/dashboard/workspaces", label: "Workspaces", icon: FolderKanban, section: "connect", rail: false },
-  { id: "connections", to: "/dashboard/connections", label: "Integrations", icon: Plug, section: "connect", rail: true },
+  { id: "connections", to: "/dashboard/connections", label: "Integrations", icon: Plug, section: "connect", rail: false },
   { id: "memory", to: "/dashboard/memory", label: "Memory", icon: BrainCircuit, section: "connect", rail: false },
   { id: "models", to: "/dashboard/models", label: "Models", icon: Cpu, section: "system", rail: false },
   { id: "artifacts", to: "/dashboard/artifacts", label: "Files", icon: FileText, section: "system", rail: false },
   { id: "operations", to: "/dashboard/operations", label: "Operations", icon: Activity, section: "system", rail: false },
   { id: "activity", to: "/dashboard/activity", label: "Activity", icon: ScrollText, section: "system", rail: false },
   { id: "settings", to: "/dashboard/settings", label: "Settings", icon: Settings2, section: "system", rail: true },
-  { id: "my-apps", to: "/dashboard/my-apps", label: "My Apps", icon: AppWindow, section: "apps", rail: true },
-  { id: "apps", to: "/dashboard/apps", label: "App Library", icon: Grid2X2, section: "apps", rail: false },
 ];
 
 /** All AgentOS base paths, used by the smoke check. */

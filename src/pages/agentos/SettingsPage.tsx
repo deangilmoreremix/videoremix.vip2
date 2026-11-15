@@ -10,8 +10,9 @@ import { ArrowRight, Bot, Coins, Cpu, Moon, Plug, Sun, UserRound } from "lucide-
 import { PageHeader, Section } from "../../components/agentos/ui";
 import { useAgentOSTheme, type AgentOSTheme } from "../../components/agentos/shell/theme";
 import { cn } from "../../lib/utils";
-import { forgetKey, getStoredKey, type KeyProvider } from "../../lib/userApiKeys";
+import { forgetKey, getStoredKey, storeKey, type KeyProvider } from "../../lib/userApiKeys";
 import {
+  checkKey,
   getAgentKeyStatus,
   removeAgentKey,
   saveAgentKey,
@@ -36,6 +37,111 @@ const PROVIDERS: Array<{ id: KeyProvider; label: string }> = [
 ];
 
 const mask = (key: string) => (key.length > 10 ? `${key.slice(0, 5)}…${key.slice(-4)}` : "saved");
+
+/** One provider's key on this device: save, test (OpenAI) and forget. */
+const DeviceKeyRow: React.FC<{
+  provider: KeyProvider;
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+}> = ({ provider, label, value, onChange }) => {
+  const [draft, setDraft] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [note, setNote] = useState<{ tone: "ok" | "error"; text: string } | null>(null);
+  const inputId = `device-key-${provider}`;
+
+  const test = async () => {
+    setBusy(true);
+    setNote(null);
+    const result = await checkKey(value);
+    setBusy(false);
+    setNote(result.ok ? { tone: "ok", text: "Works. OpenAI accepted this key." } : { tone: "error", text: result.message });
+  };
+
+  return (
+    <li className="px-5 py-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <span className="min-w-0">
+          <span className="block text-sm text-white">{label}</span>
+          <span className="block font-mono text-xs text-white/45">
+            {value ? mask(value) : "Not saved on this device."}
+          </span>
+        </span>
+        {value ? (
+          <span className="flex gap-2">
+            {provider === "openai" ? (
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => void test()}
+                className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-white/80 hover:bg-white/[0.06] disabled:opacity-50"
+              >
+                {busy ? "Testing…" : "Test key"}
+              </button>
+            ) : null}
+            <button
+              type="button"
+              onClick={() => {
+                forgetKey(provider);
+                onChange("");
+                setNote(null);
+              }}
+              className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-white/70 hover:bg-white/[0.06]"
+            >
+              Forget key
+            </button>
+          </span>
+        ) : null}
+      </div>
+      {!value ? (
+        <form
+          className="mt-3 flex flex-col gap-2 sm:flex-row"
+          onSubmit={(event) => {
+            event.preventDefault();
+            const key = draft.trim();
+            if (key.length < 20 || /\s/.test(key)) {
+              setNote({ tone: "error", text: "That doesn't look like an API key." });
+              return;
+            }
+            storeKey(provider, key);
+            onChange(key);
+            setDraft("");
+            setNote({ tone: "ok", text: "Saved on this device. Every app uses it." });
+          }}
+        >
+          <label htmlFor={inputId} className="sr-only">
+            {label} API key
+          </label>
+          <input
+            id={inputId}
+            type="password"
+            autoComplete="off"
+            spellCheck={false}
+            value={draft}
+            onChange={(event) => setDraft(event.target.value)}
+            placeholder={provider === "openai" ? "sk-…" : "xai-…"}
+            className="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 font-mono text-sm text-white placeholder:text-white/30 focus:border-agentos-brand/60 focus:outline-none"
+          />
+          <button
+            type="submit"
+            disabled={!draft.trim()}
+            className="rounded-xl border border-white/15 px-4 py-2 text-sm text-white hover:bg-white/[0.06] disabled:opacity-50"
+          >
+            Save key
+          </button>
+        </form>
+      ) : null}
+      {note ? (
+        <p
+          role={note.tone === "error" ? "alert" : "status"}
+          className={cn("mt-2 text-sm", note.tone === "error" ? "text-red-400" : "text-emerald-400")}
+        >
+          {note.text}
+        </p>
+      ) : null}
+    </li>
+  );
+};
 
 /**
  * "Let my agents use this key": agents run on the server, often while the
@@ -219,32 +325,19 @@ const SettingsPage: React.FC = () => {
 
         <Section
           title="Your API keys"
-          description="The apps run on your own provider keys. They are saved in this browser only and sent only with your runs."
+          description="The apps run on your own provider keys. A key is saved in this browser and sent only with your runs."
           className="mt-5"
           contentClassName="p-0"
         >
           <ul className="divide-y divide-white/[0.06]">
             {PROVIDERS.map(({ id, label }) => (
-              <li key={id} className="flex items-center justify-between gap-3 px-5 py-4">
-                <span className="min-w-0">
-                  <span className="block text-sm text-white">{label}</span>
-                  <span className="block font-mono text-xs text-white/45">
-                    {keys[id] ? mask(keys[id]) : "Not saved. You are asked for it when you run an app."}
-                  </span>
-                </span>
-                {keys[id] ? (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      forgetKey(id);
-                      setKeys((current) => ({ ...current, [id]: "" }));
-                    }}
-                    className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-white/70 hover:bg-white/[0.06]"
-                  >
-                    Forget key
-                  </button>
-                ) : null}
-              </li>
+              <DeviceKeyRow
+                key={id}
+                provider={id}
+                label={label}
+                value={keys[id]}
+                onChange={(value) => setKeys((current) => ({ ...current, [id]: value }))}
+              />
             ))}
           </ul>
         </Section>

@@ -1,5 +1,6 @@
 import { getClerkTokenGetter } from "../../utils/supabase";
-import { MISSING_KEY_MESSAGE, resolveCredentials, splitCredentials } from "../../lib/userApiKeys";
+import { friendlyRunError, MISSING_KEY_MESSAGE, resolveCredentials, splitCredentials } from "../../lib/userApiKeys";
+import { markAppRun } from "../../lib/recentApps";
 
 /**
  * Canonical bridge from the legacy `/agents/:slug` pages to the shared
@@ -104,7 +105,7 @@ export async function runViaRunner(
   const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    const message = data?.error || `Request failed (${res.status})`;
+    const message = friendlyRunError(String(data?.error || `Request failed (${res.status})`));
     return {
       ok: false,
       status: res.status,
@@ -112,6 +113,7 @@ export async function runViaRunner(
     };
   }
 
+  markAppRun();
   const output = data?.output;
   const spread =
     output && typeof output === "object" && !Array.isArray(output)

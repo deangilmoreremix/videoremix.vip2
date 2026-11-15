@@ -13,8 +13,8 @@
 
 import { useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useNavigate } from "react-router-dom";
-import { AppWindow, ExternalLink, LockKeyhole, Play } from "lucide-react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { AppWindow, ExternalLink, KeyRound, LockKeyhole, Play } from "lucide-react";
 import {
   APP_REGISTRY,
   AWESOME_LLM_APP_COUNT,
@@ -26,6 +26,9 @@ import { AGENT_PAGE_SLUGS } from "../../config/agentRegistry";
 import { hasConvertedPage } from "../../config/convertedAppPages";
 import { useUserAccess } from "../../hooks/useUserAccess";
 import { HireAgentButton } from "../../components/agentos/apps/HireAgentButton";
+import { APP_CATEGORIES } from "../../config/appCategories";
+import { getStoredKey } from "../../lib/userApiKeys";
+import { cn } from "../../lib/utils";
 import { EmptyState, FilterGroup, PageHeader, Pill, SearchInput, Spinner } from "../../components/agentos/ui";
 
 export type AppsSurface = "apps" | "my-apps";
@@ -55,6 +58,11 @@ const AppsPage: React.FC<{ surface: AppsSurface }> = ({ surface }) => {
   const { hasAccessToApp, loading } = useUserAccess();
   const [query, setQuery] = useState("");
   const [family, setFamily] = useState<FamilyFilter>("all");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.get("category") ?? "";
+  const setCategory = (next: string) =>
+    setSearchParams(next ? { category: next } : {}, { replace: true });
+  const hasKey = Boolean(getStoredKey("openai"));
 
   const ownedApps = useMemo(
     () => APP_REGISTRY.filter((app) => hasAccessToApp(app.slug)),
@@ -66,12 +74,13 @@ const AppsPage: React.FC<{ surface: AppsSurface }> = ({ surface }) => {
     const needle = query.trim().toLowerCase();
     return source.filter((app) => {
       if (family !== "all" && app.family !== family) return false;
+      if (category && app.category !== category) return false;
       if (!needle) return true;
       return [app.name, app.description, app.category, app.group]
         .filter(Boolean)
         .some((value) => String(value).toLowerCase().includes(needle));
     });
-  }, [surface, ownedApps, query, family]);
+  }, [surface, ownedApps, query, family, category]);
 
   const launch = (app: AppMeta) => {
     const target = dashboardAppTarget(app);
@@ -99,6 +108,16 @@ const AppsPage: React.FC<{ surface: AppsSurface }> = ({ surface }) => {
           }
         />
 
+        {!hasKey ? (
+          <p className="mb-5 flex flex-wrap items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white/70">
+            <KeyRound className="h-4 w-4 shrink-0 text-agentos-brand" aria-hidden="true" />
+            The apps run on your own OpenAI key. Add it once and every app uses it.
+            <Link to="/dashboard/settings" className="font-medium text-agentos-brand-soft hover:underline">
+              Add your key in Settings
+            </Link>
+          </p>
+        ) : null}
+
         <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <FilterGroup
             label="Source"
@@ -114,6 +133,26 @@ const AppsPage: React.FC<{ surface: AppsSurface }> = ({ surface }) => {
             placeholder="Search apps…"
             className="sm:w-72"
           />
+        </div>
+
+        <div role="group" aria-label="Category" className="-mx-1 mb-5 flex flex-wrap gap-1.5">
+          {[{ id: "", label: "All categories", count: 0 }, ...APP_CATEGORIES].map((entry) => (
+            <button
+              key={entry.id || "all"}
+              type="button"
+              aria-pressed={category === entry.id}
+              onClick={() => setCategory(entry.id)}
+              className={cn(
+                "rounded-full border px-3 py-1 text-xs transition",
+                category === entry.id
+                  ? "border-agentos-brand/60 bg-agentos-brand/15 text-white"
+                  : "border-white/10 text-white/60 hover:bg-white/[0.04]",
+              )}
+            >
+              {entry.label}
+              {entry.count ? <span className="ml-1.5 tabular-nums text-white/40">{entry.count}</span> : null}
+            </button>
+          ))}
         </div>
 
         {loading && surface === "my-apps" ? (
