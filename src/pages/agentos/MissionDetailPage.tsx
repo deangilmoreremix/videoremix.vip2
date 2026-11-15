@@ -6,7 +6,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Ban, Link2, Pencil, Play, Plus, RotateCcw, Trash2 } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
@@ -32,6 +32,13 @@ import {
 } from "../../services/agentos/missions";
 import { listWorkers } from "../../services/agentos/workers";
 import type { Mission, Task, TaskEdge, Worker } from "../../types/agentos";
+import { appName } from "../../services/agentos/appMissions";
+
+/** The app a mission step runs, when the step is bound to one. */
+function appStepSlug(task: Task): string | null {
+  const step = (task.input as Record<string, unknown> | null)?.app_step as { app_slug?: unknown } | undefined;
+  return typeof step?.app_slug === "string" ? step.app_slug : null;
+}
 
 interface TaskDraft {
   id: string;
@@ -413,7 +420,18 @@ const MissionDetailPage: React.FC = () => {
                             <span>attempt {task.attempt}/{task.max_attempts}</span>
                             <span aria-hidden="true">·</span>
                             <span>trigger {task.trigger}</span>
-                            {task.assigned_worker_id ? (
+                            {appStepSlug(task) ? (
+                              <>
+                                <span aria-hidden="true">·</span>
+                                <Link
+                                  to={`/dashboard/apps/${appStepSlug(task)}`}
+                                  onClick={(event) => event.stopPropagation()}
+                                  className="text-agentos-brand-soft hover:underline"
+                                >
+                                  app: {appName(appStepSlug(task) as string)}
+                                </Link>
+                              </>
+                            ) : task.assigned_worker_id ? (
                               <>
                                 <span aria-hidden="true">·</span>
                                 <span>
@@ -442,7 +460,19 @@ const MissionDetailPage: React.FC = () => {
                           {task.error ? (
                             <p className="mt-1.5 text-[11px] text-rose-300">{task.error}</p>
                           ) : null}
-                          {task.output ? (
+                          {task.output && typeof (task.output as Record<string, unknown>).result === "string" ? (
+                            <details
+                              className="mt-2 rounded-lg bg-black/40 p-2"
+                              onClick={(event) => event.stopPropagation()}
+                            >
+                              <summary className="cursor-pointer text-[11px] font-medium text-white/60">
+                                Result
+                              </summary>
+                              <p className="mt-2 max-h-80 overflow-auto whitespace-pre-wrap text-xs leading-5 text-white/75">
+                                {String((task.output as Record<string, unknown>).result)}
+                              </p>
+                            </details>
+                          ) : task.output ? (
                             <pre className="mt-2 max-h-32 overflow-auto rounded-lg bg-black/40 p-2 text-[11px] text-white/45">
                               {JSON.stringify(task.output, null, 2)}
                             </pre>

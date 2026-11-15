@@ -58,7 +58,17 @@ import {
   type ClaimedTask,
   type ExecutionSummary,
   resolveOwnerApiKey,
+  invokeCatalogApp,
+  loadUpstreamResults,
 } from '../_shared/agentos-runtime.ts';
+import { isCatalogApp, unknownAppMessage } from '../_shared/app-catalog-tool.ts';
+import { APP_CATALOG_BY_SLUG } from '../_shared/app-catalog.ts';
+import {
+  appResultText,
+  buildAppStepRequest,
+  readAppStep,
+  type AppStep,
+} from '../_shared/mission-steps.ts';
 import { MISSING_OWNER_KEY_MESSAGE } from '../_shared/app-catalog-tool.ts';
 
 /** Credit gate: never spend on OpenAI without a positive provider balance. */
@@ -488,6 +498,13 @@ async function executeClaim(
     .limit(1)
     .maybeSingle();
   const runId: string | null = runRow?.id ?? null;
+
+  // A mission step bound to one app runs that app directly: no worker and no
+  // model call of its own. It gets the earlier steps' results as its input.
+  const appStep = readAppStep(claim.input);
+  if (appStep) {
+    return runAppStep({ claim, runId, leaseOwner, appStep });
+  }
 
   if (!claim.worker_id) {
     return failClaim({
@@ -928,6 +945,92 @@ async function handler(req: Request): Promise<Response> {
  * scheduler's own credentials. The vault is read through the database, with
  * the service client, which the function already has.
  */
+/**
+ * Run a mission step that is bound to one app.
+ *
+ * The app runs on the owner's own key, with the step's job plus the results
+ * of the steps before it, and its answer becomes the task's result, which the
+ * next step receives in turn.
+ */
+async function runAppStep(params: {
+  claim: ClaimedTask;
+  runId: string | null;
+  leaseOwner: string;
+  appStep: AppStep;
+}): Promise<ExecutionSummary> {
+  const { claim, runId, leaseOwner, appStep } = params;
+  const supabase = getServiceClient();
+
+  if (!isCatalogApp(appStep.app_slug)) {
+    return failClaim({ claim, runId, leaseOwner, message: unknownAppMessage(appStep.app_slug) });
+  }
+  const ownerApiKey = await resolveOwnerApiKey(supabase, claim.owner_clerk_id);
+  if (!ownerApiKey) {
+    return failClaim({ claim, runId, leaseOwner, message: MISSING_OWNER_KEY_MESSAGE, outcome: 'no_credit' });
+  }
+
+  const appName = APP_CATALOG_BY_SLUG.get(appStep.app_slug)?.name ?? appStep.app_slug;
+  const upstream = await loadUpstreamResults(supabase, claim.task_id);
+  const request = buildAppStepRequest(appStep.request, upstream);
+
+  await emitEvent({
+    runId,
+    taskId: claim.task_id,
+    workerId: null,
+    ownerClerkId: claim.owner_clerk_id,
+    kind: 'app.started',
+    level: 'info',
+    message: `Running ${appName}`,
+    payload: { app_slug: appStep.app_slug, earlier_steps: upstream.length },
+  });
+
+  try {
+    const response = await invokeCatalogApp({
+      args: { app_slug: appStep.app_slug, inputs: { request } },
+      serviceToken: Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+      ownerApiKey,
+    });
+    const result = appResultText(response);
+
+    const { error: completeError } = await supabase.rpc('complete_task', {
+      p_task_id: claim.task_id,
+      p_output: { result, app_slug: appStep.app_slug, app_name: appName },
+      p_run_id: runId,
+      p_lease_owner: leaseOwner,
+    });
+    if (completeError) {
+      return failClaim({
+        claim,
+        runId,
+        leaseOwner,
+        message: `the step could not be completed: ${completeError.message}`,
+      });
+    }
+
+    await emitEvent({
+      runId,
+      taskId: claim.task_id,
+      workerId: null,
+      ownerClerkId: claim.owner_clerk_id,
+      kind: 'app.completed',
+      level: 'success',
+      message: `${appName} finished`,
+      payload: { app_slug: appStep.app_slug, characters: result.length },
+    });
+
+    return {
+      taskId: claim.task_id,
+      workerId: null,
+      runId,
+      outcome: 'succeeded',
+      detail: `${appName} finished`,
+    };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    return failClaim({ claim, runId, leaseOwner, message: `${appName} failed: ${message}` });
+  }
+}
+
 /**
  * The key a run uses: the owner's own key. The platform key is used only when
  * the deployment explicitly allows it (AGENTOS_ALLOW_PLATFORM_KEY=true), for

@@ -24,6 +24,7 @@
 
 import { getServiceClient } from './agentos-client.ts';
 import { buildAppsToolSpec, isCatalogApp, unknownAppMessage } from './app-catalog-tool.ts';
+import { formatUpstreamResults, taskResultText, type UpstreamResult } from './mission-steps.ts';
 
 // deno-lint-ignore no-explicit-any
 type Rpc = any;
@@ -196,12 +197,19 @@ export async function assemblePrompt(claim: ClaimedTask): Promise<AssembledPromp
     }
   }
 
+  // The steps this one waited for hand their results on, so a mission is a
+  // real chain and not a set of unrelated tasks run in order.
+  const upstream = formatUpstreamResults(
+    await loadUpstreamResults(getServiceClient(), claim.task_id),
+  );
+
   const taskText = [
     claim.title,
     claim.description ? `\n${claim.description}` : '',
     Object.keys(claim.input ?? {}).length > 0
       ? `\n## Input\n${JSON.stringify(claim.input, null, 2)}`
       : '',
+    upstream ? `\n\n${upstream}` : '',
   ].join('');
 
   return { system: systemParts.join('\n'), prompt: taskText, memoriesUsed };
@@ -1629,4 +1637,32 @@ export async function resolveOwnerApiKey(supabase: Rpc, ownerClerkId: string): P
     console.warn('[agentos] could not read the owner key', err);
   }
   return '';
+}
+
+/**
+ * The results of the tasks this one waited for (its depends_on and handoff
+ * edges), oldest first. A step that failed or has no result is left out.
+ */
+export async function loadUpstreamResults(supabase: Rpc, taskId: string): Promise<UpstreamResult[]> {
+  try {
+    const { data: edges, error } = await supabase
+      .from('task_edges')
+      .select('waits_for')
+      .eq('task_id', taskId);
+    if (error || !edges || edges.length === 0) return [];
+    const ids = (edges as Array<{ waits_for: string }>).map((edge) => edge.waits_for);
+    const { data: tasks, error: taskError } = await supabase
+      .from('tasks')
+      .select('id, title, output, status, completed_at')
+      .in('id', ids)
+      .eq('status', 'completed')
+      .order('completed_at', { ascending: true });
+    if (taskError || !tasks) return [];
+    return (tasks as Array<{ title: string; output: unknown }>)
+      .map((task) => ({ title: task.title, result: taskResultText(task.output) }))
+      .filter((entry) => entry.result.trim().length > 0);
+  } catch (err) {
+    console.warn('[agentos] could not load the earlier step results', err);
+    return [];
+  }
 }
