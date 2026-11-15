@@ -236,3 +236,14 @@ Live on https://videoremix.vip (`main` at `8dd344d1`, bundle `index-CXRefmAv.js`
 - **Mission Control** shows the apps the workforce uses, linked to the agents allowed to run them and the missions whose steps run them, with "scheduled" and running state. App nodes are derived, not stored.
 - **Fix:** every AgentOS dialog rendered white text on white (the shared dialog's hard-coded `bg-white` won); the dark surface now wins.
 - Verified in the preview harness and by unit tests. Not yet verified: a real scheduled run or mission run with a user's saved agent key.
+
+## 2026-11-15 (later) — apps-first home (live)
+
+Live on https://videoremix.vip (`main` at `0263c655`, bundle `index-CT2olPeI.js`); `agentos-user-keys` redeployed with a `check` action (answers 401 without sign-in).
+
+- Home: app search, "Get started in 3 steps" (key saved inline on the device, pick an app, run it; ticks itself off, can be hidden), recently used apps, the 16 upstream categories; the workforce overview follows under "Your AI workforce".
+- Menu: Apps first (Home, App Library, My Apps), then AI workforce (Approvals replaces "Human Control"), Connect, System.
+- App Library: category chips (`?category=`), and a key hint while no key is saved.
+- Settings: save a device key directly, and "Test key" (checked with OpenAI, nothing stored).
+- Run errors for a rejected key, an account out of credit and rate limits read in plain words.
+- Verified in the preview harness (desktop and phone, no page errors or horizontal scroll) and unit tests. Not yet verified with a real signed-in account.
