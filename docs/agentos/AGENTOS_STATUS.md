@@ -215,3 +215,14 @@ Verified on the live project and on https://videoremix.vip (bundle `index-C83sJp
 - The `videoremix_apps` tool lists the agent's allowed apps (enum of slugs from the generated `_shared/app-catalog.ts`, 117 apps; regenerate with `npx tsx scripts/agentos/generate-app-catalog.ts`). Unknown slugs are refused with suggestions.
 - "Hire as agent" on every Awesome LLM app card and app page creates an agent limited to that app with the apps tool on. The worker pages have a searchable app picker.
 - Not yet verified: an end-to-end agent run with a real user key (needs a signed-in user with a saved key).
+
+## 2026-11-15 — missions that chain apps (live)
+
+Live on https://videoremix.vip (`main` at `ef8f73b9`, bundle `index-piO2Fz2U.js`); functions deployed: `agentos-execute` v7, `agentos-tasks` v2, `agentos-tools` v3 (all answer 401 without sign-in).
+
+- New mission → **Chain apps** (default): pick apps in order and say what each should do, or start from one of four templates. "Use in a mission" on every app page opens it with that app as step 1.
+- A step with `input.app_step` runs its app directly on the owner's key (no model call), and its answer becomes the step's result.
+- Every step, agent or app, now receives the results of the steps it waited for ("## Results from earlier steps", each capped at 6,000 characters).
+- Steps are created with their mission and dependency in one call (no more race where a dependent step could start first); `agentos-tasks` only links a task to the caller's own mission.
+- The key wording on the converted apps now says the key is saved on the device and sent with each run.
+- Verified in the preview harness (builder, template, chained creation payload, mission page with results, phone width) and by unit tests. Not yet verified: a real mission run with a user's saved agent key.
