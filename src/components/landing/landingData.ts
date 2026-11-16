@@ -99,12 +99,13 @@ export function hasUpstreamImage(slug: string): boolean {
 }
 
 /**
- * A real screenshot for the app, or null (callers draw an AppPoster). The
- * catalog's Supabase thumbnail URLs are dead (404) and the local SVG tiles are
- * generic, so neither is used here.
+ * The image for an app's card: the upstream screenshot where there is one,
+ * otherwise a screenshot of the app's own screen (public/landing/apps/).
+ * Callers fall back to an AppPoster if the file fails to load. The catalog's
+ * Supabase thumbnail URLs are dead (404), so they are never used here.
  */
 export function resolveAppImage(app: AppMeta): string | null {
-  return UPSTREAM_IMAGE_SLUGS.has(app.slug) ? `/landing/upstream/${app.slug}.webp` : null;
+  return UPSTREAM_IMAGE_SLUGS.has(app.slug) ? `/landing/upstream/${app.slug}.webp` : `/landing/apps/${app.slug}.webp`;
 }
 
 /** Apps for the decorative collages: real screenshots first, then the rest. */
