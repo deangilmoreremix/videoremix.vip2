@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import type { AppMeta } from "../../config/appRegistry";
+import AppPoster from "./AppPoster";
 import { THUMBNAIL_APPS, groupInfo, resolveAppImage } from "./landingData";
 
 // The hero artwork: a fan of real app cards in front of glowing amber rings,
@@ -20,14 +21,9 @@ const LABELS = [
 
 const Thumb: React.FC<{ app: AppMeta }> = ({ app }) => {
   const [failed, setFailed] = useState(false);
-  const g = groupInfo(app.group);
   const image = resolveAppImage(app);
   return failed || !image ? (
-    <div className="grid h-full w-full place-items-center bg-gradient-to-br from-lp-amber/25 via-black to-lp-purple/30">
-      <span className="font-mono text-5xl text-lp-gold/80" aria-hidden>
-        {g.glyph}
-      </span>
-    </div>
+    <AppPoster app={app} />
   ) : (
     <img src={image} alt="" loading="eager" onError={() => setFailed(true)} className="h-full w-full object-cover" />
   );

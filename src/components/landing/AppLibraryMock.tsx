@@ -1,5 +1,6 @@
 import React from "react";
 import { LayoutGrid, Bot, Activity, KeyRound, Settings, Search, Plus } from "lucide-react";
+import AppPoster from "./AppPoster";
 import { ACTIVE_GROUPS, LANDING_APPS, THUMBNAIL_APPS, groupInfo, resolveAppImage } from "./landingData";
 
 // A static, decorative rendering of the dashboard's app library, built in HTML
@@ -14,7 +15,7 @@ const NAV = [
 ];
 
 const AppLibraryMock: React.FC<{ offset?: number; title?: string }> = ({ offset = 0, title = "App Library" }) => {
-  const apps = (THUMBNAIL_APPS.length >= 6 ? THUMBNAIL_APPS : LANDING_APPS).slice(offset, offset + 6);
+  const apps = THUMBNAIL_APPS.slice(offset, offset + 6);
   return (
     <div aria-hidden className="overflow-hidden rounded-xl border border-white/10 bg-[#0b0b10] text-left shadow-[0_30px_80px_rgba(0,0,0,0.55)]">
       <div className="flex items-center gap-1.5 border-b border-white/10 px-3 py-2">
@@ -64,15 +65,11 @@ const AppLibraryMock: React.FC<{ offset?: number; title?: string }> = ({ offset 
           <div className="mt-2.5 grid grid-cols-2 gap-2 sm:grid-cols-3">
             {apps.map((app) => (
               <div key={app.slug} className="overflow-hidden rounded-md border border-white/10 bg-white/[0.02]">
-                <div className="aspect-[16/9] bg-gradient-to-br from-lp-amber/20 to-lp-purple/25">
-                  {resolveAppImage(app) && (
-                    <img
-                      src={resolveAppImage(app) ?? ""}
-                      alt=""
-                      loading="lazy"
-                      className="h-full w-full object-cover"
-                      onError={(e) => ((e.currentTarget.style.display = "none"))}
-                    />
+                <div className="aspect-[16/9]">
+                  {resolveAppImage(app) ? (
+                    <img src={resolveAppImage(app) ?? ""} alt="" loading="lazy" className="h-full w-full object-cover" />
+                  ) : (
+                    <AppPoster app={app} />
                   )}
                 </div>
                 <div className="p-1.5">

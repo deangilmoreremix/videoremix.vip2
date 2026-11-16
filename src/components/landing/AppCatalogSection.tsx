@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import type { AppMeta } from "../../config/appRegistry";
 import { dashboardAppTarget } from "../../config/appTargets";
 import { Eyebrow, Gold } from "./ui";
+import AppPoster from "./AppPoster";
 import Reveal from "./Reveal";
 import { ACTIVE_GROUPS, LANDING_APPS, countInGroup, groupInfo, resolveAppImage } from "./landingData";
 
@@ -31,10 +32,8 @@ const AppCard: React.FC<{ app: AppMeta; onOpen: (app: AppMeta) => void }> = ({ a
             className="h-full w-full object-cover opacity-90 transition duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
           />
         ) : (
-          <div className="grid h-full w-full place-items-center bg-gradient-to-br from-lp-amber/20 via-black to-lp-purple/25">
-            <span className="font-mono text-4xl text-lp-gold/70" aria-hidden>
-              {group.glyph}
-            </span>
+          <div className="h-full w-full transition duration-500 group-hover:scale-[1.03]">
+            <AppPoster app={app} />
           </div>
         )}
         <span className="absolute left-3 top-3 rounded-full border border-white/10 bg-black/55 px-2.5 py-1 text-[11px] text-white/90 backdrop-blur">

@@ -5,7 +5,6 @@
 // collection (github.com/Shubhamsaboo/awesome-llm-apps) converted to run here.
 
 import { APP_REGISTRY, type AppMeta } from "../../config/appRegistry";
-import { getLocalThumbnailPath } from "../../utils/thumbnailMapper";
 
 export interface GroupInfo {
   key: string;
@@ -33,6 +32,31 @@ export const GROUPS: GroupInfo[] = [
   { key: "llm-finetuning", label: "LLM Fine-tuning", emoji: "🔧", glyph: "⚙" },
   { key: "ai-agent-framework-crash-course", label: "Framework Crash Courses", emoji: "🧑‍🏫", glyph: "▤" },
 ];
+
+/** Accent color (r g b) per group, from the landing palette. Used by AppPoster. */
+const GOLD = "255 208 131";
+const AMBER = "240 173 67";
+const RED = "228 22 54";
+const PURPLE = "138 49 216";
+const MAGENTA = "226 69 126";
+export const GROUP_ACCENT: Record<string, [string, string]> = {
+  "agent-skills": [GOLD, PURPLE],
+  "ai-browser-tools": [AMBER, MAGENTA],
+  "starter-ai-agents": [AMBER, RED],
+  "advanced-ai-agents": [GOLD, RED],
+  "always-on-agents": [AMBER, PURPLE],
+  "multi-agent-teams": [MAGENTA, PURPLE],
+  "voice-ai-agents": [PURPLE, MAGENTA],
+  "generative-ui-agents": [GOLD, MAGENTA],
+  "autonomous-game-playing-agents": [RED, AMBER],
+  "mcp-ai-agents": [AMBER, PURPLE],
+  "rag-tutorials": [GOLD, AMBER],
+  "llm-apps-memory": [PURPLE, AMBER],
+  "chat-with-x": [MAGENTA, GOLD],
+  "llm-optimization-tools": [AMBER, RED],
+  "llm-finetuning": [RED, PURPLE],
+  "ai-agent-framework-crash-course": [GOLD, PURPLE],
+};
 
 const GROUP_BY_KEY = new Map(GROUPS.map((g) => [g.key, g]));
 
@@ -75,19 +99,19 @@ export function hasUpstreamImage(slug: string): boolean {
 }
 
 /**
- * The best image for an app: its upstream screenshot, else the catalog's local
- * thumbnail, else null (callers draw a glyph card). The catalog's Supabase
- * thumbnail URLs are dead (404), so they are never used here.
+ * A real screenshot for the app, or null (callers draw an AppPoster). The
+ * catalog's Supabase thumbnail URLs are dead (404) and the local SVG tiles are
+ * generic, so neither is used here.
  */
 export function resolveAppImage(app: AppMeta): string | null {
-  if (UPSTREAM_IMAGE_SLUGS.has(app.slug)) return `/landing/upstream/${app.slug}.webp`;
-  return getLocalThumbnailPath(app.slug) ?? null;
+  return UPSTREAM_IMAGE_SLUGS.has(app.slug) ? `/landing/upstream/${app.slug}.webp` : null;
 }
 
-/** Apps with an image, for the decorative collages: real screenshots first. */
-export const THUMBNAIL_APPS: AppMeta[] = [...LANDING_APPS.filter((app) => hasUpstreamImage(app.slug))].concat(
-  LANDING_APPS.filter((app) => !hasUpstreamImage(app.slug) && resolveAppImage(app) !== null),
-);
+/** Apps for the decorative collages: real screenshots first, then the rest. */
+export const THUMBNAIL_APPS: AppMeta[] = [
+  ...LANDING_APPS.filter((app) => hasUpstreamImage(app.slug)),
+  ...LANDING_APPS.filter((app) => !hasUpstreamImage(app.slug)),
+];
 
 /** Search an AI assistant for VideoRemix: the "Explore with AI" tiles. */
 export const EXPLORE_PROMPT =
