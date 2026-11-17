@@ -36,7 +36,7 @@ const AppCard: React.FC<{ app: AppMeta; onOpen: (app: AppMeta) => void }> = ({ a
             <AppPoster app={app} />
           </div>
         )}
-        <span className="absolute left-3 top-3 rounded-full border border-white/10 bg-black/55 px-2.5 py-1 text-[11px] text-white/90 backdrop-blur">
+        <span className="absolute bottom-3 left-3 rounded-full border border-white/10 bg-black/55 px-2.5 py-1 text-[11px] text-white/90 backdrop-blur">
           {group.emoji} {group.label}
         </span>
       </div>
