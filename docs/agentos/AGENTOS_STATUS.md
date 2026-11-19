@@ -247,3 +247,12 @@ Live on https://videoremix.vip (`main` at `0263c655`, bundle `index-CT2olPeI.js`
 - Settings: save a device key directly, and "Test key" (checked with OpenAI, nothing stored).
 - Run errors for a rejected key, an account out of credit and rate limits read in plain words.
 - Verified in the preview harness (desktop and phone, no page errors or horizontal scroll) and unit tests. Not yet verified with a real signed-in account.
+
+## 2026-11-19 — every app shows its upstream screen (live)
+
+Live on https://videoremix.vip (`main` at `03b40a4e`, bundle `index-CI-lc64Q.js`).
+
+- **Result display fix:** 49 converted pages only showed a result when `status === "completed"`, which the runner bridge never sent, so they never showed results. `runViaRunner` now returns `status: "completed"`, `result` as text and the raw answer in `output`.
+- **Upstream screens:** `scripts/conversion/extract-upstream-ui.py` parses the 75 Streamlit apps of github.com/Shubhamsaboo/awesome-llm-apps (folders in `scripts/conversion/upstream-map.json`); the other 42 (agent skills, Google ADK / Agno chat agents, CopilotKit apps, CLIs) have hand specs in `src/config/upstreamAppSpecs.manual.ts`. `UpstreamAppPage` draws a spec (Streamlit layout with settings sidebar and tabs, chat, or tool form); results render as sanitized markdown.
+- **Audit** (`scripts/conversion/audit-upstream-ui.ts`, report `docs/agentos/UPSTREAM_UI_REPORT.md`): 61 React pages match upstream and are kept (their titles and descriptions corrected), 30 are rebuilt as the upstream screen, 26 apps without a React page now get the upstream screen. `/dashboard/agents/:id` sends rebuilt apps to `/dashboard/apps/:id`.
+- Verified: unit tests (993 passing), release gate, all 117 app pages opened in the preview harness with no page errors, a form run and a two-turn chat run with mocked answers, phone width; the live invalid-key probe still reaches OpenAI for 117/117. Not yet verified with a real key.
