@@ -22,8 +22,7 @@ import {
   VIDEOREMIX_EXTRA_APP_COUNT,
   type AppMeta,
 } from "../../config/appRegistry";
-import { AGENT_PAGE_SLUGS } from "../../config/agentRegistry";
-import { hasConvertedPage } from "../../config/convertedAppPages";
+import { dashboardAppPath } from "../../config/appScreens";
 import { useUserAccess } from "../../hooks/useUserAccess";
 import { HireAgentButton } from "../../components/agentos/apps/HireAgentButton";
 import { APP_CATEGORIES } from "../../config/appCategories";
@@ -47,10 +46,7 @@ export function dashboardAppTarget(app: AppMeta): { kind: "route" | "external"; 
     const destination = app.externalUrl || app.url;
     if (destination) return { kind: "external", destination };
   }
-  if (AGENT_PAGE_SLUGS.has(app.slug)) {
-    return { kind: "route", destination: `/dashboard/agents/${app.slug}` };
-  }
-  return { kind: "route", destination: `/dashboard/apps/${app.slug}` };
+  return { kind: "route", destination: dashboardAppPath(app.slug) };
 }
 
 const AppsPage: React.FC<{ surface: AppsSurface }> = ({ surface }) => {
@@ -211,9 +207,6 @@ const AppsPage: React.FC<{ surface: AppsSurface }> = ({ surface }) => {
                     >
                       <span className="flex items-center gap-2">
                         {external ? "VideoRemix app" : "Awesome LLM"}
-                        {hasConvertedPage(app.slug) || AGENT_PAGE_SLUGS.has(app.slug) ? (
-                          <Pill tone="violet">React app</Pill>
-                        ) : null}
                       </span>
                       {external ? (
                         owned ? (

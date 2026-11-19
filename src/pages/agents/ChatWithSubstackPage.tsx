@@ -65,7 +65,7 @@ const ChatWithSubstackPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>ChatWithSubstack - VideoRemix.vip</title>
+          <title>Chat with Substack — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -101,7 +101,7 @@ const ChatWithSubstackPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>ChatWithSubstack - VideoRemix.vip</title>
+          <title>Chat with Substack — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">

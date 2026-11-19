@@ -56,8 +56,8 @@ const TrustGatedAgentTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>TrustGatedAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use trust-gated-agent-team to automate tasks with AI." />
+        <title>Trust-Gated Multi-Agent Research Team — SapienX AgentOS</title>
+        <meta name="description" content="Every agent verified, every action in a hash-chained audit trail." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

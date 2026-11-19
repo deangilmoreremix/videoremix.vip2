@@ -94,7 +94,7 @@ const AiDataAnalysisAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Analysis Results - AiDataAnalysisAgent</title>
+          <title>AI Data Analysis Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -145,8 +145,8 @@ const AiDataAnalysisAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AiDataAnalysisAgent - VideoRemix.vip</title>
-        <meta name="description" content="Upload your data and let AI analyze it to uncover patterns and insights." />
+        <title>AI Data Analysis Agent — SapienX AgentOS</title>
+        <meta name="description" content="Ask questions of any CSV or Excel file in plain English." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

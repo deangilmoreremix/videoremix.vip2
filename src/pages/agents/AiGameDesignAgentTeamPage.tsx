@@ -212,8 +212,8 @@ const AiGameDesignAgentTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AiGameDesignAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use interview-summary-ai to automate tasks with AI." />
+        <title>AI Game Design Agent Team — SapienX AgentOS</title>
+        <meta name="description" content="Full game concepts from a swarm of design specialists." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

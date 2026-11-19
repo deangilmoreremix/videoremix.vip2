@@ -78,6 +78,7 @@ const AgentOSTasksPage = lazy(() => import("./pages/agentos/TasksPage"));
 const AgentOSSettingsPage = lazy(() => import("./pages/agentos/SettingsPage"));
 const AgentOSAppsPage = lazy(() => import("./pages/agentos/AppsPage"));
 const AgentOSDashboardAppPage = lazy(() => import("./pages/agentos/DashboardAppPage"));
+const DashboardAgentRoute = lazy(() => import("./pages/agentos/DashboardAgentRoute"));
 const AppTopBar = lazy(() =>
   import("./components/agentos/apps/HireAgentButton").then((module) => ({ default: module.AppTopBar })),
 );
@@ -998,8 +999,10 @@ function App() {
               path="agents/:id"
               element={
                 <Suspense fallback={<SectionLoader />}>
-                  <AppTopBar />
-                  <AgentPage />
+                  <DashboardAgentRoute>
+                    <AppTopBar />
+                    <AgentPage />
+                  </DashboardAgentRoute>
                 </Suspense>
               }
             />

@@ -88,7 +88,7 @@ const AiRecruitmentAgentTeamPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - Recruitment Agent</title>
+          <title>AI Recruitment Agent Team — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -145,8 +145,8 @@ const AiRecruitmentAgentTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Recruitment Agent Team - VideoRemix.vip</title>
-        <meta name="description" content="AI-powered recruitment agent team for hiring automation." />
+        <title>AI Recruitment Agent Team — SapienX AgentOS</title>
+        <meta name="description" content="Resume screening to interview scheduling, end to end." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

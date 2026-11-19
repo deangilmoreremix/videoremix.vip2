@@ -93,7 +93,7 @@ const AiConsultantAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - AI Consultant Agent</title>
+          <title>AI Consultant Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -143,8 +143,8 @@ const AiConsultantAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AI Consultant Agent - VideoRemix.vip</title>
-        <meta name="description" content="Get expert consulting advice for your business challenges." />
+        <title>AI Consultant Agent — SapienX AgentOS</title>
+        <meta name="description" content="Market analysis and strategy recommendations with live web research." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

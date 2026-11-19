@@ -89,7 +89,7 @@ const GoogleAdkCrashCoursePage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - Google ADK Crash Course</title>
+          <title>Google ADK Crash Course — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -144,8 +144,8 @@ const GoogleAdkCrashCoursePage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Google ADK Crash Course - VideoRemix.vip</title>
-        <meta name="description" content="Learn Google ADK with AI-generated crash courses tailored to your level." />
+        <title>Google ADK Crash Course — SapienX AgentOS</title>
+        <meta name="description" content="Starter agent, structured outputs, tools (built-in, function, third-party, MCP), memory, callbacks, plugins, and multi-agent patterns. Model-agnostic." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

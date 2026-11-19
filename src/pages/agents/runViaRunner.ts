@@ -42,6 +42,17 @@ interface RunnerPayload {
   [key: string]: unknown;
 }
 
+/** The runner's answer as text a page can render. */
+export function resultText(output: unknown): string {
+  if (output === null || output === undefined) return "";
+  if (typeof output === "string") return output;
+  if (typeof output === "object" && !Array.isArray(output)) {
+    const content = (output as Record<string, unknown>).content;
+    if (typeof content === "string" && content.trim()) return content;
+  }
+  return JSON.stringify(output, null, 2);
+}
+
 /** Convert a FormData body (legacy file-upload pages) to a plain object. */
 function formDataToObject(formData: FormData): Record<string, unknown> {
   const obj: Record<string, unknown> = {};
@@ -120,9 +131,15 @@ export async function runViaRunner(
       ? (output as Record<string, unknown>)
       : {};
 
+  // The converted pages show a result only when `status` is "completed" and
+  // render `result` directly, so it is the answer as text: the model's text,
+  // or its structured answer as readable JSON. The structured keys stay
+  // spread on the payload, and the raw answer is in `output`.
   const payloadOut: RunnerPayload = {
     ...spread,
-    result: output ?? null,
+    status: "completed",
+    output: output ?? null,
+    result: resultText(output),
     demo: data?.metadata?.demo === true,
     appSlug: data?.appSlug ?? appSlug,
     metadata: data?.metadata ?? {},

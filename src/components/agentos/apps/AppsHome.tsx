@@ -7,7 +7,7 @@ import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AppWindow, ArrowRight, Check, KeyRound, Search, X } from "lucide-react";
 import { getAppMeta, type AppMeta } from "../../../config/appRegistry";
-import { AGENT_PAGE_SLUGS } from "../../../config/agentRegistry";
+import { dashboardAppPath } from "../../../config/appScreens";
 import { APP_CATEGORIES, categoryLabel, searchApps } from "../../../config/appCategories";
 import { getStoredKey, storeKey } from "../../../lib/userApiKeys";
 import {
@@ -20,7 +20,7 @@ import { cn } from "../../../lib/utils";
 
 /** Where an app opens in the dashboard (the same rule as the App Library). */
 function appPath(app: AppMeta): string {
-  return AGENT_PAGE_SLUGS.has(app.slug) ? `/dashboard/agents/${app.slug}` : `/dashboard/apps/${app.slug}`;
+  return dashboardAppPath(app.slug);
 }
 
 export const AppsHome: React.FC<{ openApp: (app: AppMeta) => void }> = ({ openApp }) => {

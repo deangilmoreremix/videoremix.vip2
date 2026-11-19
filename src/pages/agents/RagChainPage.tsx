@@ -55,8 +55,8 @@ const RagChainPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>RagChain - VideoRemix.vip</title>
-        <meta name="description" content="Use rag-chain to automate tasks with AI." />
+        <title>Basic RAG Chain — SapienX AgentOS</title>
+        <meta name="description" content="The minimal retrieval pipeline, applied to pharma research." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

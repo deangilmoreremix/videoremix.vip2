@@ -65,8 +65,8 @@ const OpenaiResearchAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>OpenaiResearchAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use research-assistant-ai to automate tasks with AI." />
+        <title>OpenAI Research Agent — SapienX AgentOS</title>
+        <meta name="description" content="Multi-agent topic research with the OpenAI Agents SDK." />
       </Helmet>
 
       <main className="pt-24 pb-20">

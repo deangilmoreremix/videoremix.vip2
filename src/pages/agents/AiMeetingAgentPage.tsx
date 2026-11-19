@@ -73,7 +73,7 @@ const AiMeetingAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - Meeting Agent</title>
+          <title>AI Meeting Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -134,8 +134,8 @@ const AiMeetingAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Meeting Agent - VideoRemix.vip</title>
-        <meta name="description" content="AI-powered meeting planning agent." />
+        <title>AI Meeting Agent — SapienX AgentOS</title>
+        <meta name="description" content="Context, industry insights, and strategy briefs before you walk in." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

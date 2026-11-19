@@ -81,8 +81,8 @@ const MultimodalAiAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>MultimodalAiAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use multimodal-ai-agent to automate tasks with AI." />
+        <title>Gemini Multimodal Agent — SapienX AgentOS</title>
+        <meta name="description" content="Video analysis plus web search in one agent." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

@@ -74,8 +74,8 @@ const ChatWithGithubPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>ChatWithGithub - VideoRemix.vip</title>
-        <meta name="description" content="Use github-repo-assistant to ask questions about any GitHub repository." />
+        <title>Chat with GitHub (GPT &amp; Llama3) — SapienX AgentOS</title>
+        <meta name="description" content="Any repo, answered in 30 lines of RAG." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

@@ -73,7 +73,7 @@ const AiMentalWellbeingAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - Mental Wellbeing</title>
+          <title>AI Mental Wellbeing Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -133,8 +133,8 @@ const AiMentalWellbeingAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Mental Wellbeing Agent - VideoRemix.vip</title>
-        <meta name="description" content="AI-powered mental health and wellbeing support agent." />
+        <title>AI Mental Wellbeing Agent — SapienX AgentOS</title>
+        <meta name="description" content="A coordinated agent team for mental health support plans." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

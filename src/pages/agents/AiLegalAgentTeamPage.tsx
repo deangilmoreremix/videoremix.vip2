@@ -101,7 +101,7 @@ const AiLegalAgentTeamPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Analysis Results - AiLegalAgentTeam</title>
+          <title>AI Legal Agent Team (Cloud &amp; Local) — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -149,8 +149,8 @@ const AiLegalAgentTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AiLegalAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="AI-powered legal agent team for document analysis and legal research." />
+        <title>AI Legal Agent Team (Cloud &amp; Local) — SapienX AgentOS</title>
+        <meta name="description" content="Research, contract analysis, and strategy from a full legal bench." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

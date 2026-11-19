@@ -86,8 +86,8 @@ const AiBreakupRecoveryAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AiBreakupRecoveryAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use multimodal-knowledge-ai for emotional support during relationship changes." />
+        <title>AI Breakup Recovery Agent — SapienX AgentOS</title>
+        <meta name="description" content="An agent team that talks you through the post-breakup spiral." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

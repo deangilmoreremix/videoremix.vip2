@@ -75,8 +75,8 @@ const Ag2AdaptiveResearchTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AG2 Adaptive Research Team - VideoRemix.vip</title>
-        <meta name="description" content="Multi-agent research team that adapts to your research questions." />
+        <title>AG2 Adaptive Research Team — SapienX AgentOS</title>
+        <meta name="description" content="Agent teamwork with routing and fallback, built on AG2." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

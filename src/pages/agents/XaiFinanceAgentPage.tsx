@@ -45,8 +45,8 @@ const XaiFinanceAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>XaiFinanceAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use finance-research-ai to automate tasks with AI." />
+        <title>xAI Finance Agent — SapienX AgentOS</title>
+        <meta name="description" content="Real-time stock analysis powered by Grok." />
       </Helmet>
 
       <main className="pt-24 pb-20">

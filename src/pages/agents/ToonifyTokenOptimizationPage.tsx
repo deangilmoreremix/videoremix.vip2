@@ -214,8 +214,8 @@ const ToonifyTokenOptimizationPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>ToonifyTokenOptimization - VideoRemix.vip</title>
-        <meta name="description" content="Use toonify-token-optimization to automate tasks with AI." />
+        <title>Toonify Token Optimization — SapienX AgentOS</title>
+        <meta name="description" content="Reduce LLM API costs by 30-60% using TOON format." />
       </Helmet>
 
       <main className="pt-24 pb-20">

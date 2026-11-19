@@ -150,7 +150,7 @@ const AiFraudInvestigationAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Investigation Results - AiFraudInvestigationAgent</title>
+          <title>AI Fraud Investigation Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -198,8 +198,8 @@ const AiFraudInvestigationAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AiFraudInvestigationAgent - VideoRemix.vip</title>
-        <meta name="description" content="Investigate potential fraud patterns in business registrations within Cook County, IL." />
+        <title>AI Fraud Investigation Agent — SapienX AgentOS</title>
+        <meta name="description" content="Cross-references public records to flag facilities that don't add up." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

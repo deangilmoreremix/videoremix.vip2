@@ -55,8 +55,8 @@ const MultimodalCodingAgentTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>MultimodalCodingAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-app-builder-assistant to automate tasks with AI." />
+        <title>Multimodal Coding Agent Team — SapienX AgentOS</title>
+        <meta name="description" content="Snap a photo of a coding problem, get a sandboxed solution." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

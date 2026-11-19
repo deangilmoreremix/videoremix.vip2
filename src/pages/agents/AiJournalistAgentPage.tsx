@@ -82,7 +82,7 @@ const AiJournalistAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Article - AiJournalistAgent</title>
+          <title>AI Journalist Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -132,8 +132,8 @@ const AiJournalistAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AiJournalistAgent - VideoRemix.vip</title>
-        <meta name="description" content="Generate well-researched, professional news articles on any topic using AI." />
+        <title>AI Journalist Agent — SapienX AgentOS</title>
+        <meta name="description" content="Researches, writes, and edits articles on any topic." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

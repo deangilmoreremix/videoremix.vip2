@@ -82,7 +82,7 @@ const AiDeepResearchAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Research Results - AiDeepResearchAgent</title>
+          <title>AI Deep Research Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -131,8 +131,8 @@ const AiDeepResearchAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AiDeepResearchAgent - VideoRemix.vip</title>
-        <meta name="description" content="Conduct comprehensive deep research on any topic using AI-powered web scraping and analysis." />
+        <title>AI Deep Research Agent — SapienX AgentOS</title>
+        <meta name="description" content="Comprehensive web research with the OpenAI Agents SDK and Firecrawl." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

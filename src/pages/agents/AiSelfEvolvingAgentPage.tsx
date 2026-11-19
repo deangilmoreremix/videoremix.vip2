@@ -93,7 +93,7 @@ const AiSelfEvolvingAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - AI Self-Evolving Agent</title>
+          <title>AI Self-Evolving Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -143,8 +143,8 @@ const AiSelfEvolvingAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AI Self-Evolving Agent - VideoRemix.vip</title>
-        <meta name="description" content="Build agents that learn and improve autonomously." />
+        <title>AI Self-Evolving Agent — SapienX AgentOS</title>
+        <meta name="description" content="Agents that rewrite their own workflows with EvoAgentX." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
