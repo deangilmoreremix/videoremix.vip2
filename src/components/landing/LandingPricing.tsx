@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Check } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 import { defaultPlans, type PricingPlan } from "../../data/pricingPlans";
 import Reveal from "./Reveal";
 import { LANDING_APP_COUNT } from "./landingData";
@@ -35,6 +36,9 @@ const ORDERED = [...defaultPlans].sort((a, b) => Number(b.is_popular) - Number(a
 
 const LandingPricing: React.FC = () => {
   const [cycle, setCycle] = useState<Cycle>("monthly");
+  const { isAuthenticated } = useAuth();
+  // Signed-in visitors go to the pricing page to choose a plan; others sign up first.
+  const planLink = isAuthenticated ? "/pricing" : "/signup";
 
   return (
     <section id="pricing" className="scroll-mt-20 px-4 py-20 sm:px-6">
@@ -116,7 +120,7 @@ const LandingPricing: React.FC = () => {
                 </ul>
                 <div className="mt-auto pt-8">
                   <Link
-                    to="/signup"
+                    to={planLink}
                     className={`lp-btn w-full ${featured ? "text-white shadow-[0_10px_30px_rgba(164,61,219,0.3)]" : "lp-btn-ghost"}`}
                     style={featured ? { backgroundImage: "linear-gradient(110deg,#e1306c,#8a31d8)" } : undefined}
                   >
