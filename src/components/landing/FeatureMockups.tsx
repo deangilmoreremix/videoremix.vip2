@@ -28,7 +28,7 @@ const ITEMS = [
   },
   {
     title: "Bring your own keys",
-    sub: "Use the model providers you already trust.",
+    sub: "Use your own API key. You pay your provider directly.",
     mock: (
       <Frame>
         <div className="grid grid-cols-2 gap-1.5 text-[8px]">

@@ -19,7 +19,7 @@ const ShowcaseSection: React.FC = () => {
   const go = (next: number) => setIndex((next + SLIDES.length) % SLIDES.length);
 
   useEffect(() => {
-    if (paused) return;
+    if (paused || (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
     const id = window.setInterval(() => setIndex((i) => (i + 1) % SLIDES.length), 5000);
     return () => window.clearInterval(id);
   }, [paused]);
@@ -49,7 +49,15 @@ const ShowcaseSection: React.FC = () => {
           </a>
         </div>
 
-        <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+        <div
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={() => setPaused(false)}
+          role="group"
+          aria-roledescription="carousel"
+          aria-label="Screens from the app library"
+        >
           <div className="relative">
             <AppLibraryMock key={slide.title} title={slide.title} offset={slide.offset} />
             <button

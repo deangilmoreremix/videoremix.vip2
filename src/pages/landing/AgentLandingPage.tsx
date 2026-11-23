@@ -30,6 +30,7 @@ const AgentLandingPage: React.FC = () => (
       title={`VideoRemix VIP — ${LANDING_APP_COUNT} ready-to-run AI apps and agents`}
       description={`Run ${LANDING_APP_COUNT} AI agents, multi-agent teams, RAG pipelines, voice and MCP agents in your browser with VideoRemix VIP. No setup.`}
       url="https://videoremix.vip/"
+      image="https://videoremix.vip/og-image.jpg"
     />
     <LandingNav />
     <main>

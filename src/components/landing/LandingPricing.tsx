@@ -27,7 +27,7 @@ const SINGLE_APP = {
   name: "Single App",
   price: 97,
   description: "Own one app for life.",
-  features: ["Lifetime access to one app", "All future updates", "Bring your own keys", "Saved runs and history"],
+  features: ["Lifetime access to one app", "Future updates to that app", "Bring your own keys", "Save and download results"],
 };
 
 // Featured plan first, as in the design.
@@ -69,8 +69,8 @@ const LandingPricing: React.FC = () => {
         </div>
 
         <p className="mt-5 text-center text-[11px] text-lp-fg/50">
-          Every plan includes access to the <b className="font-semibold text-lp-fg/85">{LANDING_APP_COUNT}-app library</b>, saved
-          workspaces and bring-your-own-keys.
+          Pro and Business include all <b className="font-semibold text-lp-fg/85">{LANDING_APP_COUNT} apps</b>, saved results and
+          bring-your-own-keys. Free lets you browse the whole library.
         </p>
         <p className="mx-auto mt-4 max-w-2xl rounded-md border border-lp-amber/25 bg-lp-amber/[0.04] px-4 py-2.5 text-center text-[11px] text-lp-fg/60">
           <b className="font-semibold text-lp-fg">Clear costs, separate layers.</b> Plans cover the apps and workspace. Model

@@ -7,7 +7,7 @@ import { Eyebrow, Gold } from "./ui";
 
 const PLATFORMS = ["⌘ Browser", "▭ Desktop", "▯ Mobile"];
 const VALUES = [
-  { glyph: "◎", text: "Bring your own models" },
+  { glyph: "◎", text: "Bring your own keys" },
   { glyph: "●", text: "Private workspaces" },
   { glyph: "◆", text: "New apps added regularly" },
   { glyph: "◇", text: "Saved run history" },

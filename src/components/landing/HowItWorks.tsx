@@ -4,7 +4,7 @@ import { Eyebrow, Gold } from "./ui";
 
 const STEPS = [
   { title: "Create your account", body: "Sign up free in under a minute. No credit card required." },
-  { title: "Connect your keys", body: "Add the model providers you use once, and every app can use them." },
+  { title: "Connect your keys", body: "Add your API key once. It stays in your browser and is used for your runs." },
   { title: "Pick an app", body: "Choose from research agents, RAG pipelines, voice agents and full agent teams." },
   { title: "Run and review", body: "Run it, review the output and keep every result in your workspace." },
 ];

@@ -12,11 +12,11 @@ const FAQS = [
   { q: "Do I need to know how to code?", a: "No. Each app opens as a simple form or chat. Fill in what it asks for and run it." },
   {
     q: "Are AI model costs included?",
-    a: "No. Apps run on your own provider API keys, such as OpenAI, Anthropic or Google Gemini, so model usage is billed by your provider. Your plan covers the apps and workspace.",
+    a: "No. Apps run on your own API key, mostly OpenAI, with a few using other providers such as xAI. Model usage is billed by your provider; your plan covers the apps and workspace.",
   },
   { q: "Do I need to install anything?", a: "No. There's nothing to install and no Python or servers to manage. Sign in and open an app." },
-  { q: "Is my data private?", a: "Your keys and workspace data are tied to your account. Prompts go only to the model provider you pick for a run." },
-  { q: "What does the Free plan include?", a: "Free lets you sign up and try the platform. Pro and Business unlock more of the library, storage and team seats." },
+  { q: "Is my data private?", a: "Your API key is saved only in your browser on the device you use and is sent with each run; it is not stored on our servers. What you enter into an app is processed to run it and sent to the model provider behind that app." },
+  { q: "What does the Free plan include?", a: "Free lets you sign up, browse the whole library and see what each app does. Pro and Business unlock running all apps, plus more storage and team seats." },
   { q: "Can I buy a single app?", a: "Yes. Individual apps are available as a one-time lifetime purchase." },
   { q: "Is there a lifetime option for plans?", a: "Yes. Pro and Business are available as one-time lifetime purchases as well as monthly or annual plans." },
 ];

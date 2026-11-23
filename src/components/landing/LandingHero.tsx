@@ -11,7 +11,7 @@ const BADGES = ["VideoRemix VIP", "Runs in browser", "BYOK", "No setup", "Multi-
 const TRIO = [
   { glyph: "◆", color: "text-lp-purple", title: "Instant apps", sub: "Nothing to install" },
   { glyph: "◎", color: "text-lp-red", title: "Saved workspaces", sub: "Your runs and results" },
-  { glyph: "⬡", color: "text-lp-amber", title: "Your own keys", sub: "Any model provider" },
+  { glyph: "⬡", color: "text-lp-amber", title: "Your own keys", sub: "You control the spend" },
 ];
 
 const LandingHero: React.FC = () => {
