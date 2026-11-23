@@ -93,7 +93,7 @@ const AiVcDueDiligenceAgentTeamPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - AI VC Due Diligence Agent Team</title>
+          <title>AI VC Due Diligence Agent Team — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -143,8 +143,8 @@ const AiVcDueDiligenceAgentTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AI VC Due Diligence Agent Team - VideoRemix.vip</title>
-        <meta name="description" content="Accelerate startup due diligence with AI-powered analysis." />
+        <title>AI VC Due Diligence Agent Team — SapienX AgentOS</title>
+        <meta name="description" content="Multi-agent startup investment analysis with Gemini 3." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

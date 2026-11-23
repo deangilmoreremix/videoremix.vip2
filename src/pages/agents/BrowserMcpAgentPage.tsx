@@ -65,8 +65,8 @@ const BrowserMcpAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>BrowserMcpAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use browser-mcp-agent to control a browser with AI." />
+        <title>Browser MCP Agent — SapienX AgentOS</title>
+        <meta name="description" content="Drive a real browser with natural language over MCP." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

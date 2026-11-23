@@ -76,8 +76,8 @@ const StatefulChatPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>OpenAI Stateful Chat - VideoRemix.vip</title>
-        <meta name="description" content="Stateful conversations with OpenAI, maintaining context across multiple turns." />
+        <title>Llama3 Stateful Chat — SapienX AgentOS</title>
+        <meta name="description" content="Session-persistent chat with Llama 3." />
       </Helmet>
 
       <main className="pt-24 pb-20">

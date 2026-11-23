@@ -62,8 +62,8 @@ const AiCompetitorIntelligenceAgentTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AiCompetitorIntelligenceAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use competitor-spy-ai to analyze competitors with AI." />
+        <title>AI Competitor Intelligence Agent Team — SapienX AgentOS</title>
+        <meta name="description" content="Structured competitor teardowns built from their own websites." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

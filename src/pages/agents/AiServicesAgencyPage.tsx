@@ -134,7 +134,7 @@ const AiServicesAgencyPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Project Results - AiServicesAgency</title>
+          <title>AI Services Agency (CrewAI) — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -182,8 +182,8 @@ const AiServicesAgencyPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AiServicesAgency - VideoRemix.vip</title>
-        <meta name="description" content="AI-powered services agency for project analysis and recommendations." />
+        <title>AI Services Agency (CrewAI) — SapienX AgentOS</title>
+        <meta name="description" content="A digital agency that scopes and plans your software project." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

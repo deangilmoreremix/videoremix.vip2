@@ -93,7 +93,7 @@ const AiHomeRenovationAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - AI Home Renovation Agent</title>
+          <title>AI Home Renovation Agent with Nano Banana Pro — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -143,8 +143,8 @@ const AiHomeRenovationAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AI Home Renovation Agent - VideoRemix.vip</title>
-        <meta name="description" content="Plan your home renovation with AI-powered design suggestions." />
+        <title>AI Home Renovation Agent with Nano Banana Pro — SapienX AgentOS</title>
+        <meta name="description" content="Photos of your space in, renovation plan and photorealistic renders out." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

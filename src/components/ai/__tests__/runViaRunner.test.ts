@@ -102,11 +102,21 @@ describe("runViaRunner (legacy agent pages → canonical runner bridge)", () => 
     const res = await runViaRunner("deep-research-pro", { topic: "AI" });
     const data = await res.json();
 
-    expect(data.result).toEqual({ summary: "found it", sources: [{ title: "t" }] });
+    // The pages render `result` and wait for status "completed".
+    expect(data.status).toBe("completed");
+    expect(data.output).toEqual({ summary: "found it", sources: [{ title: "t" }] });
+    expect(typeof data.result).toBe("string");
+    expect(JSON.parse(data.result)).toEqual({ summary: "found it", sources: [{ title: "t" }] });
     // Structured output keys are spread for pages that read data.<key>.
     expect(data.summary).toBe("found it");
     expect(data.sources).toEqual([{ title: "t" }]);
     expect(data.demo).toBe(false);
+  });
+
+  it("passes a plain-text answer through as the result", async () => {
+    fetchMock.mockResolvedValue(jsonResponse({ success: true, appSlug: "x", output: { content: "Hello there" }, metadata: {} }));
+    const data = await (await runViaRunner("deep-research-pro", { topic: "AI" })).json();
+    expect(data.result).toBe("Hello there");
   });
 
   it("surfaces demo mode when the app has no specialized config", async () => {

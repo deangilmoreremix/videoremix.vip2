@@ -57,7 +57,19 @@ import {
   runModelWithTools,
   type ClaimedTask,
   type ExecutionSummary,
+  resolveOwnerApiKey,
+  invokeCatalogApp,
+  loadUpstreamResults,
 } from '../_shared/agentos-runtime.ts';
+import { isCatalogApp, unknownAppMessage } from '../_shared/app-catalog-tool.ts';
+import { APP_CATALOG_BY_SLUG } from '../_shared/app-catalog.ts';
+import {
+  appResultText,
+  buildAppStepRequest,
+  readAppStep,
+  type AppStep,
+} from '../_shared/mission-steps.ts';
+import { MISSING_OWNER_KEY_MESSAGE } from '../_shared/app-catalog-tool.ts';
 
 /** Credit gate: never spend on OpenAI without a positive provider balance. */
 interface CreditCheck {
@@ -97,28 +109,12 @@ async function checkExecutionAllowed(claim: ClaimedTask): Promise<CreditCheck> {
     }
   }
 
-  const apiKey = await resolveModelKey(supabase);
-  if (apiKey) return { allowed: true, note: 'platform key' };
-
-  // No platform key: BYOK is only usable through a verified provider config,
-  // and the runtime resolves it server-side. If neither is configured the task
-  // fails with an explicit configuration error rather than pretending to run.
-  const { data: provider } = await supabase
-    .from('provider_configs')
-    .select('status')
-    .eq('owner_clerk_id', claim.owner_clerk_id)
-    .eq('status', 'active')
-    .limit(1)
-    .maybeSingle();
-
-  if (!provider) {
-    return {
-      allowed: false,
-      note: 'no AI provider is configured (set OPENAI_API_KEY or connect a verified BYOK provider)',
-    };
-  }
-
-  return { allowed: true, note: 'byok' };
+  // Agents run on their owner's own key ("Let my agents use this key" in
+  // Settings). The platform never pays for a customer's runs, so without the
+  // owner's key the task fails with a message that says what to do.
+  const apiKey = await resolveRunKey(supabase, claim.owner_clerk_id);
+  if (apiKey.key) return { allowed: true, note: apiKey.source };
+  return { allowed: false, note: MISSING_OWNER_KEY_MESSAGE };
 }
 
 /**
@@ -503,6 +499,13 @@ async function executeClaim(
     .maybeSingle();
   const runId: string | null = runRow?.id ?? null;
 
+  // A mission step bound to one app runs that app directly: no worker and no
+  // model call of its own. It gets the earlier steps' results as its input.
+  const appStep = readAppStep(claim.input);
+  if (appStep) {
+    return runAppStep({ claim, runId, leaseOwner, appStep });
+  }
+
   if (!claim.worker_id) {
     return failClaim({
       claim,
@@ -593,7 +596,8 @@ async function executeClaim(
     console.warn('[agentos-execute] could not read the model capabilities', error);
   }
 
-  const apiKey = await resolveModelKey(supabase);
+  const runKey = await resolveRunKey(supabase, claim.owner_clerk_id);
+  const apiKey = runKey.key;
 
   try {
     await emitEvent({
@@ -629,6 +633,8 @@ async function executeClaim(
         permissions,
         policies,
         serviceToken: Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+        // The apps the agent runs are billed to the same owner key.
+        ownerApiKey: runKey.source === 'owner key' ? apiKey : undefined,
         events: {
           runId,
           taskId: claim.task_id,
@@ -727,8 +733,9 @@ async function executeClaim(
     });
 
     // The ledger is charged BEFORE the task is completed: a run whose credits
-    // could not be debited must not be reported as a successful run.
-    const debit = await debitCredits({
+    // could not be debited must not be reported as a successful run. A run on
+    // the owner's own key costs the platform nothing, so it is not charged.
+    const debit = runKey.source !== 'platform key' ? { ok: true as const, error: undefined } : await debitCredits({
       ownerClerkId: claim.owner_clerk_id,
       taskId: claim.task_id,
       runId,
@@ -938,6 +945,110 @@ async function handler(req: Request): Promise<Response> {
  * scheduler's own credentials. The vault is read through the database, with
  * the service client, which the function already has.
  */
+/**
+ * Run a mission step that is bound to one app.
+ *
+ * The app runs on the owner's own key, with the step's job plus the results
+ * of the steps before it, and its answer becomes the task's result, which the
+ * next step receives in turn.
+ */
+async function runAppStep(params: {
+  claim: ClaimedTask;
+  runId: string | null;
+  leaseOwner: string;
+  appStep: AppStep;
+}): Promise<ExecutionSummary> {
+  const { claim, runId, leaseOwner, appStep } = params;
+  const supabase = getServiceClient();
+
+  if (!isCatalogApp(appStep.app_slug)) {
+    return failClaim({ claim, runId, leaseOwner, message: unknownAppMessage(appStep.app_slug) });
+  }
+  const ownerApiKey = await resolveOwnerApiKey(supabase, claim.owner_clerk_id);
+  if (!ownerApiKey) {
+    return failClaim({ claim, runId, leaseOwner, message: MISSING_OWNER_KEY_MESSAGE, outcome: 'no_credit' });
+  }
+
+  const appName = APP_CATALOG_BY_SLUG.get(appStep.app_slug)?.name ?? appStep.app_slug;
+  const upstream = await loadUpstreamResults(supabase, claim.task_id);
+  const request = buildAppStepRequest(appStep.request, upstream);
+
+  await emitEvent({
+    runId,
+    taskId: claim.task_id,
+    workerId: null,
+    ownerClerkId: claim.owner_clerk_id,
+    kind: 'app.started',
+    level: 'info',
+    message: `Running ${appName}`,
+    payload: { app_slug: appStep.app_slug, earlier_steps: upstream.length },
+  });
+
+  try {
+    const response = await invokeCatalogApp({
+      args: { app_slug: appStep.app_slug, inputs: { request } },
+      serviceToken: Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+      ownerApiKey,
+    });
+    const result = appResultText(response);
+
+    const { error: completeError } = await supabase.rpc('complete_task', {
+      p_task_id: claim.task_id,
+      p_output: { result, app_slug: appStep.app_slug, app_name: appName },
+      p_run_id: runId,
+      p_lease_owner: leaseOwner,
+    });
+    if (completeError) {
+      return failClaim({
+        claim,
+        runId,
+        leaseOwner,
+        message: `the step could not be completed: ${completeError.message}`,
+      });
+    }
+
+    await emitEvent({
+      runId,
+      taskId: claim.task_id,
+      workerId: null,
+      ownerClerkId: claim.owner_clerk_id,
+      kind: 'app.completed',
+      level: 'success',
+      message: `${appName} finished`,
+      payload: { app_slug: appStep.app_slug, characters: result.length },
+    });
+
+    return {
+      taskId: claim.task_id,
+      workerId: null,
+      runId,
+      outcome: 'succeeded',
+      detail: `${appName} finished`,
+    };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    return failClaim({ claim, runId, leaseOwner, message: `${appName} failed: ${message}` });
+  }
+}
+
+/**
+ * The key a run uses: the owner's own key. The platform key is used only when
+ * the deployment explicitly allows it (AGENTOS_ALLOW_PLATFORM_KEY=true), for
+ * internal testing.
+ */
+async function resolveRunKey(
+  supabase: any,
+  ownerClerkId: string,
+): Promise<{ key: string; source: 'owner key' | 'platform key' | 'none' }> {
+  const owner = await resolveOwnerApiKey(supabase, ownerClerkId);
+  if (owner) return { key: owner, source: 'owner key' };
+  if ((Deno.env.get('AGENTOS_ALLOW_PLATFORM_KEY') ?? '').trim() === 'true') {
+    const platform = await resolveModelKey(supabase);
+    if (platform) return { key: platform, source: 'platform key' };
+  }
+  return { key: '', source: 'none' };
+}
+
 async function resolveModelKey(supabase: any): Promise<string> {
   const fromEnv = (Deno.env.get('OPENAI_API_KEY') ?? '').trim();
   if (fromEnv) return fromEnv;

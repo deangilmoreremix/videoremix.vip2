@@ -12,7 +12,8 @@ Branch `claude/friendly-bardeen-jkbcy3`. Everything below was run, not assumed.
 | Mission Control crash | FIXED | the canvas never had a `ReactFlowProvider`, so it threw as soon as there was a node; rows were 90px apart for ~130px nodes |
 | Awesome LLM apps in the dashboard | DONE | 117 apps in the library; 17 open their agent page at `/dashboard/agents/:id`, 100 open the runner at `/dashboard/apps/:slug`, inside the shell |
 | Converted apps use their converted UI | FIXED | 25 converted UIs were registered under pre-rebrand slugs and never found; `CONVERTED_APP_ALIASES` (browser) and the copy in the functions resolve them; `tests/converted-app-aliases.test.ts` |
-| Live `run-ai-app` | **NEEDS DEPLOY** | live is v51 (May), which only knows pre-rebrand slugs, so 96 of the 100 runner apps answer "Demo mode". `supabase/functions/run-ai-app-live` is v51 plus the slug lookup (no credit charging, as chosen); deploy it as `run-ai-app` — see its README |
+| Live `run-ai-app` | DEPLOYED (2026-11-04) | `supabase/functions/run-ai-app-live` deployed as `run-ai-app`: every app has a config; no key → 400 "Add your OpenAI API key"; a supplied key is the one OpenAI authenticates (a fake key gets OpenAI's own 401) |
+| Supabase trusts Clerk sign-ins | FIXED (2026-11-04) | the project had **no** third-party auth provider, so every signed-in request was refused (401 "No suitable key or wrong key type"); Clerk (`https://clerk.auth.videoremix.vip`) is now registered and its signing key resolved. Clerk → Integrations → Supabase must be on so tokens carry `role: authenticated` |
 | Credit billing for apps | NOT LIVE | `../run-ai-app` (the credit-gated version) needs the `credits` schema, whose four migrations are not applied live |
 | Scheduler | ON | `agentos-sweep` and `agentos-execute` were inactive; re-enabled, and both answered 200 on their first tick |
 | Tests | PASS | `npx vitest run` → 940 tests pass; 3 suite files cannot load without a `.env` (unchanged by this work) |
@@ -204,3 +205,54 @@ self-verifying.
 - `scripts/agentos-db-verify.sh` (`npm run agentos:db-verify`) — applies all 14 migrations to a scratch cluster and runs 92 checks.
 - `scripts/agentos-verify-exposure.sh` (`npm run agentos:verify-exposure`, `npm run agentos:expose-schema`) — one-command check (and apply) for the PostgREST exposure.
 - `scripts/agentos-deploy-functions.sh` (`npm run agentos:deploy-functions`) — one-command deployment of the seven edge functions.
+
+## 2026-11-14 — agents run the apps on the owner's key (live)
+
+Verified on the live project and on https://videoremix.vip (bundle `index-C83sJpkT.js`, `main` at `0a5f2631`):
+
+- Edge functions deployed with the CLI: `agentos-user-keys` v1 (new, `verify_jwt` off, verifies the Clerk caller itself), `agentos-execute` v6, `agentos-tools` v2. All three answer 401 to an unauthenticated call.
+- Agents run on the owner's OpenAI key, saved under Settings → "Let my agents use this key" (checked with OpenAI, stored in Supabase Vault via `agentos.store_user_key`, only a four-character hint is ever returned). Without it a task fails with a message saying where to add it. The platform key is used only with `AGENTOS_ALLOW_PLATFORM_KEY=true`; owner-key runs are not charged credits.
+- The `videoremix_apps` tool lists the agent's allowed apps (enum of slugs from the generated `_shared/app-catalog.ts`, 117 apps; regenerate with `npx tsx scripts/agentos/generate-app-catalog.ts`). Unknown slugs are refused with suggestions.
+- "Hire as agent" on every Awesome LLM app card and app page creates an agent limited to that app with the apps tool on. The worker pages have a searchable app picker.
+- Not yet verified: an end-to-end agent run with a real user key (needs a signed-in user with a saved key).
+
+## 2026-11-15 — missions that chain apps (live)
+
+Live on https://videoremix.vip (`main` at `ef8f73b9`, bundle `index-piO2Fz2U.js`); functions deployed: `agentos-execute` v7, `agentos-tasks` v2, `agentos-tools` v3 (all answer 401 without sign-in).
+
+- New mission → **Chain apps** (default): pick apps in order and say what each should do, or start from one of four templates. "Use in a mission" on every app page opens it with that app as step 1.
+- A step with `input.app_step` runs its app directly on the owner's key (no model call), and its answer becomes the step's result.
+- Every step, agent or app, now receives the results of the steps it waited for ("## Results from earlier steps", each capped at 6,000 characters).
+- Steps are created with their mission and dependency in one call (no more race where a dependent step could start first); `agentos-tasks` only links a task to the caller's own mission.
+- The key wording on the converted apps now says the key is saved on the device and sent with each run.
+- Verified in the preview harness (builder, template, chained creation payload, mission page with results, phone width) and by unit tests. Not yet verified: a real mission run with a user's saved agent key.
+
+## 2026-11-15 (later) — scheduled apps, apps on the canvas (live)
+
+Live on https://videoremix.vip (`main` at `8dd344d1`, bundle `index-CXRefmAv.js`).
+
+- **Queue fix (applied live, migration `20261115012416_agentos_app_steps_without_worker`):** `enqueue_task` parked and `claim_due_tasks` skipped every task without a worker, so app steps from the previous release could not run. Both now let a task with `input.app_step` through; a task with neither a worker nor an app step is still parked. Verified the live definitions contain the change and keep their grants (service_role only).
+- **Schedules** can run an app: app, "what should it do each time", timing presets in words or a custom cron, browser timezone by default. "Schedule" on app pages opens it prefilled. The scheduler (`agentos-sweep` / `agentos-execute` cron jobs) was already active.
+- **Mission Control** shows the apps the workforce uses, linked to the agents allowed to run them and the missions whose steps run them, with "scheduled" and running state. App nodes are derived, not stored.
+- **Fix:** every AgentOS dialog rendered white text on white (the shared dialog's hard-coded `bg-white` won); the dark surface now wins.
+- Verified in the preview harness and by unit tests. Not yet verified: a real scheduled run or mission run with a user's saved agent key.
+
+## 2026-11-15 (later) — apps-first home (live)
+
+Live on https://videoremix.vip (`main` at `0263c655`, bundle `index-CT2olPeI.js`); `agentos-user-keys` redeployed with a `check` action (answers 401 without sign-in).
+
+- Home: app search, "Get started in 3 steps" (key saved inline on the device, pick an app, run it; ticks itself off, can be hidden), recently used apps, the 16 upstream categories; the workforce overview follows under "Your AI workforce".
+- Menu: Apps first (Home, App Library, My Apps), then AI workforce (Approvals replaces "Human Control"), Connect, System.
+- App Library: category chips (`?category=`), and a key hint while no key is saved.
+- Settings: save a device key directly, and "Test key" (checked with OpenAI, nothing stored).
+- Run errors for a rejected key, an account out of credit and rate limits read in plain words.
+- Verified in the preview harness (desktop and phone, no page errors or horizontal scroll) and unit tests. Not yet verified with a real signed-in account.
+
+## 2026-11-19 — every app shows its upstream screen (live)
+
+Live on https://videoremix.vip (`main` at `03b40a4e`, bundle `index-CI-lc64Q.js`).
+
+- **Result display fix:** 49 converted pages only showed a result when `status === "completed"`, which the runner bridge never sent, so they never showed results. `runViaRunner` now returns `status: "completed"`, `result` as text and the raw answer in `output`.
+- **Upstream screens:** `scripts/conversion/extract-upstream-ui.py` parses the 75 Streamlit apps of github.com/Shubhamsaboo/awesome-llm-apps (folders in `scripts/conversion/upstream-map.json`); the other 42 (agent skills, Google ADK / Agno chat agents, CopilotKit apps, CLIs) have hand specs in `src/config/upstreamAppSpecs.manual.ts`. `UpstreamAppPage` draws a spec (Streamlit layout with settings sidebar and tabs, chat, or tool form); results render as sanitized markdown.
+- **Audit** (`scripts/conversion/audit-upstream-ui.ts`, report `docs/agentos/UPSTREAM_UI_REPORT.md`): 61 React pages match upstream and are kept (their titles and descriptions corrected), 30 are rebuilt as the upstream screen, 26 apps without a React page now get the upstream screen. `/dashboard/agents/:id` sends rebuilt apps to `/dashboard/apps/:id`.
+- Verified: unit tests (993 passing), release gate, all 117 app pages opened in the preview harness with no page errors, a form run and a two-turn chat run with mocked answers, phone width; the live invalid-key probe still reaches OpenAI for 117/117. Not yet verified with a real key.

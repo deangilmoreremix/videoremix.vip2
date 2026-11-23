@@ -6,6 +6,7 @@ export { TaskNode } from "./TaskNode";
 export { ModelNode } from "./ModelNode";
 export { RuntimeNode } from "./RuntimeNode";
 export { WorkspaceNode } from "./WorkspaceNode";
+export { AppNode } from "./AppNode";
 
 export type { WorkerNodeData } from "./WorkerNode";
 export type { TaskNodeData } from "./TaskNode";

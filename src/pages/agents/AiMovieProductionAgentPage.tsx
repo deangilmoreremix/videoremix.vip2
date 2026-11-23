@@ -75,7 +75,7 @@ const AiMovieProductionAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - Movie Production</title>
+          <title>AI Movie Production Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -135,8 +135,8 @@ const AiMovieProductionAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Movie Production Agent - VideoRemix.vip</title>
-        <meta name="description" content="AI-powered movie production planning agent." />
+        <title>AI Movie Production Agent — SapienX AgentOS</title>
+        <meta name="description" content="Script drafts and casting ideas from a one-line movie concept." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

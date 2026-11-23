@@ -93,7 +93,7 @@ const NotionMcpAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - Notion MCP Agent</title>
+          <title>Notion MCP Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -143,8 +143,8 @@ const NotionMcpAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Notion MCP Agent - VideoRemix.vip</title>
-        <meta name="description" content="Connect and automate Notion with AI agents." />
+        <title>Notion MCP Agent — SapienX AgentOS</title>
+        <meta name="description" content="Talk to your Notion pages from the terminal." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

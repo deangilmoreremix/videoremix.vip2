@@ -75,8 +75,8 @@ const Ag2AdaptiveResearchTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AG2 Adaptive Research Team - VideoRemix.vip</title>
-        <meta name="description" content="Multi-agent research team that adapts to your research questions." />
+        <title>AG2 Adaptive Research Team — SapienX AgentOS</title>
+        <meta name="description" content="Agent teamwork with routing and fallback, built on AG2." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
@@ -111,7 +111,7 @@ const Ag2AdaptiveResearchTeamPage: React.FC = () => {
                     label="OpenAI API Key"
                     value={textValues.openai_api_key || ''}
                     onChange={(val) => setTextValues(prev => ({ ...prev, openai_api_key: val }))}
-                    helperText="Your API key is stored locally and never sent to our servers"
+                    helperText="Saved on this device. It's sent with each run to call OpenAI and isn't stored on our servers."
                     required={false}
                   />
                 </div>

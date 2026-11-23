@@ -102,12 +102,14 @@ export const purchaseService = {
       }
 
       // Check for bundle purchases
+      // purchases has no metadata column, so the bundle is recognised by its
+      // product id alone (asking for metadata failed every check with a 400).
       const { data: bundlePurchases, error: bundleError } = await supabase
         .from("purchases")
-        .select("product_id, metadata")
+        .select("product_id")
         .eq("user_id", userId)
         .eq("status", "completed")
-        .or("product_id.eq.all-apps-bundle,metadata->>isBundle.eq.true");
+        .eq("product_id", "all-apps-bundle");
 
       if (bundleError) {
         console.error("Error fetching bundle purchases:", bundleError);

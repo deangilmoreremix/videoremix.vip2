@@ -86,8 +86,8 @@ const VoiceRagOpenaisdkPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>VoiceRagOpenaisdk - VideoRemix.vip</title>
-        <meta name="description" content="Use voice-rag-openaisdk to automate tasks with AI." />
+        <title>Voice RAG Agent (OpenAI SDK) — SapienX AgentOS</title>
+        <meta name="description" content="Ask your PDFs questions, hear the answers." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

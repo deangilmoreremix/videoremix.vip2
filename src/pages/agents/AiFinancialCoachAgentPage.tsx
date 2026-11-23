@@ -136,7 +136,7 @@ const AiFinancialCoachAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Financial Analysis - AiFinancialCoachAgent</title>
+          <title>AI Financial Coach Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -190,8 +190,8 @@ const AiFinancialCoachAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AiFinancialCoachAgent - VideoRemix.vip</title>
-        <meta name="description" content="AI-powered financial coach for budgeting, debt management, and financial planning." />
+        <title>AI Financial Coach Agent — SapienX AgentOS</title>
+        <meta name="description" content="Personalized budget, debt, and savings analysis." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

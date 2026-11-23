@@ -65,8 +65,8 @@ const AgenticRagWithReasoningPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AgenticRagWithReasoning - VideoRemix.vip</title>
-        <meta name="description" content="Use gmail-intelligence-ai to automate tasks with AI." />
+        <title>Agentic RAG with Reasoning — SapienX AgentOS</title>
+        <meta name="description" content="Watch the agent's step-by-step reasoning as it retrieves." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

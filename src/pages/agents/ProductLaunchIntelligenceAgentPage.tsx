@@ -94,7 +94,7 @@ const ProductLaunchIntelligenceAgentPage: React.FC = () => {
                         name="openai_api_key"
                         value={openaiApiKey}
                         onChange={setOpenaiApiKey}
-                        helperText="Your key is stored locally and never sent to our servers"
+                        helperText="Saved on this device. It's sent with each run to call OpenAI and isn't stored on our servers."
                         required
                       />
                     </FormSection>
@@ -158,7 +158,7 @@ const ProductLaunchIntelligenceAgentPage: React.FC = () => {
                          name="openai_api_key"
                          value={openaiApiKey}
                          onChange={setOpenaiApiKey}
-                         helperText="Your key is stored locally and never sent to our servers"
+                         helperText="Saved on this device. It's sent with each run to call OpenAI and isn't stored on our servers."
                          required
                        />
                      </FormSection>

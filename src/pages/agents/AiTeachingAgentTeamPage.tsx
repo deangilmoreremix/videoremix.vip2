@@ -68,8 +68,8 @@ const AiTeachingAgentTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AiTeachingAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-course-creator-assistant to automate tasks with AI." />
+        <title>AI Teaching Agent Team — SapienX AgentOS</title>
+        <meta name="description" content="A faculty of agents that builds your complete learning path." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

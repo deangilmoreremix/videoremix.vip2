@@ -93,7 +93,7 @@ const AiInvestmentAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - AI Investment Agent</title>
+          <title>AI Investment Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -143,8 +143,8 @@ const AiInvestmentAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AI Investment Agent - VideoRemix.vip</title>
-        <meta name="description" content="Analyze investment opportunities and build your portfolio strategy." />
+        <title>AI Investment Agent — SapienX AgentOS</title>
+        <meta name="description" content="Stock comparison reports built on Yahoo Finance data." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

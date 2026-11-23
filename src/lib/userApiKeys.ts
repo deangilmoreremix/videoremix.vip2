@@ -98,4 +98,22 @@ export function resolveCredentials(typed: UserCredentials): UserCredentials {
 
 /** Shown when a run is attempted with no key at all. */
 export const MISSING_KEY_MESSAGE =
-  "Add your OpenAI API key to run this app. It is used only for your runs and is saved on this device only.";
+  "Add your OpenAI API key to run this app. It's saved on this device and sent only with your runs.";
+
+/**
+ * A run error in plain words: what went wrong with the key, and where to fix
+ * it. Anything else is returned unchanged.
+ */
+export function friendlyRunError(message: string): string {
+  const text = message.toLowerCase();
+  if (text.includes("invalid_api_key") || text.includes("incorrect api key") || /\b401\b/.test(text)) {
+    return "OpenAI didn't accept your key. Check it under Settings → Your API keys.";
+  }
+  if (text.includes("insufficient_quota") || text.includes("exceeded your current quota")) {
+    return "Your OpenAI account is out of credit. Add billing at platform.openai.com, then run again.";
+  }
+  if (text.includes("rate limit") || text.includes("rate_limit") || /\b429\b/.test(text)) {
+    return "OpenAI is limiting requests on your key right now. Wait a minute and run again.";
+  }
+  return message;
+}

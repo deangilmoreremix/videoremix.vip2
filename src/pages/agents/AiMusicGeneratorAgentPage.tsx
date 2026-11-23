@@ -59,7 +59,7 @@ const AiMusicGeneratorAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - Music Generator</title>
+          <title>AI Music Generator Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -119,8 +119,8 @@ const AiMusicGeneratorAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Music Generator Agent - VideoRemix.vip</title>
-        <meta name="description" content="AI-powered music generation agent." />
+        <title>AI Music Generator Agent — SapienX AgentOS</title>
+        <meta name="description" content="Prompt in, MP3 track out." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

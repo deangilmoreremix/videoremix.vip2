@@ -197,10 +197,10 @@ const FinanceAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AI Finance Agent - Stock Analysis & Portfolio Tracking | VideoRemix.vip</title>
+        <title>AI Finance Agent Team — SapienX AgentOS</title>
         <meta
           name="description"
-          content="AI-powered finance platform: Real-time stock data, portfolio tracking, and intelligent market insights powered by OpenAI."
+          content="A financial analyst team in 20 lines of Python."
         />
       </Helmet>
 

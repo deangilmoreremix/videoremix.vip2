@@ -81,8 +81,8 @@ const MultimodalAiAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>MultimodalAiAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use multimodal-ai-agent to automate tasks with AI." />
+        <title>Gemini Multimodal Agent — SapienX AgentOS</title>
+        <meta name="description" content="Video analysis plus web search in one agent." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
@@ -117,7 +117,7 @@ const MultimodalAiAgentPage: React.FC = () => {
                       name="enter_your_openai_api_key"
                       value={textValues.enter_your_openai_api_key || ''}
                       onChange={(val) => setTextValues(prev => ({ ...prev, enter_your_openai_api_key: val }))}
-                      helperText="Your key is stored locally and never sent to our servers"
+                      helperText="Saved on this device. It's sent with each run to call OpenAI and isn't stored on our servers."
                       required
                     />
                   </FormSection>

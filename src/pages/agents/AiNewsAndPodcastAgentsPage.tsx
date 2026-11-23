@@ -93,7 +93,7 @@ const AiNewsAndPodcastAgentsPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - AI News and Podcast Agents</title>
+          <title>AI Social Media News and Podcast Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -143,8 +143,8 @@ const AiNewsAndPodcastAgentsPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AI News and Podcast Agents - VideoRemix.vip</title>
-        <meta name="description" content="Curate news and generate podcast content with AI." />
+        <title>AI Social Media News and Podcast Agent — SapienX AgentOS</title>
+        <meta name="description" content="Curates your trusted sources into briefs and generated podcasts." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

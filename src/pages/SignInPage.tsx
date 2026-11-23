@@ -20,7 +20,7 @@ const SignInPage: React.FC = () => {
         <title>Sign In | VideoRemix.vip</title>
         <meta
           name="description"
-          content="Sign in to your VideoRemix.vip account to access your personalized marketing campaigns and tools."
+          content="Sign in to SapienX AgentOS on VideoRemix.vip to run your AI apps and agents."
         />
       </Helmet>
 
@@ -68,7 +68,7 @@ const SignInPage: React.FC = () => {
                     VideoRemix.vip
                   </span>
                   <div className="text-xs text-primary-300">
-                    Marketing Personalization Platform
+                    SapienX AgentOS · AI apps and agents
                   </div>
                  </div>
                </a>
@@ -79,7 +79,7 @@ const SignInPage: React.FC = () => {
                  </h1>
                </MagicSparkles>
                <p className="text-gray-300 text-lg">
-                 Sign in to continue your personalized marketing journey
+                 Sign in to your AI apps and agents
                </p>
              </div>
 
@@ -121,19 +121,19 @@ const SignInPage: React.FC = () => {
                <ul className="space-y-3 text-gray-300 text-sm">
                  <li className="flex items-start">
                    <span className="text-primary-400 mr-2">✓</span>
-                   <span>Access to 37+ marketing personalization tools</span>
+                   <span>117 AI apps, free with your own OpenAI key</span>
                  </li>
                  <li className="flex items-start">
                    <span className="text-primary-400 mr-2">✓</span>
-                   <span>Unlimited audience segmentation</span>
+                   <span>AI agents that run the apps for you</span>
                  </li>
                  <li className="flex items-start">
                    <span className="text-primary-400 mr-2">✓</span>
-                   <span>AI-powered campaign personalization</span>
+                   <span>Missions, schedules and Mission Control</span>
                  </li>
                  <li className="flex items-start">
                    <span className="text-primary-400 mr-2">✓</span>
-                   <span>Multi-channel marketing automation</span>
+                   <span>Your API key stays on your device</span>
                  </li>
                </ul>
              </div>

@@ -93,7 +93,7 @@ const AiTravelPlannerAgentTeamPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - AI Travel Planner Agent Team</title>
+          <title>AI Travel Planner Agent Team — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -143,8 +143,8 @@ const AiTravelPlannerAgentTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AI Travel Planner Agent Team - VideoRemix.vip</title>
-        <meta name="description" content="Plan perfect trips with AI-powered recommendations." />
+        <title>AI Travel Planner Agent Team — SapienX AgentOS</title>
+        <meta name="description" content="A complete trip itinerary, crafted by a team." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

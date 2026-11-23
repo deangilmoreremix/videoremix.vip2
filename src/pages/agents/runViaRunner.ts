@@ -1,5 +1,6 @@
 import { getClerkTokenGetter } from "../../utils/supabase";
-import { MISSING_KEY_MESSAGE, resolveCredentials, splitCredentials } from "../../lib/userApiKeys";
+import { friendlyRunError, MISSING_KEY_MESSAGE, resolveCredentials, splitCredentials } from "../../lib/userApiKeys";
+import { markAppRun } from "../../lib/recentApps";
 
 /**
  * Canonical bridge from the legacy `/agents/:slug` pages to the shared
@@ -39,6 +40,17 @@ interface RunnerPayload {
   appSlug: string;
   metadata?: Record<string, unknown>;
   [key: string]: unknown;
+}
+
+/** The runner's answer as text a page can render. */
+export function resultText(output: unknown): string {
+  if (output === null || output === undefined) return "";
+  if (typeof output === "string") return output;
+  if (typeof output === "object" && !Array.isArray(output)) {
+    const content = (output as Record<string, unknown>).content;
+    if (typeof content === "string" && content.trim()) return content;
+  }
+  return JSON.stringify(output, null, 2);
 }
 
 /** Convert a FormData body (legacy file-upload pages) to a plain object. */
@@ -104,7 +116,7 @@ export async function runViaRunner(
   const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    const message = data?.error || `Request failed (${res.status})`;
+    const message = friendlyRunError(String(data?.error || `Request failed (${res.status})`));
     return {
       ok: false,
       status: res.status,
@@ -112,15 +124,22 @@ export async function runViaRunner(
     };
   }
 
+  markAppRun();
   const output = data?.output;
   const spread =
     output && typeof output === "object" && !Array.isArray(output)
       ? (output as Record<string, unknown>)
       : {};
 
+  // The converted pages show a result only when `status` is "completed" and
+  // render `result` directly, so it is the answer as text: the model's text,
+  // or its structured answer as readable JSON. The structured keys stay
+  // spread on the payload, and the raw answer is in `output`.
   const payloadOut: RunnerPayload = {
     ...spread,
-    result: output ?? null,
+    status: "completed",
+    output: output ?? null,
+    result: resultText(output),
     demo: data?.metadata?.demo === true,
     appSlug: data?.appSlug ?? appSlug,
     metadata: data?.metadata ?? {},

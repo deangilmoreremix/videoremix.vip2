@@ -147,7 +147,7 @@ const AiHealthFitnessAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Health Analysis - AiHealthFitnessAgent</title>
+          <title>AI Health &amp; Fitness Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -204,8 +204,8 @@ const AiHealthFitnessAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AiHealthFitnessAgent - VideoRemix.vip</title>
-        <meta name="description" content="Get personalised fitness and nutrition recommendations based on your health data." />
+        <title>AI Health &amp; Fitness Agent — SapienX AgentOS</title>
+        <meta name="description" content="Tailored diet and workout plans from your goals." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

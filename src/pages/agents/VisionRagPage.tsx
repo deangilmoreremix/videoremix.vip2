@@ -93,8 +93,8 @@ const VisionRagPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>VisionRag - VideoRemix.vip</title>
-        <meta name="description" content="Use vision-rag to automate tasks with AI." />
+        <title>Vision RAG — SapienX AgentOS</title>
+        <meta name="description" content="Ask questions about images and PDF pages with Embed-4." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

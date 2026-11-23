@@ -65,7 +65,7 @@ const ChatWithYoutubeVideosPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>ChatWithYoutubeVideos - VideoRemix.vip</title>
+          <title>Chat with YouTube Videos — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -101,7 +101,7 @@ const ChatWithYoutubeVideosPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>ChatWithYoutubeVideos - VideoRemix.vip</title>
+          <title>Chat with YouTube Videos — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -122,7 +122,7 @@ const ChatWithYoutubeVideosPage: React.FC = () => {
                   onChange={(value) => setFormData(prev => ({ ...prev, openai_api_key: value }))}
                   type="password"
                   placeholder="sk-..."
-                  helperText="Your API key is stored locally and never sent to our servers"
+                  helperText="Saved on this device. It's sent with each run to call OpenAI and isn't stored on our servers."
                   required
                 />
 

@@ -59,8 +59,8 @@ const AiBlogToPodcastAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AiBlogToPodcastAgent - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-dashboard-designer-ai to convert blog posts to podcast audio." />
+        <title>AI Blog to Podcast Agent — SapienX AgentOS</title>
+        <meta name="description" content="Turn any blog URL into a narrated podcast episode." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

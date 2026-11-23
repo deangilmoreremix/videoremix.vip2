@@ -9,7 +9,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Plus, Trash2 } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
@@ -18,12 +18,9 @@ import { PageHeader, Section } from "../../components/agentos/ui";
 import { AsyncBoundary } from "../../components/agentos/shared";
 import { listWorkers } from "../../services/agentos/workers";
 import { listWorkspaces } from "../../services/agentos/workspaces";
-import {
-  addTaskEdge,
-  attachTaskToMission,
-  createMission,
-  createTask,
-} from "../../services/agentos/missions";
+import { createMission, createTask } from "../../services/agentos/missions";
+import { AppMissionBuilder } from "../../components/agentos/missions/AppMissionBuilder";
+import { cn } from "../../lib/utils";
 import type { Worker, Workspace } from "../../types/agentos";
 
 interface DraftTask {
@@ -37,8 +34,12 @@ interface DraftTask {
 let draftCounter = 0;
 const nextDraftId = () => `draft-${draftCounter++}`;
 
+type MissionMode = "apps" | "agents";
+
 const MissionNewPage: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [mode, setMode] = useState<MissionMode>("apps");
 
   const [workers, setWorkers] = useState<Worker[]>([]);
   const [loadingWorkers, setLoadingWorkers] = useState(true);
@@ -132,59 +133,39 @@ const MissionNewPage: React.FC = () => {
       return;
     }
 
-    // Map draft ids to real task ids so dependencies can be resolved after the
-    // tasks exist.
+    // Each task is created with its mission and its dependencies in one call
+    // (draft id -> real id). Tasks may only depend on earlier tasks, so the
+    // ids they wait for already exist, and no task can start before the task
+    // it waits for is linked.
     const idMap = new Map<string, string>();
-    const order: string[] = [];
-
     for (const task of named) {
       const created = await createTask({
         title: task.title.trim(),
         description: task.description,
         assigned_worker_id: task.workerId || null,
         workspace_id: workspaceId || null,
+        mission_id: mission.data.id,
         trigger: "mission",
         input: {},
+        depends_on: task.dependsOn
+          .map((draftId) => idMap.get(draftId))
+          .filter((id): id is string => Boolean(id)),
       });
       if (created.error || !created.data) {
         setSubmitting(false);
-        setError(created.error?.message ?? `Could not create task "${task.title}"`);
-        return;
-      }
-      idMap.set(task.id, created.data.id);
-      order.push(task.id);
-    }
-
-    // Attach the tasks to the mission, then persist the dependency edges the
-    // user drew between them (draft id -> real id). The mission and its tasks
-    // are the primary artifact, so a failed edge does not abort creation.
-    for (const draftId of order) {
-      const taskId = idMap.get(draftId);
-      if (!taskId) continue;
-      const attached = await attachTaskToMission(taskId, mission.data.id);
-      if (attached.error) {
-        setSubmitting(false);
         setError(
-          `The mission was created, but a task could not be attached: ${attached.error.message}`,
+          `The mission was created, but "${task.title}" could not be added: ${
+            created.error?.message ?? "unknown error"
+          }`,
         );
         return;
       }
-    }
-
-    for (const task of named) {
-      const taskId = idMap.get(task.id);
-      if (!taskId) continue;
-      for (const depDraftId of task.dependsOn) {
-        const depTaskId = idMap.get(depDraftId);
-        if (!depTaskId || depTaskId === taskId) continue;
-        const edge = await addTaskEdge({ taskId, waitsFor: depTaskId, kind: "depends_on" });
-        if (edge.error) break;
-      }
+      idMap.set(task.id, created.data.id);
     }
 
     setSubmitting(false);
     navigate(`/dashboard/missions/${mission.data.id}`);
-  }, [title, goal, description, tasks, navigate]);
+  }, [title, goal, description, tasks, navigate, workspaceId]);
 
   return (
     <>
@@ -200,9 +181,35 @@ const MissionNewPage: React.FC = () => {
             { label: "New" },
           ]}
           title="New mission"
-          description="Define the goal, then the tasks that get there. Each task is assigned to a worker and runs through the real queue."
+          description="Chain apps so each one works on the last one's result, or plan a mission for your agents."
         />
 
+        <div role="tablist" aria-label="Mission type" className="mb-5 inline-flex rounded-xl border border-white/10 p-1">
+          {(
+            [
+              ["apps", "Chain apps"],
+              ["agents", "Agents (advanced)"],
+            ] as const
+          ).map(([value, label]) => (
+            <button
+              key={value}
+              type="button"
+              role="tab"
+              aria-selected={mode === value}
+              onClick={() => setMode(value)}
+              className={cn(
+                "rounded-lg px-4 py-1.5 text-sm transition",
+                mode === value ? "bg-agentos-brand text-white" : "text-white/60 hover:text-white",
+              )}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {mode === "apps" ? (
+          <AppMissionBuilder initialApp={searchParams.get("app") ?? undefined} />
+        ) : (
         <div className="space-y-5">
           <Section title="Mission">
             <div className="space-y-4">
@@ -394,6 +401,7 @@ const MissionNewPage: React.FC = () => {
             </Button>
           </div>
         </div>
+        )}
       </div>
     </>
   );

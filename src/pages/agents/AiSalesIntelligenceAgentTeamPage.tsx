@@ -93,7 +93,7 @@ const AiSalesIntelligenceAgentTeamPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - AI Sales Intelligence Agent Team</title>
+          <title>AI Sales Intelligence Agent Team — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -143,8 +143,8 @@ const AiSalesIntelligenceAgentTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AI Sales Intelligence Agent Team - VideoRemix.vip</title>
-        <meta name="description" content="Uncover sales insights and optimize your pipeline." />
+        <title>AI Sales Intelligence Agent Team — SapienX AgentOS</title>
+        <meta name="description" content="Generates competitive sales battle cards in real time." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

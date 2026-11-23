@@ -73,8 +73,8 @@ const ChatWithGmailPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>ChatWithGmail - VideoRemix.vip</title>
-        <meta name="description" content="Use gmail-intelligence-ai to ask questions about your emails." />
+        <title>Chat with Gmail — SapienX AgentOS</title>
+        <meta name="description" content="Ask your inbox questions." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

@@ -97,7 +97,7 @@ const MultiAiMemoryPage: React.FC = () => {
                       name="enter_openai_api_key"
                       value={formData.enter_openai_api_key}
                       onChange={(val) => setFormData({ ...formData, enter_openai_api_key: val })}
-                      helperText="Your key is stored locally and never sent to our servers"
+                      helperText="Saved on this device. It's sent with each run to call OpenAI and isn't stored on our servers."
                       required
                     />
                   </FormSection>

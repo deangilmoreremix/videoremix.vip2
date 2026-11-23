@@ -96,7 +96,7 @@ const AgenticRagGpt5Page: React.FC = () => {
                   label="OpenAI API Key"
                   value={formData.openai_api_key}
                   onChange={(val) => setFormData({ ...formData, openai_api_key: val })}
-                  helperText="Your API key is stored locally and encrypted"
+                  helperText="Saved on this device and sent only with your runs"
                   required={false}
                 />
               </div>

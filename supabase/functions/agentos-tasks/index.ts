@@ -124,6 +124,18 @@ async function handler(req: Request): Promise<Response> {
       }
     }
 
+    // A task may only join a mission the caller owns.
+    const missionId = (task as Record<string, unknown>).mission_id;
+    if (typeof missionId === 'string' && missionId) {
+      const { data: mission } = await supabase
+        .from('missions')
+        .select('id')
+        .eq('id', missionId)
+        .eq('owner_clerk_id', caller.clerkUserId)
+        .maybeSingle();
+      if (!mission) return fail('forbidden', 'mission_id must reference your own mission');
+    }
+
     const { data: created, error } = await supabase
       .from('tasks')
       .insert({

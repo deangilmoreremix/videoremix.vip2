@@ -22,6 +22,7 @@ import {
   WORKER_STATUS_STYLE,
 } from "../../components/agentos/ui";
 import { AsyncBoundary } from "../../components/agentos/shared";
+import { AppPicker } from "../../components/agentos/apps/AppPicker";
 import { ExecutionActivityPanel, TokenCostInline } from "../../components/agentos/runtime";
 import { WorkerActions } from "../../components/agentos/workers";
 import {
@@ -32,6 +33,7 @@ import {
 import type { SendWorkerMessageResult } from "../../services/agentos/conversations";
 import {
   getWorker,
+  ensureAppsTool,
   listWorkerTools,
   replaceWorkerTools,
   updateWorker,
@@ -117,8 +119,6 @@ const WorkerDetailPage: React.FC = () => {
   const [heartbeatNote, setHeartbeatNote] = useState<string | null>(null);
   const [heartbeatError, setHeartbeatError] = useState<string | null>(null);
 
-  // The app slug the operator is typing.
-  const [slugInput, setSlugInput] = useState("");
 
   // Conversations with this worker. The panel owns the list and the thread;
   // the page only remembers which thread is open and when something changed.
@@ -321,8 +321,16 @@ const WorkerDetailPage: React.FC = () => {
       return;
     }
     if (result.data) setWorker(result.data);
+    if ((permissions.allowed_app_slugs ?? []).length > 0) {
+      const tool = await ensureAppsTool(worker.id);
+      if (tool.error) {
+        setPermissionsError(`Saved, but the apps tool could not be switched on: ${tool.error.message}`);
+        return;
+      }
+      reload();
+    }
     setPermissionsNote("Permissions saved");
-  }, [worker, permissions]);
+  }, [worker, permissions, reload]);
 
   const saveKnowledge = useCallback(async () => {
     if (!worker) return;
@@ -945,73 +953,18 @@ const WorkerDetailPage: React.FC = () => {
                     </div>
 
                     <div>
-                      <p className="text-xs text-white/50" id="worker-app-slugs-label">
-                        Allowed app slugs
+                      <p className="mb-2 text-xs text-white/50" id="worker-app-slugs-label">
+                        Apps this agent may run
                       </p>
-                      {(permissions.allowed_app_slugs ?? []).length > 0 ? (
-                        <ul className="mt-2 flex flex-wrap gap-2">
-                          {(permissions.allowed_app_slugs ?? []).map((slug) => (
-                            <li key={slug}>
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  setPermissions({
-                                    ...permissions,
-                                    allowed_app_slugs: toggleListEntry(
-                                      permissions.allowed_app_slugs ?? [],
-                                      slug,
-                                    ),
-                                  })
-                                }
-                                className="rounded-full border border-agentos-brand/40 bg-agentos-brand/15 px-2.5 py-0.5 text-[11px] text-agentos-brand-soft"
-                                aria-label={`Remove ${slug} from the allowed apps`}
-                              >
-                                {slug} ×
-                              </button>
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <p className="mt-2 text-[11px] text-white/35">
-                          Every app in the catalog is allowed.
-                        </p>
-                      )}
-                      <div className="mt-2 flex flex-wrap items-end gap-2">
-                        <div className="min-w-[200px] flex-1">
-                          <Label htmlFor="worker-app-slug">App slug</Label>
-                          <Input
-                            id="worker-app-slug"
-                            value={slugInput}
-                            onChange={(event) => setSlugInput(event.target.value)}
-                            placeholder="ai-design-studio"
-                          />
-                        </div>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => {
-                            const slug = slugInput.trim();
-                            if (!slug) {
-                              setPermissionsError("Enter an app slug");
-                              return;
-                            }
-                            setPermissionsError(null);
-                            setPermissions({
-                              ...permissions,
-                              allowed_app_slugs: toggleListEntry(
-                                permissions.allowed_app_slugs ?? [],
-                                slug,
-                              ),
-                            });
-                            setSlugInput("");
-                          }}
-                        >
-                          Add app
-                        </Button>
-                      </div>
+                      <AppPicker
+                        id="worker-app-slugs"
+                        value={permissions.allowed_app_slugs ?? []}
+                        onChange={(allowed_app_slugs) =>
+                          setPermissions({ ...permissions, allowed_app_slugs })
+                        }
+                      />
                       <p className="mt-1 text-[11px] text-white/35">
-                        An empty list means every app in the catalog is allowed. A list restricts this
-                        worker to the apps you name.
+                        Saving with apps chosen also switches on the apps tool for this agent.
                       </p>
                     </div>
                   </div>

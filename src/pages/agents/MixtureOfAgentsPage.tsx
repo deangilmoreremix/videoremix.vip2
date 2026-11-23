@@ -71,8 +71,8 @@ const MixtureOfAgentsPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>MixtureOfAgents - VideoRemix.vip</title>
-        <meta name="description" content="Use mixture-of-agents to automate tasks with AI." />
+        <title>Mixture of Agents — SapienX AgentOS</title>
+        <meta name="description" content="Multiple LLMs answer, one aggregates the best response." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
@@ -97,7 +97,7 @@ const MixtureOfAgentsPage: React.FC = () => {
                       name="openai_api_key"
                       value={formData.openai_api_key}
                       onChange={(val) => setFormData({ ...formData, openai_api_key: val })}
-                      helperText="Your key is stored locally and never sent to our servers"
+                      helperText="Saved on this device. It's sent with each run to call OpenAI and isn't stored on our servers."
                       required
                     />
                   </FormSection>

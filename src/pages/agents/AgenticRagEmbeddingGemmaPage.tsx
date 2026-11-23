@@ -59,8 +59,8 @@ const AgenticRagEmbeddingGemmaPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Agentic RAG with Gemma - VideoRemix.vip</title>
-        <meta name="description" content="Agentic RAG powered by Google's Gemma embeddings." />
+        <title>Agentic RAG with Embedding Gemma — SapienX AgentOS</title>
+        <meta name="description" content="Fully local agentic RAG with EmbeddingGemma and Llama 3.2." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

@@ -23,6 +23,8 @@
 // No step here reports success it did not achieve.
 
 import { getServiceClient } from './agentos-client.ts';
+import { buildAppsToolSpec, isCatalogApp, unknownAppMessage } from './app-catalog-tool.ts';
+import { formatUpstreamResults, taskResultText, type UpstreamResult } from './mission-steps.ts';
 
 // deno-lint-ignore no-explicit-any
 type Rpc = any;
@@ -195,12 +197,19 @@ export async function assemblePrompt(claim: ClaimedTask): Promise<AssembledPromp
     }
   }
 
+  // The steps this one waited for hand their results on, so a mission is a
+  // real chain and not a set of unrelated tasks run in order.
+  const upstream = formatUpstreamResults(
+    await loadUpstreamResults(getServiceClient(), claim.task_id),
+  );
+
   const taskText = [
     claim.title,
     claim.description ? `\n${claim.description}` : '',
     Object.keys(claim.input ?? {}).length > 0
       ? `\n## Input\n${JSON.stringify(claim.input, null, 2)}`
       : '',
+    upstream ? `\n\n${upstream}` : '',
   ].join('');
 
   return { system: systemParts.join('\n'), prompt: taskText, memoriesUsed };
@@ -586,7 +595,11 @@ export async function resolveOfferedTools(params: {
     if (key === 'web_fetch' && params.workerPermissions?.allow_web_access === false) continue;
     if (key === 'artifact_write' && params.workerPermissions?.allow_artifacts === false) continue;
 
-    const spec = TOOL_SPECS[key];
+    // The apps tool lists the apps this agent may run, so the model can pick
+    // one by name instead of guessing a slug.
+    const spec = key === 'videoremix_apps'
+      ? buildAppsToolSpec(params.workerPermissions?.allowed_app_slugs)
+      : TOOL_SPECS[key];
     offered.push({ name: key, description: spec.description, parameters: spec.parameters });
   }
   return offered;
@@ -747,6 +760,8 @@ export interface ToolExecutionContext {
   permissions: Record<string, any>;
   /** The service-role token, used only for the internal app-catalog call. */
   serviceToken: string;
+  /** The owner's own provider key; the apps an agent runs are billed to it. */
+  ownerApiKey?: string;
 }
 
 export interface ToolExecutionResult {
@@ -836,13 +851,20 @@ export async function executeToolCall(
     case 'videoremix_personalizer': {
       const slug = String(args.app_slug ?? '');
       if (!slug) return { ok: false, code: 'validation', error: 'app_slug is required' };
+      if (context.toolKey === 'videoremix_apps' && !isCatalogApp(slug)) {
+        return { ok: false, code: 'validation', error: unknownAppMessage(slug) };
+      }
       const allowedApps = context.permissions?.allowed_app_slugs;
       if (Array.isArray(allowedApps) && allowedApps.length > 0 && !allowedApps.includes(slug)) {
         return { ok: false, code: 'forbidden', error: `${slug} is not in this worker's allowed app list` };
       }
       return {
         ok: true,
-        result: await invokeCatalogApp({ args, serviceToken: context.serviceToken }),
+        result: await invokeCatalogApp({
+          args,
+          serviceToken: context.serviceToken,
+          ownerApiKey: context.ownerApiKey,
+        }),
       };
     }
 
@@ -912,6 +934,8 @@ async function assertArtifactOwnership(
 export async function invokeCatalogApp(params: {
   args: Record<string, unknown>;
   serviceToken: string;
+  /** The owner's own key. The runner refuses a run without one. */
+  ownerApiKey?: string;
 }): Promise<unknown> {
   const slug = String(params.args.app_slug ?? '');
   if (!slug) throw new Error('app_slug is required');
@@ -925,7 +949,12 @@ export async function invokeCatalogApp(params: {
       Authorization: `Bearer ${params.serviceToken}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ appSlug: slug, inputs, stream: false }),
+    body: JSON.stringify({
+      appSlug: slug,
+      inputs,
+      stream: false,
+      ...(params.ownerApiKey ? { credentials: { openai: params.ownerApiKey } } : {}),
+    }),
   });
 
   const text = await response.text();
@@ -1282,6 +1311,8 @@ export interface ToolLoopContext {
   permissions: Record<string, any>;
   policies: Record<string, any>;
   serviceToken: string;
+  /** The owner's own provider key, passed on to the apps the agent runs. */
+  ownerApiKey?: string;
   /** Where the run/worker events are attached. */
   events: {
     runId: string | null;
@@ -1528,6 +1559,7 @@ export async function runModelWithTools(params: {
           workspaceId: context.workspaceId ?? null,
           permissions: context.permissions,
           serviceToken: context.serviceToken,
+          ownerApiKey: context.ownerApiKey,
         });
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
@@ -1582,4 +1614,55 @@ export function computeCredits(params: {
   const inputCredits = (params.promptTokens * params.rateIn) / 1000;
   const outputCredits = (params.completionTokens * params.rateOut) / 1000;
   return Math.round((inputCredits + outputCredits) * 1_000_000) / 1_000_000;
+}
+
+/**
+ * The owner's own OpenAI key, saved with "Let my agents use this key".
+ *
+ * WHY
+ *   Customers run on their own keys; the platform never pays for their runs.
+ *   The key lives in Supabase Vault and is read here, server-side, only for
+ *   that owner's runs. An empty string means the owner has not saved one.
+ */
+export async function resolveOwnerApiKey(supabase: Rpc, ownerClerkId: string): Promise<string> {
+  if (!ownerClerkId) return '';
+  try {
+    const { data, error } = await supabase.rpc('read_user_key', {
+      p_owner: ownerClerkId,
+      p_provider: 'openai',
+    });
+    if (!error && typeof data === 'string' && data.trim()) return data.trim();
+    if (error) console.warn('[agentos] could not read the owner key', error.message);
+  } catch (err) {
+    console.warn('[agentos] could not read the owner key', err);
+  }
+  return '';
+}
+
+/**
+ * The results of the tasks this one waited for (its depends_on and handoff
+ * edges), oldest first. A step that failed or has no result is left out.
+ */
+export async function loadUpstreamResults(supabase: Rpc, taskId: string): Promise<UpstreamResult[]> {
+  try {
+    const { data: edges, error } = await supabase
+      .from('task_edges')
+      .select('waits_for')
+      .eq('task_id', taskId);
+    if (error || !edges || edges.length === 0) return [];
+    const ids = (edges as Array<{ waits_for: string }>).map((edge) => edge.waits_for);
+    const { data: tasks, error: taskError } = await supabase
+      .from('tasks')
+      .select('id, title, output, status, completed_at')
+      .in('id', ids)
+      .eq('status', 'completed')
+      .order('completed_at', { ascending: true });
+    if (taskError || !tasks) return [];
+    return (tasks as Array<{ title: string; output: unknown }>)
+      .map((task) => ({ title: task.title, result: taskResultText(task.output) }))
+      .filter((entry) => entry.result.trim().length > 0);
+  } catch (err) {
+    console.warn('[agentos] could not load the earlier step results', err);
+    return [];
+  }
 }

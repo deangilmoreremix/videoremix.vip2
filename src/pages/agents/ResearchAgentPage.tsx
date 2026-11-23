@@ -84,7 +84,7 @@ const ResearchAgentPage: React.FC = () => {
                       onChange={(e) => setFormData({ ...formData, openai_api_key: e.target.value })}
                       placeholder="sk-..."
                     />
-                    <p className="text-sm text-gray-400">Your OpenAI API key is stored locally and never sent to our servers.</p>
+                    <p className="text-sm text-gray-400">Saved on this device. It's sent with each run to call OpenAI and isn't stored on our servers.</p>
                   </div>
                 </FormSection>
 

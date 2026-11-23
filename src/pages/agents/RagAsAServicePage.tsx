@@ -44,8 +44,8 @@ const RagAsAServicePage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>RagAsAService - VideoRemix.vip</title>
-        <meta name="description" content="Use business-knowledgebase-ai to automate tasks with AI." />
+        <title>RAG-as-a-Service — SapienX AgentOS</title>
+        <meta name="description" content="A production RAG service in under 50 lines." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

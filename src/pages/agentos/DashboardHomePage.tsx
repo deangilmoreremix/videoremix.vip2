@@ -1,9 +1,9 @@
 // src/pages/agentos/DashboardHomePage.tsx
 //
-// Route: /dashboard — the operator's home, after upstream's dashboard page
-// (components/operations/dashboard-page-content.tsx): what the workforce is,
-// what it is doing, what is waiting on a human, and how the work is going.
-// Below it, the VideoRemix apps the account owns, one click from launch.
+// Route: /dashboard — the home page. Apps first: find an app, add your key,
+// run it (AppsHome). Below it the AI workforce overview, after upstream's
+// dashboard page (components/operations/dashboard-page-content.tsx): what the
+// workforce is, what it is doing, what is waiting on a human.
 //
 // Every number is counted from the user's own rows (RLS-scoped); nothing is
 // a placeholder.
@@ -12,20 +12,17 @@ import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  AppWindow,
-  ArrowRight,
   Bot,
   CircleAlert,
   ClipboardList,
   Gauge,
-  Play,
   Plus,
   ShieldAlert,
   Waypoints,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
-import { useUserAccess } from "../../hooks/useUserAccess";
-import { APP_REGISTRY } from "../../config/appRegistry";
+import type { AppMeta } from "../../config/appRegistry";
+import { AppsHome } from "../../components/agentos/apps/AppsHome";
 import OnboardingWizard from "../../components/onboarding/OnboardingWizard";
 import {
   MISSION_STATUS_STYLE,
@@ -75,7 +72,6 @@ const HEALTH_BAR: Record<TaskStatus, string> = {
 const DashboardHomePage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { hasAccessToApp } = useUserAccess();
   const [data, setData] = useState<HomeData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -128,10 +124,14 @@ const DashboardHomePage: React.FC = () => {
     return { byStatus, live, issues, activeWorkers, activeMissions, tasksByWorker };
   }, [data]);
 
-  const ownedApps = useMemo(
-    () => APP_REGISTRY.filter((app) => hasAccessToApp(app.slug)).slice(0, 6),
-    [hasAccessToApp],
-  );
+  const openApp = (app: AppMeta) => {
+    const target = dashboardAppTarget(app);
+    if (target.kind === "external") {
+      window.open(target.destination, "_blank", "noopener,noreferrer");
+    } else {
+      navigate(target.destination);
+    }
+  };
 
   const firstName = (user?.user_metadata?.first_name as string | undefined) ?? null;
 
@@ -142,16 +142,22 @@ const DashboardHomePage: React.FC = () => {
       </Helmet>
 
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mb-6">
+          <h1 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            {firstName ? `Welcome back, ${firstName}.` : "Welcome to SapienX AgentOS."}
+          </h1>
+          <p className="mt-2 max-w-2xl text-sm text-white/50">
+            Run any of 117 AI apps on your own OpenAI key, or hire agents to run them for you.
+          </p>
+        </div>
+
+        <AppsHome openApp={openApp} />
+
+        <div className="mb-6 mt-10 flex flex-col gap-4 border-t border-white/[0.06] pt-8 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-agentos-brand">
-              AI workforce
-            </p>
-            <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              {firstName ? `Welcome back, ${firstName}.` : "Run your AI workforce like a company."}
-            </h1>
-            <p className="mt-2 max-w-2xl text-sm text-white/50">
-              Build agents, give them work, and keep a human in control of what matters.
+            <h2 className="font-display text-xl font-semibold text-white">Your AI workforce</h2>
+            <p className="mt-1 max-w-2xl text-sm text-white/50">
+              Agents that run apps for you, on missions and schedules, with you approving what matters.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -163,7 +169,7 @@ const DashboardHomePage: React.FC = () => {
             </Link>
             <Link
               to="/dashboard/workforce/new"
-              className="bg-agentos-brand inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-[var(--shadow-glow)] hover:brightness-110"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm text-white/80 hover:bg-white/[0.06]"
             >
               <Plus className="h-4 w-4" aria-hidden="true" /> New agent
             </Link>
@@ -374,52 +380,6 @@ const DashboardHomePage: React.FC = () => {
               </div>
             </div>
 
-            <Section
-              className="mt-5"
-              title="My Apps"
-              description="Your unlocked VideoRemix and Awesome LLM apps, ready to run."
-              actions={
-                <Link
-                  to="/dashboard/apps"
-                  className="inline-flex items-center gap-1 text-xs text-agentos-brand-soft hover:underline"
-                >
-                  App Library <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-                </Link>
-              }
-            >
-              {ownedApps.length === 0 ? (
-                <p className="text-sm text-white/45">
-                  No apps are unlocked on this account yet.{" "}
-                  <Link to="/dashboard/apps" className="text-agentos-brand-soft hover:underline">
-                    Browse the library
-                  </Link>
-                  .
-                </p>
-              ) : (
-                <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                  {ownedApps.map((app) => (
-                    <li key={app.slug}>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const target = dashboardAppTarget(app);
-                          if (target.kind === "external") {
-                            window.open(target.destination, "_blank", "noopener,noreferrer");
-                          } else {
-                            navigate(target.destination);
-                          }
-                        }}
-                        className="flex w-full items-center gap-3 rounded-xl border border-white/[0.06] px-3 py-2.5 text-left hover:border-agentos-brand/40 hover:bg-white/[0.03]"
-                      >
-                        <AppWindow className="h-4 w-4 shrink-0 text-agentos-brand" aria-hidden="true" />
-                        <span className="min-w-0 flex-1 truncate text-sm text-white">{app.name}</span>
-                        <Play className="h-3.5 w-3.5 text-white/35" aria-hidden="true" />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </Section>
           </>
         )}
       </div>

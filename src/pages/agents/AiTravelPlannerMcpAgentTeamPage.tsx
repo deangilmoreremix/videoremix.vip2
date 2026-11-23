@@ -82,8 +82,8 @@ const AiTravelPlannerMcpAgentTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AiTravelPlannerMcpAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use travel-planner-ai to plan trips with AI." />
+        <title>AI Travel Planner MCP Agent — SapienX AgentOS</title>
+        <meta name="description" content="Itineraries built on live Airbnb and Google Maps data." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

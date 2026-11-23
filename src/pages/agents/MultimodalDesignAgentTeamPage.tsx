@@ -58,8 +58,8 @@ const MultimodalDesignAgentTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>MultimodalDesignAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="Use ai-design-studio to automate tasks with AI." />
+        <title>Multimodal Design Agent Team — SapienX AgentOS</title>
+        <meta name="description" content="Design critiques from a Gemini-powered expert panel." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

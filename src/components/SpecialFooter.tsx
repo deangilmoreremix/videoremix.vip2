@@ -73,7 +73,7 @@ const SpecialFooter: React.FC = () => {
               </span>
             </div>
             <p className="mb-4">
-              113 AI apps for marketing, sales, video, hiring, and productivity — unified in one ecosystem to help you build, automate, and grow faster.
+              SapienX AgentOS: 117 open-source AI apps and an AI workforce that runs them, on your own OpenAI key.
             </p>
 
             {/* Social Media */}

@@ -70,7 +70,7 @@ const GithubMcpAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>GithubMcpAgent - VideoRemix.vip</title>
+          <title>GitHub MCP Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -112,7 +112,7 @@ const GithubMcpAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>GithubMcpAgent - VideoRemix.vip</title>
+          <title>GitHub MCP Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -135,7 +135,7 @@ const GithubMcpAgentPage: React.FC = () => {
                       onChange={(value) => setFormData(prev => ({ ...prev, openai_api_key: value }))}
                       type="password"
                       placeholder="sk-..."
-                      helperText="Your API key is stored locally"
+                      helperText="Saved on this device and sent only with your runs"
                     />
 
                     <SmartInput

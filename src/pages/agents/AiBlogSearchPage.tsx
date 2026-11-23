@@ -65,8 +65,8 @@ const AiBlogSearchPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AiBlogSearch - VideoRemix.vip</title>
-        <meta name="description" content="Use blog-knowledge-search-ai to search and analyze blog posts with AI." />
+        <title>AI Blog Search (RAG) — SapienX AgentOS</title>
+        <meta name="description" content="Agentic search over blog content, built on LangGraph." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

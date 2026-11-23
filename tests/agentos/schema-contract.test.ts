@@ -149,7 +149,7 @@ describe("AgentOS schema contract", () => {
   const columns = agentosColumns();
 
   it("parses every agentos table from the migrations", () => {
-    expect(columns.size).toBe(24);
+    expect(columns.size).toBe(25);
     for (const table of ["workers", "tasks", "workspaces", "missions", "approvals"]) {
       expect(columns.get(table)?.size ?? 0).toBeGreaterThan(5);
     }

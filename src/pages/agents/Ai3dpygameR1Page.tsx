@@ -64,8 +64,8 @@ const Ai3dpygameR1Page: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Ai3dpygameR1 - VideoRemix.vip</title>
-        <meta name="description" content="Use video-knowledge-assistant to automate tasks with AI." />
+        <title>AI 3D Pygame Agent — SapienX AgentOS</title>
+        <meta name="description" content="DeepSeek R1 writes PyGame code, browser agents run it live." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

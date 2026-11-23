@@ -1,7 +1,8 @@
+import { markAppRun } from "../../../lib/recentApps";
 import { useState, useCallback, useRef, useEffect } from "react";
 import { getClerkTokenGetter } from "../../../utils/supabase";
 import { withVectorStoreIds } from "../../../config/vectorStores";
-import { MISSING_KEY_MESSAGE, resolveCredentials, splitCredentials } from "../../../lib/userApiKeys";
+import { friendlyRunError, MISSING_KEY_MESSAGE, resolveCredentials, splitCredentials } from "../../../lib/userApiKeys";
 import type { UseRunAIAppOptions, UseRunAIAppReturn, ConversationMessage } from "./types";
 
 /**
@@ -64,7 +65,7 @@ export function useRunAIApp(
       return "Request timed out. The operation may be taking too long. Try with smaller inputs or wait and retry.";
     }
     if (msg.includes("invalid_api_key") || msg.includes("unauthorized") || msg.includes("401")) {
-      return "Authentication failed. Please check your API credentials and try again.";
+      return "Check your OpenAI key under Settings → Your API keys, or paste a new one above.";
     }
     if (msg.includes("invalid_request") || msg.includes("400")) {
       return "Invalid request. Please check your inputs and try again.";
@@ -76,7 +77,7 @@ export function useRunAIApp(
       return "Network error. Please check your connection and try again.";
     }
     if (msg.includes("quota") || msg.includes("exceeded")) {
-      return "Usage quota exceeded. Please upgrade your plan or wait until your quota resets.";
+      return "Your OpenAI account is out of credit. Add billing at platform.openai.com, then run again.";
     }
     if (
       msg.includes("402") ||
@@ -86,7 +87,7 @@ export function useRunAIApp(
       msg.includes("payment required") ||
       msg.includes("no credits")
     ) {
-      return "You're out of AI credits. Purchase more credits or upgrade your plan to keep running apps.";
+      return "Your OpenAI account is out of credit. Add billing at platform.openai.com, then run again.";
     }
 
     return undefined;
@@ -269,6 +270,7 @@ export function useRunAIApp(
       try {
         await attemptRun();
 
+        markAppRun();
         const finalOutput = finalOutputRef.current ?? fullResponseRef.current?.output ?? output;
         options.onResult?.({
           success: true,
@@ -281,8 +283,7 @@ export function useRunAIApp(
         if (err?.name === "AbortError") {
           return;
         }
-        const msg =
-          err?.message || err?.error || "Failed to run AI app";
+        const msg = friendlyRunError(String(err?.message || err?.error || "Failed to run AI app"));
         const suggestion = parseErrorSuggestion(msg);
 
         if (autoRetry && retryCountRef.current < maxRetries) {

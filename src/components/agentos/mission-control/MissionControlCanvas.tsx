@@ -28,6 +28,7 @@ import "reactflow/dist/style.css";
 import { EmptyCanvasState } from "./canvas/EmptyCanvasState";
 import { CanvasToolbar } from "./canvas/CanvasToolbar";
 import {
+  AppNode,
   ModelNode,
   RuntimeNode,
   TaskNode,
@@ -51,6 +52,7 @@ const NODE_TYPES = {
   model: ModelNode,
   runtime: RuntimeNode,
   workspace: WorkspaceNode,
+  app: AppNode,
 };
 
 const EDGE_TYPES = {

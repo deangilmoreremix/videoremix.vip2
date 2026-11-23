@@ -76,8 +76,8 @@ const AiSystemArchitectR1Page: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AI System Architect R1 - VideoRemix.vip</title>
-        <meta name="description" content="Advanced system architecture agent for designing scalable, enterprise-grade systems." />
+        <title>AI System Architect Agent — SapienX AgentOS</title>
+        <meta name="description" content="Architecture reviews using DeepSeek R1 reasoning plus Claude." />
       </Helmet>
 
       <main className="pt-24 pb-20">

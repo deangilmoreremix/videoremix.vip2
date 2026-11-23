@@ -66,7 +66,7 @@ const AiMedicalImagingAgentPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - Medical Imaging Agent</title>
+          <title>AI Medical Imaging Agent — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -122,8 +122,8 @@ const AiMedicalImagingAgentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Medical Imaging Agent - VideoRemix.vip</title>
-        <meta name="description" content="AI-powered medical image analysis agent." />
+        <title>AI Medical Imaging Agent — SapienX AgentOS</title>
+        <meta name="description" content="Diagnostic analysis of X-rays and scans with Gemini." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
@@ -154,7 +154,7 @@ const AiMedicalImagingAgentPage: React.FC = () => {
                   label="OpenAI API Key"
                   value={openaiApiKey}
                   onChange={setOpenaiApiKey}
-                  helperText="Required for OpenAI analysis. Your key is stored locally."
+                  helperText="Required for OpenAI analysis. Saved on this device and sent only with your runs."
                   required
                 />
 

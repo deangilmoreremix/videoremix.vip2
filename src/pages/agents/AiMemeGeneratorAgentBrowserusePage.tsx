@@ -70,7 +70,7 @@ const AiMemeGeneratorAgentBrowserusePage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - Meme Generator</title>
+          <title>AI Meme Generator Agent (Browser) — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -124,8 +124,8 @@ const AiMemeGeneratorAgentBrowserusePage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Meme Generator Agent - VideoRemix.vip</title>
-        <meta name="description" content="AI-powered meme generation agent." />
+        <title>AI Meme Generator Agent (Browser) — SapienX AgentOS</title>
+        <meta name="description" content="Makes memes by driving a real browser, not an image API." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

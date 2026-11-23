@@ -134,7 +134,7 @@ const AiRealEstateAgentTeamPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Search Results - AiRealEstateAgentTeam</title>
+          <title>AI Real Estate Agent Team — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -188,8 +188,8 @@ const AiRealEstateAgentTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>AiRealEstateAgentTeam - VideoRemix.vip</title>
-        <meta name="description" content="AI-powered real estate agent team for property search and analysis." />
+        <title>AI Real Estate Agent Team — SapienX AgentOS</title>
+        <meta name="description" content="Property search, market analysis, and recommendations." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">

@@ -93,7 +93,7 @@ const MultimodalUiuxFeedbackAgentTeamPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Results - Multimodal UI/UX Feedback Agent Team</title>
+          <title>Multimodal UI/UX Feedback Agent Team — SapienX AgentOS</title>
         </Helmet>
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -143,8 +143,8 @@ const MultimodalUiuxFeedbackAgentTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Multimodal UI/UX Feedback Agent Team - VideoRemix.vip</title>
-        <meta name="description" content="Get comprehensive UI/UX feedback from AI agents." />
+        <title>Multimodal UI/UX Feedback Agent Team — SapienX AgentOS</title>
+        <meta name="description" content="Landing page feedback plus an auto-generated improved version." />
       </Helmet>
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
