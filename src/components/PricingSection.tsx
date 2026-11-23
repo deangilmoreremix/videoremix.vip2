@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Check, X, Gift, ChevronDown, Shield, FileVideo } from "lucide-react";
 import { useLandingPageContent } from "../context/LandingPageContext";
 import MagicSparkles from "./MagicSparkles";
+import { defaultPlans } from "../data/pricingPlans";
 
 const PricingSection: React.FC = () => {
   const [billingCycle, setBillingCycle] = useState<
@@ -11,65 +12,6 @@ const PricingSection: React.FC = () => {
   const { pricingPlans, isLoading } = useLandingPageContent();
 
   // Default pricing data structure as fallback
-  const defaultPlans = [
-    {
-      name: "Free",
-      price_monthly: 0,
-      price_yearly: 0,
-      price_lifetime: 0,
-      description: "Perfect for trying out the platform",
-      features: [
-         "5 marketing campaigns per month",
-         "Standard content quality",
-        "Basic editing features",
-        "2GB cloud storage",
-        "Standard templates",
-         "Watermarked campaigns",
-      ],
-      is_popular: false,
-    },
-    {
-      name: "Pro",
-      price_monthly: 29,
-      price_yearly: 290,
-      price_lifetime: 699,
-      description: "Ideal for content creators and small teams",
-      features: [
-         "Unlimited campaigns",
-         "High-quality content",
-        "All editing features",
-        "50GB cloud storage",
-        "Premium templates",
-        "No watermarks",
-        "Basic AI features",
-        "Auto subtitle generation",
-        "2 team members",
-        "Priority email support",
-      ],
-      is_popular: true,
-    },
-    {
-      name: "Business",
-      price_monthly: 79,
-      price_yearly: 790,
-      price_lifetime: 1999,
-      description: "For teams and professionals with advanced needs",
-      features: [
-        "Everything in Pro",
-        "500GB cloud storage",
-        "All AI features",
-        "Advanced analytics",
-        "White-label exports",
-        "10 team members",
-        "Custom templates",
-        "API access",
-        "Dedicated account manager",
-        "24/7 priority support",
-      ],
-      is_popular: false,
-    },
-  ];
-
   // Use dynamic data from Supabase if available
   const plans =
     !isLoading && pricingPlans && pricingPlans.length > 0

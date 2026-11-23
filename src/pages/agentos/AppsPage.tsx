@@ -22,7 +22,7 @@ import {
   VIDEOREMIX_EXTRA_APP_COUNT,
   type AppMeta,
 } from "../../config/appRegistry";
-import { dashboardAppPath } from "../../config/appScreens";
+import { dashboardAppTarget } from "../../config/appTargets";
 import { useUserAccess } from "../../hooks/useUserAccess";
 import { HireAgentButton } from "../../components/agentos/apps/HireAgentButton";
 import { APP_CATEGORIES } from "../../config/appCategories";
@@ -39,15 +39,6 @@ const FAMILY_FILTERS: Array<{ value: FamilyFilter; label: string }> = [
   { value: "awesome-llm", label: "Awesome LLM" },
   { value: "external", label: "VideoRemix" },
 ];
-
-/** Where an app opens from inside the dashboard. */
-export function dashboardAppTarget(app: AppMeta): { kind: "route" | "external"; destination: string } {
-  if (app.family === "external") {
-    const destination = app.externalUrl || app.url;
-    if (destination) return { kind: "external", destination };
-  }
-  return { kind: "route", destination: dashboardAppPath(app.slug) };
-}
 
 const AppsPage: React.FC<{ surface: AppsSurface }> = ({ surface }) => {
   const navigate = useNavigate();

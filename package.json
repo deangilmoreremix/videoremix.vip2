@@ -61,6 +61,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.17.1",
     "@clerk/react": "^6.17.4",
+    "@fontsource/anton": "^5.2.5",
     "@hookform/resolvers": "^5.2.2",
     "@mendable/firecrawl-js": "^4.21.0",
     "@neondatabase/serverless": "^1.1.0",
