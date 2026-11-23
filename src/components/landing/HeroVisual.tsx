@@ -22,7 +22,7 @@ const LABELS = [
 const Thumb: React.FC<{ app: AppMeta }> = ({ app }) => {
   const [failed, setFailed] = useState(false);
   const image = resolveAppImage(app);
-  return failed || !image ? (
+  return failed ? (
     <AppPoster app={app} />
   ) : (
     <img src={image} alt="" loading="eager" onError={() => setFailed(true)} className="h-full w-full object-cover" />

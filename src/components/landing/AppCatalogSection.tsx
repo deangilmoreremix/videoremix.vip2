@@ -22,7 +22,7 @@ const AppCard: React.FC<{ app: AppMeta; onOpen: (app: AppMeta) => void }> = ({ a
       className="lp-card group flex h-full w-full flex-col overflow-hidden text-left transition duration-200 hover:-translate-y-0.5 hover:border-lp-amber/60"
     >
       <div className="relative aspect-[16/9] w-full overflow-hidden bg-black">
-        {image && !imageFailed ? (
+        {!imageFailed ? (
           <img
             src={image}
             alt=""

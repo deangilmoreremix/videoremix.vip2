@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import Reveal from "./Reveal";
-import AppPoster from "./AppPoster";
 import { THUMBNAIL_APPS, resolveAppImage } from "./landingData";
 
 const ClosingCTA: React.FC = () => {
@@ -33,11 +32,7 @@ const ClosingCTA: React.FC = () => {
                 className="w-[22%] overflow-hidden rounded-t-lg border border-b-0 border-lp-amber/40"
                 style={{ height: `${70 + (i % 2) * 15}%` }}
               >
-                {resolveAppImage(app) ? (
-                  <img src={resolveAppImage(app) ?? ""} alt="" loading="lazy" className="h-full w-full object-cover" />
-                ) : (
-                  <AppPoster app={app} />
-                )}
+                <img src={resolveAppImage(app)} alt="" loading="lazy" className="h-full w-full object-cover" />
               </div>
             ))}
           </div>

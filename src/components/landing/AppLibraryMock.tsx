@@ -1,6 +1,5 @@
 import React from "react";
 import { LayoutGrid, Bot, Activity, KeyRound, Settings, Search, Plus } from "lucide-react";
-import AppPoster from "./AppPoster";
 import { ACTIVE_GROUPS, LANDING_APPS, THUMBNAIL_APPS, groupInfo, resolveAppImage } from "./landingData";
 
 // A static, decorative rendering of the dashboard's app library, built in HTML
@@ -66,11 +65,7 @@ const AppLibraryMock: React.FC<{ offset?: number; title?: string }> = ({ offset 
             {apps.map((app) => (
               <div key={app.slug} className="overflow-hidden rounded-md border border-white/10 bg-white/[0.02]">
                 <div className="aspect-[16/9]">
-                  {resolveAppImage(app) ? (
-                    <img src={resolveAppImage(app) ?? ""} alt="" loading="lazy" className="h-full w-full object-cover" />
-                  ) : (
-                    <AppPoster app={app} />
-                  )}
+                  <img src={resolveAppImage(app)} alt="" loading="lazy" className="h-full w-full object-cover" />
                 </div>
                 <div className="p-1.5">
                   <p className="truncate text-[8px] font-semibold text-white/90">{app.name}</p>

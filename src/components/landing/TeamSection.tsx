@@ -17,7 +17,7 @@ const TEAM = [
 const Portrait: React.FC<{ app: AppMeta }> = ({ app }) => {
   const [failed, setFailed] = useState(false);
   const image = resolveAppImage(app);
-  if (!image || failed) {
+  if (failed) {
     return <AppPoster app={app} />;
   }
   return <img src={image} alt="" loading="lazy" onError={() => setFailed(true)} className="h-full w-full object-cover" />;

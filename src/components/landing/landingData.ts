@@ -104,7 +104,7 @@ export function hasUpstreamImage(slug: string): boolean {
  * Callers fall back to an AppPoster if the file fails to load. The catalog's
  * Supabase thumbnail URLs are dead (404), so they are never used here.
  */
-export function resolveAppImage(app: AppMeta): string | null {
+export function resolveAppImage(app: AppMeta): string {
   return UPSTREAM_IMAGE_SLUGS.has(app.slug) ? `/landing/upstream/${app.slug}.webp` : `/landing/apps/${app.slug}.webp`;
 }
 
